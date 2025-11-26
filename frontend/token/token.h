@@ -1,5 +1,5 @@
 //
-// Created by Administrator on 26.11.2025.
+// Created by Funcieq on 26.11.2025.
 //
 
 #ifndef IGNIS_TOKEN_H

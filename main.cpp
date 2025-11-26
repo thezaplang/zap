@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "frontend/lexer/lexer.h"
 #define VERSION "pre alpha 0.1"
 
 void help() {
@@ -15,18 +17,24 @@ void help() {
 
 int main(int argc, char* argv[]) {
     //ignis -c file.ign fil1.ign
+    std::string_view inp("fn main(){return 0;}");
+    Lexer lexer;
+    auto toks = lexer.Tokenize(inp);
 
-    if (argc < 2) {
-        help();
-    }else {
-        std::string command = argv[1];
-        if (command == "-h" || command == "-help") {
-            help();
-        }else if (command == "-v" || command == "-version") {
-            std::cout << VERSION << std::endl;
-        }else {
-
-        }
+    for (auto& tok : toks) {
+        std::cout<<"type= "<<tok.type<<" value= "<<tok.value<<std::endl;
     }
+    // if (argc < 2) {
+    //     help();
+    // }else {
+    //     std::string command = argv[1];
+    //     if (command == "-h" || command == "-help") {
+    //         help();
+    //     }else if (command == "-v" || command == "-version") {
+    //         std::cout << VERSION << std::endl;
+    //     }else {
+    //
+    //     }
+    // }
     return 0;
 }
