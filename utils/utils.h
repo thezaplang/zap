@@ -8,6 +8,7 @@
 bool isAlpha(char c) {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
+
 bool isKeyword(std::string_view keyword) {
     if (keyword == "fn") {
         return true;

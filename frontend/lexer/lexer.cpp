@@ -80,7 +80,6 @@ std::vector<Token> Lexer::Tokenize(std::string_view content) {
             while (isAlpha(Peek()) || isdigit(Peek()))
                 Advance();
 
-
             std::string_view id(current_file.data() + start, pos - start);
 
             if (isKeyword(id)) {
