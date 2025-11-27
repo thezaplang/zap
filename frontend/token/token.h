@@ -15,6 +15,7 @@ enum TokenType {
     LBrace,
     RBrace,
     Semi,
+    ConstInt
 };
 
 struct Token {

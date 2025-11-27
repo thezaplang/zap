@@ -73,12 +73,21 @@ std::vector<Token> Lexer::Tokenize(std::string_view content) {
             }
             continue;
         }
+        if (isdigit(Peek())) {
+            size_t start = pos;
 
-        if (pos >= current_file.size()) {
-            break;
+            while (isdigit(Peek())) {
+                Advance();
+            }
+            std::string_view num(current_file.data() + start, pos - start);
+            tokens.emplace_back(TokenType::ConstInt, start, num);
+            continue;
         }
 
-    =
+        if (pos >= current_file.size()) {
+            std::cout<<"BREAK\n";
+            break;
+        }
         std::cerr << "Unknown character: " << c << " at pos " << pos << "\n";
         Advance();
     }
