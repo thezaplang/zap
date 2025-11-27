@@ -56,11 +56,28 @@ std::vector<Token> Lexer::Tokenize(std::string_view content) {
             Advance();
             continue;
         }
-
-        // IDENTYFIKATOR / KEYWORD
+        // =
+        if (c == '=') {
+            tokens.emplace_back(TokenType::Assign, pos, std::string_view(current_file.data() + pos, 1));
+            Advance();
+            continue;
+        }
+        // :
+        if (c == ':') {
+            tokens.emplace_back(TokenType::Colon, pos, std::string_view(current_file.data() + pos, 1));
+            Advance();
+            continue;
+        }
+        // + - / * %
+        if (isOperator(c)) {
+            tokens.emplace_back(TokenType::Operator, pos, std::string_view(current_file.data() + pos, 1));
+            Advance();
+            continue;
+        }
+        // ID / KEYWORD
         if (isAlpha(c)) {
             size_t start = pos;
-            while (isAlpha(Peek()))
+            while (isAlpha(Peek()) || isdigit(Peek()))
                 Advance();
 
 

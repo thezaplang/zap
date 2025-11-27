@@ -18,6 +18,15 @@ bool isKeyword(std::string_view keyword) {
     }
 }
 
+bool isOperator(char op) {
+    if (op == '+' || op == '-' || op == '*' || op == '/' || op == '%') {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 TokenType getTokenType(std::string_view token) {
     if (token == "fn") {
         return TokenType::KFn;
