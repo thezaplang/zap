@@ -9,13 +9,17 @@
 enum TokenType {
     KFn,
     KReturn,
+    KLet,
     Id,
     LParen,
     RParen,
     LBrace,
     RBrace,
     Semi,
-    ConstInt
+    Colon,
+    ConstInt,
+    Operator,
+    Assign,
 };
 
 struct Token {

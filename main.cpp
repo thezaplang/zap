@@ -17,7 +17,11 @@ void help() {
 
 int main(int argc, char* argv[]) {
     //ignis -c file.ign fil1.ign
-    std::string_view inp("fn main(){return 0;}");
+    std::string_view inp("fn main(){"
+                         "let a: i32 = 5*5;"
+                         "return 0;"
+                         "}");
+
     Lexer lexer;
     auto toks = lexer.Tokenize(inp);
 
