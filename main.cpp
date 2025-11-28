@@ -4,6 +4,10 @@
 #include "frontend/parser/parser.h"
 #define VERSION "pre alpha 0.1"
 
+#include <fstream>
+#include <sstream>
+#include <cstring>
+
 void help() {
     std::cout << "Ignis V" <<VERSION << std::endl;
     std::cout << "      -flag [<value>]"<< std::endl;
@@ -17,32 +21,56 @@ void help() {
 }
 
 int main(int argc, char* argv[]) {
-    //ignis -c file.ign fil1.ign
-    std::string_view inp(
-
-        "fn main({"
-        "return 0;"
-        "}");
-
-    Lexer lexer;
-    auto toks = lexer.Tokenize(inp);
-
-    for (auto& tok : toks) {
-        std::cout<<"type= "<<tok.type<<" value= "<<tok.value<<std::endl;
+    if (argc < 2) {
+        help();
+        return 0;
     }
-    Parser parser;
-    parser.Parse(&toks, inp);
-    // if (argc < 2) {
-    //     help();
-    // }else {
-    //     std::string command = argv[1];
-    //     if (command == "-h" || command == "-help") {
-    //         help();
-    //     }else if (command == "-v" || command == "-version") {
-    //         std::cout << VERSION << std::endl;
-    //     }else {
-    //
-    //     }
-    // }
+
+    //CLI: -h, -v, -c <path>
+    for (int i = 1; i < argc; ++i) {
+        const char* a = argv[i];
+        if (std::strcmp(a, "-h") == 0 || std::strcmp(a, "-help") == 0) {
+            help();
+            return 0;
+        }
+        if (std::strcmp(a, "-v") == 0 || std::strcmp(a, "-version") == 0) {
+            std::cout << VERSION << std::endl;
+            return 0;
+        }
+        if (std::strcmp(a, "-c") == 0) {
+            if (i + 1 >= argc) {
+                std::cerr << "Error: -c requires a path argument\n";
+                return 1;
+            }
+            const char* path = argv[++i];
+            std::ifstream in(path, std::ios::in | std::ios::binary);
+            if (!in) {
+                std::cerr << "Failed to open file: " << path << std::endl;
+                return 2;
+            }
+            std::ostringstream ss;
+            ss << in.rdbuf();
+            std::string content = ss.str();
+
+            Lexer lexer;
+            auto toks = lexer.Tokenize(content);
+
+            for (auto& tok : toks) {
+                std::cout << "type= " << tok.type << " value= " << tok.value << std::endl;
+            }
+
+            Parser parser;
+            parser.Parse(&toks, content);
+
+            if (!parser.errors.empty()) {
+                std::cerr << "Parsing finished with " << parser.errors.size() << " error(s)\n";
+                return 3;
+            }
+
+            return 0;
+        }
+    }
+
+    help();
     return 0;
 }
