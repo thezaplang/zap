@@ -7,26 +7,30 @@
 
 void SemanticAnalyzer::Analyze(NodeArena &arena, const std::string &source)
 {
+    std::cout << "Semantic Analysis started.\n";
     for (auto &node : arena.getAllNodes())
     {
-        if (node.nodeType == TFun)
+        std::cout << "Sema: Analyzing node of type " << node.nodeType << "\n";
+        if (node.nodeType == NodeType::TFun)
         {
             AnalyzeFunction(node, source);
+        }
+        else
+        {
+            std::cout << "Sema: Node type " << node.nodeType << " not handled yet.\n";
         }
     }
 }
 
 void SemanticAnalyzer::AnalyzeFunction(Node &funcNode, const std::string &source)
 {
-    // Analyze function parameters
-    for (const auto &param : funcNode.paramList)
+    if (funcNode.funcName == "main")
     {
-        // Check parameter types
-        if (param.type.isPtr)
-        {
-            // Report pointer type
-            ReportError("Pointer type not allowed", funcNode, source);
-        }
+        foundMain = true;
+    }
+    else
+    {
+        std::cout << "Analyzing function: " << funcNode.funcName << "\n";
     }
 }
 

@@ -30,7 +30,9 @@ Node Parser::ParseStatement()
 {
     if (Peek().type == TokenType::KFn)
     {
-        return ParseFunction();
+        Node func = ParseFunction();
+        arena.create(func);
+        return func;
     }
     else
     {

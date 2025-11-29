@@ -45,7 +45,10 @@ public:
 
     void reserve(size_t n) { nodes.reserve(n); }
     size_t size() const { return nodes.size(); }
-    std::vector<Node> &getAllNodes() { return nodes; }
+    std::vector<Node> &getAllNodes()
+    {
+        return nodes;
+    }
 
 private:
     std::vector<Node> nodes;

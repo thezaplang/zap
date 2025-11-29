@@ -37,7 +37,7 @@ struct Param
 struct Node
 {
     NodeType nodeType;
-    std::string_view funcName;
+    std::string funcName;
     std::vector<Param> paramList;
     IgnType returnType;
     // Children are stored as indices into a NodeArena

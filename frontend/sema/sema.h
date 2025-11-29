@@ -10,6 +10,7 @@
 class SemanticAnalyzer
 {
 public:
+    bool foundMain = false;
     SemanticAnalyzer() = default;
     void Analyze(NodeArena &arena, const std::string &source);
 
