@@ -1,0 +1,47 @@
+# Build folders
+build/
+build-*/
+cmake-build-*/
+
+# CMake cache + generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+
+# Compiled binaries
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Debug / profiling
+*.pch
+*.pdb
+*.dSYM/
+*.gcno
+*.gcda
+*.gcov
+
+# IDEs
+# VSCode
+.vscode/
+*.code-workspace
+
+# CLion
+.idea/
+
+# Vim
+*.swp
+*.swo
+
+# Other
+*.log
