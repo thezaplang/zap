@@ -10,7 +10,8 @@
 #include "../ast/arena.h"
 #include <string>
 
-struct ParseError {
+struct ParseError
+{
     std::string message;
     unsigned long pos;
     unsigned long line;
@@ -18,16 +19,17 @@ struct ParseError {
     std::string tokenValue;
 };
 
-class Parser {
-    public:
+class Parser
+{
+public:
     std::vector<Token> tokens;
     unsigned long pos;
     NodeArena arena;
     std::string source;
     std::vector<ParseError> errors;
     bool lastConsumeSynthetic = false;
-    
-    NodeArena Parse(std::vector<Token> *tokens, std::string_view src = "");
+
+    NodeArena Parse(std::vector<Token> *tokens, std::string_view src = "", const std::string &filePath = "");
     Token Peek();
     Token Advance();
     Token Previous();
@@ -36,11 +38,12 @@ class Parser {
     Node ParseStatement();
     Node ParseFunction();
     std::vector<Param> ParseParams();
-    void ParseBody(Node &funcNode);
+    void ParseBody(NodeId funcId);
     Node ParseReturn();
+    Node ParseExpr();
     void AddError(const std::string &msg, const Token &tok);
-    void ReportErrors();
+    void ReportErrors(const std::string &filePath = "");
     void Synchronize(TokenType expectedType);
 };
 
-#endif //IGNIS_PARSER_H
+#endif // IGNIS_PARSER_H

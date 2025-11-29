@@ -71,9 +71,9 @@ int main(int argc, char *argv[])
             }
 
             Parser parser;
-            parser.Parse(&toks, content);
+            parser.Parse(&toks, content, path);
             SemanticAnalyzer sema;
-            sema.Analyze(parser.arena, content);
+            sema.Analyze(parser.arena, content, path);
 
             if (sema.foundMain == false)
             {

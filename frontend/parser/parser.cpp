@@ -3,11 +3,12 @@
 //
 
 #include "parser.h"
+#include "../../utils/utils.h"
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
 
-NodeArena Parser::Parse(std::vector<Token> *tokensInput, std::string_view src)
+NodeArena Parser::Parse(std::vector<Token> *tokensInput, std::string_view src, const std::string &filePath)
 {
 
     tokens = *tokensInput;
@@ -21,7 +22,7 @@ NodeArena Parser::Parse(std::vector<Token> *tokensInput, std::string_view src)
         ParseStatement();
     }
 
-    ReportErrors();
+    ReportErrors(filePath);
 
     return arena;
 }
@@ -31,7 +32,6 @@ Node Parser::ParseStatement()
     if (Peek().type == TokenType::KFn)
     {
         Node func = ParseFunction();
-        arena.create(func);
         return func;
     }
     else
@@ -71,14 +71,24 @@ Node Parser::ParseFunction()
 
     Node funcNode;
     funcNode.nodeType = NodeType::TFun;
-    funcNode.funcName = funcName;
+    funcNode.funcName = std::string(funcName);
     funcNode.paramList = params;
+    // initialize return type
+    IgnType rt;
+    rt.isPtr = false;
+    rt.isStruct = false;
+    rt.isArray = false;
+    rt.isRef = false;
+    rt.base = stringToPrimType(std::string(returnTypeTok.value));
+    funcNode.returnType = rt;
 
-    ParseBody(funcNode);
+    NodeId funcId = arena.create(funcNode);
+
+    ParseBody(funcId);
 
     Consume(TokenType::RBrace, "Expected '}'");
 
-    return funcNode;
+    return arena.get(funcId);
 }
 
 std::vector<Param> Parser::ParseParams()
@@ -101,7 +111,7 @@ std::vector<Param> Parser::ParseParams()
         paramType.isStruct = false;
         paramType.isArray = false;
         paramType.isRef = false;
-        paramType.base = typeName;
+        paramType.base = stringToPrimType(typeName);
 
         Param param;
         param.name = paramName;
@@ -121,7 +131,7 @@ std::vector<Param> Parser::ParseParams()
     return params;
 }
 
-void Parser::ParseBody(Node &funcNode)
+void Parser::ParseBody(NodeId funcId)
 {
     while (!IsAtEnd() && Peek().type != TokenType::RBrace)
     {
@@ -129,7 +139,8 @@ void Parser::ParseBody(Node &funcNode)
         {
             Node returnNode = ParseReturn();
             NodeId childId = arena.create(returnNode);
-            funcNode.body.push_back(childId);
+            // always fetch the function node from the arena to avoid stale references
+            arena.get(funcId).body.push_back(childId);
         }
         else
         {
@@ -149,12 +160,35 @@ Node Parser::ParseReturn()
     Node returnNode;
     returnNode.nodeType = NodeType::TRet;
 
-    Token returnValue = Consume(TokenType::ConstInt, "Expected return value");
-    returnNode.intValue = std::stoi(std::string(returnValue.value));
+    Node returnValue = ParseExpr();
+    if (returnValue.nodeType != NodeType::TExpr)
+    {
+        AddError("Expected return value expression", Peek());
+    }
+    returnNode.intValue = returnValue.intValue;
+    // propagate expression type to the return node so semantic checks can compare types
+    returnNode.exprType = returnValue.exprType;
 
     Consume(TokenType::Semi, "Expected ';' after return statement");
 
     return returnNode;
+}
+
+Node Parser::ParseExpr()
+{
+    // For now, only support integer literals
+    Token tok = Consume(TokenType::ConstInt, "Expected integer literal in expression");
+
+    Node exprNode;
+    exprNode.nodeType = NodeType::TExpr;
+    exprNode.exprType.isPtr = false;
+    exprNode.exprType.isStruct = false;
+    exprNode.exprType.isArray = false;
+    exprNode.exprType.isRef = false;
+    exprNode.exprType.base = PrimType::PTI32;
+    exprNode.intValue = std::stoi(std::string(tok.value));
+
+    return exprNode;
 }
 
 Token Parser::Peek()
@@ -257,14 +291,15 @@ void Parser::AddError(const std::string &msg, const Token &tok)
     errors.push_back(e);
 }
 
-void Parser::ReportErrors()
+void Parser::ReportErrors(const std::string &filePath)
 {
     if (errors.empty())
         return;
     std::cerr << "Found " << errors.size() << " parse error(s):\n";
     for (auto &e : errors)
     {
-        std::cerr << "Error: " << e.message << " at line " << e.line << ", column " << e.column;
+        std::cerr << "Error: " << e.message;
+        std::cerr << " in " << filePath << " at line " << e.line << ", column " << e.column;
         if (!e.tokenValue.empty())
             std::cerr << " (token: '" << e.tokenValue << "')";
         std::cerr << "\n";

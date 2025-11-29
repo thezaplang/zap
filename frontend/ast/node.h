@@ -15,9 +15,20 @@ enum NodeType
     TLet,
     TRet,
     TParam,
+    TExpr,
 };
 
 using NodeId = uint32_t;
+
+enum PrimType
+{
+    PTI32,
+    PTF32,
+    PTBool,
+    PTChar,
+    PTVoid,
+    PTUserType,
+};
 
 struct IgnType
 {
@@ -25,7 +36,7 @@ struct IgnType
     bool isStruct;
     bool isArray;
     bool isRef;
-    std::string base;
+    PrimType base;
 };
 
 struct Param
@@ -40,6 +51,7 @@ struct Node
     std::string funcName;
     std::vector<Param> paramList;
     IgnType returnType;
+    IgnType exprType;
     // Children are stored as indices into a NodeArena
     std::vector<NodeId> body;
     int intValue;
