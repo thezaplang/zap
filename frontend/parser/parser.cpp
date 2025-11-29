@@ -166,7 +166,7 @@ Node Parser::ParseReturn()
         AddError("Expected return value expression", Peek());
     }
     returnNode.intValue = returnValue.intValue;
-    // propagate expression type to the return node so semantic checks can compare types
+
     returnNode.exprType = returnValue.exprType;
 
     Consume(TokenType::Semi, "Expected ';' after return statement");

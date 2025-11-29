@@ -3,6 +3,7 @@
 #include "frontend/lexer/lexer.h"
 #include "frontend/parser/parser.h"
 #include "frontend/sema/sema.h"
+#include "backend/C/codegen.h"
 #define VERSION "pre alpha 0.1"
 
 #include <fstream>
@@ -16,6 +17,8 @@ void help()
     std::cout << "\n";
     std::cout << "      -c [<path>]" << std::endl;
     std::cout << "          compiles provied files\n";
+    std::cout << "      -cc [<input>] [<output>]" << std::endl;
+    std::cout << "          compiles to C code\n";
     std::cout << "      -v\n";
     std::cout << "          displays installed version of Ignis\n";
     std::cout << "      -h\n";
@@ -86,6 +89,71 @@ int main(int argc, char *argv[])
                 std::cerr << "Parsing finished with " << parser.errors.size() << " error(s)\n";
                 return 3;
             }
+
+            return 0;
+        }
+        if (std::strcmp(a, "-cc") == 0)
+        {
+            if (i + 2 >= argc)
+            {
+                std::cerr << "Error: -cc requires input and output path arguments\n";
+                return 1;
+            }
+            const char *inputPath = argv[++i];
+            const char *outputPath = argv[++i];
+
+            std::ifstream in(inputPath, std::ios::in | std::ios::binary);
+            if (!in)
+            {
+                std::cerr << "Failed to open file: " << inputPath << std::endl;
+                return 2;
+            }
+            std::ostringstream ss;
+            ss << in.rdbuf();
+            std::string content = ss.str();
+
+            Lexer lexer;
+            auto toks = lexer.Tokenize(content);
+
+            Parser parser;
+            parser.Parse(&toks, content, inputPath);
+            SemanticAnalyzer sema;
+            sema.Analyze(parser.arena, content, inputPath);
+
+            if (sema.foundMain == false)
+            {
+                std::cerr << "Error: 'main' function not found\n";
+                return 4;
+            }
+
+            if (!parser.errors.empty())
+            {
+                std::cerr << "Parsing finished with " << parser.errors.size() << " error(s)\n";
+                return 3;
+            }
+
+            // Compile to C
+            ignis::backend::c::CodeGen codegen;
+            codegen.generate(parser.arena, outputPath);
+
+            // Compile C code to executable
+            std::string executablePath = std::string(outputPath);
+
+            if (executablePath.length() > 2 && executablePath.substr(executablePath.length() - 2) == ".c")
+            {
+                executablePath = executablePath.substr(0, executablePath.length() - 2);
+            }
+
+            std::string compileCmd = std::string("gcc -o ") + executablePath + " " + outputPath;
+            std::cout << "Compiling C code with: " << compileCmd << std::endl;
+            int compileResult = system(compileCmd.c_str());
+            if (compileResult != 0)
+            {
+                std::cerr << "Error: C compilation failed with exit code " << compileResult << std::endl;
+                return 5;
+            }
+
+            std::cout << "Successfully compiled to: " << executablePath << std::endl;
 
             return 0;
         }
