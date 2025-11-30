@@ -73,7 +73,6 @@ Node Parser::ParseFunction()
     funcNode.nodeType = NodeType::TFun;
     funcNode.funcName = std::string(funcName);
     funcNode.paramList = params;
-    // initialize return type
     IgnType rt;
     rt.isPtr = false;
     rt.isStruct = false;
@@ -141,6 +140,23 @@ void Parser::ParseBody(NodeId funcId)
             NodeId childId = arena.create(returnNode);
             arena.get(funcId).body.push_back(childId);
         }
+        else if (Peek().type == TokenType::Id)
+        {
+            if (Peek(1).type == TokenType::LParen)
+            {
+                Node exprNode = ParseExpr();
+                NodeId exprId = arena.create(exprNode);
+                arena.get(funcId).body.push_back(exprId);
+                // Optional semicolon after function call expressions
+                if (Peek().type == TokenType::Semi)
+                    Advance();
+            }
+            else
+            {
+                AddError("Only function call expressions are supported as statements starting with identifier", Peek());
+                Advance();
+            }
+        }
         else
         {
             AddError(std::string("Statement type not yet supported in body: ") + std::string(Peek().value), Peek());
@@ -164,21 +180,11 @@ Node Parser::ParseReturn()
     {
         AddError("Expected return value expression", Peek());
     }
-    // returnNode.intValue = returnValue.intValue;
 
-    switch (returnValue.exprType.base)
-    {
-    case PrimType::PTI32:
-    case PrimType::PTF32:
-        returnNode.intValue = returnValue.intValue;
-        break;
-    case PrimType::PTString:
-        returnNode.stringValue = returnValue.stringValue;
-        break;
-    default:
-        break;
-    }
+    NodeId exprId = arena.create(returnValue);
+    returnNode.body.push_back(exprId);
 
+    // Store type info from the expression
     returnNode.exprType = returnValue.exprType;
 
     Consume(TokenType::Semi, "Expected ';' after return statement");
@@ -216,6 +222,46 @@ Node Parser::ParseExpr()
         exprNode.stringValue = std::string(tok.value);
         break;
     }
+    case TokenType::Id:
+    {
+        Token funcNameTok = Consume(TokenType::Id, "Expected identifier");
+
+        if (Peek().type == TokenType::LParen)
+        {
+            exprNode.exprKind = ExprType::ExprFuncCall;
+            exprNode.funcName = std::string(funcNameTok.value);
+            exprNode.exprType.base = PrimType::PTI32; // Placeholder
+
+            Consume(TokenType::LParen, "Expected '('");
+
+            while (Peek().type != TokenType::RParen && !IsAtEnd())
+            {
+                Node argNode = ParseExpr();
+                NodeId argId = arena.create(argNode);
+                exprNode.exprArgs.push_back(argId);
+
+                if (Peek().type == TokenType::Comma)
+                {
+                    Advance();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Consume(TokenType::RParen, "Expected ')' after function arguments");
+        }
+        else
+        {
+            // Just an identifier (variable reference)
+            exprNode.exprKind = ExprType::ExprInt;
+            exprNode.funcName = std::string(funcNameTok.value);
+            exprNode.exprType.base = PrimType::PTI32; // TODO: Look up actual type
+        }
+
+        break;
+    }
 
     default:
         AddError("Unsupported expression starting with token: " + std::string(current.value), current);
@@ -226,13 +272,13 @@ Node Parser::ParseExpr()
     return exprNode;
 }
 
-Token Parser::Peek()
+Token Parser::Peek(int offset)
 {
     if (IsAtEnd())
     {
         return tokens.back();
     }
-    return tokens[pos];
+    return tokens[pos + offset];
 }
 
 Token Parser::Advance()

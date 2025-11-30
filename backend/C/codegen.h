@@ -36,6 +36,7 @@ namespace ignis
                 void emitFunctionBody(const Node &funcNode, const NodeArena &arena);
                 void emitReturnStatement(const Node &retNode, const NodeArena &arena);
                 void emitExpression(const Node &exprNode, const NodeArena &arena);
+                void emitValue(const Node &valueNode, const NodeArena &arena);
                 std::string typeToC(const IgnType &type);
                 std::string primTypeToC(PrimType type);
             };

@@ -46,10 +46,7 @@ namespace ignis
 
             void CodeGen::emitIncludes()
             {
-                code << "#include <stdio.h>\n";
-                code << "#include <stdlib.h>\n";
-                code << "#include <stdint.h>\n";
-                code << "#include <stdbool.h>\n";
+                code << "#include \"ignis_std.h\"\n";
             }
 
             void CodeGen::emitNode(const Node &node, const NodeArena &arena)
@@ -129,45 +126,57 @@ namespace ignis
                 }
                 else
                 {
-                    // Emit the return value based on its type
-                    if (retNode.exprType.base == PTString)
-                    {
-                        code << "\"" << retNode.stringValue << "\"";
-                    }
-                    else if (retNode.exprType.base == PTI32 || retNode.exprType.base == PTF32)
-                    {
-                        code << retNode.intValue;
-                    }
-                    else if (retNode.exprType.base == PTBool)
-                    {
-                        code << (retNode.intValue ? "true" : "false");
-                    }
-                    else
-                    {
-                        code << retNode.intValue;
-                    }
+                    emitValue(retNode, arena);
                 }
 
                 code << ";\n";
             }
 
+            void CodeGen::emitValue(const Node &valueNode, const NodeArena &arena)
+            {
+                switch (valueNode.exprType.base)
+                {
+                case PTString:
+                    code << "\"" << valueNode.stringValue << "\"";
+                    break;
+                case PTI32:
+                case PTF32:
+                    code << valueNode.intValue;
+                    break;
+                case PTBool:
+                    code << (valueNode.intValue ? "true" : "false");
+                    break;
+                case PTVoid:
+                    // Don't emit anything for void
+                    break;
+                default:
+                    code << valueNode.intValue;
+                    break;
+                }
+            }
+
             void CodeGen::emitExpression(const Node &exprNode, const NodeArena &arena)
             {
-                if (exprNode.exprType.base == PTI32 || exprNode.exprType.base == PTF32)
+
+                if (exprNode.exprKind == ExprFuncCall)
                 {
-                    code << exprNode.intValue;
-                }
-                else if (exprNode.exprType.base == PTString)
-                {
-                    code << "\"" << exprNode.stringValue << "\"";
-                }
-                else if (exprNode.exprType.base == PTBool)
-                {
-                    code << (exprNode.intValue ? "true" : "false");
+                    code << exprNode.funcName << "(";
+                    for (size_t i = 0; i < exprNode.exprArgs.size(); ++i)
+                    {
+                        if (i > 0)
+                            code << ", ";
+                        NodeId argId = exprNode.exprArgs[i];
+                        if (argId < arena.size())
+                        {
+                            emitExpression(arena.get(argId), arena);
+                        }
+                    }
+                    code << ")";
                 }
                 else
                 {
-                    code << exprNode.funcName;
+                    // For literal values, use emitValue
+                    emitValue(exprNode, arena);
                 }
             }
 

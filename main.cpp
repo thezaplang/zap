@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
                 executablePath = executablePath.substr(0, executablePath.length() - 2);
             }
 
-            std::string compileCmd = std::string("gcc -o ") + executablePath + " " + outputPath;
+            std::string compileCmd = std::string("gcc -o ") + executablePath + " " + outputPath + " ignis_std.c";
             std::cout << "Compiling C code with: " << compileCmd << std::endl;
             int compileResult = system(compileCmd.c_str());
             if (compileResult != 0)

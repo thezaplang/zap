@@ -30,7 +30,7 @@ public:
     bool lastConsumeSynthetic = false;
 
     NodeArena Parse(std::vector<Token> *tokens, std::string_view src = "", const std::string &filePath = "");
-    Token Peek();
+    Token Peek(int offset = 0);
     Token Advance();
     Token Previous();
     bool IsAtEnd();
