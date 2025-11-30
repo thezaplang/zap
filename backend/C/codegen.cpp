@@ -80,7 +80,22 @@ namespace ignis
                 {
                     if (i > 0)
                         code << ", ";
-                    code << typeToC(funcNode.paramList[i].type) << " " << funcNode.paramList[i].name;
+
+                    if (funcNode.paramList[i].isVarargs)
+                    {
+                        code << "...";
+                    }
+                    else
+                    {
+                        code << typeToC(funcNode.paramList[i].type) << " " << funcNode.paramList[i].name;
+                    }
+                }
+
+                // For declarations, just add semicolon
+                if (funcNode.isDeclaration)
+                {
+                    code << ");\n\n";
+                    return;
                 }
 
                 code << ")\n{\n";
@@ -104,7 +119,7 @@ namespace ignis
                         }
                         else if (child.nodeType == TLet)
                         {
-                            // Handle variable declarations
+                            emitVariableDeclaration(child, arena);
                         }
                         else if (child.nodeType == TExpr)
                         {
@@ -113,6 +128,20 @@ namespace ignis
                         }
                     }
                 }
+            }
+
+            void CodeGen::emitVariableDeclaration(const Node &letNode, const NodeArena &arena)
+            {
+
+                code << "    " << typeToC(letNode.exprType) << " " << letNode.funcName;
+
+                if (letNode.body.size() > 0 && letNode.body[0] < arena.size())
+                {
+                    code << " = ";
+                    emitExpression(arena.get(letNode.body[0]), arena);
+                }
+
+                code << ";\n";
             }
 
             void CodeGen::emitReturnStatement(const Node &retNode, const NodeArena &arena)
@@ -157,7 +186,7 @@ namespace ignis
 
             void CodeGen::emitExpression(const Node &exprNode, const NodeArena &arena)
             {
-
+                // Handle function calls
                 if (exprNode.exprKind == ExprFuncCall)
                 {
                     code << exprNode.funcName << "(";
@@ -172,6 +201,11 @@ namespace ignis
                         }
                     }
                     code << ")";
+                }
+
+                else if (!exprNode.funcName.empty() && exprNode.exprKind != ExprFuncCall)
+                {
+                    code << exprNode.funcName;
                 }
                 else
                 {
@@ -209,7 +243,7 @@ namespace ignis
                 case PTVoid:
                     return "void";
                 case PTString:
-                    return "char*";
+                    return "const char*";
                 case PTUserType:
                     return "struct";
                 default:

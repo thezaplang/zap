@@ -67,7 +67,6 @@ Node Parser::ParseFunction()
     }
     Consume(TokenType::Arrow, "Expected '->' after function parameters");
     Token returnTypeTok = Consume(TokenType::Id, "Expected return type after '->'"); // TODO: parseType();
-    Consume(TokenType::LBrace, "Expected '{'");
 
     Node funcNode;
     funcNode.nodeType = NodeType::TFun;
@@ -81,12 +80,24 @@ Node Parser::ParseFunction()
     rt.base = stringToPrimType(std::string(returnTypeTok.value));
     funcNode.returnType = rt;
 
+    // Check if it's a declaration (fn foo();) or definition (fn foo() { ... })
+    if (Peek().type == TokenType::Semi)
+    {
+        // Declaration only
+        funcNode.isDeclaration = true;
+        Advance(); // consume ';'
+    }
+    else
+    {
+        funcNode.isDeclaration = false;
+        Consume(TokenType::LBrace, "Expected '{'");
+        NodeId funcId = arena.create(funcNode);
+        ParseBody(funcId);
+        Consume(TokenType::RBrace, "Expected '}'");
+        return arena.get(funcId);
+    }
+
     NodeId funcId = arena.create(funcNode);
-
-    ParseBody(funcId);
-
-    Consume(TokenType::RBrace, "Expected '}'");
-
     return arena.get(funcId);
 }
 
@@ -99,6 +110,24 @@ std::vector<Param> Parser::ParseParams()
         if (Peek().type == TokenType::LBrace || Peek().type == TokenType::EOF_TOKEN)
         {
             break;
+        }
+
+        // Check for varargs
+        if (Peek().type == TokenType::Ellipsis)
+        {
+            Advance(); // consume '...'
+            Param varargParam;
+            varargParam.isVarargs = true;
+            varargParam.name = "...";
+            IgnType varargType;
+            varargType.isPtr = false;
+            varargType.isStruct = false;
+            varargType.isArray = false;
+            varargType.isRef = false;
+            varargType.base = PrimType::PTVoid;
+            varargParam.type = varargType;
+            params.push_back(varargParam);
+            break; // varargs must be last
         }
 
         std::string paramName = std::string(Consume(TokenType::Id, "Expected parameter name").value);
@@ -115,6 +144,7 @@ std::vector<Param> Parser::ParseParams()
         Param param;
         param.name = paramName;
         param.type = paramType;
+        param.isVarargs = false;
 
         params.push_back(param);
 
@@ -157,6 +187,21 @@ void Parser::ParseBody(NodeId funcId)
                 Advance();
             }
         }
+        else if (Peek().type == TokenType::KLet)
+        {
+            Node letNode = ParseLet();
+            NodeId letId = arena.create(letNode);
+            arena.get(funcId).body.push_back(letId);
+
+            // Register variable in function scope
+            if (!letNode.funcName.empty())
+            {
+                Variable var;
+                var.name = letNode.funcName;
+                var.type = letNode.exprType;
+                arena.get(funcId).vars.push_back(var);
+            }
+        }
         else
         {
             AddError(std::string("Statement type not yet supported in body: ") + std::string(Peek().value), Peek());
@@ -190,6 +235,44 @@ Node Parser::ParseReturn()
     Consume(TokenType::Semi, "Expected ';' after return statement");
 
     return returnNode;
+}
+
+Node Parser::ParseLet()
+{
+    Consume(TokenType::KLet, "Expected 'let'");
+
+    Token varNameTok = Consume(TokenType::Id, "Expected variable name");
+    std::string varName = std::string(varNameTok.value);
+
+    Consume(TokenType::Colon, "Expected ':' after variable name");
+
+    Token typeNameTok = Consume(TokenType::Id, "Expected type name");
+    std::string typeName = std::string(typeNameTok.value);
+
+    IgnType varType;
+    varType.isPtr = false;
+    varType.isStruct = false;
+    varType.isArray = false;
+    varType.isRef = false;
+    varType.base = stringToPrimType(typeName);
+
+    Node letNode;
+    letNode.nodeType = NodeType::TLet;
+    letNode.funcName = varName; // Store variable name in funcName field
+    letNode.exprType = varType;
+
+    // Parse initialization value if present
+    if (Peek().type == TokenType::Assign)
+    {
+        Advance(); // consume '='
+        Node initValue = ParseExpr();
+        NodeId exprId = arena.create(initValue);
+        letNode.body.push_back(exprId);
+    }
+
+    Consume(TokenType::Semi, "Expected ';' after variable declaration");
+
+    return letNode;
 }
 
 Node Parser::ParseExpr()

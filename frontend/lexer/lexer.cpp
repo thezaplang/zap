@@ -92,6 +92,15 @@ std::vector<Token> Lexer::Tokenize(std::string_view content)
             Advance();
             continue;
         }
+        // ...
+        if (c == '.' && Peek(1) == '.' && Peek(2) == '.')
+        {
+            tokens.emplace_back(TokenType::Ellipsis, pos, std::string_view(current_file.data() + pos, 3));
+            Advance();
+            Advance();
+            Advance();
+            continue;
+        }
         // + - / * %
         if (isOperator(c))
         {

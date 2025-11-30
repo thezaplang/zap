@@ -14,6 +14,12 @@ struct FunctionSymbol
     std::vector<Param> parameters;
 };
 
+struct VariableSymbol
+{
+    std::string name;
+    IgnType type;
+};
+
 class SemanticAnalyzer
 {
 public:
@@ -24,13 +30,21 @@ public:
     bool FuncExsistsCheck(const std::string &funcName);
     void SetCurrentReturnType(const IgnType &retType);
     IgnType GetCurrentReturnType() const { return currentReturnType; }
+    VariableSymbol *FindVariable(const std::string &varName);
 
 private:
     void AnalyzeFunction(Node &funcNode, NodeArena &arena, const std::string &source);
     void AnalyzeFunctionBody(Node &funcNode, NodeArena &arena, const std::string &source);
     void AnalyzeReturnStatement(Node &returnNode, const std::string &source);
+    void AnalyzeLetStatement(Node &letNode, NodeArena &arena, const std::string &source);
+    void AnalyzeExpression(Node &exprNode, NodeArena &arena, const std::string &source);
     void ReportError(const std::string &msg, const Node &node, const std::string &source);
+
+    void PushScope();
+    void PopScope();
+
     std::vector<FunctionSymbol> functionSymbols;
+    std::vector<std::vector<VariableSymbol>> variableScopes; // Stack of scopes
     IgnType currentReturnType;
     std::string currentFilePath;
 };

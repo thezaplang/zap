@@ -52,6 +52,13 @@ struct Param
 {
     IgnType type;
     std::string name;
+    bool isVarargs = false; // true for ... parameter
+};
+
+struct Variable
+{
+    std::string name;
+    IgnType type;
 };
 
 struct Node
@@ -59,6 +66,7 @@ struct Node
     NodeType nodeType;
     std::string funcName;
     std::vector<Param> paramList;
+    std::vector<Variable> vars; // Local variables in scope
     IgnType returnType;
     IgnType exprType;
     // Children are stored as indices into a NodeArena
@@ -67,5 +75,6 @@ struct Node
     std::string stringValue;
     ExprType exprKind;
     std::vector<NodeId> exprArgs;
+    bool isDeclaration = false; // true for fn foo(); false for fn foo() { ... }
 };
 #endif // IGNIS_NODE_H

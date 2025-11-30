@@ -40,6 +40,7 @@ public:
     std::vector<Param> ParseParams();
     void ParseBody(NodeId funcId);
     Node ParseReturn();
+    Node ParseLet();
     Node ParseExpr();
     void AddError(const std::string &msg, const Token &tok);
     void ReportErrors(const std::string &filePath = "");

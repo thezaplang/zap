@@ -24,6 +24,7 @@ enum TokenType
     ConstString,
     Operator,
     Assign,
+    Ellipsis, // ... for varargs
     EOF_TOKEN
 };
 

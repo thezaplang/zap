@@ -15,8 +15,15 @@ void SemanticAnalyzer::Analyze(NodeArena &arena, const std::string &source, cons
     {
         if (node.nodeType != NodeType::TFun)
             continue;
-        //  std::cout << "Sema: Analyzing node of type " << node.nodeType << "\n";
-        AnalyzeFunction(node, arena, source);
+
+        // Register all function declarations/definitions first
+        RegisterFunction({node.funcName, node.returnType, node.paramList});
+
+        // Only analyze body if it's not just a declaration
+        if (!node.isDeclaration)
+        {
+            AnalyzeFunction(node, arena, source);
+        }
     }
 }
 
@@ -28,15 +35,28 @@ void SemanticAnalyzer::AnalyzeFunction(Node &funcNode, NodeArena &arena, const s
     }
     else
     {
-        std::cout << "Registering function: " << funcNode.funcName << "\n";
+        std::cout << "Analyzing function: " << funcNode.funcName << "\n";
     }
     SetCurrentReturnType(funcNode.returnType);
     AnalyzeFunctionBody(funcNode, arena, source);
-    RegisterFunction({funcNode.funcName, funcNode.returnType, funcNode.paramList});
 }
 
 void SemanticAnalyzer::AnalyzeFunctionBody(Node &funcNode, NodeArena &arena, const std::string &source)
 {
+    PushScope(); // Enter function scope
+
+    // Register parameters in the scope
+    for (auto &param : funcNode.paramList)
+    {
+        VariableSymbol varSym;
+        varSym.name = param.name;
+        varSym.type = param.type;
+        if (!variableScopes.empty())
+        {
+            variableScopes.back().push_back(varSym);
+        }
+    }
+
     for (auto &childId : funcNode.body)
     {
         Node &childNode = arena.get(childId);
@@ -44,11 +64,21 @@ void SemanticAnalyzer::AnalyzeFunctionBody(Node &funcNode, NodeArena &arena, con
         {
             AnalyzeReturnStatement(childNode, source);
         }
+        else if (childNode.nodeType == NodeType::TLet)
+        {
+            AnalyzeLetStatement(childNode, arena, source);
+        }
+        else if (childNode.nodeType == NodeType::TExpr)
+        {
+            AnalyzeExpression(childNode, arena, source);
+        }
         else
         {
             std::cout << "Sema: Function body node type " << childNode.nodeType << " not handled yet.\n";
         }
     }
+
+    PopScope(); // Exit function scope
 }
 
 void SemanticAnalyzer::AnalyzeReturnStatement(Node &returnNode, const std::string &source)
@@ -134,4 +164,98 @@ bool SemanticAnalyzer::FuncExsistsCheck(const std::string &funcName)
 void SemanticAnalyzer::SetCurrentReturnType(const IgnType &retType)
 {
     currentReturnType = retType;
+}
+
+void SemanticAnalyzer::AnalyzeLetStatement(Node &letNode, NodeArena &arena, const std::string &source)
+{
+    std::cout << "Analyzing let statement for variable: " << letNode.funcName << "\n";
+
+    // Register the variable in current scope
+    VariableSymbol varSym;
+    varSym.name = letNode.funcName;
+    varSym.type = letNode.exprType;
+
+    if (!variableScopes.empty())
+    {
+        variableScopes.back().push_back(varSym);
+    }
+
+    // Analyze initialization expression if present
+    if (letNode.body.size() > 0)
+    {
+        Node &initExpr = arena.get(letNode.body[0]);
+        AnalyzeExpression(initExpr, arena, source);
+
+        // Check type compatibility
+        if (initExpr.exprType.base != letNode.exprType.base)
+        {
+            ReportError("Variable initialization type mismatch", letNode, source);
+        }
+    }
+}
+
+void SemanticAnalyzer::AnalyzeExpression(Node &exprNode, NodeArena &arena, const std::string &source)
+{
+    // If this is a function call
+    if (exprNode.exprKind == ExprType::ExprFuncCall)
+    {
+        // Look up the function in registered symbols
+        for (const auto &func : functionSymbols)
+        {
+            if (func.name == exprNode.funcName)
+            {
+                exprNode.exprType = func.returnType;
+                std::cout << "Function call '" << exprNode.funcName << "' found with return type " << func.returnType.base << "\n";
+                return;
+            }
+        }
+        std::cout << "Sema: Warning - Function '" << exprNode.funcName << "' not found in registered symbols\n";
+        return;
+    }
+
+    // If this is a variable reference (Id without parens, stored as exprKind != ExprFuncCall)
+    if (exprNode.exprKind != ExprType::ExprFuncCall && !exprNode.funcName.empty())
+    {
+        // Try to find this variable in current scope
+        VariableSymbol *varSym = FindVariable(exprNode.funcName);
+        if (varSym)
+        {
+            exprNode.exprType = varSym->type;
+            std::cout << "Variable '" << exprNode.funcName << "' found with type " << varSym->type.base << "\n";
+        }
+        else
+        {
+            // Could be a function call without arguments or undefined variable
+            std::cout << "Sema: Warning - Variable or function '" << exprNode.funcName << "' not resolved\n";
+        }
+    }
+}
+
+VariableSymbol *SemanticAnalyzer::FindVariable(const std::string &varName)
+{
+    // Search from innermost to outermost scope
+    for (auto it = variableScopes.rbegin(); it != variableScopes.rend(); ++it)
+    {
+        for (auto &var : *it)
+        {
+            if (var.name == varName)
+            {
+                return &var;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void SemanticAnalyzer::PushScope()
+{
+    variableScopes.push_back(std::vector<VariableSymbol>());
+}
+
+void SemanticAnalyzer::PopScope()
+{
+    if (!variableScopes.empty())
+    {
+        variableScopes.pop_back();
+    }
 }

@@ -23,6 +23,10 @@ inline bool isKeyword(std::string_view keyword)
     {
         return true;
     }
+    else if (keyword == "let")
+    {
+        return true;
+    }
     else
     {
         return false;
@@ -50,6 +54,10 @@ inline TokenType getTokenType(std::string_view token)
     else if (token == "return")
     {
         return TokenType::KReturn;
+    }
+    else if (token == "let")
+    {
+        return TokenType::KLet;
     }
     else
     {

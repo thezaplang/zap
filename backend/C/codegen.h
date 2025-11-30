@@ -34,6 +34,7 @@ namespace ignis
                 void emitNode(const Node &node, const NodeArena &arena);
                 void emitFunction(const Node &funcNode, const NodeArena &arena);
                 void emitFunctionBody(const Node &funcNode, const NodeArena &arena);
+                void emitVariableDeclaration(const Node &letNode, const NodeArena &arena);
                 void emitReturnStatement(const Node &retNode, const NodeArena &arena);
                 void emitExpression(const Node &exprNode, const NodeArena &arena);
                 void emitValue(const Node &valueNode, const NodeArena &arena);
