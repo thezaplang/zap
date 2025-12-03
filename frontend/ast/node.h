@@ -15,6 +15,7 @@ enum NodeType
     TLet,
     TRet,
     TIf,
+    TWhile,
     TParam,
     TExpr,
     TAssign,
@@ -80,7 +81,7 @@ struct Node
     std::string stringValue;
     ExprType exprKind;
     std::vector<NodeId> exprArgs;
-    std::string op;             // operator dla wyrażeń binarnych (+, -, *, /, %)
+    std::string op;
     bool isDeclaration = false; // true for fn foo(); false for fn foo() { ... }
 };
 #endif // IGNIS_NODE_H

@@ -12,6 +12,7 @@ enum TokenType
     KReturn,
     KLet,
     KIF,
+    KWhile,
     Id,
     LParen,
     RParen,

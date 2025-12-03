@@ -43,6 +43,7 @@ public:
     Node ParseReturn();
     Node ParseLet();
     Node ParseIf();
+    Node ParseWhile();
     Node ParseAssignment();
     Node ParseExpr();
     Node ParseTerm();

@@ -17,11 +17,9 @@ namespace ignis
                 code.str("");
                 code.clear();
 
-                // Emit standard C includes
                 emitIncludes();
                 code << "\n";
 
-                // Emit only top-level function nodes
                 for (size_t i = 0; i < arena.size(); ++i)
                 {
                     const Node &node = arena.get(i);
@@ -49,7 +47,7 @@ namespace ignis
                 code << "#include \"ignis_std.h\"\n";
             }
 
-            void CodeGen::emitNode(const Node &node, const NodeArena &arena)
+            void CodeGen::emitNode(const Node &node, const NodeArena &arena, const std::string &indent)
             {
                 switch (node.nodeType)
                 {
@@ -57,17 +55,100 @@ namespace ignis
                     emitFunction(node, arena);
                     break;
                 case TLet:
-
+                {
+                    code << indent << typeToC(node.exprType) << " " << node.funcName;
+                    if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        code << " = ";
+                        emitExpression(arena.get(node.body[0]), arena);
+                    }
+                    code << ";\n";
                     break;
+                }
                 case TAssign:
-                    emitAssignment(node, arena);
+                {
+                    code << indent;
+                    if (!node.funcName.empty())
+                    {
+                        code << node.funcName;
+                    }
+                    else if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        emitExpression(arena.get(node.body[0]), arena);
+                    }
+                    code << " = ";
+                    if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        if (!node.funcName.empty())
+                        {
+                            emitExpression(arena.get(node.body[0]), arena);
+                        }
+                    }
+                    code << ";\n";
                     break;
+                }
                 case TRet:
-                    emitReturnStatement(node, arena);
+                {
+                    code << indent << "return ";
+                    if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        emitExpression(arena.get(node.body[0]), arena);
+                    }
+                    else
+                    {
+                        emitValue(node, arena);
+                    }
+                    code << ";\n";
                     break;
+                }
                 case TExpr:
+                {
+                    code << indent;
                     emitExpression(node, arena);
+                    code << ";\n";
                     break;
+                }
+                case TIf:
+                {
+                    code << indent << "if (";
+                    if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        emitExpression(arena.get(node.body[0]), arena);
+                    }
+                    code << ")\n" << indent << "{\n";
+                    
+                    std::string innerIndent = indent + "    ";
+                    for (size_t i = 1; i < node.body.size(); ++i)
+                    {
+                        if (node.body[i] < arena.size())
+                        {
+                            emitNode(arena.get(node.body[i]), arena, innerIndent);
+                        }
+                    }
+                    
+                    code << indent << "}\n";
+                    break;
+                }
+                        case TWhile: {
+                    code << indent << "while (";
+                    if (node.body.size() > 0 && node.body[0] < arena.size())
+                    {
+                        emitExpression(arena.get(node.body[0]), arena);
+                    }
+                    code << ")\n" << indent << "{\n";
+
+                    std::string innerIndent = indent + "    ";
+                    for (size_t i = 1; i < node.body.size(); ++i)
+                    {
+                        if (node.body[i] < arena.size())
+                        {
+                            emitNode(arena.get(node.body[i]), arena, innerIndent);
+                        }
+                    }
+
+                    code << indent << "}\n";
+                            break;
+                }
                 default:
                     break;
                 }
@@ -75,26 +156,27 @@ namespace ignis
 
             void CodeGen::emitFunction(const Node &funcNode, const NodeArena &arena)
             {
-                // Function signature
                 code << typeToC(funcNode.returnType) << " " << funcNode.funcName << "(";
 
-                // Parameters
-                for (size_t i = 0; i < funcNode.paramList.size(); ++i)
-                {
-                    if (i > 0)
-                        code << ", ";
+                if (funcNode.paramList.size() == 0) {
+                    code<<"void";
+                }else {
+                    for (size_t i = 0; i < funcNode.paramList.size(); ++i)
+                    {
+                        if (i > 0)
+                            code << ", ";
 
-                    if (funcNode.paramList[i].isVarargs)
-                    {
-                        code << "...";
-                    }
-                    else
-                    {
-                        code << typeToC(funcNode.paramList[i].type) << " " << funcNode.paramList[i].name;
+                        if (funcNode.paramList[i].isVarargs)
+                        {
+                            code << "...";
+                        }
+                        else
+                        {
+                            code << typeToC(funcNode.paramList[i].type) << " " << funcNode.paramList[i].name;
+                        }
                     }
                 }
 
-                // For declarations, just add semicolon
                 if (funcNode.isDeclaration)
                 {
                     code << ");\n\n";
@@ -103,7 +185,6 @@ namespace ignis
 
                 code << ")\n{\n";
 
-                // Function body
                 emitFunctionBody(funcNode, arena);
 
                 code << "}\n\n";
@@ -115,87 +196,9 @@ namespace ignis
                 {
                     if (childId < arena.size())
                     {
-                        const Node &child = arena.get(childId);
-                        if (child.nodeType == TRet)
-                        {
-                            emitReturnStatement(child, arena);
-                        }
-                        else if (child.nodeType == TLet)
-                        {
-                            emitVariableDeclaration(child, arena);
-                        }
-                        else if (child.nodeType == TAssign)
-                        {
-                            emitAssignment(child, arena);
-                        }
-                        else if (child.nodeType == TExpr)
-                        {
-                            code << "    ";
-                            emitExpression(child, arena);
-                            code << ";\n";
-                        }
+                        emitNode(arena.get(childId), arena, "    ");
                     }
                 }
-            }
-
-            void CodeGen::emitVariableDeclaration(const Node &letNode, const NodeArena &arena)
-            {
-
-                code << "    " << typeToC(letNode.exprType) << " " << letNode.funcName;
-
-                if (letNode.body.size() > 0 && letNode.body[0] < arena.size())
-                {
-                    code << " = ";
-                    emitExpression(arena.get(letNode.body[0]), arena);
-                }
-
-                code << ";\n";
-            }
-
-            void CodeGen::emitAssignment(const Node &assignNode, const NodeArena &arena)
-            {
-                code << "    ";
-
-                // Emit LHS - either from funcName (simple id) or from body[0] (complex expr)
-                if (!assignNode.funcName.empty())
-                {
-                    code << assignNode.funcName;
-                }
-                else if (assignNode.body.size() > 0 && assignNode.body[0] < arena.size())
-                {
-                    emitExpression(arena.get(assignNode.body[0]), arena);
-                }
-
-                code << " = ";
-
-                // Emit RHS
-                if (assignNode.body.size() > 1 && assignNode.body[1] < arena.size())
-                {
-                    emitExpression(arena.get(assignNode.body[1]), arena);
-                }
-                else if (assignNode.body.size() > 0 && assignNode.body[0] < arena.size() && assignNode.funcName.empty())
-                {
-                    emitValue(assignNode, arena);
-                }
-
-                code << ";\n";
-            }
-
-            void CodeGen::emitReturnStatement(const Node &retNode, const NodeArena &arena)
-            {
-                code << "    return ";
-
-                // Emit the return expression
-                if (retNode.body.size() > 0 && retNode.body[0] < arena.size())
-                {
-                    emitExpression(arena.get(retNode.body[0]), arena);
-                }
-                else
-                {
-                    emitValue(retNode, arena);
-                }
-
-                code << ";\n";
             }
 
             void CodeGen::emitValue(const Node &valueNode, const NodeArena &arena)
@@ -213,7 +216,6 @@ namespace ignis
                     code << (valueNode.intValue ? "true" : "false");
                     break;
                 case PTVoid:
-                    // Don't emit anything for void
                     break;
                 default:
                     code << valueNode.intValue;
@@ -223,7 +225,6 @@ namespace ignis
 
             void CodeGen::emitExpression(const Node &exprNode, const NodeArena &arena)
             {
-                // Handle unary operations
                 if (exprNode.exprKind == ExprUnary)
                 {
                     if (exprNode.body.size() >= 1)
@@ -232,7 +233,6 @@ namespace ignis
                         emitExpression(arena.get(exprNode.body[0]), arena);
                     }
                 }
-                // Handle binary operations
                 else if (exprNode.exprKind == ExprBinary)
                 {
                     if (exprNode.body.size() >= 2)
@@ -244,7 +244,6 @@ namespace ignis
                         code << ")";
                     }
                 }
-                // Handle function calls
                 else if (exprNode.exprKind == ExprFuncCall)
                 {
                     code << exprNode.funcName << "(";
@@ -266,7 +265,6 @@ namespace ignis
                 }
                 else
                 {
-                    // For literal values, use emitValue
                     emitValue(exprNode, arena);
                 }
             }
@@ -279,8 +277,6 @@ namespace ignis
                     result += "*";
                 if (type.isArray)
                     result += "[]";
-                // Note: C doesn't have references like C++, so we skip isRef for now
-                // In production, might want to use pointers instead
 
                 return result;
             }

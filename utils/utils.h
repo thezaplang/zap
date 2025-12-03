@@ -29,7 +29,11 @@ inline bool isKeyword(std::string_view keyword)
     }
     else if (keyword == "if") {
         return true;
-    }else
+    }
+    else if (keyword == "while") {
+        return true;
+    }
+    else
     {
         return false;
     }
@@ -63,6 +67,9 @@ inline TokenType getTokenType(std::string_view token)
     }
     else if (token == "if") {
         return TokenType::KIF;
+    }
+    else if (token == "while") {
+        return TokenType::KWhile;
     }
     else
     {

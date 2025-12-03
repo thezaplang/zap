@@ -75,7 +75,6 @@ Node Parser::ParseFunction()
     funcNode.paramList = params;
     funcNode.returnType = rt;
 
-    // Check if it's a declaration (fn foo();) or definition (fn foo() { ... })
     if (Peek().type == TokenType::Semi)
     {
         // Declaration only
@@ -84,7 +83,6 @@ Node Parser::ParseFunction()
     }
     else
     {
-        funcNode.isDeclaration = false;
         Consume(TokenType::LBrace, "Expected '{'");
         NodeId funcId = arena.create(funcNode);
         ParseBody(funcId);
@@ -110,12 +108,6 @@ IgnType Parser::ParseType()
         type.isRef = true;
     }
 
-    while (Peek().type == TokenType::Star)
-    {
-        Advance();
-        type.isPtr = true;
-    }
-
     // Parse base type
     Token typeNameTok = Consume(TokenType::Id, "Expected type name");
     std::string typeName = std::string(typeNameTok.value);
@@ -135,7 +127,6 @@ std::vector<Param> Parser::ParseParams()
             break;
         }
 
-        // Check for varargs
         if (Peek().type == TokenType::Ellipsis)
         {
             Advance(); // consume '...'
@@ -191,7 +182,6 @@ void Parser::ParseBody(NodeId funcId)
         {
             if (Peek(1).type == TokenType::Assign)
             {
-                // Assignment statement: id = expr;
                 Node assignNode = ParseAssignment();
                 NodeId assignId = arena.create(assignNode);
                 arena.get(funcId).body.push_back(assignId);
@@ -203,7 +193,6 @@ void Parser::ParseBody(NodeId funcId)
                 Node exprNode = ParseExpr();
                 NodeId exprId = arena.create(exprNode);
                 arena.get(funcId).body.push_back(exprId);
-                // Optional semicolon after function call expressions
                 if (Peek().type == TokenType::Semi)
                     Advance();
             }
@@ -215,7 +204,6 @@ void Parser::ParseBody(NodeId funcId)
         }
         else if (Peek().type == TokenType::Star)
         {
-            // Dereference expression that might be an assignment: *x = expr;
             Node lhs = ParseExpr();
             if (Peek().type == TokenType::Assign)
             {
@@ -233,7 +221,6 @@ void Parser::ParseBody(NodeId funcId)
             }
             else
             {
-                // Just an expression statement
                 NodeId exprId = arena.create(lhs);
                 arena.get(funcId).body.push_back(exprId);
             }
@@ -246,7 +233,6 @@ void Parser::ParseBody(NodeId funcId)
             NodeId letId = arena.create(letNode);
             arena.get(funcId).body.push_back(letId);
 
-            // Register variable in function scope
             if (!letNode.funcName.empty())
             {
                 Variable var;
@@ -260,10 +246,14 @@ void Parser::ParseBody(NodeId funcId)
             NodeId ifId = arena.create(ifNode);
             arena.get(funcId).body.push_back(ifId);
         }
+        else if (Peek().type == TokenType::KWhile) {
+            Node whileNode = ParseWhile();
+            NodeId whileId = arena.create(whileNode);
+            arena.get(funcId).body.push_back(whileId);
+        }
         else
         {
             AddError(std::string("Statement type not yet supported in body: ") + std::string(Peek().value), Peek());
-            // synchronize to next statement boundary to avoid cascading errors
             Synchronize(TokenType::RBrace);
             if (Peek().type == TokenType::Semi)
                 Advance();
@@ -272,8 +262,45 @@ void Parser::ParseBody(NodeId funcId)
 }
 
 Node Parser::ParseIf() {
+    Consume(TokenType::KIF, "Expected 'if'");
 
+    Node ifNode;
+    ifNode.nodeType = NodeType::TIf;
+
+    Node cond = ParseExpr();
+    NodeId condId = arena.create(cond);
+    ifNode.body.push_back(condId);
+
+    Consume(TokenType::LBrace, "Expected '{' after if condition");
+    
+    NodeId ifId = arena.create(ifNode);
+    ParseBody(ifId);
+    
+    Consume(TokenType::RBrace, "Expected '}' after if body");
+
+    return arena.get(ifId);
 }
+
+Node Parser::ParseWhile() {
+    Consume(TokenType::KWhile, "Expected 'if'");
+
+    Node whileNode;
+    whileNode.nodeType = NodeType::TWhile;
+
+    Node cond = ParseExpr();
+    NodeId condId = arena.create(cond);
+    whileNode.body.push_back(condId);
+
+    Consume(TokenType::LBrace, "Expected '{' after while condition");
+
+    NodeId whileId = arena.create(whileNode);
+    ParseBody(whileId);
+
+    Consume(TokenType::RBrace, "Expected '}' after while body");
+
+    return arena.get(whileId);
+}
+
 
 
 Node Parser::ParseReturn()
@@ -292,7 +319,6 @@ Node Parser::ParseReturn()
     NodeId exprId = arena.create(returnValue);
     returnNode.body.push_back(exprId);
 
-    // Store type info from the expression
     returnNode.exprType = returnValue.exprType;
 
     Consume(TokenType::Semi, "Expected ';' after return statement");
@@ -316,7 +342,6 @@ Node Parser::ParseLet()
     letNode.funcName = varName; // Store variable name in funcName field
     letNode.exprType = varType;
 
-    // Parse initialization value if present
     if (Peek().type == TokenType::Assign)
     {
         Advance(); // consume '='
@@ -342,7 +367,6 @@ Node Parser::ParseAssignment()
     assignNode.exprKind = ExprType::ExprAssign;
     assignNode.funcName = varName; // Store variable name
 
-    // Parse the right-hand side expression
     Node rhsExpr = ParseExpr();
     NodeId exprId = arena.create(rhsExpr);
     assignNode.body.push_back(exprId);
@@ -406,7 +430,6 @@ Node Parser::ParseTerm()
     return left;
 }
 
-// ParseFactor obsługuje liczby, identyfikatory, wywołania funkcji, operatory jednoargumentowe
 Node Parser::ParseFactor()
 {
     Node exprNode;
