@@ -88,8 +88,14 @@ std::vector<Token> Lexer::Tokenize(std::string_view content)
         // :
         if (c == ':')
         {
-            tokens.emplace_back(TokenType::Colon, pos, std::string_view(current_file.data() + pos, 1));
-            Advance();
+            if (Peek(1) == ':') {
+                tokens.emplace_back(TokenType::DoubleColon, pos, std::string_view(current_file.data() + pos, 2));
+                Advance();
+                Advance();
+            }else {
+                tokens.emplace_back(TokenType::Colon, pos, std::string_view(current_file.data() + pos, 1));
+                Advance();
+            }
             continue;
         }
         if (c == ',')

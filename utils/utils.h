@@ -33,6 +33,9 @@ inline bool isKeyword(std::string_view keyword)
     else if (keyword == "while") {
         return true;
     }
+    else if (keyword == "struct") {
+        return true;
+    }
     else
     {
         return false;
@@ -71,6 +74,9 @@ inline TokenType getTokenType(std::string_view token)
     else if (token == "while") {
         return TokenType::KWhile;
     }
+    else if (token == "struct") {
+        return TokenType::KStruct;
+    }
     else
     {
         // TODO: add to error list
@@ -100,8 +106,7 @@ inline PrimType stringToPrimType(const std::string &typeStr)
     {
         return PrimType::PTString;
     }
-    else if (typeStr == "void")
-    {
+    else if (typeStr == "void") {
         return PrimType::PTVoid;
     }
     else

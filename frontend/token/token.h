@@ -13,6 +13,7 @@ enum TokenType
     KLet,
     KIF,
     KWhile,
+    KStruct,
     Id,
     LParen,
     RParen,
@@ -26,6 +27,8 @@ enum TokenType
     ConstString,
     Operator,
     Assign,
+    Dot,
+    DoubleColon, //::
     Star,      // * for pointer
     Ampersand, // & for reference
     Ellipsis,  // ... for varargs
