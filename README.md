@@ -238,8 +238,8 @@ To contribute:
 - [x] C code generation
 
 ### Phase 2 (Planned)
-- [ ] Control flow (if/else, loops)
-- [ ] Operators (arithmetic, logical, comparison)
+- [x] Control flow (if/else, loops)
+- [x] Operators (arithmetic, logical, comparison)
 - [ ] Arrays and pointers
 - [ ] Structs and enums
 - [ ] Error handling
