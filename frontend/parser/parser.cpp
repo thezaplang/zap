@@ -34,6 +34,12 @@ Node Parser::ParseStatement()
         Node func = ParseFunction();
         return func;
     }
+    else if (Peek().type == TokenType::KStruct)
+    {
+        Node structNode = ParseStruct();
+        definedStructs.insert(structNode.funcName);
+        return structNode;
+    }
     else
     {
         AddError(std::string("statement of type: ") + std::string(Peek().value) + " is not implemented yet", Peek());
@@ -94,6 +100,55 @@ Node Parser::ParseFunction()
     return arena.get(funcId);
 }
 
+Node Parser::ParseStruct()
+{
+    Consume(TokenType::KStruct, "Expected 'struct'");
+
+    Token structNameTok = Consume(TokenType::Id, "Expected struct name");
+    std::string structName = std::string(structNameTok.value);
+
+    Consume(TokenType::LBrace, "Expected '{' after struct name");
+
+    Node structNode;
+    structNode.nodeType = NodeType::TStruct;
+    structNode.funcName = structName;
+
+    std::vector<StructField> fields;
+
+    while (Peek().type != TokenType::RBrace && !IsAtEnd())
+    {
+        Token fieldNameTok = Consume(TokenType::Id, "Expected field name");
+        std::string fieldName = std::string(fieldNameTok.value);
+
+        Consume(TokenType::Colon, "Expected ':' after field name");
+
+        IgnType fieldType = ParseType();
+
+        StructField field;
+        field.name = fieldName;
+        field.type = fieldType;
+        fields.push_back(field);
+
+        if (Peek().type == TokenType::Comma)
+        {
+            Advance();
+        }
+        else if (Peek().type != TokenType::RBrace)
+        {
+            AddError("Expected ',' or '}' after field definition", Peek());
+            break;
+        }
+    }
+
+    Consume(TokenType::RBrace, "Expected '}' after struct fields");
+
+    structNode.structDef.name = structName;
+    structNode.structDef.fields = fields;
+
+    NodeId structId = arena.create(structNode);
+    return arena.get(structId);
+}
+
 IgnType Parser::ParseType()
 {
     IgnType type;
@@ -108,10 +163,24 @@ IgnType Parser::ParseType()
         type.isRef = true;
     }
 
+    while (Peek().type == TokenType::Star)
+    {
+        Advance();
+        type.isPtr = true;
+    }
+
     // Parse base type
     Token typeNameTok = Consume(TokenType::Id, "Expected type name");
     std::string typeName = std::string(typeNameTok.value);
     type.base = stringToPrimType(typeName);
+    type.typeName = typeName;
+
+    // Check if it's a struct type
+    if (definedStructs.find(typeName) != definedStructs.end())
+    {
+        type.isStruct = true;
+        type.base = PTUserType;
+    }
 
     return type;
 }
@@ -188,6 +257,15 @@ void Parser::ParseBody(NodeId funcId)
                 if (Peek().type == TokenType::Semi)
                     Advance();
             }
+            else if (Peek(1).type == TokenType::Dot)
+            {
+
+                Node assignNode = ParseAssignment();
+                NodeId assignId = arena.create(assignNode);
+                arena.get(funcId).body.push_back(assignId);
+                if (Peek().type == TokenType::Semi)
+                    Advance();
+            }
             else if (Peek(1).type == TokenType::LParen)
             {
                 Node exprNode = ParseExpr();
@@ -241,12 +319,14 @@ void Parser::ParseBody(NodeId funcId)
                 arena.get(funcId).vars.push_back(var);
             }
         }
-        else if (Peek().type == TokenType::KIF) {
+        else if (Peek().type == TokenType::KIF)
+        {
             Node ifNode = ParseIf();
             NodeId ifId = arena.create(ifNode);
             arena.get(funcId).body.push_back(ifId);
         }
-        else if (Peek().type == TokenType::KWhile) {
+        else if (Peek().type == TokenType::KWhile)
+        {
             Node whileNode = ParseWhile();
             NodeId whileId = arena.create(whileNode);
             arena.get(funcId).body.push_back(whileId);
@@ -261,7 +341,8 @@ void Parser::ParseBody(NodeId funcId)
     }
 }
 
-Node Parser::ParseIf() {
+Node Parser::ParseIf()
+{
     Consume(TokenType::KIF, "Expected 'if'");
 
     Node ifNode;
@@ -272,16 +353,17 @@ Node Parser::ParseIf() {
     ifNode.body.push_back(condId);
 
     Consume(TokenType::LBrace, "Expected '{' after if condition");
-    
+
     NodeId ifId = arena.create(ifNode);
     ParseBody(ifId);
-    
+
     Consume(TokenType::RBrace, "Expected '}' after if body");
 
     return arena.get(ifId);
 }
 
-Node Parser::ParseWhile() {
+Node Parser::ParseWhile()
+{
     Consume(TokenType::KWhile, "Expected 'if'");
 
     Node whileNode;
@@ -300,8 +382,6 @@ Node Parser::ParseWhile() {
 
     return arena.get(whileId);
 }
-
-
 
 Node Parser::ParseReturn()
 {
@@ -360,6 +440,27 @@ Node Parser::ParseAssignment()
     Token varNameTok = Consume(TokenType::Id, "Expected variable name");
     std::string varName = std::string(varNameTok.value);
 
+    if (Peek().type == TokenType::Dot)
+    {
+        Advance(); // consume '.'
+        Token fieldNameTok = Consume(TokenType::Id, "Expected field name after '.'");
+        std::string fieldName = std::string(fieldNameTok.value);
+
+        Consume(TokenType::Assign, "Expected '='");
+
+        Node assignNode;
+        assignNode.nodeType = NodeType::TAssign;
+        assignNode.exprKind = ExprType::ExprAssign;
+        assignNode.funcName = varName;    // Store object name
+        assignNode.fieldName = fieldName; // Store field name
+
+        Node rhsExpr = ParseExpr();
+        NodeId exprId = arena.create(rhsExpr);
+        assignNode.body.push_back(exprId);
+
+        return assignNode;
+    }
+
     Consume(TokenType::Assign, "Expected '='");
 
     Node assignNode;
@@ -393,9 +494,11 @@ Node Parser::ParseExpr()
     return left;
 }
 
-Node Parser::ParseLogic() {
+Node Parser::ParseLogic()
+{
     Node left = ParseTerm();
-    while (Peek().type == TokenType::Operator && (Peek().value == "<" || Peek().value == ">" || Peek().value == "<=" || Peek().value == ">=" || Peek().value == "==" || Peek().value == "!=")) {
+    while (Peek().type == TokenType::Operator && (Peek().value == "<" || Peek().value == ">" || Peek().value == "<=" || Peek().value == ">=" || Peek().value == "==" || Peek().value == "!="))
+    {
         Token op = Advance();
         Node right = ParseTerm();
         Node binNode;
@@ -410,10 +513,26 @@ Node Parser::ParseLogic() {
     return left;
 }
 
-
 Node Parser::ParseTerm()
 {
     Node left = ParseFactor();
+
+    // Handle field access
+    while (Peek().type == TokenType::Dot)
+    {
+        Advance(); // consume '.'
+        Token fieldNameTok = Consume(TokenType::Id, "Expected field name after '.'");
+
+        Node fieldAccess;
+        fieldAccess.nodeType = NodeType::TExpr;
+        fieldAccess.exprKind = ExprType::ExprFieldAccess;
+        fieldAccess.fieldObject = arena.create(left);
+        fieldAccess.fieldName = std::string(fieldNameTok.value);
+        fieldAccess.exprType.base = PrimType::PTI32; // TODO: Look up actual field type
+
+        left = fieldAccess;
+    }
+
     while (Peek().type == TokenType::Operator && (Peek().value == "*" || Peek().value == "/" || Peek().value == "%"))
     {
         Token op = Advance();
@@ -441,7 +560,6 @@ Node Parser::ParseFactor()
 
     Token current = Peek();
 
-    // Handle unary operators: & (address-of) and * (dereference)
     if (current.type == TokenType::Ampersand)
     {
         Advance(); // consume &
@@ -461,7 +579,7 @@ Node Parser::ParseFactor()
         exprNode.op = "*";
         exprNode.body.push_back(arena.create(operand));
         exprNode.exprType = operand.exprType;
-        exprNode.exprType.isPtr = false; // dereferencing a pointer removes the pointer flag
+        exprNode.exprType.isPtr = false;
         return exprNode;
     }
 
@@ -507,6 +625,38 @@ Node Parser::ParseFactor()
                 }
             }
             Consume(TokenType::RParen, "Expected ')' after function arguments");
+        }
+        else if (Peek().type == TokenType::LBrace)
+        {
+            // Struct constructor: Name { field: value, ... }
+            exprNode.exprKind = ExprType::ExprStructConstructor;
+            exprNode.funcName = std::string(funcNameTok.value);
+            exprNode.exprType.base = PrimType::PTUserType;
+            exprNode.exprType.isStruct = true;
+
+            Consume(TokenType::LBrace, "Expected '{'");
+            while (Peek().type != TokenType::RBrace && !IsAtEnd())
+            {
+                Token fieldNameTok = Consume(TokenType::Id, "Expected field name");
+                std::string fieldName = std::string(fieldNameTok.value);
+
+                Consume(TokenType::Colon, "Expected ':' after field name");
+
+                Node fieldValue = ParseExpr();
+                NodeId fieldId = arena.create(fieldValue);
+                exprNode.structFields[fieldName] = fieldId;
+
+                if (Peek().type == TokenType::Comma)
+                {
+                    Advance();
+                }
+                else if (Peek().type != TokenType::RBrace)
+                {
+                    AddError("Expected ',' or '}' in struct constructor", Peek());
+                    break;
+                }
+            }
+            Consume(TokenType::RBrace, "Expected '}' after struct fields");
         }
         else
         {

@@ -11,6 +11,20 @@ void SemanticAnalyzer::Analyze(NodeArena &arena, const std::string &source, cons
     currentFilePath = filePath;
     std::cout << "Semantic Analysis started.\n";
 
+    // First pass: register all struct definitions
+    for (auto &node : arena.getAllNodes())
+    {
+        if (node.nodeType == NodeType::TStruct)
+        {
+            StructSymbol structSym;
+            structSym.name = node.funcName;
+            structSym.fields = node.structDef.fields;
+            RegisterStruct(structSym);
+            std::cout << "Registered struct: " << structSym.name << "\n";
+        }
+    }
+
+    // Second pass: register and analyze functions
     for (auto &node : arena.getAllNodes())
     {
         if (node.nodeType != NodeType::TFun)
@@ -43,7 +57,7 @@ void SemanticAnalyzer::AnalyzeFunction(Node &funcNode, NodeArena &arena, const s
 
 void SemanticAnalyzer::AnalyzeFunctionBody(Node &funcNode, NodeArena &arena, const std::string &source)
 {
-    PushScope(); // Enter function scope
+    PushScope();
 
     // Register parameters in the scope
     for (auto &param : funcNode.paramList)
@@ -101,7 +115,7 @@ void SemanticAnalyzer::ReportError(const std::string &msg, const Node &node, con
     }
     if (pos == std::string::npos && node.nodeType == NodeType::TRet)
     {
-        // look for a 'return' followed by the literal value if available
+
         size_t p = source.find("return");
         if (p != std::string::npos)
         {
@@ -180,13 +194,11 @@ void SemanticAnalyzer::AnalyzeLetStatement(Node &letNode, NodeArena &arena, cons
         variableScopes.back().push_back(varSym);
     }
 
-    // Analyze initialization expression if present
     if (letNode.body.size() > 0)
     {
         Node &initExpr = arena.get(letNode.body[0]);
         AnalyzeExpression(initExpr, arena, source);
 
-        // Check type compatibility
         if (initExpr.exprType.base != letNode.exprType.base)
         {
             ReportError("Variable initialization type mismatch", letNode, source);
@@ -196,10 +208,73 @@ void SemanticAnalyzer::AnalyzeLetStatement(Node &letNode, NodeArena &arena, cons
 
 void SemanticAnalyzer::AnalyzeExpression(Node &exprNode, NodeArena &arena, const std::string &source)
 {
+
+    if (exprNode.exprKind == ExprType::ExprFieldAccess)
+    {
+        Node &objectNode = arena.get(exprNode.fieldObject);
+        AnalyzeExpression(objectNode, arena, source);
+
+        if (objectNode.exprType.base == PrimType::PTUserType && objectNode.exprType.isStruct)
+        {
+            StructSymbol *structSym = FindStruct(objectNode.exprType.typeName);
+            if (structSym)
+            {
+
+                for (const auto &field : structSym->fields)
+                {
+                    if (field.name == exprNode.fieldName)
+                    {
+                        exprNode.exprType = field.type;
+                        std::cout << "Field access '" << exprNode.fieldName << "' of struct '"
+                                  << objectNode.exprType.typeName << "' has type " << field.type.base << "\n";
+                        return;
+                    }
+                }
+                ReportError("Field '" + exprNode.fieldName + "' not found in struct '" + objectNode.exprType.typeName + "'", exprNode, source);
+            }
+            else
+            {
+                ReportError("Struct '" + objectNode.exprType.typeName + "' not defined", exprNode, source);
+            }
+        }
+        else
+        {
+            ReportError("Field access on non-struct type", exprNode, source);
+        }
+        return;
+    }
+
+    // If this is a struct constructor
+    if (exprNode.exprKind == ExprType::ExprStructConstructor)
+    {
+        StructSymbol *structSym = FindStruct(exprNode.funcName);
+        if (structSym)
+        {
+            exprNode.exprType.base = PrimType::PTUserType;
+            exprNode.exprType.isStruct = true;
+            exprNode.exprType.typeName = exprNode.funcName;
+
+            // Validate all fields are provided
+            for (const auto &field : structSym->fields)
+            {
+                if (exprNode.structFields.find(field.name) == exprNode.structFields.end())
+                {
+                    ReportError("Struct field '" + field.name + "' not initialized in constructor", exprNode, source);
+                }
+            }
+            std::cout << "Struct constructor '" << exprNode.funcName << "' validated\n";
+        }
+        else
+        {
+            ReportError("Struct '" + exprNode.funcName + "' not defined", exprNode, source);
+        }
+        return;
+    }
+
     // If this is a function call
     if (exprNode.exprKind == ExprType::ExprFuncCall)
     {
-        // Look up the function in registered symbols
+
         for (const auto &func : functionSymbols)
         {
             if (func.name == exprNode.funcName)
@@ -213,10 +288,9 @@ void SemanticAnalyzer::AnalyzeExpression(Node &exprNode, NodeArena &arena, const
         return;
     }
 
-    // If this is a variable reference (Id without parens, stored as exprKind != ExprFuncCall)
     if (exprNode.exprKind != ExprType::ExprFuncCall && !exprNode.funcName.empty())
     {
-        // Try to find this variable in current scope
+
         VariableSymbol *varSym = FindVariable(exprNode.funcName);
         if (varSym)
         {
@@ -225,7 +299,7 @@ void SemanticAnalyzer::AnalyzeExpression(Node &exprNode, NodeArena &arena, const
         }
         else
         {
-            // Could be a function call without arguments or undefined variable
+
             std::cout << "Sema: Warning - Variable or function '" << exprNode.funcName << "' not resolved\n";
         }
     }
@@ -233,7 +307,7 @@ void SemanticAnalyzer::AnalyzeExpression(Node &exprNode, NodeArena &arena, const
 
 VariableSymbol *SemanticAnalyzer::FindVariable(const std::string &varName)
 {
-    // Search from innermost to outermost scope
+
     for (auto it = variableScopes.rbegin(); it != variableScopes.rend(); ++it)
     {
         for (auto &var : *it)
@@ -258,4 +332,21 @@ void SemanticAnalyzer::PopScope()
     {
         variableScopes.pop_back();
     }
+}
+
+void SemanticAnalyzer::RegisterStruct(const StructSymbol &structSym)
+{
+    structSymbols.push_back(structSym);
+}
+
+StructSymbol *SemanticAnalyzer::FindStruct(const std::string &structName)
+{
+    for (auto &structSym : structSymbols)
+    {
+        if (structSym.name == structName)
+        {
+            return &structSym;
+        }
+    }
+    return nullptr;
 }

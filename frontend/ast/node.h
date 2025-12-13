@@ -8,6 +8,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <map>
 
 enum NodeType
 {
@@ -19,6 +20,7 @@ enum NodeType
     TParam,
     TExpr,
     TAssign,
+    TStruct,
 };
 
 using NodeId = uint32_t;
@@ -43,6 +45,8 @@ enum ExprType
     ExprBinary,
     ExprAssign,
     ExprUnary,
+    ExprStructConstructor,
+    ExprFieldAccess,
 };
 
 struct IgnType
@@ -52,6 +56,7 @@ struct IgnType
     bool isArray;
     bool isRef;
     PrimType base;
+    std::string typeName; // dla PTUserType, przechowuje nazwę struktury
 };
 
 struct Param
@@ -65,6 +70,18 @@ struct Variable
 {
     std::string name;
     IgnType type;
+};
+
+struct StructField
+{
+    std::string name;
+    IgnType type;
+};
+
+struct StructDef
+{
+    std::string name;
+    std::vector<StructField> fields;
 };
 
 struct Node
@@ -83,5 +100,9 @@ struct Node
     std::vector<NodeId> exprArgs;
     std::string op;
     bool isDeclaration = false; // true for fn foo(); false for fn foo() { ... }
+    StructDef structDef;
+    std::map<std::string, NodeId> structFields;
+    NodeId fieldObject;
+    std::string fieldName;
 };
 #endif // IGNIS_NODE_H

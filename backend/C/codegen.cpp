@@ -20,6 +20,17 @@ namespace ignis
                 emitIncludes();
                 code << "\n";
 
+                // First pass: emit all struct definitions
+                for (size_t i = 0; i < arena.size(); ++i)
+                {
+                    const Node &node = arena.get(i);
+                    if (node.nodeType == TStruct)
+                    {
+                        emitNode(node, arena, "");
+                    }
+                }
+
+                // Second pass: emit all functions
                 for (size_t i = 0; i < arena.size(); ++i)
                 {
                     const Node &node = arena.get(i);
@@ -51,6 +62,16 @@ namespace ignis
             {
                 switch (node.nodeType)
                 {
+                case TStruct:
+                {
+                    code << "typedef struct " << node.funcName << " {\n";
+                    for (const auto &field : node.structDef.fields)
+                    {
+                        code << "    " << typeToC(field.type) << " " << field.name << ";\n";
+                    }
+                    code << "} " << node.funcName << ";\n\n";
+                    break;
+                }
                 case TFun:
                     emitFunction(node, arena);
                     break;
@@ -68,7 +89,13 @@ namespace ignis
                 case TAssign:
                 {
                     code << indent;
-                    if (!node.funcName.empty())
+
+                    // Check if it's a field assignment (p.x = value)
+                    if (!node.fieldName.empty())
+                    {
+                        code << node.funcName << "." << node.fieldName;
+                    }
+                    else if (!node.funcName.empty())
                     {
                         code << node.funcName;
                     }
@@ -79,10 +106,7 @@ namespace ignis
                     code << " = ";
                     if (node.body.size() > 0 && node.body[0] < arena.size())
                     {
-                        if (!node.funcName.empty())
-                        {
-                            emitExpression(arena.get(node.body[0]), arena);
-                        }
+                        emitExpression(arena.get(node.body[0]), arena);
                     }
                     code << ";\n";
                     break;
@@ -115,8 +139,9 @@ namespace ignis
                     {
                         emitExpression(arena.get(node.body[0]), arena);
                     }
-                    code << ")\n" << indent << "{\n";
-                    
+                    code << ")\n"
+                         << indent << "{\n";
+
                     std::string innerIndent = indent + "    ";
                     for (size_t i = 1; i < node.body.size(); ++i)
                     {
@@ -125,17 +150,19 @@ namespace ignis
                             emitNode(arena.get(node.body[i]), arena, innerIndent);
                         }
                     }
-                    
+
                     code << indent << "}\n";
                     break;
                 }
-                        case TWhile: {
+                case TWhile:
+                {
                     code << indent << "while (";
                     if (node.body.size() > 0 && node.body[0] < arena.size())
                     {
                         emitExpression(arena.get(node.body[0]), arena);
                     }
-                    code << ")\n" << indent << "{\n";
+                    code << ")\n"
+                         << indent << "{\n";
 
                     std::string innerIndent = indent + "    ";
                     for (size_t i = 1; i < node.body.size(); ++i)
@@ -147,7 +174,7 @@ namespace ignis
                     }
 
                     code << indent << "}\n";
-                            break;
+                    break;
                 }
                 default:
                     break;
@@ -158,9 +185,12 @@ namespace ignis
             {
                 code << typeToC(funcNode.returnType) << " " << funcNode.funcName << "(";
 
-                if (funcNode.paramList.size() == 0) {
-                    code<<"void";
-                }else {
+                if (funcNode.paramList.size() == 0)
+                {
+                    code << "void";
+                }
+                else
+                {
                     for (size_t i = 0; i < funcNode.paramList.size(); ++i)
                     {
                         if (i > 0)
@@ -259,6 +289,32 @@ namespace ignis
                     }
                     code << ")";
                 }
+                else if (exprNode.exprKind == ExprStructConstructor)
+                {
+                    code << "(struct " << exprNode.funcName << ") {";
+                    bool first = true;
+                    for (const auto &field : exprNode.structFields)
+                    {
+                        if (!first)
+                            code << ", ";
+                        code << "." << field.first << " = ";
+                        if (field.second < arena.size())
+                        {
+                            emitExpression(arena.get(field.second), arena);
+                        }
+                        first = false;
+                    }
+                    code << "}";
+                }
+                else if (exprNode.exprKind == ExprFieldAccess)
+                {
+                    // Field access: obj.field
+                    if (exprNode.fieldObject < arena.size())
+                    {
+                        emitExpression(arena.get(exprNode.fieldObject), arena);
+                    }
+                    code << "." << exprNode.fieldName;
+                }
                 else if (!exprNode.funcName.empty() && exprNode.exprKind != ExprFuncCall)
                 {
                     code << exprNode.funcName;
@@ -271,7 +327,16 @@ namespace ignis
 
             std::string CodeGen::typeToC(const IgnType &type)
             {
-                std::string result = primTypeToC(type.base);
+                std::string result;
+
+                         if (type.base == PTUserType && type.isStruct)
+                {
+                    result = "struct " + type.typeName;
+                }
+                else
+                {
+                    result = primTypeToC(type.base);
+                }
 
                 if (type.isPtr)
                     result += "*";

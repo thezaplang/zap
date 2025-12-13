@@ -68,19 +68,23 @@ std::vector<Token> Lexer::Tokenize(std::string_view content)
         // =, ==
         if (c == '=')
         {
-            if (Peek(1) == '=') {
+            if (Peek(1) == '=')
+            {
                 tokens.emplace_back(TokenType::Operator, pos, std::string_view(current_file.data() + pos, 2));
                 Advance();
                 Advance();
                 continue;
-            }else {
+            }
+            else
+            {
                 tokens.emplace_back(TokenType::Assign, pos, std::string_view(current_file.data() + pos, 1));
                 Advance();
                 continue;
             }
         }
         // > , <
-        if (c == '<' || c == '>') {
+        if (c == '<' || c == '>')
+        {
             tokens.emplace_back(TokenType::Operator, pos, std::string_view(current_file.data() + pos, 1));
             Advance();
             continue;
@@ -88,11 +92,14 @@ std::vector<Token> Lexer::Tokenize(std::string_view content)
         // :
         if (c == ':')
         {
-            if (Peek(1) == ':') {
+            if (Peek(1) == ':')
+            {
                 tokens.emplace_back(TokenType::DoubleColon, pos, std::string_view(current_file.data() + pos, 2));
                 Advance();
                 Advance();
-            }else {
+            }
+            else
+            {
                 tokens.emplace_back(TokenType::Colon, pos, std::string_view(current_file.data() + pos, 1));
                 Advance();
             }
@@ -117,6 +124,13 @@ std::vector<Token> Lexer::Tokenize(std::string_view content)
             tokens.emplace_back(TokenType::Ellipsis, pos, std::string_view(current_file.data() + pos, 3));
             Advance();
             Advance();
+            Advance();
+            continue;
+        }
+        // . (field access)
+        if (c == '.')
+        {
+            tokens.emplace_back(TokenType::Dot, pos, std::string_view(current_file.data() + pos, 1));
             Advance();
             continue;
         }

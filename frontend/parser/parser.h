@@ -5,6 +5,7 @@
 #ifndef IGNIS_PARSER_H
 #define IGNIS_PARSER_H
 #include <vector>
+#include <set>
 #include "../token/token.h"
 #include "../ast/node.h"
 #include "../ast/arena.h"
@@ -28,6 +29,7 @@ public:
     std::string source;
     std::vector<ParseError> errors;
     bool lastConsumeSynthetic = false;
+    std::set<std::string> definedStructs; // przechowuj nazwy zdefiniowanych struktur
 
     NodeArena Parse(std::vector<Token> *tokens, std::string_view src = "", const std::string &filePath = "");
     Token Peek(int offset = 0);
@@ -37,6 +39,7 @@ public:
     Token Consume(TokenType expectedType, std::string errMsg);
     Node ParseStatement();
     Node ParseFunction();
+    Node ParseStruct();
     IgnType ParseType();
     std::vector<Param> ParseParams();
     void ParseBody(NodeId funcId);

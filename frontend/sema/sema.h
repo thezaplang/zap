@@ -20,6 +20,12 @@ struct VariableSymbol
     IgnType type;
 };
 
+struct StructSymbol
+{
+    std::string name;
+    std::vector<StructField> fields;
+};
+
 class SemanticAnalyzer
 {
 public:
@@ -28,6 +34,8 @@ public:
     void Analyze(NodeArena &arena, const std::string &source, const std::string &filePath);
     void RegisterFunction(const FunctionSymbol &funcSym);
     bool FuncExsistsCheck(const std::string &funcName);
+    void RegisterStruct(const StructSymbol &structSym);
+    StructSymbol *FindStruct(const std::string &structName);
     void SetCurrentReturnType(const IgnType &retType);
     IgnType GetCurrentReturnType() const { return currentReturnType; }
     VariableSymbol *FindVariable(const std::string &varName);
@@ -45,6 +53,7 @@ private:
 
     std::vector<FunctionSymbol> functionSymbols;
     std::vector<std::vector<VariableSymbol>> variableScopes; // Stack of scopes
+    std::vector<StructSymbol> structSymbols;                 // All struct definitions
     IgnType currentReturnType;
     std::string currentFilePath;
 };
