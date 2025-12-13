@@ -102,6 +102,23 @@ int main(int argc, char *argv[])
             const char *inputPath = argv[++i];
             const char *outputPath = argv[++i];
 
+            // First, load and parse std.ign (standard library)
+            std::ifstream stdIn("std.ign", std::ios::in | std::ios::binary);
+            NodeArena stdArena;
+            if (stdIn)
+            {
+                std::ostringstream ss;
+                ss << stdIn.rdbuf();
+                std::string stdContent = ss.str();
+
+                Lexer lexer;
+                auto stdToks = lexer.Tokenize(stdContent);
+
+                Parser stdParser;
+                stdArena = stdParser.Parse(&stdToks, stdContent, "std.ign");
+            }
+
+            // Now load and parse the main input file
             std::ifstream in(inputPath, std::ios::in | std::ios::binary);
             if (!in)
             {
@@ -117,6 +134,32 @@ int main(int argc, char *argv[])
 
             Parser parser;
             parser.Parse(&toks, content, inputPath);
+
+            size_t idOffset = parser.arena.size();
+            for (size_t i = 0; i < stdArena.size(); ++i)
+            {
+                Node node = stdArena.get(i);
+
+                for (auto &bodyId : node.body)
+                {
+                    bodyId += idOffset;
+                }
+                for (auto &argId : node.exprArgs)
+                {
+                    argId += idOffset;
+                }
+                for (auto &fieldId : node.structFields)
+                {
+                    fieldId.second += idOffset;
+                }
+                if (node.exprKind == ExprType::ExprFieldAccess && node.fieldObject < UINT32_MAX)
+                {
+                    node.fieldObject += idOffset;
+                }
+
+                parser.arena.create(node);
+            }
+
             SemanticAnalyzer sema;
             sema.Analyze(parser.arena, content, inputPath);
 
@@ -136,7 +179,6 @@ int main(int argc, char *argv[])
             ignis::backend::c::CodeGen codegen;
             codegen.generate(parser.arena, outputPath);
 
-            // Compile C code to executable
             std::string executablePath = std::string(outputPath);
 
             if (executablePath.length() > 2 && executablePath.substr(executablePath.length() - 2) == ".c")

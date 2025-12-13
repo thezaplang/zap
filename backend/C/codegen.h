@@ -28,6 +28,7 @@ namespace ignis
 
             private:
                 std::stringstream code;
+                std::string mangle(const std::string &name) const;
 
                 // Helper methods
                 void emitIncludes();
