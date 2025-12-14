@@ -23,10 +23,10 @@
 
 **Ignis is the language you use when:**
 
-- You need C's performance but not C's pain
-- Rust's borrow checker is overkill but C's unsafety keeps you up at night
-- You're tired of metaprogramming nightmares in C++
-- You need to **drop into a codebase, write code, and ship it** - not battle the compiler
+- You need the performance of C, but not its pain points
+- Rust's borrowing checks are overkill, but C's lack of type safety is even worse
+- You're tired of metaprogramming in C++
+- You need to **submit code to the codebase, write it, and publish it**—not fight the compiler
 
 ## Table of Contents
 
