@@ -21,7 +21,6 @@
 - 🔧 You want **instant interoperability** with existing C libraries (no FFI wrestling)
 - 🚀 You're building **performance-critical tools** where every millisecond matters but Python/Go are too slow
 - 📦 You need **small binaries** that actually run on constrained devices (not 50MB+ runtimes)
-- 🛡️ You want **compile-time safety** without the learning cliff of Rust or the complexity of C++
 
 **Ignis is the language you use when:**
 
