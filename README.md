@@ -17,10 +17,9 @@
 **You need Ignis if:**
 
 - You're **maintaining legacy C code** and want modern syntax without rewriting everything
-- You need **embedded/systems programming** but C is too error-prone and C++ is bloated
-- You want **instant interoperability** with existing C libraries (no FFI wrestling)
+- You want **instant interoperability** with existing C libraries (no need for FFI)
 - You're building **performance-critical tools** where every millisecond matters but Python/Go are too slow
-- You need **small binaries** that actually run on constrained devices (not 50MB+ runtimes)
+- You need **small binary files**
 
 **Ignis is the language you use when:**
 
