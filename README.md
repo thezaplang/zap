@@ -1,7 +1,7 @@
 # Zap Programming Language
 
 <p align="center">
-  <img src="art/Logo.svg" alt="Zap Logo" width="200" />
+  <img src="art/Logo.svg" alt="Zap Logo" width="275" />
 </p>
 
 <p align="center">
