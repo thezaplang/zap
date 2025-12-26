@@ -6,8 +6,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
+# Find LLVM
+find_package(LLVM REQUIRED CONFIG)
+
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${LLVM_INCLUDE_DIRS})
 
 # Source files
 set(SOURCES
@@ -46,10 +50,15 @@ set(HEADERS
     ast/const/const_id.hpp
     ast/const/const_int.hpp
     ast/const/const_string.hpp
+    sema/sema.hpp
+    sema/sema.cpp
+    compiler/codegen.hpp
+    compiler/codegen.cpp
 )
 
 # Create executable
 add_executable(Zap ${SOURCES} ${HEADERS})
 
-# Link against standard libraries if needed
-target_link_libraries(Zap PRIVATE)
+# Link against LLVM libraries
+llvm_map_components_to_libnames(llvm_libs core)
+target_link_libraries(Zap PRIVATE ${llvm_libs})

@@ -13,6 +13,7 @@
 #include "if_node.hpp"
 #include "import_node.hpp"
 #include "node.hpp"
+#include "body_node.hpp"
 #include "parameter_node.hpp"
 #include "return_node.hpp"
 #include "root_node.hpp"

@@ -45,3 +45,4 @@ Makefile
 
 # Other
 *.log
+/example/main
