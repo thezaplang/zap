@@ -6,8 +6,8 @@ This document tracks the planned development of the Zap programming language.
 
 ## Phase 0 - Foundations (current)
 
-- [ ] function declaration
-- [ ] function arguments
+- [x] function declaration
+- [x] function arguments
 - [x] return statement
 - [x] compiling expressions
 - [ ] variable declaration
