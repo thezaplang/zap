@@ -1,5 +1,5 @@
 #pragma once
 class Node {
-    public:
-        virtual ~Node() = default;
+public:
+  virtual ~Node() = default;
 };

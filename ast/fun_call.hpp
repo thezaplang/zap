@@ -3,6 +3,6 @@
 
 class FunCall : public ExpressionNode, public StatementNode {
 public:
-    std::string funcName_;
-    std::vector<std::unique_ptr<ExpressionNode>> arguments_;
+  std::string funcName_;
+  std::vector<std::unique_ptr<ExpressionNode>> params_;
 };
