@@ -42,7 +42,7 @@ This document tracks the planned development of the Zap programming language.
 - [ ] GC tuning
 - [ ] `#no_gc` blocks
 
-## Phase 4 - Stabilization (1.0)
+## Phase 3 - Stabilization (1.0)
 
 - [ ] Syntax freeze
 - [ ] Stable standard library
