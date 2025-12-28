@@ -285,7 +285,7 @@ std::unique_ptr<BodyNode> Parser::parseBody(zap::sema::Scope &scope)
     {
         body->addStatement(parseStatement(scope));
     }
-    consume(TokenType::RBRACE, "Expected '}' when funtion ends.");
+    consume(TokenType::RBRACE, "Expected '}' when function ends.");
     return body;
 }
 
