@@ -10,7 +10,7 @@ This document tracks the planned development of the Zap programming language.
 - [x] function arguments
 - [x] return statement
 - [x] compiling expressions
-- [ ] variable declaration
+- [x] variable declaration
 - [ ] variable reassigment
 - [ ] strings in expressions
 - [ ] if stmt/expression
@@ -23,6 +23,7 @@ This document tracks the planned development of the Zap programming language.
 
 ## Phase 1 - Core
 
+- [ ] MIR
 - [ ] Garbage collector
 
 - [ ] modules system + name mangling
