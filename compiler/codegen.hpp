@@ -23,6 +23,7 @@ namespace zap
         void generateFunction(const FunDecl &funDecl);
         void generateBody(const BodyNode &body);
         void generateReturn(const ReturnNode &retNode);
+        void genereteLet(const VarDecl &varDel);
         llvm::Value *generateExpression(const ExpressionNode &expr);
         llvm::Type *mapType(const TypeNode &typeNode);
         void emitIRToFile(const std::string &filename);
