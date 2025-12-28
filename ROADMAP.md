@@ -11,7 +11,7 @@ This document tracks the planned development of the Zap programming language.
 - [x] return statement
 - [x] compiling expressions
 - [x] variable declaration
-- [ ] variable reassigment
+- [x] variable reassigment
 - [ ] strings in expressions
 - [ ] if stmt/expression
 - [ ] loops (loop, while, for)

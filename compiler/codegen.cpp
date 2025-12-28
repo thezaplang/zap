@@ -75,6 +75,10 @@ void zap::Compiler::generateBody(const BodyNode &body, zap::sema::Scope *scope)
         {
             generateLet(*varDecl);
         }
+        else if (auto *assignNode = dynamic_cast<AssignNode *>(stmt.get()))
+        {
+            generateAssign(*assignNode);
+        }
     }
 }
 
@@ -101,6 +105,16 @@ void zap::Compiler::generateLet(const VarDecl &varDecl)
         {
             it->second.allocator = var;
         }
+    }
+}
+
+void zap::Compiler::generateAssign(const AssignNode &assignNode)
+{
+    auto it = currentScope_->variables.find(assignNode.target_);
+    if (it != currentScope_->variables.end() && it->second.allocator)
+    {
+        llvm::Value *exprValue = generateExpression(*assignNode.expr_);
+        builder_.CreateStore(exprValue, it->second.allocator);
     }
 }
 

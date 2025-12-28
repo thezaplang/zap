@@ -334,6 +334,15 @@ std::unique_ptr<StatementNode> Parser::parseStatement(zap::sema::Scope &scope)
 
         return std::move(call);
     }
+    else if (peek().type == TokenType::ID &&
+             peek(1).type == TokenType::ASSIGN)
+    {
+        Token idToken = consume(TokenType::ID);
+        consume(TokenType::ASSIGN, "Expected '=' in assignment.");
+        std::unique_ptr<ExpressionNode> expr = parseExpression();
+        consume(TokenType::SEMICOLON, "Expected ';' after assignment statement.");
+        return std::make_unique<AssignNode>(idToken.value, std::move(expr));
+    }
     else
     {
         printf("Unexpected token in statement: %s at position %d\n",

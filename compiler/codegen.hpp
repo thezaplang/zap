@@ -25,6 +25,7 @@ namespace zap
         void generateBody(const BodyNode &body, zap::sema::Scope *scope);
         void generateReturn(const ReturnNode &retNode);
         void generateLet(const VarDecl &varDecl);
+        void generateAssign(const AssignNode &assignNode);
         llvm::Value *generateExpression(const ExpressionNode &expr);
         llvm::Type *mapType(const TypeNode &typeNode);
         void emitIRToFile(const std::string &filename);
