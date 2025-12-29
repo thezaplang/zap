@@ -4,38 +4,151 @@
 #include "sema/sema.hpp"
 #include <fstream>
 #include <iostream>
-#define LEXER_DEBUG false
-#define PARSER_DEBUG false
-#define COMPILER_DEBUG false
+#include <string>
+#include <cstring>
+
+#define ZAP_VERSION "0.1.0"
+
 using namespace zap;
+
+void printHelp(const char *programName)
+{
+  std::cout << "Zap Compiler v" << ZAP_VERSION << "\n\n";
+  std::cout << "Usage: " << programName << " [options] <file.zap>\n\n";
+  std::cout << "Options:\n";
+  std::cout << "  -h, --help              Show this help message\n";
+  std::cout << "  -v, --version           Show version information\n";
+  std::cout << "  -o, --output <file>     Specify output file name\n";
+  std::cout << "  --debug                 Enable debug output\n";
+  std::cout << "\nExample:\n";
+  std::cout << "  " << programName << " main.zap\n";
+  std::cout << "  " << programName << " -o myprogram main.zap\n";
+}
+
+void printVersion()
+{
+  std::cout << "Zap Compiler v" << ZAP_VERSION << "\n";
+}
+
 int main(int argc, char *argv[])
 {
-  // zapc <file1>
+  std::string inputFile;
+  std::string outputFile;
+  bool debugMode = false;
+
+  // Parse command line arguments
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " zap " << std::endl;
+    std::cerr << "Error: No input file specified\n";
+    std::cerr << "Try '" << argv[0] << " --help' for more information\n";
     return 1;
   }
-  else
-  {
-    std::string fileContent;
-    std::ifstream file(argv[1]);
-    if (!file)
-    {
-      printf("%s didnt exsist \n", argv[1]);
-    }
-    std::string line;
 
-    while (std::getline(file, line))
+  for (int i = 1; i < argc; i++)
+  {
+    std::string arg(argv[i]);
+
+    if (arg == "-h" || arg == "--help")
     {
-      fileContent += line + '\n';
+      printHelp(argv[0]);
+      return 0;
     }
-    file.close();
+    else if (arg == "-v" || arg == "--version")
+    {
+      printVersion();
+      return 0;
+    }
+    else if (arg == "--debug")
+    {
+      debugMode = true;
+    }
+    else if (arg == "-o" || arg == "--output")
+    {
+      if (i + 1 >= argc)
+      {
+        std::cerr << "Error: -o/--output requires an argument\n";
+        return 1;
+      }
+      outputFile = argv[++i];
+    }
+    else if (arg[0] == '-')
+    {
+      std::cerr << "Error: Unknown option '" << arg << "'\n";
+      std::cerr << "Try '" << argv[0] << " --help' for more information\n";
+      return 1;
+    }
+    else
+    {
+      inputFile = arg;
+    }
+  }
+
+  if (inputFile.empty())
+  {
+    std::cerr << "Error: No input file specified\n";
+    std::cerr << "Try '" << argv[0] << " --help' for more information\n";
+    return 1;
+  }
+
+  // Check if file exists and is readable
+  std::ifstream file(inputFile);
+  if (!file.is_open())
+  {
+    std::cerr << "Error: Cannot open file '" << inputFile << "': ";
+    std::perror("");
+    return 1;
+  }
+
+  // Read file content
+  std::string fileContent;
+  std::string line;
+  while (std::getline(file, line))
+  {
+    fileContent += line + '\n';
+  }
+  file.close();
+
+  if (fileContent.empty())
+  {
+    std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
+  }
+
+  // Determine output file name
+  if (outputFile.empty())
+  {
+    outputFile = inputFile;
+    size_t lastDot = outputFile.find_last_of(".");
+    if (lastDot != std::string::npos)
+    {
+      outputFile = outputFile.substr(0, lastDot);
+    }
+  }
+
+  if (debugMode)
+  {
+    std::cout << "Debug mode enabled\n";
+    std::cout << "Input file: " << inputFile << "\n";
+    std::cout << "Output file: " << outputFile << "\n";
+  }
+
+  try
+  {
+    // Tokenization
     Lexer lex;
     auto toks = lex.tokenize(fileContent);
-    auto symTable = std::make_shared<sema::SymbolTable>();
 
-    // Add built-in functions to symbol table before parsing
+    if (debugMode)
+    {
+      std::cout << "\nTokens:\n";
+      for (const auto &token : toks)
+      {
+        std::cout << "  Token: " << token.type << " Value: " << token.value
+                  << "\n";
+      }
+    }
+
+    // Create symbol table and add built-in functions
+    auto symTable = std::make_shared<sema::SymbolTable>();
     zap::sema::FunctionSymbol printlnSymbol{
         "println",
         false, // isExtern
@@ -44,38 +157,34 @@ int main(int argc, char *argv[])
         zap::sema::Scope()};
     symTable->addFunction(std::move(printlnSymbol));
 
+    // Parsing
     Parser parser(symTable);
-    if (LEXER_DEBUG)
-    {
-      for (const auto &token : toks)
-      {
-        std::cout << "Token: " << token.type << " Value: " << token.value
-                  << std::endl;
-      }
-    }
     auto root = parser.parse(toks);
 
+    // Compilation
     zap::Compiler compiler(symTable);
     compiler.compile(root);
 
-    // Extract output filename from input without extension
-    std::string outputName = argv[1];
-    size_t lastDot = outputName.find_last_of(".");
-    if (lastDot != std::string::npos)
-    {
-      outputName = outputName.substr(0, lastDot);
-    }
-
     // Emit IR to .ll file
-    std::string irFile = outputName + ".ll";
+    std::string irFile = outputFile + ".ll";
     compiler.emitIRToFile(irFile);
 
-    compiler.compileIR(irFile, outputName);
+    compiler.compileIR(irFile, outputFile);
 
-    if (COMPILER_DEBUG)
-    {
-      std::cout << "Compilation successful!" << std::endl;
-    }
+    std::cout << "Compilation successful!\n";
+    std::cout << "Output: " << outputFile << "\n";
   }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Error: Compilation failed\n";
+    std::cerr << "  " << e.what() << "\n";
+    return 1;
+  }
+  catch (...)
+  {
+    std::cerr << "Error: Unknown compilation error\n";
+    return 1;
+  }
+
   return 0;
 }
