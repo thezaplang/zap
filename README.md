@@ -20,7 +20,7 @@
 
 **Zap** is a modern, high-level systems programming language compiled to native code (**LLVM backend**), with **garbage collection** and a **lightweight concurrency model**.
 
-Zap is built for developers who want to write **high-performance applications** — servers, CLI tools, tooling, and embedded software — **quickly, safely, and without frustration**.
+Zap is built for developers who want to write **high-performance applications** -servers, CLI tools, tooling, and embedded software **quickly, safely, and without frustration**.
 
 Zap behaves very similarly to Go — **by design**. It does not try to reinvent systems programming. Its goal is to **solve the real, long-standing problems of Go**.
 
@@ -37,9 +37,9 @@ No more `if err != nil` everywhere.
 
 ---
 
-### Sum types / Enums
+### Enums
 
-- real enums with variants
+- real enums
 - exhaustive pattern matching (`match`, `each`)
 
 Correctness enforced by the compiler.
@@ -75,7 +75,7 @@ Less boilerplate, clearer intent.
 
 ## Concurrency
 
-Zap intentionally keeps Go’s concurrency model (lightweight threads, channels, `select`) — unchanged, because Go got this part right.
+Zap intentionally keeps Go’s concurrency model (lightweight threads, channels, `select`) - unchanged, because Go got this part right.
 
 ---
 

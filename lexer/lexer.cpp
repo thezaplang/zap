@@ -300,9 +300,9 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
       {
         tokens.push_back(Token(startPos, TokenType::MATCH, identStr));
       }
-      else if (identStr == "let")
+      else if (identStr == "var")
       {
-        tokens.push_back(Token(startPos, TokenType::LET, identStr));
+        tokens.push_back(Token(startPos, TokenType::VAR, identStr));
       }
       else if (identStr == "ext")
       {

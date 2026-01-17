@@ -2,7 +2,6 @@
 #include <string>
 enum TokenType
 {
-  // keywords
 
   IMPORT = 1,
   FUN = 2,
@@ -12,7 +11,7 @@ enum TokenType
   WHILE = 6,
   FOR = 7,
   MATCH = 8,
-  LET = 9,
+  VAR = 9,
   EXTERN = 10,
   MODULE = 11,
   PUB = 12,
@@ -63,6 +62,7 @@ enum TokenType
   ELLIPSIS = 57, // ...
   NOTEQUAL = 58,
   CONCAT = 59, // ~
+  VAL,
 };
 
 class Token

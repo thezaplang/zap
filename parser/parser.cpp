@@ -141,7 +141,7 @@ std::unique_ptr<VarDecl> Parser::parseVarDecl(zap::sema::Scope &scope)
         let name: type;
         let name: type = <expr>;
     */
-    consume(TokenType::LET);
+    consume(TokenType::VAR);
 
     std::string id = consume(TokenType::ID, "Expected variable name.").value;
     if (peek().type == TokenType::COLON)
@@ -345,7 +345,7 @@ std::unique_ptr<BodyNode> Parser::parseBody(zap::sema::Scope &scope)
 
 std::unique_ptr<StatementNode> Parser::parseStatement(zap::sema::Scope &scope)
 {
-    if (peek().type == TokenType::LET)
+    if (peek().type == TokenType::VAR)
     {
         return parseVarDecl(scope);
     }
