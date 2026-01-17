@@ -105,7 +105,7 @@ struct User {
 
 ```
 %user: User = struct User %name, %email, %isPremium
-%tmp: str = getfield %user name
+%tmp: ptr i8 = getfield %user name
 ```
 
 ---
@@ -132,7 +132,7 @@ entry:
 ```
 func User_show(self: User) -> void:
 entry:
-  %tmp:str = getfield %self name
+  %tmp:ptr 18 = getfield %self name
   call std_io_log "name :", %tmp
   return
 ```
@@ -162,7 +162,7 @@ entry:
   call User_show %user
   call std_io_log %user
   %tmp:int = call add 2, 3
-  %msg:str = concat "Sum 2+3: ", %tmp
+  %msg:ptr i8 = concat "Sum 2+3: ", %tmp
   call std_io_log %msg
   return
 ```
