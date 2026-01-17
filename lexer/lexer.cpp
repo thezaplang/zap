@@ -288,7 +288,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
       {
         tokens.push_back(Token(startPos, TokenType::BOOL, identStr));
       }
-      else if (identStr == "fn")
+      else if (identStr == "fun")
       {
         tokens.push_back(Token(startPos, TokenType::FUN, identStr));
       }

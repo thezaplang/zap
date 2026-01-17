@@ -18,6 +18,9 @@ set(SOURCES
     main.cpp
     lexer/lexer.cpp
     parser/parser.cpp
+    sema/sema.cpp
+    ir/ir.cpp
+    compiler/ast_to_ir.cpp
 )
 
 
@@ -52,8 +55,10 @@ set(HEADERS
     ast/const/const_string.hpp
     sema/sema.hpp
     sema/sema.cpp
-    compiler/codegen.hpp
-    compiler/codegen.cpp
+    ir/ir.hpp
+    ir/ir.cpp
+    compiler/ast_to_ir.hpp
+    compiler/ast_to_ir.cpp
 )
 
 # Create executable

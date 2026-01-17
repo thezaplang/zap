@@ -1,5 +1,5 @@
-fn main() -> i32 {
-    let score: i32 = 75;
+fun main() -> i32 {
+    var score: i32 = 75;
     
     if score >= 90 {
         println("Grade: A");

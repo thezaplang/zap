@@ -1,6 +1,6 @@
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
-#include "compiler/codegen.hpp"
+#include "compiler/ast_to_ir.hpp"
 #include "sema/sema.hpp"
 #include <fstream>
 #include <iostream>
@@ -161,15 +161,24 @@ int main(int argc, char *argv[])
     Parser parser(symTable);
     auto root = parser.parse(toks);
 
-    // Compilation
-    zap::Compiler compiler(symTable);
-    compiler.compile(root);
+    // AST to IR conversion
+    zap::compiler::ASTToIRConverter converter;
+    auto irModule = converter.convert(root.get());
 
-    // Emit IR to .ll file
-    std::string irFile = outputFile + ".ll";
-    compiler.emitIRToFile(irFile);
+    // Output IR module
+    std::string irOutput = irModule->toString();
 
-    compiler.compileIR(irFile, outputFile);
+    if (!outputFile.empty())
+    {
+      std::ofstream irStream(outputFile);
+      irStream << irOutput;
+      irStream.close();
+      std::cout << "IR output: " << outputFile << "\n";
+    }
+    else
+    {
+      std::cout << irOutput;
+    }
 
     std::cout << "Compilation successful!\n";
     std::cout << "Output: " << outputFile << "\n";
