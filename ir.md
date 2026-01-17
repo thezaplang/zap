@@ -157,7 +157,7 @@ entry:
   %a:int = 5
   %b:int = mul 5, 3
   %b:int = mul %b, 2
-  %user:User = call User_new "Jan", "jan@example.com", true
+  %user:User = call User_new "Jan", "jan@example.com", 1
   call std_io_log "Hello world"
   call User_show %user
   call std_io_log %user
