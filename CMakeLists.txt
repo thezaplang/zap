@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.31.6)
+#cmake_minimum_required(VERSION 3.28.3) # The only version that WSL seems to be able to get at the moment
 project(zapc)
 
 # C++ Standard
@@ -68,3 +69,5 @@ add_executable(zapc ${SOURCES} ${HEADERS})
 llvm_map_components_to_libnames(llvm_libs core)
 target_link_libraries(zapc PRIVATE ${llvm_libs})
     # 
+
+include(cmake/doxygen.cmake)
