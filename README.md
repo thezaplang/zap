@@ -92,7 +92,7 @@ You can help by:
 - writing documentation
 
 Repository:
-[https://github.com/thezaplang/zap](https://github.com/thezapalng/zap)
+[https://github.com/thezaplang/zap](https://github.com/thezaplang/zap)
 
 ---
 
