@@ -1,6 +1,6 @@
 #include "lexer.hpp"
 #include <cstdlib>
-std::vector<Token> Lexer::tokenize(const std::string &input)
+std::vector<Token* > Lexer::tokenize(const std::string &input)
 {
   std::vector<Token> tokens;
   _pos = 0;
