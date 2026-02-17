@@ -1,7 +1,4 @@
 #include "lexer/lexer.hpp"
-#include "parser/parser.hpp"
-#include "compiler/ast_to_ir.hpp"
-#include "sema/sema.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -9,7 +6,6 @@
 
 #define ZAP_VERSION "0.1.0"
 
-using namespace zap;
 
 void printHelp(const char *programName)
 {
@@ -131,8 +127,6 @@ int main(int argc, char *argv[])
     std::cout << "Output file: " << outputFile << "\n";
   }
 
-  try
-  {
     // Tokenization
     Lexer lex;
     auto toks = lex.tokenize(fileContent);
@@ -146,54 +140,5 @@ int main(int argc, char *argv[])
                   << "\n";
       }
     }
-
-    // Create symbol table and add built-in functions
-    auto symTable = std::make_shared<sema::SymbolTable>();
-    zap::sema::FunctionSymbol printlnSymbol{
-        "println",
-        false, // isExtern
-        false, // isStatic
-        true,  // isPublic
-        zap::sema::Scope()};
-    symTable->addFunction(std::move(printlnSymbol));
-
-    // Parsing
-    Parser parser(symTable);
-    auto root = parser.parse(toks);
-
-    // AST to IR conversion
-    zap::compiler::ASTToIRConverter converter;
-    auto irModule = converter.convert(root.get());
-
-    // Output IR module
-    std::string irOutput = irModule->toString();
-
-    if (!outputFile.empty())
-    {
-      std::ofstream irStream(outputFile);
-      irStream << irOutput;
-      irStream.close();
-      std::cout << "IR output: " << outputFile << "\n";
-    }
-    else
-    {
-      std::cout << irOutput;
-    }
-
-    std::cout << "Compilation successful!\n";
-    std::cout << "Output: " << outputFile << "\n";
-  }
-  catch (const std::exception &e)
-  {
-    std::cerr << "Error: Compilation failed\n";
-    std::cerr << "  " << e.what() << "\n";
-    return 1;
-  }
-  catch (...)
-  {
-    std::cerr << "Error: Unknown compilation error\n";
-    return 1;
-  }
-
   return 0;
 }

@@ -1,0 +1,42 @@
+func main() -> int:
+  entry:
+    %score:int = assign 75
+    %tmp2:int = ge %score 90
+    cond_jump label_0 %tmp2
+    jump label_1
+  label_1:
+    %tmp4:int = ge %score 80
+    cond_jump label_3 %tmp4
+    jump label_4
+  label_4:
+    %tmp6:int = ge %score 70
+    cond_jump label_6 %tmp6
+    jump label_7
+  label_7:
+    %tmp8:int = ge %score 60
+    cond_jump label_9 %tmp8
+    jump label_10
+  label_10:
+    %tmp10:int = call println "Grade: F"
+    jump label_11
+  label_9:
+    %tmp12:int = call println "Grade: D"
+    jump label_11
+  label_11:
+    jump label_8
+  label_6:
+    %tmp14:int = call println "Grade: C"
+    jump label_8
+  label_8:
+    jump label_5
+  label_3:
+    %tmp16:int = call println "Grade: B"
+    jump label_5
+  label_5:
+    jump label_2
+  label_0:
+    %tmp18:int = call println "Grade: A"
+    jump label_2
+  label_2:
+    return 0
+
