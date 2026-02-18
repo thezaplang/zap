@@ -7,7 +7,7 @@ namespace zap{
       public:
         Parser();
         ~Parser();
-        void parse(std::vector<Token* > toks);
+        void parse(const std::vector<Token>& toks);
       private:
     };
 }

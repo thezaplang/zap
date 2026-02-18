@@ -1,19 +1,18 @@
 #pragma once
-#include "expr_node.hpp"
 #include "node.hpp"
-#include <iostream>
+#include "expr_node.hpp"
 #include <memory>
-#include <vector>
+#include <string>
 
 class TypeNode : public Node {
 public:
   std::string typeName;
-  bool isReference;
-  bool isPointer;
-  bool isArray;
-  bool isVarArgs;
-  ExpressionNode arraySize; // 0 for non-array types
-  TypeNode(std::string typeName_)
-      : typeName(typeName_), isReference(false), isPointer(false),
-        isArray(false), isVarArgs(false) {}
+  bool isReference = false;
+  bool isPointer = false;
+  bool isArray = false;
+  bool isVarArgs = false;
+  std::unique_ptr<ExpressionNode> arraySize; // nullptr for non-array types
+
+  TypeNode() = default;
+  explicit TypeNode(const std::string &typeName_) : typeName(typeName_) {}
 };

@@ -1,3 +1,10 @@
+# Build artifacts
+/build/
+doc_doxygen/
+
+# Editor files
+.vscode/
+*.swp
 # Build folders
 build/
 build-*/
