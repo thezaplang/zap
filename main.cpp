@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
     if (debugMode)
     {
       std::cout << "\nTokens:\n";
-      for (const auto token : toks)
+      for (const auto &token : toks)
       {
-        std::cout << "  Token: " << token->type << " Value: " << token->value
+        std::cout << "  Token: " << token.type << " Value: " << token.value
                   << "\n";
       }
     }

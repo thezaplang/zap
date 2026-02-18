@@ -10,7 +10,7 @@
   <a href="https://github.com/zap-lang-org/zap"><img src="https://img.shields.io/github/stars/thezaplang/zap?style=for-the-badge" alt="Stars" /></a>
 </p>
 
-> **TL;DR:** Zap is Go with its pain points fixed: better error handling, real enums with pattern matching, practical generics, if-expressions, and full target support via LLVM.
+> **TL;DR:** Zap is something like Go with its pain points fixed: better error handling, real enums with pattern matching, practical generics, if-expressions, and full target support via LLVM.
 
 ---
 
@@ -18,11 +18,11 @@
 
 ## What is Zap?
 
-**Zap** is a modern, high-level systems programming language compiled to native code (**LLVM backend**), with **garbage collection** and a **lightweight concurrency model**.
+**Zap** is a modern, high-level systems programming language compiled to native code (**LLVM backend**), with **reference counting**
 
 Zap is built for developers who want to write **high-performance applications** -servers, CLI tools, tooling, and embedded software **quickly, safely, and without frustration**.
 
-Zap behaves very similarly to Go — **by design**. It does not try to reinvent systems programming. Its goal is to **solve the real, long-standing problems of Go**.
+Zap behaves very similarly to Go **by design**. It does not try to reinvent systems programming. Its goal is to **solve the real, long-standing problems of Go**.
 
 ---
 
@@ -31,7 +31,6 @@ Zap behaves very similarly to Go — **by design**. It does not try to reinvent 
 ### Error handling
 
 - `try / catch / throw`
-- `Result<T, E>` and optional types
 
 No more `if err != nil` everywhere.
 
@@ -73,11 +72,6 @@ Less boilerplate, clearer intent.
 
 ---
 
-## Concurrency
-
-Zap intentionally keeps Go’s concurrency model (lightweight threads, channels, `select`) - unchanged, because Go got this part right.
-
----
 
 ## Contributing
 
