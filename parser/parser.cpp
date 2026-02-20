@@ -32,13 +32,9 @@ std::unique_ptr<RootNode> Parser::parse() {
 
         // Parse parameters
         if (peek().type != TokenType::RPAREN) {
-            while (true) {
+            do {
                 funDecl->params_.push_back(parseParameter());
-                if (peek().type == TokenType::COMMA) {
-                    eat(TokenType::COMMA);
-                            } else {
-                                break;                }
-            }
+            } while (peek().type == TokenType::COMMA && eat(TokenType::COMMA).type == TokenType::COMMA);
         }
 
         eat(TokenType::RPAREN);
