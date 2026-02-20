@@ -18,11 +18,14 @@ include_directories(${LLVM_INCLUDE_DIRS})
 set(SOURCES
     main.cpp
     lexer/lexer.cpp
+    parser/parser.cpp
 )
 
 
 set(HEADERS
     lexer/lexer.hpp
+    parser/parser.hpp
+    parser/ast_builder.hpp
     token/token.hpp
     ast/node.hpp
     ast/nodes.hpp

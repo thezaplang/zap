@@ -57,3 +57,7 @@ Makefile
 
 #llvm
 *.ll
+
+.env
+
+/.gemini

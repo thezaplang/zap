@@ -1,4 +1,5 @@
 #include "lexer/lexer.hpp"
+#include "parser/parser.hpp" // New include
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -140,5 +141,16 @@ int main(int argc, char *argv[])
                   << "\n";
       }
     }
+
+  // Parsing
+  zap::Parser parser(toks);
+  auto ast = parser.parse();
+
+  if (debugMode) {
+      std::cout << "\nAST built successfully.\n";
+      // TODO: Add a visitor to print the AST in a structured way
+  }
+
   return 0;
 }
+

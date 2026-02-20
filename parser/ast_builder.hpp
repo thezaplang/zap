@@ -10,6 +10,7 @@
 #include "../ast/return_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/const/const_int.hpp"
+#include "../ast/const/const_id.hpp"
 #include "../ast/parameter_node.hpp"
 #include "../ast/type_node.hpp"
 
@@ -53,6 +54,11 @@ public:
   std::unique_ptr<ConstInt> makeConstInt(int value)
   {
     return std::make_unique<ConstInt>(value);
+  }
+
+  std::unique_ptr<ConstId> makeConstId(const std::string &value)
+  {
+    return std::make_unique<ConstId>(value);
   }
 
   std::unique_ptr<ParameterNode> makeParam(const std::string &name,

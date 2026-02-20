@@ -9,4 +9,7 @@ class ParameterNode : public Node {
 public:
   std::string name;
   std::unique_ptr<TypeNode> type;
+
+  ParameterNode(const std::string &name, std::unique_ptr<TypeNode> type)
+      : name(name), type(std::move(type)) {}
 };
