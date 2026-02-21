@@ -10,17 +10,16 @@ std::unique_ptr<BoundRootNode> Binder::bind(RootNode &root) {
   currentScope_ = std::make_shared<SymbolTable>();
   hadError_ = false;
 
-  // First pass: Declare all functions
   for (const auto &child : root.children) {
     if (auto funDecl = dynamic_cast<FunDecl *>(child.get())) {
       std::vector<std::shared_ptr<VariableSymbol>> params;
       for (const auto &p : funDecl->params_) {
-        params.push_back(std::make_shared<VariableSymbol>(
-            p->name, mapType(p->type->typeName)));
+        params.push_back(
+            std::make_shared<VariableSymbol>(p->name, mapType(*p->type)));
       }
       auto retType =
           funDecl->returnType_
-              ? mapType(funDecl->returnType_->typeName)
+              ? mapType(*funDecl->returnType_)
               : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       auto symbol = std::make_shared<FunctionSymbol>(
           funDecl->name_, std::move(params), std::move(retType));
@@ -32,7 +31,6 @@ std::unique_ptr<BoundRootNode> Binder::bind(RootNode &root) {
     }
   }
 
-  // Second pass: Bind function bodies
   root.accept(*this);
   return (hadError_ || _diag.hadErrors()) ? nullptr : std::move(boundRoot_);
 }
@@ -53,6 +51,8 @@ void Binder::visit(FunDecl &node) {
   }
 
   pushScope();
+  auto oldFunction = currentFunction_;
+  currentFunction_ = symbol;
 
   for (const auto &param : symbol->parameters) {
     if (!currentScope_->declare(param->name, param)) {
@@ -70,6 +70,7 @@ void Binder::visit(FunDecl &node) {
   }
 
   popScope();
+  currentFunction_ = oldFunction;
 
   boundRoot_->functions.push_back(
       std::make_unique<BoundFunctionDeclaration>(symbol, std::move(boundBody)));
@@ -93,7 +94,7 @@ void Binder::visit(BodyNode &node) {
 }
 
 void Binder::visit(VarDecl &node) {
-  auto type = mapType(node.type_->typeName);
+  auto type = mapType(*node.type_);
   std::unique_ptr<BoundExpression> initializer = nullptr;
 
   if (node.initializer_) {
@@ -101,6 +102,13 @@ void Binder::visit(VarDecl &node) {
     if (!expressionStack_.empty()) {
       initializer = std::move(expressionStack_.top());
       expressionStack_.pop();
+
+      if (!canConvert(initializer->type, type)) {
+        error(node.span, "Cannot assign expression of type '" +
+                             initializer->type->toString() +
+                             "' to variable of type '" + type->toString() +
+                             "'");
+      }
     }
   }
 
@@ -122,6 +130,20 @@ void Binder::visit(ReturnNode &node) {
       expressionStack_.pop();
     }
   }
+
+  if (currentFunction_) {
+    auto expectedType = currentFunction_->returnType;
+    auto actualType =
+        expr ? expr->type
+             : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+    if (!canConvert(actualType, expectedType)) {
+      error(node.span, "Function '" + currentFunction_->name +
+                           "' expects return type '" +
+                           expectedType->toString() + "', but received '" +
+                           actualType->toString() + "'");
+    }
+  }
+
   statementStack_.push(std::make_unique<BoundReturnStatement>(std::move(expr)));
 }
 
@@ -139,6 +161,27 @@ void Binder::visit(BinExpr &node) {
   expressionStack_.pop();
 
   auto type = left->type;
+  if (node.op_ == "+" || node.op_ == "-" || node.op_ == "*" ||
+      node.op_ == "/") {
+    if (!isNumeric(left->type) || !isNumeric(right->type)) {
+      error(node.span, "Operator '" + node.op_ +
+                           "' cannot be applied to types '" +
+                           left->type->toString() + "' and '" +
+                           right->type->toString() + "'");
+    }
+    type = getPromotedType(left->type, right->type);
+  } else if (node.op_ == "==" || node.op_ == "!=" || node.op_ == "<" ||
+             node.op_ == ">" || node.op_ == "<=" || node.op_ == ">=") {
+    if (!canConvert(left->type, right->type) &&
+        !canConvert(right->type, left->type)) {
+      error(node.span, "Incompatible types for comparison: '" +
+                           left->type->toString() + "' and '" +
+                           right->type->toString() + "'");
+    }
+    type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+  }
+  // TODO: Handle other operators (comparison, logical)
+
   expressionStack_.push(std::make_unique<BoundBinaryExpression>(
       std::move(left), node.op_, std::move(right), type));
 }
@@ -194,6 +237,12 @@ void Binder::visit(AssignNode &node) {
   auto expr = std::move(expressionStack_.top());
   expressionStack_.pop();
 
+  if (!canConvert(expr->type, varSymbol->type)) {
+    error(node.span, "Cannot assign expression of type '" +
+                         expr->type->toString() + "' to variable of type '" +
+                         varSymbol->type->toString() + "'");
+  }
+
   statementStack_.push(
       std::make_unique<BoundAssignment>(varSymbol, std::move(expr)));
 }
@@ -211,13 +260,32 @@ void Binder::visit(FunCall &node) {
     return;
   }
 
+  if (node.params_.size() != funcSymbol->parameters.size()) {
+    error(node.span, "Function '" + node.funcName_ + "' expects " +
+                         std::to_string(funcSymbol->parameters.size()) +
+                         " arguments, but received " +
+                         std::to_string(node.params_.size()));
+  }
+
   std::vector<std::unique_ptr<BoundExpression>> boundArgs;
-  for (const auto &arg : node.params_) {
-    arg->value->accept(*this);
+  for (size_t i = 0; i < node.params_.size(); ++i) {
+    node.params_[i]->value->accept(*this);
     if (expressionStack_.empty())
       return;
-    boundArgs.push_back(std::move(expressionStack_.top()));
+    auto arg = std::move(expressionStack_.top());
     expressionStack_.pop();
+
+    if (i < funcSymbol->parameters.size()) {
+      auto expectedType = funcSymbol->parameters[i]->type;
+      if (!canConvert(arg->type, expectedType)) {
+        error(node.span, "Argument " + std::to_string(i + 1) +
+                             " of function '" + node.funcName_ +
+                             "' expected type '" + expectedType->toString() +
+                             "', but received type '" + arg->type->toString() +
+                             "'");
+      }
+    }
+    boundArgs.push_back(std::move(arg));
   }
 
   expressionStack_.push(
@@ -225,8 +293,17 @@ void Binder::visit(FunCall &node) {
 }
 
 void Binder::visit(IfNode &node) {
-  if (node.condition_)
+  if (node.condition_) {
     node.condition_->accept(*this);
+    if (!expressionStack_.empty()) {
+      auto cond = std::move(expressionStack_.top());
+      expressionStack_.pop();
+      if (cond->type->getKind() != zir::TypeKind::Bool) {
+        error(node.span, "If condition must be of type 'Bool', but received '" +
+                             cond->type->toString() + "'");
+      }
+    }
+  }
   if (node.thenBody_)
     node.thenBody_->accept(*this);
   if (node.elseBody_)
@@ -234,8 +311,18 @@ void Binder::visit(IfNode &node) {
 }
 
 void Binder::visit(WhileNode &node) {
-  if (node.condition_)
+  if (node.condition_) {
     node.condition_->accept(*this);
+    if (!expressionStack_.empty()) {
+      auto cond = std::move(expressionStack_.top());
+      expressionStack_.pop();
+      if (cond->type->getKind() != zir::TypeKind::Bool) {
+        error(node.span,
+              "While condition must be of type 'Bool', but received '" +
+                  cond->type->toString() + "'");
+      }
+    }
+  }
   if (node.body_)
     node.body_->accept(*this);
 }
@@ -250,16 +337,124 @@ void Binder::popScope() {
   }
 }
 
-std::shared_ptr<zir::Type> Binder::mapType(const std::string &typeName) {
-  if (typeName == "Int")
-    return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
-  if (typeName == "Float")
+std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
+  std::shared_ptr<zir::Type> type = nullptr;
+  if (typeNode.typeName == "Int")
+    type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+  else if (typeNode.typeName == "Float")
+    type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
+  else if (typeNode.typeName == "Bool")
+    type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+  else if (typeNode.typeName == "String")
+    type = std::make_shared<zir::RecordType>("String");
+  else
+    type = std::make_shared<zir::RecordType>(typeNode.typeName);
+
+  if (typeNode.isArray) {
+    size_t size = 0;
+    if (auto constInt = dynamic_cast<ConstInt *>(typeNode.arraySize.get())) {
+      size = constInt->value_;
+    }
+    type = std::make_shared<zir::ArrayType>(std::move(type), size);
+  }
+
+  if (typeNode.isPointer) {
+    type = std::make_shared<zir::PointerType>(std::move(type));
+  }
+
+  return type;
+}
+
+void Binder::visit(ConstBool &node) {
+  expressionStack_.push(std::make_unique<BoundLiteral>(
+      node.value_ ? "true" : "false",
+      std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool)));
+}
+
+void Binder::visit(UnaryExpr &node) {
+  node.expr_->accept(*this);
+  if (expressionStack_.empty())
+    return;
+  auto expr = std::move(expressionStack_.top());
+  expressionStack_.pop();
+
+  auto type = expr->type;
+  if (node.op_ == "-" || node.op_ == "+") {
+    if (!isNumeric(type)) {
+      error(node.span, "Operator '" + node.op_ +
+                           "' cannot be applied to type '" + type->toString() +
+                           "'");
+    }
+  } else if (node.op_ == "!") {
+    if (type->getKind() != zir::TypeKind::Bool) {
+      error(node.span, "Operator '!' cannot be applied to type '" +
+                           type->toString() + "'");
+    }
+  }
+
+  expressionStack_.push(
+      std::make_unique<BoundUnaryExpression>(node.op_, std::move(expr), type));
+}
+
+void Binder::visit(ArrayLiteralNode &node) {
+  std::vector<std::unique_ptr<BoundExpression>> elements;
+  std::shared_ptr<zir::Type> elementType = nullptr;
+
+  for (const auto &el : node.elements_) {
+    el->accept(*this);
+    if (!expressionStack_.empty()) {
+      auto boundEl = std::move(expressionStack_.top());
+      expressionStack_.pop();
+
+      if (!elementType) {
+        elementType = boundEl->type;
+      } else if (!canConvert(boundEl->type, elementType)) {
+        error(node.span, "Array elements must have the same type. Expected '" +
+                             elementType->toString() + "', but got '" +
+                             boundEl->type->toString() + "'");
+      }
+      elements.push_back(std::move(boundEl));
+    }
+  }
+
+  auto arrayType = std::make_shared<zir::ArrayType>(
+      elementType ? elementType
+                  : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void),
+      elements.size());
+  expressionStack_.push(
+      std::make_unique<BoundArrayLiteral>(std::move(elements), arrayType));
+}
+
+bool Binder::isNumeric(std::shared_ptr<zir::Type> type) {
+  return type->getKind() == zir::TypeKind::Int ||
+         type->getKind() == zir::TypeKind::Float;
+}
+
+bool Binder::canConvert(std::shared_ptr<zir::Type> from,
+                        std::shared_ptr<zir::Type> to) {
+  if (from->getKind() == to->getKind()) {
+    if (from->getKind() == zir::TypeKind::Record) {
+      return from->toString() == to->toString();
+    }
+    return true;
+  }
+
+  if (from->getKind() == zir::TypeKind::Int &&
+      to->getKind() == zir::TypeKind::Float) {
+    return true;
+  }
+
+  return false;
+}
+
+std::shared_ptr<zir::Type>
+Binder::getPromotedType(std::shared_ptr<zir::Type> t1,
+                        std::shared_ptr<zir::Type> t2) {
+  if (t1->getKind() == zir::TypeKind::Float ||
+      t2->getKind() == zir::TypeKind::Float) {
     return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
-  if (typeName == "Bool")
-    return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
-  if (typeName == "String")
-    return std::make_shared<zir::RecordType>("String");
-  return std::make_shared<zir::RecordType>(typeName);
+  }
+  return t1;
 }
 
 void Binder::error(SourceSpan span, const std::string &message) {

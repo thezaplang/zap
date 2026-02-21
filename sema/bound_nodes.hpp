@@ -17,7 +17,9 @@ class BoundExpression;
 class BoundLiteral;
 class BoundVariableExpression;
 class BoundBinaryExpression;
+class BoundUnaryExpression;
 class BoundFunctionCall;
+class BoundArrayLiteral;
 
 class BoundVisitor {
 public:
@@ -31,7 +33,9 @@ public:
   virtual void visit(BoundLiteral &node) = 0;
   virtual void visit(BoundVariableExpression &node) = 0;
   virtual void visit(BoundBinaryExpression &node) = 0;
+  virtual void visit(BoundUnaryExpression &node) = 0;
   virtual void visit(BoundFunctionCall &node) = 0;
+  virtual void visit(BoundArrayLiteral &node) = 0;
 };
 
 class BoundNode {
@@ -84,6 +88,17 @@ public:
   void accept(BoundVisitor &v) override { v.visit(*this); }
 };
 
+class BoundUnaryExpression : public BoundExpression {
+public:
+  std::string op;
+  std::unique_ptr<BoundExpression> expr;
+
+  BoundUnaryExpression(std::string o, std::unique_ptr<BoundExpression> e,
+                       std::shared_ptr<zir::Type> t)
+      : BoundExpression(std::move(t)), op(std::move(o)), expr(std::move(e)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+};
+
 class BoundFunctionCall : public BoundExpression {
 public:
   std::shared_ptr<FunctionSymbol> symbol;
@@ -93,6 +108,15 @@ public:
                     std::vector<std::unique_ptr<BoundExpression>> args)
       : BoundExpression(s->returnType), symbol(std::move(s)),
         arguments(std::move(args)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+};
+
+class BoundArrayLiteral : public BoundExpression {
+public:
+  std::vector<std::unique_ptr<BoundExpression>> elements;
+  BoundArrayLiteral(std::vector<std::unique_ptr<BoundExpression>> elems,
+                    std::shared_ptr<zir::Type> t)
+      : BoundExpression(std::move(t)), elements(std::move(elems)) {}
   void accept(BoundVisitor &v) override { v.visit(*this); }
 };
 

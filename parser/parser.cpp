@@ -22,6 +22,7 @@ std::unique_ptr<RootNode> Parser::parse() {
       } else {
         _diag.report(peek().span, DiagnosticLevel::Error,
                      "Unexpected token " + peek().value);
+        _pos++; // Consume the unexpected token to avoid loops
         synchronize();
       }
     } catch (const ParseError &e) {
@@ -49,9 +50,7 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl() {
   eat(TokenType::RPAREN);
 
   if (peek().type != TokenType::LBRACE) {
-    Token returnTypeToken = eat(TokenType::ID);
-    funDecl->returnType_ = _builder.makeType(returnTypeToken.value);
-    _builder.setSpan(funDecl->returnType_.get(), returnTypeToken.span);
+    funDecl->returnType_ = parseType();
   } else {
     funDecl->returnType_ = _builder.makeType("void");
     const auto &nextToken = peek();
@@ -326,11 +325,21 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
     auto constInt = _builder.makeConstInt(std::stoi(current.value));
     _builder.setSpan(constInt.get(), current.span);
     return constInt;
+  } else if (current.type == TokenType::FLOAT) {
+    eat(TokenType::FLOAT);
+    auto constFloat = _builder.makeConstFloat(std::stod(current.value));
+    _builder.setSpan(constFloat.get(), current.span);
+    return constFloat;
   } else if (current.type == TokenType::STRING) {
     eat(TokenType::STRING);
     auto constStr = _builder.makeConstString(current.value);
     _builder.setSpan(constStr.get(), current.span);
     return constStr;
+  } else if (current.type == TokenType::BOOL) {
+    eat(TokenType::BOOL);
+    auto constBool = _builder.makeConstBool(current.value == "true");
+    _builder.setSpan(constBool.get(), current.span);
+    return constBool;
   } else if (current.type == TokenType::ID) {
     Token idToken = eat(TokenType::ID);
     if (peek().type == TokenType::LPAREN) {
@@ -410,7 +419,9 @@ const Token &Parser::peek(size_t offset) const {
 
 Token Parser::eat(TokenType expectedType) {
   if (isAtEnd()) {
-    _diag.report(peek().span, DiagnosticLevel::Error, "Expected " + tokenTypeToString(expectedType) + " but reached end of file.");
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Expected " + tokenTypeToString(expectedType) +
+                     " but reached end of file.");
     throw ParseError();
   }
   Token current = _tokens[_pos];
@@ -418,7 +429,9 @@ Token Parser::eat(TokenType expectedType) {
     _pos++;
     return current;
   } else {
-    _diag.report(current.span, DiagnosticLevel::Error, "Expected " + tokenTypeToString(expectedType) + ", but got '" + current.value + "'");
+    _diag.report(current.span, DiagnosticLevel::Error,
+                 "Expected " + tokenTypeToString(expectedType) + ", but got '" +
+                     current.value + "'");
     throw ParseError();
   }
 }

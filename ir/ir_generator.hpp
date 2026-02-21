@@ -22,14 +22,15 @@ public:
   void visit(sema::BoundLiteral &node) override;
   void visit(sema::BoundVariableExpression &node) override;
   void visit(sema::BoundBinaryExpression &node) override;
+  void visit(sema::BoundUnaryExpression &node) override;
   void visit(sema::BoundFunctionCall &node) override;
+  void visit(sema::BoundArrayLiteral &node) override;
 
 private:
   std::unique_ptr<Module> module_;
   Function *currentFunction_ = nullptr;
   BasicBlock *currentBlock_ = nullptr;
 
-  // Map from sema::Symbol to zir::Value (registers/alloca)
   std::map<std::shared_ptr<sema::Symbol>, std::shared_ptr<Value>> symbolMap_;
   std::stack<std::shared_ptr<Value>> valueStack_;
 

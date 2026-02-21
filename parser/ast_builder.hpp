@@ -7,6 +7,7 @@
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
+#include "../ast/const/const_bool.hpp"
 #include "../ast/const/const_float.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
@@ -85,6 +86,14 @@ public:
     return std::make_unique<ConstInt>(value);
   }
 
+  std::unique_ptr<ConstFloat> makeConstFloat(double value) {
+    return std::make_unique<ConstFloat>(value);
+  }
+
+  std::unique_ptr<ConstBool> makeConstBool(bool value) {
+    return std::make_unique<ConstBool>(value);
+  }
+
   std::unique_ptr<ConstId> makeConstId(const std::string &value) {
     return std::make_unique<ConstId>(value);
   }
@@ -113,7 +122,6 @@ public:
     return std::make_unique<RecordDecl>(name, std::move(fields));
   }
 
-  // Utility: set span on a node
   template <typename T> T *setSpan(T *node, const SourceSpan &span) {
     if (node) {
       node->span = span;

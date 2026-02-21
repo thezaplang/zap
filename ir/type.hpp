@@ -58,4 +58,18 @@ public:
   bool isReferenceType() const override { return true; }
 };
 
+class ArrayType : public Type {
+  std::shared_ptr<Type> base;
+  size_t size;
+
+public:
+  ArrayType(std::shared_ptr<Type> b, size_t s) : base(std::move(b)), size(s) {}
+  TypeKind getKind() const override { return TypeKind::Array; }
+  std::string toString() const override {
+    return "[" + std::to_string(size) + "]" + base->toString();
+  }
+  std::shared_ptr<Type> getBaseType() const { return base; }
+  size_t getSize() const { return size; }
+};
+
 } // namespace zir

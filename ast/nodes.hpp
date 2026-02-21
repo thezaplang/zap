@@ -4,6 +4,7 @@
 #include "bin_expr.hpp"
 #include "body_node.hpp"
 #include "break_node.hpp"
+#include "const/const_bool.hpp"
 #include "const/const_float.hpp"
 #include "const/const_id.hpp"
 #include "const/const_int.hpp"

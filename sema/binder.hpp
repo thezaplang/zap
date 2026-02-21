@@ -21,6 +21,7 @@ public:
   void visit(ReturnNode &node) override;
   void visit(BinExpr &node) override;
   void visit(ConstInt &node) override;
+  void visit(ConstBool &node) override;
   void visit(IfNode &node) override;
   void visit(WhileNode &node) override;
   void visit(AssignNode &node) override;
@@ -28,13 +29,14 @@ public:
   void visit(ConstId &node) override;
   void visit(ConstFloat &node) override;
   void visit(ConstString &node) override;
+  void visit(UnaryExpr &node) override;
+  void visit(ArrayLiteralNode &node) override;
 
 private:
   zap::DiagnosticEngine &_diag;
   std::shared_ptr<SymbolTable> currentScope_;
   std::unique_ptr<BoundRootNode> boundRoot_;
 
-  // Stacks to store bound nodes during traversal
   std::stack<std::unique_ptr<BoundExpression>> expressionStack_;
   std::stack<std::unique_ptr<BoundStatement>> statementStack_;
   std::unique_ptr<BoundBlock> currentBlock_;
@@ -42,8 +44,16 @@ private:
   void pushScope();
   void popScope();
 
-  std::shared_ptr<zir::Type> mapType(const std::string &typeName);
+  std::shared_ptr<FunctionSymbol> currentFunction_ = nullptr;
+
+  std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
   void error(SourceSpan span, const std::string &message);
+
+  bool isNumeric(std::shared_ptr<zir::Type> type);
+  bool canConvert(std::shared_ptr<zir::Type> from,
+                  std::shared_ptr<zir::Type> to);
+  std::shared_ptr<zir::Type> getPromotedType(std::shared_ptr<zir::Type> t1,
+                                             std::shared_ptr<zir::Type> t2);
 
   bool hadError_ = false;
 };

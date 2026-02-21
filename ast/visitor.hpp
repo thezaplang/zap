@@ -29,6 +29,7 @@ class AssignNode;
 class ConstInt;
 class ConstFloat;
 class ConstString;
+class ConstBool;
 class ConstId;
 
 // Visitor interface with empty implementations to allow selective overrides.
@@ -63,5 +64,6 @@ struct Visitor {
   virtual void visit(ConstInt &) {}
   virtual void visit(ConstFloat &) {}
   virtual void visit(ConstString &) {}
+  virtual void visit(ConstBool &) {}
   virtual void visit(ConstId &) {}
 };
