@@ -1,3 +1,4 @@
+#include "codegen/llvm_codegen.hpp"
 #include "ir/ir_generator.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
@@ -6,6 +7,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <llvm/Support/raw_ostream.h>
 #include <string>
 
 #define ZAP_VERSION "0.1.0"
@@ -20,6 +22,7 @@ void printHelp(const char *programName) {
   std::cout << "  --debug                 Enable debug output\n";
   std::cout
       << "  --zir                   Display Zap Intermediate Representation\n";
+  std::cout << "  --llvm                  Display LLVM IR\n";
   std::cout << "\nExample:\n";
   std::cout << "  " << programName << " main.zap\n";
   std::cout << "  " << programName << " -o myprogram main.zap\n";
@@ -32,6 +35,7 @@ int main(int argc, char *argv[]) {
   std::string outputFile;
   bool debugMode = false;
   bool displayZIR = false;
+  bool displayLLVM = false;
 
   // Parse command line arguments
   if (argc < 2) {
@@ -53,6 +57,8 @@ int main(int argc, char *argv[]) {
       debugMode = true;
     } else if (arg == "--zir") {
       displayZIR = true;
+    } else if (arg == "--llvm") {
+      displayLLVM = true;
     } else if (arg == "-o" || arg == "--output") {
       if (i + 1 >= argc) {
         std::cerr << "Error: -o/--output requires an argument\n";
@@ -153,7 +159,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Semantic analysis successful.\n";
   }
 
-  // IR Generation
+  // IR Generation (ZIR)
   if (displayZIR) {
     zir::BoundIRGenerator irGen;
     auto module = irGen.generate(*boundAst);
@@ -164,6 +170,35 @@ int main(int argc, char *argv[]) {
       std::cerr << "Error: IR generation failed\n";
       return 1;
     }
+  }
+
+  // LLVM IR Generation
+  if (displayLLVM) {
+    codegen::LLVMCodeGen llvmGen;
+    llvmGen.generate(*boundAst);
+    std::cout << "\nLLVM IR:\n";
+    llvmGen.printIR();
+  } else {
+    codegen::LLVMCodeGen llvmGen;
+    llvmGen.generate(*boundAst);
+
+    const std::string objFile = outputFile + ".o";
+    if (!llvmGen.emitObjectFile(objFile)) {
+      std::cerr << "Error: object file emission failed\n";
+      return 1;
+    }
+
+    const std::string linkCmd = "cc " + objFile + " -o " + outputFile;
+    int ret = std::system(linkCmd.c_str());
+    if (ret != 0) {
+      std::cerr << "Error: linking failed\n";
+      return 1;
+    }
+
+    std::remove(objFile.c_str());
+
+    if (debugMode)
+      std::cout << "Binary written to: " << outputFile << "\n";
   }
 
   return 0;

@@ -21,6 +21,7 @@ set(SOURCES
     parser/parser.cpp
     ir/ir_generator.cpp
     sema/binder.cpp
+    codegen/llvm_codegen.cpp
 )
 
 
@@ -60,7 +61,7 @@ set(HEADERS
 add_executable(zapc ${SOURCES} ${HEADERS})
 
 # Link against LLVM libraries
-llvm_map_components_to_libnames(llvm_libs core)
+llvm_map_components_to_libnames(llvm_libs core support nativecodegen mc target passes)
 target_link_libraries(zapc PRIVATE ${llvm_libs})
     # 
 
