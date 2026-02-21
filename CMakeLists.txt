@@ -20,6 +20,7 @@ set(SOURCES
     lexer/lexer.cpp
     parser/parser.cpp
     ir/ir_generator.cpp
+    sema/binder.cpp
 )
 
 

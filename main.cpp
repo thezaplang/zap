@@ -1,6 +1,7 @@
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
 #include "ir/ir_generator.hpp"
+#include "sema/binder.hpp"
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -132,10 +133,23 @@ int main(int argc, char *argv[]) {
     // TODO: Add a visitor to print the AST in a structured way
   }
 
+  // Semantic Analysis (Binding)
+  sema::Binder binder;
+  auto boundAst = binder.bind(*ast);
+
+  if (!boundAst) {
+    std::cerr << "Error: Semantic analysis failed\n";
+    return 1;
+  }
+
+  if (debugMode) {
+    std::cout << "Semantic analysis successful.\n";
+  }
+
   // IR Generation
   if (displayZIR) {
-    zir::IRGenerator irGen;
-    auto module = irGen.generate(*ast);
+    zir::BoundIRGenerator irGen;
+    auto module = irGen.generate(*boundAst);
     if (module) {
       std::cout << "\nZap Intermediate Representation (ZIR):\n";
       std::cout << module->toString() << "\n";

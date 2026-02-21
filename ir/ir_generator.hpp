@@ -1,5 +1,5 @@
 #pragma once
-#include "../ast/visitor.hpp"
+#include "../sema/bound_nodes.hpp"
 #include "module.hpp"
 #include <map>
 #include <string>
@@ -9,47 +9,33 @@
 
 namespace zir {
 
-struct Scope {
-    std::map<std::string, std::shared_ptr<Value>> symbols;
-    std::vector<std::shared_ptr<Value>> refVariables;
-};
-
-class IRGenerator : public Visitor {
+class BoundIRGenerator : public sema::BoundVisitor {
 public:
-    std::unique_ptr<Module> generate(RootNode& root);
+    std::unique_ptr<Module> generate(sema::BoundRootNode& root);
 
-    void visit(RootNode& node) override;
-    void visit(FunDecl& node) override;
-    void visit(BodyNode& node) override;
-    void visit(VarDecl& node) override;
-    void visit(ReturnNode& node) override;
-    void visit(BinExpr& node) override;
-    void visit(ConstInt& node) override;
-    void visit(IfNode& node) override;
-    void visit(WhileNode& node) override;
-    void visit(AssignNode& node) override;
-    void visit(FunCall& node) override;
-    void visit(ConstId& node) override;
-    void visit(ConstFloat& node) override;
-    void visit(ConstString& node) override;
+    void visit(sema::BoundRootNode& node) override;
+    void visit(sema::BoundFunctionDeclaration& node) override;
+    void visit(sema::BoundBlock& node) override;
+    void visit(sema::BoundVariableDeclaration& node) override;
+    void visit(sema::BoundReturnStatement& node) override;
+    void visit(sema::BoundAssignment& node) override;
+    void visit(sema::BoundLiteral& node) override;
+    void visit(sema::BoundVariableExpression& node) override;
+    void visit(sema::BoundBinaryExpression& node) override;
+    void visit(sema::BoundFunctionCall& node) override;
 
 private:
     std::unique_ptr<Module> module_;
     Function* currentFunction_ = nullptr;
     BasicBlock* currentBlock_ = nullptr;
     
-    std::vector<Scope> scopeStack_;
+    // Map from sema::Symbol to zir::Value (registers/alloca)
+    std::map<std::shared_ptr<sema::Symbol>, std::shared_ptr<Value>> symbolMap_;
     std::stack<std::shared_ptr<Value>> valueStack_;
     
     int nextRegisterId_ = 0;
     int nextBlockId_ = 0;
 
-    void pushScope();
-    void popScope();
-    void addSymbol(const std::string& name, std::shared_ptr<Value> val);
-    std::shared_ptr<Value> findSymbol(const std::string& name);
-
-    std::shared_ptr<Type> mapType(const std::string& typeName);
     std::shared_ptr<Value> createRegister(std::shared_ptr<Type> type);
     std::string createBlockLabel(const std::string& prefix);
 };
