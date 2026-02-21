@@ -1,5 +1,6 @@
 #pragma once
 #include "expr_node.hpp"
+#include "visitor.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -23,4 +24,6 @@ public:
   void setResult(std::unique_ptr<ExpressionNode> res) {
     result = std::move(res);
   }
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

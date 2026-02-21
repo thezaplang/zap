@@ -4,6 +4,7 @@
 #include "parameter_node.hpp"
 #include "top_level.hpp"
 #include "type_node.hpp"
+#include "visitor.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -32,4 +33,6 @@ public:
         params_(std::move(params)), returnType_(std::move(returnType)),
         body_(std::move(body)), lambdaExpr_(std::move(lambdaExpr)),
         isExtern_(isExtern), isStatic_(isStatic), isPublic_(isPublic) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

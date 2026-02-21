@@ -2,6 +2,7 @@
 #pragma once
 #include "node.hpp"
 #include "top_level.hpp"
+#include "visitor.hpp"
 #include <memory>
 #include <string>
 #include <vector>
@@ -13,4 +14,6 @@ public:
 
   EnumDecl(const std::string &name, std::vector<std::string> entries)
       : name_(name), entries_(std::move(entries)) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

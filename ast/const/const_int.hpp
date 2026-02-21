@@ -1,5 +1,5 @@
 #pragma once
-#include "../expr_node.hpp"
+#include "../visitor.hpp"
 
 class ConstInt : public ExpressionNode {
 public:
@@ -8,4 +8,6 @@ public:
   ConstInt() = default;
   ConstInt(int value, std::string typeName = "i32")
       : value_(value), typeName_(typeName) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

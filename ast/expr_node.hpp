@@ -1,11 +1,11 @@
 #pragma once
 #include "node.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
+#include "visitor.hpp"
 
 class ExpressionNode : public virtual Node {
 public:
   virtual ~ExpressionNode() = default;
   ExpressionNode() = default;
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

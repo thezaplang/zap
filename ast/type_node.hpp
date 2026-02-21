@@ -1,6 +1,7 @@
 #pragma once
 #include "expr_node.hpp"
 #include "node.hpp"
+#include "visitor.hpp"
 #include <memory>
 #include <string>
 
@@ -15,4 +16,6 @@ public:
 
   TypeNode() = default;
   explicit TypeNode(const std::string &typeName_) : typeName(typeName_) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

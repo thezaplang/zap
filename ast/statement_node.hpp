@@ -1,10 +1,10 @@
 #pragma once
 #include "node.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
+#include "visitor.hpp"
 
 class StatementNode : public virtual Node {
 public:
   virtual ~StatementNode() = default;
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

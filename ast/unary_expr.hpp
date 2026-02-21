@@ -1,5 +1,6 @@
 #pragma once
 #include "expr_node.hpp"
+#include "visitor.hpp"
 #include <memory>
 
 class UnaryExpr : public ExpressionNode {
@@ -9,4 +10,6 @@ public:
   UnaryExpr() = default;
   UnaryExpr(std::string op, std::unique_ptr<ExpressionNode> expr)
       : op_(op), expr_(std::move(expr)) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

@@ -2,6 +2,7 @@
 #include "body_node.hpp"
 #include "expr_node.hpp"
 #include "statement_node.hpp"
+#include "visitor.hpp"
 #include <memory>
 
 class IfNode : public ExpressionNode, public StatementNode {
@@ -17,4 +18,6 @@ public:
          std::unique_ptr<BodyNode> elseBody = nullptr)
       : condition_(std::move(condition)), thenBody_(std::move(thenBody)),
         elseBody_(std::move(elseBody)) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

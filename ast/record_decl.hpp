@@ -3,6 +3,7 @@
 #include "node.hpp"
 #include "parameter_node.hpp"
 #include "top_level.hpp"
+#include "visitor.hpp"
 #include <memory>
 #include <string>
 #include <vector>
@@ -15,4 +16,6 @@ public:
   RecordDecl(const std::string &name,
              std::vector<std::unique_ptr<ParameterNode>> fields)
       : name_(name), fields_(std::move(fields)) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

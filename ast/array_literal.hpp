@@ -1,5 +1,6 @@
 #pragma once
 #include "expr_node.hpp"
+#include "visitor.hpp"
 #include <memory>
 #include <vector>
 
@@ -11,4 +12,6 @@ public:
   explicit ArrayLiteralNode(
       std::vector<std::unique_ptr<ExpressionNode>> elements)
       : elements_(std::move(elements)) {}
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

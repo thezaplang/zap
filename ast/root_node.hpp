@@ -1,5 +1,6 @@
 #pragma once
 #include "node.hpp"
+#include "visitor.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -15,4 +16,5 @@ public:
       std::cerr << "Cannot add a null child to RootNode" << std::endl;
     }
   }
+  void accept(Visitor &v) override { v.visit(*this); }
 };

@@ -19,6 +19,7 @@ set(SOURCES
     main.cpp
     lexer/lexer.cpp
     parser/parser.cpp
+    ir/ir_generator.cpp
 )
 
 

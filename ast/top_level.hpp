@@ -1,9 +1,10 @@
 #pragma once
 #include "node.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
+#include "visitor.hpp"
+
 class TopLevel : public Node {
 public:
   virtual ~TopLevel() = default;
+
+  void accept(Visitor &v) override { v.visit(*this); }
 };

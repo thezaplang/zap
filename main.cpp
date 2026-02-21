@@ -1,5 +1,6 @@
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
+#include "ir/ir_generator.hpp"
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -15,6 +16,7 @@ void printHelp(const char *programName) {
   std::cout << "  -v, --version           Show version information\n";
   std::cout << "  -o, --output <file>     Specify output file name\n";
   std::cout << "  --debug                 Enable debug output\n";
+  std::cout << "  --zir                   Display Zap Intermediate Representation\n";
   std::cout << "\nExample:\n";
   std::cout << "  " << programName << " main.zap\n";
   std::cout << "  " << programName << " -o myprogram main.zap\n";
@@ -26,6 +28,7 @@ int main(int argc, char *argv[]) {
   std::string inputFile;
   std::string outputFile;
   bool debugMode = false;
+  bool displayZIR = false;
 
   // Parse command line arguments
   if (argc < 2) {
@@ -45,6 +48,8 @@ int main(int argc, char *argv[]) {
       return 0;
     } else if (arg == "--debug") {
       debugMode = true;
+    } else if (arg == "--zir") {
+      displayZIR = true;
     } else if (arg == "-o" || arg == "--output") {
       if (i + 1 >= argc) {
         std::cerr << "Error: -o/--output requires an argument\n";
@@ -117,9 +122,27 @@ int main(int argc, char *argv[]) {
   zap::Parser parser(toks);
   auto ast = parser.parse();
 
+  if (!ast) {
+    std::cerr << "Error: Parsing failed\n";
+    return 1;
+  }
+
   if (debugMode) {
     std::cout << "\nAST built successfully.\n";
     // TODO: Add a visitor to print the AST in a structured way
+  }
+
+  // IR Generation
+  if (displayZIR) {
+    zir::IRGenerator irGen;
+    auto module = irGen.generate(*ast);
+    if (module) {
+      std::cout << "\nZap Intermediate Representation (ZIR):\n";
+      std::cout << module->toString() << "\n";
+    } else {
+      std::cerr << "Error: IR generation failed\n";
+      return 1;
+    }
   }
 
   return 0;

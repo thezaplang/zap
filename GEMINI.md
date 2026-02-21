@@ -52,6 +52,9 @@ The project uses `clang-format` to maintain a consistent code style. To format a
 ./fmt.sh
 ```
 
+### hints
+in this language every type start with capital letter so there is no `int` but there is `Int`
+
 ### Contribution Guidelines
 
 The project has standard contribution guidelines, as indicated by the presence of `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` files. Please adhere to the practices outlined in these documents when making changes.
