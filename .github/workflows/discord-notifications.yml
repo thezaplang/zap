@@ -22,8 +22,10 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: |
-            [${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit
+          title: "[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit"
+          description: |
             `${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}
-          nodetail: true
           color: 0x5865F2
+          url: "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
+          username: "GitHub Actions"
+          avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
