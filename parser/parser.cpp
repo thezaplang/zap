@@ -19,7 +19,7 @@ std::unique_ptr<RootNode> Parser::parse() {
         } else if (peek().type == TokenType::RECORD) {
             root->addChild(parseRecordDecl());
         } else {
-            std::cerr << "Parser Error: Unexpected token " << peek().value << " at " << peek().pos << std::endl;
+            std::cerr << "Parser Error: Unexpected token " << peek().value << " at line " << peek().line << " (pos " << peek().pos << ")" << std::endl;
             exit(EXIT_FAILURE);
         }
     }
@@ -71,7 +71,7 @@ std::unique_ptr<RootNode> Parser::parse() {
             } else if (peek().type == TokenType::RETURN) {
                 body->addStatement(parseReturnStmt());
             } else {
-                std::cerr << "Parser Error: Unexpected token in body " << peek().value << " at " << peek().pos << std::endl;
+                std::cerr << "Parser Error: Unexpected token in body " << peek().value << " at line " << peek().line << " (pos " << peek().pos << ")" << std::endl;
                 exit(EXIT_FAILURE);
             }
         }
@@ -167,7 +167,7 @@ std::unique_ptr<ExpressionNode> Parser::parseBinaryExpression(int minPrecedence)
             _builder.setSpan(static_cast<ExpressionNode*>(expr.get()), current.pos, rparenToken.pos + rparenToken.value.length());
             return expr;
         }
-        std::cerr << "Parser Error: Expected primary expression, got " << current.value << " at " << current.pos << std::endl;
+        std::cerr << "Parser Error: Expected primary expression, got " << current.value << " at line " << current.line << " (pos " << current.pos << ")" << std::endl;
         exit(EXIT_FAILURE);
     }
 int Parser::getPrecedence(TokenType type) {
@@ -187,7 +187,7 @@ int Parser::getPrecedence(TokenType type) {
 
 const Token& Parser::peek() const {
     if (isAtEnd()) {
-        static const Token dummy(0, TokenType::SEMICOLON, "");
+        static const Token dummy(0, 0, TokenType::SEMICOLON, "");
         return dummy;
     }
     return _tokens[_pos];
@@ -195,7 +195,7 @@ const Token& Parser::peek() const {
 
 Token Parser::eat(TokenType expectedType) {
     if (isAtEnd()) {
-        std::cerr << "Parser Error: Expected token type " << expectedType << " but reached end of file." << std::endl;
+        std::cerr << "Parser Error: Expected token type " << expectedType << " but reached end of file at line " << peek().line << "." << std::endl;
         exit(EXIT_FAILURE);
     }
     Token current = _tokens[_pos];
@@ -203,7 +203,7 @@ Token Parser::eat(TokenType expectedType) {
         _pos++;
         return current;
     } else {
-        std::cerr << "Parser Error: Expected token type " << expectedType << " (" << static_cast<int>(expectedType) << "), but got " << current.type << " ('" << current.value << "') at position " << current.pos << std::endl;
+        std::cerr << "Parser Error: Expected token type " << expectedType << " (" << static_cast<int>(expectedType) << "), but got " << current.type << " ('" << current.value << "') at line " << current.line << " (pos " << current.pos << ")" << std::endl;
         exit(EXIT_FAILURE);
     }
 }

@@ -4,7 +4,8 @@
 #include <vector>
 class Lexer {
 public:
-  unsigned int _pos;
+  size_t _pos;
+  size_t _line;
   std::string _input;
   Lexer() {}
   ~Lexer() {}

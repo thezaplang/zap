@@ -16,8 +16,6 @@
 #include "../ast/enum_decl.hpp"
 #include "../ast/record_decl.hpp"
 
-// AstBuilder: lightweight factory used by the parser to construct AST nodes.
-// Keeps construction details centralized and makes parser code modular.
 class AstBuilder {
 public:
   std::unique_ptr<RootNode> makeRoot() { return std::make_unique<RootNode>(); }

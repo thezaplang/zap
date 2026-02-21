@@ -68,11 +68,12 @@ enum TokenType
 class Token
 {
 public:
-  unsigned int pos;
+  size_t pos;
+  size_t line;
   TokenType type;
   std::string value;
-  Token(unsigned int position, TokenType tokenType,
+  Token(size_t position, size_t lineNumber, TokenType tokenType,
         const std::string &tokenValue)
-      : pos(position), type(tokenType), value(tokenValue) {}
+      : pos(position), line(lineNumber), type(tokenType), value(tokenValue) {}
   ~Token() {}
 };

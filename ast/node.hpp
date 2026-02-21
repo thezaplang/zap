@@ -2,8 +2,8 @@
 #include <cstdint>
 
 struct SourceSpan {
-  unsigned int start = 0;
-  unsigned int end = 0;
+  size_t start = 0;
+  size_t end = 0;
 };
 
 class Node {
