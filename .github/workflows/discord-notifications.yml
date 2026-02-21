@@ -14,13 +14,15 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Discord notification
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: "[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit"
-          description: "`${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}"
-          color: 0x5865F2
-          url: "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
-          nodetail: true
-          timestamp: false
+      - name: Send Minimalist Discord Notification
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d '{
+                 "embeds": [{
+                   "title": "[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit",
+                   "description": "`${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}",
+                   "color": 5793266,
+                   "url": "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
+                 }]
+               }' \
+               ${{ secrets.DISCORD_WEBHOOK }}
