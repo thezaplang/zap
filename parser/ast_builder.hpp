@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "../ast/array_literal.hpp"
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
@@ -29,6 +30,11 @@ public:
   std::unique_ptr<AssignNode> makeAssign(const std::string &target,
                                          std::unique_ptr<ExpressionNode> expr) {
     return std::make_unique<AssignNode>(target, std::move(expr));
+  }
+
+  std::unique_ptr<ArrayLiteralNode>
+  makeArrayLiteral(std::vector<std::unique_ptr<ExpressionNode>> elements) {
+    return std::make_unique<ArrayLiteralNode>(std::move(elements));
   }
 
   std::unique_ptr<FunDecl> makeFunDecl(const std::string &name) {

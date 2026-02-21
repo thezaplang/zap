@@ -117,12 +117,11 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
 std::unique_ptr<ParameterNode> Parser::parseParameter() {
   Token paramNameToken = eat(TokenType::ID);
   eat(TokenType::COLON);
-  Token paramTypeToken = eat(TokenType::ID);
-  auto typeNode = _builder.makeType(paramTypeToken.value);
+  auto typeNode = parseType();
   auto paramNode =
       _builder.makeParam(paramNameToken.value, std::move(typeNode));
   _builder.setSpan(paramNode.get(), paramNameToken.pos,
-                   paramTypeToken.pos + paramTypeToken.value.length());
+                   _tokens[_pos - 1].pos + _tokens[_pos - 1].value.length());
   return paramNode;
 }
 
@@ -132,20 +131,26 @@ std::unique_ptr<VarDecl> Parser::parseVarDecl() {
 
   eat(TokenType::COLON);
 
-  Token typeNameToken = eat(TokenType::ID);
-  auto typeNode = _builder.makeType(typeNameToken.value);
+  auto typeNode = parseType();
 
-  eat(TokenType::ASSIGN);
+  if (peek().type == TokenType::ASSIGN) {
+    eat(TokenType::ASSIGN);
+    auto expr = parseExpression();
+    Token semicolonToken = eat(TokenType::SEMICOLON);
 
-  auto expr = parseExpression();
-
-  Token semicolonToken = eat(TokenType::SEMICOLON);
-
-  auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
-                                      std::move(expr));
-  _builder.setSpan(varDecl.get(), varKeyword.pos,
-                   semicolonToken.pos + semicolonToken.value.length());
-  return varDecl;
+    auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
+                                        std::move(expr));
+    _builder.setSpan(varDecl.get(), varKeyword.pos,
+                     semicolonToken.pos + semicolonToken.value.length());
+    return varDecl;
+  } else {
+    Token semicolonToken = eat(TokenType::SEMICOLON);
+    auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
+                                        nullptr);
+    _builder.setSpan(varDecl.get(), varKeyword.pos,
+                     semicolonToken.pos + semicolonToken.value.length());
+    return varDecl;
+  }
 }
 
 std::unique_ptr<AssignNode> Parser::parseAssign() {
@@ -157,6 +162,40 @@ std::unique_ptr<AssignNode> Parser::parseAssign() {
   auto node = _builder.makeAssign(target.value, std::move(expr));
   _builder.setSpan(node.get(), target.pos,
                    semicolonToken.pos + semicolonToken.value.length());
+  return node;
+}
+
+std::unique_ptr<TypeNode> Parser::parseType() {
+  if (peek().type == TokenType::SQUARE_LBRACE) {
+    Token lbracket = eat(TokenType::SQUARE_LBRACE);
+    auto size = parseExpression();
+    eat(TokenType::SQUARE_RBRACE);
+    auto baseType = parseType();
+    baseType->isArray = true;
+    baseType->arraySize = std::move(size);
+    _builder.setSpan(baseType.get(), lbracket.pos,
+                     _tokens[_pos - 1].pos + _tokens[_pos - 1].value.length());
+    return baseType;
+  }
+  Token t = eat(TokenType::ID);
+  auto typeNode = _builder.makeType(t.value);
+  _builder.setSpan(typeNode.get(), t.pos, t.pos + t.value.length());
+  return typeNode;
+}
+
+std::unique_ptr<ArrayLiteralNode> Parser::parseArrayLiteral() {
+  Token lbrace = eat(TokenType::LBRACE);
+  std::vector<std::unique_ptr<ExpressionNode>> elements;
+  if (peek().type != TokenType::RBRACE) {
+    do {
+      elements.push_back(parseExpression());
+    } while (peek().type == TokenType::COMMA &&
+             eat(TokenType::COMMA).type == TokenType::COMMA);
+  }
+  Token rbrace = eat(TokenType::RBRACE);
+  auto node = _builder.makeArrayLiteral(std::move(elements));
+  _builder.setSpan(node.get(), lbrace.pos,
+                   rbrace.pos + rbrace.value.length());
   return node;
 }
 
@@ -328,6 +367,8 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
     _builder.setSpan(static_cast<ExpressionNode *>(expr.get()), current.pos,
                      rparenToken.pos + rparenToken.value.length());
     return expr;
+  } else if (current.type == TokenType::LBRACE) {
+    return parseArrayLiteral();
   } else if (current.type == TokenType::IF) {
     return parseIf();
   }
