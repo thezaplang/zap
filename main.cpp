@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
   bool displayZIR = false;
   bool displayLLVM = false;
 
-  // Parse command line arguments
   if (argc < 2) {
     std::cerr << "Error: No input file specified\n";
     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
@@ -80,7 +79,6 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // Check if file exists and is readable
   std::ifstream file(inputFile);
   if (!file.is_open()) {
     std::cerr << "Error: Cannot open file '" << inputFile << "': ";
@@ -88,7 +86,6 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // Read file content
   std::string fileContent;
   std::string line;
   while (std::getline(file, line)) {
@@ -100,7 +97,6 @@ int main(int argc, char *argv[]) {
     std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
   }
 
-  // Determine output file name
   if (outputFile.empty()) {
     outputFile = inputFile;
     size_t lastDot = outputFile.find_last_of(".");
@@ -117,7 +113,6 @@ int main(int argc, char *argv[]) {
 
   zap::DiagnosticEngine diagnostics(fileContent, inputFile);
 
-  // Tokenization
   Lexer lex(diagnostics);
   auto toks = lex.tokenize(fileContent);
 
@@ -129,7 +124,6 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  // Parsing
   zap::Parser parser(toks, diagnostics);
   auto ast = parser.parse();
 
@@ -146,7 +140,6 @@ int main(int argc, char *argv[]) {
     std::cout << "\nAST built successfully.\n";
   }
 
-  // Semantic Analysis (Binding)
   sema::Binder binder(diagnostics);
   auto boundAst = binder.bind(*ast);
 
@@ -159,7 +152,6 @@ int main(int argc, char *argv[]) {
     std::cout << "Semantic analysis successful.\n";
   }
 
-  // IR Generation (ZIR)
   if (displayZIR) {
     zir::BoundIRGenerator irGen;
     auto module = irGen.generate(*boundAst);
@@ -172,7 +164,6 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  // LLVM IR Generation
   if (displayLLVM) {
     codegen::LLVMCodeGen llvmGen;
     llvmGen.generate(*boundAst);

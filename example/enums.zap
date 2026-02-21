@@ -3,6 +3,6 @@ enum Color { Red, Green, Blue }
 
 enum Size { Small, Medium, Large, ExtraLarge }
 
-fun main() {
+fun main() Int{
     return 0;
 }

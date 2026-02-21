@@ -10,7 +10,6 @@ Binder::Binder(zap::DiagnosticEngine &diag) : _diag(diag), hadError_(false) {}
 std::unique_ptr<BoundRootNode> Binder::bind(RootNode &root) {
   boundRoot_ = std::make_unique<BoundRootNode>();
   currentScope_ = std::make_shared<SymbolTable>();
-  // Register built-in types
   currentScope_->declare("Int", std::make_shared<TypeSymbol>(
                                     "Int", std::make_shared<zir::PrimitiveType>(
                                                zir::TypeKind::Int)));
@@ -120,7 +119,7 @@ void Binder::visit(FunDecl &node) {
 }
 
 void Binder::visit(BodyNode &node) {
-  auto oldBlock = std::move(currentBlock_);
+  auto savedBlock = std::move(currentBlock_);
   currentBlock_ = std::make_unique<BoundBlock>();
 
   for (const auto &stmt : node.statements) {
@@ -336,38 +335,84 @@ void Binder::visit(FunCall &node) {
 }
 
 void Binder::visit(IfNode &node) {
-  if (node.condition_) {
-    node.condition_->accept(*this);
-    if (!expressionStack_.empty()) {
-      auto cond = std::move(expressionStack_.top());
-      expressionStack_.pop();
-      if (cond->type->getKind() != zir::TypeKind::Bool) {
-        error(node.span, "If condition must be of type 'Bool', but received '" +
-                             cond->type->toString() + "'");
-      }
+  if (!node.condition_) {
+    error(node.span, "If condition is missing.");
+    return;
+  }
+
+  node.condition_->accept(*this);
+  if (expressionStack_.empty())
+    return;
+  auto cond = std::move(expressionStack_.top());
+  expressionStack_.pop();
+
+  if (cond->type->getKind() != zir::TypeKind::Bool) {
+    error(node.span, "If condition must be of type 'Bool', but received '" +
+                         cond->type->toString() + "'");
+  }
+  pushScope();
+  auto savedMainBlockThen = std::move(currentBlock_);
+  node.thenBody_->accept(*this);
+  auto thenBound = std::move(currentBlock_);
+  currentBlock_ = std::move(savedMainBlockThen);
+  popScope();
+
+  std::unique_ptr<BoundBlock> elseBound = nullptr;
+  if (node.elseBody_) {
+    pushScope();
+    auto savedMainBlockElse = std::move(currentBlock_);
+    node.elseBody_->accept(*this);
+    elseBound = std::move(currentBlock_);
+    currentBlock_ = std::move(savedMainBlockElse);
+    popScope();
+  }
+
+  std::shared_ptr<zir::Type> resultType =
+      std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+
+  if (node.thenBody_->result) {
+    if (!node.elseBody_ || !node.elseBody_->result) {
+      error(node.span, "If expression with a result must have an 'else' block "
+                       "with a result.");
     }
   }
-  if (node.thenBody_)
-    node.thenBody_->accept(*this);
-  if (node.elseBody_)
-    node.elseBody_->accept(*this);
+
+  std::unique_ptr<BoundIfExpression> boundIf =
+      std::make_unique<BoundIfExpression>(std::move(cond), std::move(thenBound),
+                                          std::move(elseBound), resultType);
+
+  statementStack_.push(std::move(boundIf));
 }
 
 void Binder::visit(WhileNode &node) {
-  if (node.condition_) {
-    node.condition_->accept(*this);
-    if (!expressionStack_.empty()) {
-      auto cond = std::move(expressionStack_.top());
-      expressionStack_.pop();
-      if (cond->type->getKind() != zir::TypeKind::Bool) {
-        error(node.span,
-              "While condition must be of type 'Bool', but received '" +
-                  cond->type->toString() + "'");
-      }
-    }
+  if (!node.condition_) {
+    error(node.span, "While condition is missing.");
+    return;
   }
-  if (node.body_)
-    node.body_->accept(*this);
+
+  node.condition_->accept(*this);
+  if (expressionStack_.empty())
+    return;
+  auto cond = std::move(expressionStack_.top());
+  expressionStack_.pop();
+
+  if (cond->type->getKind() != zir::TypeKind::Bool) {
+    error(node.span, "While condition must be of type 'Bool', but received '" +
+                         cond->type->toString() + "'");
+  }
+
+  pushScope();
+  auto savedMainBlockWhile = std::move(currentBlock_);
+  node.body_->accept(*this);
+  auto boundBody = std::move(currentBlock_);
+  currentBlock_ = std::move(savedMainBlockWhile);
+  popScope();
+
+  std::unique_ptr<BoundWhileStatement> boundWhile =
+      std::make_unique<BoundWhileStatement>(std::move(cond),
+                                            std::move(boundBody));
+
+  statementStack_.push(std::move(boundWhile));
 }
 
 void Binder::pushScope() {
@@ -387,7 +432,6 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
   if (symbol && symbol->getKind() == SymbolKind::Type) {
     type = symbol->type;
   } else {
-    // Fallback/Legacy
     if (typeNode.typeName == "Int")
       type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
     else if (typeNode.typeName == "Float")
