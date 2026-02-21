@@ -22,6 +22,8 @@ class BoundFunctionCall;
 class BoundArrayLiteral;
 class BoundRecordDeclaration;
 class BoundEnumDeclaration;
+class BoundIfExpression;
+class BoundWhileStatement;
 
 class BoundVisitor {
 public:
@@ -40,6 +42,8 @@ public:
   virtual void visit(BoundArrayLiteral &node) = 0;
   virtual void visit(BoundRecordDeclaration &node) = 0;
   virtual void visit(BoundEnumDeclaration &node) = 0;
+  virtual void visit(BoundIfExpression &node) = 0;
+  virtual void visit(BoundWhileStatement &node) = 0;
 };
 
 class BoundNode {
@@ -151,6 +155,32 @@ public:
   BoundAssignment(std::shared_ptr<VariableSymbol> s,
                   std::unique_ptr<BoundExpression> e)
       : symbol(std::move(s)), expression(std::move(e)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+};
+
+class BoundIfExpression : public BoundExpression, public BoundStatement {
+public:
+  std::unique_ptr<BoundExpression> condition;
+  std::unique_ptr<BoundBlock> thenBody;
+  std::unique_ptr<BoundBlock> elseBody;
+
+  BoundIfExpression(std::unique_ptr<BoundExpression> cond,
+                    std::unique_ptr<BoundBlock> thenB,
+                    std::unique_ptr<BoundBlock> elseB,
+                    std::shared_ptr<zir::Type> t)
+      : BoundExpression(std::move(t)), condition(std::move(cond)),
+        thenBody(std::move(thenB)), elseBody(std::move(elseB)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+};
+
+class BoundWhileStatement : public BoundStatement {
+public:
+  std::unique_ptr<BoundExpression> condition;
+  std::unique_ptr<BoundBlock> body;
+
+  BoundWhileStatement(std::unique_ptr<BoundExpression> cond,
+                      std::unique_ptr<BoundBlock> b)
+      : condition(std::move(cond)), body(std::move(b)) {}
   void accept(BoundVisitor &v) override { v.visit(*this); }
 };
 

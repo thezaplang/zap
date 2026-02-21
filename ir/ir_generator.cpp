@@ -196,4 +196,86 @@ void BoundIRGenerator::visit(sema::BoundEnumDeclaration &node) {
   module_->addType(node.type);
 }
 
+void BoundIRGenerator::visit(sema::BoundIfExpression &node) {
+  auto trueLabel = createBlockLabel("if.then");
+  auto falseLabel = node.elseBody ? createBlockLabel("if.else") : "";
+  auto mergeLabel = createBlockLabel("if.merge");
+
+  node.condition->accept(*this);
+  auto cond = valueStack_.top();
+  valueStack_.pop();
+
+  if (node.elseBody) {
+    currentBlock_->addInstruction(
+        std::make_unique<CondBranchInst>(cond, trueLabel, falseLabel));
+  } else {
+    currentBlock_->addInstruction(
+        std::make_unique<CondBranchInst>(cond, trueLabel, mergeLabel));
+  }
+
+  auto thenBlock = std::make_unique<BasicBlock>(trueLabel);
+  auto *thenBlockPtr = thenBlock.get();
+  currentFunction_->addBlock(std::move(thenBlock));
+  currentBlock_ = thenBlockPtr;
+  node.thenBody->accept(*this);
+  if (currentBlock_->instructions.empty() ||
+      currentBlock_->instructions.back()->getOpCode() != OpCode::Ret) {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+  }
+
+  if (node.elseBody) {
+    auto elseBlock = std::make_unique<BasicBlock>(falseLabel);
+    auto *elseBlockPtr = elseBlock.get();
+    currentFunction_->addBlock(std::move(elseBlock));
+    currentBlock_ = elseBlockPtr;
+    node.elseBody->accept(*this);
+    if (currentBlock_->instructions.empty() ||
+        currentBlock_->instructions.back()->getOpCode() != OpCode::Ret) {
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+    }
+  }
+
+  auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+  auto *mergeBlockPtr = mergeBlock.get();
+  currentFunction_->addBlock(std::move(mergeBlock));
+  currentBlock_ = mergeBlockPtr;
+
+  // Placeholder for IF as expression (PHI nodes)
+  // valueStack_.push(...) if resultType is not Void
+}
+
+void BoundIRGenerator::visit(sema::BoundWhileStatement &node) {
+  auto condLabel = createBlockLabel("while.cond");
+  auto bodyLabel = createBlockLabel("while.body");
+  auto endLabel = createBlockLabel("while.end");
+
+  currentBlock_->addInstruction(std::make_unique<BranchInst>(condLabel));
+
+  auto condBlock = std::make_unique<BasicBlock>(condLabel);
+  auto *condBlockPtr = condBlock.get();
+  currentFunction_->addBlock(std::move(condBlock));
+  currentBlock_ = condBlockPtr;
+
+  node.condition->accept(*this);
+  auto cond = valueStack_.top();
+  valueStack_.pop();
+  currentBlock_->addInstruction(
+      std::make_unique<CondBranchInst>(cond, bodyLabel, endLabel));
+
+  auto bodyBlock = std::make_unique<BasicBlock>(bodyLabel);
+  auto *bodyBlockPtr = bodyBlock.get();
+  currentFunction_->addBlock(std::move(bodyBlock));
+  currentBlock_ = bodyBlockPtr;
+  node.body->accept(*this);
+  if (currentBlock_->instructions.empty() ||
+      currentBlock_->instructions.back()->getOpCode() != OpCode::Ret) {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(condLabel));
+  }
+
+  auto endBlock = std::make_unique<BasicBlock>(endLabel);
+  auto *endBlockPtr = endBlock.get();
+  currentFunction_->addBlock(std::move(endBlock));
+  currentBlock_ = endBlockPtr;
+}
+
 } // namespace zir

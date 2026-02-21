@@ -162,7 +162,6 @@ void LLVMCodeGen::visit(sema::BoundFunctionDeclaration &node) {
 
   node.body->accept(*this);
 
-  // Insert a void return if the block has no terminator.
   if (!builder_.GetInsertBlock()->getTerminator()) {
     if (fn->getReturnType()->isVoidTy())
       builder_.CreateRetVoid();
@@ -294,5 +293,82 @@ void LLVMCodeGen::visit(sema::BoundRecordDeclaration &node) {
 }
 
 void LLVMCodeGen::visit(sema::BoundEnumDeclaration &) {}
+
+void LLVMCodeGen::visit(sema::BoundIfExpression &node) {
+  if (!currentFn_)
+    throw std::runtime_error("currentFn_ is null in visit(BoundIfExpression)");
+
+  auto *thenBB = llvm::BasicBlock::Create(ctx_, "if.then", currentFn_);
+  auto *elseBB = node.elseBody
+                     ? llvm::BasicBlock::Create(ctx_, "if.else", currentFn_)
+                     : nullptr;
+  auto *mergeBB = llvm::BasicBlock::Create(ctx_, "if.merge", currentFn_);
+
+  if (!node.condition)
+    throw std::runtime_error("condition is null in BoundIfExpression");
+  node.condition->accept(*this);
+  auto *cond = lastValue_;
+  if (!cond)
+    throw std::runtime_error(
+        "lastValue_ is null after condition in BoundIfExpression");
+
+  if (elseBB) {
+    builder_.CreateCondBr(cond, thenBB, elseBB);
+  } else {
+    builder_.CreateCondBr(cond, thenBB, mergeBB);
+  }
+
+  builder_.SetInsertPoint(thenBB);
+  if (node.thenBody)
+    node.thenBody->accept(*this);
+  if (!builder_.GetInsertBlock()->getTerminator()) {
+    builder_.CreateBr(mergeBB);
+  }
+
+  if (elseBB) {
+    builder_.SetInsertPoint(elseBB);
+    if (node.elseBody)
+      node.elseBody->accept(*this);
+    if (!builder_.GetInsertBlock()->getTerminator()) {
+      builder_.CreateBr(mergeBB);
+    }
+  }
+
+  builder_.SetInsertPoint(mergeBB);
+
+  // Placeholder for IF as expression (PHI nodes)
+  // If resultType is not Void, we'd need to collect values from both branches.
+}
+
+void LLVMCodeGen::visit(sema::BoundWhileStatement &node) {
+  if (!currentFn_)
+    throw std::runtime_error(
+        "currentFn_ is null in visit(BoundWhileStatement)");
+
+  auto *condBB = llvm::BasicBlock::Create(ctx_, "while.cond", currentFn_);
+  auto *bodyBB = llvm::BasicBlock::Create(ctx_, "while.body", currentFn_);
+  auto *endBB = llvm::BasicBlock::Create(ctx_, "while.end", currentFn_);
+
+  builder_.CreateBr(condBB);
+
+  builder_.SetInsertPoint(condBB);
+  if (!node.condition)
+    throw std::runtime_error("condition is null in BoundWhileStatement");
+  node.condition->accept(*this);
+  auto *cond = lastValue_;
+  if (!cond)
+    throw std::runtime_error(
+        "lastValue_ is null after condition in BoundWhileStatement");
+  builder_.CreateCondBr(cond, bodyBB, endBB);
+
+  builder_.SetInsertPoint(bodyBB);
+  if (node.body)
+    node.body->accept(*this);
+  if (!builder_.GetInsertBlock()->getTerminator()) {
+    builder_.CreateBr(condBB);
+  }
+
+  builder_.SetInsertPoint(endBB);
+}
 
 } // namespace codegen

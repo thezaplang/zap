@@ -61,4 +61,5 @@ Makefile
 .env
 
 /.gemini
-push.shGEMINI.md
+push.sh
+GEMINI.md
