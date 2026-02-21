@@ -18,13 +18,13 @@ namespace zap{
 
     class Parser{
       public:
-        Parser(const std::vector<Token>& toks); // Modified constructor
+        Parser(const std::vector<Token>& toks);
         ~Parser();
         std::unique_ptr<RootNode> parse(); // Returns the root of the AST
 
       private:
         std::vector<Token> _tokens;
-        unsigned int _pos;
+        size_t _pos;
         AstBuilder _builder;
 
         // Helper methods

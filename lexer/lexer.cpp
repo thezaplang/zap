@@ -4,57 +4,59 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
 {
   std::vector<Token> tokens;
   _pos = 0;
+  _line = 1;
   _input = input;
   while (!isAtEnd())
   {
     char _cur = _input[_pos];
-    unsigned int startPos = _pos;
+    size_t startPos = _pos;
+    size_t startLine = _line;
 
     if (_cur == '(')
     {
-      tokens.emplace_back(startPos, TokenType::LPAREN, "(");
+      tokens.emplace_back(startPos, startLine, TokenType::LPAREN, "(");
       ++_pos;
       continue;
     }
     else if (_cur == ')')
     {
-      tokens.emplace_back(startPos, TokenType::RPAREN, ")");
+      tokens.emplace_back(startPos, startLine, TokenType::RPAREN, ")");
       ++_pos;
       continue;
     }
     else if (_cur == '{')
     {
-      tokens.emplace_back(startPos, TokenType::LBRACE, "{");
+      tokens.emplace_back(startPos, startLine, TokenType::LBRACE, "{");
       ++_pos;
       continue;
     }
     else if (_cur == '}')
     {
-      tokens.emplace_back(startPos, TokenType::RBRACE, "}");
+      tokens.emplace_back(startPos, startLine, TokenType::RBRACE, "}");
       ++_pos;
       continue;
     }
     else if (_cur == '[')
     {
-      tokens.emplace_back(startPos, TokenType::SQUARE_LBRACE, "[");
+      tokens.emplace_back(startPos, startLine, TokenType::SQUARE_LBRACE, "[");
       ++_pos;
       continue;
     }
     else if (_cur == ']')
     {
-      tokens.emplace_back(startPos, TokenType::SQUARE_RBRACE, "]");
+      tokens.emplace_back(startPos, startLine, TokenType::SQUARE_RBRACE, "]");
       ++_pos;
       continue;
     }
     else if (_cur == ';')
     {
-      tokens.emplace_back(startPos, TokenType::SEMICOLON, ";");
+      tokens.emplace_back(startPos, startLine, TokenType::SEMICOLON, ";");
       ++_pos;
       continue;
     }
     else if (_cur == ',')
     {
-      tokens.emplace_back(startPos, TokenType::COMMA, ",");
+      tokens.emplace_back(startPos, startLine, TokenType::COMMA, ",");
       ++_pos;
       continue;
     }
@@ -62,13 +64,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == ':')
       {
-        tokens.emplace_back(startPos, TokenType::DOUBLECOLON, "::");
+        tokens.emplace_back(startPos, startLine, TokenType::DOUBLECOLON, "::");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::COLON, ":");
+        tokens.emplace_back(startPos, startLine, TokenType::COLON, ":");
         ++_pos;
         continue;
       }
@@ -77,32 +79,32 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '.' && Peek3() == '.')
       {
-        tokens.emplace_back(startPos, TokenType::ELLIPSIS, "...");
+        tokens.emplace_back(startPos, startLine, TokenType::ELLIPSIS, "...");
         _pos += 3;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::DOT, ".");
+        tokens.emplace_back(startPos, startLine, TokenType::DOT, ".");
         ++_pos;
         continue;
       }
     }
     else if (_cur == '?')
     {
-      tokens.emplace_back(startPos, TokenType::QUESTION, "?");
+      tokens.emplace_back(startPos, startLine, TokenType::QUESTION, "?");
       ++_pos;
       continue;
     }
     else if (_cur == '+')
     {
-      tokens.emplace_back(startPos, TokenType::PLUS, "+");
+      tokens.emplace_back(startPos, startLine, TokenType::PLUS, "+");
       ++_pos;
       continue;
     }
     else if (_cur == '*')
     {
-      tokens.emplace_back(startPos, TokenType::MULTIPLY, "*");
+      tokens.emplace_back(startPos, startLine, TokenType::MULTIPLY, "*");
       ++_pos;
       continue;
     }
@@ -110,11 +112,11 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '>')
       {
-        tokens.emplace_back(startPos, TokenType::ARROW, "->");
+        tokens.emplace_back(startPos, startLine, TokenType::ARROW, "->");
         _pos += 2;
         continue;
       }
-      tokens.emplace_back(startPos, TokenType::MINUS, "-");
+      tokens.emplace_back(startPos, startLine, TokenType::MINUS, "-");
       ++_pos;
       continue;
     }
@@ -130,20 +132,20 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::DIVIDE, "/");
+        tokens.emplace_back(startPos, startLine, TokenType::DIVIDE, "/");
         ++_pos;
         continue;
       }
     }
     else if (_cur == '%')
     {
-      tokens.emplace_back(startPos, TokenType::MODULO, "%");
+      tokens.emplace_back(startPos, startLine, TokenType::MODULO, "%");
       ++_pos;
       continue;
     }
     else if (_cur == '^')
     {
-      tokens.emplace_back(startPos, TokenType::POW, "^");
+      tokens.emplace_back(startPos, startLine, TokenType::POW, "^");
       ++_pos;
       continue;
     }
@@ -151,13 +153,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '&')
       {
-        tokens.emplace_back(startPos, TokenType::AND, "&&");
+        tokens.emplace_back(startPos, startLine, TokenType::AND, "&&");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::REFERENCE, "&");
+        tokens.emplace_back(startPos, startLine, TokenType::REFERENCE, "&");
         ++_pos;
         continue;
       }
@@ -166,20 +168,20 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '|')
       {
-        tokens.emplace_back(startPos, TokenType::OR, "||");
+        tokens.emplace_back(startPos, startLine, TokenType::OR, "||");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::OR, "|");
+        tokens.emplace_back(startPos, startLine, TokenType::OR, "|");
         ++_pos;
         continue;
       }
     }
     else if (_cur == '~')
     {
-      tokens.emplace_back(startPos, TokenType::CONCAT, "~");
+      tokens.emplace_back(startPos, startLine, TokenType::CONCAT, "~");
       ++_pos;
       continue;
     }
@@ -187,13 +189,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '=')
       {
-        tokens.emplace_back(startPos, TokenType::EQUAL, "==");
+        tokens.emplace_back(startPos, startLine, TokenType::EQUAL, "==");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::ASSIGN, "=");
+        tokens.emplace_back(startPos, startLine, TokenType::ASSIGN, "=");
         ++_pos;
         continue;
       }
@@ -202,13 +204,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '=')
       {
-        tokens.emplace_back(startPos, TokenType::NOTEQUAL, "!=");
+        tokens.emplace_back(startPos, startLine, TokenType::NOTEQUAL, "!=");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::NOT, "!");
+        tokens.emplace_back(startPos, startLine, TokenType::NOT, "!");
         ++_pos;
         continue;
       }
@@ -217,13 +219,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '=')
       {
-        tokens.emplace_back(startPos, TokenType::LESSEQUAL, "<=");
+        tokens.emplace_back(startPos, startLine, TokenType::LESSEQUAL, "<=");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::LESS, "<");
+        tokens.emplace_back(startPos, startLine, TokenType::LESS, "<");
         ++_pos;
         continue;
       }
@@ -232,13 +234,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       if (Peek2() == '=')
       {
-        tokens.emplace_back(startPos, TokenType::GREATEREQUAL, ">=");
+        tokens.emplace_back(startPos, startLine, TokenType::GREATEREQUAL, ">=");
         _pos += 2;
         continue;
       }
       else
       {
-        tokens.emplace_back(startPos, TokenType::GREATER, ">");
+        tokens.emplace_back(startPos, startLine, TokenType::GREATER, ">");
         ++_pos;
         continue;
       }
@@ -247,7 +249,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
     {
       std::string numStr;
       bool isFloat = false;
-      unsigned int numStart = _pos;
+      size_t numStart = _pos;
       while (!isAtEnd() && std::isdigit(_input[_pos]))
       {
         numStr += _input[_pos++];
@@ -263,78 +265,86 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
       }
       if (isFloat)
       {
-        tokens.emplace_back(numStart, TokenType::FLOAT, numStr);
+        tokens.emplace_back(numStart, startLine, TokenType::FLOAT, numStr);
       }
       else
       {
-        tokens.emplace_back(numStart, TokenType::INTEGER, numStr);
+        tokens.emplace_back(numStart, startLine, TokenType::INTEGER, numStr);
       }
       continue;
     }
     else if (std::isalpha(_cur) || _cur == '_')
     {
       std::string identStr;
-      unsigned int idStart = _pos;
+      size_t idStart = _pos;
       while (!isAtEnd() && (std::isalnum(_input[_pos]) || _input[_pos] == '_'))
       {
         identStr += _input[_pos++];
       }
       if (identStr == "if")
-        tokens.emplace_back(idStart, TokenType::IF, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::IF, identStr);
       else if (identStr == "else")
-        tokens.emplace_back(idStart, TokenType::ELSE, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::ELSE, identStr);
       else if (identStr == "while")
-        tokens.emplace_back(idStart, TokenType::WHILE, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::WHILE, identStr);
       else if (identStr == "for")
-        tokens.emplace_back(idStart, TokenType::FOR, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::FOR, identStr);
       else if (identStr == "return" || identStr == "ret")
-        tokens.emplace_back(idStart, TokenType::RETURN, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::RETURN, identStr);
       else if (identStr == "true" || identStr == "false")
-        tokens.emplace_back(idStart, TokenType::BOOL, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::BOOL, identStr);
       else if (identStr == "fun")
-        tokens.emplace_back(idStart, TokenType::FUN, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::FUN, identStr);
       else if (identStr == "import")
-        tokens.emplace_back(idStart, TokenType::IMPORT, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::IMPORT, identStr);
       else if (identStr == "match")
-        tokens.emplace_back(idStart, TokenType::MATCH, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::MATCH, identStr);
       else if (identStr == "var")
-        tokens.emplace_back(idStart, TokenType::VAR, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::VAR, identStr);
       else if (identStr == "ext")
-        tokens.emplace_back(idStart, TokenType::EXTERN, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::EXTERN, identStr);
       else if (identStr == "module")
-        tokens.emplace_back(idStart, TokenType::MODULE, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::MODULE, identStr);
       else if (identStr == "pub")
-        tokens.emplace_back(idStart, TokenType::PUB, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::PUB, identStr);
       else if (identStr == "priv")
-        tokens.emplace_back(idStart, TokenType::PRIV, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::PRIV, identStr);
       else if (identStr == "record")
-        tokens.emplace_back(idStart, TokenType::RECORD, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::RECORD, identStr);
       else if (identStr == "impl")
-        tokens.emplace_back(idStart, TokenType::IMPL, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::IMPL, identStr);
       else if (identStr == "static")
-        tokens.emplace_back(idStart, TokenType::STATIC, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::STATIC, identStr);
       else if (identStr == "enum")
-        tokens.emplace_back(idStart, TokenType::ENUM, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::ENUM, identStr);
       else if (identStr == "break")
-        tokens.emplace_back(idStart, TokenType::BREAK, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::BREAK, identStr);
       else if (identStr == "continue")
-        tokens.emplace_back(idStart, TokenType::CONTINUE, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::CONTINUE, identStr);
       else
-        tokens.emplace_back(idStart, TokenType::ID, identStr);
+        tokens.emplace_back(idStart, startLine, TokenType::ID, identStr);
       continue;
     }
     else if (std::isspace(_cur))
     {
+      if (_cur == '\n')
+      {
+        ++_line;
+      }
       ++_pos;
       continue;
     }
     else if (_cur == '"')
     {
       std::string strVal;
-      unsigned int strStart = _pos;
+      size_t strStart = _pos;
       ++_pos; // skip opening quote
       while (!isAtEnd() && _input[_pos] != '"')
       {
+        if (_input[_pos] == '\n')
+        {
+          ++_line;
+        }
         if (_input[_pos] == '\\')
         {
           ++_pos;
@@ -377,18 +387,18 @@ std::vector<Token> Lexer::tokenize(const std::string &input)
       if (!isAtEnd() && _input[_pos] == '"')
       {
         ++_pos; // skip closing quote
-        tokens.emplace_back(strStart, TokenType::STRING, strVal);
+        tokens.emplace_back(strStart, startLine, TokenType::STRING, strVal);
         continue;
       }
       else
       {
-        printf("Lexer Error: Unterminated string at position %u\n", strStart);
+        printf("Lexer Error: Unterminated string at position %zu\n", strStart);
         exit(EXIT_FAILURE);
       }
     }
     else
     {
-      printf("Lexer Error: Unexpected character '%c' at position %u\n", _cur,
+      printf("Lexer Error: Unexpected character '%c' at position %zu\n", _cur,
              _pos);
       exit(EXIT_FAILURE);
     }
