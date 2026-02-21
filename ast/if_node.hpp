@@ -4,8 +4,7 @@
 #include "statement_node.hpp"
 #include <memory>
 
-class IfNode : public StatementNode
-{
+class IfNode : public ExpressionNode, public StatementNode {
 public:
   std::unique_ptr<ExpressionNode> condition_;
   std::unique_ptr<BodyNode> thenBody_;

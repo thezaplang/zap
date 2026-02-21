@@ -1,15 +1,13 @@
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
 
 #define ZAP_VERSION "0.1.0"
 
-
-void printHelp(const char *programName)
-{
+void printHelp(const char *programName) {
   std::cout << "Zap Compiler v" << ZAP_VERSION << "\n\n";
   std::cout << "Usage: " << programName << " [options] <file.zap>\n\n";
   std::cout << "Options:\n";
@@ -22,66 +20,47 @@ void printHelp(const char *programName)
   std::cout << "  " << programName << " -o myprogram main.zap\n";
 }
 
-void printVersion()
-{
-  std::cout << "Zap Compiler v" << ZAP_VERSION << "\n";
-}
+void printVersion() { std::cout << "Zap Compiler v" << ZAP_VERSION << "\n"; }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   std::string inputFile;
   std::string outputFile;
   bool debugMode = false;
 
   // Parse command line arguments
-  if (argc < 2)
-  {
+  if (argc < 2) {
     std::cerr << "Error: No input file specified\n";
     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
     return 1;
   }
 
-  for (int i = 1; i < argc; i++)
-  {
+  for (int i = 1; i < argc; i++) {
     std::string arg(argv[i]);
 
-    if (arg == "-h" || arg == "--help")
-    {
+    if (arg == "-h" || arg == "--help") {
       printHelp(argv[0]);
       return 0;
-    }
-    else if (arg == "-v" || arg == "--version")
-    {
+    } else if (arg == "-v" || arg == "--version") {
       printVersion();
       return 0;
-    }
-    else if (arg == "--debug")
-    {
+    } else if (arg == "--debug") {
       debugMode = true;
-    }
-    else if (arg == "-o" || arg == "--output")
-    {
-      if (i + 1 >= argc)
-      {
+    } else if (arg == "-o" || arg == "--output") {
+      if (i + 1 >= argc) {
         std::cerr << "Error: -o/--output requires an argument\n";
         return 1;
       }
       outputFile = argv[++i];
-    }
-    else if (arg[0] == '-')
-    {
+    } else if (arg[0] == '-') {
       std::cerr << "Error: Unknown option '" << arg << "'\n";
       std::cerr << "Try '" << argv[0] << " --help' for more information\n";
       return 1;
-    }
-    else
-    {
+    } else {
       inputFile = arg;
     }
   }
 
-  if (inputFile.empty())
-  {
+  if (inputFile.empty()) {
     std::cerr << "Error: No input file specified\n";
     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
     return 1;
@@ -89,8 +68,7 @@ int main(int argc, char *argv[])
 
   // Check if file exists and is readable
   std::ifstream file(inputFile);
-  if (!file.is_open())
-  {
+  if (!file.is_open()) {
     std::cerr << "Error: Cannot open file '" << inputFile << "': ";
     std::perror("");
     return 1;
@@ -99,58 +77,50 @@ int main(int argc, char *argv[])
   // Read file content
   std::string fileContent;
   std::string line;
-  while (std::getline(file, line))
-  {
+  while (std::getline(file, line)) {
     fileContent += line + '\n';
   }
   file.close();
 
-  if (fileContent.empty())
-  {
+  if (fileContent.empty()) {
     std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
   }
 
   // Determine output file name
-  if (outputFile.empty())
-  {
+  if (outputFile.empty()) {
     outputFile = inputFile;
     size_t lastDot = outputFile.find_last_of(".");
-    if (lastDot != std::string::npos)
-    {
+    if (lastDot != std::string::npos) {
       outputFile = outputFile.substr(0, lastDot);
     }
   }
 
-  if (debugMode)
-  {
+  if (debugMode) {
     std::cout << "Debug mode enabled\n";
     std::cout << "Input file: " << inputFile << "\n";
     std::cout << "Output file: " << outputFile << "\n";
   }
 
-    // Tokenization
-    Lexer lex;
-    auto toks = lex.tokenize(fileContent);
+  // Tokenization
+  Lexer lex;
+  auto toks = lex.tokenize(fileContent);
 
-    if (debugMode)
-    {
-      std::cout << "\nTokens:\n";
-      for (const auto &token : toks)
-      {
-        std::cout << "  Token: " << token.type << " Value: " << token.value
-                  << "\n";
-      }
+  if (debugMode) {
+    std::cout << "\nTokens:\n";
+    for (const auto &token : toks) {
+      std::cout << "  Token: " << token.type << " Value: " << token.value
+                << "\n";
     }
+  }
 
   // Parsing
   zap::Parser parser(toks);
   auto ast = parser.parse();
 
   if (debugMode) {
-      std::cout << "\nAST built successfully.\n";
-      // TODO: Add a visitor to print the AST in a structured way
+    std::cout << "\nAST built successfully.\n";
+    // TODO: Add a visitor to print the AST in a structured way
   }
 
   return 0;
 }
-

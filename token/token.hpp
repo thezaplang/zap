@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
-enum TokenType
-{
+enum TokenType {
 
   IMPORT = 1,
   FUN = 2,
@@ -65,8 +64,7 @@ enum TokenType
   VAL,
 };
 
-class Token
-{
+class Token {
 public:
   size_t pos;
   size_t line;

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-class StatementNode : public Node {
+class StatementNode : public virtual Node {
 public:
   virtual ~StatementNode() = default;
 };

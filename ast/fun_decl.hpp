@@ -8,8 +8,7 @@
 #include <memory>
 #include <vector>
 
-class FunDecl : public TopLevel
-{
+class FunDecl : public TopLevel {
 public:
   std::string name_;
   std::vector<std::unique_ptr<TypeNode>> genericParams_;

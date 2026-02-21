@@ -4,13 +4,12 @@
 #include "statement_node.hpp"
 #include <memory>
 
-class WhileNode : public StatementNode
-{
+class WhileNode : public StatementNode {
 public:
-      std::unique_ptr<ExpressionNode> condition_;
-      std::unique_ptr<BodyNode> body_;
-      WhileNode() = default;
-      WhileNode(std::unique_ptr<ExpressionNode> condition,
-                std::unique_ptr<BodyNode> body)
-          : condition_(std::move(condition)), body_(std::move(body)) {}
+  std::unique_ptr<ExpressionNode> condition_;
+  std::unique_ptr<BodyNode> body_;
+  WhileNode() = default;
+  WhileNode(std::unique_ptr<ExpressionNode> condition,
+            std::unique_ptr<BodyNode> body)
+      : condition_(std::move(condition)), body_(std::move(body)) {}
 };
