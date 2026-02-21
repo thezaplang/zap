@@ -1,5 +1,5 @@
 fun main() {
-    var i: int = 0;
+    var i: Int = 0;
     while (i < 10) {
         i = i + 1;
     }
