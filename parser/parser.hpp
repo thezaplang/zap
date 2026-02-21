@@ -3,6 +3,7 @@
 #include "../ast/body_node.hpp"
 #include "../ast/const/const_int.hpp"
 #include "../ast/enum_decl.hpp"
+#include "../ast/array_literal.hpp"
 #include "../ast/assign_node.hpp"
 #include "../ast/expr_node.hpp"
 #include "../ast/fun_decl.hpp"
@@ -40,6 +41,8 @@ private:
   std::unique_ptr<BodyNode> parseBody();
   std::unique_ptr<VarDecl> parseVarDecl();
   std::unique_ptr<AssignNode> parseAssign();
+  std::unique_ptr<TypeNode> parseType();
+  std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
   std::unique_ptr<IfNode> parseIf();
   std::unique_ptr<WhileNode> parseWhile();
   std::unique_ptr<ReturnNode> parseReturnStmt();
