@@ -11,14 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Get short SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Discord notification
         uses: sarisia/actions-status-discord@v1
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: "New activity in Zap repository!"
-          title: "${{ github.event_name == 'push' && 'New Commit' || 'Pull Request' }}"
-          description: "${{ github.event.head_commit.message || github.event.pull_request.title }}\n\nAuthor: ${{ github.actor }}"
+          content: |
+            [${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit
+            `${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}
+          nodetail: true
           color: 0x5865F2
-          url: "${{ github.event.repository.html_url }}"
