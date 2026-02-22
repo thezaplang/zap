@@ -14,15 +14,16 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Send Minimalist Discord Notification
-        run: |
-          curl -H "Content-Type: application/json" \
-               -d '{
-                 "embeds": [{
-                   "title": "[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit",
-                   "description": "`${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}",
-                   "color": 5793266,
-                   "url": "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
-                 }]
-               }' \
-               ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Send Discord Notification
+        uses: rtCamp/action-discord-notifier@v1
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: "GitHub Actions"
+          DISCORD_AVATAR: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          DISCORD_EMBEDS: |
+            [{
+              "title": "[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit",
+              "description": "`${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}",
+              "color": 5793266,
+              "url": "${{ github.event.repository.html_url }}/commit/${{ github.sha }}"
+            }]
