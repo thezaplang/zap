@@ -18,9 +18,8 @@ jobs:
         uses: appleboy/discord-action@master
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          color: "#0000FF"
+          color: "#5865F2"
           username: "GitHub Actions"
           message: |
-            **[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit**
+            [[${{ github.event.repository.name }}:${{ github.ref_name }}] 1 new commit](${{ github.event.repository.html_url }}/commit/${{ github.sha }})
             `${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}
-            [View Commit](${{ github.event.repository.html_url }}/commit/${{ github.sha }})
