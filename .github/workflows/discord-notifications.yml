@@ -21,6 +21,6 @@ jobs:
           color: "#5865F2"
           username: "GitHub Actions"
           message: |
-            **[${{ github.repository }}:${{ github.ref_name }}]** New commit by ${{ github.actor }}
+            **[${{ github.ref_name }}] New commit by ${{ github.actor }}
             `${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }}
             [View Commit](${{ github.event.repository.html_url }}/commit/${{ github.sha }})
