@@ -23,5 +23,6 @@ jobs:
           description: "`${{ steps.vars.outputs.sha_short }}` ${{ github.event.head_commit.message }} - ${{ github.actor }}"
           color: 0x5865F2
           nodetail: true
+          notimestamp: true
           username: "GitHub Actions"
           avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
