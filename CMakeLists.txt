@@ -60,6 +60,12 @@ set(HEADERS
 # Create executable
 add_executable(zapc ${SOURCES} ${HEADERS})
 
+# Custom command to compile stdlib.c
+add_custom_command(TARGET zapc POST_BUILD
+    COMMAND gcc -c ${CMAKE_SOURCE_DIR}/src/stdlib.c -o ${CMAKE_BINARY_DIR}/stdlib.o
+    COMMENT "Compiling stdlib.c"
+)
+
 # Link against LLVM libraries
 llvm_map_components_to_libnames(llvm_libs core support nativecodegen mc target passes)
 target_link_libraries(zapc PRIVATE ${llvm_libs})

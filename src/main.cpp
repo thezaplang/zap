@@ -12,7 +12,8 @@
 
 #define ZAP_VERSION "0.1.0"
 
-void printHelp(const char *programName) {
+void printHelp(const char *programName)
+{
   std::cout << "Zap Compiler v" << ZAP_VERSION << "\n\n";
   std::cout << "Usage: " << programName << " [options] <file.zap>\n\n";
   std::cout << "Options:\n";
@@ -30,57 +31,78 @@ void printHelp(const char *programName) {
 
 void printVersion() { std::cout << "Zap Compiler v" << ZAP_VERSION << "\n"; }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   std::string inputFile;
   std::string outputFile;
   bool debugMode = false;
   bool displayZIR = false;
   bool displayLLVM = false;
 
-  if (argc < 2) {
+  if (argc < 2)
+  {
     std::cerr << "Error: No input file specified\n";
     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
     return 1;
   }
 
-  for (int i = 1; i < argc; i++) {
+  for (int i = 1; i < argc; i++)
+  {
     std::string arg(argv[i]);
 
-    if (arg == "-h" || arg == "--help") {
+    if (arg == "-h" || arg == "--help")
+    {
       printHelp(argv[0]);
       return 0;
-    } else if (arg == "-v" || arg == "--version") {
+    }
+    else if (arg == "-v" || arg == "--version")
+    {
       printVersion();
       return 0;
-    } else if (arg == "--debug") {
+    }
+    else if (arg == "--debug")
+    {
       debugMode = true;
-    } else if (arg == "--zir") {
+    }
+    else if (arg == "--zir")
+    {
       displayZIR = true;
-    } else if (arg == "--llvm") {
+    }
+    else if (arg == "--llvm")
+    {
       displayLLVM = true;
-    } else if (arg == "-o" || arg == "--output") {
-      if (i + 1 >= argc) {
+    }
+    else if (arg == "-o" || arg == "--output")
+    {
+      if (i + 1 >= argc)
+      {
         std::cerr << "Error: -o/--output requires an argument\n";
         return 1;
       }
       outputFile = argv[++i];
-    } else if (arg[0] == '-') {
+    }
+    else if (arg[0] == '-')
+    {
       std::cerr << "Error: Unknown option '" << arg << "'\n";
       std::cerr << "Try '" << argv[0] << " --help' for more information\n";
       return 1;
-    } else {
+    }
+    else
+    {
       inputFile = arg;
     }
   }
 
-  if (inputFile.empty()) {
+  if (inputFile.empty())
+  {
     std::cerr << "Error: No input file specified\n";
     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
     return 1;
   }
 
   std::ifstream file(inputFile);
-  if (!file.is_open()) {
+  if (!file.is_open())
+  {
     std::cerr << "Error: Cannot open file '" << inputFile << "': ";
     std::perror("");
     return 1;
@@ -88,24 +110,29 @@ int main(int argc, char *argv[]) {
 
   std::string fileContent;
   std::string line;
-  while (std::getline(file, line)) {
+  while (std::getline(file, line))
+  {
     fileContent += line + '\n';
   }
   file.close();
 
-  if (fileContent.empty()) {
+  if (fileContent.empty())
+  {
     std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
   }
 
-  if (outputFile.empty()) {
+  if (outputFile.empty())
+  {
     outputFile = inputFile;
     size_t lastDot = outputFile.find_last_of(".");
-    if (lastDot != std::string::npos) {
+    if (lastDot != std::string::npos)
+    {
       outputFile = outputFile.substr(0, lastDot);
     }
   }
 
-  if (debugMode) {
+  if (debugMode)
+  {
     std::cout << "Debug mode enabled\n";
     std::cout << "Input file: " << inputFile << "\n";
     std::cout << "Output file: " << outputFile << "\n";
@@ -116,9 +143,11 @@ int main(int argc, char *argv[]) {
   Lexer lex(diagnostics);
   auto toks = lex.tokenize(fileContent);
 
-  if (debugMode) {
+  if (debugMode)
+  {
     std::cout << "\nTokens:\n";
-    for (const auto &token : toks) {
+    for (const auto &token : toks)
+    {
       std::cout << "  Token: " << token.type << " Value: " << token.value
                 << "\n";
     }
@@ -127,61 +156,88 @@ int main(int argc, char *argv[]) {
   zap::Parser parser(toks, diagnostics);
   auto ast = parser.parse();
 
-  if (diagnostics.hadErrors()) {
+  if (diagnostics.hadErrors())
+  {
     return 1;
   }
 
-  if (!ast) {
+  if (!ast)
+  {
     std::cerr << "Error: Parsing failed\n";
     return 1;
   }
 
-  if (debugMode) {
+  if (debugMode)
+  {
     std::cout << "\nAST built successfully.\n";
   }
 
   sema::Binder binder(diagnostics);
   auto boundAst = binder.bind(*ast);
 
-  if (!boundAst) {
+  if (!boundAst)
+  {
     std::cerr << "Error: Semantic analysis failed\n";
     return 1;
   }
 
-  if (debugMode) {
+  if (debugMode)
+  {
     std::cout << "Semantic analysis successful.\n";
   }
 
-  if (displayZIR) {
+  if (displayZIR)
+  {
     zir::BoundIRGenerator irGen;
     auto module = irGen.generate(*boundAst);
-    if (module) {
+    if (module)
+    {
       std::cout << "\nZap Intermediate Representation (ZIR):\n";
       std::cout << module->toString() << "\n";
-    } else {
+    }
+    else
+    {
       std::cerr << "Error: IR generation failed\n";
       return 1;
     }
   }
 
-  if (displayLLVM) {
+  if (displayLLVM)
+  {
     codegen::LLVMCodeGen llvmGen;
     llvmGen.generate(*boundAst);
     std::cout << "\nLLVM IR:\n";
     llvmGen.printIR();
-  } else {
+  }
+  else
+  {
     codegen::LLVMCodeGen llvmGen;
     llvmGen.generate(*boundAst);
 
     const std::string objFile = outputFile + ".o";
-    if (!llvmGen.emitObjectFile(objFile)) {
+    if (!llvmGen.emitObjectFile(objFile))
+    {
       std::cerr << "Error: object file emission failed\n";
       return 1;
     }
 
-    const std::string linkCmd = "cc " + objFile + " -o " + outputFile;
+    // Find stdlib.o in the same directory as the compiler
+    std::string stdlibPath;
+    std::string compilerPath(argv[0]);
+    size_t lastSlash = compilerPath.find_last_of("/\\");
+    if (lastSlash != std::string::npos)
+    {
+      stdlibPath = compilerPath.substr(0, lastSlash) + "/stdlib.o";
+    }
+    else
+    {
+      stdlibPath = "./stdlib.o";
+    }
+
+    const std::string linkCmd = "cc " + objFile + " " + stdlibPath + " -o " + outputFile;
     int ret = std::system(linkCmd.c_str());
-    if (ret != 0) {
+    if (ret != 0)
+    {
       std::cerr << "Error: linking failed\n";
       return 1;
     }

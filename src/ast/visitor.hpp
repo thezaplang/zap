@@ -5,6 +5,7 @@ class Node;
 class RootNode;
 class TopLevel;
 class FunDecl;
+class ExtDecl;
 class BodyNode;
 class StatementNode;
 class VarDecl;
@@ -33,13 +34,15 @@ class ConstBool;
 class ConstId;
 
 // Visitor interface with empty implementations to allow selective overrides.
-struct Visitor {
+struct Visitor
+{
   virtual ~Visitor() = default;
 
   virtual void visit(Node &) {}
   virtual void visit(RootNode &) {}
   virtual void visit(TopLevel &) {}
   virtual void visit(FunDecl &) {}
+  virtual void visit(ExtDecl &) {}
   virtual void visit(BodyNode &) {}
   virtual void visit(StatementNode &) {}
   virtual void visit(VarDecl &) {}

@@ -11,6 +11,7 @@
 #include "const/const_string.hpp"
 #include "continue_node.hpp"
 #include "expr_node.hpp"
+#include "ext_decl.hpp"
 #include "fun_call.hpp"
 #include "fun_decl.hpp"
 #include "if_node.hpp"
