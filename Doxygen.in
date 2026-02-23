@@ -115,11 +115,11 @@ SEARCHENGINE                                 = NO
 FULL_PATH_NAMES                              = YES
 
 OUTPUT_DIRECTORY                             = @CMAKE_CURRENT_BINARY_DIR@/doc_doxygen/
-INPUT                                        = @CMAKE_CURRENT_SOURCE_DIR@/ast               \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/compiler          \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/ir                \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/lexer             \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/parser            \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/sema              \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/token
+INPUT                                        = @CMAKE_CURRENT_SOURCE_DIR@/src/ast/           \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/compiler       \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/ir             \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/lexer          \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/parser         \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/sema           \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/token
 RECURSIVE                                    = YES
