@@ -4,7 +4,7 @@
 
 #include "../token/token.hpp"
 
-class Visitor;
+struct Visitor;
 
 class Node {
 public:
