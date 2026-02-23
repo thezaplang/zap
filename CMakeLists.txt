@@ -5,8 +5,6 @@ project(zapc)
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# Compiler options
-add_compile_options(-Wall -Wextra)
 
 # Find LLVM
 find_package(LLVM REQUIRED CONFIG)
@@ -26,6 +24,9 @@ add_executable(zapc ${SOURCES})
 
 # Include directories
 target_include_directories(zapc PRIVATE "${CMAKE_SOURCE_DIR}/src")
+
+# Compiler options
+target_compile_options(zapc PRIVATE -Wall -Wextra)
 
 # Compile stdlib.c
 add_library(zap_stdlib OBJECT src/stdlib.c)
