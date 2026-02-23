@@ -63,3 +63,6 @@ Makefile
 /.gemini
 push.sh
 GEMINI.md
+
+# clangd
+.cache/
