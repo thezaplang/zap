@@ -174,6 +174,14 @@ namespace zap
           }
           body->addStatement(std::move(whileNode));
         }
+        else if (peek().type == TokenType::BREAK)
+        {
+          body->addStatement(parseBreak());
+        }
+        else if (peek().type == TokenType::CONTINUE)
+        {
+          body->addStatement(parseContinue());
+        }
         else if (peek().type == TokenType::ID &&
                  peek(1).type == TokenType::ASSIGN)
         {
@@ -395,6 +403,24 @@ namespace zap
     _builder.setSpan(returnNode.get(),
                      SourceSpan::merge(returnKeyword.span, semicolonToken.span));
     return returnNode;
+  }
+
+  std::unique_ptr<BreakNode> Parser::parseBreak()
+  {
+    Token breakKeyword = eat(TokenType::BREAK);
+    Token semicolonToken = eat(TokenType::SEMICOLON);
+    auto node = _builder.makeBreak();
+    _builder.setSpan(node.get(), SourceSpan::merge(breakKeyword.span, semicolonToken.span));
+    return node;
+  }
+
+  std::unique_ptr<ContinueNode> Parser::parseContinue()
+  {
+    Token continueKeyword = eat(TokenType::CONTINUE);
+    Token semicolonToken = eat(TokenType::SEMICOLON);
+    auto node = _builder.makeContinue();
+    _builder.setSpan(node.get(), SourceSpan::merge(continueKeyword.span, semicolonToken.span));
+    return node;
   }
 
   std::unique_ptr<ExpressionNode> Parser::parseExpression()

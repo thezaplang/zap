@@ -40,6 +40,8 @@ namespace codegen
     void visit(sema::BoundEnumDeclaration &node) override;
     void visit(sema::BoundIfExpression &node) override;
     void visit(sema::BoundWhileStatement &node) override;
+    void visit(sema::BoundBreakStatement &node) override;
+    void visit(sema::BoundContinueStatement &node) override;
 
   private:
     llvm::LLVMContext ctx_;
@@ -52,6 +54,8 @@ namespace codegen
     std::map<std::string, llvm::AllocaInst *> allocaMap_;
     std::map<std::string, llvm::Function *> functionMap_;
     std::map<std::string, llvm::StructType *> structCache_;
+
+    std::vector<std::pair<llvm::BasicBlock *, llvm::BasicBlock *>> loopBBStack_;
 
     llvm::Type *toLLVMType(const zir::Type &ty);
     llvm::FunctionType *buildFunctionType(const sema::FunctionSymbol &sym);

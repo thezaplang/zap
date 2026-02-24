@@ -27,6 +27,8 @@ namespace sema
     void visit(ConstBool &node) override;
     void visit(IfNode &node) override;
     void visit(WhileNode &node) override;
+    void visit(BreakNode &node) override;
+    void visit(ContinueNode &node) override;
     void visit(AssignNode &node) override;
     void visit(FunCall &node) override;
     void visit(ConstId &node) override;
@@ -45,6 +47,8 @@ namespace sema
     std::stack<std::unique_ptr<BoundExpression>> expressionStack_;
     std::stack<std::unique_ptr<BoundStatement>> statementStack_;
     std::unique_ptr<BoundBlock> currentBlock_;
+
+    int loopDepth_ = 0;
 
     void pushScope();
     void popScope();

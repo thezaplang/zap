@@ -11,6 +11,8 @@
 #include "../ast/if_node.hpp"
 #include "../ast/record_decl.hpp"
 #include "../ast/return_node.hpp"
+#include "../ast/break_node.hpp"
+#include "../ast/continue_node.hpp"
 #include "../ast/root_node.hpp"
 #include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
@@ -67,5 +69,7 @@ namespace zap
     std::unique_ptr<ParameterNode> parseParameter();
     std::unique_ptr<EnumDecl> parseEnumDecl();
     std::unique_ptr<RecordDecl> parseRecordDecl();
+    std::unique_ptr<BreakNode> parseBreak();
+    std::unique_ptr<ContinueNode> parseContinue();
   };
 } // namespace zap

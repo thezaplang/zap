@@ -33,6 +33,8 @@ namespace zir
     void visit(sema::BoundEnumDeclaration &node) override;
     void visit(sema::BoundIfExpression &node) override;
     void visit(sema::BoundWhileStatement &node) override;
+    void visit(sema::BoundBreakStatement &node) override;
+    void visit(sema::BoundContinueStatement &node) override;
 
   private:
     std::unique_ptr<Module> module_;
@@ -44,6 +46,8 @@ namespace zir
 
     int nextRegisterId_ = 0;
     int nextBlockId_ = 0;
+    
+    std::vector<std::pair<std::string, std::string>> loopLabelStack_;
 
     std::shared_ptr<Value> lastResultValue_ = nullptr;
     std::shared_ptr<Value> createRegister(std::shared_ptr<Type> type);

@@ -113,7 +113,6 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node)
   {
-    std::cout << "Visiting VariableDeclaration: " << node.symbol->name << "\n";
     auto type = node.symbol->type;
     auto reg = createRegister(std::make_shared<PointerType>(type));
     currentBlock_->addInstruction(std::make_unique<AllocaInst>(reg, type));
@@ -121,7 +120,6 @@ namespace zir
 
     if (node.initializer)
     {
-      std::cout << "  Visiting initializer for " << node.symbol->name << "\n";
       node.initializer->accept(*this);
       auto val = valueStack_.top();
       valueStack_.pop();
@@ -132,7 +130,6 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundReturnStatement &node)
   {
-    std::cout << "Visiting ReturnStatement\n";
     std::shared_ptr<Value> val = nullptr;
     if (node.expression)
     {
@@ -145,7 +142,6 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundAssignment &node)
   {
-    std::cout << "Visiting Assignment: " << node.symbol->name << "\n";
     auto reg = symbolMap_[node.symbol];
     node.expression->accept(*this);
     auto val = valueStack_.top();
@@ -162,13 +158,11 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundLiteral &node)
   {
-    std::cout << "Visiting Literal: " << node.value << "\n";
     valueStack_.push(std::make_shared<Constant>(node.value, node.type));
   }
 
   void BoundIRGenerator::visit(sema::BoundVariableExpression &node)
   {
-    std::cout << "Visiting VariableExpression: " << node.symbol->name << "\n";
     auto it = symbolMap_.find(node.symbol);
     if (it == symbolMap_.end())
     {
@@ -184,7 +178,6 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundBinaryExpression &node)
   {
-    std::cout << "Visiting BinaryExpression: " << node.op << "\n";
     node.left->accept(*this);
     auto left = valueStack_.top();
     valueStack_.pop();
@@ -216,7 +209,6 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundFunctionCall &node)
   {
-    std::cout << "Visiting FunctionCall: " << node.symbol->name << "\n";
     std::vector<std::shared_ptr<Value>> args;
     for (const auto &arg : node.arguments)
     {
@@ -244,13 +236,11 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundUnaryExpression &node)
   {
-    std::cout << "Visiting UnaryExpression: " << node.op << "\n";
     node.expr->accept(*this);
   }
 
   void BoundIRGenerator::visit(sema::BoundArrayLiteral &node)
   {
-    std::cout << "Visiting ArrayLiteral\n";
     valueStack_.push(std::make_shared<Constant>("0", node.type));
   }
 
@@ -379,7 +369,9 @@ namespace zir
     auto *bodyBlockPtr = bodyBlock.get();
     currentFunction_->addBlock(std::move(bodyBlock));
     currentBlock_ = bodyBlockPtr;
+    loopLabelStack_.push_back({condLabel, endLabel});
     node.body->accept(*this);
+    loopLabelStack_.pop_back();
     if (currentBlock_->instructions.empty() ||
         currentBlock_->instructions.back()->getOpCode() != OpCode::Ret)
     {
@@ -390,6 +382,27 @@ namespace zir
     auto *endBlockPtr = endBlock.get();
     currentFunction_->addBlock(std::move(endBlock));
     currentBlock_ = endBlockPtr;
+  }
+
+  void BoundIRGenerator::visit(sema::BoundBreakStatement &node)
+  {
+    if (loopLabelStack_.empty())
+    {
+      // Should have been diagnosed earlier in binder, but guard anyway
+      return;
+    }
+    auto endLabel = loopLabelStack_.back().second;
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(endLabel));
+  }
+
+  void BoundIRGenerator::visit(sema::BoundContinueStatement &node)
+  {
+    if (loopLabelStack_.empty())
+    {
+      return;
+    }
+    auto condLabel = loopLabelStack_.back().first;
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(condLabel));
   }
 
 } // namespace zir

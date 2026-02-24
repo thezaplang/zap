@@ -597,7 +597,9 @@ namespace sema
 
     pushScope();
     auto savedMainBlockWhile = std::move(currentBlock_);
+    loopDepth_++;
     node.body_->accept(*this);
+    loopDepth_--;
     auto boundBody = std::move(currentBlock_);
     currentBlock_ = std::move(savedMainBlockWhile);
     popScope();
@@ -607,6 +609,31 @@ namespace sema
                                               std::move(boundBody));
 
     statementStack_.push(std::move(boundWhile));
+  }
+
+  void Binder::visit(BreakNode &node)
+  {
+    if (loopDepth_ <= 0)
+    {
+      error(node.span, "'break' used outside of loop");
+      // push a no-op statement to keep stacks balanced
+      statementStack_.push(std::make_unique<BoundExpressionStatement>(nullptr));
+      return;
+    }
+
+    statementStack_.push(std::make_unique<BoundBreakStatement>());
+  }
+
+  void Binder::visit(ContinueNode &node)
+  {
+    if (loopDepth_ <= 0)
+    {
+      error(node.span, "'continue' used outside of loop");
+      statementStack_.push(std::make_unique<BoundExpressionStatement>(nullptr));
+      return;
+    }
+
+    statementStack_.push(std::make_unique<BoundContinueStatement>());
   }
 
   void Binder::pushScope()

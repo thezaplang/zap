@@ -527,14 +527,37 @@ namespace codegen
     builder_.CreateCondBr(cond, bodyBB, endBB);
 
     builder_.SetInsertPoint(bodyBB);
+    loopBBStack_.push_back({condBB, endBB});
     if (node.body)
       node.body->accept(*this);
+    loopBBStack_.pop_back();
     if (!builder_.GetInsertBlock()->getTerminator())
     {
       builder_.CreateBr(condBB);
     }
 
     builder_.SetInsertPoint(endBB);
+  }
+
+  void LLVMCodeGen::visit(sema::BoundBreakStatement &node)
+  {
+    if (loopBBStack_.empty())
+      return; // binder should have diagnosed
+    auto endBB = loopBBStack_.back().second;
+    builder_.CreateBr(endBB);
+    // Create a new continuation block so subsequent instructions have a place
+    auto *contBB = llvm::BasicBlock::Create(ctx_, "after.break", currentFn_);
+    builder_.SetInsertPoint(contBB);
+  }
+
+  void LLVMCodeGen::visit(sema::BoundContinueStatement &node)
+  {
+    if (loopBBStack_.empty())
+      return;
+    auto condBB = loopBBStack_.back().first;
+    builder_.CreateBr(condBB);
+    auto *contBB = llvm::BasicBlock::Create(ctx_, "after.continue", currentFn_);
+    builder_.SetInsertPoint(contBB);
   }
 
 } // namespace codegen

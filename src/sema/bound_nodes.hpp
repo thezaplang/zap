@@ -27,6 +27,8 @@ namespace sema
   class BoundEnumDeclaration;
   class BoundIfExpression;
   class BoundWhileStatement;
+  class BoundBreakStatement;
+  class BoundContinueStatement;
 
   class BoundVisitor
   {
@@ -50,6 +52,8 @@ namespace sema
     virtual void visit(BoundEnumDeclaration &node) = 0;
     virtual void visit(BoundIfExpression &node) = 0;
     virtual void visit(BoundWhileStatement &node) = 0;
+    virtual void visit(BoundBreakStatement &node) = 0;
+    virtual void visit(BoundContinueStatement &node) = 0;
   };
 
   class BoundNode
@@ -214,6 +218,20 @@ namespace sema
     BoundWhileStatement(std::unique_ptr<BoundExpression> cond,
                         std::unique_ptr<BoundBlock> b)
         : condition(std::move(cond)), body(std::move(b)) {}
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+  };
+
+  class BoundBreakStatement : public BoundStatement
+  {
+  public:
+    BoundBreakStatement() = default;
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+  };
+
+  class BoundContinueStatement : public BoundStatement
+  {
+  public:
+    BoundContinueStatement() = default;
     void accept(BoundVisitor &v) override { v.visit(*this); }
   };
 

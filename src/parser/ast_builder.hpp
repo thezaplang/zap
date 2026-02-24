@@ -24,6 +24,8 @@
 #include "../ast/unary_expr.hpp"
 #include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
+#include "../ast/break_node.hpp"
+#include "../ast/continue_node.hpp"
 
 class AstBuilder {
 public:
@@ -76,6 +78,10 @@ public:
   makeReturn(std::unique_ptr<ExpressionNode> value) {
     return std::make_unique<ReturnNode>(std::move(value));
   }
+
+  std::unique_ptr<BreakNode> makeBreak() { return std::make_unique<BreakNode>(); }
+
+  std::unique_ptr<ContinueNode> makeContinue() { return std::make_unique<ContinueNode>(); }
 
   std::unique_ptr<UnaryExpr>
   makeUnaryExpr(const std::string &op, std::unique_ptr<ExpressionNode> expr) {
