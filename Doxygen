@@ -1,0 +1,125 @@
+# This is the Doxygen configuration file
+# For an example, see https://github.com/libsdl-org/SDL/blob/main/docs/doxyfile
+
+DOXYFILE_ENCODING                           = UTF-8
+
+PROJECT_NAME                                = ZAP
+PROJECT_NUMBER                              = 1.0
+
+CREATE_SUBDIRS                              = YES
+
+OUTPUT_LANGUAGE                             = English
+
+EXTRACT_ALL                                 = YES
+EXTRACT_PRIVATE                             = YES
+EXTRACT_STATIC                              = YES
+EXTRACT_LOCAL_CLASSES                       = YES
+EXTRACT_LOCAL_METHODS                       = YES
+EXTRACT_ANON_NSPACES                        = YES
+
+SHOW_INCLUDE_FILES                          = YES
+
+GENERATE_TODOLIST                           = YES
+GENERATE_TESTLIST                           = YES
+GENERATE_BUGLIST                            = YES
+GENERATE_DEPRECATEDLIST                     = YES
+
+SHOW_FILES                                  = YES
+SHOW_NAMESPACES                             = YES
+
+WARN_IF_UNDOCUMENTED                       = YES
+WARN_IF_DOC_ERROR                          = YES
+WARN_NO_PARAMDOC                           = YES
+WARN_FORMAT                                = "$file:$line: $text"
+WARN_LOGFILE                               = ./doxygen_warn.txt
+
+# File patterns (https://github.com/libsdl-org/SDL/blob/main/docs/doxyfile#L589)
+FILE_PATTERNS          = *.c \
+                         *.cc \
+                         *.cxx \
+                         *.cpp \
+                         *.c++ \
+                         *.d \
+                         *.java \
+                         *.ii \
+                         *.ixx \
+                         *.ipp \
+                         *.i++ \
+                         *.inl \
+                         *.h \
+                         *.hh \
+                         *.hxx \
+                         *.hpp \
+                         *.h++ \
+                         *.idl \
+                         *.odl \
+                         *.cs \
+                         *.php \
+                         *.php3 \
+                         *.inc \
+                         *.m \
+                         *.mm \
+                         *.dox \
+                         *.py \
+                         *.f90 \
+                         *.f \
+                         *.vhd \
+                         *.vhdl \
+                         *.h.in \
+                         *.h.default \
+                         *.md
+
+SOURCE_BROWSER                              = YES
+INLINE_SOURCES                              = YES
+STRIP_CODE_COMMENTS                         = NO
+REFERENCED_BY_RELATION                      = YES
+REFERENCES_RELATION                         = YES
+REFERENCES_LINK_SOURCE                      = YES
+VERBATIM_HEADERS                            = YES
+
+ALPHABETICAL_INDEX                          = YES
+
+GENERATE_HTML                               = YES
+HTML_OUTPUT                                 = html
+HTML_FILE_EXTENSION                         = .html
+HTML_ALIGN_MEMBERS                          = YES
+HTML_DYNAMIC_SECTIONS                       = YES
+
+# You may want to enable this later if you would like to generate PDFs
+GENERATE_LATEX                              = NO
+#LATEXT_OUTPUT                               = latex
+#PDF_HYPERLINKS                              = YES
+#USE_PDFLATEX                                = YES
+#LATEX_BATCHMODE                             = YES
+
+DOCSET_FEEDNAME                              = "ZAP Doxygen"
+
+TOC_EXPAND                                   = YES
+
+ENUM_VALUES_PER_LINE                         = 1
+
+GENERATE_TREEVIEW                            = ALL
+
+MACRO_EXPANSION                              = YES
+EXPAND_ONLY_PREDEF                           = YES
+
+SEARCH_INCLUDES                              = YES
+
+SKIP_FUNCTION_MACROS                         = YES
+
+CLASS_DIAGRAMS                               = YES
+HIDE_UNDOC_RELATIONS                         = YES
+
+SEARCHENGINE                                 = NO
+
+FULL_PATH_NAMES                              = YES
+
+OUTPUT_DIRECTORY                             = @CMAKE_CURRENT_BINARY_DIR@/doc_doxygen/
+INPUT                                        = @CMAKE_CURRENT_SOURCE_DIR@/src/ast/           \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/compiler       \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/ir             \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/lexer          \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/parser         \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/sema           \
+                                               @CMAKE_CURRENT_SOURCE_DIR@/src/token
+RECURSIVE                                    = YES

@@ -1,0 +1,25 @@
+name: Doxygen GitHub Pages Deploy Action
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write      
+    steps:
+      - name: Set up Doxygen
+        run: sudo apt-get install doxygen graphviz -y
+      - name: Generate Doxygen documentation
+        uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/html
+          config_file: Doxyfile
+          doxygen_version: 1.15.0
