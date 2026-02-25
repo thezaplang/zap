@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Early%20Alpha-FF9800?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/License-MIT-4CAF50?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-4CAF50?style=for-the-badge&logo=apache&logoColor=white" alt="License" />
   <a href="https://github.com/zap-lang-org/zap"><img src="https://img.shields.io/github/stars/thezaplang/zap?style=for-the-badge" alt="Stars" /></a>
 </p>
 
