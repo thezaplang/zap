@@ -17,10 +17,12 @@
 #endif
 static constexpr char OptionStrTableStorage[] = 
   "\0"
+  "-\0"
   "--\0"
   "<input>\0"
   "<unknown>\0"
   "--help\0"
+  "-o\0"
   "--version\0"
   ;
 #ifdef __GNUC__
@@ -37,7 +39,8 @@ OptionStrTable = OptionStrTableStorage;
 #ifdef OPTTABLE_PREFIXES_TABLE_CODE
 static constexpr llvm::StringTable::Offset OptionPrefixesTable[] = {
   0 /* prefixes */,
-  1 /* prefixes */, 1 /* '--' */
+  1 /* prefixes */, 1 /* '-' */,
+  1 /* prefixes */, 3 /* '--' */
 };
 #endif // OPTTABLE_PREFIXES_TABLE_CODE
 
@@ -46,7 +49,7 @@ static constexpr llvm::StringTable::Offset OptionPrefixesTable[] = {
 
 #ifdef OPTTABLE_PREFIXES_UNION_CODE
 static constexpr llvm::StringTable::Offset OptionPrefixesUnion[] = {
-  1 /* '--' */
+  1 /* '-' */,   3 /* '--' */
 };
 #endif // OPTTABLE_PREFIXES_UNION_CODE
 
@@ -63,11 +66,14 @@ static constexpr llvm::StringTable::Offset OptionPrefixesUnion[] = {
 //////////
 // Options
 
-OPTION(0, 4 /* <input> */, INPUT, Input, INVALID, INVALID, nullptr, 0, DefaultVis, 0, nullptr, (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
-OPTION(0, 12 /* <unknown> */, UNKNOWN, Unknown, INVALID, INVALID, nullptr, 0, DefaultVis, 0, nullptr, (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
-OPTION(1, 22 /* --help */, help, Flag, INVALID, INVALID, nullptr, 0, DefaultVis, 0,
+OPTION(0, 6 /* <input> */, INPUT, Input, INVALID, INVALID, nullptr, 0, DefaultVis, 0, nullptr, (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
+OPTION(0, 14 /* <unknown> */, UNKNOWN, Unknown, INVALID, INVALID, nullptr, 0, DefaultVis, 0, nullptr, (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
+OPTION(3, 24 /* --help */, help, Flag, INVALID, INVALID, nullptr, 0, DefaultVis, 0,
        "Display available options", (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
-OPTION(1, 29 /* --version */, version, Flag, INVALID, INVALID, nullptr, 0, DefaultVis, 0,
+OPTION(1, 31 /* -o */, output, Separate, INVALID, INVALID, nullptr, 0, DefaultVis, 0,
+       "Write output to <file>", (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
+OPTION(1, 31 /* -o */, anonymous_0, Joined, INVALID, output, nullptr, 0, DefaultVis, 0, nullptr, (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
+OPTION(3, 34 /* --version */, version, Flag, INVALID, INVALID, nullptr, 0, DefaultVis, 0,
        "Print version information", (std::array<std::pair<std::array<unsigned, 2>, const char*>, 1>{{ {std::array<unsigned, 2>{{0, 0}}, nullptr} }}), nullptr, nullptr)
 #endif // OPTION
 

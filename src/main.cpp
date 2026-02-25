@@ -1,5 +1,6 @@
 #include "driver/driver.hpp"
 #include <llvm/Support/InitLLVM.h>
+#include <llvm/Support/raw_ostream.h>
 
 int main(int argc, char **argv) {
   llvm::InitLLVM X(argc, argv);
@@ -9,6 +10,12 @@ int main(int argc, char **argv) {
   if (!zapcDriver.parseArgs(argc, argv)) {
     return 0;
   }
+
+  llvm::outs() << "Input files:\n";
+  for (const std::string& f : zapcDriver.get_inputs()){
+    llvm::outs() << f << '\n';
+  }
+  llvm::outs() << "Output file: " << zapcDriver.get_output() << '\n';
 
   return 0;
 }
@@ -25,25 +32,6 @@ int main(int argc, char **argv) {
 // #include <iostream>
 // #include <llvm/Support/raw_ostream.h>
 // #include <string>
-
-// void printHelp(const char *programName)
-// {
-//   std::cout << "Zap Compiler v" << zap::ZAP_VERSION << "\n\n";
-//   std::cout << "Usage: " << programName << " [options] <file.zap>\n\n";
-//   std::cout << "Options:\n";
-//   std::cout << "  -h, --help              Show this help message\n";
-//   std::cout << "  -v, --version           Show version information\n";
-//   std::cout << "  -o, --output <file>     Specify output file name\n";
-//   std::cout << "  --debug                 Enable debug output\n";
-//   std::cout
-//       << "  --zir                   Display Zap Intermediate Representation\n";
-//   std::cout << "  --llvm                  Display LLVM IR\n";
-//   std::cout << "\nExample:\n";
-//   std::cout << "  " << programName << " main.zap\n";
-//   std::cout << "  " << programName << " -o myprogram main.zap\n";
-// }
-
-// void printVersion() { std::cout << "Zap Compiler v" << zap::ZAP_VERSION << "\n"; }
 
 // int main(int argc, char *argv[])
 // {
