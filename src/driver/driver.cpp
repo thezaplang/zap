@@ -44,6 +44,9 @@ enum class ColorState : uint8_t
 
 ColorState colors = ColorState::None;
 
+///
+/// This should be changed ASAP.
+/// 
 void print_red(llvm::StringRef msg)
 {
   if (colors == ColorState::None) {
@@ -74,15 +77,21 @@ bool driver::parseArgs(int argc, char **argv)
 
   auto args = table.ParseArgs(argsArr, missingIndex, missingCount);
 
+  ///
+  /// --help should be a priority above --version.
+  ///
   if (args.hasArg(opts::OPT_help)) {
     table.printHelp(
       llvm::outs(),
-      ZAP_NAME_MACRO " [options] file...",
+      ZAP_NAME_MACRO " [options] <file>",
       "Zap Compiler"
     );
     return false;
   }
 
+  ///
+  /// --version should still have priority over regular compilation.
+  ///
   if (args.hasArg(opts::OPT_version)) {
     llvm::outs() << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
     return false;
@@ -94,6 +103,13 @@ bool driver::parseArgs(int argc, char **argv)
                    << args.getArgString(missingIndex) 
                    << "' is missing\n";
       return false;
+  }
+
+  inputs = args.getAllArgValues(opts::OPT_INPUT);
+  output = args.getLastArgValue(opts::OPT_output, "a.out");
+
+  if(!inputs.empty()){
+    return true;
   }
 
   llvm::errs() << "zapc: ";
