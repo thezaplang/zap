@@ -60,8 +60,18 @@ namespace codegen
   bool LLVMCodeGen::emitObjectFile(const std::string &path)
   {
     auto targetTriple = llvm::sys::getDefaultTargetTriple();
+
+    ///
+    /// Since LLVM 18 std::string in setTargetTriple was removed.
+    ///
+    #if LLVM_VERSION_MAJOR < 18
     module_->setTargetTriple(targetTriple);
-    //on newer verison of llvm  module_->setTargetTriple(llvm::Triple(targetTriple));
+    #else
+    module_->setTargetTriple(
+      llvm::Triple(llvm::Triple::normalize(targetTriple))
+    );
+    #endif
+
     std::string error;
     const auto *target = llvm::TargetRegistry::lookupTarget(targetTriple, error);
     if (!target)
