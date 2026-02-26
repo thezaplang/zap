@@ -576,6 +576,10 @@ namespace zap
   {
     switch (type)
     {
+    case TokenType::OR:
+      return 2;
+    case TokenType::AND:
+      return 3;
     case TokenType::CONCAT:
       return 1;
     case TokenType::EQUAL:
