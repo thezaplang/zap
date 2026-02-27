@@ -1,252 +1,61 @@
-#include "codegen/llvm_codegen.hpp"
-#include "ir/ir_generator.hpp"
-#include "lexer/lexer.hpp"
-#include "parser/parser.hpp"
-#include "sema/binder.hpp"
-#include "utils/diagnostics.hpp"
-#include <cstring>
-#include <fstream>
-#include <iostream>
+#include "driver/driver.hpp"
+#include <llvm/Support/InitLLVM.h>
 #include <llvm/Support/raw_ostream.h>
-#include <string>
 
-#define ZAP_VERSION "0.1.0"
+int main(int argc, char **argv) {
+  llvm::InitLLVM X(argc, argv);
 
-void printHelp(const char *programName)
-{
-  std::cout << "Zap Compiler v" << ZAP_VERSION << "\n\n";
-  std::cout << "Usage: " << programName << " [options] <file.zap>\n\n";
-  std::cout << "Options:\n";
-  std::cout << "  -h, --help              Show this help message\n";
-  std::cout << "  -v, --version           Show version information\n";
-  std::cout << "  -o, --output <file>     Specify output file name\n";
-  std::cout << "  --debug                 Enable debug output\n";
-  std::cout
-      << "  --zir                   Display Zap Intermediate Representation\n";
-  std::cout << "  --llvm                  Display LLVM IR\n";
-  std::cout << "\nExample:\n";
-  std::cout << "  " << programName << " main.zap\n";
-  std::cout << "  " << programName << " -o myprogram main.zap\n";
-}
+  zap::driver zapcDriver;
 
-void printVersion() { std::cout << "Zap Compiler v" << ZAP_VERSION << "\n"; }
+  ///
+  /// Parse the argc and the argv.
+  ///
+  if (!zapcDriver.parseArgs(argc, argv)) {
+    return 0;
+  }
 
-int main(int argc, char *argv[])
-{
-  std::string inputFile;
-  std::string outputFile;
-  bool debugMode = false;
-  bool displayZIR = false;
-  bool displayLLVM = false;
-
-  if (argc < 2)
-  {
-    std::cerr << "Error: No input file specified\n";
-    std::cerr << "Try '" << argv[0] << " --help' for more information\n";
+  ///
+  /// Split the inputs to sources and objects.
+  ///
+  if (zapcDriver.splitInputs()) {
     return 1;
   }
 
-  for (int i = 1; i < argc; i++)
-  {
-    std::string arg(argv[i]);
-
-    if (arg == "-h" || arg == "--help")
-    {
-      printHelp(argv[0]);
-      return 0;
-    }
-    else if (arg == "-v" || arg == "--version")
-    {
-      printVersion();
-      return 0;
-    }
-    else if (arg == "--debug")
-    {
-      debugMode = true;
-    }
-    else if (arg == "--zir")
-    {
-      displayZIR = true;
-    }
-    else if (arg == "--llvm")
-    {
-      displayLLVM = true;
-    }
-    else if (arg == "-o" || arg == "--output")
-    {
-      if (i + 1 >= argc)
-      {
-        std::cerr << "Error: -o/--output requires an argument\n";
-        return 1;
-      }
-      outputFile = argv[++i];
-    }
-    else if (arg[0] == '-')
-    {
-      std::cerr << "Error: Unknown option '" << arg << "'\n";
-      std::cerr << "Try '" << argv[0] << " --help' for more information\n";
-      return 1;
-    }
-    else
-    {
-      inputFile = arg;
-    }
-  }
-
-  if (inputFile.empty())
-  {
-    std::cerr << "Error: No input file specified\n";
-    std::cerr << "Try '" << argv[0] << " --help' for more information\n";
+  ///
+  /// Verify that the sources exist on disk and are files.
+  ///
+  if (zapcDriver.verifySources()) {
     return 1;
   }
 
-  std::ifstream file(inputFile);
-  if (!file.is_open())
-  {
-    std::cerr << "Error: Cannot open file '" << inputFile << "': ";
-    std::perror("");
+  ///
+  /// Verify if the inputs and the output are valid or not.
+  ///
+  if (zapcDriver.verifyOutput()) {
     return 1;
   }
 
-  std::string fileContent;
-  std::string line;
-  while (std::getline(file, line))
-  {
-    fileContent += line + '\n';
-  }
-  file.close();
-
-  if (fileContent.empty())
-  {
-    std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
-  }
-
-  if (outputFile.empty())
-  {
-    outputFile = inputFile;
-    size_t lastDot = outputFile.find_last_of(".");
-    if (lastDot != std::string::npos)
-    {
-      outputFile = outputFile.substr(0, lastDot);
-    }
-  }
-
-  if (debugMode)
-  {
-    std::cout << "Debug mode enabled\n";
-    std::cout << "Input file: " << inputFile << "\n";
-    std::cout << "Output file: " << outputFile << "\n";
-  }
-
-  zap::DiagnosticEngine diagnostics(fileContent, inputFile);
-
-  Lexer lex(diagnostics);
-  auto toks = lex.tokenize(fileContent);
-
-  if (debugMode)
-  {
-    std::cout << "\nTokens:\n";
-    for (const auto &token : toks)
-    {
-      std::cout << "  Token: " << token.type << " Value: " << token.value
-                << "\n";
-    }
-  }
-
-  zap::Parser parser(toks, diagnostics);
-  auto ast = parser.parse();
-
-  if (diagnostics.hadErrors())
-  {
+  ///
+  /// Compile the files into whatever format was selected.
+  ///
+  if (zapcDriver.compile()) {
     return 1;
   }
 
-  if (!ast)
-  {
-    std::cerr << "Error: Parsing failed\n";
+  ///
+  /// Link (if needed) the final files.
+  ///
+  int err = 0;
+  if (zapcDriver.link()) {
+    err = 1;
+  }
+
+  ///
+  /// Clean up whatever needs it.
+  ///
+  if (zapcDriver.cleanup()) {
     return 1;
   }
 
-  if (debugMode)
-  {
-    std::cout << "\nAST built successfully.\n";
-  }
-
-  sema::Binder binder(diagnostics);
-  auto boundAst = binder.bind(*ast);
-
-  if (!boundAst)
-  {
-    std::cerr << "Error: Semantic analysis failed\n";
-    return 1;
-  }
-
-  if (debugMode)
-  {
-    std::cout << "Semantic analysis successful.\n";
-  }
-
-  if (displayZIR)
-  {
-    zir::BoundIRGenerator irGen;
-    auto module = irGen.generate(*boundAst);
-    if (module)
-    {
-      std::cout << "\nZap Intermediate Representation (ZIR):\n";
-      std::cout << module->toString() << "\n";
-    }
-    else
-    {
-      std::cerr << "Error: IR generation failed\n";
-      return 1;
-    }
-  }
-
-  if (displayLLVM)
-  {
-    codegen::LLVMCodeGen llvmGen;
-    llvmGen.generate(*boundAst);
-    std::cout << "\nLLVM IR:\n";
-    llvmGen.printIR();
-  }
-  else
-  {
-    codegen::LLVMCodeGen llvmGen;
-    llvmGen.generate(*boundAst);
-
-    const std::string objFile = outputFile + ".o";
-    if (!llvmGen.emitObjectFile(objFile))
-    {
-      std::cerr << "Error: object file emission failed\n";
-      return 1;
-    }
-
-    // Find stdlib.o in the same directory as the compiler
-    std::string stdlibPath;
-    std::string compilerPath(argv[0]);
-    size_t lastSlash = compilerPath.find_last_of("/\\");
-    if (lastSlash != std::string::npos)
-    {
-      stdlibPath = compilerPath.substr(0, lastSlash) + "/stdlib.o";
-    }
-    else
-    {
-      stdlibPath = "./stdlib.o";
-    }
-
-    const std::string linkCmd = "cc " + objFile + " " + stdlibPath + " -o " + outputFile;
-    int ret = std::system(linkCmd.c_str());
-    if (ret != 0)
-    {
-      std::cerr << "Error: linking failed\n";
-      return 1;
-    }
-
-    std::remove(objFile.c_str());
-
-    if (debugMode)
-      std::cout << "Binary written to: " << outputFile << "\n";
-  }
-
-  return 0;
+  return err;
 }

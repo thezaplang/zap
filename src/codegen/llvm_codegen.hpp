@@ -3,70 +3,69 @@
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
+#include <llvm/Support/raw_ostream.h>
 #include <llvm/Target/TargetMachine.h>
 #include <map>
 #include <memory>
 #include <string>
 
-namespace codegen
-{
+namespace codegen {
 
-  class LLVMCodeGen : public sema::BoundVisitor
-  {
-  public:
-    LLVMCodeGen();
+class LLVMCodeGen : public sema::BoundVisitor {
+public:
+  LLVMCodeGen();
 
-    void generate(sema::BoundRootNode &root);
+  void generate(sema::BoundRootNode &root);
 
-    void printIR() const;
+  void printIR(llvm::raw_ostream &) const;
 
-    bool emitObjectFile(const std::string &path);
+  bool emitObjectFile(const std::string &path);
 
-    void visit(sema::BoundRootNode &node) override;
-    void visit(sema::BoundFunctionDeclaration &node) override;
-    void visit(sema::BoundExternalFunctionDeclaration &node) override;
-    void visit(sema::BoundBlock &node) override;
-    void visit(sema::BoundVariableDeclaration &node) override;
-    void visit(sema::BoundReturnStatement &node) override;
-    void visit(sema::BoundAssignment &node) override;
-    void visit(sema::BoundExpressionStatement &node) override;
-    void visit(sema::BoundLiteral &node) override;
-    void visit(sema::BoundVariableExpression &node) override;
-    void visit(sema::BoundBinaryExpression &node) override;
-    void visit(sema::BoundUnaryExpression &node) override;
-    void visit(sema::BoundFunctionCall &node) override;
-    void visit(sema::BoundArrayLiteral &node) override;
-    void visit(sema::BoundRecordDeclaration &node) override;
-    void visit(sema::BoundEnumDeclaration &node) override;
-    void visit(sema::BoundIfExpression &node) override;
-    void visit(sema::BoundWhileStatement &node) override;
-    void visit(sema::BoundBreakStatement &node) override;
-    void visit(sema::BoundContinueStatement &node) override;
+  void visit(sema::BoundRootNode &node) override;
+  void visit(sema::BoundFunctionDeclaration &node) override;
+  void visit(sema::BoundExternalFunctionDeclaration &node) override;
+  void visit(sema::BoundBlock &node) override;
+  void visit(sema::BoundVariableDeclaration &node) override;
+  void visit(sema::BoundReturnStatement &node) override;
+  void visit(sema::BoundAssignment &node) override;
+  void visit(sema::BoundExpressionStatement &node) override;
+  void visit(sema::BoundLiteral &node) override;
+  void visit(sema::BoundVariableExpression &node) override;
+  void visit(sema::BoundBinaryExpression &node) override;
+  void visit(sema::BoundUnaryExpression &node) override;
+  void visit(sema::BoundFunctionCall &node) override;
+  void visit(sema::BoundArrayLiteral &node) override;
+  void visit(sema::BoundRecordDeclaration &node) override;
+  void visit(sema::BoundEnumDeclaration &node) override;
+  void visit(sema::BoundIfExpression &node) override;
+  void visit(sema::BoundWhileStatement &node) override;
+  void visit(sema::BoundBreakStatement &node) override;
+  void visit(sema::BoundContinueStatement &node) override;
 
-  private:
-    llvm::LLVMContext ctx_;
-    llvm::IRBuilder<> builder_;
-    std::unique_ptr<llvm::Module> module_;
+private:
+  llvm::LLVMContext ctx_;
+  llvm::IRBuilder<> builder_;
+  std::unique_ptr<llvm::Module> module_;
 
-    llvm::Function *currentFn_ = nullptr;
-    llvm::Value *lastValue_ = nullptr;
+  llvm::Function *currentFn_ = nullptr;
+  llvm::Value *lastValue_ = nullptr;
 
-    std::map<std::string, llvm::AllocaInst *> allocaMap_;
-    std::map<std::string, llvm::Function *> functionMap_;
-    std::map<std::string, llvm::StructType *> structCache_;
-    
-    int nextStringId_ = 0;
+  std::map<std::string, llvm::AllocaInst *> allocaMap_;
+  std::map<std::string, llvm::Function *> functionMap_;
+  std::map<std::string, llvm::StructType *> structCache_;
 
-    llvm::Constant *getOrCreateGlobalString(const std::string &str,
-                        std::string &globalName);
+  int nextStringId_ = 0;
 
-    std::vector<std::pair<llvm::BasicBlock *, llvm::BasicBlock *>> loopBBStack_;
+  llvm::Constant *getOrCreateGlobalString(const std::string &str,
+                                          std::string &globalName);
 
-    llvm::Type *toLLVMType(const zir::Type &ty);
-    llvm::FunctionType *buildFunctionType(const sema::FunctionSymbol &sym);
+  std::vector<std::pair<llvm::BasicBlock *, llvm::BasicBlock *>> loopBBStack_;
 
-    llvm::AllocaInst *createEntryAlloca(llvm::Function *fn,
-                      const std::string &name, llvm::Type *ty);
-  };
+  llvm::Type *toLLVMType(const zir::Type &ty);
+  llvm::FunctionType *buildFunctionType(const sema::FunctionSymbol &sym);
+
+  llvm::AllocaInst *createEntryAlloca(llvm::Function *fn,
+                                      const std::string &name, llvm::Type *ty);
+};
 
 } // namespace codegen
