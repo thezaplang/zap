@@ -86,6 +86,15 @@ public:
 
   const std::vector<std::string> &getVariants() const { return variants; }
   const std::string &getName() const { return name; }
+
+  int getVariantIndex(const std::string &variantName) const {
+    for (size_t i = 0; i < variants.size(); ++i) {
+      if (variants[i] == variantName) {
+        return static_cast<int>(i);
+      }
+    }
+    return -1;
+  }
 };
 
 class ArrayType : public Type {

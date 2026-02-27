@@ -509,9 +509,16 @@ namespace sema
     {
       expressionStack_.push(std::make_unique<BoundVariableExpression>(varSymbol));
     }
+    else if (auto typeSymbol = std::dynamic_pointer_cast<TypeSymbol>(symbol))
+    {
+      // This is a type name, which is valid in some contexts (e.g., enum member access)
+      // We push a "dummy" expression that holds the type.
+      // The member access visitor will then handle it.
+      expressionStack_.push(std::make_unique<BoundLiteral>("", typeSymbol->type));
+    }
     else
     {
-      error(node.span, "'" + node.value_ + "' is not a variable.");
+      error(node.span, "'" + node.value_ + "' is not a variable or type.");
     }
   }
 
@@ -553,6 +560,32 @@ namespace sema
 
     statementStack_.push(
         std::make_unique<BoundAssignment>(varSymbol, std::move(expr)));
+  }
+
+  void Binder::visit(MemberAccessNode &node)
+  {
+    node.left_->accept(*this);
+    if (expressionStack_.empty())
+      return;
+
+    auto left = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    if (left->type->getKind() == zir::TypeKind::Enum)
+    {
+      auto enumType = std::static_pointer_cast<zir::EnumType>(left->type);
+      int value = enumType->getVariantIndex(node.member_);
+      if (value != -1)
+      {
+        expressionStack_.push(std::make_unique<BoundLiteral>(
+            std::to_string(value),
+            enumType));
+        return;
+      }
+    }
+
+    error(node.span, "Member '" + node.member_ + "' not found in type '" +
+                         left->type->toString() + "'");
   }
 
   void Binder::visit(FunCall &node)
@@ -909,6 +942,12 @@ namespace sema
       {
         return from->toString() == to->toString();
       }
+      return true;
+    }
+
+    if (from->getKind() == zir::TypeKind::Enum &&
+        (to->getKind() == zir::TypeKind::Int || to->getKind() == zir::TypeKind::Enum))
+    {
       return true;
     }
 

@@ -59,11 +59,11 @@ namespace codegen
 
   bool LLVMCodeGen::emitObjectFile(const std::string &path)
   {
-    auto targetTriple = llvm::sys::getDefaultTargetTriple();
-    module_->setTargetTriple(targetTriple);
-    //on newer verison of llvm  module_->setTargetTriple(llvm::Triple(targetTriple));
+    auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
+    llvm::Triple triple(targetTripleStr);
+    module_->setTargetTriple(triple);
     std::string error;
-    const auto *target = llvm::TargetRegistry::lookupTarget(targetTriple, error);
+    const auto *target = llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
     if (!target)
     {
       llvm::errs() << "Target lookup failed: " << error << "\n";
@@ -71,7 +71,7 @@ namespace codegen
     }
 
     llvm::TargetOptions opts;
-    auto *tm = target->createTargetMachine(targetTriple, "generic", "", opts,
+    auto *tm = target->createTargetMachine(targetTripleStr, "generic", "", opts,
                                            llvm::Reloc::PIC_);
     module_->setDataLayout(tm->createDataLayout());
 
@@ -608,6 +608,11 @@ namespace codegen
     // We don't need to generate code for the declaration itself
     // unless we want to generate debug info or constant values.
     (void)node;
+  }
+
+  void LLVMCodeGen::visit(sema::BoundMemberAccess &node)
+  {
+    node.left->accept(*this);
   }
 
   void LLVMCodeGen::visit(sema::BoundIfExpression &node)

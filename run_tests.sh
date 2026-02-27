@@ -125,6 +125,7 @@ run_runtime_test "tests/concat_char.zap" 0 "Concat char + string"
 # Logical operator tests
 run_runtime_test "tests/logical_ops.zap" 0 "Logical operators (&&, ||) with short-circuiting"
 run_test "tests/logical_type_error.zap" 1 "Logical operators type check"
+run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"

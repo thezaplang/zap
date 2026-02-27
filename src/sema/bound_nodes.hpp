@@ -25,6 +25,7 @@ namespace sema
   class BoundArrayLiteral;
   class BoundRecordDeclaration;
   class BoundEnumDeclaration;
+  class BoundMemberAccess;
   class BoundIfExpression;
   class BoundWhileStatement;
   class BoundBreakStatement;
@@ -50,6 +51,7 @@ namespace sema
     virtual void visit(BoundArrayLiteral &node) = 0;
     virtual void visit(BoundRecordDeclaration &node) = 0;
     virtual void visit(BoundEnumDeclaration &node) = 0;
+    virtual void visit(BoundMemberAccess &node) = 0;
     virtual void visit(BoundIfExpression &node) = 0;
     virtual void visit(BoundWhileStatement &node) = 0;
     virtual void visit(BoundBreakStatement &node) = 0;
@@ -268,6 +270,18 @@ namespace sema
   {
   public:
     std::shared_ptr<zir::EnumType> type;
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+  };
+
+  class BoundMemberAccess : public BoundExpression
+  {
+  public:
+    std::unique_ptr<BoundExpression> left;
+    std::string member;
+
+    BoundMemberAccess(std::unique_ptr<BoundExpression> l, std::string m,
+                      std::shared_ptr<zir::Type> t)
+        : BoundExpression(std::move(t)), left(std::move(l)), member(std::move(m)) {}
     void accept(BoundVisitor &v) override { v.visit(*this); }
   };
 

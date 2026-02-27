@@ -254,6 +254,25 @@ namespace zir
     module_->addType(node.type);
   }
 
+  void BoundIRGenerator::visit(sema::BoundMemberAccess &node)
+  {
+    if (auto literal = dynamic_cast<sema::BoundLiteral *>(node.left.get()))
+    {
+      if (literal->type->getKind() == zir::TypeKind::Enum)
+      {
+        auto enumType = std::static_pointer_cast<zir::EnumType>(literal->type);
+        int value = enumType->getVariantIndex(node.member);
+        if (value != -1)
+        {
+          valueStack_.push(std::make_shared<Constant>(
+              std::to_string(value),
+              std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
+          return;
+        }
+      }
+    }
+  }
+
   void BoundIRGenerator::visit(sema::BoundIfExpression &node)
   {
     auto trueLabel = createBlockLabel("if.then");

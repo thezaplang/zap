@@ -477,14 +477,25 @@ namespace zap
 
       int nextMinPrecedence =
           (opToken.type == TokenType::POW) ? precedence : precedence + 1;
-      auto right = parseBinaryExpression(nextMinPrecedence);
 
-      SourceSpan leftSpan = left->span;
-      SourceSpan rightSpan = right->span;
-      left =
-          _builder.makeBinExpr(std::move(left), opToken.value, std::move(right));
-      _builder.setSpan(static_cast<BinExpr *>(left.get()),
-                       SourceSpan::merge(leftSpan, rightSpan));
+      if (opToken.type == TokenType::DOT)
+      {
+        Token memberToken = eat(TokenType::ID);
+        SourceSpan leftSpan = left->span;
+        left = std::move(_builder.makeMemberAccess(std::move(left), memberToken.value));
+        _builder.setSpan(left.get(), SourceSpan::merge(leftSpan, memberToken.span));
+      }
+      else
+      {
+        auto right = parseBinaryExpression(nextMinPrecedence);
+
+        SourceSpan leftSpan = left->span;
+        SourceSpan rightSpan = right->span;
+        left = _builder.makeBinExpr(std::move(left), opToken.value,
+                                    std::move(right));
+        _builder.setSpan(static_cast<BinExpr *>(left.get()),
+                         SourceSpan::merge(leftSpan, rightSpan));
+      }
     }
     return left;
   }
@@ -626,6 +637,8 @@ namespace zap
       return 20;
     case TokenType::POW:
       return 30;
+    case TokenType::DOT:
+      return 40;
     default:
       return -1;
     }

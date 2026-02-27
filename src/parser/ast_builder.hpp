@@ -49,6 +49,11 @@ public:
     return f;
   }
 
+  std::unique_ptr<MemberAccessNode> makeMemberAccess(std::unique_ptr<ExpressionNode> left,
+                                                    const std::string &member) {
+    return std::make_unique<MemberAccessNode>(std::move(left), member);
+  }
+
   std::unique_ptr<FunCall> makeFunCall(const std::string &name) {
     auto f = std::make_unique<FunCall>();
     f->funcName_ = name;

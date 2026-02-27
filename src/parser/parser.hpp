@@ -16,6 +16,7 @@
 #include "../ast/root_node.hpp"
 #include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
+#include "../ast/member_access.hpp"
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
 #include "ast_builder.hpp"

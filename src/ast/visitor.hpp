@@ -15,6 +15,7 @@ class IfNode;
 class WhileNode;
 class BreakNode;
 class ContinueNode;
+class MemberAccessNode;
 class EnumDecl;
 class RecordDecl;
 class ImportNode;
@@ -54,6 +55,7 @@ struct Visitor
   virtual void visit(ReturnNode &) {}
   virtual void visit(IfNode &) {}
   virtual void visit(WhileNode &) {}
+  virtual void visit(MemberAccessNode &) {}
   virtual void visit(BreakNode &) {}
   virtual void visit(ContinueNode &) {}
   virtual void visit(EnumDecl &) {}
