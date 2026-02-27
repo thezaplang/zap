@@ -33,8 +33,8 @@ public:
 /// @brief The class that drives the argument parsing.
 /// Order of the functions that should be called is by how they are defined here
 /// in the header. Meaning that first is parseArgs(int, char**), second is
-/// splitInputs(), third is verifyOutput(), then compile(). Most functions
-/// return true on *error* not on success. It returns error due to easy checks
+/// splitInputs(), third is verifySources(), and so on... Most functions
+/// return true on **error** not on success. It returns error due to easy checks
 /// like if(verifyOutput()) return 1;
 ///
 class driver {
