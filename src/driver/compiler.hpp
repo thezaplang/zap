@@ -4,10 +4,15 @@
 
 #define ZAP_NAME_MACRO "zapc"
 
-namespace zap
-{
+namespace zap {
 
-constexpr const char* ZAP_NAME = ZAP_NAME_MACRO;
+///
+/// @brief Name that displays when --help is used.
+///
+constexpr const char *ZAP_NAME = ZAP_NAME_MACRO;
+///
+/// @brief Zap's version, displayed when --version is used.
+///
 constexpr version ZAP_VERSION(0, 1, 0);
 
 } // namespace zap

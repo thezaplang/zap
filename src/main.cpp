@@ -7,248 +7,55 @@ int main(int argc, char **argv) {
 
   zap::driver zapcDriver;
 
+  ///
+  /// Parse the argc and the argv.
+  ///
   if (!zapcDriver.parseArgs(argc, argv)) {
     return 0;
   }
 
-  llvm::outs() << "Input files:\n";
-  for (const std::string& f : zapcDriver.get_inputs()){
-    llvm::outs() << f << '\n';
+  ///
+  /// Split the inputs to sources and objects.
+  ///
+  if (zapcDriver.splitInputs()) {
+    return 1;
   }
-  llvm::outs() << "Output file: " << zapcDriver.get_output() << '\n';
 
-  return 0;
+  ///
+  /// Verify that the sources exist on disk and are files.
+  ///
+  if (zapcDriver.verifySources()) {
+    return 1;
+  }
+
+  ///
+  /// Verify if the inputs and the output are valid or not.
+  ///
+  if (zapcDriver.verifyOutput()) {
+    return 1;
+  }
+
+  ///
+  /// Compile the files into whatever format was selected.
+  ///
+  if (zapcDriver.compile()) {
+    return 1;
+  }
+
+  ///
+  /// Link (if needed) the final files.
+  ///
+  int err = 0;
+  if (zapcDriver.link()) {
+    err = 1;
+  }
+
+  ///
+  /// Clean up whatever needs it.
+  ///
+  if (zapcDriver.cleanup()) {
+    return 1;
+  }
+
+  return err;
 }
-
-// #include "codegen/llvm_codegen.hpp"
-// #include "driver/compiler.hpp"
-// #include "ir/ir_generator.hpp"
-// #include "lexer/lexer.hpp"
-// #include "parser/parser.hpp"
-// #include "sema/binder.hpp"
-// #include "utils/diagnostics.hpp"
-// #include <cstring>
-// #include <fstream>
-// #include <iostream>
-// #include <llvm/Support/raw_ostream.h>
-// #include <string>
-
-// int main(int argc, char *argv[])
-// {
-//   std::string inputFile;
-//   std::string outputFile;
-//   bool debugMode = false;
-//   bool displayZIR = false;
-//   bool displayLLVM = false;
-
-//   if (argc < 2)
-//   {
-//     std::cerr << "Error: No input file specified\n";
-//     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
-//     return 1;
-//   }
-
-//   for (int i = 1; i < argc; i++)
-//   {
-//     std::string arg(argv[i]);
-
-//     if (arg == "-h" || arg == "--help")
-//     {
-//       printHelp(argv[0]);
-//       return 0;
-//     }
-//     else if (arg == "-v" || arg == "--version")
-//     {
-//       printVersion();
-//       return 0;
-//     }
-//     else if (arg == "--debug")
-//     {
-//       debugMode = true;
-//     }
-//     else if (arg == "--zir")
-//     {
-//       displayZIR = true;
-//     }
-//     else if (arg == "--llvm")
-//     {
-//       displayLLVM = true;
-//     }
-//     else if (arg == "-o" || arg == "--output")
-//     {
-//       if (i + 1 >= argc)
-//       {
-//         std::cerr << "Error: -o/--output requires an argument\n";
-//         return 1;
-//       }
-//       outputFile = argv[++i];
-//     }
-//     else if (arg[0] == '-')
-//     {
-//       std::cerr << "Error: Unknown option '" << arg << "'\n";
-//       std::cerr << "Try '" << argv[0] << " --help' for more information\n";
-//       return 1;
-//     }
-//     else
-//     {
-//       inputFile = arg;
-//     }
-//   }
-
-//   if (inputFile.empty())
-//   {
-//     std::cerr << "Error: No input file specified\n";
-//     std::cerr << "Try '" << argv[0] << " --help' for more information\n";
-//     return 1;
-//   }
-
-//   std::ifstream file(inputFile);
-//   if (!file.is_open())
-//   {
-//     std::cerr << "Error: Cannot open file '" << inputFile << "': ";
-//     std::perror("");
-//     return 1;
-//   }
-
-//   std::string fileContent;
-//   std::string line;
-//   while (std::getline(file, line))
-//   {
-//     fileContent += line + '\n';
-//   }
-//   file.close();
-
-//   if (fileContent.empty())
-//   {
-//     std::cerr << "Warning: Input file '" << inputFile << "' is empty\n";
-//   }
-
-//   if (outputFile.empty())
-//   {
-//     outputFile = inputFile;
-//     size_t lastDot = outputFile.find_last_of(".");
-//     if (lastDot != std::string::npos)
-//     {
-//       outputFile = outputFile.substr(0, lastDot);
-//     }
-//   }
-
-//   if (debugMode)
-//   {
-//     std::cout << "Debug mode enabled\n";
-//     std::cout << "Input file: " << inputFile << "\n";
-//     std::cout << "Output file: " << outputFile << "\n";
-//   }
-
-//   zap::DiagnosticEngine diagnostics(fileContent, inputFile);
-
-//   Lexer lex(diagnostics);
-//   auto toks = lex.tokenize(fileContent);
-
-//   if (debugMode)
-//   {
-//     std::cout << "\nTokens:\n";
-//     for (const auto &token : toks)
-//     {
-//       std::cout << "  Token: " << token.type << " Value: " << token.value
-//                 << "\n";
-//     }
-//   }
-
-//   zap::Parser parser(toks, diagnostics);
-//   auto ast = parser.parse();
-
-//   if (diagnostics.hadErrors())
-//   {
-//     return 1;
-//   }
-
-//   if (!ast)
-//   {
-//     std::cerr << "Error: Parsing failed\n";
-//     return 1;
-//   }
-
-//   if (debugMode)
-//   {
-//     std::cout << "\nAST built successfully.\n";
-//   }
-
-//   sema::Binder binder(diagnostics);
-//   auto boundAst = binder.bind(*ast);
-
-//   if (!boundAst)
-//   {
-//     std::cerr << "Error: Semantic analysis failed\n";
-//     return 1;
-//   }
-
-//   if (debugMode)
-//   {
-//     std::cout << "Semantic analysis successful.\n";
-//   }
-
-//   if (displayZIR)
-//   {
-//     zir::BoundIRGenerator irGen;
-//     auto module = irGen.generate(*boundAst);
-//     if (module)
-//     {
-//       std::cout << "\nZap Intermediate Representation (ZIR):\n";
-//       std::cout << module->toString() << "\n";
-//     }
-//     else
-//     {
-//       std::cerr << "Error: IR generation failed\n";
-//       return 1;
-//     }
-//   }
-
-//   if (displayLLVM)
-//   {
-//     codegen::LLVMCodeGen llvmGen;
-//     llvmGen.generate(*boundAst);
-//     std::cout << "\nLLVM IR:\n";
-//     llvmGen.printIR();
-//   }
-//   else
-//   {
-//     codegen::LLVMCodeGen llvmGen;
-//     llvmGen.generate(*boundAst);
-
-//     const std::string objFile = outputFile + ".o";
-//     if (!llvmGen.emitObjectFile(objFile))
-//     {
-//       std::cerr << "Error: object file emission failed\n";
-//       return 1;
-//     }
-
-//     // Find stdlib.o in the same directory as the compiler
-//     std::string stdlibPath;
-//     std::string compilerPath(argv[0]);
-//     size_t lastSlash = compilerPath.find_last_of("/\\");
-//     if (lastSlash != std::string::npos)
-//     {
-//       stdlibPath = compilerPath.substr(0, lastSlash) + "/stdlib.o";
-//     }
-//     else
-//     {
-//       stdlibPath = "./stdlib.o";
-//     }
-
-//     const std::string linkCmd = "cc " + objFile + " " + stdlibPath + " -o " + outputFile;
-//     int ret = std::system(linkCmd.c_str());
-//     if (ret != 0)
-//     {
-//       std::cerr << "Error: linking failed\n";
-//       return 1;
-//     }
-
-//     std::remove(objFile.c_str());
-
-//     if (debugMode)
-//       std::cout << "Binary written to: " << outputFile << "\n";
-//   }
-
-//   return 0;
-// }
