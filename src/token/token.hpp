@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
 
-///
 /// @brief Determines the type the token will have.
-///
 enum TokenType {
 
   IMPORT = 1, ///< "import" keyword.
@@ -70,31 +68,25 @@ enum TokenType {
   CONST,
 };
 
-///
 /// @brief Contains in-file related information like line, column, offset, and length.
-///
 struct SourceSpan {
   size_t line; ///< Line of the source in the file.
   size_t column; ///< Column of the source in the file.
   size_t offset; ///< Offset of the source in the file.
   size_t length; ///< Length of the source.
 
-  ///
   /// @brief Basic constructor of the source span.
   /// @param l Line.
   /// @param c Column.
   /// @param o Offset.
   /// @param len Length.
-  ///
   SourceSpan(size_t l = 0, size_t c = 0, size_t o = 0, size_t len = 0) noexcept
       : line(l), column(c), offset(o), length(len) {}
 
-  ///
   /// @brief Merges two 'SourceSpan' classes.
   /// @param start From.
   /// @param end To.
   /// @return Merged 'SourceSpan'.
-  ///
   static SourceSpan merge(const SourceSpan &start, const SourceSpan &end) noexcept 
   {
     size_t newLen = (end.offset + end.length) - start.offset;
@@ -108,15 +100,11 @@ public:
   TokenType type; ///< Type of the token.
   std::string value; ///< String of the token.
 
-  ///
   /// @brief Default constructor of the 'Token' class.
-  ///
   Token(TokenType type, const std::string &value, SourceSpan span)
       : span(span), type(type), value(value) {}
 
-  ///
   /// @brief Helper constructor for when we build span component-wise.
-  ///
   Token(TokenType type, const std::string &value, size_t line, size_t column,
         size_t offset, size_t length)
       : span(line, column, offset, length), type(type), value(value) {}
@@ -124,11 +112,9 @@ public:
   ~Token() noexcept = default;
 };
 
-///
 /// @brief Turns the provided 'TokenType' to a string.
 /// @param type The provided type.
 /// @return String version of the token type.
-///
 inline std::string tokenTypeToString(TokenType type) 
 {
   switch (type) {
