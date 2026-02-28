@@ -36,9 +36,7 @@ class ConstChar;
 class ConstBool;
 class ConstId;
 
-///
 /// @brief Visitor interface with empty implementations to allow selective overrides.
-///
 struct Visitor
 {
   virtual ~Visitor() noexcept = default;

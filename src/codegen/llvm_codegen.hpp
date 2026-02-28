@@ -18,7 +18,7 @@ namespace codegen
 
     void generate(sema::BoundRootNode &root);
 
-    void printIR() const;
+    void printIR(llvm::raw_ostream&) const;
 
     bool emitObjectFile(const std::string &path);
 

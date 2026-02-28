@@ -51,10 +51,10 @@ namespace codegen
     root.accept(*this);
   }
 
-  void LLVMCodeGen::printIR() const
+  void LLVMCodeGen::printIR(llvm::raw_ostream& os) const
   {
     if (module_)
-      module_->print(llvm::outs(), nullptr);
+      module_->print(os, nullptr);
   }
 
   bool LLVMCodeGen::emitObjectFile(const std::string &path)

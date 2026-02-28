@@ -9,6 +9,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find LLVM
 find_package(LLVM REQUIRED CONFIG)
 
+# Add tablegen
+find_program(LLVM_TBLGEN_EXE NAMES llvm-tblgen REQUIRED)
+# Set the option tablegen file
+set(OPT_TD "${CMAKE_CURRENT_SOURCE_DIR}/src/driver/Options.td")
+# Set the tablegen output
+set(OPT_INC "${CMAKE_CURRENT_SOURCE_DIR}/src/driver/Options.inc")
+
+# Call tablegen
+add_custom_command(
+    OUTPUT ${OPT_INC}
+    COMMAND ${LLVM_TBLGEN_EXE} -gen-opt-parser-defs 
+            -I ${LLVM_INCLUDE_DIRS} 
+            ${OPT_TD} -o ${OPT_INC}
+    DEPENDS ${OPT_TD}
+    COMMENT "Generating Options.inc from Options.td"
+)
+
+add_custom_target(ZapcOptGen DEPENDS ${OPT_INC})
+
 # Source files
 set(SOURCES
     src/main.cpp
@@ -17,10 +36,14 @@ set(SOURCES
     src/ir/ir_generator.cpp
     src/sema/binder.cpp
     src/codegen/llvm_codegen.cpp
+    src/driver/driver.cpp
 )
 
 # Create executable
 add_executable(zapc ${SOURCES})
+
+# Tablegen dependency
+add_dependencies(zapc ZapcOptGen)
 
 # Include directories
 target_include_directories(zapc PRIVATE "${CMAKE_SOURCE_DIR}/src")
@@ -42,6 +65,7 @@ set(LLVM_COMPONENTS
     mc
     target
     passes
+    option
 )
 
 # Find LLVM, this should work assuming LLVM is installed system-wide
@@ -62,4 +86,7 @@ target_link_libraries(zapc PRIVATE ${llvm_libs})
 # LLVM often requires specific compiler definitions 
 target_compile_definitions(zapc PRIVATE ${LLVM_DEFINITIONS})
 
-include(cmake/doxygen.cmake))
+# Add a stdlib.o path macro
+target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_PATH="${CMAKE_BINARY_DIR}/stdlib.o")
+
+include(cmake/doxygen.cmake)
