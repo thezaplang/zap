@@ -1,15 +1,14 @@
 fun main() Int {
-    // 3 uczniów, 4 przedmioty
     var grades: [3][4]Int = {
-        {5, 4, 3, 5},  // uczeń 0
-        {3, 3, 4, 2},  // uczeń 1
-        {5, 5, 4, 4}   // uczeń 2
+        {5, 4, 3, 5}, 
+        {3, 3, 4, 2},  
+        {5, 5, 4, 4}   
     };
 
     var studentAvg: [3]Int = {0, 0, 0};
     var subjectAvg: [4]Int = {0, 0, 0, 0};
 
-    // średnia uczniów
+    
     var i: Int = 0;
     while i < 3 {
         var sum: Int = 0;
@@ -24,7 +23,7 @@ fun main() Int {
         i = i + 1;
     }
 
-    // średnia przedmiotów
+    
     var j: Int = 0;
     while j < 4 {
         var sum: Int = 0;
@@ -39,7 +38,7 @@ fun main() Int {
         j = j + 1;
     }
 
-    // znajdź najlepszego ucznia
+   
     var bestIndex: Int = 0;
     var k: Int = 1;
     while k < 3 {
@@ -49,7 +48,7 @@ fun main() Int {
         k = k + 1;
     }
 
-    // oczekiwane:
+    
     // studentAvg = {4, 3, 4}
     // subjectAvg = {4, 4, 3, 3}
     // bestIndex = 0 (lub 2, remis)
