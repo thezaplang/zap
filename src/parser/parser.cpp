@@ -162,16 +162,8 @@ namespace zap
           if (peek().type == TokenType::SEMICOLON)
           {
             eat(TokenType::SEMICOLON);
-            body->addStatement(std::move(ifNode));
           }
-          else if (peek().type == TokenType::RBRACE)
-          {
-            body->setResult(std::move(ifNode));
-          }
-          else
-          {
-            body->addStatement(std::move(ifNode));
-          }
+          body->addStatement(std::move(ifNode));
         }
         else if (peek().type == TokenType::WHILE)
         {
@@ -206,10 +198,6 @@ namespace zap
           {
             eat(TokenType::SEMICOLON);
             body->addStatement(std::move(expr));
-          }
-          else if (peek().type == TokenType::RBRACE)
-          {
-            body->setResult(std::move(expr));
           }
           else
           {
