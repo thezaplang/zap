@@ -114,12 +114,12 @@ SEARCHENGINE                                 = NO
 
 FULL_PATH_NAMES                              = YES
 
-OUTPUT_DIRECTORY                             = @CMAKE_CURRENT_BINARY_DIR@/doc_doxygen/
-INPUT                                        = @CMAKE_CURRENT_SOURCE_DIR@/src/ast/           \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/compiler       \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/ir             \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/lexer          \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/parser         \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/sema           \
-                                               @CMAKE_CURRENT_SOURCE_DIR@/src/token
+OUTPUT_DIRECTORY                             = docs/
+INPUT                                        = src/ast/           \
+                                               src/compiler/      \
+                                               src/ir/            \
+                                               src/lexer/         \
+                                               src/parser/        \
+                                               src/sema/          \
+                                               src/token/
 RECURSIVE                                    = YES
