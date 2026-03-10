@@ -367,10 +367,9 @@ bool driver::link() {
   std::vector<llvm::StringRef> argsllvm;
   argsllvm.push_back("cc");
 
-  if(inc_stdlib){
+  if (inc_stdlib) {
     argsllvm.push_back(ZAPC_STDLIB_PATH);
-  }
-  else{
+  } else {
     argsllvm.push_back("-nostdlib");
   }
 
