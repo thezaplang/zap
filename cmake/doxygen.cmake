@@ -5,7 +5,7 @@ if(ZAP_BUILD_REFERENCE)
     if(DOXYGEN_FOUND)
         message(STATUS "Found Doxygen Version ${DOXYGEN_VERSION} at ${DOXYGEN_EXECUTABLE}")
 
-        set(ZAP_DOXYGEN_IN  ${CMAKE_CURRENT_SOURCE_DIR}/Doxygen.in)
+        set(ZAP_DOXYGEN_IN  ${CMAKE_CURRENT_SOURCE_DIR}/Doxygen)
         set(ZAP_DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
         configure_file(${ZAP_DOXYGEN_IN} ${ZAP_DOXYGEN_OUT} @ONLY)
