@@ -10,6 +10,8 @@
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
 #include "../ast/record_decl.hpp"
+#include "../ast/struct_decl.hpp"
+#include "../ast/struct_literal.hpp"
 #include "../ast/return_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/continue_node.hpp"
@@ -71,6 +73,8 @@ namespace zap
     std::unique_ptr<ParameterNode> parseParameter();
     std::unique_ptr<EnumDecl> parseEnumDecl();
     std::unique_ptr<RecordDecl> parseRecordDecl();
+    std::unique_ptr<StructDeclarationNode> parseStructDecl();
+    std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);
     std::unique_ptr<BreakNode> parseBreak();
     std::unique_ptr<ContinueNode> parseContinue();
   };

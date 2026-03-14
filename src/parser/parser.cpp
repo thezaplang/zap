@@ -29,6 +29,10 @@ namespace zap
         {
           root->addChild(parseEnumDecl());
         }
+        else if (peek().type == TokenType::STRUCT)
+        {
+          root->addChild(parseStructDecl());
+        }
         else if (peek().type == TokenType::RECORD)
         {
           root->addChild(parseRecordDecl());
@@ -589,6 +593,10 @@ namespace zap
                          SourceSpan::merge(idToken.span, rparenToken.span));
         return funCall;
       }
+      else if (peek().type == TokenType::LBRACE)
+      {
+        return parseStructLiteral(idToken.value);
+      }
       else
       {
         auto constId = _builder.makeConstId(idToken.value);
@@ -696,6 +704,7 @@ namespace zap
         return;
       case TokenType::FUN:
       case TokenType::ENUM:
+      case TokenType::STRUCT:
       case TokenType::RECORD:
       case TokenType::VAR:
       case TokenType::IF:
@@ -764,6 +773,64 @@ namespace zap
     _builder.setSpan(recordDecl.get(),
                      SourceSpan::merge(recordKeyword.span, rbraceToken.span));
     return recordDecl;
+  }
+
+  std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl()
+  {
+    Token structKeyword = eat(TokenType::STRUCT);
+    Token structNameToken = eat(TokenType::ID);
+
+    std::vector<std::unique_ptr<ParameterNode>> fields;
+    eat(TokenType::LBRACE);
+
+    if (peek().type != TokenType::RBRACE)
+    {
+      do
+      {
+        fields.push_back(parseParameter());
+        
+        if (peek().type == TokenType::COMMA || peek().type == TokenType::SEMICOLON)
+        {
+          eat(peek().type);
+        }
+        else
+        {
+          break;
+        }
+      } while (peek().type != TokenType::RBRACE);
+    }
+
+    eat(TokenType::RBRACE);
+    return std::make_unique<StructDeclarationNode>(structNameToken.value, std::move(fields));
+  }
+
+  std::unique_ptr<StructLiteralNode> Parser::parseStructLiteral(const std::string& type_name)
+  {
+    eat(TokenType::LBRACE);
+    std::vector<StructFieldInit> fields;
+
+    if (peek().type != TokenType::RBRACE)
+    {
+      do
+      {
+        Token fieldName = eat(TokenType::ID);
+        eat(TokenType::COLON);
+        auto value = parseExpression();
+        fields.emplace_back(fieldName.value, std::move(value));
+        
+        if (peek().type == TokenType::COMMA || peek().type == TokenType::SEMICOLON)
+        {
+          eat(peek().type);
+        }
+        else
+        {
+          break;
+        }
+      } while (peek().type != TokenType::RBRACE);
+    }
+
+    eat(TokenType::RBRACE);
+    return std::make_unique<StructLiteralNode>(type_name, std::move(fields));
   }
 
 } // namespace zap

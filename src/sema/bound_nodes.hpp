@@ -27,6 +27,7 @@ namespace sema
   class BoundRecordDeclaration;
   class BoundEnumDeclaration;
   class BoundMemberAccess;
+  class BoundStructLiteral;
   class BoundIfExpression;
   class BoundWhileStatement;
   class BoundBreakStatement;
@@ -54,6 +55,7 @@ namespace sema
     virtual void visit(BoundRecordDeclaration &node) = 0;
     virtual void visit(BoundEnumDeclaration &node) = 0;
     virtual void visit(BoundMemberAccess &node) = 0;
+    virtual void visit(BoundStructLiteral &node) = 0;
     virtual void visit(BoundIfExpression &node) = 0;
     virtual void visit(BoundWhileStatement &node) = 0;
     virtual void visit(BoundBreakStatement &node) = 0;
@@ -297,6 +299,17 @@ namespace sema
     BoundMemberAccess(std::unique_ptr<BoundExpression> l, std::string m,
                       std::shared_ptr<zir::Type> t)
         : BoundExpression(std::move(t)), left(std::move(l)), member(std::move(m)) {}
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+  };
+
+  class BoundStructLiteral : public BoundExpression
+  {
+  public:
+    std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
+
+    BoundStructLiteral(std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> f,
+                       std::shared_ptr<zir::Type> t)
+        : BoundExpression(std::move(t)), fields(std::move(f)) {}
     void accept(BoundVisitor &v) override { v.visit(*this); }
   };
 

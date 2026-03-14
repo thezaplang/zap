@@ -21,49 +21,50 @@ enum TokenType {
   IMPL = 15, ///< "impl" keyword.
   STATIC = 16, ///< "static" keyword.
   ENUM = 17, ///< "enum" keyword.
-  SEMICOLON = 18, ///< ';' symbol.
-  COLON = 19, ///< ':' symbol.
-  DOUBLECOLON = 20, ///< '::' symbol.
-  DOT = 21, ///< '.' symbol.
-  COMMA = 22, ///< ',' symbol.
-  LPAREN = 23, ///< '(' symbol.
-  RPAREN = 24, ///< ')' symbol.
-  LBRACE = 25, ///< '{' symbol.
-  RBRACE = 26, ///< '}' symbol.
-  ARRAY = 27, ///< ???
-  SQUARE_LBRACE = 28, ///< '[' symbol.
-  SQUARE_RBRACE = 29, ///< ']' symbol.
-  QUESTION = 30, ///< ';' symbol.
-  ARROW = 31, ///< '->' symbol.
-  LAMBDA = 32, ///< ? '=>' symbol ?
-  LESSEQUAL = 33, ///< '<=' symbol.
-  LESS = 34, ///< '<' symbol.
-  GREATER = 35, ///< '>' symbol.
-  GREATEREQUAL = 36, ///< '>=' symbol.
-  EQUAL = 37, ///< '==' symbol.
-  ASSIGN = 38, ///< '=' symbol.
-  PLUS = 39, ///< '+' symbol.
-  MINUS = 40, ///< '-' symbol.
-  MULTIPLY = 41, ///< '*' symbol.
-  REFERENCE = 42, ///< '&' symbol.
-  DIVIDE = 43, ///< '/' symbol.
-  MODULO = 44, ///< '%' symbol.
-  POW = 45, ///< '^' symbol.
-  NOT = 46, ///< '!' symbol.
-  AND = 47, ///< '&&' symbol.
-  OR = 48, ///< '||' symbol.
-  ID = 49, ///< Identifier.
-  INTEGER = 50, ///< Integer.
-  FLOAT = 51, ///< Floating point.
-  STRING = 52, ///< String.
-  CHAR = 53, ///< Char.
-  BOOL = 54, ///< True or false.
-  BREAK = 55, ///< "break" keyword.
-  CONTINUE = 56, ///< "continue" keyword.
-  ELLIPSIS = 57, ///< '...' symbol.
-  NOTEQUAL = 58, ///< '!=' symbol.
-  CONCAT = 59, ///< '~' symbol.
-  BIT_OR = 60, ///< '|' symbol.
+  STRUCT = 18, ///< "struct" keyword.
+  SEMICOLON = 19, ///< ';' symbol.
+  COLON = 20, ///< ':' symbol.
+  DOUBLECOLON = 21, ///< '::' symbol.
+  DOT = 22, ///< '.' symbol.
+  COMMA = 23, ///< ',' symbol.
+  LPAREN = 24, ///< '(' symbol.
+  RPAREN = 25, ///< ')' symbol.
+  LBRACE = 26, ///< '{' symbol.
+  RBRACE = 27, ///< '}' symbol.
+  ARRAY = 28, ///< ???
+  SQUARE_LBRACE = 29, ///< '[' symbol.
+  SQUARE_RBRACE = 30, ///< ']' symbol.
+  QUESTION = 31, ///< ';' symbol.
+  ARROW = 32, ///< '->' symbol.
+  LAMBDA = 33, ///< ? '=>' symbol ?
+  LESSEQUAL = 34, ///< '<=' symbol.
+  LESS = 35, ///< '<' symbol.
+  GREATER = 36, ///< '>' symbol.
+  GREATEREQUAL = 37, ///< '>=' symbol.
+  EQUAL = 38, ///< '==' symbol.
+  ASSIGN = 39, ///< '=' symbol.
+  PLUS = 40, ///< '+' symbol.
+  MINUS = 41, ///< '-' symbol.
+  MULTIPLY = 42, ///< '*' symbol.
+  REFERENCE = 43, ///< '&' symbol.
+  DIVIDE = 44, ///< '/' symbol.
+  MODULO = 45, ///< '%' symbol.
+  POW = 46, ///< '^' symbol.
+  NOT = 47, ///< '!' symbol.
+  AND = 48, ///< '&&' symbol.
+  OR = 49, ///< '||' symbol.
+  ID = 50, ///< Identifier.
+  INTEGER = 51, ///< Integer.
+  FLOAT = 52, ///< Floating point.
+  STRING = 53, ///< String.
+  CHAR = 54, ///< Char.
+  BOOL = 55, ///< True or false.
+  BREAK = 56, ///< "break" keyword.
+  CONTINUE = 57, ///< "continue" keyword.
+  ELLIPSIS = 58, ///< '...' symbol.
+  NOTEQUAL = 59, ///< '!=' symbol.
+  CONCAT = 60, ///< '~' symbol.
+  BIT_OR = 61, ///< '|' symbol.
   VAL,
   CONST,
 };

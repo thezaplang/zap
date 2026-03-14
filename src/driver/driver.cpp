@@ -30,14 +30,36 @@ using namespace llvm::opt;
 #include "Options.inc"
 #undef OPTTABLE_PREFIXES_TABLE_CODE
 
-static const OptTable::Info InfoTable[] = {
-#define OPTION(...) LLVM_CONSTRUCT_OPT_INFO(__VA_ARGS__),
+static constexpr llvm::StringLiteral OptionPrefixes[] = {
+  "",
+  "-",
+  "--"
+};
+
+static constexpr OptTable::Info InfoTable[] = {
+#define OPTION(PREFIX_IDX, NAME, ID, KIND, GROUP, ALIAS, ALIASARGS,            \
+               FLAGS, VIS, PARAM, HELPTEXT, METAVAR, VALUES,                   \
+               HELPTEXT_FOR_VAR)                                               \
+  {llvm::ArrayRef(&OptionPrefixes[PREFIX_IDX], 1),                             \
+   llvm::StringLiteral(NAME),                                                  \
+   HELPTEXT,                                                                   \
+   {{{{{0, 0}}, nullptr}}},                                                    \
+   METAVAR,                                                                    \
+   OPT_##ID,                                                                   \
+   llvm::opt::Option::KIND##Class,                                             \
+   PARAM,                                                                      \
+   FLAGS,                                                                      \
+   VIS,                                                                        \
+   OPT_##GROUP,                                                                \
+   OPT_##ALIAS,                                                                \
+   ALIASARGS,                                                                  \
+   VALUES},
 #include "Options.inc"
 #undef OPTION
 };
 
 ZapcOptTable::ZapcOptTable()
-    : GenericOptTable(OptionStrTable, OptionPrefixesTable, InfoTable) {}
+    : GenericOptTable(InfoTable) {}
 
 } // namespace opts
 

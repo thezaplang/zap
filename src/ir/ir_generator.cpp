@@ -259,21 +259,80 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundMemberAccess &node)
   {
-    if (auto literal = dynamic_cast<sema::BoundLiteral *>(node.left.get()))
+    node.left->accept(*this);
+    auto left = std::move(valueStack_.top());
+    valueStack_.pop();
+
+    if (left->getType()->getKind() == zir::TypeKind::Enum)
     {
-      if (literal->type->getKind() == zir::TypeKind::Enum)
+      auto enumType = std::static_pointer_cast<zir::EnumType>(left->getType());
+      int value = enumType->getVariantIndex(node.member);
+      if (value != -1)
       {
-        auto enumType = std::static_pointer_cast<zir::EnumType>(literal->type);
-        int value = enumType->getVariantIndex(node.member);
-        if (value != -1)
-        {
-          valueStack_.push(std::make_shared<Constant>(
-              std::to_string(value),
-              std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
-          return;
-        }
+        valueStack_.push(std::make_shared<Constant>(
+            std::to_string(value),
+            std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
+        return;
       }
     }
+    else if (left->getType()->getKind() == zir::TypeKind::Record)
+    {
+      auto recordType = std::static_pointer_cast<zir::RecordType>(left->getType());
+      int fieldIndex = -1;
+      const auto &fields = recordType->getFields();
+      for (size_t i = 0; i < fields.size(); ++i)
+      {
+        if (fields[i].name == node.member)
+        {
+          fieldIndex = static_cast<int>(i);
+          break;
+        }
+      }
+
+      if (fieldIndex != -1)
+      {
+        auto result = createRegister(fields[fieldIndex].type);
+        currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(result, left, fieldIndex));
+        valueStack_.push(result);
+        return;
+      }
+    }
+
+    throw std::runtime_error("Member '" + node.member + "' not found in type '" + left->getTypeName() + "'");
+  }
+
+  void BoundIRGenerator::visit(sema::BoundStructLiteral &node)
+  {
+    auto recordType = std::static_pointer_cast<zir::RecordType>(node.type);
+    auto allocaReg = createRegister(std::make_shared<PointerType>(recordType));
+    currentBlock_->addInstruction(std::make_unique<AllocaInst>(allocaReg, recordType));
+
+    for (const auto &fieldInit : node.fields)
+    {
+      // Find field index
+      int fieldIndex = -1;
+      const auto &fields = recordType->getFields();
+      for (size_t i = 0; i < fields.size(); ++i)
+      {
+        if (fields[i].name == fieldInit.first)
+        {
+          fieldIndex = static_cast<int>(i);
+          break;
+        }
+      }
+
+      fieldInit.second->accept(*this);
+      auto val = std::move(valueStack_.top());
+      valueStack_.pop();
+
+      auto fieldAddr = createRegister(std::make_shared<PointerType>(fields[fieldIndex].type));
+      currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(fieldAddr, allocaReg, fieldIndex));
+      currentBlock_->addInstruction(std::make_unique<StoreInst>(val, fieldAddr));
+    }
+
+    auto result = createRegister(recordType);
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(result, allocaReg));
+    valueStack_.push(result);
   }
 
   void BoundIRGenerator::visit(sema::BoundIfExpression &node)

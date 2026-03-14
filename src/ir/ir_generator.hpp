@@ -33,6 +33,7 @@ namespace zir
     void visit(sema::BoundRecordDeclaration &node) override;
     void visit(sema::BoundEnumDeclaration &node) override;
     void visit(sema::BoundMemberAccess &node) override;
+    void visit(sema::BoundStructLiteral &node) override;
     void visit(sema::BoundIfExpression &node) override;
     void visit(sema::BoundWhileStatement &node) override;
     void visit(sema::BoundBreakStatement &node) override;

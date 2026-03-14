@@ -18,6 +18,8 @@ class ContinueNode;
 class MemberAccessNode;
 class EnumDecl;
 class RecordDecl;
+class StructDeclarationNode;
+class StructLiteralNode;
 class ImportNode;
 class ParameterNode;
 class TypeNode;
@@ -59,6 +61,8 @@ struct Visitor
   virtual void visit(ContinueNode &) {}
   virtual void visit(EnumDecl &) {}
   virtual void visit(RecordDecl &) {}
+  virtual void visit(StructDeclarationNode &) {}
+  virtual void visit(StructLiteralNode &) {}
   virtual void visit(ImportNode &) {}
   virtual void visit(ParameterNode &) {}
   virtual void visit(TypeNode &) {}

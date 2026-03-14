@@ -49,6 +49,32 @@ namespace sema
         std::make_unique<BoundExternalFunctionDeclaration>(symbol));
     }
 
+    // Provide `printInt` as a built-in external function: printInt(i: Int) -> Void
+    {
+      std::vector<std::shared_ptr<VariableSymbol>> params;
+      params.push_back(
+        std::make_shared<VariableSymbol>("i",
+                         std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
+      auto retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      auto symbol = std::make_shared<FunctionSymbol>("printInt", std::move(params), std::move(retType));
+      currentScope_->declare("printInt", symbol);
+      boundRoot_->externalFunctions.push_back(
+        std::make_unique<BoundExternalFunctionDeclaration>(symbol));
+    }
+
+    // Provide `printBool` as a built-in external function: printBool(b: Bool) -> Void
+    {
+      std::vector<std::shared_ptr<VariableSymbol>> params;
+      params.push_back(
+        std::make_shared<VariableSymbol>("b",
+                         std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool)));
+      auto retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      auto symbol = std::make_shared<FunctionSymbol>("printBool", std::move(params), std::move(retType));
+      currentScope_->declare("printBool", symbol);
+      boundRoot_->externalFunctions.push_back(
+        std::make_unique<BoundExternalFunctionDeclaration>(symbol));
+    }
+
     // Provide `printFloat` as a built-in external function: printFloat(f: Float) -> Void
     {
       std::vector<std::shared_ptr<VariableSymbol>> params;
@@ -73,6 +99,17 @@ namespace sema
         {
           error(recordDecl->span,
                 "Type '" + recordDecl->name_ + "' already declared.");
+        }
+      }
+      else if (auto structDecl = dynamic_cast<StructDeclarationNode *>(child.get()))
+      {
+        auto type = std::make_shared<zir::RecordType>(structDecl->name_);
+        if (!currentScope_->declare(structDecl->name_,
+                                    std::make_shared<TypeSymbol>(
+                                        structDecl->name_, std::move(type))))
+        {
+          error(structDecl->span,
+                "Type '" + structDecl->name_ + "' already declared.");
         }
       }
       else if (auto enumDecl = dynamic_cast<EnumDecl *>(child.get()))
@@ -530,11 +567,13 @@ namespace sema
     auto target = std::move(expressionStack_.top());
     expressionStack_.pop();
 
-    // Check if target is an l-value (Variable or IndexAccess)
+    // Check if target is an l-value (Variable, IndexAccess or MemberAccess)
     bool isLValue = false;
     if (dynamic_cast<BoundVariableExpression *>(target.get()))
       isLValue = true;
     else if (dynamic_cast<BoundIndexAccess *>(target.get()))
+      isLValue = true;
+    else if (dynamic_cast<BoundMemberAccess *>(target.get()))
       isLValue = true;
 
     if (!isLValue)
@@ -618,6 +657,19 @@ namespace sema
             std::to_string(value),
             enumType));
         return;
+      }
+    }
+    else if (left->type->getKind() == zir::TypeKind::Record)
+    {
+      auto recordType = std::static_pointer_cast<zir::RecordType>(left->type);
+      for (const auto &field : recordType->getFields())
+      {
+        if (field.name == node.member_)
+        {
+          expressionStack_.push(std::make_unique<BoundMemberAccess>(
+              std::move(left), node.member_, field.type));
+          return;
+        }
       }
     }
 
@@ -962,6 +1014,104 @@ namespace sema
     auto boundRecord = std::make_unique<BoundRecordDeclaration>();
     boundRecord->type = recordType;
     boundRoot_->records.push_back(std::move(boundRecord));
+  }
+
+  void Binder::visit(StructDeclarationNode &node)
+  {
+    auto symbol = currentScope_->lookup(node.name_);
+    auto recordType = std::static_pointer_cast<zir::RecordType>(symbol->type);
+
+    for (const auto &field : node.fields_)
+    {
+      recordType->addField(field->name, mapType(*field->type));
+    }
+
+    auto boundRecord = std::make_unique<BoundRecordDeclaration>();
+    boundRecord->type = recordType;
+    boundRoot_->records.push_back(std::move(boundRecord));
+  }
+
+  void Binder::visit(StructLiteralNode &node)
+  {
+    auto symbol = currentScope_->lookup(node.type_name_);
+    if (!symbol || symbol->getKind() != SymbolKind::Type)
+    {
+      error(node.span, "Unknown type: " + node.type_name_);
+      return;
+    }
+
+    auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
+    if (typeSymbol->type->getKind() != zir::TypeKind::Record)
+    {
+      error(node.span, "'" + node.type_name_ + "' is not a struct.");
+      return;
+    }
+
+    auto recordType = std::static_pointer_cast<zir::RecordType>(typeSymbol->type);
+    std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> boundFields;
+
+    for (auto &fieldInit : node.fields_)
+    {
+      fieldInit.value->accept(*this);
+      if (expressionStack_.empty())
+        continue;
+      auto boundVal = std::move(expressionStack_.top());
+      expressionStack_.pop();
+
+      // Check if field exists
+      bool found = false;
+      for (const auto &f : recordType->getFields())
+      {
+        if (f.name == fieldInit.name)
+        {
+          if (!canConvert(boundVal->type, f.type))
+          {
+            error(node.span, "Cannot assign type '" + boundVal->type->toString() +
+                                 "' to field '" + f.name + "' of type '" +
+                                 f.type->toString() + "'");
+          }
+          found = true;
+          break;
+        }
+      }
+
+      if (!found)
+      {
+        error(node.span, "Field '" + fieldInit.name + "' not found in struct '" +
+                             node.type_name_ + "'");
+      }
+
+      boundFields.push_back({fieldInit.name, std::move(boundVal)});
+    }
+
+    // Check if all fields are initialized
+    const auto &allFields = recordType->getFields();
+    if (boundFields.size() < allFields.size())
+    {
+      for (const auto &f : allFields)
+      {
+        bool initialized = false;
+        for (const auto &bf : boundFields)
+        {
+          if (bf.first == f.name)
+          {
+            initialized = true;
+            break;
+          }
+        }
+        if (!initialized)
+        {
+          error(node.span, "Field '" + f.name + "' of struct '" + node.type_name_ + "' is not initialized.");
+        }
+      }
+    }
+    else if (boundFields.size() > allFields.size())
+    {
+       // This should have been caught during the field name lookup loop, 
+       // but just in case we have duplicates or something.
+    }
+
+    expressionStack_.push(std::make_unique<BoundStructLiteral>(std::move(boundFields), recordType));
   }
 
   void Binder::visit(EnumDecl &node)

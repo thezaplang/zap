@@ -52,17 +52,13 @@ Makefile
 
 # Other
 *.log
-/example/main
-
+.local/
 
 #llvm
 *.ll
 
 .env
 
-/.gemini
-push.sh
-GEMINI.md
 
 # clangd
 .cache/

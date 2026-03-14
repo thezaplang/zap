@@ -39,7 +39,7 @@ namespace codegen
     auto *zero32 = llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_), 0);
     llvm::Constant *indices[] = {zero32, zero32};
     auto *gep = llvm::ConstantExpr::getInBoundsGetElementPtr(arrayTy, gv,
-                                                            indices);
+                                                             indices);
     auto *ptrTy = llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
     auto *ptr = llvm::ConstantExpr::getBitCast(gep, ptrTy);
     return ptr;
@@ -51,7 +51,7 @@ namespace codegen
     root.accept(*this);
   }
 
-  void LLVMCodeGen::printIR(llvm::raw_ostream& os) const
+  void LLVMCodeGen::printIR(llvm::raw_ostream &os) const
   {
     if (module_)
       module_->print(os, nullptr);
@@ -61,7 +61,7 @@ namespace codegen
   {
     auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
     llvm::Triple triple(targetTripleStr);
-    module_->setTargetTriple(triple);
+    module_->setTargetTriple(targetTripleStr);
     std::string error;
     const auto *target = llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
     if (!target)
@@ -94,7 +94,8 @@ namespace codegen
     // TODO: Improve handling of verifying the module.
     bool is_broken = llvm::verifyModule(*module_, &llvm::errs());
 
-    if(!is_broken) pm.run(*module_);
+    if (!is_broken)
+      pm.run(*module_);
     dest.flush();
     delete tm;
     return !is_broken;
@@ -241,7 +242,6 @@ namespace codegen
     {
       if (fn->getReturnType()->isVoidTy())
         builder_.CreateRetVoid();
-      
     }
 
     currentFn_ = nullptr;
@@ -618,27 +618,34 @@ namespace codegen
 
     auto *leftTy = toLLVMType(*node.left->type);
     llvm::Value *elemAddr = nullptr;
-    
-    if (leftTy->isArrayTy()) {
-        auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
-        std::vector<llvm::Value *> indices = {
-            llvm::ConstantInt::get(i32Ty, 0),
-            builder_.CreateIntCast(indexVal, i32Ty, /*isSigned=*/false)
-        };
-        elemAddr = builder_.CreateInBoundsGEP(leftTy, leftAddr, indices);
-    } else if (leftTy->isPointerTy()) {
-        // Pointer indexing (e.g. string[0])
-        auto *baseTy = toLLVMType(*static_cast<zir::PointerType&>(*node.left->type).getBaseType());
-        elemAddr = builder_.CreateInBoundsGEP(baseTy, leftAddr, indexVal);
-    } else {
-        throw std::runtime_error("Type '" + node.left->type->toString() + "' does not support indexing.");
+
+    if (leftTy->isArrayTy())
+    {
+      auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
+      std::vector<llvm::Value *> indices = {
+          llvm::ConstantInt::get(i32Ty, 0),
+          builder_.CreateIntCast(indexVal, i32Ty, /*isSigned=*/false)};
+      elemAddr = builder_.CreateInBoundsGEP(leftTy, leftAddr, indices);
+    }
+    else if (leftTy->isPointerTy())
+    {
+      // Pointer indexing (e.g. string[0])
+      auto *baseTy = toLLVMType(*static_cast<zir::PointerType &>(*node.left->type).getBaseType());
+      elemAddr = builder_.CreateInBoundsGEP(baseTy, leftAddr, indexVal);
+    }
+    else
+    {
+      throw std::runtime_error("Type '" + node.left->type->toString() + "' does not support indexing.");
     }
 
-    if (evaluateAsAddr_) {
-        lastValue_ = elemAddr;
-    } else {
-        auto *ty = toLLVMType(*node.type);
-        lastValue_ = builder_.CreateLoad(ty, elemAddr, "index_access");
+    if (evaluateAsAddr_)
+    {
+      lastValue_ = elemAddr;
+    }
+    else
+    {
+      auto *ty = toLLVMType(*node.type);
+      lastValue_ = builder_.CreateLoad(ty, elemAddr, "index_access");
     }
   }
 
@@ -657,7 +664,77 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundMemberAccess &node)
   {
+    bool old = evaluateAsAddr_;
+    evaluateAsAddr_ = true;
     node.left->accept(*this);
+    llvm::Value *leftAddr = lastValue_;
+    evaluateAsAddr_ = old;
+
+    auto recordType = std::static_pointer_cast<zir::RecordType>(node.left->type);
+    int fieldIndex = -1;
+    const auto &fields = recordType->getFields();
+    for (size_t i = 0; i < fields.size(); ++i)
+    {
+      if (fields[i].name == node.member)
+      {
+        fieldIndex = static_cast<int>(i);
+        break;
+      }
+    }
+
+    if (fieldIndex == -1)
+      throw std::runtime_error("Field '" + node.member + "' not found in type '" + node.left->type->toString() + "'");
+
+    llvm::StructType *structTy = static_cast<llvm::StructType *>(toLLVMType(*recordType));
+    llvm::Value *fieldAddr = builder_.CreateStructGEP(structTy, leftAddr, fieldIndex, node.member);
+
+    if (evaluateAsAddr_)
+    {
+      lastValue_ = fieldAddr;
+    }
+    else
+    {
+      lastValue_ = builder_.CreateLoad(toLLVMType(*node.type), fieldAddr, node.member);
+    }
+  }
+
+  void LLVMCodeGen::visit(sema::BoundStructLiteral &node)
+  {
+    auto recordType = std::static_pointer_cast<zir::RecordType>(node.type);
+    llvm::StructType *structTy = static_cast<llvm::StructType *>(toLLVMType(*recordType));
+    
+    // Create an alloca for the struct
+    llvm::Value *structAddr = createEntryAlloca(currentFn_, "struct_literal", structTy);
+    
+    for (const auto &fieldInit : node.fields)
+    {
+      // Find field index
+      int fieldIndex = -1;
+      const auto &fields = recordType->getFields();
+      for (size_t i = 0; i < fields.size(); ++i)
+      {
+        if (fields[i].name == fieldInit.first)
+        {
+          fieldIndex = static_cast<int>(i);
+          break;
+        }
+      }
+      
+      fieldInit.second->accept(*this);
+      llvm::Value *val = lastValue_;
+      
+      llvm::Value *fieldAddr = builder_.CreateStructGEP(structTy, structAddr, fieldIndex);
+      builder_.CreateStore(val, fieldAddr);
+    }
+    
+    if (evaluateAsAddr_)
+    {
+      lastValue_ = structAddr;
+    }
+    else
+    {
+      lastValue_ = builder_.CreateLoad(structTy, structAddr);
+    }
   }
 
   void LLVMCodeGen::visit(sema::BoundIfExpression &node)

@@ -28,4 +28,8 @@
 #include "unary_expr.hpp"
 #include "var_decl.hpp"
 #include "const_decl.hpp"
+#include "record_decl.hpp"
+#include "enum_decl.hpp"
+#include "struct_decl.hpp"
+#include "struct_literal.hpp"
 #include "while_node.hpp"

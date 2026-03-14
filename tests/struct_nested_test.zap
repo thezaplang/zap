@@ -1,0 +1,29 @@
+struct Color {
+    r: Int,
+    g: Int,
+    b: Int
+}
+
+struct Circle {
+    center_x: Int,
+    center_y: Int,
+    radius: Int,
+    color: Color
+}
+
+fun main() {
+    var c: Circle = Circle{
+        center_x: 100,
+        center_y: 100,
+        radius: 50,
+        color: Color{r: 255, g: 0, b: 0}
+    };
+    
+    printInt(c.center_x);
+    printInt(c.color.r);
+    
+    c.color.g = 128;
+    printInt(c.color.g);
+    
+    return 0;
+}

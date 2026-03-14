@@ -132,6 +132,7 @@ public:
     case output_type::LLVM:
       return false;
     }
+    return false;
   }
 
   /// @brief Returns a file extension based on the file format given.
@@ -176,6 +177,7 @@ public:
     case output_type::ZIR:
       return false;
     }
+    return false;
   }
 
 private:

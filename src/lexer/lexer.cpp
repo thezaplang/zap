@@ -308,6 +308,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::STATIC;
       else if (identStr == "enum")
         type = TokenType::ENUM;
+      else if (identStr == "struct")
+        type = TokenType::STRUCT;
       else if (identStr == "break")
         type = TokenType::BREAK;
       else if (identStr == "continue")
