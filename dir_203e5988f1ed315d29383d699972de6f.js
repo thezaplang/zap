@@ -24,6 +24,8 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "return_node.hpp", "d8/da4/return__node_8hpp.html", "d8/da4/return__node_8hpp" ],
     [ "root_node.hpp", "d3/d3c/root__node_8hpp.html", "d3/d3c/root__node_8hpp" ],
     [ "statement_node.hpp", "dc/d41/statement__node_8hpp.html", "dc/d41/statement__node_8hpp" ],
+    [ "struct_decl.hpp", "d8/d0b/struct__decl_8hpp.html", "d8/d0b/struct__decl_8hpp" ],
+    [ "struct_literal.hpp", "d7/d7f/struct__literal_8hpp.html", "d7/d7f/struct__literal_8hpp" ],
     [ "top_level.hpp", "db/ddf/top__level_8hpp.html", "db/ddf/top__level_8hpp" ],
     [ "type_node.hpp", "d3/ddb/type__node_8hpp.html", "d3/ddb/type__node_8hpp" ],
     [ "unary_expr.hpp", "d2/d2e/unary__expr_8hpp.html", "d2/d2e/unary__expr_8hpp" ],

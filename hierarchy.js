@@ -13,6 +13,7 @@ var hierarchy =
         [ "sema::BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", null ],
         [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", null ],
         [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", null ],
+        [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
         [ "sema::BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", null ]
       ] ],
@@ -70,6 +71,7 @@ var hierarchy =
         [ "IfNode", "d8/dd5/classIfNode.html", null ],
         [ "IndexAccessNode", "d9/ddc/classIndexAccessNode.html", null ],
         [ "MemberAccessNode", "d9/dff/classMemberAccessNode.html", null ],
+        [ "StructLiteralNode", "de/d32/classStructLiteralNode.html", null ],
         [ "UnaryExpr", "dd/d97/classUnaryExpr.html", null ]
       ] ],
       [ "ParameterNode", "d9/dd3/classParameterNode.html", null ],
@@ -90,7 +92,8 @@ var hierarchy =
         [ "ExtDecl", "d3/df9/classExtDecl.html", null ],
         [ "FunDecl", "d3/d94/classFunDecl.html", null ],
         [ "ImportNode", "d5/d3f/classImportNode.html", null ],
-        [ "RecordDecl", "d9/d3d/classRecordDecl.html", null ]
+        [ "RecordDecl", "d9/d3d/classRecordDecl.html", null ],
+        [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html", null ]
       ] ],
       [ "TypeNode", "d7/d9f/classTypeNode.html", null ]
     ] ],
@@ -99,6 +102,7 @@ var hierarchy =
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
     [ "SourceSpan", "d4/d5b/structSourceSpan.html", null ],
+    [ "StructFieldInit", "d8/d96/structStructFieldInit.html", null ],
     [ "sema::Symbol", "d1/df6/classsema_1_1Symbol.html", [
       [ "sema::FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", null ],
       [ "sema::TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", null ],

@@ -25,5 +25,6 @@ var bound__nodes_8hpp =
     [ "sema::BoundRecordDeclaration", "d1/d8b/classsema_1_1BoundRecordDeclaration.html", "d1/d8b/classsema_1_1BoundRecordDeclaration" ],
     [ "sema::BoundEnumDeclaration", "d2/d9e/classsema_1_1BoundEnumDeclaration.html", "d2/d9e/classsema_1_1BoundEnumDeclaration" ],
     [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", "db/ddd/classsema_1_1BoundMemberAccess" ],
+    [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "sema::BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ]
 ];

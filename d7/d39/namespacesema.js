@@ -26,6 +26,7 @@ var namespacesema =
     [ "BoundRecordDeclaration", "d1/d8b/classsema_1_1BoundRecordDeclaration.html", "d1/d8b/classsema_1_1BoundRecordDeclaration" ],
     [ "BoundEnumDeclaration", "d2/d9e/classsema_1_1BoundEnumDeclaration.html", "d2/d9e/classsema_1_1BoundEnumDeclaration" ],
     [ "BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", "db/ddd/classsema_1_1BoundMemberAccess" ],
+    [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
     [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
     [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],

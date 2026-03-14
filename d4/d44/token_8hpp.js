@@ -20,6 +20,7 @@ var token_8hpp =
       [ "IMPL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afa9f13a3d80049b1e7f9cef4e57108c1", null ],
       [ "STATIC", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ae55a36a850c67d46b3b3325de7fce0b8", null ],
       [ "ENUM", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a5bc38f5ef3a09fbc02c3f3576277a5b9", null ],
+      [ "STRUCT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a840fc36796c5af05b4616165e6449dad", null ],
       [ "SEMICOLON", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a55eebe3c7e08b49cd5969442f4f8c4ce", null ],
       [ "COLON", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a29cf94637337909c3813bb50d6e9b3ee", null ],
       [ "DOUBLECOLON", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921acfac04069271ca11518219ba4694825d", null ],
