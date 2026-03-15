@@ -100,8 +100,50 @@ run_runtime_test() {
     fi
 }
 
+# Warning + Runtime test: check for warning AND exit code
+run_warning_runtime_test() {
+    local file=$1
+    local expected_exit_code=$2
+    local warning_pattern=$3
+    local description=$4
+
+    ((TOTAL++))
+    echo -n "Running $description ($file)... "
+
+    tmpfile=$(mktemp)
+    binfile="${file%.*}"
+    $ZAPC "$file" -o "$binfile" 2> "$tmpfile"
+    local compile_code=$?
+
+    if [ $compile_code -ne 0 ]; then
+        echo -e "${RED}FAIL${NC} (compile failed)"
+        rm -f "$tmpfile"
+        return
+    fi
+
+    if ! grep -qi "$warning_pattern" "$tmpfile"; then
+        echo -e "${RED}FAIL${NC} (warning '$warning_pattern' not emitted)"
+        rm -f "$tmpfile" "$binfile"
+        return
+    fi
+
+    ./$binfile > /dev/null 2>&1
+    local run_code=$?
+    rm -f "$binfile" "$tmpfile"
+
+    if [ $run_code -eq $expected_exit_code ]; then
+        echo -e "${GREEN}PASS${NC}"
+        ((PASSED++))
+    else
+        echo -e "${RED}FAIL${NC} (expected exit $expected_exit_code, got $run_code)"
+    fi
+}
+
 # Warning test: non-void function without return should emit warning
 run_warning_test "tests/warn_missing_return.zap" "Warning: missing return in non-void function"
+
+# Global variable test
+run_warning_runtime_test "tests/global_var_test.zap" 0 "Global variables are discouraged" "Global variable with warning"
 
 # Runtime test: main without explicit return type should default to Int and return 0
 run_runtime_test "tests/main_implicit.zap" 0 "Main implicit return type and implicit return 0"

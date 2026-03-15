@@ -365,8 +365,18 @@ namespace sema
       error(node.span, "Variable '" + node.name_ + "' already declared.");
     }
 
-    statementStack_.push(std::make_unique<BoundVariableDeclaration>(
-        symbol, std::move(initializer)));
+    if (node.isGlobal_) {
+      _diag.report(node.span, zap::DiagnosticLevel::Warning, "Global variables are discouraged.");
+    }
+
+    auto boundDecl = std::make_unique<BoundVariableDeclaration>(
+        symbol, std::move(initializer));
+
+    if (currentBlock_ && !node.isGlobal_) {
+      statementStack_.push(std::move(boundDecl));
+    } else {
+      boundRoot_->globals.push_back(std::move(boundDecl));
+    }
   }
 
   void Binder::visit(ConstDecl &node)

@@ -41,6 +41,23 @@ namespace zap
         {
           root->addChild(parseConstDecl());
         }
+        else if (peek().type == TokenType::GLOBAL)
+        {
+          Token globalToken = eat(TokenType::GLOBAL);
+          if (peek().type == TokenType::VAR)
+          {
+            auto varDecl = parseVarDecl();
+            varDecl->isGlobal_ = true;
+            _builder.setSpan(varDecl.get(), SourceSpan::merge(globalToken.span, varDecl->span));
+            root->addChild(std::move(varDecl));
+          }
+          else
+          {
+            _diag.report(peek().span, DiagnosticLevel::Error, "Expected 'var' after 'global'");
+            _pos++;
+            synchronize();
+          }
+        }
         else
         {
           _diag.report(peek().span, DiagnosticLevel::Error,
