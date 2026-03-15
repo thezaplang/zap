@@ -92,6 +92,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6b5560686c3de0611b8efcb7c4c78790" id="r_a6b5560686c3de0611b8efcb7c4c78790"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b5560686c3de0611b8efcb7c4c78790">name_</a></td></tr>
 <tr class="memitem:a83299ad7cff376d930c59019a7a577ac" id="r_a83299ad7cff376d930c59019a7a577ac"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83299ad7cff376d930c59019a7a577ac">type_</a></td></tr>
 <tr class="memitem:a5be900bcc8e4464fdfc1e1e124b1ca7a" id="r_a5be900bcc8e4464fdfc1e1e124b1ca7a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5be900bcc8e4464fdfc1e1e124b1ca7a">initializer_</a></td></tr>
+<tr class="memitem:aa225ad472911dacf338f0ffcdf3495a8" id="r_aa225ad472911dacf338f0ffcdf3495a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa225ad472911dacf338f0ffcdf3495a8">isGlobal_</a> = false</td></tr>
 <tr class="inherit_header pub_attribs_classNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../df/dd0/classNode.html">Node</a></td></tr>
 <tr class="memitem:a48ef306cfa64ff29194ade8b098f127f inherit pub_attribs_classNode" id="r_a48ef306cfa64ff29194ade8b098f127f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a></td></tr>
 </table>
@@ -122,7 +123,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00015">VarDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00016">VarDecl()</a>.</p>
 
 </div>
 </div>
@@ -158,9 +159,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>      : <a class="code hl_variable" href="#a6b5560686c3de0611b8efcb7c4c78790">name_</a>(name), <a class="code hl_variable" href="#a83299ad7cff376d930c59019a7a577ac">type_</a>(std::move(type)),</div>
-<div class="line"><span class="lineno">   18</span>        <a class="code hl_variable" href="#a5be900bcc8e4464fdfc1e1e124b1ca7a">initializer_</a>(std::move(initializer)) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>      : <a class="code hl_variable" href="#a6b5560686c3de0611b8efcb7c4c78790">name_</a>(name), <a class="code hl_variable" href="#a83299ad7cff376d930c59019a7a577ac">type_</a>(std::move(type)),</div>
+<div class="line"><span class="lineno">   19</span>        <a class="code hl_variable" href="#a5be900bcc8e4464fdfc1e1e124b1ca7a">initializer_</a>(std::move(initializer)) {}</div>
 <div class="ttc" id="aclassVarDecl_html_a5be900bcc8e4464fdfc1e1e124b1ca7a"><div class="ttname"><a href="#a5be900bcc8e4464fdfc1e1e124b1ca7a">VarDecl::initializer_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; initializer_</div><div class="ttdef"><b>Definition</b> <a href="../../d5/df1/var__decl_8hpp_source.html#l00012">var_decl.hpp:12</a></div></div>
 <div class="ttc" id="aclassVarDecl_html_a6b5560686c3de0611b8efcb7c4c78790"><div class="ttname"><a href="#a6b5560686c3de0611b8efcb7c4c78790">VarDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../d5/df1/var__decl_8hpp_source.html#l00010">var_decl.hpp:10</a></div></div>
 <div class="ttc" id="aclassVarDecl_html_a83299ad7cff376d930c59019a7a577ac"><div class="ttname"><a href="#a83299ad7cff376d930c59019a7a577ac">VarDecl::type_</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; type_</div><div class="ttdef"><b>Definition</b> <a href="../../d5/df1/var__decl_8hpp_source.html#l00011">var_decl.hpp:11</a></div></div>
@@ -195,8 +196,8 @@ Public Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d1/dcd/classStatementNode.html#ad4ac932ea6e404d437dc03ac671b3a44">StatementNode</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00047">visitor.hpp:47</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00047">Visitor::visit()</a>.</p>
@@ -218,7 +219,25 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00015">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00016">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
+
+</div>
+</div>
+<a id="aa225ad472911dacf338f0ffcdf3495a8" name="aa225ad472911dacf338f0ffcdf3495a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa225ad472911dacf338f0ffcdf3495a8">&#9670;&#160;</a></span>isGlobal_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool VarDecl::isGlobal_ = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -236,7 +255,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00015">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00016">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -254,7 +273,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d5/df1/var__decl_8hpp_source.html">var_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00015">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/df1/var__decl_8hpp_source.html#l00016">VarDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00339">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
