@@ -46,6 +46,7 @@ namespace zap
     std::vector<Token> _tokens;
     size_t _pos;
     AstBuilder _builder;
+    bool _allowStructLiteral = true;
 
     // Helper methods
     const Token &peek(size_t offset = 0) const;

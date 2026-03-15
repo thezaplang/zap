@@ -1,29 +1,10 @@
 #pragma once
 
 #include <filesystem>
-#include <llvm/Option/ArgList.h>
-#include <llvm/Option/OptTable.h>
 #include <string>
 #include <vector>
 
 namespace zap {
-
-namespace opts {
-/// @brief Driver's available options.
-enum ID {
-  OPT_INVALID = 0,
-#define OPTION(...) LLVM_MAKE_OPT_ID(__VA_ARGS__),
-#include "Options.inc"
-#undef OPTION
-};
-
-/// @brief Table that the driver class uses.
-class ZapcOptTable : public llvm::opt::GenericOptTable {
-public:
-  ZapcOptTable();
-};
-
-} // namespace opts
 
 /// @brief The class that drives the argument parsing.
 /// Order of the functions that should be called is by how they are defined here
@@ -39,7 +20,6 @@ public:
   /// @param argc How many arguments.
   /// @param argv Pointer to the arguments.
   /// @return True if should continue compiling.
-  /// This should be called first right after initializing llvm and the driver.
   bool parseArgs(int argc, char **argv);
 
   /// @brief Splits inputs based on their file extension.

@@ -7,130 +7,92 @@
 #include "sema/binder.hpp"
 #include "sema/bound_nodes.hpp"
 #include "utils/diagnostics.hpp"
+#include <algorithm>
 #include <cerrno>
 #include <cstring>
 #include <fstream>
-#include <llvm/ADT/ArrayRef.h>
-#include <llvm/ADT/StringRef.h>
-#include <llvm/Support/FileSystem.h>
-#include <llvm/Support/Program.h>
-#include <llvm/Support/raw_ostream.h>
-#include <system_error>
+#include <iostream>
+#include <string_view>
 
 namespace zap {
 
-namespace opts {
-using namespace llvm::opt;
-
-#define OPTTABLE_STR_TABLE_CODE
-#include "Options.inc"
-#undef OPTTABLE_STR_TABLE_CODE
-
-#define OPTTABLE_PREFIXES_TABLE_CODE
-#include "Options.inc"
-#undef OPTTABLE_PREFIXES_TABLE_CODE
-
-static constexpr llvm::StringLiteral OptionPrefixes[] = {
-  "",
-  "-",
-  "--"
-};
-
-static constexpr OptTable::Info InfoTable[] = {
-#define OPTION(PREFIX_IDX, NAME, ID, KIND, GROUP, ALIAS, ALIASARGS,            \
-               FLAGS, VIS, PARAM, HELPTEXT, METAVAR, VALUES,                   \
-               HELPTEXT_FOR_VAR)                                               \
-  {llvm::ArrayRef(&OptionPrefixes[PREFIX_IDX], 1),                             \
-   llvm::StringLiteral(NAME),                                                  \
-   HELPTEXT,                                                                   \
-   {{{{{0, 0}}, nullptr}}},                                                    \
-   METAVAR,                                                                    \
-   OPT_##ID,                                                                   \
-   llvm::opt::Option::KIND##Class,                                             \
-   PARAM,                                                                      \
-   FLAGS,                                                                      \
-   VIS,                                                                        \
-   OPT_##GROUP,                                                                \
-   OPT_##ALIAS,                                                                \
-   ALIASARGS,                                                                  \
-   VALUES},
-#include "Options.inc"
-#undef OPTION
-};
-
-ZapcOptTable::ZapcOptTable()
-    : GenericOptTable(InfoTable) {}
-
-} // namespace opts
-
 driver::driver() {}
 
-enum class ColorState : uint8_t { None, Available, Unavailable };
-
-ColorState colors = ColorState::None;
-
-/// This should be changed ASAP.
-void print_red(llvm::StringRef msg) {
-  if (colors == ColorState::None) {
-    colors = llvm::errs().has_colors() ? ColorState::Available
-                                       : ColorState::Unavailable;
-  }
-
-  switch (colors) {
-  case ColorState::Available:
-    llvm::errs().changeColor(llvm::raw_ostream::RED, true);
-    llvm::errs() << msg;
-    llvm::errs().resetColor();
-    break;
-  case ColorState::Unavailable:
-    llvm::errs() << msg;
-    break;
-  default:
-    break;
-  }
+void print_red(std::string_view msg) {
+  // Simple ANSI colors
+  std::cerr << "\033[1;31m" << msg << "\033[0m";
 }
 
 bool driver::parseArgs(int argc, char **argv) {
-  opts::ZapcOptTable table;
-  unsigned missingIndex, missingCount;
-  auto argsArr = llvm::ArrayRef<const char *>(argv, (size_t)argc).slice(1);
-
-  auto args = table.ParseArgs(argsArr, missingIndex, missingCount);
-
-  /// --help should be a priority above --version.
-  if (args.hasArg(opts::OPT_help)) {
-    table.printHelp(llvm::outs(), ZAP_NAME_MACRO " [options] <file>",
-                    "Zap Compiler");
-    return false;
+  std::vector<std::string_view> args;
+  for (int i = 1; i < argc; ++i) {
+    args.emplace_back(argv[i]);
   }
 
-  /// --version should still have priority over regular compilation.
-  if (args.hasArg(opts::OPT_version)) {
-    llvm::outs() << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
-    return false;
+  bool emit_llvm = false;
+  bool emit_zir = false;
+  bool emit_s = false;
+  bool nolink = false;
+  std::string_view output_str = "a.out";
+  implicit_output = true;
+  inc_stdlib = true;
+
+  for (size_t i = 0; i < args.size(); ++i) {
+    auto arg = args[i];
+
+    if (arg == "--help") {
+      std::cout << "Zap Compiler [options] <file>\n"
+                << "Zap Compiler\n\n"
+                << "Options:\n"
+                << "  --help          Display available options\n"
+                << "  --version       Print version information\n"
+                << "  -o <file>       Write output to <file>\n"
+                << "  -nostdlib       Stops the linker from linking the zap stdlib\n"
+                << "  -c              Compile and assemble but not link\n"
+                << "  -S              Compile only no assembling or linking\n"
+                << "  -emit-llvm      Emit LLVM IR instead of final output\n"
+                << "  -emit-zir       Emit ZIR instead of final output\n";
+      return false;
+    } else if (arg == "--version") {
+      std::cout << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
+      return false;
+    } else if (arg == "-o") {
+      if (i + 1 < args.size()) {
+        output_str = args[++i];
+        implicit_output = false;
+      } else {
+        print_red("error: ");
+        std::cerr << "argument to '-o' is missing\n";
+        return false;
+      }
+    } else if (arg.substr(0, 2) == "-o") {
+      output_str = arg.substr(2);
+      implicit_output = false;
+    } else if (arg == "-nostdlib") {
+      inc_stdlib = false;
+    } else if (arg == "-c") {
+      nolink = true;
+    } else if (arg == "-S") {
+      emit_s = true;
+    } else if (arg == "-emit-llvm") {
+      emit_llvm = true;
+    } else if (arg == "-emit-zir") {
+      emit_zir = true;
+    } else if (arg.substr(0, 1) == "-") {
+      print_red("error: ");
+      std::cerr << "unknown argument: " << arg << "\n";
+      return false;
+    } else {
+      inputs.emplace_back(std::string(arg));
+    }
   }
 
-  if (missingCount) {
-    print_red("error: ");
-    llvm::errs() << "argument to '" << args.getArgString(missingIndex)
-                 << "' is missing\n";
-    return false;
-  }
-
-  /// Check the output type flags.
-  bool emit_llvm = args.hasArg(opts::OPT_emitLLVM);
-  bool emit_zir = args.hasArg(opts::OPT_emitZIR);
-  bool emit_s = args.hasArg(opts::OPT_emitS);
-
-  /// Cannot mix emit modes.
   if (emit_llvm && emit_zir) {
     print_red("error: ");
-    llvm::errs() << "choosing multiple emit modes isn't allowed\n";
+    std::cerr << "choosing multiple emit modes isn't allowed\n";
     return false;
   }
 
-  /// If -S is present choose either textual LLVM IR or assembly.
-  /// If -S is NOT present either choose LLVM BC or continue.
   if (emit_s) {
     if (emit_llvm)
       out_type = output_type::TEXT_LLVM;
@@ -142,29 +104,21 @@ bool driver::parseArgs(int argc, char **argv) {
   if (emit_zir)
     out_type = output_type::ZIR;
 
-  /// If we are on the default emit mode and -c is present, we should not link.
   if (out_type == output_type::EXEC) {
-    if (args.hasArg(opts::OPT_nolink)) {
+    if (nolink) {
       out_type = output_type::OBJECT;
     }
   }
 
-  inputs = args.getAllArgValues(opts::OPT_INPUT);
-
-  auto output_str = args.getLastArgValue(opts::OPT_output, "a.out");
-  output = std::string_view(output_str.data(), output_str.size());
-
-  implicit_output = !args.hasArg(opts::OPT_output);
-
-  inc_stdlib = !args.hasArg(opts::OPT_nostdlib);
+  output = std::filesystem::path(output_str);
 
   if (!inputs.empty()) {
     return true;
   }
 
-  llvm::errs() << "zapc: ";
+  std::cerr << "zapc: ";
   print_red("error: ");
-  llvm::errs() << "no input files\n";
+  std::cerr << "no input files\n";
   return false;
 }
 
@@ -180,7 +134,7 @@ bool driver::splitInputs() {
       objects.emplace_back(std::move(input_path));
     } else {
       print_red("error: ");
-      llvm::errs() << "unknown input type: " << input << '\n';
+      std::cerr << "unknown input type: " << input << '\n';
       return true;
     }
   }
@@ -195,34 +149,35 @@ bool driver::verifyOutput() {
 
   if (per_file_emit && get_inputs().size() > 1 && !is_implicit_output()) {
     print_red("error: ");
-    llvm::errs() << "cannot specify -o with multiple input files\n";
+    std::cerr << "cannot specify -o with multiple input files\n";
     return true;
   }
 
   if (per_file_emit && !objects.empty()) {
     print_red("error: ");
-    llvm::errs() << "cannot use object files or archives with the selected "
+    std::cerr << "cannot use object files or archives with the selected "
                     "output mode\n";
     return true;
   }
 
   if (!format_supported()) {
     print_red("error: ");
-    llvm::errs()
+    std::cerr
         << "chosen file output mode is not yet supported in this version\n";
     return true;
   }
 
   return false;
 }
+
 bool verifyFile(const std::filesystem::path &input) {
   if (!std::filesystem::exists(input)) {
     print_red("error: ");
-    llvm::errs() << "provided file doesn't exist: " << input << '\n';
+    std::cerr << "provided file doesn't exist: " << input << '\n';
     return true;
   } else if (!std::filesystem::is_regular_file(input)) {
     print_red("error: ");
-    llvm::errs() << "provided file isn't a regular file: " << input << '\n';
+    std::cerr << "provided file isn't a regular file: " << input << '\n';
     return true;
   }
   return false;
@@ -240,14 +195,14 @@ bool driver::verifySources() {
   return false;
 }
 
-bool compileSourceZIR(sema::BoundRootNode &node, llvm::raw_ostream &ofoutput) {
+bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput) {
   zir::BoundIRGenerator irGen;
   auto mod = irGen.generate(node);
   if (mod) {
     ofoutput << mod->toString();
   } else {
     print_red("error: ");
-    llvm::errs() << "failed to generate ZIR\n";
+    std::cerr << "failed to generate ZIR\n";
     return true;
   }
   return false;
@@ -269,7 +224,7 @@ bool driver::compileSourceFile(const std::string &source,
 
   if (!ast) {
     print_red("error: ");
-    llvm::errs() << source_name << ": " << "failed parsing the provided file\n";
+    std::cerr << source_name << ": " << "failed parsing the provided file\n";
     return true;
   }
 
@@ -278,13 +233,13 @@ bool driver::compileSourceFile(const std::string &source,
 
   if (!boundAst) {
     print_red("error: ");
-    llvm::errs() << source_name << ": " << "semantic analysis failed\n";
+    std::cerr << source_name << ": " << "semantic analysis failed\n";
     return true;
   }
 
   if (binary_output()) {
     if (out_type == output_type::LLVM)
-      return true; // Not yet supported.
+      return true; // TODO: Implement LLVM bitcode emission.
 
     std::filesystem::path out_path;
 
@@ -302,9 +257,9 @@ bool driver::compileSourceFile(const std::string &source,
     codegen::LLVMCodeGen llvmGen;
     llvmGen.generate(*boundAst);
 
-    if (!llvmGen.emitObjectFile(out_path)) {
+    if (!llvmGen.emitObjectFile(out_path.string())) {
       print_red("error: ");
-      llvm::errs() << "object file emission failed\n";
+      std::cerr << "object file emission failed\n";
       return true;
     }
 
@@ -315,14 +270,12 @@ bool driver::compileSourceFile(const std::string &source,
                                                 format_fileextension(out_type))
                         : output;
 
-    std::error_code ec;
-    llvm::raw_fd_ostream ofoutput(out_path.string(), ec,
-                                  llvm::sys::fs::OF_None);
+    std::ofstream ofoutput(out_path, std::ios::binary);
 
-    if (ec) {
+    if (!ofoutput) {
       print_red("error: ");
-      llvm::errs() << "couldn't open the provided file: " << output << '\n';
-      llvm::errs() << "reason: " << ec.message() << '\n';
+      std::cerr << "couldn't open the provided file: " << out_path << '\n';
+      std::cerr << "reason: " << strerror(errno) << '\n';
       return true;
     }
 
@@ -332,10 +285,13 @@ bool driver::compileSourceFile(const std::string &source,
     } else if (out_type == output_type::TEXT_LLVM) {
       codegen::LLVMCodeGen llvmGen;
       llvmGen.generate(*boundAst);
-      llvmGen.printIR(ofoutput);
+      // TODO: Avoid using LLVM types like raw_string_ostream here.
+      std::string ir;
+      llvm::raw_string_ostream rs(ir);
+      llvmGen.printIR(rs);
+      ofoutput << ir;
     } else if (out_type == output_type::ASM) {
-      /// Not yet supported.
-      return true;
+      return true; // TODO: Implement assembly emission.
     } else {
       return true;
     }
@@ -349,8 +305,8 @@ bool driver::compile() {
     std::ifstream file(input, std::ios::binary | std::ios::ate);
     if (!file) {
       print_red("error: ");
-      llvm::errs() << "couldn't open the provided file: " << input << '\n';
-      llvm::errs() << "reason: " << strerror(errno) << '\n';
+      std::cerr << "couldn't open the provided file: " << input << '\n';
+      std::cerr << "reason: " << strerror(errno) << '\n';
       return true;
     }
 
@@ -358,7 +314,7 @@ bool driver::compile() {
     std::string content(size, '\0');
 
     if (size == 0) {
-      llvm::errs() << "warning: provided file is empty: " << input << '\n';
+      std::cerr << "warning: provided file is empty: " << input << '\n';
     } else {
       file.seekg(0);
       file.read(content.data(), size);
@@ -366,7 +322,7 @@ bool driver::compile() {
 
     file.close();
 
-    if (compileSourceFile(content, input))
+    if (compileSourceFile(content, input.string()))
       return true;
   }
 
@@ -377,32 +333,24 @@ bool driver::link() {
   if (!needs_linking())
     return false;
 
-  std::vector<std::string> args;
-
-  for (const auto &obj : objects) {
-    args.emplace_back(obj);
-  }
-
-  args.push_back("-o");
-  args.push_back(output);
-
-  std::vector<llvm::StringRef> argsllvm;
-  argsllvm.push_back("cc");
+  std::string cmd = "/usr/bin/cc ";
 
   if (inc_stdlib) {
-    argsllvm.push_back(ZAPC_STDLIB_PATH);
+    cmd += std::string(ZAPC_STDLIB_PATH) + " ";
   } else {
-    argsllvm.push_back("-nostdlib");
+    cmd += "-nostdlib ";
   }
 
-  for (const auto &s : args) {
-    argsllvm.push_back(s);
+  for (const auto &obj : objects) {
+    cmd += obj.string() + " ";
   }
 
-  int res = llvm::sys::ExecuteAndWait("/usr/bin/cc", argsllvm);
+  cmd += "-o " + output.string();
+
+  int res = std::system(cmd.c_str());
   if (res != 0) {
     print_red("error: ");
-    llvm::errs() << "linking failed with exit code: " << res << '\n';
+    std::cerr << "linking failed with exit code: " << res << '\n';
     return true;
   }
 
@@ -417,7 +365,7 @@ bool driver::cleanup() {
     std::filesystem::remove(f, ec);
     if (ec) {
       errs = true;
-      llvm::errs() << "warning: failed to remove: " << f
+      std::cerr << "warning: failed to remove: " << f
                    << "\nreason: " << ec.message() << '\n';
     }
   }

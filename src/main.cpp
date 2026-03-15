@@ -1,10 +1,6 @@
 #include "driver/driver.hpp"
-#include <llvm/Support/InitLLVM.h>
-#include <llvm/Support/raw_ostream.h>
 
 int main(int argc, char **argv) {
-  llvm::InitLLVM X(argc, argv);
-
   zap::driver zapcDriver;
 
   ///

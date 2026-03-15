@@ -181,6 +181,84 @@ namespace zir
 
   void BoundIRGenerator::visit(sema::BoundBinaryExpression &node)
   {
+    if (node.op == "&&")
+    {
+      auto rhsLabel = createBlockLabel("and.rhs");
+      auto mergeLabel = createBlockLabel("and.merge");
+
+      node.left->accept(*this);
+      auto leftVal = valueStack_.top();
+      valueStack_.pop();
+      std::string leftBlockLabel = currentBlock_->label;
+
+      currentBlock_->addInstruction(
+          std::make_unique<CondBranchInst>(leftVal, rhsLabel, mergeLabel));
+
+      auto rhsBlock = std::make_unique<BasicBlock>(rhsLabel);
+      auto *rhsBlockPtr = rhsBlock.get();
+      currentFunction_->addBlock(std::move(rhsBlock));
+      currentBlock_ = rhsBlockPtr;
+
+      node.right->accept(*this);
+      auto rightVal = valueStack_.top();
+      valueStack_.pop();
+      std::string actualRhsBlockLabel = currentBlock_->label;
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+
+      auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+      auto *mergeBlockPtr = mergeBlock.get();
+      currentFunction_->addBlock(std::move(mergeBlock));
+      currentBlock_ = mergeBlockPtr;
+
+      auto res = createRegister(node.type);
+      std::vector<std::pair<std::string, std::shared_ptr<Value>>> incoming;
+      incoming.push_back({leftBlockLabel, std::make_shared<Constant>("false", node.type)});
+      incoming.push_back({actualRhsBlockLabel, rightVal});
+
+      currentBlock_->addInstruction(std::make_unique<PhiInst>(res, incoming));
+      valueStack_.push(res);
+      return;
+    }
+
+    if (node.op == "||")
+    {
+      auto rhsLabel = createBlockLabel("or.rhs");
+      auto mergeLabel = createBlockLabel("or.merge");
+
+      node.left->accept(*this);
+      auto leftVal = valueStack_.top();
+      valueStack_.pop();
+      std::string leftBlockLabel = currentBlock_->label;
+
+      currentBlock_->addInstruction(
+          std::make_unique<CondBranchInst>(leftVal, mergeLabel, rhsLabel));
+
+      auto rhsBlock = std::make_unique<BasicBlock>(rhsLabel);
+      auto *rhsBlockPtr = rhsBlock.get();
+      currentFunction_->addBlock(std::move(rhsBlock));
+      currentBlock_ = rhsBlockPtr;
+
+      node.right->accept(*this);
+      auto rightVal = valueStack_.top();
+      valueStack_.pop();
+      std::string actualRhsBlockLabel = currentBlock_->label;
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+
+      auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+      auto *mergeBlockPtr = mergeBlock.get();
+      currentFunction_->addBlock(std::move(mergeBlock));
+      currentBlock_ = mergeBlockPtr;
+
+      auto res = createRegister(node.type);
+      std::vector<std::pair<std::string, std::shared_ptr<Value>>> incoming;
+      incoming.push_back({leftBlockLabel, std::make_shared<Constant>("true", node.type)});
+      incoming.push_back({actualRhsBlockLabel, rightVal});
+
+      currentBlock_->addInstruction(std::make_unique<PhiInst>(res, incoming));
+      valueStack_.push(res);
+      return;
+    }
+
     node.left->accept(*this);
     auto left = valueStack_.top();
     valueStack_.pop();
@@ -190,23 +268,37 @@ namespace zir
     valueStack_.pop();
 
     auto reg = createRegister(node.type);
-    OpCode op;
-    if (node.op == "+")
-      op = OpCode::Add;
-    else if (node.op == "-")
-      op = OpCode::Sub;
-    else if (node.op == "*")
-      op = OpCode::Mul;
-    else if (node.op == "/")
-      op = OpCode::Div;
-    else if (node.op == "==" || node.op == "!=" || node.op == "<" ||
-             node.op == ">" || node.op == "<=" || node.op == ">=")
-      op = OpCode::Cmp; // Simplified
-    else
-      op = OpCode::Add;
+    if (node.op == "==" || node.op == "!=" || node.op == "<" ||
+        node.op == ">" || node.op == "<=" || node.op == ">=")
+    {
+      std::string pred;
+      if (node.op == "==") pred = "eq";
+      else if (node.op == "!=") pred = "ne";
+      else if (node.op == "<") pred = "slt";
+      else if (node.op == ">") pred = "sgt";
+      else if (node.op == "<=") pred = "sle";
+      else if (node.op == ">=") pred = "sge";
 
-    currentBlock_->addInstruction(
-        std::make_unique<BinaryInst>(op, reg, left, right));
+      currentBlock_->addInstruction(
+          std::make_unique<CmpInst>(pred, reg, left, right));
+    }
+    else
+    {
+      OpCode op;
+      if (node.op == "+")
+        op = OpCode::Add;
+      else if (node.op == "-")
+        op = OpCode::Sub;
+      else if (node.op == "*")
+        op = OpCode::Mul;
+      else if (node.op == "/")
+        op = OpCode::Div;
+      else
+        op = OpCode::Add;
+
+      currentBlock_->addInstruction(
+          std::make_unique<BinaryInst>(op, reg, left, right));
+    }
     valueStack_.push(reg);
   }
 

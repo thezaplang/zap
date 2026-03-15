@@ -349,7 +349,12 @@ namespace zap
       hasParen = true;
     }
 
+    bool oldAllow = _allowStructLiteral;
+    if (!hasParen) {
+        _allowStructLiteral = false;
+    }
     auto condition = parseExpression();
+    _allowStructLiteral = oldAllow;
 
     if (hasParen)
     {
@@ -402,7 +407,12 @@ namespace zap
       hasParen = true;
     }
 
+    bool oldAllow = _allowStructLiteral;
+    if (!hasParen) {
+        _allowStructLiteral = false;
+    }
     auto condition = parseExpression();
+    _allowStructLiteral = oldAllow;
 
     if (hasParen)
     {
@@ -593,7 +603,7 @@ namespace zap
                          SourceSpan::merge(idToken.span, rparenToken.span));
         return funCall;
       }
-      else if (peek().type == TokenType::LBRACE)
+      else if (_allowStructLiteral && peek().type == TokenType::LBRACE)
       {
         return parseStructLiteral(idToken.value);
       }
@@ -607,7 +617,10 @@ namespace zap
     else if (current.type == TokenType::LPAREN)
     {
       eat(TokenType::LPAREN);
+      bool oldAllow = _allowStructLiteral;
+      _allowStructLiteral = true;
       auto expr = parseExpression();
+      _allowStructLiteral = oldAllow;
       Token rparenToken = eat(TokenType::RPAREN);
       _builder.setSpan(static_cast<ExpressionNode *>(expr.get()),
                        SourceSpan::merge(current.span, rparenToken.span));
@@ -615,6 +628,11 @@ namespace zap
     }
     else if (current.type == TokenType::LBRACE)
     {
+      if (!_allowStructLiteral) {
+          _diag.report(current.span, DiagnosticLevel::Error,
+                       "Struct literal not allowed in this context");
+          exit(EXIT_FAILURE);
+      }
       return parseArrayLiteral();
     }
     else if (current.type == TokenType::IF)
