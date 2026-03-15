@@ -170,6 +170,13 @@ run_test "tests/logical_type_error.zap" 1 "Logical operators type check"
 run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 run_runtime_test "tests/array_test.zap" 0 "Array declaration, initialization, and indexing"
 
+# Struct tests
+run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"
+run_runtime_test "tests/struct_nested_test.zap" 0 "Nested struct member access"
+run_runtime_test "tests/struct_fn_test.zap" 0 "Structs as function parameters and return values"
+run_runtime_test "tests/struct_array_test.zap" 0 "Arrays of structs"
+run_runtime_test "tests/struct_types_test.zap" 0 "Structs with diverse field types"
+
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"
 
