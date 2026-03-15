@@ -316,6 +316,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::CONTINUE;
       else if (identStr == "val")
         type = TokenType::VAL;
+      else if (identStr == "global")
+        type = TokenType::GLOBAL;
       else if (identStr == "const")
         type = TokenType::CONST;
 
