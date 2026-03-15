@@ -31,6 +31,7 @@ var classzap_1_1Parser =
     [ "parseWhile", "de/d73/classzap_1_1Parser.html#a72a65896a7bb3a3e559c72710fc72e11", null ],
     [ "peek", "de/d73/classzap_1_1Parser.html#af7c39bd6c0b177459239660fe41c9508", null ],
     [ "synchronize", "de/d73/classzap_1_1Parser.html#a3f5d4a920af34d98ba504788802fd49b", null ],
+    [ "_allowStructLiteral", "de/d73/classzap_1_1Parser.html#a1fa665efdd44c7efc59f0fca9ce85cf7", null ],
     [ "_builder", "de/d73/classzap_1_1Parser.html#aec42d55fba5a979324980392c8532518", null ],
     [ "_diag", "de/d73/classzap_1_1Parser.html#a33355ef390023d8f3f581e5138b88452", null ],
     [ "_pos", "de/d73/classzap_1_1Parser.html#acda19c07641fc21b0b8b7cd85e2276b6", null ],
