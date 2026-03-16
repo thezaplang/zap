@@ -1,0 +1,61 @@
+{
+  "name": "zap",
+  "displayName": "Zap",
+  "description": "Provides LSP for the Zap programming language",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:zap"
+  ],
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Zap LSP Configuration",
+      "properties": {
+        "zap-lsp.path": {
+          "type": "string",
+          "default": "zap-lsp",
+          "description": "Path to the Zap LSP executable"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "zap",
+        "aliases": [
+          "Zap",
+          "zap"
+        ],
+        "extensions": [
+          ".zap"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "zap",
+        "scopeName": "source.zap",
+        "path": "./syntaxes/zap.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3",
+    "vsce": "^2.15.0",
+    "vscode": "^1.1.37"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "scripts": {
+    "package": "vsce package"
+  }
+}

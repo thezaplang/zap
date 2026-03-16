@@ -55,3 +55,8 @@ target_compile_definitions(zapc PRIVATE ${LLVM_DEFINITIONS})
 target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_PATH="${CMAKE_BINARY_DIR}/stdlib.o")
 
 include(cmake/doxygen.cmake)
+
+option(INCLUDE_LSP "Should the LSP binary be compiled" ON)
+if(INCLUDE_LSP)
+    add_subdirectory(src/lsp)
+endif()

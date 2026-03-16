@@ -1,0 +1,59 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Zap",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#constants"
+		}
+	],
+	"repository": {
+		"constants": {
+			"patterns": [{
+				"name": "constant.language.zap",
+				"match": "\\b(true|false)\\b"
+			}]
+		},
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.double-slash.zap",
+				"match": "//.*$"
+			}]
+		},
+		"numbers": {
+    	"patterns": [{
+        "name": "constant.numeric.zap",
+        "match": "\\b\\d+(\\.\\d+)?\\b"
+			}]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.zap",
+				"match": "\\b(if|else|record|struct|global|const|enum|while|for|return|fun|var|continue|break)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.zap",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.zap",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.zap"
+}

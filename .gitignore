@@ -59,6 +59,10 @@ Makefile
 
 .env
 
+# LSP
+src/lsp/vscode/zap/node_modules
+src/lsp/vscode/zap/out
+src/lsp/vscode/zap/package-lock.json
 
 # clangd
 .cache/
