@@ -91,7 +91,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00069">69</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00074">74</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a91105a0b228c0760c8ba2695dc26c4df" name="a91105a0b228c0760c8ba2695dc26c4df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91105a0b228c0760c8ba2695dc26c4df">&#9670;&#160;</a></span>StoreInst()</h2>
@@ -120,12 +120,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00073">73</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>      : <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>(std::move(s)), <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>(std::move(d)) {}</div>
-<div class="ttc" id="aclasszir_1_1StoreInst_html_ab0926b278169260053fe2aeb07608e0f"><div class="ttname"><a href="#ab0926b278169260053fe2aeb07608e0f">zir::StoreInst::dest</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; dest</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00070">instruction.hpp:70</a></div></div>
-<div class="ttc" id="aclasszir_1_1StoreInst_html_acff0db6a9a132feaec0ea03fee12e46a"><div class="ttname"><a href="#acff0db6a9a132feaec0ea03fee12e46a">zir::StoreInst::src</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; src</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00070">instruction.hpp:70</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00078">78</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>      : <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>(std::move(s)), <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>(std::move(d)) {}</div>
+<div class="ttc" id="aclasszir_1_1StoreInst_html_ab0926b278169260053fe2aeb07608e0f"><div class="ttname"><a href="#ab0926b278169260053fe2aeb07608e0f">zir::StoreInst::dest</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; dest</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00075">instruction.hpp:75</a></div></div>
+<div class="ttc" id="aclasszir_1_1StoreInst_html_acff0db6a9a132feaec0ea03fee12e46a"><div class="ttname"><a href="#acff0db6a9a132feaec0ea03fee12e46a">zir::StoreInst::src</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; src</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00075">instruction.hpp:75</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">dest</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">src</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">dest</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">src</a>.</p>
 
 </div>
 </div>
@@ -155,8 +155,8 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#a3681c8ca34e3c301971ad31a2a0a31a7">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">75</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aafdb0c388de01d545017cdf9ccf00eb72">OpCode::Store</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00080">80</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aafdb0c388de01d545017cdf9ccf00eb72">OpCode::Store</a>; }</div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aafdb0c388de01d545017cdf9ccf00eb72"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aafdb0c388de01d545017cdf9ccf00eb72">zir::OpCode::Store</a></div><div class="ttdeci">@ Store</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00012">instruction.hpp:12</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00012">zir::Store</a>.</p>
@@ -188,13 +188,13 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#aaa4f318b5ed4218bb699787c6e19751d">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00076">76</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   76</span>                                      {</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;store &quot;</span> + <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>-&gt;getName() + <span class="stringliteral">&quot;, &quot;</span> +</div>
-<div class="line"><span class="lineno">   78</span>           <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>-&gt;getName();</div>
-<div class="line"><span class="lineno">   79</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00081">81</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>                                      {</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;store &quot;</span> + <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#acff0db6a9a132feaec0ea03fee12e46a">src</a>-&gt;getName() + <span class="stringliteral">&quot;, &quot;</span> +</div>
+<div class="line"><span class="lineno">   83</span>           <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#ab0926b278169260053fe2aeb07608e0f">dest</a>-&gt;getName();</div>
+<div class="line"><span class="lineno">   84</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">dest</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">src</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">dest</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">src</a>.</p>
 
 </div>
 </div>
@@ -219,9 +219,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">70</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">75</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00073">StoreInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00076">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00078">StoreInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>
@@ -245,9 +245,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00070">70</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00075">75</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00073">StoreInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00076">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00078">StoreInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>

@@ -85,7 +85,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a845dc5d2ed66465d5e5686919dd9483f" id="r_a845dc5d2ed66465d5e5686919dd9483f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d66/classContinueNode.html">ContinueNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a845dc5d2ed66465d5e5686919dd9483f">makeContinue</a> ()</td></tr>
 <tr class="memitem:a44d9093a4b7bbd8722645ac31548540e" id="r_a44d9093a4b7bbd8722645ac31548540e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d97/classUnaryExpr.html">UnaryExpr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44d9093a4b7bbd8722645ac31548540e">makeUnaryExpr</a> (const std::string &amp;op, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; expr)</td></tr>
 <tr class="memitem:a94bd12c5569379b9ec5115c7348e09ed" id="r_a94bd12c5569379b9ec5115c7348e09ed"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../da/d53/classBinExpr.html">BinExpr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94bd12c5569379b9ec5115c7348e09ed">makeBinExpr</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; left, const std::string &amp;op, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; right)</td></tr>
-<tr class="memitem:a1f90996b2092fd0b3ce010449c4c3909" id="r_a1f90996b2092fd0b3ce010449c4c3909"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/de1/classConstInt.html">ConstInt</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f90996b2092fd0b3ce010449c4c3909">makeConstInt</a> (int value)</td></tr>
+<tr class="memitem:abff2047bcc19919f5ae546ee79246fab" id="r_abff2047bcc19919f5ae546ee79246fab"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/de1/classConstInt.html">ConstInt</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abff2047bcc19919f5ae546ee79246fab">makeConstInt</a> (int64_t value)</td></tr>
 <tr class="memitem:a59be3be3368a68dcdbdb215ecd7e6850" id="r_a59be3be3368a68dcdbdb215ecd7e6850"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/db3/classConstFloat.html">ConstFloat</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59be3be3368a68dcdbdb215ecd7e6850">makeConstFloat</a> (double value)</td></tr>
 <tr class="memitem:a44d6fe2b77975539fb422e618d3eee5b" id="r_a44d6fe2b77975539fb422e618d3eee5b"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d4/d03/classConstBool.html">ConstBool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44d6fe2b77975539fb422e618d3eee5b">makeConstBool</a> (bool value)</td></tr>
 <tr class="memitem:a6d3d6fd45f588edd20ac26149d07586e" id="r_a6d3d6fd45f588edd20ac26149d07586e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d3/d4c/classConstId.html">ConstId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d3d6fd45f588edd20ac26149d07586e">makeConstId</a> (const std::string &amp;value)</td></tr>
@@ -420,8 +420,8 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a1f90996b2092fd0b3ce010449c4c3909" name="a1f90996b2092fd0b3ce010449c4c3909"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f90996b2092fd0b3ce010449c4c3909">&#9670;&#160;</a></span>makeConstInt()</h2>
+<a id="abff2047bcc19919f5ae546ee79246fab" name="abff2047bcc19919f5ae546ee79246fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abff2047bcc19919f5ae546ee79246fab">&#9670;&#160;</a></span>makeConstInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,7 +432,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="../../d5/de1/classConstInt.html">ConstInt</a> &gt; AstBuilder::makeConstInt </td>
           <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">int64_t</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -444,7 +444,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00117">117</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>                                                  {</div>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>                                                      {</div>
 <div class="line"><span class="lineno">  118</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(value);</div>
 <div class="line"><span class="lineno">  119</span>  }</div>
 </div><!-- fragment -->

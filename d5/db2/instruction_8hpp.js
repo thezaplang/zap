@@ -15,6 +15,7 @@ var instruction_8hpp =
     [ "zir::CmpInst", "d1/d56/classzir_1_1CmpInst.html", "d1/d56/classzir_1_1CmpInst" ],
     [ "zir::GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", "db/dee/classzir_1_1GetElementPtrInst" ],
     [ "zir::PhiInst", "d7/de6/classzir_1_1PhiInst.html", "d7/de6/classzir_1_1PhiInst" ],
+    [ "zir::CastInst", "d8/d42/classzir_1_1CastInst.html", "d8/d42/classzir_1_1CastInst" ],
     [ "zir::OpCode", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a", [
       [ "zir::OpCode::Alloca", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aadb253826d18dad4c6bf8baedd448cd17", null ],
       [ "zir::OpCode::Load", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb", null ],
@@ -22,7 +23,8 @@ var instruction_8hpp =
       [ "zir::OpCode::Add", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9", null ],
       [ "zir::OpCode::Sub", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2", null ],
       [ "zir::OpCode::Mul", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2", null ],
-      [ "zir::OpCode::Div", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa43d11850893d2fe84a1e618121c1cc0a", null ],
+      [ "zir::OpCode::SDiv", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85", null ],
+      [ "zir::OpCode::UDiv", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1", null ],
       [ "zir::OpCode::Cmp", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aac9b4c62f6dc1bc5caf3c768b687cbf7e", null ],
       [ "zir::OpCode::Br", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2", null ],
       [ "zir::OpCode::CondBr", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced", null ],
@@ -32,6 +34,7 @@ var instruction_8hpp =
       [ "zir::OpCode::Release", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aab8e7b465df7c5979dc731d06e84ce2cf", null ],
       [ "zir::OpCode::Alloc", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaea571dc00aef155a16d4e7e1861e1682", null ],
       [ "zir::OpCode::GetElementPtr", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f", null ],
-      [ "zir::OpCode::Phi", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67", null ]
+      [ "zir::OpCode::Phi", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67", null ],
+      [ "zir::OpCode::Cast", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c", null ]
     ] ]
 ];

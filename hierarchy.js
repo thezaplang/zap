@@ -8,6 +8,7 @@ var hierarchy =
       [ "sema::BoundExpression", "db/d06/classsema_1_1BoundExpression.html", [
         [ "sema::BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", null ],
         [ "sema::BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", null ],
+        [ "sema::BoundCast", "d2/d0f/classsema_1_1BoundCast.html", null ],
         [ "sema::BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", null ],
         [ "sema::BoundIfExpression", "d3/dc8/classsema_1_1BoundIfExpression.html", null ],
         [ "sema::BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", null ],
@@ -44,6 +45,7 @@ var hierarchy =
       [ "zir::BinaryInst", "df/d0a/classzir_1_1BinaryInst.html", null ],
       [ "zir::BranchInst", "df/da0/classzir_1_1BranchInst.html", null ],
       [ "zir::CallInst", "df/d31/classzir_1_1CallInst.html", null ],
+      [ "zir::CastInst", "d8/d42/classzir_1_1CastInst.html", null ],
       [ "zir::CmpInst", "d1/d56/classzir_1_1CmpInst.html", null ],
       [ "zir::CondBranchInst", "d2/ddf/classzir_1_1CondBranchInst.html", null ],
       [ "zir::GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", null ],

@@ -8,6 +8,7 @@ var namespacesema =
     [ "BoundExpressionStatement", "de/d88/classsema_1_1BoundExpressionStatement.html", "de/d88/classsema_1_1BoundExpressionStatement" ],
     [ "BoundBlock", "d1/d45/classsema_1_1BoundBlock.html", "d1/d45/classsema_1_1BoundBlock" ],
     [ "BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],
+    [ "BoundCast", "d2/d0f/classsema_1_1BoundCast.html", "d2/d0f/classsema_1_1BoundCast" ],
     [ "BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", "dc/d46/classsema_1_1BoundVariableExpression" ],
     [ "BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", "df/dee/classsema_1_1BoundBinaryExpression" ],
     [ "BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],
