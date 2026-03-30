@@ -20,6 +20,8 @@ var type_8hpp =
       [ "zir::TypeKind::Int", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52", null ],
       [ "zir::TypeKind::UInt", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a", null ],
       [ "zir::TypeKind::Float", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b", null ],
+      [ "zir::TypeKind::Float32", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204", null ],
+      [ "zir::TypeKind::Float64", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0", null ],
       [ "zir::TypeKind::Bool", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034", null ],
       [ "zir::TypeKind::Char", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9", null ],
       [ "zir::TypeKind::Pointer", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7", null ],
