@@ -48,6 +48,14 @@ namespace sema
         std::make_shared<TypeSymbol>(
             "Float", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float)));
     currentScope_->declare(
+        "Float32",
+        std::make_shared<TypeSymbol>(
+            "Float32", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float32)));
+    currentScope_->declare(
+        "Float64",
+        std::make_shared<TypeSymbol>(
+            "Float64", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float64)));
+    currentScope_->declare(
         "Bool",
         std::make_shared<TypeSymbol>(
             "Bool", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool)));
@@ -111,6 +119,19 @@ namespace sema
       auto retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       auto symbol = std::make_shared<FunctionSymbol>("printFloat", std::move(params), std::move(retType));
       currentScope_->declare("printFloat", symbol);
+      boundRoot_->externalFunctions.push_back(
+        std::make_unique<BoundExternalFunctionDeclaration>(symbol));
+    }
+
+    // Provide `printFloat64` as a built-in external function: printFloat64(f: Float64) -> Void
+    {
+      std::vector<std::shared_ptr<VariableSymbol>> params;
+      params.push_back(
+        std::make_shared<VariableSymbol>("f",
+                         std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float64)));
+      auto retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      auto symbol = std::make_shared<FunctionSymbol>("printFloat64", std::move(params), std::move(retType));
+      currentScope_->declare("printFloat64", symbol);
       boundRoot_->externalFunctions.push_back(
         std::make_unique<BoundExternalFunctionDeclaration>(symbol));
     }
@@ -999,6 +1020,10 @@ namespace sema
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt64);
       else if (typeNode.typeName == "Float")
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
+      else if (typeNode.typeName == "Float32")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float32);
+      else if (typeNode.typeName == "Float64")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float64);
       else if (typeNode.typeName == "Bool")
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
       else if (typeNode.typeName == "String")
@@ -1212,8 +1237,7 @@ namespace sema
 
   bool Binder::isNumeric(std::shared_ptr<zir::Type> type)
   {
-    return type->isInteger() ||
-           type->getKind() == zir::TypeKind::Float;
+    return type->isInteger() || type->isFloatingPoint();
   }
 
   bool Binder::canConvert(std::shared_ptr<zir::Type> from,
@@ -1249,9 +1273,16 @@ namespace sema
     }
 
     if (from->isInteger() &&
-        to->getKind() == zir::TypeKind::Float)
+        to->isFloatingPoint())
     {
       return true;
+    }
+
+    if (from->isFloatingPoint() && to->isFloatingPoint())
+    {
+      if (from->getKind() == zir::TypeKind::Float64)
+        return to->getKind() == zir::TypeKind::Float64;
+      return true; // Float/Float32 can be converted to any Float (including Float64)
     }
 
     return false;
@@ -1261,9 +1292,13 @@ namespace sema
   Binder::getPromotedType(std::shared_ptr<zir::Type> t1,
                           std::shared_ptr<zir::Type> t2)
   {
-    if (t1->getKind() == zir::TypeKind::Float ||
-        t2->getKind() == zir::TypeKind::Float)
+    if (t1->isFloatingPoint() || t2->isFloatingPoint())
     {
+      if (t1->getKind() == zir::TypeKind::Float64 ||
+          t2->getKind() == zir::TypeKind::Float64)
+      {
+        return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float64);
+      }
       return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
     }
 

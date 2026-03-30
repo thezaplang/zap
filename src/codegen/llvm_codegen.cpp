@@ -126,6 +126,9 @@ namespace codegen
     case zir::TypeKind::UInt64:
       return llvm::Type::getInt64Ty(ctx_);
     case zir::TypeKind::Float:
+    case zir::TypeKind::Float32:
+      return llvm::Type::getFloatTy(ctx_);
+    case zir::TypeKind::Float64:
       return llvm::Type::getDoubleTy(ctx_);
     case zir::TypeKind::Pointer:
     {
@@ -364,7 +367,7 @@ namespace codegen
         lastValue_ = src;
       }
     }
-    else if (srcTy->isIntegerTy() && destTy->isDoubleTy())
+    else if (srcTy->isIntegerTy() && destTy->isFloatingPointTy())
     {
       if (node.expression->type->isUnsigned())
       {
@@ -375,7 +378,7 @@ namespace codegen
         lastValue_ = builder_.CreateSIToFP(src, destTy);
       }
     }
-    else if (srcTy->isDoubleTy() && destTy->isIntegerTy())
+    else if (srcTy->isFloatingPointTy() && destTy->isIntegerTy())
     {
       if (node.type->isUnsigned())
       {
@@ -384,6 +387,21 @@ namespace codegen
       else
       {
         lastValue_ = builder_.CreateFPToSI(src, destTy);
+      }
+    }
+    else if (srcTy->isFloatingPointTy() && destTy->isFloatingPointTy())
+    {
+      if (srcTy->getPrimitiveSizeInBits() < destTy->getPrimitiveSizeInBits())
+      {
+        lastValue_ = builder_.CreateFPExt(src, destTy);
+      }
+      else if (srcTy->getPrimitiveSizeInBits() > destTy->getPrimitiveSizeInBits())
+      {
+        lastValue_ = builder_.CreateFPTrunc(src, destTy);
+      }
+      else
+      {
+        lastValue_ = src;
       }
     }
     else
@@ -491,6 +509,10 @@ namespace codegen
             llvm::ConstantInt::get(ty, std::stoll(node.value), /*isSigned=*/true);
       }
     }
+    else if (ty->isFloatTy())
+    {
+      lastValue_ = llvm::ConstantFP::get(ty, std::stof(node.value));
+    }
     else if (ty->isDoubleTy())
     {
       lastValue_ = llvm::ConstantFP::get(ty, std::stod(node.value));
@@ -580,43 +602,43 @@ namespace codegen
     node.right->accept(*this);
     auto *rhs = lastValue_;
 
-    bool isFloat = lhs->getType()->isDoubleTy();
+    bool isFP = lhs->getType()->isFloatingPointTy();
     bool isUnsigned = node.left->type->isUnsigned();
 
     if (node.op == "+")
       lastValue_ =
-          isFloat ? builder_.CreateFAdd(lhs, rhs) : builder_.CreateAdd(lhs, rhs);
+          isFP ? builder_.CreateFAdd(lhs, rhs) : builder_.CreateAdd(lhs, rhs);
     else if (node.op == "-")
       lastValue_ =
-          isFloat ? builder_.CreateFSub(lhs, rhs) : builder_.CreateSub(lhs, rhs);
+          isFP ? builder_.CreateFSub(lhs, rhs) : builder_.CreateSub(lhs, rhs);
     else if (node.op == "*")
       lastValue_ =
-          isFloat ? builder_.CreateFMul(lhs, rhs) : builder_.CreateMul(lhs, rhs);
+          isFP ? builder_.CreateFMul(lhs, rhs) : builder_.CreateMul(lhs, rhs);
     else if (node.op == "/")
       lastValue_ =
-          isFloat ? builder_.CreateFDiv(lhs, rhs)
+          isFP ? builder_.CreateFDiv(lhs, rhs)
                   : (isUnsigned ? builder_.CreateUDiv(lhs, rhs)
                                 : builder_.CreateSDiv(lhs, rhs));
     else if (node.op == "==")
-      lastValue_ = isFloat ? builder_.CreateFCmpOEQ(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpOEQ(lhs, rhs)
                            : builder_.CreateICmpEQ(lhs, rhs);
     else if (node.op == "!=")
-      lastValue_ = isFloat ? builder_.CreateFCmpONE(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpONE(lhs, rhs)
                            : builder_.CreateICmpNE(lhs, rhs);
     else if (node.op == "<")
-      lastValue_ = isFloat ? builder_.CreateFCmpOLT(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpOLT(lhs, rhs)
                            : (isUnsigned ? builder_.CreateICmpULT(lhs, rhs)
                                          : builder_.CreateICmpSLT(lhs, rhs));
     else if (node.op == "<=")
-      lastValue_ = isFloat ? builder_.CreateFCmpOLE(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpOLE(lhs, rhs)
                            : (isUnsigned ? builder_.CreateICmpULE(lhs, rhs)
                                          : builder_.CreateICmpSLE(lhs, rhs));
     else if (node.op == ">")
-      lastValue_ = isFloat ? builder_.CreateFCmpOGT(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpOGT(lhs, rhs)
                            : (isUnsigned ? builder_.CreateICmpUGT(lhs, rhs)
                                          : builder_.CreateICmpSGT(lhs, rhs));
     else if (node.op == ">=")
-      lastValue_ = isFloat ? builder_.CreateFCmpOGE(lhs, rhs)
+      lastValue_ = isFP ? builder_.CreateFCmpOGE(lhs, rhs)
                            : (isUnsigned ? builder_.CreateICmpUGE(lhs, rhs)
                                          : builder_.CreateICmpSGE(lhs, rhs));
     else if (node.op == "~")
@@ -683,7 +705,7 @@ namespace codegen
     node.expr->accept(*this);
     if (node.op == "-")
     {
-      lastValue_ = node.type->getKind() == zir::TypeKind::Float
+      lastValue_ = node.type->isFloatingPoint()
                        ? builder_.CreateFNeg(lastValue_)
                        : builder_.CreateNeg(lastValue_);
     }

@@ -18,6 +18,8 @@ enum class TypeKind {
   Int, // Default Int (32-bit)
   UInt, // Default UInt (32-bit)
   Float,
+  Float32,
+  Float64,
   Bool,
   Char,
   Pointer,
@@ -44,6 +46,11 @@ public:
     return k == TypeKind::UInt8 || k == TypeKind::UInt16 ||
            k == TypeKind::UInt32 || k == TypeKind::UInt64 ||
            k == TypeKind::UInt;
+  }
+  virtual bool isFloatingPoint() const {
+    auto k = getKind();
+    return k == TypeKind::Float || k == TypeKind::Float32 ||
+           k == TypeKind::Float64;
   }
 };
 
@@ -76,6 +83,10 @@ public:
     case TypeKind::UInt:
       return "u32";
     case TypeKind::Float:
+      return "f32";
+    case TypeKind::Float32:
+      return "f32";
+    case TypeKind::Float64:
       return "f64";
     case TypeKind::Bool:
       return "i1";

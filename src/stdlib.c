@@ -7,7 +7,12 @@ void printInt(long v)
     printf("%ld\n", v);
 }
 
-void printFloat(double v)
+void printFloat(float v)
+{
+    printf("%f\n", v);
+}
+
+void printFloat64(double v)
 {
     printf("%f\n", v);
 }
