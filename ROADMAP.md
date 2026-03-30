@@ -14,20 +14,20 @@
 
 ---
 
-## Phase 2 — Access Control
-
-- [ ] `pub` keyword
-- [ ] `priv` keyword (or default-private semantics)
-- [ ] Visibility enforced at compile time
-
----
-
-## Phase 3 — Module System
+## Phase 2 — Module System
 
 - [ ] `import "path";`
 - [ ] Each file is its own namespace
 - [ ] Circular import detection
 - [ ] `main` function resolution across files
+
+---
+
+## Phase 3 — Access Control
+
+- [ ] `pub` keyword
+- [ ] `priv` keyword (or default-private semantics)
+- [ ] Visibility enforced at compile time
 
 ---
 
