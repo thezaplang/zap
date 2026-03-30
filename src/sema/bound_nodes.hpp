@@ -32,6 +32,7 @@ namespace sema
   class BoundWhileStatement;
   class BoundBreakStatement;
   class BoundContinueStatement;
+  class BoundCast;
 
   class BoundVisitor
   {
@@ -60,6 +61,7 @@ namespace sema
     virtual void visit(BoundWhileStatement &node) = 0;
     virtual void visit(BoundBreakStatement &node) = 0;
     virtual void visit(BoundContinueStatement &node) = 0;
+    virtual void visit(BoundCast &node) = 0;
   };
 
   class BoundNode
@@ -104,6 +106,15 @@ namespace sema
     std::string value;
     BoundLiteral(std::string v, std::shared_ptr<zir::Type> t)
         : BoundExpression(std::move(t)), value(std::move(v)) {}
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+  };
+
+  class BoundCast : public BoundExpression
+  {
+  public:
+    std::unique_ptr<BoundExpression> expression;
+    BoundCast(std::unique_ptr<BoundExpression> e, std::shared_ptr<zir::Type> t)
+        : BoundExpression(std::move(t)), expression(std::move(e)) {}
     void accept(BoundVisitor &v) override { v.visit(*this); }
   };
 

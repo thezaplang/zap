@@ -62,6 +62,7 @@ namespace sema
     std::shared_ptr<FunctionSymbol> currentFunction_ = nullptr;
 
     std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
+    std::unique_ptr<BoundExpression> wrapInCast(std::unique_ptr<BoundExpression> expr, std::shared_ptr<zir::Type> targetType);
     void error(SourceSpan span, const std::string &message);
 
     bool isNumeric(std::shared_ptr<zir::Type> type);

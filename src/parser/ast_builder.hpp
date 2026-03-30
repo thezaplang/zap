@@ -114,7 +114,7 @@ public:
     return std::make_unique<BinExpr>(std::move(left), op, std::move(right));
   }
 
-  std::unique_ptr<ConstInt> makeConstInt(int value) {
+  std::unique_ptr<ConstInt> makeConstInt(int64_t value) {
     return std::make_unique<ConstInt>(value);
   }
 

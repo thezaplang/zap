@@ -5,7 +5,26 @@
 
 namespace zir {
 
-enum class TypeKind { Void, Int, Float, Bool, Char, Pointer, Record, Array, Enum };
+enum class TypeKind {
+  Void,
+  Int8,
+  Int16,
+  Int32,
+  Int64,
+  UInt8,
+  UInt16,
+  UInt32,
+  UInt64,
+  Int, // Default Int (32-bit)
+  UInt, // Default UInt (32-bit)
+  Float,
+  Bool,
+  Char,
+  Pointer,
+  Record,
+  Array,
+  Enum
+};
 
 class Type {
 public:
@@ -13,6 +32,19 @@ public:
   virtual TypeKind getKind() const = 0;
   virtual std::string toString() const = 0;
   virtual bool isReferenceType() const { return false; }
+  virtual bool isInteger() const {
+    auto k = getKind();
+    return k == TypeKind::Int8 || k == TypeKind::Int16 || k == TypeKind::Int32 ||
+           k == TypeKind::Int64 || k == TypeKind::UInt8 ||
+           k == TypeKind::UInt16 || k == TypeKind::UInt32 ||
+           k == TypeKind::UInt64 || k == TypeKind::Int || k == TypeKind::UInt;
+  }
+  virtual bool isUnsigned() const {
+    auto k = getKind();
+    return k == TypeKind::UInt8 || k == TypeKind::UInt16 ||
+           k == TypeKind::UInt32 || k == TypeKind::UInt64 ||
+           k == TypeKind::UInt;
+  }
 };
 
 class PrimitiveType : public Type {
@@ -23,8 +55,26 @@ public:
   TypeKind getKind() const override { return kind; }
   std::string toString() const override {
     switch (kind) {
-    case TypeKind::Int:
+    case TypeKind::Int8:
+      return "i8";
+    case TypeKind::Int16:
+      return "i16";
+    case TypeKind::Int32:
+      return "i32";
+    case TypeKind::Int64:
       return "i64";
+    case TypeKind::UInt8:
+      return "u8";
+    case TypeKind::UInt16:
+      return "u16";
+    case TypeKind::UInt32:
+      return "u32";
+    case TypeKind::UInt64:
+      return "u64";
+    case TypeKind::Int:
+      return "i32";
+    case TypeKind::UInt:
+      return "u32";
     case TypeKind::Float:
       return "f64";
     case TypeKind::Bool:

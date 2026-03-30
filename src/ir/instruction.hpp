@@ -13,7 +13,8 @@ enum class OpCode {
   Add,
   Sub,
   Mul,
-  Div,
+  SDiv,
+  UDiv,
   Cmp,
   Br,
   CondBr,
@@ -23,7 +24,8 @@ enum class OpCode {
   Release,
   Alloc,
   GetElementPtr,
-  Phi
+  Phi,
+  Cast
 };
 
 class Instruction {
@@ -54,8 +56,11 @@ public:
     case OpCode::Mul:
       opStr = "mul";
       break;
-    case OpCode::Div:
-      opStr = "div";
+    case OpCode::SDiv:
+      opStr = "sdiv";
+      break;
+    case OpCode::UDiv:
+      opStr = "udiv";
       break;
     default:
       opStr = "binary";
@@ -247,6 +252,21 @@ public:
            (i < incoming.size() - 1 ? ", " : "");
     }
     return s;
+  }
+};
+
+class CastInst : public Instruction {
+  std::shared_ptr<Value> result, src;
+  std::shared_ptr<Type> targetType;
+
+public:
+  CastInst(std::shared_ptr<Value> res, std::shared_ptr<Value> s,
+           std::shared_ptr<Type> t)
+      : result(std::move(res)), src(std::move(s)), targetType(std::move(t)) {}
+  OpCode getOpCode() const override { return OpCode::Cast; }
+  std::string toString() const override {
+    return result->getName() + " = cast " + src->getTypeName() + " " +
+           src->getName() + " to " + targetType->toString();
   }
 };
 

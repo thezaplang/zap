@@ -38,6 +38,7 @@ namespace zir
     void visit(sema::BoundWhileStatement &node) override;
     void visit(sema::BoundBreakStatement &node) override;
     void visit(sema::BoundContinueStatement &node) override;
+    void visit(sema::BoundCast &node) override;
 
   private:
     std::unique_ptr<Module> module_;

@@ -111,7 +111,19 @@ namespace codegen
       return llvm::Type::getInt1Ty(ctx_);
     case zir::TypeKind::Char:
       return llvm::Type::getInt8Ty(ctx_);
+    case zir::TypeKind::Int8:
+    case zir::TypeKind::UInt8:
+      return llvm::Type::getInt8Ty(ctx_);
+    case zir::TypeKind::Int16:
+    case zir::TypeKind::UInt16:
+      return llvm::Type::getInt16Ty(ctx_);
+    case zir::TypeKind::Int32:
+    case zir::TypeKind::UInt32:
+      return llvm::Type::getInt32Ty(ctx_);
     case zir::TypeKind::Int:
+    case zir::TypeKind::UInt:
+    case zir::TypeKind::Int64:
+    case zir::TypeKind::UInt64:
       return llvm::Type::getInt64Ty(ctx_);
     case zir::TypeKind::Float:
       return llvm::Type::getDoubleTy(ctx_);
@@ -314,6 +326,73 @@ namespace codegen
     }
   }
 
+  void LLVMCodeGen::visit(sema::BoundCast &node)
+  {
+    node.expression->accept(*this);
+    auto *src = lastValue_;
+    auto *srcTy = src->getType();
+    auto *destTy = toLLVMType(*node.type);
+
+    if (srcTy == destTy)
+    {
+      return;
+    }
+
+    if (srcTy->isIntegerTy() && destTy->isIntegerTy())
+    {
+      unsigned srcBits = srcTy->getIntegerBitWidth();
+      unsigned destBits = destTy->getIntegerBitWidth();
+
+      if (destBits > srcBits)
+      {
+        if (node.expression->type->isUnsigned())
+        {
+          lastValue_ = builder_.CreateZExt(src, destTy);
+        }
+        else
+        {
+          lastValue_ = builder_.CreateSExt(src, destTy);
+        }
+      }
+      else if (destBits < srcBits)
+      {
+        lastValue_ = builder_.CreateTrunc(src, destTy);
+      }
+      else
+      {
+        // Same bit width but different signedness in our ZIR, but LLVM doesn't care
+        lastValue_ = src;
+      }
+    }
+    else if (srcTy->isIntegerTy() && destTy->isDoubleTy())
+    {
+      if (node.expression->type->isUnsigned())
+      {
+        lastValue_ = builder_.CreateUIToFP(src, destTy);
+      }
+      else
+      {
+        lastValue_ = builder_.CreateSIToFP(src, destTy);
+      }
+    }
+    else if (srcTy->isDoubleTy() && destTy->isIntegerTy())
+    {
+      if (node.type->isUnsigned())
+      {
+        lastValue_ = builder_.CreateFPToUI(src, destTy);
+      }
+      else
+      {
+        lastValue_ = builder_.CreateFPToSI(src, destTy);
+      }
+    }
+    else
+    {
+      // Fallback or other pointer casts
+      lastValue_ = builder_.CreateBitCast(src, destTy);
+    }
+  }
+
   void LLVMCodeGen::visit(sema::BoundAssignment &node)
   {
     node.expression->accept(*this);
@@ -401,8 +480,16 @@ namespace codegen
     }
     else if (ty->isIntegerTy())
     {
-      lastValue_ =
-          llvm::ConstantInt::get(ty, std::stoll(node.value), /*isSigned=*/true);
+      if (node.type->isUnsigned())
+      {
+        lastValue_ =
+            llvm::ConstantInt::get(ty, std::stoull(node.value), /*isSigned=*/false);
+      }
+      else
+      {
+        lastValue_ =
+            llvm::ConstantInt::get(ty, std::stoll(node.value), /*isSigned=*/true);
+      }
     }
     else if (ty->isDoubleTy())
     {
@@ -494,6 +581,7 @@ namespace codegen
     auto *rhs = lastValue_;
 
     bool isFloat = lhs->getType()->isDoubleTy();
+    bool isUnsigned = node.left->type->isUnsigned();
 
     if (node.op == "+")
       lastValue_ =
@@ -506,7 +594,9 @@ namespace codegen
           isFloat ? builder_.CreateFMul(lhs, rhs) : builder_.CreateMul(lhs, rhs);
     else if (node.op == "/")
       lastValue_ =
-          isFloat ? builder_.CreateFDiv(lhs, rhs) : builder_.CreateSDiv(lhs, rhs);
+          isFloat ? builder_.CreateFDiv(lhs, rhs)
+                  : (isUnsigned ? builder_.CreateUDiv(lhs, rhs)
+                                : builder_.CreateSDiv(lhs, rhs));
     else if (node.op == "==")
       lastValue_ = isFloat ? builder_.CreateFCmpOEQ(lhs, rhs)
                            : builder_.CreateICmpEQ(lhs, rhs);
@@ -515,16 +605,20 @@ namespace codegen
                            : builder_.CreateICmpNE(lhs, rhs);
     else if (node.op == "<")
       lastValue_ = isFloat ? builder_.CreateFCmpOLT(lhs, rhs)
-                           : builder_.CreateICmpSLT(lhs, rhs);
+                           : (isUnsigned ? builder_.CreateICmpULT(lhs, rhs)
+                                         : builder_.CreateICmpSLT(lhs, rhs));
     else if (node.op == "<=")
       lastValue_ = isFloat ? builder_.CreateFCmpOLE(lhs, rhs)
-                           : builder_.CreateICmpSLE(lhs, rhs);
+                           : (isUnsigned ? builder_.CreateICmpULE(lhs, rhs)
+                                         : builder_.CreateICmpSLE(lhs, rhs));
     else if (node.op == ">")
       lastValue_ = isFloat ? builder_.CreateFCmpOGT(lhs, rhs)
-                           : builder_.CreateICmpSGT(lhs, rhs);
+                           : (isUnsigned ? builder_.CreateICmpUGT(lhs, rhs)
+                                         : builder_.CreateICmpSGT(lhs, rhs));
     else if (node.op == ">=")
       lastValue_ = isFloat ? builder_.CreateFCmpOGE(lhs, rhs)
-                           : builder_.CreateICmpSGE(lhs, rhs);
+                           : (isUnsigned ? builder_.CreateICmpUGE(lhs, rhs)
+                                         : builder_.CreateICmpSGE(lhs, rhs));
     else if (node.op == "~")
     {
       auto *i8Ty = llvm::Type::getInt8Ty(ctx_);

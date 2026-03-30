@@ -16,6 +16,33 @@ namespace sema
     currentScope_->declare("Int", std::make_shared<TypeSymbol>(
                                       "Int", std::make_shared<zir::PrimitiveType>(
                                                  zir::TypeKind::Int)));
+    currentScope_->declare("Int8", std::make_shared<TypeSymbol>(
+                                      "Int8", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::Int8)));
+    currentScope_->declare("Int16", std::make_shared<TypeSymbol>(
+                                      "Int16", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::Int16)));
+    currentScope_->declare("Int32", std::make_shared<TypeSymbol>(
+                                      "Int32", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::Int32)));
+    currentScope_->declare("Int64", std::make_shared<TypeSymbol>(
+                                      "Int64", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::Int64)));
+    currentScope_->declare("UInt", std::make_shared<TypeSymbol>(
+                                      "UInt", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::UInt)));
+    currentScope_->declare("UInt8", std::make_shared<TypeSymbol>(
+                                      "UInt8", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::UInt8)));
+    currentScope_->declare("UInt16", std::make_shared<TypeSymbol>(
+                                      "UInt16", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::UInt16)));
+    currentScope_->declare("UInt32", std::make_shared<TypeSymbol>(
+                                      "UInt32", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::UInt32)));
+    currentScope_->declare("UInt64", std::make_shared<TypeSymbol>(
+                                      "UInt64", std::make_shared<zir::PrimitiveType>(
+                                                 zir::TypeKind::UInt64)));
     currentScope_->declare(
         "Float",
         std::make_shared<TypeSymbol>(
@@ -248,9 +275,9 @@ namespace sema
     }
 
     if (!hasReturn && symbol->name == "main" &&
-        symbol->returnType->getKind() == zir::TypeKind::Int)
+        symbol->returnType->isInteger())
     if (!hasReturn && symbol->name == "main" &&
-        symbol->returnType->getKind() == zir::TypeKind::Int)
+        symbol->returnType->isInteger())
     {
       auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
       auto lit = std::make_unique<BoundLiteral>("0", intType);
@@ -264,7 +291,7 @@ namespace sema
       // Try to append a default return value for primitive types so code
       // generation succeeds, but still emit a warning.
       auto kind = symbol->returnType->getKind();
-      if (kind == zir::TypeKind::Int || kind == zir::TypeKind::Float ||
+      if (symbol->returnType->isInteger() || kind == zir::TypeKind::Float ||
           kind == zir::TypeKind::Bool)
       {
         std::string litVal = "0";
@@ -356,6 +383,10 @@ namespace sema
                                "' to variable of type '" + type->toString() +
                                "'");
         }
+        else
+        {
+          initializer = wrapInCast(std::move(initializer), type);
+        }
       }
     }
 
@@ -398,6 +429,10 @@ namespace sema
                                initializer->type->toString() +
                                "' to constant of type '" + type->toString() +
                                "'");
+        }
+        else
+        {
+          initializer = wrapInCast(std::move(initializer), type);
         }
       }
     }
@@ -451,6 +486,10 @@ namespace sema
                              expectedType->toString() + "', but received '" +
                              actualType->toString() + "'");
       }
+      else if (expr)
+      {
+        expr = wrapInCast(std::move(expr), expectedType);
+      }
     }
 
     statementStack_.push(std::make_unique<BoundReturnStatement>(std::move(expr)));
@@ -482,6 +521,8 @@ namespace sema
                              right->type->toString() + "'");
       }
       type = getPromotedType(left->type, right->type);
+      left = wrapInCast(std::move(left), type);
+      right = wrapInCast(std::move(right), type);
     }
     else if (node.op_ == "~")
     {
@@ -510,6 +551,9 @@ namespace sema
                              left->type->toString() + "' and '" +
                              right->type->toString() + "'");
       }
+      auto commonType = getPromotedType(left->type, right->type);
+      left = wrapInCast(std::move(left), commonType);
+      right = wrapInCast(std::move(right), commonType);
       type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
     }
 
@@ -614,6 +658,10 @@ namespace sema
                            expr->type->toString() + "' to type '" +
                            target->type->toString() + "'");
     }
+    else
+    {
+      expr = wrapInCast(std::move(expr), target->type);
+    }
 
     statementStack_.push(
         std::make_unique<BoundAssignment>(std::move(target), std::move(expr)));
@@ -639,7 +687,7 @@ namespace sema
     auto index = std::move(expressionStack_.top());
     expressionStack_.pop();
 
-    if (index->type->getKind() != zir::TypeKind::Int)
+    if (!index->type->isInteger())
     {
       error(node.span, "Array index must be an integer, but got '" + index->type->toString() + "'");
     }
@@ -731,6 +779,10 @@ namespace sema
                                "', but received type '" + arg->type->toString() +
                                "'");
         }
+        else
+        {
+          arg = wrapInCast(std::move(arg), expectedType);
+        }
       }
       boundArgs.push_back(std::move(arg));
     }
@@ -797,6 +849,12 @@ namespace sema
                                elseType->toString() + "'");
         }
         resultType = getPromotedType(thenType, elseType);
+        if (thenBound->result) {
+            thenBound->result = wrapInCast(std::move(thenBound->result), resultType);
+        }
+        if (elseBound->result) {
+            elseBound->result = wrapInCast(std::move(elseBound->result), resultType);
+        }
       }
     }
 
@@ -921,6 +979,24 @@ namespace sema
     {
       if (typeNode.typeName == "Int")
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+      else if (typeNode.typeName == "Int8")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int8);
+      else if (typeNode.typeName == "Int16")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int16);
+      else if (typeNode.typeName == "Int32")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int32);
+      else if (typeNode.typeName == "Int64")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int64);
+      else if (typeNode.typeName == "UInt")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt);
+      else if (typeNode.typeName == "UInt8")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt8);
+      else if (typeNode.typeName == "UInt16")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt16);
+      else if (typeNode.typeName == "UInt32")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt32);
+      else if (typeNode.typeName == "UInt64")
+        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::UInt64);
       else if (typeNode.typeName == "Float")
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
       else if (typeNode.typeName == "Bool")
@@ -1136,7 +1212,7 @@ namespace sema
 
   bool Binder::isNumeric(std::shared_ptr<zir::Type> type)
   {
-    return type->getKind() == zir::TypeKind::Int ||
+    return type->isInteger() ||
            type->getKind() == zir::TypeKind::Float;
   }
 
@@ -1160,12 +1236,19 @@ namespace sema
     }
 
     if (from->getKind() == zir::TypeKind::Enum &&
-        (to->getKind() == zir::TypeKind::Int || to->getKind() == zir::TypeKind::Enum))
+        (to->isInteger() || to->getKind() == zir::TypeKind::Enum))
     {
       return true;
     }
 
-    if (from->getKind() == zir::TypeKind::Int &&
+    if (from->isInteger() && to->isInteger())
+    {
+      // Basic rule: all integer types are convertible for now.
+      // In a real compiler we would check bit-width and signedness.
+      return true;
+    }
+
+    if (from->isInteger() &&
         to->getKind() == zir::TypeKind::Float)
     {
       return true;
@@ -1183,7 +1266,40 @@ namespace sema
     {
       return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
     }
+
+    if (t1->isInteger() && t2->isInteger()) {
+      // Find the "largest" type.
+      auto getWidth = [](zir::TypeKind k) {
+        switch (k) {
+          case zir::TypeKind::Int8:
+          case zir::TypeKind::UInt8: return 8;
+          case zir::TypeKind::Int16:
+          case zir::TypeKind::UInt16: return 16;
+          case zir::TypeKind::Int32:
+          case zir::TypeKind::UInt32: return 32;
+          case zir::TypeKind::Int:
+          case zir::TypeKind::UInt:
+          case zir::TypeKind::Int64:
+          case zir::TypeKind::UInt64: return 64;
+          default: return 0;
+        }
+      };
+      int w1 = getWidth(t1->getKind());
+      int w2 = getWidth(t2->getKind());
+      if (w1 >= w2) return t1;
+      return t2;
+    }
+
     return t1;
+  }
+
+  std::unique_ptr<BoundExpression> Binder::wrapInCast(std::unique_ptr<BoundExpression> expr, std::shared_ptr<zir::Type> targetType)
+  {
+    if (expr->type->getKind() == targetType->getKind() && expr->type->toString() == targetType->toString())
+    {
+      return expr;
+    }
+    return std::make_unique<BoundCast>(std::move(expr), targetType);
   }
 
   void Binder::error(SourceSpan span, const std::string &message)

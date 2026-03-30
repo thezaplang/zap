@@ -557,7 +557,8 @@ namespace zap
     if (current.type == TokenType::INTEGER)
     {
       eat(TokenType::INTEGER);
-      auto constInt = _builder.makeConstInt(std::stoi(current.value));
+      int64_t val = static_cast<int64_t>(std::stoull(current.value));
+      auto constInt = _builder.makeConstInt(val);
       _builder.setSpan(constInt.get(), current.span);
       return constInt;
     }

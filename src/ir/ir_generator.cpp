@@ -268,16 +268,17 @@ namespace zir
     valueStack_.pop();
 
     auto reg = createRegister(node.type);
+    bool isUnsigned = node.left->type->isUnsigned();
     if (node.op == "==" || node.op == "!=" || node.op == "<" ||
-        node.op == ">" || node.op == "<=" || node.op == ">=")
+        (node.op == ">") || (node.op == "<=") || (node.op == ">="))
     {
       std::string pred;
       if (node.op == "==") pred = "eq";
       else if (node.op == "!=") pred = "ne";
-      else if (node.op == "<") pred = "slt";
-      else if (node.op == ">") pred = "sgt";
-      else if (node.op == "<=") pred = "sle";
-      else if (node.op == ">=") pred = "sge";
+      else if (node.op == "<") pred = isUnsigned ? "ult" : "slt";
+      else if (node.op == ">") pred = isUnsigned ? "ugt" : "sgt";
+      else if (node.op == "<=") pred = isUnsigned ? "ule" : "sle";
+      else if (node.op == ">=") pred = isUnsigned ? "uge" : "sge";
 
       currentBlock_->addInstruction(
           std::make_unique<CmpInst>(pred, reg, left, right));
@@ -292,7 +293,7 @@ namespace zir
       else if (node.op == "*")
         op = OpCode::Mul;
       else if (node.op == "/")
-        op = OpCode::Div;
+        op = isUnsigned ? OpCode::UDiv : OpCode::SDiv;
       else
         op = OpCode::Add;
 
@@ -600,6 +601,17 @@ namespace zir
     
     auto res = createRegister(node.type);
     currentBlock_->addInstruction(std::make_unique<LoadInst>(res, ptr));
+    valueStack_.push(res);
+  }
+
+  void BoundIRGenerator::visit(sema::BoundCast &node)
+  {
+    node.expression->accept(*this);
+    auto src = valueStack_.top();
+    valueStack_.pop();
+
+    auto res = createRegister(node.type);
+    currentBlock_->addInstruction(std::make_unique<CastInst>(res, src, node.type));
     valueStack_.push(res);
   }
 
