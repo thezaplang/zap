@@ -1,4 +1,9 @@
 * @thezaplang/Maintainers
 
-src/driver @iDontHaveTime
-src/lsp @iDontHaveTime
+# Override src as being owned by funcieqDEV AND maintainers
+src @funcieqDEV @thezaplang/Maintainers
+
+# Override the below directories as being owned by iDontHaveTime
+# AND maintainers
+src/driver @iDontHaveTime @thezaplang/Maintainers
+src/lsp @iDontHaveTime @thezaplang/Maintainers
