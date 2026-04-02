@@ -30,6 +30,8 @@ Zap behaves very similarly to Go **by design**. It does not try to reinvent syst
 ---
 
 ## What does Zap improve over Go?
+> [!NOTE]
+> not everything works, the language is in early alpha, and this is just a preview of the language
 
 ### Error handling
 
