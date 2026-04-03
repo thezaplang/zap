@@ -61,7 +61,7 @@ namespace codegen
   {
     auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
     llvm::Triple triple(targetTripleStr);
-    module_->setTargetTriple(triple);
+    module_->setTargetTriple(triple.getTriple());
     std::string error;
     const auto *target = llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
     if (!target)
@@ -71,7 +71,7 @@ namespace codegen
     }
 
     llvm::TargetOptions opts;
-    auto *tm = target->createTargetMachine(triple, "generic", "", opts,
+    auto *tm = target->createTargetMachine(triple.getTriple(), "generic", "", opts,
                                            llvm::Reloc::PIC_);
     module_->setDataLayout(tm->createDataLayout());
 
