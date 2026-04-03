@@ -1,97 +1,90 @@
-<h1 align="center"> Zap Programming Language </h1>
+<h1 align="center">Zap Programming Language</h1>
 
 <p align="center">
   <img src="art/Logo.svg" alt="Zap Logo" width="275" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Early%20Alpha-FF9800?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/License-Apache%202.0-4CAF50?style=for-the-badge&logo=apache&logoColor=white" alt="License" />
-  <a href="https://github.com/zap-lang-org/zap"><img src="https://img.shields.io/github/stars/thezaplang/zap?style=for-the-badge" alt="Stars" /></a>
+  <img src="https://img.shields.io/badge/Status-Early%20Alpha-FF9800?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-4CAF50?style=for-the-badge&logo=apache&logoColor=white" />
+  <a href="https://github.com/thezaplang/zap">
+    <img src="https://img.shields.io/github/stars/thezaplang/zap?style=for-the-badge" />
+  </a>
 </p>
 
-> **TL;DR:** Zap is something like Go with its pain points fixed: better error handling, real enums with pattern matching, practical generics, if-expressions, and full target support via LLVM.
+> Systems programming that doesn't get in your way.
+
+You want predictable performance. No GC pauses. Real enums.
+Error handling that doesn't look like noise.
+
+**Zap is a systems language built for developers who know Go
+or are ready to step into systems programming.** ARC memory
+model, LLVM backend, modern syntax. Write low-level software
+without low-level frustration.
+
+[Discord](https://discord.gg/cVGqffBA6m) · [Roadmap](ROADMAP.md)
 
 ---
 
-[Discord](https://discord.gg/cVGqffBA6m)
+## Why Zap?
 
-## v0.1.0 ROADMAP
-[Roadmap](ROADMAP.md)
+> [!WARNING]
+> Early alpha — not everything is implemented yet.
 
-## What is Zap?
-
-**Zap** is a modern, high-level systems programming language compiled to native code (**LLVM backend**), using **Automatic Reference Counting (ARC)** instead of a Garbage Collector (GC).
-
-Zap is built for developers who want to write **high-performance applications** -servers, CLI tools, tooling, and embedded software **quickly, safely, and without frustration**.
-
-Zap behaves very similarly to Go **by design**. It does not try to reinvent systems programming. Its goal is to **solve the real, long-standing problems of Go**.
-
----
-
-## What does Zap improve over Go?
-> [!NOTE]
-> not everything works, the language is in early alpha, and this is just a preview of the language
-
-### Error handling
-
-- `try / catch / throw`
-
-No more `if err != nil` everywhere.
+| Problem | Zap's answer |
+|---|---|
+| GC pauses & unpredictable latency | ARC, memory freed deterministically |
+| No real enums | Enums with exhaustive pattern matching |
+| Verbose error handling | Failable functions |
+| Limited generics | Full static generics |
+| Weak expression model | `if` as an expression, no ternary needed |
+| Single-platform compilers | LLVM: x86, ARM, RISC-V, WASM, embedded |
+| No lightweight concurrency | Fibers, like goroutines without the runtime cost |
 
 ---
 
-### Enums
+## Error Handling
 
-- real enums
-- exhaustive pattern matching (`match`, `each`)
+> [!WARNING]
+> Not yet implemented.
 
-Correctness enforced by the compiler.
-
----
-
-### Generics
-
-- full and static
-- comptime-inspired
-- simple, predictable, and powerful
-
----
-
-### If-expressions / ternary
+Zap uses **failable functions**: functions that can fail declare it explicitly in their return type.
 
 ```zap
-x = if cond { a } else { b }
+enum MathError { DivisionByZero, Overflow }
+
+fun divide(a: Int, b: Int): Int!MathError {
+    if b == 0 { fail MathError.DivisionByZero; }
+    return a / b;
+}
+
+fun main(): Int {
+    // propagate up with ?
+    var x: Int = divide(10, 2)?;
+
+    // fallback value
+    var y: Int = divide(10, 0) or 0;
+
+    // handle locally
+    var z: Int = divide(10, 0) or err {
+        return 1;
+    };
+
+    return 0;
+}
 ```
 
-Less boilerplate, clearer intent.
-
 ---
-
-### Targets & optimization
-
-- LLVM backend
-- small binaries
-- fast cold starts
-- targets: x86, ARM, RISC-V, WebAssembly, embedded
-
----
-
 
 ## Contributing
 
-Zap is at an early stage **feedback directly shapes the language**.
+Zap is in early alpha. **Your feedback directly shapes the language.**
 
-You can help by:
-
-- opening issues
-- discussing language design
-- implementing features
-- improving diagnostics
-- writing documentation
-
-Repository:
-[https://github.com/thezaplang/zap](https://github.com/thezaplang/zap)
+- open issues
+- discuss language design
+- implement features
+- improve diagnostics
+- write documentation
 
 ---
 
@@ -104,8 +97,3 @@ Repository:
    <img alt="Star History Chart" src="https://api.star-history.com/image?repos=thezaplang/zap&type=date&legend=top-left" />
  </picture>
 </a>
-
-
-**Zap**
-
-> Go, without Go problems
