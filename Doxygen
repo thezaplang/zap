@@ -115,11 +115,5 @@ SEARCHENGINE                                 = NO
 FULL_PATH_NAMES                              = YES
 
 OUTPUT_DIRECTORY                             = docs/
-INPUT                                        = src/ast/           \
-                                               src/compiler/      \
-                                               src/ir/            \
-                                               src/lexer/         \
-                                               src/parser/        \
-                                               src/sema/          \
-                                               src/token/
+INPUT                                        = src/
 RECURSIVE                                    = YES
