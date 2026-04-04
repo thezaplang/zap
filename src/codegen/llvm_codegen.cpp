@@ -253,8 +253,14 @@ namespace codegen
 
     if (!builder_.GetInsertBlock()->getTerminator())
     {
-      if (fn->getReturnType()->isVoidTy())
+      if (node.body->result)
+      {
+        builder_.CreateRet(lastValue_);
+      }
+      else if (fn->getReturnType()->isVoidTy())
+      {
         builder_.CreateRetVoid();
+      }
     }
 
     currentFn_ = nullptr;
@@ -923,6 +929,8 @@ namespace codegen
       throw std::runtime_error(
           "lastValue_ is null after condition in BoundIfExpression");
 
+    auto *entryBB = builder_.GetInsertBlock();
+
     if (elseBB)
     {
       builder_.CreateCondBr(cond, thenBB, elseBB);
@@ -984,7 +992,7 @@ namespace codegen
       }
       else
       {
-        phi->addIncoming(llvm::UndefValue::get(phiType), thenBB);
+        phi->addIncoming(llvm::UndefValue::get(phiType), entryBB);
       }
       lastValue_ = phi;
     }

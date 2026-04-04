@@ -172,6 +172,11 @@ run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 run_runtime_test "tests/array_test.zap" 0 "Array declaration, initialization, and indexing"
 run_runtime_test "tests/array_const_size.zap" 0 "Array size as a constant"
 
+# If expression tests
+run_runtime_test "tests/if_expr.zap" 2 "If expression result"
+run_runtime_test "tests/if_advanced.zap" 0 "Advanced if expressions (nesting, math, complex cond)"
+run_warning_runtime_test "repro.zap" 0 "Global variables are discouraged" "If expression in function call and var decl"
+
 # Struct tests
 run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"
 run_runtime_test "tests/struct_nested_test.zap" 0 "Nested struct member access"
