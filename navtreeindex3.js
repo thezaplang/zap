@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"d4/d67/classzir_1_1PointerType.html#a8bdd960293f8e0d2bf3dd790254208d7":[2,0,3,22,0],
 "d4/d78/ast__builder_8hpp.html":[3,0,0,6,0],
 "d4/d78/ast__builder_8hpp_source.html":[3,0,0,6,0],
 "d4/d79/lexer_8cpp.html":[3,0,0,4,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "d7/d9f/classTypeNode.html#a4c15832a2a2ff30f11e9d9261f07b845":[2,0,42,6],
 "d7/d9f/classTypeNode.html#a5d8a0d76bae8471b1d57b9c3eeb02b53":[2,0,42,2],
 "d7/d9f/classTypeNode.html#a89f1af81554c9a25014435bc7e7fdd97":[2,0,42,8],
-"d7/d9f/classTypeNode.html#aa8d94fd70ae642e0b0771ad71eb7ea88":[2,0,42,7],
-"d7/d9f/classTypeNode.html#aab306faaae43edbe8a55141fce126332":[2,0,42,0]
+"d7/d9f/classTypeNode.html#aa8d94fd70ae642e0b0771ad71eb7ea88":[2,0,42,7]
 };

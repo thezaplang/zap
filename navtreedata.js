@@ -74,12 +74,12 @@ var NAVTREEINDEX =
 "annotated.html",
 "d2/d4b/classzir_1_1AllocaInst.html#ab50df2d5f0d70148f4c7f999e96da7dd",
 "d3/d28/classzap_1_1DiagnosticEngine.html#ac5e219b41ca3de68683b966c680d9718",
-"d4/d78/ast__builder_8hpp.html",
-"d7/d9f/classTypeNode.html#ad7bd61029e0c8852ba4e11f0df9fc5ac",
-"d9/d68/classzir_1_1Module.html#a6eba0b62eb871a113f8990eaaa2a3427",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#afb632edbfd45a01c93e673a44d7e6bea",
-"dc/d46/classsema_1_1BoundVariableExpression.html#aaa2c9b3d656def8a58d37923b96bb000",
-"df/d0a/classzir_1_1BinaryInst.html#abde5779e839fc3a97dbd386b1b352b1f"
+"d4/d67/classzir_1_1PointerType.html#a8bdd960293f8e0d2bf3dd790254208d7",
+"d7/d9f/classTypeNode.html#aab306faaae43edbe8a55141fce126332",
+"d9/d68/classzir_1_1Module.html#a6b4485eba3de8bc44e3d3cefe6043fbf",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#af3ed62ab981dbf3f9ef20321e905c294",
+"dc/d46/classsema_1_1BoundVariableExpression.html",
+"df/d0a/classzir_1_1BinaryInst.html#a7b0451b11515cf845d2b976ca890e9e5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
