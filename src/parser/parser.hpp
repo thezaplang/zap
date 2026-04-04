@@ -75,6 +75,7 @@ namespace zap
     int getPrecedence(TokenType type);
     std::unique_ptr<ParameterNode> parseParameter();
     std::unique_ptr<EnumDecl> parseEnumDecl();
+    std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
     std::unique_ptr<RecordDecl> parseRecordDecl();
     std::unique_ptr<StructDeclarationNode> parseStructDecl();
     std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);

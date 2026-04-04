@@ -65,7 +65,7 @@ enum TokenType {
   NOTEQUAL = 59, ///< '!=' symbol.
   CONCAT = 60, ///< '~' symbol.
   BIT_OR = 61, ///< '|' symbol.
-  VAL,
+  ALIAS = 62, ///< "alias" keyword.
   GLOBAL,
   CONST,
 };
@@ -154,9 +154,9 @@ inline std::string tokenTypeToString(TokenType type)
     case TokenType::STRING: return "string literal";
     case TokenType::CHAR: return "char literal";
     case TokenType::BOOL: return "boolean literal";
-    case TokenType::VAL: return "val";
     case TokenType::GLOBAL: return "global";
     case TokenType::CONST: return "const";
+    case TokenType::ALIAS: return "alias";
     case TokenType::CONCAT: return "~";
     default: return "unknown token";
   }

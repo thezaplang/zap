@@ -10,7 +10,7 @@
 - [x] Type inference for integer literals
 - [x] Float types — `Float32`, `Float64`
 - [x] `Bool`, `Char`, `Byte`
-- [ ] Type aliases
+- [x] Type aliases
 
 ---
 

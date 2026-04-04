@@ -29,6 +29,10 @@ namespace zap
         {
           root->addChild(parseEnumDecl());
         }
+        else if (peek().type == TokenType::ALIAS)
+        {
+          root->addChild(parseTypeAliasDecl());
+        }
         else if (peek().type == TokenType::STRUCT)
         {
           root->addChild(parseStructDecl());
@@ -811,6 +815,19 @@ namespace zap
     _builder.setSpan(enumDecl.get(),
                      SourceSpan::merge(enumKeyword.span, rbraceToken.span));
     return enumDecl;
+  }
+
+  std::unique_ptr<TypeAliasDecl> Parser::parseTypeAliasDecl()
+  {
+    Token aliasToken = eat(TokenType::ALIAS);
+    Token nameToken = eat(TokenType::ID);
+    eat(TokenType::ASSIGN);
+    auto type = parseType();
+    Token semiToken = eat(TokenType::SEMICOLON);
+
+    auto aliasDecl = _builder.makeTypeAliasDecl(nameToken.value, std::move(type));
+    _builder.setSpan(aliasDecl.get(), SourceSpan::merge(aliasToken.span, semiToken.span));
+    return aliasDecl;
   }
 
   std::unique_ptr<RecordDecl> Parser::parseRecordDecl()

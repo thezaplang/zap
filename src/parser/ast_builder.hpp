@@ -21,6 +21,7 @@
 #include "../ast/parameter_node.hpp"
 #include "../ast/record_decl.hpp"
 #include "../ast/return_node.hpp"
+#include "../ast/type_alias_decl.hpp"
 #include "../ast/root_node.hpp"
 #include "../ast/type_node.hpp"
 #include "../ast/unary_expr.hpp"
@@ -156,6 +157,11 @@ public:
   makeRecordDecl(const std::string &name,
                  std::vector<std::unique_ptr<ParameterNode>> fields) {
     return std::make_unique<RecordDecl>(name, std::move(fields));
+  }
+
+  std::unique_ptr<TypeAliasDecl>
+  makeTypeAliasDecl(const std::string &name, std::unique_ptr<TypeNode> type) {
+    return std::make_unique<TypeAliasDecl>(name, std::move(type));
   }
 
   template <typename T> T *setSpan(T *node, const SourceSpan &span) {

@@ -314,12 +314,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::BREAK;
       else if (identStr == "continue")
         type = TokenType::CONTINUE;
-      else if (identStr == "val")
-        type = TokenType::VAL;
       else if (identStr == "global")
         type = TokenType::GLOBAL;
       else if (identStr == "const")
         type = TokenType::CONST;
+      else if (identStr == "alias")
+        type = TokenType::ALIAS;
 
       tokens.emplace_back(type, identStr, startLine, startColumn, startPos,
                           len);

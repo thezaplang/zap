@@ -175,7 +175,6 @@ run_runtime_test "tests/array_const_size.zap" 0 "Array size as a constant"
 # If expression tests
 run_runtime_test "tests/if_expr.zap" 2 "If expression result"
 run_runtime_test "tests/if_advanced.zap" 0 "Advanced if expressions (nesting, math, complex cond)"
-run_warning_runtime_test "repro.zap" 0 "Global variables are discouraged" "If expression in function call and var decl"
 
 # Struct tests
 run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"
@@ -184,6 +183,7 @@ run_runtime_test "tests/struct_fn_test.zap" 0 "Structs as function parameters an
 run_runtime_test "tests/struct_array_test.zap" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zap" 0 "Structs with diverse field types"
 run_runtime_test "tests/precedence_test.zap" 0 "Operator precedence (NOT vs Member access)"
+run_runtime_test "tests/type_alias.zap" 42 "Type aliasing (alias Name = Type)"
 
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"

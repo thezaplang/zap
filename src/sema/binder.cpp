@@ -167,6 +167,24 @@ namespace sema
                 "Type '" + enumDecl->name_ + "' already declared.");
         }
       }
+      else if (auto aliasDecl = dynamic_cast<TypeAliasDecl *>(child.get()))
+      {
+        auto type = mapType(*aliasDecl->type_);
+        if (type)
+        {
+          if (!currentScope_->declare(
+                  aliasDecl->name_,
+                  std::make_shared<TypeSymbol>(aliasDecl->name_, std::move(type))))
+          {
+            error(aliasDecl->span,
+                  "Type '" + aliasDecl->name_ + "' already declared.");
+          }
+        }
+        else
+        {
+          error(aliasDecl->span, "Unknown type: " + aliasDecl->type_->typeName);
+        }
+      }
     }
 
     for (const auto &child : root.children)
@@ -1176,6 +1194,11 @@ namespace sema
         elements.size());
     expressionStack_.push(
         std::make_unique<BoundArrayLiteral>(std::move(elements), arrayType));
+  }
+
+  void Binder::visit(TypeAliasDecl &node)
+  {
+    // Type aliases are handled in the preliminary pass.
   }
 
   void Binder::visit(RecordDecl &node)

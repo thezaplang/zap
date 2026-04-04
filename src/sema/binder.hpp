@@ -42,6 +42,7 @@ namespace sema
     void visit(UnaryExpr &node) override;
     void visit(ArrayLiteralNode &node) override;
     void visit(EnumDecl &node) override;
+    void visit(TypeAliasDecl &node) override;
     void visit(RecordDecl &node) override;
     void visit(StructDeclarationNode &node) override;
     void visit(StructLiteralNode &node) override;
