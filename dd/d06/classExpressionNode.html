@@ -83,10 +83,10 @@ $(function(){initNavTree('dd/d06/classExpressionNode.html','../../','d0/d79/clas
 <area href="../../d5/de1/classConstInt.html" alt="ConstInt" shape="rect" coords="140,504,270,528"/>
 <area href="../../dd/d93/classConstString.html" alt="ConstString" shape="rect" coords="140,560,270,584"/>
 <area href="../../dd/d86/classFunCall.html" alt="FunCall" shape="rect" coords="140,616,270,640"/>
-<area href="../../d8/dd5/classIfNode.html" alt="IfNode" shape="rect" coords="140,672,270,696"/>
-<area href="../../d9/ddc/classIndexAccessNode.html" alt="IndexAccessNode" shape="rect" coords="140,728,270,752"/>
-<area href="../../d9/dff/classMemberAccessNode.html" alt="MemberAccessNode" shape="rect" coords="140,784,270,808"/>
-<area href="../../de/d32/classStructLiteralNode.html" alt="StructLiteralNode" shape="rect" coords="140,840,270,864"/>
+<area href="../../d9/ddc/classIndexAccessNode.html" alt="IndexAccessNode" shape="rect" coords="140,672,270,696"/>
+<area href="../../d9/dff/classMemberAccessNode.html" alt="MemberAccessNode" shape="rect" coords="140,728,270,752"/>
+<area href="../../de/d32/classStructLiteralNode.html" alt="StructLiteralNode" shape="rect" coords="140,784,270,808"/>
+<area href="../../d5/d02/classTernaryExpr.html" alt="TernaryExpr" shape="rect" coords="140,840,270,864"/>
 <area href="../../dd/d97/classUnaryExpr.html" alt="UnaryExpr" shape="rect" coords="140,896,270,920"/>
   </map>
 </div></div>
@@ -158,7 +158,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="reference">References <a class="el" href="#a2dfcd43b986e4147edd320e086da5289">ExpressionNode()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d1f/array__literal_8hpp_source.html#l00012">ArrayLiteralNode::ArrayLiteralNode()</a>, <a class="el" href="../../d5/d7f/bin__expr_8hpp_source.html#l00013">BinExpr::BinExpr()</a>, <a class="el" href="#a2dfcd43b986e4147edd320e086da5289">ExpressionNode()</a>, <a class="el" href="../../d6/d6c/if__node_8hpp_source.html#l00016">IfNode::IfNode()</a>, and <a class="el" href="../../d2/d2e/unary__expr_8hpp_source.html#l00011">UnaryExpr::UnaryExpr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d1f/array__literal_8hpp_source.html#l00012">ArrayLiteralNode::ArrayLiteralNode()</a>, <a class="el" href="../../d5/d7f/bin__expr_8hpp_source.html#l00013">BinExpr::BinExpr()</a>, <a class="el" href="#a2dfcd43b986e4147edd320e086da5289">ExpressionNode()</a>, and <a class="el" href="../../d2/d2e/unary__expr_8hpp_source.html#l00011">UnaryExpr::UnaryExpr()</a>.</p>
 
 </div>
 </div>
@@ -188,11 +188,11 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p>Reimplemented in <a class="el" href="../../dd/d86/classFunCall.html#a9619f42a13158a0a21868d8276ba4d7a">FunCall</a>, <a class="el" href="../../d8/dd5/classIfNode.html#a92f01f921539591a24be36b41c283f5c">IfNode</a>, <a class="el" href="../../d9/ddc/classIndexAccessNode.html#ab43b090f5ea924ecd5551907b510f0e1">IndexAccessNode</a>, <a class="el" href="../../d9/dff/classMemberAccessNode.html#ae305ceb27ec172265b0deecc93bada64">MemberAccessNode</a>, <a class="el" href="../../de/d32/classStructLiteralNode.html#ae244fcee9ff5276441a7ee880fb11b01">StructLiteralNode</a>, and <a class="el" href="../../dd/d97/classUnaryExpr.html#a4686e69b40cb79c1cb9a083aef30b25a">UnaryExpr</a>.</p>
+<p>Reimplemented in <a class="el" href="../../dd/d86/classFunCall.html#a9619f42a13158a0a21868d8276ba4d7a">FunCall</a>, <a class="el" href="../../d9/ddc/classIndexAccessNode.html#ab43b090f5ea924ecd5551907b510f0e1">IndexAccessNode</a>, <a class="el" href="../../d9/dff/classMemberAccessNode.html#ae305ceb27ec172265b0deecc93bada64">MemberAccessNode</a>, <a class="el" href="../../de/d32/classStructLiteralNode.html#ae244fcee9ff5276441a7ee880fb11b01">StructLiteralNode</a>, <a class="el" href="../../d5/d02/classTernaryExpr.html#a0991653d28d6e43e3040284c0ee375be">TernaryExpr</a>, and <a class="el" href="../../dd/d97/classUnaryExpr.html#a4686e69b40cb79c1cb9a083aef30b25a">UnaryExpr</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/df1/expr__node_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d0/df1/expr__node_8hpp_source.html">expr_node.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
-<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00048">visitor.hpp:48</a></div></div>
+<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00049">visitor.hpp:49</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/df1/expr__node_8hpp_source.html#l00010">accept()</a>.</p>
 

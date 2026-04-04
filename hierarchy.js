@@ -11,11 +11,11 @@ var hierarchy =
         [ "sema::BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", null ],
         [ "sema::BoundCast", "d2/d0f/classsema_1_1BoundCast.html", null ],
         [ "sema::BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", null ],
-        [ "sema::BoundIfExpression", "d3/dc8/classsema_1_1BoundIfExpression.html", null ],
         [ "sema::BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", null ],
         [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", null ],
         [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", null ],
         [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
+        [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
         [ "sema::BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", null ]
       ] ],
@@ -29,7 +29,7 @@ var hierarchy =
         [ "sema::BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", null ],
         [ "sema::BoundContinueStatement", "d3/dc3/classsema_1_1BoundContinueStatement.html", null ],
         [ "sema::BoundExpressionStatement", "de/d88/classsema_1_1BoundExpressionStatement.html", null ],
-        [ "sema::BoundIfExpression", "d3/dc8/classsema_1_1BoundIfExpression.html", null ],
+        [ "sema::BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", null ],
         [ "sema::BoundReturnStatement", "d2/d99/classsema_1_1BoundReturnStatement.html", null ],
         [ "sema::BoundVariableDeclaration", "d2/d5b/classsema_1_1BoundVariableDeclaration.html", null ],
         [ "sema::BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", null ]
@@ -78,10 +78,10 @@ var hierarchy =
         [ "ConstInt", "d5/de1/classConstInt.html", null ],
         [ "ConstString", "dd/d93/classConstString.html", null ],
         [ "FunCall", "dd/d86/classFunCall.html", null ],
-        [ "IfNode", "d8/dd5/classIfNode.html", null ],
         [ "IndexAccessNode", "d9/ddc/classIndexAccessNode.html", null ],
         [ "MemberAccessNode", "d9/dff/classMemberAccessNode.html", null ],
         [ "StructLiteralNode", "de/d32/classStructLiteralNode.html", null ],
+        [ "TernaryExpr", "d5/d02/classTernaryExpr.html", null ],
         [ "UnaryExpr", "dd/d97/classUnaryExpr.html", null ]
       ] ],
       [ "ParameterNode", "d9/dd3/classParameterNode.html", null ],

@@ -35,6 +35,7 @@ var classsema_1_1Binder =
     [ "visit", "dc/d2c/classsema_1_1Binder.html#afb1702e0ff9e2155ab50f6862ef0e3b5", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a9bf1a40aa6105b9869b895b091bdeb12", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#ac9f79eb14fe918ed604940f772bb9bde", null ],
+    [ "visit", "dc/d2c/classsema_1_1Binder.html#a1c6038a3a0414c666cf0b93425c3cc32", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a14c4a17037cb9fc3d646604bbcc15184", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#ae1fa9e551355e05fb58fa343972eeabc", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a73f4091d56632cc616ffe1e5c65932b6", null ],
