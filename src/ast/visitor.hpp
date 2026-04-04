@@ -28,6 +28,7 @@ class IndexAccessNode;
 
 class ExpressionNode;
 class BinExpr;
+class TernaryExpr;
 class UnaryExpr;
 class FunCall;
 class ArrayLiteralNode;
@@ -72,6 +73,7 @@ struct Visitor
 
   virtual void visit(ExpressionNode &) {}
   virtual void visit(BinExpr &) {}
+  virtual void visit(TernaryExpr &) {}
   virtual void visit(UnaryExpr &) {}
   virtual void visit(FunCall &) {}
   virtual void visit(ArrayLiteralNode &) {}

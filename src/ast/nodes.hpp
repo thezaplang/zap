@@ -23,6 +23,7 @@
 #include "return_node.hpp"
 #include "root_node.hpp"
 #include "statement_node.hpp"
+#include "ternary_expr.hpp"
 #include "top_level.hpp"
 #include "type_alias_decl.hpp"
 #include "type_node.hpp"

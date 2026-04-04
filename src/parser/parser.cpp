@@ -187,16 +187,8 @@ namespace zap
           if (peek().type == TokenType::SEMICOLON)
           {
             eat(TokenType::SEMICOLON);
-            body->addStatement(std::move(ifNode));
           }
-          else if (peek().type == TokenType::RBRACE)
-          {
-            body->setResult(std::move(ifNode));
-          }
-          else
-          {
-            body->addStatement(std::move(ifNode));
-          }
+          body->addStatement(std::move(ifNode));
         }
         else if (peek().type == TokenType::WHILE)
         {
@@ -506,7 +498,28 @@ namespace zap
 
   std::unique_ptr<ExpressionNode> Parser::parseExpression()
   {
-    return parseBinaryExpression(0);
+    return parseTernaryExpression();
+  }
+
+  std::unique_ptr<ExpressionNode> Parser::parseTernaryExpression()
+  {
+    auto condition = parseBinaryExpression(0);
+
+    if (peek().type != TokenType::QUESTION)
+      return condition;
+
+    eat(TokenType::QUESTION);
+    auto thenExpr = parseTernaryExpression();
+    eat(TokenType::COLON);
+    auto elseExpr = parseTernaryExpression();
+
+    SourceSpan conditionSpan = condition->span;
+    SourceSpan elseSpan = elseExpr->span;
+    auto ternary = _builder.makeTernaryExpr(std::move(condition),
+                                            std::move(thenExpr),
+                                            std::move(elseExpr));
+    _builder.setSpan(ternary.get(), SourceSpan::merge(conditionSpan, elseSpan));
+    return ternary;
   }
 
   std::unique_ptr<ExpressionNode>
@@ -698,10 +711,6 @@ namespace zap
           exit(EXIT_FAILURE);
       }
       return parseArrayLiteral();
-    }
-    else if (current.type == TokenType::IF)
-    {
-      return parseIf();
     }
     _diag.report(current.span, DiagnosticLevel::Error,
                  "Expected primary expression, got " + current.value);

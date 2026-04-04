@@ -5,7 +5,7 @@ Welcome to the official documentation for the **Zap** programming language. Zap 
 ## Core Philosophy
 - **Performance**: Compiled to native code via LLVM.
 - **Memory Safety**: Uses **Automatic Reference Counting (ARC)** instead of a Garbage Collector (GC).
-- **Expressiveness**: Features like if-expressions and real enums reduce boilerplate.
+- **Expressiveness**: Features like concise control flow, ternary expressions, and real enums reduce boilerplate.
 - **Simplicity**: Maintains a Go-like syntax for low cognitive overhead.
 
 ## Documentation Sections

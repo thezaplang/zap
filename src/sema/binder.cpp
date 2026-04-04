@@ -593,6 +593,49 @@ namespace sema
         std::move(left), node.op_, std::move(right), type));
   }
 
+  void Binder::visit(TernaryExpr &node)
+  {
+    node.condition_->accept(*this);
+    if (expressionStack_.empty())
+      return;
+    auto condition = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    if (condition->type->getKind() != zir::TypeKind::Bool)
+    {
+      error(node.span, "Ternary condition must be of type 'Bool', but received '" +
+                           condition->type->toString() + "'");
+    }
+
+    node.thenExpr_->accept(*this);
+    if (expressionStack_.empty())
+      return;
+    auto thenExpr = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    node.elseExpr_->accept(*this);
+    if (expressionStack_.empty())
+      return;
+    auto elseExpr = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    if (!canConvert(thenExpr->type, elseExpr->type) &&
+        !canConvert(elseExpr->type, thenExpr->type))
+    {
+      error(node.span, "Incompatible types in ternary branches: '" +
+                           thenExpr->type->toString() + "' and '" +
+                           elseExpr->type->toString() + "'");
+    }
+
+    auto resultType = getPromotedType(thenExpr->type, elseExpr->type);
+    thenExpr = wrapInCast(std::move(thenExpr), resultType);
+    elseExpr = wrapInCast(std::move(elseExpr), resultType);
+
+    expressionStack_.push(std::make_unique<BoundTernaryExpression>(
+        std::move(condition), std::move(thenExpr), std::move(elseExpr),
+        resultType));
+  }
+
   void Binder::visit(ConstInt &node)
   {
     expressionStack_.push(std::make_unique<BoundLiteral>(
@@ -912,47 +955,13 @@ namespace sema
       popScope();
     }
 
-    std::shared_ptr<zir::Type> resultType =
-        std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+    if (thenBound)
+      thenBound->result.reset();
+    if (elseBound)
+      elseBound->result.reset();
 
-    if (thenBound && thenBound->result)
-    {
-      if (!elseBound || !elseBound->result)
-      {
-        error(node.span, "If expression with a result must have an 'else' block "
-                         "with a result.");
-      }
-      else
-      {
-        auto thenType = thenBound->result->type;
-        auto elseType = elseBound->result->type;
-        if (!canConvert(thenType, elseType) && !canConvert(elseType, thenType))
-        {
-          error(node.span, "Incompatible types in if branches: '" +
-                               thenType->toString() + "' and '" +
-                               elseType->toString() + "'");
-        }
-        resultType = getPromotedType(thenType, elseType);
-        if (thenBound->result) {
-            thenBound->result = wrapInCast(std::move(thenBound->result), resultType);
-        }
-        if (elseBound->result) {
-            elseBound->result = wrapInCast(std::move(elseBound->result), resultType);
-        }
-      }
-    }
-
-    auto boundIf = std::make_unique<BoundIfExpression>(
-        std::move(cond), std::move(thenBound), std::move(elseBound), resultType);
-
-    if (resultType->getKind() != zir::TypeKind::Void)
-    {
-      expressionStack_.push(std::move(boundIf));
-    }
-    else
-    {
-      statementStack_.push(std::move(boundIf));
-    }
+    statementStack_.push(std::make_unique<BoundIfStatement>(
+        std::move(cond), std::move(thenBound), std::move(elseBound)));
   }
 
   void Binder::visit(WhileNode &node)

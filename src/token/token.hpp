@@ -142,6 +142,7 @@ inline std::string tokenTypeToString(TokenType type)
     case TokenType::RBRACE: return "}";
     case TokenType::SQUARE_LBRACE: return "[";
     case TokenType::SQUARE_RBRACE: return "]";
+    case TokenType::QUESTION: return "?";
     case TokenType::ASSIGN: return "=";
     case TokenType::EQUAL: return "==";
     case TokenType::NOTEQUAL: return "!=";

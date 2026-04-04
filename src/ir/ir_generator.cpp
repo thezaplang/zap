@@ -303,6 +303,54 @@ namespace zir
     valueStack_.push(reg);
   }
 
+  void BoundIRGenerator::visit(sema::BoundTernaryExpression &node)
+  {
+    auto thenLabel = createBlockLabel("ternary.then");
+    auto elseLabel = createBlockLabel("ternary.else");
+    auto mergeLabel = createBlockLabel("ternary.merge");
+
+    node.condition->accept(*this);
+    auto condVal = valueStack_.top();
+    valueStack_.pop();
+
+    currentBlock_->addInstruction(
+        std::make_unique<CondBranchInst>(condVal, thenLabel, elseLabel));
+
+    auto thenBlock = std::make_unique<BasicBlock>(thenLabel);
+    auto *thenBlockPtr = thenBlock.get();
+    currentFunction_->addBlock(std::move(thenBlock));
+    currentBlock_ = thenBlockPtr;
+
+    node.thenExpr->accept(*this);
+    auto thenVal = valueStack_.top();
+    valueStack_.pop();
+    std::string actualThenLabel = currentBlock_->label;
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+
+    auto elseBlock = std::make_unique<BasicBlock>(elseLabel);
+    auto *elseBlockPtr = elseBlock.get();
+    currentFunction_->addBlock(std::move(elseBlock));
+    currentBlock_ = elseBlockPtr;
+
+    node.elseExpr->accept(*this);
+    auto elseVal = valueStack_.top();
+    valueStack_.pop();
+    std::string actualElseLabel = currentBlock_->label;
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+
+    auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+    auto *mergeBlockPtr = mergeBlock.get();
+    currentFunction_->addBlock(std::move(mergeBlock));
+    currentBlock_ = mergeBlockPtr;
+
+    auto res = createRegister(node.type);
+    std::vector<std::pair<std::string, std::shared_ptr<Value>>> incoming;
+    incoming.push_back({actualThenLabel, thenVal});
+    incoming.push_back({actualElseLabel, elseVal});
+    currentBlock_->addInstruction(std::make_unique<PhiInst>(res, incoming));
+    valueStack_.push(res);
+  }
+
   void BoundIRGenerator::visit(sema::BoundFunctionCall &node)
   {
     std::vector<std::shared_ptr<Value>> args;
@@ -428,7 +476,7 @@ namespace zir
     valueStack_.push(result);
   }
 
-  void BoundIRGenerator::visit(sema::BoundIfExpression &node)
+  void BoundIRGenerator::visit(sema::BoundIfStatement &node)
   {
     auto trueLabel = createBlockLabel("if.then");
     auto falseLabel = node.elseBody ? createBlockLabel("if.else") : "";
@@ -457,12 +505,6 @@ namespace zir
     if (node.thenBody)
       node.thenBody->accept(*this);
 
-    std::shared_ptr<Value> thenVal = nullptr;
-    if (!valueStack_.empty())
-    {
-      thenVal = valueStack_.top();
-      valueStack_.pop();
-    }
     std::string actualThenLabel = currentBlock_->label;
 
     if (currentBlock_->instructions.empty() ||
@@ -471,7 +513,6 @@ namespace zir
       currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
     }
 
-    std::shared_ptr<Value> elseVal = nullptr;
     std::string actualElseLabel = "";
     if (node.elseBody)
     {
@@ -481,11 +522,6 @@ namespace zir
       currentBlock_ = elseBlockPtr;
       node.elseBody->accept(*this);
 
-      if (!valueStack_.empty())
-      {
-        elseVal = valueStack_.top();
-        valueStack_.pop();
-      }
       actualElseLabel = currentBlock_->label;
 
       if (currentBlock_->instructions.empty() ||
@@ -499,25 +535,6 @@ namespace zir
     auto *mergeBlockPtr = mergeBlock.get();
     currentFunction_->addBlock(std::move(mergeBlock));
     currentBlock_ = mergeBlockPtr;
-
-    if (node.type->getKind() != TypeKind::Void)
-    {
-      auto res = createRegister(node.type);
-      std::vector<std::pair<std::string, std::shared_ptr<Value>>> incoming;
-
-      auto finalThenVal =
-          thenVal ? thenVal : std::make_shared<Constant>("undef", node.type);
-      incoming.push_back({actualThenLabel, finalThenVal});
-
-      if (node.elseBody)
-      {
-        auto finalElseVal =
-            elseVal ? elseVal : std::make_shared<Constant>("undef", node.type);
-        incoming.push_back({actualElseLabel, finalElseVal});
-      }
-      currentBlock_->addInstruction(std::make_unique<PhiInst>(res, incoming));
-      valueStack_.push(res);
-    }
   }
 
   void BoundIRGenerator::visit(sema::BoundWhileStatement &node)
