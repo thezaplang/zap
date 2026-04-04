@@ -617,6 +617,11 @@ namespace codegen
           isFP ? builder_.CreateFDiv(lhs, rhs)
                   : (isUnsigned ? builder_.CreateUDiv(lhs, rhs)
                                 : builder_.CreateSDiv(lhs, rhs));
+    else if (node.op == "%")
+      lastValue_ =
+          isFP ? builder_.CreateFRem(lhs, rhs)
+                  : (isUnsigned ? builder_.CreateURem(lhs, rhs)
+                                : builder_.CreateSRem(lhs, rhs));
     else if (node.op == "==")
       lastValue_ = isFP ? builder_.CreateFCmpOEQ(lhs, rhs)
                            : builder_.CreateICmpEQ(lhs, rhs);

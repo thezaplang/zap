@@ -39,6 +39,7 @@ echo "--- Zap Compiler Test Suite ---"
 # Valid code (should pass)
 run_test "tests/valid.zap" 0 "Valid program"
 run_test "tests/return_void.zap" 0 "Return in void function"
+run_test "tests/modulo_test.zap" 0 "Modulo operator test"
 
 # Warning test: compile and check stderr for the warning message
 run_warning_test() {

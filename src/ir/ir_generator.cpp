@@ -292,6 +292,8 @@ namespace zir
         op = OpCode::Mul;
       else if (node.op == "/")
         op = isUnsigned ? OpCode::UDiv : OpCode::SDiv;
+      else if (node.op == "%")
+        op = isUnsigned ? OpCode::URem : OpCode::SRem;
       else
         op = OpCode::Add;
 

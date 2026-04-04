@@ -15,6 +15,8 @@ enum class OpCode {
   Mul,
   SDiv,
   UDiv,
+  SRem,
+  URem,
   Cmp,
   Br,
   CondBr,
@@ -61,6 +63,12 @@ public:
       break;
     case OpCode::UDiv:
       opStr = "udiv";
+      break;
+    case OpCode::SRem:
+      opStr = "srem";
+      break;
+    case OpCode::URem:
+      opStr = "urem";
       break;
     default:
       opStr = "binary";

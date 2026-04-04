@@ -525,7 +525,7 @@ namespace sema
 
     auto type = left->type;
     if (node.op_ == "+" || node.op_ == "-" || node.op_ == "*" ||
-        node.op_ == "/")
+        node.op_ == "/" || node.op_ == "%")
     {
       if (!isNumeric(left->type) || !isNumeric(right->type))
       {
