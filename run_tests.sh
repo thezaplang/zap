@@ -176,6 +176,7 @@ run_runtime_test "tests/struct_nested_test.zap" 0 "Nested struct member access"
 run_runtime_test "tests/struct_fn_test.zap" 0 "Structs as function parameters and return values"
 run_runtime_test "tests/struct_array_test.zap" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zap" 0 "Structs with diverse field types"
+run_runtime_test "tests/precedence_test.zap" 0 "Operator precedence (NOT vs Member access)"
 
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"

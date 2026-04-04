@@ -69,7 +69,9 @@ namespace zap
     std::unique_ptr<ExpressionNode> parseExpression();
     std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
     std::unique_ptr<ExpressionNode> parseUnaryExpression();
+    std::unique_ptr<ExpressionNode> parsePostfixExpression();
     std::unique_ptr<ExpressionNode> parsePrimaryExpression();
+
     int getPrecedence(TokenType type);
     std::unique_ptr<ParameterNode> parseParameter();
     std::unique_ptr<EnumDecl> parseEnumDecl();
