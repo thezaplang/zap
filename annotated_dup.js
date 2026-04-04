@@ -5,7 +5,7 @@ var annotated_dup =
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
       [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
       [ "BoundExpression", "db/d06/classsema_1_1BoundExpression.html", "db/d06/classsema_1_1BoundExpression" ],
-      [ "BoundStatement", "dd/d10/classsema_1_1BoundStatement.html", null ],
+      [ "BoundStatement", "dd/d10/classsema_1_1BoundStatement.html", "dd/d10/classsema_1_1BoundStatement" ],
       [ "BoundExpressionStatement", "de/d88/classsema_1_1BoundExpressionStatement.html", "de/d88/classsema_1_1BoundExpressionStatement" ],
       [ "BoundBlock", "d1/d45/classsema_1_1BoundBlock.html", "d1/d45/classsema_1_1BoundBlock" ],
       [ "BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],

@@ -3,7 +3,7 @@ var bound__nodes_8hpp =
     [ "sema::BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
     [ "sema::BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
     [ "sema::BoundExpression", "db/d06/classsema_1_1BoundExpression.html", "db/d06/classsema_1_1BoundExpression" ],
-    [ "sema::BoundStatement", "dd/d10/classsema_1_1BoundStatement.html", null ],
+    [ "sema::BoundStatement", "dd/d10/classsema_1_1BoundStatement.html", "dd/d10/classsema_1_1BoundStatement" ],
     [ "sema::BoundExpressionStatement", "de/d88/classsema_1_1BoundExpressionStatement.html", "de/d88/classsema_1_1BoundExpressionStatement" ],
     [ "sema::BoundBlock", "d1/d45/classsema_1_1BoundBlock.html", "d1/d45/classsema_1_1BoundBlock" ],
     [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],

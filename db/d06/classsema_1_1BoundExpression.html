@@ -60,7 +60,7 @@ $(function(){initNavTree('db/d06/classsema_1_1BoundExpression.html','../../','da
 <div id="container">
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">sema::BoundExpression Class Reference</div></div>
+  <div class="headertitle"><div class="title">sema::BoundExpression Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -90,6 +90,7 @@ $(function(){initNavTree('db/d06/classsema_1_1BoundExpression.html','../../','da
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a03cab6b468c4468a2e9bcc456cadfa52" id="r_a03cab6b468c4468a2e9bcc456cadfa52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03cab6b468c4468a2e9bcc456cadfa52">BoundExpression</a> (std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; t)</td></tr>
+<tr class="memitem:a293605df0a39737e2c9809a424644b17" id="r_a293605df0a39737e2c9809a424644b17"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="#a03cab6b468c4468a2e9bcc456cadfa52">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a293605df0a39737e2c9809a424644b17">clone</a> () const =0</td></tr>
 <tr class="inherit_header pub_methods_classsema_1_1BoundNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classsema_1_1BoundNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d0/db2/classsema_1_1BoundNode.html">sema::BoundNode</a></td></tr>
 <tr class="memitem:a1688707e7039620a1b99581e5b9cb09d inherit pub_methods_classsema_1_1BoundNode" id="r_a1688707e7039620a1b99581e5b9cb09d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/db2/classsema_1_1BoundNode.html#a1688707e7039620a1b99581e5b9cb09d">~BoundNode</a> ()=default</td></tr>
 <tr class="memitem:a1bcdc57213e5c1decea0b6808c6e675b inherit pub_methods_classsema_1_1BoundNode" id="r_a1bcdc57213e5c1decea0b6808c6e675b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/db2/classsema_1_1BoundNode.html#a1bcdc57213e5c1decea0b6808c6e675b">accept</a> (<a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html">BoundVisitor</a> &amp;v)=0</td></tr>
@@ -131,7 +132,35 @@ Public Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00077">type</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00174">sema::BoundArrayLiteral::BoundArrayLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00137">sema::BoundBinaryExpression::BoundBinaryExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00116">sema::BoundCast::BoundCast()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00163">sema::BoundFunctionCall::BoundFunctionCall()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00233">sema::BoundIfExpression::BoundIfExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00186">sema::BoundIndexAccess::BoundIndexAccess()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00107">sema::BoundLiteral::BoundLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00310">sema::BoundMemberAccess::BoundMemberAccess()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00321">sema::BoundStructLiteral::BoundStructLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00151">sema::BoundUnaryExpression::BoundUnaryExpression()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00125">sema::BoundVariableExpression::BoundVariableExpression()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00210">sema::BoundArrayLiteral::BoundArrayLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00162">sema::BoundBinaryExpression::BoundBinaryExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00135">sema::BoundCast::BoundCast()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00194">sema::BoundFunctionCall::BoundFunctionCall()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00287">sema::BoundIfExpression::BoundIfExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00227">sema::BoundIndexAccess::BoundIndexAccess()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00123">sema::BoundLiteral::BoundLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00382">sema::BoundMemberAccess::BoundMemberAccess()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00396">sema::BoundStructLiteral::BoundStructLiteral()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00179">sema::BoundUnaryExpression::BoundUnaryExpression()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00147">sema::BoundVariableExpression::BoundVariableExpression()</a>.</p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a293605df0a39737e2c9809a424644b17" name="a293605df0a39737e2c9809a424644b17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a293605df0a39737e2c9809a424644b17">&#9670;&#160;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="#a03cab6b468c4468a2e9bcc456cadfa52">BoundExpression</a> &gt; sema::BoundExpression::clone </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="../../dd/d9c/classsema_1_1BoundArrayLiteral.html#ad19792d9fe7d92be78b26f9b49e1d389">sema::BoundArrayLiteral</a>, <a class="el" href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a00abfaee4f7304371d04ae551c5db617">sema::BoundBinaryExpression</a>, <a class="el" href="../../d2/d0f/classsema_1_1BoundCast.html#a7f81bf0960272eec286c3ae0a76b77cd">sema::BoundCast</a>, <a class="el" href="../../df/da0/classsema_1_1BoundFunctionCall.html#a6d7d7c9ffd96ef304a99d4f45007c357">sema::BoundFunctionCall</a>, <a class="el" href="../../d3/dc8/classsema_1_1BoundIfExpression.html#afebb9aed91dcbdd35e259142dc2bebba">sema::BoundIfExpression</a>, <a class="el" href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#a8fe6e722e40303a94a8df0c65a95cb5c">sema::BoundIndexAccess</a>, <a class="el" href="../../db/d85/classsema_1_1BoundLiteral.html#a7387a527846f53732bcc58f8f8d002f9">sema::BoundLiteral</a>, <a class="el" href="../../db/ddd/classsema_1_1BoundMemberAccess.html#a02deaf842e898608ff910971c083b0b6">sema::BoundMemberAccess</a>, <a class="el" href="../../d8/d4b/classsema_1_1BoundStructLiteral.html#a8e628c799d688bea36ad8b3dd934d7fb">sema::BoundStructLiteral</a>, <a class="el" href="../../d6/d6f/classsema_1_1BoundUnaryExpression.html#a5ed92292dd201483fb6f4da94a90d09d">sema::BoundUnaryExpression</a>, and <a class="el" href="../../dc/d46/classsema_1_1BoundVariableExpression.html#abb2eb652135bff507d5c8b9e9d2109df">sema::BoundVariableExpression</a>.</p>
 
 </div>
 </div>
@@ -150,7 +179,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00077">77</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00078">BoundExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00125">sema::BoundVariableExpression::BoundVariableExpression()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00338">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00182">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00607">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00431">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00582">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00162">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00397">zir::BoundIRGenerator::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00167">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00078">BoundExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00147">sema::BoundVariableExpression::BoundVariableExpression()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00214">sema::BoundArrayLiteral::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00168">sema::BoundBinaryExpression::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00138">sema::BoundCast::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00294">sema::BoundIfExpression::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00232">sema::BoundIndexAccess::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00126">sema::BoundLiteral::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00386">sema::BoundMemberAccess::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00400">sema::BoundStructLiteral::clone()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00183">sema::BoundUnaryExpression::clone()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00338">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00607">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00431">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00582">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00160">zir::BoundIRGenerator::visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00397">zir::BoundIRGenerator::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>

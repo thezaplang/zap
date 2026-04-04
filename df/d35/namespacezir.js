@@ -39,6 +39,8 @@ var namespacezir =
       [ "Mul", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2", null ],
       [ "SDiv", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85", null ],
       [ "UDiv", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1", null ],
+      [ "SRem", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa9c46bb7eea63f34b9659973c34a62392", null ],
+      [ "URem", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8", null ],
       [ "Cmp", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aac9b4c62f6dc1bc5caf3c768b687cbf7e", null ],
       [ "Br", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2", null ],
       [ "CondBr", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced", null ],

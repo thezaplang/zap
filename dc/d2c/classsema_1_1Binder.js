@@ -4,6 +4,7 @@ var classsema_1_1Binder =
     [ "bind", "dc/d2c/classsema_1_1Binder.html#abc5b4a2693ba0038ae47e2b431bc9e6a", null ],
     [ "canConvert", "dc/d2c/classsema_1_1Binder.html#aae147ccd66a0b4c576b9023bae6adf54", null ],
     [ "error", "dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a", null ],
+    [ "evaluateConstantInt", "dc/d2c/classsema_1_1Binder.html#a4de5e9c89239303acb2f9524373e52de", null ],
     [ "getPromotedType", "dc/d2c/classsema_1_1Binder.html#a8b08f09e613662a8380a6d4cde95ce59", null ],
     [ "isNumeric", "dc/d2c/classsema_1_1Binder.html#a46529c80232e0c44f540137873084822", null ],
     [ "mapType", "dc/d2c/classsema_1_1Binder.html#a23d9f2a69d183d0701368853e1098274", null ],
