@@ -527,16 +527,39 @@ namespace zap
       _builder.setSpan(static_cast<BinExpr *>(left.get()),
                        SourceSpan::merge(leftSpan, rightSpan));
     }
-    // Handle ternary operator (right-associative): cond ? then : else
-    if (peek().type == TokenType::QUESTION)
+    if (minPrecedence == 0 && peek().type == TokenType::QUESTION)
     {
+      if (!left)
+      {
+        _diag.report(peek().span, DiagnosticLevel::Error,
+                     "Unexpected '?' without left-hand expression");
+        throw ParseError();
+      }
+
       eat(TokenType::QUESTION);
+
       auto thenExpr = parseExpression();
+      if (!thenExpr)
+      {
+        _diag.report(peek().span, DiagnosticLevel::Error,
+                     "Expected expression after '?'");
+        throw ParseError();
+      }
+
       eat(TokenType::COLON);
+
       auto elseExpr = parseExpression();
+      if (!elseExpr)
+      {
+        _diag.report(peek().span, DiagnosticLevel::Error,
+                     "Expected expression after ':' in ternary operator");
+        throw ParseError();
+      }
 
       auto node = _builder.makeTernary(std::move(left), std::move(thenExpr), std::move(elseExpr));
-      SourceSpan span = SourceSpan::merge(left->span, elseExpr->span);
+      SourceSpan condSpan = left->span;
+      SourceSpan elseSpan = elseExpr->span;
+      SourceSpan span = SourceSpan::merge(condSpan, elseSpan);
       _builder.setSpan(node.get(), span);
       return node;
     }

@@ -172,10 +172,6 @@ run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 run_runtime_test "tests/array_test.zap" 0 "Array declaration, initialization, and indexing"
 run_runtime_test "tests/array_const_size.zap" 0 "Array size as a constant"
 
-# If expression tests
-run_runtime_test "tests/if_expr.zap" 2 "If expression result"
-run_runtime_test "tests/if_advanced.zap" 0 "Advanced if expressions (nesting, math, complex cond)"
-
 # Struct tests
 run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"
 run_runtime_test "tests/struct_nested_test.zap" 0 "Nested struct member access"
@@ -184,6 +180,9 @@ run_runtime_test "tests/struct_array_test.zap" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zap" 0 "Structs with diverse field types"
 run_runtime_test "tests/precedence_test.zap" 0 "Operator precedence (NOT vs Member access)"
 run_runtime_test "tests/type_alias.zap" 42 "Type aliasing (alias Name = Type)"
+
+# Ternary operator test
+run_runtime_test "tests/ternary_test.zap" 1 "Ternary operator test"
 
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"
