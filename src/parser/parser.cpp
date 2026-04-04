@@ -674,9 +674,14 @@ namespace zap
                 argName = eat(TokenType::ID).value;
                 eat(TokenType::ASSIGN);
               }
+              bool argIsRef = false;
+              if (peek().type == TokenType::REFERENCE) {
+                eat(TokenType::REFERENCE);
+                argIsRef = true;
+              }
               auto argValue = parseExpression();
               funCall->params_.push_back(
-                  std::make_unique<Argument>(argName, std::move(argValue)));
+                  std::make_unique<Argument>(argName, std::move(argValue), argIsRef));
             } while (peek().type == TokenType::COMMA &&
                      eat(TokenType::COMMA).type == TokenType::COMMA);
         }
