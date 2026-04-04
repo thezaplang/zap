@@ -37,7 +37,7 @@ without low-level frustration.
 | No real enums | Enums with exhaustive pattern matching |
 | Verbose error handling | Failable functions |
 | Limited generics | Full static generics |
-| Weak expression model | `if` as an expression, no ternary needed |
+| Concise conditional expressions | Ternary operator `?:` |
 | Single-platform compilers | LLVM: x86, ARM, RISC-V, WASM, embedded |
 | No lightweight concurrency | Fibers, like goroutines without the runtime cost |
 
@@ -53,12 +53,12 @@ Zap uses **failable functions**: functions that can fail declare it explicitly i
 ```zap
 enum MathError { DivisionByZero, Overflow }
 
-fun divide(a: Int, b: Int): Int!MathError {
+fun divide(a: Int, b: Int) Int!MathError {
     if b == 0 { fail MathError.DivisionByZero; }
     return a / b;
 }
 
-fun main(): Int {
+fun main() Int {
     // propagate up with ?
     var x: Int = divide(10, 2)?;
 

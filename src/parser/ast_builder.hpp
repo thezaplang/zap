@@ -23,6 +23,7 @@
 #include "../ast/return_node.hpp"
 #include "../ast/type_alias_decl.hpp"
 #include "../ast/root_node.hpp"
+#include "../ast/ternary_expr.hpp"
 #include "../ast/type_node.hpp"
 #include "../ast/unary_expr.hpp"
 #include "../ast/var_decl.hpp"
@@ -113,6 +114,15 @@ public:
                                        const std::string &op,
                                        std::unique_ptr<ExpressionNode> right) {
     return std::make_unique<BinExpr>(std::move(left), op, std::move(right));
+  }
+
+  std::unique_ptr<TernaryExpr>
+  makeTernaryExpr(std::unique_ptr<ExpressionNode> condition,
+                  std::unique_ptr<ExpressionNode> thenExpr,
+                  std::unique_ptr<ExpressionNode> elseExpr) {
+    return std::make_unique<TernaryExpr>(std::move(condition),
+                                         std::move(thenExpr),
+                                         std::move(elseExpr));
   }
 
   std::unique_ptr<ConstInt> makeConstInt(int64_t value) {

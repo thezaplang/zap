@@ -67,6 +67,7 @@ namespace zap
     std::unique_ptr<WhileNode> parseWhile();
     std::unique_ptr<ReturnNode> parseReturnStmt();
     std::unique_ptr<ExpressionNode> parseExpression();
+    std::unique_ptr<ExpressionNode> parseTernaryExpression();
     std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
     std::unique_ptr<ExpressionNode> parseUnaryExpression();
     std::unique_ptr<ExpressionNode> parsePostfixExpression();

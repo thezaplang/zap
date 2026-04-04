@@ -26,6 +26,7 @@ namespace zir
     void visit(sema::BoundLiteral &node) override;
     void visit(sema::BoundVariableExpression &node) override;
     void visit(sema::BoundBinaryExpression &node) override;
+    void visit(sema::BoundTernaryExpression &node) override;
     void visit(sema::BoundUnaryExpression &node) override;
     void visit(sema::BoundFunctionCall &node) override;
     void visit(sema::BoundArrayLiteral &node) override;
@@ -34,7 +35,7 @@ namespace zir
     void visit(sema::BoundEnumDeclaration &node) override;
     void visit(sema::BoundMemberAccess &node) override;
     void visit(sema::BoundStructLiteral &node) override;
-    void visit(sema::BoundIfExpression &node) override;
+    void visit(sema::BoundIfStatement &node) override;
     void visit(sema::BoundWhileStatement &node) override;
     void visit(sema::BoundBreakStatement &node) override;
     void visit(sema::BoundContinueStatement &node) override;

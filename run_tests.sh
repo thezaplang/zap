@@ -168,13 +168,12 @@ run_runtime_test "tests/concat_char.zap" 0 "Concat char + string"
 # Logical operator tests
 run_runtime_test "tests/logical_ops.zap" 0 "Logical operators (&&, ||) with short-circuiting"
 run_test "tests/logical_type_error.zap" 1 "Logical operators type check"
+run_runtime_test "tests/ternary_test.zap" 0 "Ternary operator"
+run_test "tests/ternary_condition_error.zap" 1 "Ternary condition type check"
+run_test "tests/ternary_type_error.zap" 1 "Ternary branch type check"
 run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 run_runtime_test "tests/array_test.zap" 0 "Array declaration, initialization, and indexing"
 run_runtime_test "tests/array_const_size.zap" 0 "Array size as a constant"
-
-# If expression tests
-run_runtime_test "tests/if_expr.zap" 2 "If expression result"
-run_runtime_test "tests/if_advanced.zap" 0 "Advanced if expressions (nesting, math, complex cond)"
 
 # Struct tests
 run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"

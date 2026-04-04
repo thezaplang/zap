@@ -25,6 +25,7 @@ namespace sema
     void visit(ConstDecl &node) override;
     void visit(ReturnNode &node) override;
     void visit(BinExpr &node) override;
+    void visit(TernaryExpr &node) override;
     void visit(ConstInt &node) override;
     void visit(ConstBool &node) override;
     void visit(IfNode &node) override;

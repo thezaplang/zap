@@ -12,15 +12,8 @@ while i < 10 {
 }
 ```
 
-## If Expressions
-In Zap, `if` is an **expression**, meaning it can return a value. This can be used for conditional assignments.
-
-```zap
-var age: Int = 18;
-var status: String = if age >= 18 { "adult" } else { "minor" };
-```
-
-You can also use it as a standard statement:
+## Conditionals
+Zap supports conditional control flow and conditional expressions.
 
 ```zap
 if age >= 18 {
@@ -28,4 +21,18 @@ if age >= 18 {
 } else {
     // some logic here
 }
+```
+
+## Ternary Operator
+Zap also supports a ternary operator for conditional expressions.
+
+```zap
+var age: Int = 18;
+var status: String = age >= 18 ? "adult" : "minor";
+```
+
+The condition must have type `Bool`, and both branches must have compatible types.
+
+```zap
+var points: Int = is_bonus ? 100 : 50;
 ```
