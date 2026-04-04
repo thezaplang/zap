@@ -24,6 +24,7 @@ var classAstBuilder =
     [ "makeReturn", "de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc", null ],
     [ "makeRoot", "de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788", null ],
     [ "makeType", "de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17", null ],
+    [ "makeTypeAliasDecl", "de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b", null ],
     [ "makeUnaryExpr", "de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e", null ],
     [ "makeVarDecl", "de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1", null ],
     [ "makeWhile", "de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94", null ],

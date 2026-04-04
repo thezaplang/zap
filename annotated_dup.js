@@ -125,6 +125,7 @@ var annotated_dup =
     [ "StructLiteralNode", "de/d32/classStructLiteralNode.html", "de/d32/classStructLiteralNode" ],
     [ "Token", "d2/d6e/classToken.html", "d2/d6e/classToken" ],
     [ "TopLevel", "d8/d65/classTopLevel.html", "d8/d65/classTopLevel" ],
+    [ "TypeAliasDecl", "d2/daf/classTypeAliasDecl.html", "d2/daf/classTypeAliasDecl" ],
     [ "TypeNode", "d7/d9f/classTypeNode.html", "d7/d9f/classTypeNode" ],
     [ "UnaryExpr", "dd/d97/classUnaryExpr.html", "dd/d97/classUnaryExpr" ],
     [ "VarDecl", "d0/d3d/classVarDecl.html", "d0/d3d/classVarDecl" ],

@@ -1,5 +1,10 @@
 var NAVTREEINDEX5 =
 {
+"d9/d68/classzir_1_1Module.html#a6eba0b62eb871a113f8990eaaa2a3427":[2,0,3,19,4],
+"d9/d68/classzir_1_1Module.html#a8fbc8e5d660f5efe8aab99315699e814":[1,0,3,19,2],
+"d9/d68/classzir_1_1Module.html#a8fbc8e5d660f5efe8aab99315699e814":[2,0,3,19,2],
+"d9/d68/classzir_1_1Module.html#abb6694f0e3208339c5c5d0c6c7d9ed60":[1,0,3,19,1],
+"d9/d68/classzir_1_1Module.html#abb6694f0e3208339c5c5d0c6c7d9ed60":[2,0,3,19,1],
 "d9/d68/classzir_1_1Module.html#ad57e9c2b15ecdb8051eeae58ee0621b7":[1,0,3,19,5],
 "d9/d68/classzir_1_1Module.html#ad57e9c2b15ecdb8051eeae58ee0621b7":[2,0,3,19,5],
 "d9/d68/classzir_1_1Module.html#adf57b2c806a6e4254ff76d2a50691a40":[1,0,3,19,3],
@@ -92,6 +97,8 @@ var NAVTREEINDEX5 =
 "da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb":[2,0,1,28,0],
 "da/d49/index__access_8hpp.html":[3,0,0,0,15],
 "da/d49/index__access_8hpp_source.html":[3,0,0,0,15],
+"da/d4e/type__alias__decl_8hpp.html":[3,0,0,0,27],
+"da/d4e/type__alias__decl_8hpp_source.html":[3,0,0,0,27],
 "da/d53/classBinExpr.html":[2,0,8],
 "da/d53/classBinExpr.html#a12bffb7dadffbdb5ae0bfe9423b84bba":[2,0,8,4],
 "da/d53/classBinExpr.html#a398d1a66e2debbcc942dc0c98ad3966a":[2,0,8,5],
@@ -242,12 +249,5 @@ var NAVTREEINDEX5 =
 "da/de9/classcodegen_1_1LLVMCodeGen.html#af3ed62ab981dbf3f9ef20321e905c294":[1,0,0,0,29],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#af3ed62ab981dbf3f9ef20321e905c294":[2,0,0,0,29],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#af59d6d6a1b35ecbad6efa1df4b7afb1a":[1,0,0,0,8],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#af59d6d6a1b35ecbad6efa1df4b7afb1a":[2,0,0,0,8],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#afb632edbfd45a01c93e673a44d7e6bea":[1,0,0,0,12],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#afb632edbfd45a01c93e673a44d7e6bea":[2,0,0,0,12],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775":[1,0,0,0,3],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775":[2,0,0,0,3],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4":[1,0,0,0,4],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4":[2,0,0,0,4],
-"db/d06/classsema_1_1BoundExpression.html":[1,0,1,3]
+"da/de9/classcodegen_1_1LLVMCodeGen.html#af59d6d6a1b35ecbad6efa1df4b7afb1a":[2,0,0,0,8]
 };

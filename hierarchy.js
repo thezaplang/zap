@@ -103,7 +103,8 @@ var hierarchy =
         [ "FunDecl", "d3/d94/classFunDecl.html", null ],
         [ "ImportNode", "d5/d3f/classImportNode.html", null ],
         [ "RecordDecl", "d9/d3d/classRecordDecl.html", null ],
-        [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html", null ]
+        [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html", null ],
+        [ "TypeAliasDecl", "d2/daf/classTypeAliasDecl.html", null ]
       ] ],
       [ "TypeNode", "d7/d9f/classTypeNode.html", null ]
     ] ],

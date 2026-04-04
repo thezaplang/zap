@@ -1,5 +1,18 @@
 var NAVTREEINDEX8 =
 {
+"df/d0a/classzir_1_1BinaryInst.html#abde5779e839fc3a97dbd386b1b352b1f":[2,0,3,3,6],
+"df/d0a/classzir_1_1BinaryInst.html#af9c53f8f5f6acd322f8a07f73ec2f4c2":[1,0,3,3,3],
+"df/d0a/classzir_1_1BinaryInst.html#af9c53f8f5f6acd322f8a07f73ec2f4c2":[2,0,3,3,3],
+"df/d0a/main_8cpp.html":[3,0,0,10],
+"df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627":[3,0,0,10,0],
+"df/d0a/main_8cpp_source.html":[3,0,0,10],
+"df/d1c/enum__decl_8hpp.html":[3,0,0,0,8],
+"df/d1c/enum__decl_8hpp_source.html":[3,0,0,0,8],
+"df/d31/classzir_1_1CallInst.html":[1,0,3,9],
+"df/d31/classzir_1_1CallInst.html":[2,0,3,9],
+"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b":[1,0,3,9,4],
+"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b":[2,0,3,9,4],
+"df/d31/classzir_1_1CallInst.html#a3578bb2464fcc66fd3193958787ad83a":[1,0,3,9,5],
 "df/d31/classzir_1_1CallInst.html#a3578bb2464fcc66fd3193958787ad83a":[2,0,3,9,5],
 "df/d31/classzir_1_1CallInst.html#a72c399d92cd89d4465c1cbca0a12d2f9":[1,0,3,9,1],
 "df/d31/classzir_1_1CallInst.html#a72c399d92cd89d4465c1cbca0a12d2f9":[2,0,3,9,1],

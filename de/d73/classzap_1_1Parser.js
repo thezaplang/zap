@@ -27,6 +27,7 @@ var classzap_1_1Parser =
     [ "parseStructDecl", "de/d73/classzap_1_1Parser.html#ab3f2108ecdc356b1ac89d5f6f0d3ede8", null ],
     [ "parseStructLiteral", "de/d73/classzap_1_1Parser.html#a2e3b6cdfbdbc40c502463f015fd2f5b2", null ],
     [ "parseType", "de/d73/classzap_1_1Parser.html#a7d84dbc8409f76f5bcd9934300523b4e", null ],
+    [ "parseTypeAliasDecl", "de/d73/classzap_1_1Parser.html#a61dce848ac6f6ea060727743ddc0732a", null ],
     [ "parseUnaryExpression", "de/d73/classzap_1_1Parser.html#a63a62cf1a7a036dc494f565e684890fc", null ],
     [ "parseVarDecl", "de/d73/classzap_1_1Parser.html#abf36ab07135fe67c115e4bb34bbd6ccc", null ],
     [ "parseWhile", "de/d73/classzap_1_1Parser.html#a72a65896a7bb3a3e559c72710fc72e11", null ],
