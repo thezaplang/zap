@@ -1,5 +1,8 @@
 var annotated_dup =
 [
+    [ "codegen", "d0/df2/namespacecodegen.html", [
+      [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
+    ] ],
     [ "sema", "d7/d39/namespacesema.html", [
       [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
@@ -37,7 +40,21 @@ var annotated_dup =
       [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ]
     ] ],
     [ "zap", "d7/d1a/namespacezap.html", [
-      [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ]
+      [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
+        [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
+        [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
+        [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],
+        [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ]
+      ] ],
+      [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
+      [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],
+      [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ],
+      [ "DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", "d3/d28/classzap_1_1DiagnosticEngine" ],
+      [ "HandleColors", "d4/d3e/structzap_1_1HandleColors.html", "d4/d3e/structzap_1_1HandleColors" ],
+      [ "StdoutStream", "dc/de8/classzap_1_1StdoutStream.html", "dc/de8/classzap_1_1StdoutStream" ],
+      [ "StderrStream", "d6/da5/classzap_1_1StderrStream.html", "d6/da5/classzap_1_1StderrStream" ],
+      [ "Stream", "d3/d09/classzap_1_1Stream.html", "d3/d09/classzap_1_1Stream" ],
+      [ "SFStream", "d2/d02/classzap_1_1SFStream.html", "d2/d02/classzap_1_1SFStream" ]
     ] ],
     [ "zir", "df/d35/namespacezir.html", [
       [ "BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", "d7/d6e/classzir_1_1BasicBlock" ],
@@ -112,5 +129,6 @@ var annotated_dup =
     [ "UnaryExpr", "dd/d97/classUnaryExpr.html", "dd/d97/classUnaryExpr" ],
     [ "VarDecl", "d0/d3d/classVarDecl.html", "d0/d3d/classVarDecl" ],
     [ "Visitor", "dc/d13/structVisitor.html", "dc/d13/structVisitor" ],
-    [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ]
+    [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ],
+    [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ]
 ];

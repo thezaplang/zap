@@ -64,10 +64,503 @@ $(function(){initNavTree('d7/d1a/namespacezap.html','../../',''); });
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:lsp" id="r_lsp"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d23/namespacezap_1_1lsp.html">lsp</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:driver" id="r_driver"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d00/classzap_1_1driver.html">driver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class that drives the argument parsing. Order of the functions that should be called is by how they are defined here in the header. Meaning that first is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a812ecc0e86c32959aeb36d7fba6b1f8a" title="Parses the provided args.">parseArgs(int, char**)</a>, second is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a7cbb3a0fafc3b27961c50b8429476b25" title="Splits inputs based on their file extension.">splitInputs()</a>, third is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a2e6f807c443f88930e4eed3dad96a2ca" title="Verifies that the sources provided actually exist or not.">verifySources()</a>, and so on... Most functions return true on <em>error</em> not on success. It returns error due to easy checks like if(verifyOutput()) return 1;.  <a href="../../d9/d00/classzap_1_1driver.html#details">More...</a><br /></td></tr>
+<tr class="memitem:_5Fversion_5Fbase" id="r__5Fversion_5Fbase"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfd/classzap_1_1__version__base.html">_version_base</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for the version.  <a href="../../d3/dfd/classzap_1_1__version__base.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Parser" id="r_Parser"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d73/classzap_1_1Parser.html">Parser</a></td></tr>
+<tr class="memitem:DiagnosticEngine" id="r_DiagnosticEngine"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d28/classzap_1_1DiagnosticEngine.html">DiagnosticEngine</a></td></tr>
+<tr class="memitem:HandleColors" id="r_HandleColors"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3e/structzap_1_1HandleColors.html">HandleColors</a></td></tr>
+<tr class="memitem:StdoutStream" id="r_StdoutStream"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de8/classzap_1_1StdoutStream.html">StdoutStream</a></td></tr>
+<tr class="memitem:StderrStream" id="r_StderrStream"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da5/classzap_1_1StderrStream.html">StderrStream</a></td></tr>
+<tr class="memitem:Stream" id="r_Stream"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A base stream class.  <a href="../../d3/d09/classzap_1_1Stream.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SFStream" id="r_SFStream"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d02/classzap_1_1SFStream.html">SFStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard FILE* stream.  <a href="../../d2/d02/classzap_1_1SFStream.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a0acdcff1050bab4113419710c3284caa" id="r_a0acdcff1050bab4113419710c3284caa"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a> = <a class="el" href="../../d3/dfd/classzap_1_1__version__base.html">_version_base</a>&lt;uint16_t&gt;</td></tr>
+<tr class="memdesc:a0acdcff1050bab4113419710c3284caa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can be changed to any integer or float type.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a13ae6a43c2e5be75cc58a93a966b62a2" id="r_a13ae6a43c2e5be75cc58a93a966b62a2"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> { <br />
+&#160;&#160;<a class="el" href="#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">Note</a>
+, <br />
+&#160;&#160;<a class="el" href="#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>
+, <br />
+&#160;&#160;<a class="el" href="#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">Error</a>
+<br />
+ }</td></tr>
+<tr class="memitem:a31c2a061c78238cbfb579be6b4b64185" id="r_a31c2a061c78238cbfb579be6b4b64185"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31c2a061c78238cbfb579be6b4b64185">ColorOverride</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="#a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9">AUTO</a>
+, <br />
+&#160;&#160;<a class="el" href="#a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962">ALWAYS</a>
+, <br />
+&#160;&#160;<a class="el" href="#a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a">NEVER</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a31c2a061c78238cbfb579be6b4b64185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows to override if colors are allowed or not.  <a href="#a31c2a061c78238cbfb579be6b4b64185">More...</a><br /></td></tr>
+<tr class="memitem:a873ac3ffa9672c2ecc2552347957d68e" id="r_a873ac3ffa9672c2ecc2552347957d68e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a873ac3ffa9672c2ecc2552347957d68e">Color</a> { <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965">BLACK</a> = 30
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0">RED</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0">GREEN</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e">YELLOW</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f">BLUE</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61">MAGENTA</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749">CYAN</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d">WHITE</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1">BRIGHT_BLACK</a> = 90
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045">BRIGHT_RED</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9">BRIGHT_GREEN</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434">BRIGHT_YELLOW</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67">BRIGHT_BLUE</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951">BRIGHT_MAGENTA</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7">BRIGHT_CYAN</a>
+, <br />
+&#160;&#160;<a class="el" href="#a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946">BRIGHT_WHITE</a>
+<br />
+ }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a6cbfdaf9a7926dea836b51b2a3237e7e" id="r_a6cbfdaf9a7926dea836b51b2a3237e7e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cbfdaf9a7926dea836b51b2a3237e7e">ZAP_VERSION</a> (0, 1, 0)</td></tr>
+<tr class="memdesc:a6cbfdaf9a7926dea836b51b2a3237e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zap's version, displayed when &ndash;version is used.  <br /></td></tr>
+<tr class="memitem:a2a6e0e7719e15570ecf3fccf40924d36" id="r_a2a6e0e7719e15570ecf3fccf40924d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a6e0e7719e15570ecf3fccf40924d36">verifyFile</a> (const std::filesystem::path &amp;input)</td></tr>
+<tr class="memitem:a4568178cd71b87328c92ebc2c1ddf595" id="r_a4568178cd71b87328c92ebc2c1ddf595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4568178cd71b87328c92ebc2c1ddf595">compileSourceZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
+<tr class="memitem:a674956178a1a7ce6606f78a8839a2e18" id="r_a674956178a1a7ce6606f78a8839a2e18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a674956178a1a7ce6606f78a8839a2e18">err</a> ()</td></tr>
+<tr class="memitem:ae6ad8e87b28adc8798a538d35a6f3e66" id="r_ae6ad8e87b28adc8798a538d35a6f3e66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> ()</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad54b7028c501ec2dfda0eae88719a62b" id="r_ad54b7028c501ec2dfda0eae88719a62b"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad54b7028c501ec2dfda0eae88719a62b">ZAP_NAME</a> = <a class="el" href="../../d2/d3d/compiler_8hpp.html#aebff4681e15c5ece8a55a1b88b219f44">ZAP_NAME_MACRO</a></td></tr>
+<tr class="memdesc:ad54b7028c501ec2dfda0eae88719a62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name that displays when &ndash;help is used.  <br /></td></tr>
+<tr class="memitem:a198c6023d35b57a9a1a4300238c786de" id="r_a198c6023d35b57a9a1a4300238c786de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a31c2a061c78238cbfb579be6b4b64185">ColorOverride</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a198c6023d35b57a9a1a4300238c786de">color_override</a> = <a class="el" href="#a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9">ColorOverride::AUTO</a></td></tr>
+<tr class="memitem:ac630b2e88f5129f86e9a7dfc5b886e52" id="r_ac630b2e88f5129f86e9a7dfc5b886e52"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d4/d3e/structzap_1_1HandleColors.html">HandleColors</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac630b2e88f5129f86e9a7dfc5b886e52">standard_stream_colors</a></td></tr>
 </table>
+<a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
+<a id="a0acdcff1050bab4113419710c3284caa" name="a0acdcff1050bab4113419710c3284caa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0acdcff1050bab4113419710c3284caa">&#9670;&#160;</a></span>version</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a0acdcff1050bab4113419710c3284caa">zap::version</a> = <a class="el" href="../../d3/dfd/classzap_1_1__version__base.html">_version_base</a>&lt;uint16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Can be changed to any integer or float type. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d7/dad/version_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../d7/dad/version_8hpp_source.html">version.hpp</a>.</p>
+
+</div>
+</div>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="a873ac3ffa9672c2ecc2552347957d68e" name="a873ac3ffa9672c2ecc2552347957d68e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a873ac3ffa9672c2ecc2552347957d68e">&#9670;&#160;</a></span>Color</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a873ac3ffa9672c2ecc2552347957d68e">zap::Color</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965" name="a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965"></a>BLACK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0" name="a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0"></a>RED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0" name="a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0"></a>GREEN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e" name="a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e"></a>YELLOW&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f" name="a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f"></a>BLUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61" name="a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61"></a>MAGENTA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749" name="a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749"></a>CYAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d" name="a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d"></a>WHITE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1" name="a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1"></a>BRIGHT_BLACK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045" name="a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045"></a>BRIGHT_RED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9" name="a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9"></a>BRIGHT_GREEN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434" name="a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434"></a>BRIGHT_YELLOW&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67" name="a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67"></a>BRIGHT_BLUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951" name="a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951"></a>BRIGHT_MAGENTA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7" name="a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7"></a>BRIGHT_CYAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946" name="a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946"></a>BRIGHT_WHITE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   17</span>                 {</div>
+<div class="line"><span class="lineno">   18</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965">BLACK</a> = 30,</div>
+<div class="line"><span class="lineno">   19</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0">RED</a>,</div>
+<div class="line"><span class="lineno">   20</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0">GREEN</a>,</div>
+<div class="line"><span class="lineno">   21</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e">YELLOW</a>,</div>
+<div class="line"><span class="lineno">   22</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f">BLUE</a>,</div>
+<div class="line"><span class="lineno">   23</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61">MAGENTA</a>,</div>
+<div class="line"><span class="lineno">   24</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749">CYAN</a>,</div>
+<div class="line"><span class="lineno">   25</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d">WHITE</a>,</div>
+<div class="line"><span class="lineno">   26</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1">BRIGHT_BLACK</a> = 90,</div>
+<div class="line"><span class="lineno">   27</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045">BRIGHT_RED</a>,</div>
+<div class="line"><span class="lineno">   28</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9">BRIGHT_GREEN</a>,</div>
+<div class="line"><span class="lineno">   29</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434">BRIGHT_YELLOW</a>,</div>
+<div class="line"><span class="lineno">   30</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67">BRIGHT_BLUE</a>,</div>
+<div class="line"><span class="lineno">   31</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951">BRIGHT_MAGENTA</a>,</div>
+<div class="line"><span class="lineno">   32</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7">BRIGHT_CYAN</a>,</div>
+<div class="line"><span class="lineno">   33</span>  <a class="code hl_enumvalue" href="#a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946">BRIGHT_WHITE</a></div>
+<div class="line"><span class="lineno">   34</span>};</div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045">zap::Color::BRIGHT_RED</a></div><div class="ttdeci">@ BRIGHT_RED</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00027">stream.hpp:27</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea08d0012388564e95c3b4a7407cf04965">zap::Color::BLACK</a></div><div class="ttdeci">@ BLACK</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00018">stream.hpp:18</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f">zap::Color::BLUE</a></div><div class="ttdeci">@ BLUE</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00022">stream.hpp:22</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea2373edc9b8eb3a49710b95c6f7906434">zap::Color::BRIGHT_YELLOW</a></div><div class="ttdeci">@ BRIGHT_YELLOW</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00029">stream.hpp:29</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea344dd8cd533280795b9db82ef0c92749">zap::Color::CYAN</a></div><div class="ttdeci">@ CYAN</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00024">stream.hpp:24</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea376520e57593580aa5c7ef8cf5136946">zap::Color::BRIGHT_WHITE</a></div><div class="ttdeci">@ BRIGHT_WHITE</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00033">stream.hpp:33</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea7ca9c0eccf9c3fa7fe85fea8404d50a9">zap::Color::BRIGHT_GREEN</a></div><div class="ttdeci">@ BRIGHT_GREEN</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00028">stream.hpp:28</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea8a568e5f41b7e4da88fe5c4a00aad34e">zap::Color::YELLOW</a></div><div class="ttdeci">@ YELLOW</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00021">stream.hpp:21</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ea9de0e5dd94e861317e74964bed179fa0">zap::Color::GREEN</a></div><div class="ttdeci">@ GREEN</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00020">stream.hpp:20</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eaa2d9547b5d3dd9f05984475f7c926da0">zap::Color::RED</a></div><div class="ttdeci">@ RED</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00019">stream.hpp:19</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eaa74a6a719de5de03a46f89ce260fa4b7">zap::Color::BRIGHT_CYAN</a></div><div class="ttdeci">@ BRIGHT_CYAN</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00032">stream.hpp:32</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eaae7e8e8f5ddf114057b47f5f799347b1">zap::Color::BRIGHT_BLACK</a></div><div class="ttdeci">@ BRIGHT_BLACK</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00026">stream.hpp:26</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d">zap::Color::WHITE</a></div><div class="ttdeci">@ WHITE</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00025">stream.hpp:25</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eac634ffea7195608364671ac52ee59a61">zap::Color::MAGENTA</a></div><div class="ttdeci">@ MAGENTA</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00023">stream.hpp:23</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68eacdbf2435d34544195dd18a6b31953951">zap::Color::BRIGHT_MAGENTA</a></div><div class="ttdeci">@ BRIGHT_MAGENTA</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00031">stream.hpp:31</a></div></div>
+<div class="ttc" id="anamespacezap_html_a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67"><div class="ttname"><a href="#a873ac3ffa9672c2ecc2552347957d68ead187a715c27ec1e774325b6715f4da67">zap::Color::BRIGHT_BLUE</a></div><div class="ttdeci">@ BRIGHT_BLUE</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00030">stream.hpp:30</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a31c2a061c78238cbfb579be6b4b64185" name="a31c2a061c78238cbfb579be6b4b64185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31c2a061c78238cbfb579be6b4b64185">&#9670;&#160;</a></span>ColorOverride</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a31c2a061c78238cbfb579be6b4b64185">zap::ColorOverride</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allows to override if colors are allowed or not. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9" name="a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9"></a>AUTO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962" name="a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962"></a>ALWAYS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a" name="a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a"></a>NEVER&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>: uint8_t { <a class="code hl_enumvalue" href="#a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9">AUTO</a>, <a class="code hl_enumvalue" href="#a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962">ALWAYS</a>, <a class="code hl_enumvalue" href="#a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a">NEVER</a> };</div>
+<div class="ttc" id="anamespacezap_html_a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a"><div class="ttname"><a href="#a31c2a061c78238cbfb579be6b4b64185a443475558f0168dff92ecde26b98ae5a">zap::ColorOverride::NEVER</a></div><div class="ttdeci">@ NEVER</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00014">stream.hpp:14</a></div></div>
+<div class="ttc" id="anamespacezap_html_a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9"><div class="ttname"><a href="#a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9">zap::ColorOverride::AUTO</a></div><div class="ttdeci">@ AUTO</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00014">stream.hpp:14</a></div></div>
+<div class="ttc" id="anamespacezap_html_a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962"><div class="ttname"><a href="#a31c2a061c78238cbfb579be6b4b64185af3fc827ade4b968e50406496907ef962">zap::ColorOverride::ALWAYS</a></div><div class="ttdeci">@ ALWAYS</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00014">stream.hpp:14</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a13ae6a43c2e5be75cc58a93a966b62a2" name="a13ae6a43c2e5be75cc58a93a966b62a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13ae6a43c2e5be75cc58a93a966b62a2">&#9670;&#160;</a></span>DiagnosticLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a13ae6a43c2e5be75cc58a93a966b62a2">zap::DiagnosticLevel</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec" name="a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec"></a>Note&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa" name="a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa"></a>Warning&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd" name="a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd"></a>Error&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    9</span>                           {</div>
+<div class="line"><span class="lineno">   10</span>  <a class="code hl_enumvalue" href="#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">Note</a>,</div>
+<div class="line"><span class="lineno">   11</span>  <a class="code hl_enumvalue" href="#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>,</div>
+<div class="line"><span class="lineno">   12</span>  <a class="code hl_enumvalue" href="#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">Error</a></div>
+<div class="line"><span class="lineno">   13</span>};</div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">zap::DiagnosticLevel::Warning</a></div><div class="ttdeci">@ Warning</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00011">diagnostics.hpp:11</a></div></div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec"><div class="ttname"><a href="#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">zap::DiagnosticLevel::Note</a></div><div class="ttdeci">@ Note</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00010">diagnostics.hpp:10</a></div></div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">zap::DiagnosticLevel::Error</a></div><div class="ttdeci">@ Error</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00012">diagnostics.hpp:12</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a4568178cd71b87328c92ebc2c1ddf595" name="a4568178cd71b87328c92ebc2c1ddf595"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4568178cd71b87328c92ebc2c1ddf595">&#9670;&#160;</a></span>compileSourceZIR()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::compileSourceZIR </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>ofoutput</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00183">183</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>                                                                     {</div>
+<div class="line"><span class="lineno">  184</span>  <a class="code hl_class" href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a> irGen;</div>
+<div class="line"><span class="lineno">  185</span>  <span class="keyword">auto</span> mod = irGen.<a class="code hl_function" href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">generate</a>(node);</div>
+<div class="line"><span class="lineno">  186</span>  <span class="keywordflow">if</span> (mod) {</div>
+<div class="line"><span class="lineno">  187</span>    ofoutput &lt;&lt; mod-&gt;toString();</div>
+<div class="line"><span class="lineno">  188</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  189</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to generate ZIR&quot;</span>);</div>
+<div class="line"><span class="lineno">  190</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  191</span>  }</div>
+<div class="line"><span class="lineno">  192</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  193</span>}</div>
+<div class="ttc" id="aclasszap_1_1driver_html_a0958bb807d28a48357f784f362b51735"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">zap::driver::reportError</a></div><div class="ttdeci">static void reportError(Args &amp;&amp;...args)</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00164">driver.hpp:164</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00013">ir_generator.hpp:14</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_abf97cfb82a0ef117b7f0f62b2e7da8f4"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">zir::BoundIRGenerator::generate</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; generate(sema::BoundRootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00007">ir_generator.cpp:7</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00007">zir::BoundIRGenerator::generate()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00164">zap::driver::reportError()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00195">zap::driver::compileSourceFile()</a>.</p>
+
+</div>
+</div>
+<a id="a674956178a1a7ce6606f78a8839a2e18" name="a674956178a1a7ce6606f78a8839a2e18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a674956178a1a7ce6606f78a8839a2e18">&#9670;&#160;</a></span>err()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a> &amp; zap::err </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../da/d5f/stream_8cpp_source.html">stream.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>              {</div>
+<div class="line"><span class="lineno">  101</span>  <span class="keyword">static</span> <a class="code hl_class" href="../../d6/da5/classzap_1_1StderrStream.html">StderrStream</a> stderrStream(stderr, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">return</span> stderrStream;</div>
+<div class="line"><span class="lineno">  103</span>}</div>
+<div class="ttc" id="aclasszap_1_1StderrStream_html"><div class="ttname"><a href="../../d6/da5/classzap_1_1StderrStream.html">zap::StderrStream</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00089">stream.cpp:89</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00283">zap::driver::compile()</a>, <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00047">zap::lsp::parseJsonNumber()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00164">zap::driver::reportError()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00171">zap::driver::reportWarning()</a>.</p>
+
+</div>
+</div>
+<a id="ae6ad8e87b28adc8798a538d35a6f3e66" name="ae6ad8e87b28adc8798a538d35a6f3e66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ad8e87b28adc8798a538d35a6f3e66">&#9670;&#160;</a></span>out()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a> &amp; zap::out </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00105">105</a> of file <a class="el" href="../../da/d5f/stream_8cpp_source.html">stream.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  105</span>              {</div>
+<div class="line"><span class="lineno">  106</span>  <span class="keyword">static</span> <a class="code hl_class" href="../../dc/de8/classzap_1_1StdoutStream.html">StdoutStream</a> stdoutStream(stdout, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  107</span>  <span class="keywordflow">return</span> stdoutStream;</div>
+<div class="line"><span class="lineno">  108</span>}</div>
+<div class="ttc" id="aclasszap_1_1StdoutStream_html"><div class="ttname"><a href="../../dc/de8/classzap_1_1StdoutStream.html">zap::StdoutStream</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00078">stream.cpp:78</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00022">zap::driver::parseArgs()</a>.</p>
+
+</div>
+</div>
+<a id="a2a6e0e7719e15570ecf3fccf40924d36" name="a2a6e0e7719e15570ecf3fccf40924d36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a6e0e7719e15570ecf3fccf40924d36">&#9670;&#160;</a></span>verifyFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::verifyFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00160">160</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>                                                {</div>
+<div class="line"><span class="lineno">  161</span>  <span class="keywordflow">if</span> (!std::filesystem::exists(input)) {</div>
+<div class="line"><span class="lineno">  162</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file doesn&#39;t exist: &quot;</span>, input);</div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  164</span>  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!std::filesystem::is_regular_file(input)) {</div>
+<div class="line"><span class="lineno">  165</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file isn&#39;t a regular file: &quot;</span>, input);</div>
+<div class="line"><span class="lineno">  166</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  167</span>  }</div>
+<div class="line"><span class="lineno">  168</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  169</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00164">zap::driver::reportError()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00171">zap::driver::verifySources()</a>.</p>
+
+</div>
+</div>
+<a id="a6cbfdaf9a7926dea836b51b2a3237e7e" name="a6cbfdaf9a7926dea836b51b2a3237e7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cbfdaf9a7926dea836b51b2a3237e7e">&#9670;&#160;</a></span>ZAP_VERSION()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a> zap::ZAP_VERSION </td>
+          <td>(</td>
+          <td class="paramtype">0</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">1</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Zap's version, displayed when &ndash;version is used. </p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00022">zap::driver::parseArgs()</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a198c6023d35b57a9a1a4300238c786de" name="a198c6023d35b57a9a1a4300238c786de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a198c6023d35b57a9a1a4300238c786de">&#9670;&#160;</a></span>color_override</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a31c2a061c78238cbfb579be6b4b64185">ColorOverride</a> zap::color_override = <a class="el" href="#a31c2a061c78238cbfb579be6b4b64185ae1f2d5134ed2543d38a0de9751cf75d9">ColorOverride::AUTO</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../da/d5f/stream_8cpp_source.html">stream.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac630b2e88f5129f86e9a7dfc5b886e52" name="ac630b2e88f5129f86e9a7dfc5b886e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac630b2e88f5129f86e9a7dfc5b886e52">&#9670;&#160;</a></span>standard_stream_colors</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d3e/structzap_1_1HandleColors.html">HandleColors</a> zap::standard_stream_colors</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00076">76</a> of file <a class="el" href="../../da/d5f/stream_8cpp_source.html">stream.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00093">zap::StderrStream::hasColors()</a>, <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00082">zap::StdoutStream::hasColors()</a>, <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00097">zap::StderrStream::onTTY()</a>, and <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00086">zap::StdoutStream::onTTY()</a>.</p>
+
+</div>
+</div>
+<a id="ad54b7028c501ec2dfda0eae88719a62b" name="ad54b7028c501ec2dfda0eae88719a62b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad54b7028c501ec2dfda0eae88719a62b">&#9670;&#160;</a></span>ZAP_NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* zap::ZAP_NAME = <a class="el" href="../../d2/d3d/compiler_8hpp.html#aebff4681e15c5ece8a55a1b88b219f44">ZAP_NAME_MACRO</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Name that displays when &ndash;help is used. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d3d/compiler_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d2/d3d/compiler_8hpp_source.html">compiler.hpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

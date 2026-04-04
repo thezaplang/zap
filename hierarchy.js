@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "zap::_version_base&lt; T &gt;", "d3/dfd/classzap_1_1__version__base.html", null ],
     [ "Argument", "dc/d8f/structArgument.html", null ],
     [ "AstBuilder", "de/d56/classAstBuilder.html", null ],
     [ "zir::BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", null ],
@@ -35,10 +36,14 @@ var hierarchy =
       ] ]
     ] ],
     [ "sema::BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", [
+      [ "codegen::LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", null ],
       [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ]
     ] ],
+    [ "zap::DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", null ],
+    [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
+    [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
     [ "zir::Instruction", "d0/dad/classzir_1_1Instruction.html", [
       [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", null ],
       [ "zir::AllocaInst", "d2/d4b/classzir_1_1AllocaInst.html", null ],
@@ -56,6 +61,9 @@ var hierarchy =
       [ "zir::ReturnInst", "d2/df1/classzir_1_1ReturnInst.html", null ],
       [ "zir::StoreInst", "dc/d2e/classzir_1_1StoreInst.html", null ]
     ] ],
+    [ "zap::lsp::JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", null ],
+    [ "zap::lsp::JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", null ],
+    [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
     [ "Lexer", "d6/dc0/classLexer.html", null ],
     [ "zir::Module", "d9/d68/classzir_1_1Module.html", null ],
     [ "Node", "df/dd0/classNode.html", [
@@ -103,7 +111,14 @@ var hierarchy =
     [ "std::runtime_error", null, [
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
+    [ "zap::lsp::Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", null ],
     [ "SourceSpan", "d4/d5b/structSourceSpan.html", null ],
+    [ "zap::Stream", "d3/d09/classzap_1_1Stream.html", [
+      [ "zap::SFStream", "d2/d02/classzap_1_1SFStream.html", [
+        [ "zap::StderrStream", "d6/da5/classzap_1_1StderrStream.html", null ],
+        [ "zap::StdoutStream", "dc/de8/classzap_1_1StdoutStream.html", null ]
+      ] ]
+    ] ],
     [ "StructFieldInit", "d8/d96/structStructFieldInit.html", null ],
     [ "sema::Symbol", "d1/df6/classsema_1_1Symbol.html", [
       [ "sema::FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", null ],
@@ -126,5 +141,6 @@ var hierarchy =
     ] ],
     [ "Visitor", "dc/d13/structVisitor.html", [
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
-    ] ]
+    ] ],
+    [ "zap_string_t", "dd/d2a/structzap__string__t.html", null ]
 ];

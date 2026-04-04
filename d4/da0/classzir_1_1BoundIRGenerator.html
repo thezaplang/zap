@@ -152,9 +152,10 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00328">328</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  329</span>  {</div>
-<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">return</span> prefix + <span class="stringliteral">&quot;.&quot;</span> + std::to_string(<a class="code hl_variable" href="#a90aec8c572fe1ccc5641b0322f83515f">nextBlockId_</a>++);</div>
+<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a> + <span class="stringliteral">&quot;.&quot;</span> + std::to_string(<a class="code hl_variable" href="#a90aec8c572fe1ccc5641b0322f83515f">nextBlockId_</a>++);</div>
 <div class="line"><span class="lineno">  331</span>  }</div>
 <div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a90aec8c572fe1ccc5641b0322f83515f"><div class="ttname"><a href="#a90aec8c572fe1ccc5641b0322f83515f">zir::BoundIRGenerator::nextBlockId_</a></div><div class="ttdeci">int nextBlockId_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00052">ir_generator.hpp:52</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a3bdf989e09b16dcd5ef0ef15627db32c"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">zap::lsp::prefix</a></div><div class="ttdeci">constexpr std::string_view prefix</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00267">lsp.cpp:267</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00052">nextBlockId_</a>.</p>
 
@@ -222,6 +223,8 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a6f4dc9fe3389e2df321acb83917e6912"><div class="ttname"><a href="#a6f4dc9fe3389e2df321acb83917e6912">zir::BoundIRGenerator::module_</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; module_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00044">ir_generator.hpp:44</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00418">sema::BoundRootNode::accept()</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00044">module_</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00183">zap::compileSourceZIR()</a>.</p>
 
 </div>
 </div>
