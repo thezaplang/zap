@@ -520,6 +520,83 @@ namespace zir
     }
   }
 
+  void BoundIRGenerator::visit(sema::BoundTernaryExpression &node)
+  {
+    auto trueLabel = createBlockLabel("ternary.then");
+    auto falseLabel = createBlockLabel("ternary.else");
+    auto mergeLabel = createBlockLabel("ternary.merge");
+
+    node.condition->accept(*this);
+    auto cond = valueStack_.top();
+    valueStack_.pop();
+
+    currentBlock_->addInstruction(
+        std::make_unique<CondBranchInst>(cond, trueLabel, falseLabel));
+
+    auto thenBlock = std::make_unique<BasicBlock>(trueLabel);
+    auto *thenBlockPtr = thenBlock.get();
+    currentFunction_->addBlock(std::move(thenBlock));
+    currentBlock_ = thenBlockPtr;
+
+    if (node.thenExpr)
+      node.thenExpr->accept(*this);
+
+    std::shared_ptr<Value> thenVal = nullptr;
+    if (!valueStack_.empty())
+    {
+      thenVal = valueStack_.top();
+      valueStack_.pop();
+    }
+    std::string actualThenLabel = currentBlock_->label;
+
+    if (currentBlock_->instructions.empty() ||
+        currentBlock_->instructions.back()->getOpCode() != OpCode::Ret)
+    {
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+    }
+
+    auto elseBlock = std::make_unique<BasicBlock>(falseLabel);
+    auto *elseBlockPtr = elseBlock.get();
+    currentFunction_->addBlock(std::move(elseBlock));
+    currentBlock_ = elseBlockPtr;
+    if (node.elseExpr)
+      node.elseExpr->accept(*this);
+
+    std::shared_ptr<Value> elseVal = nullptr;
+    if (!valueStack_.empty())
+    {
+      elseVal = valueStack_.top();
+      valueStack_.pop();
+    }
+    std::string actualElseLabel = currentBlock_->label;
+
+    if (currentBlock_->instructions.empty() ||
+        currentBlock_->instructions.back()->getOpCode() != OpCode::Ret)
+    {
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+    }
+
+    auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+    auto *mergeBlockPtr = mergeBlock.get();
+    currentFunction_->addBlock(std::move(mergeBlock));
+    currentBlock_ = mergeBlockPtr;
+
+    if (node.type->getKind() != TypeKind::Void)
+    {
+      auto res = createRegister(node.type);
+      std::vector<std::pair<std::string, std::shared_ptr<Value>>> incoming;
+
+      auto finalThenVal = thenVal ? thenVal : std::make_shared<Constant>("undef", node.type);
+      incoming.push_back({actualThenLabel, finalThenVal});
+
+      auto finalElseVal = elseVal ? elseVal : std::make_shared<Constant>("undef", node.type);
+      incoming.push_back({actualElseLabel, finalElseVal});
+
+      currentBlock_->addInstruction(std::make_unique<PhiInst>(res, incoming));
+      valueStack_.push(res);
+    }
+  }
+
   void BoundIRGenerator::visit(sema::BoundWhileStatement &node)
   {
     auto condLabel = createBlockLabel("while.cond");

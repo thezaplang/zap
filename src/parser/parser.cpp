@@ -187,16 +187,8 @@ namespace zap
           if (peek().type == TokenType::SEMICOLON)
           {
             eat(TokenType::SEMICOLON);
-            body->addStatement(std::move(ifNode));
           }
-          else if (peek().type == TokenType::RBRACE)
-          {
-            body->setResult(std::move(ifNode));
-          }
-          else
-          {
-            body->addStatement(std::move(ifNode));
-          }
+          body->addStatement(std::move(ifNode));
         }
         else if (peek().type == TokenType::WHILE)
         {
@@ -362,11 +354,11 @@ namespace zap
     std::vector<std::unique_ptr<ExpressionNode>> elements;
     if (peek().type != TokenType::RBRACE)
     {
-      do
-      {
-        elements.push_back(parseExpression());
-      } while (peek().type == TokenType::COMMA &&
-               eat(TokenType::COMMA).type == TokenType::COMMA);
+        do
+        {
+          elements.push_back(parseExpression());
+        } while (peek().type == TokenType::COMMA &&
+                 eat(TokenType::COMMA).type == TokenType::COMMA);
     }
     Token rbrace = eat(TokenType::RBRACE);
     auto node = _builder.makeArrayLiteral(std::move(elements));
@@ -387,7 +379,7 @@ namespace zap
 
     bool oldAllow = _allowStructLiteral;
     if (!hasParen) {
-        _allowStructLiteral = false;
+      _allowStructLiteral = false;
     }
     auto condition = parseExpression();
     _allowStructLiteral = oldAllow;
@@ -445,7 +437,7 @@ namespace zap
 
     bool oldAllow = _allowStructLiteral;
     if (!hasParen) {
-        _allowStructLiteral = false;
+      _allowStructLiteral = false;
     }
     auto condition = parseExpression();
     _allowStructLiteral = oldAllow;
@@ -535,6 +527,20 @@ namespace zap
       _builder.setSpan(static_cast<BinExpr *>(left.get()),
                        SourceSpan::merge(leftSpan, rightSpan));
     }
+    // Handle ternary operator (right-associative): cond ? then : else
+    if (peek().type == TokenType::QUESTION)
+    {
+      eat(TokenType::QUESTION);
+      auto thenExpr = parseExpression();
+      eat(TokenType::COLON);
+      auto elseExpr = parseExpression();
+
+      auto node = _builder.makeTernary(std::move(left), std::move(thenExpr), std::move(elseExpr));
+      SourceSpan span = SourceSpan::merge(left->span, elseExpr->span);
+      _builder.setSpan(node.get(), span);
+      return node;
+    }
+
     return left;
   }
 
@@ -570,7 +576,7 @@ namespace zap
         left = std::move(_builder.makeMemberAccess(std::move(left), memberToken.value));
         _builder.setSpan(left.get(), SourceSpan::merge(leftSpan, memberToken.span));
       }
-      else if (opToken.type == TokenType::SQUARE_LBRACE)
+        else if (opToken.type == TokenType::SQUARE_LBRACE)
       {
         eat(TokenType::SQUARE_LBRACE);
         auto index = parseExpression();
@@ -636,20 +642,20 @@ namespace zap
 
         if (peek().type != TokenType::RPAREN)
         {
-          do
-          {
-            std::string argName = "";
-            if (peek().type == TokenType::ID &&
-                peek(1).type == TokenType::ASSIGN)
+            do
             {
-              argName = eat(TokenType::ID).value;
-              eat(TokenType::ASSIGN);
-            }
-            auto argValue = parseExpression();
-            funCall->params_.push_back(
-                std::make_unique<Argument>(argName, std::move(argValue)));
-          } while (peek().type == TokenType::COMMA &&
-                   eat(TokenType::COMMA).type == TokenType::COMMA);
+              std::string argName = "";
+              if (peek().type == TokenType::ID &&
+                  peek(1).type == TokenType::ASSIGN)
+              {
+                argName = eat(TokenType::ID).value;
+                eat(TokenType::ASSIGN);
+              }
+              auto argValue = parseExpression();
+              funCall->params_.push_back(
+                  std::make_unique<Argument>(argName, std::move(argValue)));
+            } while (peek().type == TokenType::COMMA &&
+                     eat(TokenType::COMMA).type == TokenType::COMMA);
         }
 
         Token rparenToken = eat(TokenType::RPAREN);
@@ -689,10 +695,7 @@ namespace zap
       }
       return parseArrayLiteral();
     }
-    else if (current.type == TokenType::IF)
-    {
-      return parseIf();
-    }
+    
     _diag.report(current.span, DiagnosticLevel::Error,
                  "Expected primary expression, got " + current.value);
     exit(EXIT_FAILURE);

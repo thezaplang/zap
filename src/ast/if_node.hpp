@@ -5,7 +5,7 @@
 #include "visitor.hpp"
 #include <memory>
 
-class IfNode : public ExpressionNode, public StatementNode {
+class IfNode : public StatementNode {
 public:
   std::unique_ptr<ExpressionNode> condition_;
   std::unique_ptr<BodyNode> thenBody_;

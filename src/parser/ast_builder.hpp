@@ -30,6 +30,7 @@
 #include "../ast/while_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/continue_node.hpp"
+#include "../ast/ternary_expr.hpp"
 
 class AstBuilder {
 public:
@@ -113,6 +114,12 @@ public:
                                        const std::string &op,
                                        std::unique_ptr<ExpressionNode> right) {
     return std::make_unique<BinExpr>(std::move(left), op, std::move(right));
+  }
+
+  std::unique_ptr<TernaryExpr> makeTernary(std::unique_ptr<ExpressionNode> cond,
+                                           std::unique_ptr<ExpressionNode> thenE,
+                                           std::unique_ptr<ExpressionNode> elseE) {
+    return std::make_unique<TernaryExpr>(std::move(cond), std::move(thenE), std::move(elseE));
   }
 
   std::unique_ptr<ConstInt> makeConstInt(int64_t value) {

@@ -42,6 +42,7 @@ namespace codegen
     void visit(sema::BoundMemberAccess &node) override;
     void visit(sema::BoundStructLiteral &node) override;
     void visit(sema::BoundIfExpression &node) override;
+    void visit(sema::BoundTernaryExpression &node) override;
     void visit(sema::BoundWhileStatement &node) override;
     void visit(sema::BoundBreakStatement &node) override;
     void visit(sema::BoundContinueStatement &node) override;

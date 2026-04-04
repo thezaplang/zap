@@ -998,6 +998,50 @@ namespace codegen
     }
   }
 
+  void LLVMCodeGen::visit(sema::BoundTernaryExpression &node)
+  {
+    if (!currentFn_)
+      throw std::runtime_error("currentFn_ is null in visit(BoundTernaryExpression)");
+
+    auto *thenBB = llvm::BasicBlock::Create(ctx_, "ternary.then", currentFn_);
+    auto *elseBB = llvm::BasicBlock::Create(ctx_, "ternary.else", currentFn_);
+    auto *mergeBB = llvm::BasicBlock::Create(ctx_, "ternary.merge", currentFn_);
+
+    if (!node.condition)
+      throw std::runtime_error("condition is null in BoundTernaryExpression");
+    node.condition->accept(*this);
+    auto *cond = lastValue_;
+    if (!cond)
+      throw std::runtime_error("lastValue_ is null after condition in BoundTernaryExpression");
+
+    auto *entryBB = builder_.GetInsertBlock();
+    builder_.CreateCondBr(cond, thenBB, elseBB);
+
+    builder_.SetInsertPoint(thenBB);
+    lastValue_ = nullptr;
+    if (node.thenExpr) node.thenExpr->accept(*this);
+    auto *thenVal = lastValue_;
+    if (!builder_.GetInsertBlock()->getTerminator()) builder_.CreateBr(mergeBB);
+    thenBB = builder_.GetInsertBlock();
+
+    builder_.SetInsertPoint(elseBB);
+    lastValue_ = nullptr;
+    if (node.elseExpr) node.elseExpr->accept(*this);
+    auto *elseVal = lastValue_;
+    if (!builder_.GetInsertBlock()->getTerminator()) builder_.CreateBr(mergeBB);
+    elseBB = builder_.GetInsertBlock();
+
+    builder_.SetInsertPoint(mergeBB);
+    if (node.type->getKind() != zir::TypeKind::Void)
+    {
+      auto *phiType = toLLVMType(*node.type);
+      auto *phi = builder_.CreatePHI(phiType, 2, "ternary.res");
+      phi->addIncoming(thenVal ? thenVal : llvm::UndefValue::get(phiType), thenBB);
+      phi->addIncoming(elseVal ? elseVal : llvm::UndefValue::get(phiType), elseBB);
+      lastValue_ = phi;
+    }
+  }
+
   void LLVMCodeGen::visit(sema::BoundWhileStatement &node)
   {
     if (!currentFn_)

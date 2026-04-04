@@ -28,6 +28,7 @@ namespace sema
   class BoundEnumDeclaration;
   class BoundMemberAccess;
   class BoundStructLiteral;
+  class BoundTernaryExpression;
   class BoundIfExpression;
   class BoundWhileStatement;
   class BoundBreakStatement;
@@ -58,6 +59,7 @@ namespace sema
     virtual void visit(BoundMemberAccess &node) = 0;
     virtual void visit(BoundStructLiteral &node) = 0;
     virtual void visit(BoundIfExpression &node) = 0;
+    virtual void visit(BoundTernaryExpression &node) = 0;
     virtual void visit(BoundWhileStatement &node) = 0;
     virtual void visit(BoundBreakStatement &node) = 0;
     virtual void visit(BoundContinueStatement &node) = 0;
@@ -284,20 +286,36 @@ namespace sema
     std::unique_ptr<BoundBlock> thenBody;
     std::unique_ptr<BoundBlock> elseBody;
 
-    BoundIfExpression(std::unique_ptr<BoundExpression> cond,
-                      std::unique_ptr<BoundBlock> thenB,
-                      std::unique_ptr<BoundBlock> elseB,
-                      std::shared_ptr<zir::Type> t)
-        : BoundExpression(std::move(t)), condition(std::move(cond)),
-          thenBody(std::move(thenB)), elseBody(std::move(elseB)) {}
+      BoundIfExpression(std::unique_ptr<BoundExpression> cond,
+                std::unique_ptr<BoundBlock> thenB,
+                std::unique_ptr<BoundBlock> elseB)
+        : BoundExpression(std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void)),
+          condition(std::move(cond)), thenBody(std::move(thenB)), elseBody(std::move(elseB)) {}
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+      std::unique_ptr<BoundStatement> cloneStatement() const override {
+        auto cloned = std::make_unique<BoundIfExpression>(condition->clone(), thenBody ? thenBody->cloneBlock() : nullptr, elseBody ? elseBody->cloneBlock() : nullptr);
+        return cloned;
+      }
+      std::unique_ptr<BoundExpression> clone() const override {
+        return std::make_unique<BoundIfExpression>(condition->clone(), thenBody ? thenBody->cloneBlock() : nullptr, elseBody ? elseBody->cloneBlock() : nullptr);
+      }
+  };
+
+  class BoundTernaryExpression : public BoundExpression
+  {
+  public:
+    std::unique_ptr<BoundExpression> condition;
+    std::unique_ptr<BoundExpression> thenExpr;
+    std::unique_ptr<BoundExpression> elseExpr;
+
+    BoundTernaryExpression(std::unique_ptr<BoundExpression> cond,
+                           std::unique_ptr<BoundExpression> thenE,
+                           std::unique_ptr<BoundExpression> elseE,
+                           std::shared_ptr<zir::Type> t)
+        : BoundExpression(std::move(t)), condition(std::move(cond)), thenExpr(std::move(thenE)), elseExpr(std::move(elseE)) {}
     void accept(BoundVisitor &v) override { v.visit(*this); }
     std::unique_ptr<BoundExpression> clone() const override {
-      return std::make_unique<BoundIfExpression>(condition->clone(), thenBody->cloneBlock(), elseBody ? elseBody->cloneBlock() : nullptr, type);
-    }
-    std::unique_ptr<BoundStatement> cloneStatement() const override {
-      auto clonedExpr = clone();
-      auto *ptr = clonedExpr.release();
-      return std::unique_ptr<BoundStatement>(dynamic_cast<BoundStatement *>(ptr));
+      return std::make_unique<BoundTernaryExpression>(condition->clone(), thenExpr->clone(), elseExpr->clone(), type);
     }
   };
 
