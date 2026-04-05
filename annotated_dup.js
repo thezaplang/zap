@@ -1,5 +1,12 @@
 var annotated_dup =
 [
+    [ "anonymous_namespace{lsp-main.cpp}", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html", [
+      [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
+      [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
+      [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
+      [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
+      [ "Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace" ]
+    ] ],
     [ "codegen", "d0/df2/namespacecodegen.html", [
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
     ] ],
@@ -54,6 +61,10 @@ var annotated_dup =
       [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
       [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],
       [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ],
+      [ "DiagnosticPosition", "d7/dc4/structzap_1_1DiagnosticPosition.html", "d7/dc4/structzap_1_1DiagnosticPosition" ],
+      [ "DiagnosticRange", "d0/d67/structzap_1_1DiagnosticRange.html", "d0/d67/structzap_1_1DiagnosticRange" ],
+      [ "Diagnostic", "df/d01/structzap_1_1Diagnostic.html", "df/d01/structzap_1_1Diagnostic" ],
+      [ "DiagnosticTextFormatter", "d8/dbe/classzap_1_1DiagnosticTextFormatter.html", "d8/dbe/classzap_1_1DiagnosticTextFormatter" ],
       [ "DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", "d3/d28/classzap_1_1DiagnosticEngine" ],
       [ "HandleColors", "d4/d3e/structzap_1_1HandleColors.html", "d4/d3e/structzap_1_1HandleColors" ],
       [ "StdoutStream", "dc/de8/classzap_1_1StdoutStream.html", "dc/de8/classzap_1_1StdoutStream" ],

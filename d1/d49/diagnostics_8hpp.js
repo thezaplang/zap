@@ -1,5 +1,9 @@
 var diagnostics_8hpp =
 [
+    [ "zap::DiagnosticPosition", "d7/dc4/structzap_1_1DiagnosticPosition.html", "d7/dc4/structzap_1_1DiagnosticPosition" ],
+    [ "zap::DiagnosticRange", "d0/d67/structzap_1_1DiagnosticRange.html", "d0/d67/structzap_1_1DiagnosticRange" ],
+    [ "zap::Diagnostic", "df/d01/structzap_1_1Diagnostic.html", "df/d01/structzap_1_1Diagnostic" ],
+    [ "zap::DiagnosticTextFormatter", "d8/dbe/classzap_1_1DiagnosticTextFormatter.html", "d8/dbe/classzap_1_1DiagnosticTextFormatter" ],
     [ "zap::DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", "d3/d28/classzap_1_1DiagnosticEngine" ],
     [ "zap::DiagnosticLevel", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2", [
       [ "zap::DiagnosticLevel::Note", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec", null ],

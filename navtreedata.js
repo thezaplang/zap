@@ -26,10 +26,10 @@ var NAVTREE =
 [
   [ "ZAP", "index.html", [
     [ "Changelog", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html", [
-      [ "[0.0.1] - 2026-03-16", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md1", [
-        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md2", null ],
-        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md3", null ],
-        [ "Removed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md4", null ]
+      [ "[0.0.1] - 2026-03-16", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md12", [
+        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md13", null ],
+        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md14", null ],
+        [ "Removed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md15", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
@@ -73,15 +73,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1",
-"d3/d09/classzap_1_1Stream.html#a3572685e772befedde1b784c75f0ec72",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a865555c9f2e0458a7078486aa1b3254f",
-"d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa",
-"d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea1540c5fa1532634962f63ab8195258e8",
-"da/db6/classzir_1_1RetainInst.html#a7e6eb9f85b6c81ec480bdb86542d777c",
-"db/dfa/stdlib_8c.html#affbff8151771a213943b986cdd9ce941",
-"dd/d06/classExpressionNode.html",
-"df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959"
+"d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abf255234f8145f4a18d6e0878a154376",
+"d2/df1/classzir_1_1ReturnInst.html#a0ec4c6825b3d68da6500654eeb282aa4",
+"d3/dfe/classzap_1_1lsp_1_1JsonParser.html#ab7a3eefb2e0da5bef75d636183b034eb",
+"d6/d62/symbol_8hpp_source.html",
+"d8/d9e/body__node_8hpp.html",
+"da/d27/classzap_1_1Parser_1_1ParseError.html",
+"db/d94/classsema_1_1BoundTernaryExpression.html#a2b017488695a41b48c930c0154fb16e6",
+"dc/d2c/classsema_1_1Binder.html#adbb6e6a9cd76e780bcd9a058d068ced8",
+"de/d73/classzap_1_1Parser.html#a262e106a5ff6b6267ebaa941e3a85efb",
+"df/dd7/classzir_1_1EnumType.html#a77c45a23a86690738bbc68a6cac434a4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -64,12 +64,51 @@ $(function(){initNavTree('dir_b753fe545b1e49af3af431b2cda9af92.html','',''); });
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Zap LSP Extension</h1>
-<p>Provides syntax highlighting and Language Server Protocol support for the Zap programming language.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
-Note</h1>
-<p>This is nowhere near finished, nor is it even ready to use, this is purely for convenient language testing. </p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+Zap VS Code Extension</h1>
+<p>Syntax highlighting and LSP support for Zap.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+Requirements</h1>
+<ul>
+<li>A built <span class="tt">zap-lsp</span> binary when packaging the extension</li>
+<li>VS Code or VSCodium</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+Default Behavior</h1>
+<p>The packaged <span class="tt">.vsix</span> bundles <span class="tt">zap-lsp</span>.</p>
+<p>For imports like <span class="tt">std/io</span>, set <span class="tt">zap-lsp.stdlibPath</span> to your local <span class="tt">std/</span> directory.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+Optional Server Override</h1>
+<p>If you want to use a different server binary, set <span class="tt">zap-lsp.path</span>.</p>
+<p>Example:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;zap-lsp.path&quot;: &quot;/custom/path/to/zap-lsp&quot;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Example stdlib setting:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;zap-lsp.stdlibPath&quot;: &quot;/path/to/zap/std&quot;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+Build the Extension</h1>
+<p>From this directory:</p>
+<div class="fragment"><div class="line">npm install</div>
+<div class="line">npm run package</div>
+</div><!-- fragment --><p>That produces a <span class="tt">.vsix</span> file in this directory.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+Install the Extension</h1>
+<p>In VS Code:</p>
+<ol type="1">
+<li>Open Extensions</li>
+<li>Open the <span class="tt">...</span> menu</li>
+<li>Choose <span class="tt">Install from VSIX...</span></li>
+<li>Select the generated <span class="tt">.vsix</span></li>
+</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+Notes</h1>
+<ul>
+<li>The server currently provides diagnostics.</li>
+<li>The extension starts the server over stdio, so it also works in VSCodium. </li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

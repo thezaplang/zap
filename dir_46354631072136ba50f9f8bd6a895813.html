@@ -66,6 +66,7 @@ $(function(){initNavTree('dir_46354631072136ba50f9f8bd6a895813.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-subdirs" class="groupheader"><a id="subdirs" name="subdirs"></a>
 Directories</h2></td></tr>
+<tr class="memitem:nvim" id="r_nvim"><td class="memItemLeft" align="right" valign="top"><span class="iconfolder"><div class="folder-icon"></div></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_b3189eee746b15ed65e0c03d73516243.html">nvim</a></td></tr>
 <tr class="memitem:vscode" id="r_vscode"><td class="memItemLeft" align="right" valign="top"><span class="iconfolder"><div class="folder-icon"></div></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_86f1dd032fb9207ef9ae8384dec57402.html">vscode</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-files" class="groupheader"><a id="files" name="files"></a>
@@ -74,6 +75,80 @@ Files</h2></td></tr>
 <tr class="memitem:lsp_2Ecpp" id="r_lsp_2Ecpp"><td class="memItemLeft" align="right" valign="top"><a href="d1/d74/lsp_8cpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d1/d74/lsp_8cpp.html">lsp.cpp</a></td></tr>
 <tr class="memitem:lsp_2Ehpp" id="r_lsp_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="d8/ddd/lsp_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d8/ddd/lsp_8hpp.html">lsp.hpp</a></td></tr>
 </table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Zap LSP</h1>
+<p>The repository now contains:</p>
+<ul>
+<li><span class="tt">build/zap-lsp</span>: the language server binary</li>
+<li><span class="tt">src/lsp/vscode/zap</span>: the VS Code extension source</li>
+<li><span class="tt">src/lsp/nvim</span>: a small Neovim runtime with syntax + LSP config</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Neovim</h1>
+<p>Add <span class="tt">src/lsp/nvim</span> to <span class="tt">runtimepath</span>. That gives you:</p>
+<ul>
+<li>filetype detection for <span class="tt">*.zp</span></li>
+<li>syntax highlighting</li>
+<li><span class="tt">omnifunc</span> wired to LSP</li>
+<li>a reusable <span class="tt">lspconfig</span> config module</li>
+</ul>
+<p>Full Neovim instructions:</p>
+<ul>
+<li>src/lsp/nvim/README.md</li>
+</ul>
+<p>Quick install from this repo:</p>
+<div class="fragment"><div class="line">./src/lsp/nvim/install-lazy.sh</div>
+</div><!-- fragment --><p>For plain <span class="tt">init.lua</span> setups:</p>
+<div class="fragment"><div class="line">./src/lsp/nvim/install-init.lua.sh</div>
+</div><!-- fragment --><p>On Neovim 0.11+, opening a <span class="tt">.zp</span> file is enough. No extra plugin is required for diagnostics, completion, go to definition, and syntax highlighting.</p>
+<p>Version check:</p>
+<div class="fragment"><div class="line">nvim --version | head -n 1</div>
+</div><!-- fragment --><p>You want <span class="tt">NVIM v0.11.x</span> or newer for the built-in setup path.</p>
+<p>Example with <span class="tt">lazy.nvim</span>:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  dir = &quot;/path/to/zap/src/lsp/nvim&quot;,</div>
+<div class="line">  name = &quot;zap.nvim&quot;,</div>
+<div class="line">  config = function()</div>
+<div class="line">    vim.opt.runtimepath:append(&quot;/path/to/zap/src/lsp/nvim&quot;)</div>
+<div class="line">  end,</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Manual example without a plugin manager:</p>
+<div class="fragment"><div class="line">vim.opt.runtimepath:append(&quot;/path/to/zap/src/lsp/nvim&quot;)</div>
+</div><!-- fragment --><p>The runtime auto-configures:</p>
+<ul>
+<li><span class="tt">*.zp</span> -&gt; <span class="tt">filetype=<a class="el" href="d7/d1a/namespacezap.html">zap</a></span></li>
+<li>syntax highlighting</li>
+<li>built-in LSP on Neovim 0.11+</li>
+<li><span class="tt">gd</span> for definition</li>
+<li>diagnostics</li>
+<li>completion via LSP/omnifunc</li>
+</ul>
+<p>Server lookup order:</p>
+<ol type="1">
+<li><span class="tt">zap-lsp</span> from <span class="tt">PATH</span></li>
+<li>repo-local <span class="tt">build/zap-lsp</span></li>
+</ol>
+<p>Stdlib lookup order:</p>
+<ol type="1">
+<li><span class="tt">&lt;project-root&gt;/std</span></li>
+<li>repo-local <span class="tt">std</span></li>
+</ol>
+<p>Quick sanity checks inside Neovim:</p>
+<div class="fragment"><div class="line">:set filetype?</div>
+<div class="line">:echo exists(&#39;:ZapNvimInfo&#39;)</div>
+<div class="line">:ZapNvimInfo</div>
+</div><!-- fragment --><p>Expected:</p>
+<ul>
+<li><span class="tt">filetype=<a class="el" href="d7/d1a/namespacezap.html">zap</a></span></li>
+<li><span class="tt"><a class="el" href="db/dfa/stdlib_8c.html#a74317ec5ef52657637e2f8537d48a687">exists</a>(':ZapNvimInfo')</span> returns <span class="tt">1</span></li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+VS Code</h1>
+<p>From <span class="tt">src/lsp/vscode/zap</span>:</p>
+<div class="fragment"><div class="line">npm install</div>
+<div class="line">npm run package</div>
+</div><!-- fragment --><p>That creates a <span class="tt">.vsix</span> you can install with <span class="tt">Install from VSIX...</span>. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

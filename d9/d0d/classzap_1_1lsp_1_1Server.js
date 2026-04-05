@@ -15,8 +15,9 @@ var classzap_1_1lsp_1_1Server =
     [ "operator=", "d9/d0d/classzap_1_1lsp_1_1Server.html#a159b44069e3c6858b2dca7160cff687d", null ],
     [ "processMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a94f50d6f178b75b473df2841e4e2e316", null ],
     [ "send", "d9/d0d/classzap_1_1lsp_1_1Server.html#adea03253e1c131a22192cbcca10eefdf", null ],
-    [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a6024ab06757b9bf667fde33c1494263e", null ],
-    [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a980356a5de245f2269b180cb58419d9e", null ],
+    [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a69517225e8209bac047360144e6f2b20", null ],
+    [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a59004e3bbbacf6a65ea32ff0e9bab309", null ],
+    [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a99d90bae3515e721c7b0cb472ae98587", null ],
     [ "sendMessageRaw", "d9/d0d/classzap_1_1lsp_1_1Server.html#aefd8611365c2b26608c38ef5e382aa6c", null ],
     [ "buffer", "d9/d0d/classzap_1_1lsp_1_1Server.html#a7692aeb86cec60f104f68ebab774977a", null ]
 ];
