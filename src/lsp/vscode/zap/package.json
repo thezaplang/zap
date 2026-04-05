@@ -36,8 +36,13 @@
       "properties": {
         "zap-lsp.path": {
           "type": "string",
-          "default": "zapd",
-          "description": "Path to the Zap LSP executable"
+          "default": "",
+          "description": "Optional override path to the Zap LSP executable. By default the bundled server is used."
+        },
+        "zap-lsp.stdlibPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Zap stdlib directory used for imports like std/io."
         }
       }
     },
