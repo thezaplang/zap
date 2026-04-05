@@ -1,6 +1,11 @@
 #include "utils/stream.hpp"
 #include <algorithm>
 #include <cstring>
+#include <cstdlib>
+
+#if defined(__unix__) || defined(__APPLE__)
+#include <unistd.h>
+#endif
 
 namespace zap {
 
@@ -109,13 +114,47 @@ Stream &out() {
 
 /// This is where it is platform dependent.
 HandleColors::HandleColors() {
-  // Asssume colors do exist, ideally this should be implemented for every
-  // platform.
-  stdout_color = true;
-  stdout_tty = true;
+  auto envTruthy = [](const char *name) -> bool {
+    const char *value = std::getenv(name);
+    return value && *value;
+  };
 
-  stderr_color = true;
-  stderr_tty = true;
+  auto terminalSupportsColor = [&]() -> bool {
+    if (color_override == ColorOverride::ALWAYS) {
+      return true;
+    }
+    if (color_override == ColorOverride::NEVER) {
+      return false;
+    }
+
+    if (envTruthy("NO_COLOR")) {
+      return false;
+    }
+
+    const char *term = std::getenv("TERM");
+    if (!term || !*term || std::strcmp(term, "dumb") == 0) {
+      return false;
+    }
+
+    return true;
+  };
+
+#if defined(__unix__) || defined(__APPLE__)
+  stdout_tty = ::isatty(fileno(stdout));
+  stderr_tty = ::isatty(fileno(stderr));
+#else
+  stdout_tty = false;
+  stderr_tty = false;
+#endif
+
+  bool colorsEnabled = terminalSupportsColor();
+  stdout_color = stdout_tty && colorsEnabled;
+  stderr_color = stderr_tty && colorsEnabled;
+
+  if (color_override == ColorOverride::ALWAYS) {
+    stdout_color = true;
+    stderr_color = true;
+  }
 }
 
 } // namespace zap

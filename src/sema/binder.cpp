@@ -931,10 +931,10 @@ namespace sema
 
         if (!canConvert(initializer->type, type))
         {
-          error(node.span, "Cannot assign expression of type '" +
-                               initializer->type->toString() +
-                               "' to variable of type '" + type->toString() +
-                               "'");
+          error(node.initializer_->span,
+                "Cannot assign expression of type '" +
+                    initializer->type->toString() +
+                    "' to variable of type '" + type->toString() + "'");
         }
         else
         {
@@ -1002,10 +1002,10 @@ namespace sema
 
         if (!canConvert(initializer->type, type))
         {
-          error(node.span, "Cannot assign expression of type '" +
-                               initializer->type->toString() +
-                               "' to constant of type '" + type->toString() +
-                               "'");
+          error(node.initializer_->span,
+                "Cannot assign expression of type '" +
+                    initializer->type->toString() +
+                    "' to constant of type '" + type->toString() + "'");
         }
         else
         {
@@ -1113,9 +1113,10 @@ namespace sema
 
       if (!leftOk || !rightOk || !hasString)
       {
-        error(node.span, "Concatenation requires String and/or Char operands with at least one String, got '" +
-                             leftType->toString() + "' and '" +
-                             rightType->toString() + "'");
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Concatenation requires String and/or Char operands with at least one String, got '" +
+                  leftType->toString() + "' and '" +
+                  rightType->toString() + "'");
       }
       resultType = std::make_shared<zir::RecordType>("String", "String");
     }
@@ -1124,9 +1125,10 @@ namespace sema
     {
       if (!isNumeric(leftType) || !isNumeric(rightType))
       {
-        error(node.span, "Operator '" + node.op_ + "' cannot be applied to '" +
-                             leftType->toString() + "' and '" +
-                             rightType->toString() + "'");
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Operator '" + node.op_ + "' cannot be applied to '" +
+                  leftType->toString() + "' and '" +
+                  rightType->toString() + "'");
       }
       else
       {
@@ -1140,8 +1142,9 @@ namespace sema
     {
       if (!canConvert(leftType, rightType) && !canConvert(rightType, leftType))
       {
-        error(node.span, "Cannot compare '" + leftType->toString() + "' and '" +
-                             rightType->toString() + "'");
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Cannot compare '" + leftType->toString() + "' and '" +
+                  rightType->toString() + "'");
       }
       resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
     }
@@ -1150,8 +1153,9 @@ namespace sema
       if (leftType->getKind() != zir::TypeKind::Bool ||
           rightType->getKind() != zir::TypeKind::Bool)
       {
-        error(node.span, "Logical operator '" + node.op_ +
-                             "' requires Bool operands.");
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Logical operator '" + node.op_ +
+                  "' requires Bool operands.");
       }
       resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
     }
@@ -1170,8 +1174,8 @@ namespace sema
 
     if (condition->type->getKind() != zir::TypeKind::Bool)
     {
-      error(node.span, "Ternary condition must be Bool, got '" +
-                           condition->type->toString() + "'");
+      error(node.condition_->span, "Ternary condition must be Bool, got '" +
+                                       condition->type->toString() + "'");
     }
 
     node.thenExpr_->accept(*this);
@@ -1189,9 +1193,10 @@ namespace sema
     if (!canConvert(thenExpr->type, elseExpr->type) &&
         !canConvert(elseExpr->type, thenExpr->type))
     {
-      error(node.span, "Ternary branches must be compatible, got '" +
-                           thenExpr->type->toString() + "' and '" +
-                           elseExpr->type->toString() + "'");
+      error(SourceSpan::merge(node.thenExpr_->span, node.elseExpr_->span),
+            "Ternary branches must be compatible, got '" +
+                thenExpr->type->toString() + "' and '" +
+                elseExpr->type->toString() + "'");
     }
 
     auto resultType = canConvert(thenExpr->type, elseExpr->type)
@@ -1462,10 +1467,10 @@ namespace sema
 
     if (node.params_.size() != funcSymbol->parameters.size())
     {
-      error(node.span, "Function '" + funcSymbol->name + "' expects " +
-                           std::to_string(funcSymbol->parameters.size()) +
-                           " arguments, but received " +
-                           std::to_string(node.params_.size()));
+      error(node.callee_->span, "Function '" + funcSymbol->name + "' expects " +
+                                    std::to_string(funcSymbol->parameters.size()) +
+                                    " arguments, but received " +
+                                    std::to_string(node.params_.size()));
     }
 
     std::vector<std::unique_ptr<BoundExpression>> boundArgs;
@@ -1540,7 +1545,7 @@ namespace sema
 
     if (cond->type->getKind() != zir::TypeKind::Bool)
     {
-      error(node.span,
+      error(node.condition_->span,
             "If condition must be Bool, got '" + cond->type->toString() + "'");
     }
 
@@ -1567,8 +1572,8 @@ namespace sema
 
     if (cond->type->getKind() != zir::TypeKind::Bool)
     {
-      error(node.span, "While condition must be Bool, got '" +
-                           cond->type->toString() + "'");
+      error(node.condition_->span, "While condition must be Bool, got '" +
+                                        cond->type->toString() + "'");
     }
 
     ++loopDepth_;
