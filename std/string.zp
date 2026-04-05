@@ -1,1 +1,16 @@
-pub ext fun stringLen(s: String) Int;
+pub ext fun len(s: String) Int;
+pub ext fun at(s: String, i: Int) Char;
+pub ext fun slice(s: String, start: Int, len: Int) String;
+pub ext fun eq(a: String, b: String) Bool;
+
+pub fun stringLen(s: String) Int {
+  return len(s);
+}
+
+pub fun fromChar(c: Char) String {
+  return "" ~ c;
+}
+
+pub fun pushChar(s: String, c: Char) String {
+  return s ~ c;
+}

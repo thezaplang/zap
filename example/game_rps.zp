@@ -1,0 +1,31 @@
+import "std/io" { println };
+import "std/process";
+import "std/string";
+
+fun outcome(left: String, right: String) String {
+    if string.eq(left, right) {
+        return "draw";
+    }
+
+    if string.eq(left, "rock") && string.eq(right, "scissors") {
+        return "left wins";
+    }
+    if string.eq(left, "paper") && string.eq(right, "rock") {
+        return "left wins";
+    }
+    if string.eq(left, "scissors") && string.eq(right, "paper") {
+        return "left wins";
+    }
+
+    return "right wins";
+}
+
+fun main() Int {
+    if process.argc() < 3 {
+        println("usage: game_rps <rock|paper|scissors> <rock|paper|scissors>");
+        return 1;
+    }
+
+    println(outcome(process.argv(1), process.argv(2)));
+    return 0;
+}

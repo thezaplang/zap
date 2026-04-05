@@ -1,0 +1,27 @@
+import "std/io" { println };
+
+enum DoorState { Open, Closed, Locked }
+
+struct Door {
+  label: String,
+  state: DoorState,
+}
+
+fun describe(door: Door) String {
+  if door.state == DoorState.Open {
+    return door.label ~ ": open";
+  }
+  if door.state == DoorState.Locked {
+    return door.label ~ ": locked";
+  }
+  return door.label ~ ": closed";
+}
+
+fun main() Int {
+  var front: Door = Door{ label: "front", state: DoorState.Locked };
+  var back: Door = Door{ label: "back", state: DoorState.Open };
+
+  println(describe(front));
+  println(describe(back));
+  return 0;
+}

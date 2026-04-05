@@ -1,0 +1,50 @@
+import "std/fs";
+import "std/process";
+
+fun main() Int {
+    var root: String = "/tmp/zap_fs_mkdir";
+    var nested: String = root ~ "/a/b/c";
+    var filePath: String = root ~ "/marker.txt";
+
+    process.exec("rm -rf \"" ~ root ~ "\"");
+
+    if fs.exists(root) {
+        return 1;
+    }
+
+    if fs.mkdir(root) != 0 {
+        return 2;
+    }
+
+    if !fs.isDir(root) {
+        return 3;
+    }
+
+    if fs.mkdirAll(nested) != 0 {
+        return 4;
+    }
+
+    if !fs.isDir(nested) {
+        return 5;
+    }
+
+    if fs.mkdirAll(nested) != 0 {
+        return 6;
+    }
+
+    if process.exec("sh -c 'printf x > \"" ~ filePath ~ "\"'") != 0 {
+        return 7;
+    }
+
+    if fs.mkdir(filePath) == 0 {
+        return 8;
+    }
+
+    process.exec("rm -rf \"" ~ root ~ "\"");
+
+    if fs.exists(root) {
+        return 9;
+    }
+
+    return 0;
+}

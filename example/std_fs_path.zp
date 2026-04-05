@@ -1,0 +1,21 @@
+import "std/io" { println };
+import "std/fs";
+import "std/path";
+
+fun main() Int {
+    var dir: String = path.join("/tmp", "zap_example");
+    var file: String = path.join(dir, "note.txt");
+
+    if fs.mkdirAll(dir) != 0 {
+        return 1;
+    }
+
+    if fs.writeFile(file, "hello from zap") != 0 {
+        return 2;
+    }
+
+    println(path.basename(file));
+    println(fs.readFile(file));
+    println(path.parent(file));
+    return 0;
+}

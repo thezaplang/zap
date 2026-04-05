@@ -101,6 +101,40 @@ run_runtime_test() {
     fi
 }
 
+run_runtime_args_test() {
+    local file=$1
+    local expected_exit_code=$2
+    local description=$3
+    shift 3
+
+    ((TOTAL++))
+    echo -n "Running $description ($file)... "
+
+    binfile="${file%.*}"
+    $ZAPC "$file" -o "$binfile" > /dev/null 2>&1
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo -e "${RED}FAIL${NC} (compile failed)"
+        return
+    fi
+
+    if [ ! -x "$binfile" ]; then
+        echo -e "${RED}FAIL${NC} (binary not found)"
+        return
+    fi
+
+    ./$binfile "$@" > /dev/null 2>&1
+    local run_code=$?
+    rm -f "$binfile"
+
+    if [ $run_code -eq $expected_exit_code ]; then
+        echo -e "${GREEN}PASS${NC}"
+        ((PASSED++))
+    else
+        echo -e "${RED}FAIL${NC} (expected $expected_exit_code, got $run_code)"
+    fi
+}
+
 # Warning + Runtime test: check for warning AND exit code
 run_warning_runtime_test() {
     local file=$1
@@ -149,6 +183,14 @@ run_warning_runtime_test "tests/global_var_test.zp" 0 "Global variables are disc
 # Runtime test: main without explicit return type should default to Int and return 0
 run_runtime_test "tests/main_implicit.zp" 0 "Main implicit return type and implicit return 0"
 run_runtime_test "tests/ext_default_void_runtime.zp" 0 "External function without return type defaults to Void at runtime"
+run_runtime_args_test "tests/process_args_test.zp" 0 "Process argument access" alpha beta gamma
+run_runtime_test "tests/process_exec_test.zp" 0 "Process execution"
+run_runtime_test "tests/process_cwd_test.zp" 0 "Current working directory access"
+run_runtime_test "tests/fs_test.zp" 0 "Filesystem path checks"
+run_runtime_test "tests/fs_mkdir_test.zp" 0 "Filesystem directory creation"
+run_runtime_test "tests/fs_file_io_test.zp" 0 "Filesystem text file IO"
+run_runtime_test "tests/path_test.zp" 0 "Path helpers"
+run_runtime_test "tests/math_test.zp" 0 "Math stdlib helpers"
 
 # Lexer errors (exit code 1)
 run_test "tests/lexer_error.zp" 1 "Lexer error: Unterminated string"
@@ -165,7 +207,10 @@ run_test "tests/syntax_error.zp" 1 "Multiple syntax errors"
 
 # Concat tests
 run_runtime_test "tests/concat.zp" 0 "Concat literal strings"
-run_test "tests/concat_char.zp" 1 "Concat char + string is currently rejected"
+run_runtime_test "tests/concat_char.zp" 0 "Concat String and Char"
+run_runtime_test "tests/string_index_test.zp" 0 "String indexing"
+run_runtime_test "tests/string_stdlib_test.zp" 0 "String stdlib helpers"
+run_test "tests/string_index_assign_error.zp" 1 "String indexing is read-only"
 
 # Logical operator tests
 run_runtime_test "tests/logical_ops.zp" 0 "Logical operators (&&, ||) with short-circuiting"
@@ -179,6 +224,7 @@ run_runtime_test "tests/ternary_test.zp" 0 "Ternary operator"
 run_test "tests/ternary_condition_error.zp" 1 "Ternary condition type check"
 run_test "tests/ternary_type_error.zp" 1 "Ternary branch type check"
 run_runtime_test "tests/enum_test.zp" 1 "Enum test"
+run_runtime_test "tests/enum_trailing_comma_test.zp" 0 "Enum trailing comma"
 run_runtime_test "tests/array_test.zp" 0 "Array declaration, initialization, and indexing"
 run_test "tests/array_const_size.zp" 1 "Array size as a constant is currently rejected"
 
@@ -196,6 +242,8 @@ run_runtime_test "tests/import_flat/main.zp" 0 "Selective flat import with brace
 run_runtime_test "tests/import_alias/main.zp" 0 "Selective import alias with as"
 run_runtime_test "tests/import_module_alias/main.zp" 0 "Module namespace alias with as"
 run_runtime_test "tests/import_module_alias_same/main.zp" 0 "The same module may reuse the same alias"
+run_runtime_test "tests/import_std_string/main.zp" 0 "Importing std/string module namespace"
+run_runtime_test "tests/import_std_error/main.zp" 0 "Importing std/error types"
 run_test "tests/import_module_alias_conflict/main.zp" 1 "Different modules cannot reuse the same alias"
 run_runtime_test "tests/import_folder/main.zp" 0 "Importing an entire folder as namespaces"
 run_runtime_test "tests/import_canonical/main.zp" 0 "Import paths resolving to the same file share one module"

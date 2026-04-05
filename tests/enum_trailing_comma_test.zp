@@ -1,0 +1,12 @@
+enum Mode {
+    Fast,
+    Slow,
+}
+
+fun main() Int {
+    var mode: Mode = Mode.Slow;
+    if mode != Mode.Slow {
+        return 1;
+    }
+    return 0;
+}

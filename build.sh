@@ -25,13 +25,19 @@ fi
 # Change to build directory
 cd "$SCRIPT_DIR/build"
 
+CPU_COUNT=$(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 1)
+BUILD_JOBS=$((CPU_COUNT - 1))
+if [ "$BUILD_JOBS" -lt 1 ]; then
+    BUILD_JOBS=1
+fi
+
 # Run CMake to generate build files
 echo -e "${YELLOW}Running CMake...${NC}"
 cmake ..
 
 # Build the project
 echo -e "${YELLOW}Compiling...${NC}"
-cmake --build . --config Release
+cmake --build . --config Release --parallel "$BUILD_JOBS"
 
 # Check if build was successful
 if [ -f "$SCRIPT_DIR/build/zapc" ]; then

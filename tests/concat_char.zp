@@ -1,6 +1,7 @@
 import "std/prelude" { println };
 
 fun main() Int {
+    println("za" ~ 'p');
     println('c' ~ "at");
     return 0;
 }

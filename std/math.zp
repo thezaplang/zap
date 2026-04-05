@@ -1,0 +1,36 @@
+ext fun zapMathSqrt(x: Float64) Float64;
+ext fun zapMathFloor(x: Float64) Float64;
+ext fun zapMathCeil(x: Float64) Float64;
+
+pub fun abs(x: Int) Int {
+  if x < 0 {
+    return -x;
+  }
+  return x;
+}
+
+pub fun min(a: Int, b: Int) Int {
+  if a < b {
+    return a;
+  }
+  return b;
+}
+
+pub fun max(a: Int, b: Int) Int {
+  if a > b {
+    return a;
+  }
+  return b;
+}
+
+pub fun sqrt(x: Float64) Float64 {
+  return zapMathSqrt(x);
+}
+
+pub fun floor(x: Float64) Float64 {
+  return zapMathFloor(x);
+}
+
+pub fun ceil(x: Float64) Float64 {
+  return zapMathCeil(x);
+}

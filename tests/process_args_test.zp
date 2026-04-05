@@ -1,0 +1,30 @@
+import "std/process";
+import "std/string";
+
+fun main() Int {
+    if process.argc() != 4 {
+        return 1;
+    }
+
+    if string.len(process.argv(0)) == 0 {
+        return 2;
+    }
+
+    if !string.eq(process.argv(1), "alpha") {
+        return 3;
+    }
+
+    if !string.eq(process.argv(2), "beta") {
+        return 4;
+    }
+
+    if !string.eq(process.argv(3), "gamma") {
+        return 5;
+    }
+
+    if process.argc() != 4 {
+        return 6;
+    }
+
+    return 0;
+}

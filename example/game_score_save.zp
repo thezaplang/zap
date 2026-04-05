@@ -1,0 +1,20 @@
+import "std/io" { println, printBool };
+import "std/fs";
+import "std/path";
+
+fun main() Int {
+    var scoreFile: String = path.join("/tmp", "zap_score.txt");
+    var scoreText: String = "42";
+
+    if fs.writeFile(scoreFile, scoreText) != 0 {
+        println("failed to save score");
+        return 1;
+    }
+
+    println("score saved to:");
+    println(scoreFile);
+    println("score value:");
+    println(fs.readFile(scoreFile));
+    printBool(fs.isFile(scoreFile));
+    return 0;
+}

@@ -1,0 +1,39 @@
+import "std/fs";
+import "std/process";
+
+fun main() Int {
+    var cwd: String = process.cwd();
+    var stdDir: String = cwd ~ "/std";
+    var buildSh: String = cwd ~ "/build.sh";
+    var missing: String = cwd ~ "/definitely_missing_path_12345";
+
+    if !fs.exists(stdDir) {
+        return 1;
+    }
+
+    if !fs.isDir(stdDir) {
+        return 2;
+    }
+
+    if !fs.exists(buildSh) {
+        return 3;
+    }
+
+    if !fs.isFile(buildSh) {
+        return 4;
+    }
+
+    if fs.exists(missing) {
+        return 5;
+    }
+
+    if fs.isFile(stdDir) {
+        return 6;
+    }
+
+    if fs.isDir(buildSh) {
+        return 7;
+    }
+
+    return 0;
+}

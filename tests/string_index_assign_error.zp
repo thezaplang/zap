@@ -1,0 +1,5 @@
+fun main() Int {
+    var greeting: String = "hello";
+    greeting[0] = 'j';
+    return 0;
+}

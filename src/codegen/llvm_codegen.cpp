@@ -16,7 +16,14 @@
 
 namespace codegen
 {
-
+  namespace
+  {
+    bool isStringType(const std::shared_ptr<zir::Type> &type)
+    {
+      return type && type->getKind() == zir::TypeKind::Record &&
+             static_cast<zir::RecordType *>(type.get())->getName() == "String";
+    }
+  } // namespace
   LLVMCodeGen::LLVMCodeGen() : builder_(ctx_), nextStringId_(0), evaluateAsAddr_(false)
   {
     llvm::InitializeNativeTarget();
@@ -179,6 +186,13 @@ namespace codegen
   LLVMCodeGen::buildFunctionType(const sema::FunctionSymbol &sym)
   {
     std::vector<llvm::Type *> paramTypes;
+    if (sym.linkName == "main")
+    {
+      paramTypes.push_back(llvm::Type::getInt32Ty(ctx_));
+      paramTypes.push_back(
+          llvm::PointerType::getUnqual(llvm::PointerType::getUnqual(
+              llvm::Type::getInt8Ty(ctx_))));
+    }
     for (const auto &param : sym.parameters)
     {
       auto *ty = toLLVMType(*param->type);
@@ -220,7 +234,26 @@ namespace codegen
                                        fn->symbol->linkName, *module_);
       size_t idx = 0;
       for (auto &arg : f->args())
+      {
+        if (fn->symbol->linkName == "main")
+        {
+          if (idx == 0)
+          {
+            arg.setName("argc");
+            ++idx;
+            continue;
+          }
+          if (idx == 1)
+          {
+            arg.setName("argv");
+            ++idx;
+            continue;
+          }
+          arg.setName(fn->symbol->parameters[idx++ - 2]->name);
+          continue;
+        }
         arg.setName(fn->symbol->parameters[idx++]->name);
+      }
 
       functionMap_[fn->symbol->linkName] = f;
     }
@@ -244,10 +277,36 @@ namespace codegen
     auto *entry = llvm::BasicBlock::Create(ctx_, "entry", fn);
     builder_.SetInsertPoint(entry);
 
+    auto argIt = fn->arg_begin();
+    if (node.symbol->linkName == "main")
+    {
+      auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
+      auto *i8PtrTy = llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
+      auto *argvTy = llvm::PointerType::getUnqual(i8PtrTy);
+
+      argIt->setName("argc");
+      llvm::Value *argcValue = &*argIt++;
+      argIt->setName("argv");
+      llvm::Value *argvValue = &*argIt++;
+
+      if (functionMap_.count("__zap_process_set_args") == 0)
+      {
+        auto *ft = llvm::FunctionType::get(
+            llvm::Type::getVoidTy(ctx_), {i32Ty, argvTy}, false);
+        auto *setArgsFn = llvm::Function::Create(
+            ft, llvm::Function::ExternalLinkage, "__zap_process_set_args", *module_);
+        functionMap_["__zap_process_set_args"] = setArgsFn;
+      }
+
+      builder_.CreateCall(functionMap_.at("__zap_process_set_args"),
+                          {builder_.CreateIntCast(argcValue, i32Ty, true), argvValue});
+    }
+
     // Spill each argument to a stack slot so we can reassign params later.
     size_t idx = 0;
-    for (auto &arg : fn->args())
+    for (; argIt != fn->arg_end(); ++argIt)
     {
+      auto &arg = *argIt;
       const auto &param = node.symbol->parameters[idx++];
       auto *alloca = createEntryAlloca(fn, param->name, arg.getType());
       builder_.CreateStore(&arg, alloca);
@@ -837,32 +896,49 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundIndexAccess &node)
   {
+    llvm::Value *leftAddr = nullptr;
+    llvm::Value *leftValue = nullptr;
     bool old = evaluateAsAddr_;
-    evaluateAsAddr_ = true;
-    node.left->accept(*this);
-    llvm::Value *leftAddr = lastValue_;
+
+    if (isStringType(node.left->type))
+    {
+      evaluateAsAddr_ = false;
+      node.left->accept(*this);
+      leftValue = lastValue_;
+    }
+    else
+    {
+      evaluateAsAddr_ = true;
+      node.left->accept(*this);
+      leftAddr = lastValue_;
+    }
 
     evaluateAsAddr_ = false;
     node.index->accept(*this);
     llvm::Value *indexVal = lastValue_;
     evaluateAsAddr_ = old;
 
-    auto *leftTy = toLLVMType(*node.left->type);
     llvm::Value *elemAddr = nullptr;
 
-    if (leftTy->isArrayTy())
+    if (node.left->type->getKind() == zir::TypeKind::Array)
     {
+      auto *leftTy = toLLVMType(*node.left->type);
       auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
       std::vector<llvm::Value *> indices = {
           llvm::ConstantInt::get(i32Ty, 0),
           builder_.CreateIntCast(indexVal, i32Ty, /*isSigned=*/false)};
       elemAddr = builder_.CreateInBoundsGEP(leftTy, leftAddr, indices);
     }
-    else if (leftTy->isPointerTy())
+    else if (isStringType(node.left->type))
     {
-      // Pointer indexing (e.g. string[0])
-      auto *baseTy = toLLVMType(*static_cast<zir::PointerType &>(*node.left->type).getBaseType());
-      elemAddr = builder_.CreateInBoundsGEP(baseTy, leftAddr, indexVal);
+      if (evaluateAsAddr_)
+      {
+        throw std::runtime_error("String index access is not assignable.");
+      }
+
+      auto *ptr = builder_.CreateExtractValue(leftValue, {0}, "string.ptr");
+      auto *i8Ty = llvm::Type::getInt8Ty(ctx_);
+      elemAddr = builder_.CreateInBoundsGEP(i8Ty, ptr, indexVal, "string.index");
     }
     else
     {

@@ -944,14 +944,17 @@ namespace zap
     std::vector<std::string> entries;
     eat(TokenType::LBRACE);
 
-    if (peek().type != TokenType::RBRACE)
+    while (peek().type != TokenType::RBRACE)
     {
-      do
+      Token entryToken = eat(TokenType::ID);
+      entries.push_back(entryToken.value);
+
+      if (peek().type != TokenType::COMMA)
       {
-        Token entryToken = eat(TokenType::ID);
-        entries.push_back(entryToken.value);
-      } while (peek().type == TokenType::COMMA &&
-               eat(TokenType::COMMA).type == TokenType::COMMA);
+        break;
+      }
+
+      eat(TokenType::COMMA);
     }
 
     Token rbraceToken = eat(TokenType::RBRACE);

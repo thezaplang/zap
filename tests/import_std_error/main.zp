@@ -1,0 +1,24 @@
+import "std/error" { Err, Kind };
+import "std/string";
+
+fun main() Int {
+  var err: Err = Err{
+    kind: Kind.NotFound,
+    code: 2,
+    message: "missing",
+  };
+
+  if err.kind != Kind.NotFound {
+    return 1;
+  }
+
+  if err.code != 2 {
+    return 2;
+  }
+
+  if !string.eq(err.message, "missing") {
+    return 3;
+  }
+
+  return 0;
+}

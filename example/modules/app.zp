@@ -1,0 +1,11 @@
+import "math";
+import "std/io" { printInt };
+
+fun main() Int {
+  var a: math.Vec2 = math.Vec2{ x: 3, y: 4 };
+  var b: math.Vec2 = math.Vec2{ x: 2, y: 5 };
+
+  printInt(math.lengthSquared(a));
+  printInt(math.dot(a, b));
+  return 0;
+}

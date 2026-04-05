@@ -1,0 +1,14 @@
+pub alias Score = Int;
+
+pub struct Vec2 {
+  x: Int,
+  y: Int,
+}
+
+pub fun lengthSquared(v: Vec2) Score {
+  return v.x * v.x + v.y * v.y;
+}
+
+pub fun dot(a: Vec2, b: Vec2) Int {
+  return a.x * b.x + a.y * b.y;
+}

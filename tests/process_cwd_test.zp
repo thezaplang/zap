@@ -1,0 +1,16 @@
+import "std/process";
+import "std/string";
+
+fun main() Int {
+    var dir: String = process.cwd();
+
+    if string.len(dir) == 0 {
+        return 1;
+    }
+
+    if process.exec("test -d \"" ~ dir ~ "\"") != 0 {
+        return 2;
+    }
+
+    return 0;
+}

@@ -1,3 +1,7 @@
 pub import "std/io" { println, printInt, printFloat, printFloat64, printBool, printChar, eprintln, getLn };
-pub import "std/string" { stringLen };
-pub import "std/process" { exit, panic };
+pub import "std/string" { stringLen, len, at, fromChar, pushChar, slice, eq };
+pub import "std/process" { exit, panic, argc, argv, exec, cwd };
+pub import "std/fs" { exists, isFile, isDir, mkdir, mkdirAll, readFile, writeFile };
+pub import "std/path" { parent, join, basename };
+pub import "std/error" { Error, ErrorKind, Err, Kind };
+pub import "std/math" { abs, min, max, sqrt, floor, ceil };
