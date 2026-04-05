@@ -325,6 +325,8 @@ namespace zap
             }
             else
             {
+              _diag.report(pointAfter(expr->span), DiagnosticLevel::Error,
+                           "Expected ';' after expression.");
               body->addStatement(std::move(expr));
             }
           }
@@ -816,13 +818,13 @@ namespace zap
       if (!_allowStructLiteral) {
           _diag.report(current.span, DiagnosticLevel::Error,
                        "Struct literal not allowed in this context");
-          exit(EXIT_FAILURE);
+          throw ParseError();
       }
       return parseArrayLiteral();
     }
     _diag.report(current.span, DiagnosticLevel::Error,
                  "Expected primary expression, got " + current.value);
-    exit(EXIT_FAILURE);
+    throw ParseError();
   }
   int Parser::getPrecedence(TokenType type)
   {
@@ -887,6 +889,12 @@ namespace zap
                        current.value + "'");
       throw ParseError();
     }
+  }
+
+  SourceSpan Parser::pointAfter(const SourceSpan &span) const
+  {
+    size_t length = std::max<size_t>(span.length, 1);
+    return SourceSpan(span.line, span.column + length, span.offset + span.length, 1);
   }
 
   void Parser::synchronize()

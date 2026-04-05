@@ -5,6 +5,7 @@
     "outDir": "./out",
     "rootDir": "./src",
     "strict": true,
+    "skipLibCheck": true,
     "types": ["node","vscode"],
     "sourceMap": true
   },
