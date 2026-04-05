@@ -1,0 +1,13 @@
+import "std/io" { printInt };
+
+fun bump(ref value: Int, delta: Int) {
+  value = value + delta;
+}
+
+fun main() Int {
+  var score: Int = 10;
+  bump(ref score, 5);
+  bump(ref score, -2);
+  printInt(score);
+  return 0;
+}

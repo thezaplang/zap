@@ -591,6 +591,7 @@ bool driver::link() {
     cmd += obj.string() + " ";
   }
 
+  cmd += "-lm ";
   cmd += "-o " + output.string();
 
   int res = std::system(cmd.c_str());

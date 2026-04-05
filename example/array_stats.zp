@@ -1,0 +1,20 @@
+import "std/io" { printInt, println };
+import "std/string";
+
+fun sum(values: [4]Int) Int {
+  var total: Int = 0;
+  total = total + values[0];
+  total = total + values[1];
+  total = total + values[2];
+  total = total + values[3];
+  return total;
+}
+
+fun main() Int {
+  var values: [4]Int = { 4, 8, 15, 16 };
+  var total: Int = sum(values);
+
+  printInt(total);
+  println("items: " ~ string.fromChar('4'));
+  return 0;
+}

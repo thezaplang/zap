@@ -1,0 +1,32 @@
+import "std/math";
+
+fun main() Int {
+    var three: Float64 = 3.0;
+    var four: Float64 = 4.0;
+
+    if math.abs(-7) != 7 {
+        return 1;
+    }
+
+    if math.min(3, 9) != 3 {
+        return 2;
+    }
+
+    if math.max(3, 9) != 9 {
+        return 3;
+    }
+
+    if math.sqrt(9.0) != three {
+        return 4;
+    }
+
+    if math.floor(3.9) != three {
+        return 5;
+    }
+
+    if math.ceil(3.1) != four {
+        return 6;
+    }
+
+    return 0;
+}

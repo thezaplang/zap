@@ -1,0 +1,24 @@
+import "std/io" { println, printInt };
+import "std/error" { Err, Kind };
+
+// Temporary pattern until Zap gets proper failable functions / result-like returns.
+fun describe(err: Err) Int {
+    println(err.message);
+    printInt(err.code);
+
+    if err.kind == Kind.NotFound {
+        return 1;
+    }
+
+    return 0;
+}
+
+fun main() Int {
+    var err: Err = Err{
+        kind: Kind.NotFound,
+        code: 2,
+        message: "file was not found",
+    };
+
+    return describe(err);
+}

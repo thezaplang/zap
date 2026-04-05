@@ -1,4 +1,5 @@
 #include <errno.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -116,11 +117,6 @@ zap_string_t getLn()
     return result;
 }
 
-long stringLen(zap_string_t s)
-{
-    return s.len;
-}
-
 long argc()
 {
     return zap_process_argc;
@@ -149,29 +145,6 @@ char at(zap_string_t s, long i)
         return '\0';
     }
     return s.ptr[i];
-}
-
-zap_string_t fromChar(char c)
-{
-    char *out = (char *)malloc(2);
-    if (!out)
-    {
-        return (zap_string_t){.ptr = NULL, .len = 0};
-    }
-
-    out[0] = c;
-    out[1] = '\0';
-    return (zap_string_t){.ptr = out, .len = 1};
-}
-
-zap_string_t pushChar(zap_string_t s, char c)
-{
-    char *out = string_concat_ptrlen(s.ptr, s.len, &c, 1);
-    if (!out)
-    {
-        return (zap_string_t){.ptr = NULL, .len = 0};
-    }
-    return (zap_string_t){.ptr = out, .len = s.len + 1};
 }
 
 zap_string_t slice(zap_string_t s, long start, long length)
@@ -228,12 +201,6 @@ _Bool eq(zap_string_t a, zap_string_t b)
     }
 
     return memcmp(a.ptr, b.ptr, (size_t)a.len) == 0;
-}
-
-void panic(zap_string_t message)
-{
-    eprintln(message);
-    exit(1);
 }
 
 long exec(zap_string_t cmd)
@@ -366,67 +333,6 @@ long zap_fs_mkdir(zap_string_t path)
     return err;
 }
 
-long mkdirAll(zap_string_t path)
-{
-    char *buffer = zap_copy_path(path);
-    if (!buffer)
-    {
-        return ENOMEM;
-    }
-
-    size_t len = strlen(buffer);
-    if (len == 0)
-    {
-        free(buffer);
-        return EINVAL;
-    }
-
-    for (char *p = buffer + 1; *p; ++p)
-    {
-        if (*p != '/')
-        {
-            continue;
-        }
-
-        *p = '\0';
-        if (mkdir(buffer, 0777) == 0)
-        {
-            chmod(buffer, 0777);
-        }
-        else if (errno != EEXIST)
-        {
-            int err = errno;
-            free(buffer);
-            return err;
-        }
-        *p = '/';
-    }
-
-    if (mkdir(buffer, 0777) == 0)
-    {
-        chmod(buffer, 0777);
-    }
-    else
-    {
-        if (errno == EEXIST)
-        {
-            struct stat st;
-            if (stat(buffer, &st) == 0 && S_ISDIR(st.st_mode))
-            {
-                free(buffer);
-                return 0;
-            }
-        }
-
-        int err = errno;
-        free(buffer);
-        return err;
-    }
-
-    free(buffer);
-    return 0;
-}
-
 zap_string_t readFile(zap_string_t path)
 {
     char *buffer = zap_copy_path(path);
@@ -557,41 +463,6 @@ zap_string_t parent(zap_string_t path)
     return zap_copy_string_range(path.ptr, (size_t)slash);
 }
 
-zap_string_t join(zap_string_t a, zap_string_t b)
-{
-    if (!a.ptr || a.len == 0)
-    {
-        return zap_copy_string_range(b.ptr ? b.ptr : "", (size_t)(b.ptr ? b.len : 0));
-    }
-    if (!b.ptr || b.len == 0)
-    {
-        return zap_copy_string_range(a.ptr, (size_t)a.len);
-    }
-    if (b.ptr[0] == '/')
-    {
-        return zap_copy_string_range(b.ptr, (size_t)b.len);
-    }
-
-    int needs_sep = a.ptr[a.len - 1] != '/';
-    size_t total = (size_t)a.len + (size_t)b.len + (size_t)needs_sep;
-    char *out = (char *)malloc(total + 1);
-    if (!out)
-    {
-        return (zap_string_t){.ptr = "", .len = 0};
-    }
-
-    memcpy(out, a.ptr, (size_t)a.len);
-    size_t pos = (size_t)a.len;
-    if (needs_sep)
-    {
-        out[pos++] = '/';
-    }
-    memcpy(out + pos, b.ptr, (size_t)b.len);
-    pos += (size_t)b.len;
-    out[pos] = '\0';
-    return (zap_string_t){.ptr = out, .len = (long)pos};
-}
-
 zap_string_t zap_path_basename(zap_string_t path)
 {
     if (!path.ptr || path.len == 0)
@@ -618,4 +489,19 @@ zap_string_t zap_path_basename(zap_string_t path)
     ++start;
 
     return zap_copy_string_range(path.ptr + start, (size_t)(end - start));
+}
+
+double zapMathSqrt(double x)
+{
+    return sqrt(x);
+}
+
+double zapMathFloor(double x)
+{
+    return floor(x);
+}
+
+double zapMathCeil(double x)
+{
+    return ceil(x);
 }

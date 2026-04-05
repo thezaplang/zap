@@ -1,0 +1,11 @@
+import "std/io" { println, printInt };
+import "std/process";
+import "std/path";
+
+fun main() Int {
+    println(process.cwd());
+    printInt(process.argc());
+    println(path.basename(process.argv(0)));
+    printInt(process.exec("sh -c 'exit 0'"));
+    return 0;
+}

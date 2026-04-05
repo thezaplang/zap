@@ -1,0 +1,17 @@
+import "std/io" { println };
+import "std/fs";
+import "std/path";
+import "std/process";
+
+fun main() Int {
+  var root: String = path.join("/tmp", "zap_showcase");
+  var note: String = path.join(root, "note.txt");
+
+  fs.mkdirAll(root);
+  fs.writeFile(note, "cwd: " ~ process.cwd());
+
+  println(path.basename(note));
+  println(path.parent(note));
+  println(fs.readFile(note));
+  return 0;
+}
