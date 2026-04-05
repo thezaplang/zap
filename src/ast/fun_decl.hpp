@@ -19,7 +19,6 @@ public:
   std::unique_ptr<ExpressionNode> lambdaExpr_;
   bool isExtern_ = false;
   bool isStatic_ = false;
-  bool isPublic_ = false;
 
   FunDecl() noexcept(std::is_nothrow_default_constructible<std::string>::value) = default;
 
@@ -28,11 +27,11 @@ public:
           std::vector<std::unique_ptr<ParameterNode>> params,
           std::unique_ptr<TypeNode> returnType, std::unique_ptr<BodyNode> body,
           std::unique_ptr<ExpressionNode> lambdaExpr, bool isExtern = false,
-          bool isStatic = false, bool isPublic = false)
+          bool isStatic = false)
       : name_(name), genericParams_(std::move(genericParams)),
         params_(std::move(params)), returnType_(std::move(returnType)),
         body_(std::move(body)), lambdaExpr_(std::move(lambdaExpr)),
-        isExtern_(isExtern), isStatic_(isStatic), isPublic_(isPublic) {}
+        isExtern_(isExtern), isStatic_(isStatic) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

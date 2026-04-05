@@ -140,14 +140,14 @@ namespace codegen
     case zir::TypeKind::Record:
     {
       const auto &rt = static_cast<const zir::RecordType &>(ty);
-      auto it = structCache_.find(rt.getName());
+      auto it = structCache_.find(rt.getCodegenName());
       if (it != structCache_.end())
         return it->second;
 
       if (rt.getName() == "String")
       {
-        auto *structTy = llvm::StructType::create(ctx_, rt.getName());
-        structCache_[rt.getName()] = structTy;
+        auto *structTy = llvm::StructType::create(ctx_, rt.getCodegenName());
+        structCache_[rt.getCodegenName()] = structTy;
         std::vector<llvm::Type *> fieldTypes;
         fieldTypes.push_back(llvm::PointerType::getUnqual(
             llvm::Type::getInt8Ty(ctx_)));
@@ -156,8 +156,8 @@ namespace codegen
         return structTy;
       }
 
-      auto *structTy = llvm::StructType::create(ctx_, rt.getName());
-      structCache_[rt.getName()] = structTy;
+      auto *structTy = llvm::StructType::create(ctx_, rt.getCodegenName());
+      structCache_[rt.getCodegenName()] = structTy;
       std::vector<llvm::Type *> fieldTypes;
       for (const auto &f : rt.getFields())
         fieldTypes.push_back(toLLVMType(*f.type));
@@ -205,24 +205,24 @@ namespace codegen
     {
       auto *ft = buildFunctionType(*extFn->symbol);
       auto *f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
-                                       extFn->symbol->name, *module_);
+                                       extFn->symbol->linkName, *module_);
       size_t idx = 0;
       for (auto &arg : f->args())
         arg.setName(extFn->symbol->parameters[idx++]->name);
 
-      functionMap_[extFn->symbol->name] = f;
+      functionMap_[extFn->symbol->linkName] = f;
     }
 
     for (const auto &fn : node.functions)
     {
       auto *ft = buildFunctionType(*fn->symbol);
       auto *f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
-                                       fn->symbol->name, *module_);
+                                       fn->symbol->linkName, *module_);
       size_t idx = 0;
       for (auto &arg : f->args())
         arg.setName(fn->symbol->parameters[idx++]->name);
 
-      functionMap_[fn->symbol->name] = f;
+      functionMap_[fn->symbol->linkName] = f;
     }
 
     for (const auto &global : node.globals)
@@ -237,7 +237,7 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundFunctionDeclaration &node)
   {
-    auto *fn = functionMap_.at(node.symbol->name);
+    auto *fn = functionMap_.at(node.symbol->linkName);
     currentFn_ = fn;
     localValues_.clear();
 
@@ -274,6 +274,12 @@ namespace codegen
   void LLVMCodeGen::visit(sema::BoundExternalFunctionDeclaration &node)
   {
     (void)node;
+  }
+
+  void LLVMCodeGen::visit(sema::BoundModuleReference &node)
+  {
+    (void)node;
+    throw std::runtime_error("module reference reached codegen");
   }
 
   void LLVMCodeGen::visit(sema::BoundBlock &node)
@@ -320,8 +326,8 @@ namespace codegen
 
       auto *gv = new llvm::GlobalVariable(*module_, ty, node.symbol->is_const,
                                           llvm::GlobalVariable::ExternalLinkage,
-                                          initializer, node.symbol->name);
-      globalValues_[node.symbol->name] = gv;
+                                          initializer, node.symbol->linkName);
+      globalValues_[node.symbol->linkName] = gv;
     }
   }
 
@@ -541,7 +547,7 @@ namespace codegen
     }
     else
     {
-      addr = globalValues_.at(node.symbol->name);
+      addr = globalValues_.at(node.symbol->linkName);
     }
 
     if (node.symbol->is_ref)
@@ -768,7 +774,7 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundFunctionCall &node)
   {
-    auto *callee = functionMap_.at(node.symbol->name);
+    auto *callee = functionMap_.at(node.symbol->linkName);
     std::vector<llvm::Value *> args;
     for (size_t i = 0; i < node.arguments.size(); ++i)
     {

@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 struct Point {
     x: Int,
     y: Int

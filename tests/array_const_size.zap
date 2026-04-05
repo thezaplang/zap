@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 const NUM: Int = 3;
 
 fun main() Int {

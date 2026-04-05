@@ -12,6 +12,7 @@ public:
   std::string name_;
   std::vector<std::unique_ptr<ParameterNode>> fields_;
 
+  RecordDecl() = default;
   RecordDecl(const std::string &name,
              std::vector<std::unique_ptr<ParameterNode>> fields)
       : name_(name), fields_(std::move(fields)) {}

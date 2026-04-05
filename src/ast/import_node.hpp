@@ -2,16 +2,25 @@
 #include "node.hpp"
 #include "top_level.hpp"
 #include "visitor.hpp"
-#include <iostream>
-#include <memory>
 #include <string>
 #include <vector>
+
+struct ImportBinding {
+  std::string sourceName;
+  std::string localName;
+};
+
 class ImportNode : public TopLevel {
 public:
-  std::vector<std::string> path;
+  std::string path;
+  std::string moduleAlias;
+  std::vector<ImportBinding> bindings;
 
   ImportNode() noexcept = default;
-  ImportNode(const std::vector<std::string> &importPath) : path(importPath) {}
+  ImportNode(std::string importPath, std::string alias = "",
+             std::vector<ImportBinding> importBindings = {})
+      : path(std::move(importPath)), moduleAlias(std::move(alias)),
+        bindings(std::move(importBindings)) {}
 
   ~ImportNode() noexcept override = default;
 

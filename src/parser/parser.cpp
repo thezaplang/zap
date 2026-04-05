@@ -4,6 +4,21 @@
 
 namespace zap
 {
+  namespace {
+    std::string qualifiedNameFromExpression(const ExpressionNode *expr) {
+      if (auto id = dynamic_cast<const ConstId *>(expr)) {
+        return id->value_;
+      }
+      if (auto member = dynamic_cast<const MemberAccessNode *>(expr)) {
+        auto base = qualifiedNameFromExpression(member->left_.get());
+        if (base.empty()) {
+          return "";
+        }
+        return base + "." + member->member_;
+      }
+      return "";
+    }
+  } // namespace
 
   Parser::Parser(const std::vector<Token> &tokens, DiagnosticEngine &diag)
       : _diag(diag), _tokens(tokens), _pos(0) {}
@@ -17,33 +32,68 @@ namespace zap
     {
       try
       {
-        if (peek().type == TokenType::FUN)
+        Visibility visibility = Visibility::Private;
+        if (peek().type == TokenType::PUB || peek().type == TokenType::PRIV)
         {
-          root->addChild(parseFunDecl());
+          visibility = (eat(peek().type).type == TokenType::PUB)
+                           ? Visibility::Public
+                           : Visibility::Private;
+        }
+
+        auto applyVisibility = [visibility](Node *node) {
+          if (auto topLevel = dynamic_cast<TopLevel *>(node))
+          {
+            topLevel->visibility_ = visibility;
+          }
+        };
+
+        if (peek().type == TokenType::IMPORT)
+        {
+          auto importDecl = parseImportDecl();
+          importDecl->visibility_ = visibility;
+          root->addChild(std::move(importDecl));
+        }
+        else if (peek().type == TokenType::FUN)
+        {
+          auto decl = parseFunDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::EXTERN)
         {
-          root->addChild(parseExtDecl());
+          auto decl = parseExtDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::ENUM)
         {
-          root->addChild(parseEnumDecl());
+          auto decl = parseEnumDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::ALIAS)
         {
-          root->addChild(parseTypeAliasDecl());
+          auto decl = parseTypeAliasDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::STRUCT)
         {
-          root->addChild(parseStructDecl());
+          auto decl = parseStructDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::RECORD)
         {
-          root->addChild(parseRecordDecl());
+          auto decl = parseRecordDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::CONST)
         {
-          root->addChild(parseConstDecl());
+          auto decl = parseConstDecl();
+          decl->visibility_ = visibility;
+          root->addChild(std::move(decl));
         }
         else if (peek().type == TokenType::GLOBAL)
         {
@@ -52,6 +102,7 @@ namespace zap
           {
             auto varDecl = parseVarDecl();
             varDecl->isGlobal_ = true;
+            varDecl->visibility_ = visibility;
             _builder.setSpan(varDecl.get(), SourceSpan::merge(globalToken.span, varDecl->span));
             root->addChild(std::move(varDecl));
           }
@@ -76,6 +127,48 @@ namespace zap
       }
     }
     return root;
+  }
+
+  std::unique_ptr<ImportNode> Parser::parseImportDecl()
+  {
+    Token importKeyword = eat(TokenType::IMPORT);
+    Token pathToken = eat(TokenType::STRING);
+    std::string moduleAlias;
+    std::vector<ImportBinding> bindings;
+
+    if (peek().type == TokenType::AS)
+    {
+      eat(TokenType::AS);
+      moduleAlias = eat(TokenType::ID).value;
+    }
+
+    if (peek().type == TokenType::LBRACE)
+    {
+      eat(TokenType::LBRACE);
+      if (peek().type != TokenType::RBRACE)
+      {
+        do
+        {
+          Token sourceToken = eat(TokenType::ID);
+          std::string localName = sourceToken.value;
+          if (peek().type == TokenType::AS)
+          {
+            eat(TokenType::AS);
+            localName = eat(TokenType::ID).value;
+          }
+          bindings.push_back({sourceToken.value, localName});
+        } while (peek().type == TokenType::COMMA &&
+                 eat(TokenType::COMMA).type == TokenType::COMMA);
+      }
+      eat(TokenType::RBRACE);
+    }
+
+    Token semiToken = eat(TokenType::SEMICOLON);
+    auto importDecl =
+        _builder.makeImport(pathToken.value, std::move(moduleAlias), std::move(bindings));
+    _builder.setSpan(importDecl.get(),
+                     SourceSpan::merge(importKeyword.span, semiToken.span));
+    return importDecl;
   }
 
   std::unique_ptr<FunDecl> Parser::parseFunDecl()
@@ -347,9 +440,13 @@ namespace zap
                        SourceSpan::merge(lbracket.span, arrayType->baseType->span));
       return arrayType;
     }
-    Token t = eat(TokenType::ID);
-    auto typeNode = _builder.makeType(t.value);
-    _builder.setSpan(typeNode.get(), t.span);
+    Token startToken = peek();
+    auto identifiers = parseQualifiedIdentifier();
+    auto typeNode = _builder.makeType(identifiers.back());
+    identifiers.pop_back();
+    typeNode->qualifiers = std::move(identifiers);
+    _builder.setSpan(typeNode.get(),
+                     SourceSpan::merge(startToken.span, _tokens[_pos - 1].span));
     return typeNode;
   }
 
@@ -597,6 +694,50 @@ namespace zap
         left = _builder.makeIndexAccess(std::move(left), std::move(index));
         _builder.setSpan(left.get(), SourceSpan::merge(leftSpan, rbracket.span));
       }
+      else if (opToken.type == TokenType::LPAREN)
+      {
+        SourceSpan leftSpan = left->span;
+        auto funCall = _builder.makeFunCall(std::move(left));
+        eat(TokenType::LPAREN);
+
+        if (peek().type != TokenType::RPAREN)
+        {
+          do
+          {
+            std::string argName = "";
+            bool argIsRef = false;
+            if (peek().type == TokenType::ID &&
+                peek(1).type == TokenType::ASSIGN)
+            {
+              argName = eat(TokenType::ID).value;
+              eat(TokenType::ASSIGN);
+            }
+            if (peek().type == TokenType::REF) {
+              eat(TokenType::REF);
+              argIsRef = true;
+            }
+            auto argValue = parseExpression();
+            funCall->params_.push_back(
+                std::make_unique<Argument>(argName, std::move(argValue), argIsRef));
+          } while (peek().type == TokenType::COMMA &&
+                   eat(TokenType::COMMA).type == TokenType::COMMA);
+        }
+
+        Token rparenToken = eat(TokenType::RPAREN);
+        _builder.setSpan(funCall.get(),
+                         SourceSpan::merge(leftSpan, rparenToken.span));
+        left = std::move(funCall);
+      }
+      else if (_allowStructLiteral && opToken.type == TokenType::LBRACE)
+      {
+        auto qualifiedTypeName = qualifiedNameFromExpression(left.get());
+        if (qualifiedTypeName.empty())
+        {
+          break;
+        }
+        auto structLiteral = parseStructLiteral(qualifiedTypeName);
+        left = std::move(structLiteral);
+      }
       else
       {
         break;
@@ -647,40 +788,7 @@ namespace zap
     else if (current.type == TokenType::ID)
     {
       Token idToken = eat(TokenType::ID);
-      if (peek().type == TokenType::LPAREN)
-      {
-        auto funCall = _builder.makeFunCall(idToken.value);
-        eat(TokenType::LPAREN);
-
-        if (peek().type != TokenType::RPAREN)
-        {
-          do
-          {
-            std::string argName = "";
-            bool argIsRef = false;
-            if (peek().type == TokenType::ID &&
-                peek(1).type == TokenType::ASSIGN)
-            {
-              argName = eat(TokenType::ID).value;
-              eat(TokenType::ASSIGN);
-            }
-            if (peek().type == TokenType::REF) {
-              eat(TokenType::REF);
-              argIsRef = true;
-            }
-            auto argValue = parseExpression();
-            funCall->params_.push_back(
-                std::make_unique<Argument>(argName, std::move(argValue), argIsRef));
-          } while (peek().type == TokenType::COMMA &&
-                   eat(TokenType::COMMA).type == TokenType::COMMA);
-        }
-
-        Token rparenToken = eat(TokenType::RPAREN);
-        _builder.setSpan(funCall.get(),
-                         SourceSpan::merge(idToken.span, rparenToken.span));
-        return funCall;
-      }
-      else if (_allowStructLiteral && peek().type == TokenType::LBRACE)
+      if (_allowStructLiteral && peek().type == TokenType::LBRACE)
       {
         return parseStructLiteral(idToken.value);
       }
@@ -791,9 +899,16 @@ namespace zap
         _pos++;
         return;
       case TokenType::FUN:
+      case TokenType::IMPORT:
       case TokenType::ENUM:
       case TokenType::STRUCT:
       case TokenType::RECORD:
+      case TokenType::ALIAS:
+      case TokenType::EXTERN:
+      case TokenType::GLOBAL:
+      case TokenType::CONST:
+      case TokenType::PUB:
+      case TokenType::PRIV:
       case TokenType::VAR:
       case TokenType::IF:
       case TokenType::WHILE:
@@ -805,6 +920,18 @@ namespace zap
         break;
       }
     }
+  }
+
+  std::vector<std::string> Parser::parseQualifiedIdentifier()
+  {
+    std::vector<std::string> parts;
+    parts.push_back(eat(TokenType::ID).value);
+    while (peek().type == TokenType::DOT)
+    {
+      eat(TokenType::DOT);
+      parts.push_back(eat(TokenType::ID).value);
+    }
+    return parts;
   }
 
   bool Parser::isAtEnd() const { return _pos >= _tokens.size(); }

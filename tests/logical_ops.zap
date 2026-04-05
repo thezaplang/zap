@@ -1,3 +1,5 @@
+import "std/prelude" { println };
+
 fun main() Int {
     var a: Bool = true;
     var b: Bool = false;

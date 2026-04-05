@@ -31,6 +31,14 @@ public:
     return nullptr;
   }
 
+  std::shared_ptr<Symbol> lookupLocal(const std::string &name) const {
+    auto it = symbols_.find(name);
+    if (it != symbols_.end()) {
+      return it->second;
+    }
+    return nullptr;
+  }
+
   std::shared_ptr<SymbolTable> getParent() const { return parent_; }
 
 private:

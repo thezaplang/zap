@@ -29,6 +29,7 @@ namespace sema
   class BoundEnumDeclaration;
   class BoundMemberAccess;
   class BoundStructLiteral;
+  class BoundModuleReference;
   class BoundIfStatement;
   class BoundWhileStatement;
   class BoundBreakStatement;
@@ -59,6 +60,7 @@ namespace sema
     virtual void visit(BoundEnumDeclaration &node) = 0;
     virtual void visit(BoundMemberAccess &node) = 0;
     virtual void visit(BoundStructLiteral &node) = 0;
+    virtual void visit(BoundModuleReference &node) = 0;
     virtual void visit(BoundIfStatement &node) = 0;
     virtual void visit(BoundWhileStatement &node) = 0;
     virtual void visit(BoundBreakStatement &node) = 0;
@@ -151,6 +153,20 @@ namespace sema
     void accept(BoundVisitor &v) override { v.visit(*this); }
     std::unique_ptr<BoundExpression> clone() const override {
       return std::make_unique<BoundVariableExpression>(symbol);
+    }
+  };
+
+  class BoundModuleReference : public BoundExpression
+  {
+  public:
+    std::shared_ptr<ModuleSymbol> symbol;
+
+    explicit BoundModuleReference(std::shared_ptr<ModuleSymbol> s)
+        : BoundExpression(std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void)),
+          symbol(std::move(s)) {}
+    void accept(BoundVisitor &v) override { v.visit(*this); }
+    std::unique_ptr<BoundExpression> clone() const override {
+      return std::make_unique<BoundModuleReference>(symbol);
     }
   };
 

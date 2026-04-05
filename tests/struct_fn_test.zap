@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 struct Point {
     x: Int,
     y: Int
@@ -19,18 +21,16 @@ fun movePoint(p: Point, dx: Int, dy: Int) Point {
 
 fun main() {
     var p1: Point = createPoint(10, 20);
-    printInt(p1.x); // Expected: 10
-    printInt(p1.y); // Expected: 20
+    printInt(p1.x);
+    printInt(p1.y);
 
     var s: Int = sumPoint(p1);
-    printInt(s); // Expected: 30
+    printInt(s);
 
     var p2: Point = movePoint(p1, 5, 5);
-    printInt(p2.x); // Expected: 15
-    printInt(p2.y); // Expected: 25
+    printInt(p2.x);
+    printInt(p2.y);
     
-    // Check if p1 was modified (pass by value or reference?)
-    // In many languages, structs are value types.
     printInt(p1.x); 
 
     return 0;

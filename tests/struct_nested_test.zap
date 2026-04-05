@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 struct Color {
     r: Int,
     g: Int,

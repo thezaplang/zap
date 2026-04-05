@@ -35,7 +35,7 @@ namespace zir
   {
     auto symbol = node.symbol;
     auto func =
-        std::make_unique<Function>(symbol->name, symbol->returnType->toString());
+        std::make_unique<Function>(symbol->linkName, symbol->returnType->toString());
     currentFunction_ = func.get();
 
     auto entryBlock = std::make_unique<BasicBlock>("entry");
@@ -86,7 +86,7 @@ namespace zir
   {
     auto symbol = node.symbol;
     auto func =
-        std::make_unique<Function>(symbol->name, symbol->returnType->toString());
+        std::make_unique<Function>(symbol->linkName, symbol->returnType->toString());
 
     for (const auto &paramSymbol : symbol->parameters)
     {
@@ -363,7 +363,7 @@ namespace zir
 
     auto reg = createRegister(node.type);
     currentBlock_->addInstruction(
-        std::make_unique<CallInst>(reg, node.symbol->name, args));
+        std::make_unique<CallInst>(reg, node.symbol->linkName, args));
     valueStack_.push(reg);
   }
 
@@ -474,6 +474,12 @@ namespace zir
     auto result = createRegister(recordType);
     currentBlock_->addInstruction(std::make_unique<LoadInst>(result, allocaReg));
     valueStack_.push(result);
+  }
+
+  void BoundIRGenerator::visit(sema::BoundModuleReference &node)
+  {
+    (void)node;
+    throw std::runtime_error("module reference reached ZIR generation");
   }
 
   void BoundIRGenerator::visit(sema::BoundIfStatement &node)

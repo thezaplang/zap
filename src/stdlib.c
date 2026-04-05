@@ -17,9 +17,15 @@ void printFloat64(double v)
     printf("%f\n", v);
 }
 
-void printBool(long v)
+void printBool(_Bool v)
 {
     printf("%s\n", v ? "true" : "false");
+}
+
+void printChar(char v)
+{
+    putchar(v);
+    putchar('\n');
 }
 
 void printStringPtrLen(const char *ptr, long len)
@@ -57,6 +63,17 @@ void println(zap_string_t s)
     printStringPtrLen(s.ptr, s.len);
 }
 
+void eprintln(zap_string_t s)
+{
+    if (!s.ptr || s.len <= 0)
+    {
+        fputc('\n', stderr);
+        return;
+    }
+    fwrite(s.ptr, 1, (size_t)s.len, stderr);
+    fputc('\n', stderr);
+}
+
 void println_cstr(const char *s)
 {
     if (!s)
@@ -84,4 +101,15 @@ zap_string_t getLn()
     }
     zap_string_t result = {.ptr = line, .len = read};
     return result;
+}
+
+long stringLen(zap_string_t s)
+{
+    return s.len;
+}
+
+void panic(zap_string_t message)
+{
+    eprintln(message);
+    exit(1);
 }

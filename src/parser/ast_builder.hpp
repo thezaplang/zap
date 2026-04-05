@@ -17,6 +17,7 @@
 #include "../ast/fun_call.hpp"
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
+#include "../ast/import_node.hpp"
 #include "../ast/index_access.hpp"
 #include "../ast/parameter_node.hpp"
 #include "../ast/record_decl.hpp"
@@ -63,9 +64,9 @@ public:
     return std::make_unique<MemberAccessNode>(std::move(left), member);
   }
 
-  std::unique_ptr<FunCall> makeFunCall(const std::string &name) {
+  std::unique_ptr<FunCall> makeFunCall(std::unique_ptr<ExpressionNode> callee) {
     auto f = std::make_unique<FunCall>();
-    f->funcName_ = name;
+    f->callee_ = std::move(callee);
     return f;
   }
 
@@ -157,6 +158,13 @@ public:
 
   std::unique_ptr<TypeNode> makeType(const std::string &name) {
     return std::make_unique<TypeNode>(name);
+  }
+
+  std::unique_ptr<ImportNode> makeImport(std::string path,
+                                         std::string moduleAlias = "",
+                                         std::vector<ImportBinding> bindings = {}) {
+    return std::make_unique<ImportNode>(std::move(path), std::move(moduleAlias),
+                                        std::move(bindings));
   }
 
   std::unique_ptr<EnumDecl> makeEnumDecl(const std::string &name,

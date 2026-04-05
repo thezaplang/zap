@@ -24,11 +24,15 @@ add_executable(zapc ${SOURCES})
 target_include_directories(zapc PRIVATE "${CMAKE_SOURCE_DIR}/src" ${LLVM_INCLUDE_DIRS})
 target_compile_options(zapc PRIVATE -Wall -Wextra)
 
-# Compile stdlib.c
-add_custom_command(TARGET zapc POST_BUILD
+add_custom_command(
+    OUTPUT ${CMAKE_BINARY_DIR}/stdlib.o
     COMMAND ${CMAKE_C_COMPILER} -c ${CMAKE_SOURCE_DIR}/src/stdlib.c -o ${CMAKE_BINARY_DIR}/stdlib.o
+    DEPENDS ${CMAKE_SOURCE_DIR}/src/stdlib.c
     COMMENT "Compiling stdlib.c"
 )
+
+add_custom_target(zap_stdlib ALL DEPENDS ${CMAKE_BINARY_DIR}/stdlib.o)
+add_dependencies(zapc zap_stdlib)
 
 # Needed LLVM components
 set(LLVM_COMPONENTS
@@ -54,6 +58,7 @@ endif()
 target_link_libraries(zapc PRIVATE ${llvm_libs})
 target_compile_definitions(zapc PRIVATE ${LLVM_DEFINITIONS})
 target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_PATH="${CMAKE_BINARY_DIR}/stdlib.o")
+target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_DIR="${CMAKE_SOURCE_DIR}/std")
 
 include(cmake/doxygen.cmake)
 

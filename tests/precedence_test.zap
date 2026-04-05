@@ -1,3 +1,4 @@
+import "std/prelude" { println };
 
 struct Entry {
     used: Bool,
@@ -6,9 +7,6 @@ struct Entry {
 fun main() {
     var ent: Entry = Entry { used: true };
     if !ent.used {
-        // This should NOT be reached if precedence is correct
-        // ! (ent.used) -> !true -> false
-        // If bug exists: (!ent).used -> Error (Bool doesn't have used) or wrong behavior
         println("BUG: !ent.used evaluated as (!ent).used");
     } else {
         println("OK: !ent.used evaluated as !(ent.used)");

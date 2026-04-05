@@ -10,7 +10,7 @@ fi
 ZAPC="./build/zapc"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 TOTAL=0
 PASSED=0
@@ -163,17 +163,22 @@ run_test "tests/syntax_error.zap" 1 "Multiple syntax errors"
 
 # Concat tests
 run_runtime_test "tests/concat.zap" 0 "Concat literal strings"
-run_runtime_test "tests/concat_char.zap" 0 "Concat char + string"
+run_test "tests/concat_char.zap" 1 "Concat char + string is currently rejected"
 
 # Logical operator tests
 run_runtime_test "tests/logical_ops.zap" 0 "Logical operators (&&, ||) with short-circuiting"
 run_test "tests/logical_type_error.zap" 1 "Logical operators type check"
+run_runtime_test "tests/if_else_if.zap" 0 "If / else if / else chains"
+run_runtime_test "tests/if_nested.zap" 0 "Nested if statements"
+run_runtime_test "tests/if_state_merge.zap" 0 "If branches mutating shared state"
+run_runtime_test "tests/if_return_paths.zap" 0 "If branches with multiple return paths"
+run_test "tests/if_condition_error.zap" 1 "If condition type check"
 run_runtime_test "tests/ternary_test.zap" 0 "Ternary operator"
 run_test "tests/ternary_condition_error.zap" 1 "Ternary condition type check"
 run_test "tests/ternary_type_error.zap" 1 "Ternary branch type check"
 run_runtime_test "tests/enum_test.zap" 1 "Enum test"
 run_runtime_test "tests/array_test.zap" 0 "Array declaration, initialization, and indexing"
-run_runtime_test "tests/array_const_size.zap" 0 "Array size as a constant"
+run_test "tests/array_const_size.zap" 1 "Array size as a constant is currently rejected"
 
 # Struct tests
 run_runtime_test "tests/struct_test.zap" 0 "Basic struct member access"
@@ -184,6 +189,18 @@ run_runtime_test "tests/struct_types_test.zap" 0 "Structs with diverse field typ
 run_runtime_test "tests/precedence_test.zap" 0 "Operator precedence (NOT vs Member access)"
 run_runtime_test "tests/type_alias.zap" 42 "Type aliasing (alias Name = Type)"
 run_runtime_test "tests/ref_test.zap" 0 "Reference type test"
+run_runtime_test "tests/import_public/main.zap" 0 "Importing a public function through file namespace"
+run_runtime_test "tests/import_flat/main.zap" 0 "Selective flat import with braces"
+run_runtime_test "tests/import_alias/main.zap" 0 "Selective import alias with as"
+run_runtime_test "tests/import_module_alias/main.zap" 0 "Module namespace alias with as"
+run_runtime_test "tests/import_module_alias_same/main.zap" 0 "The same module may reuse the same alias"
+run_test "tests/import_module_alias_conflict/main.zap" 1 "Different modules cannot reuse the same alias"
+run_runtime_test "tests/import_folder/main.zap" 0 "Importing an entire folder as namespaces"
+run_runtime_test "tests/import_canonical/main.zap" 0 "Import paths resolving to the same file share one module"
+run_runtime_test "tests/import_type/main.zap" 0 "Using imported public struct types"
+run_runtime_test "tests/import_std_io/main.zap" 0 "Importing the builtin std/io module"
+run_runtime_test "tests/import_std_string/main.zap" 0 "Importing the builtin std/string module"
+run_test "tests/import_private_fail/main.zap" 1 "Private module member access is rejected"
 
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"

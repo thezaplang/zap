@@ -1,3 +1,5 @@
+import "std/prelude" { println, printInt, printBool, printFloat };
+
 struct Person {
     name: String,
     age: Int,

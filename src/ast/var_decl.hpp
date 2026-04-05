@@ -1,11 +1,12 @@
 #pragma once
 #include "expr_node.hpp"
 #include "statement_node.hpp"
+#include "top_level.hpp"
 #include "type_node.hpp"
 #include "visitor.hpp"
 #include <string>
 
-class VarDecl : public StatementNode {
+class VarDecl : public StatementNode, public TopLevel {
 public:
   std::string name_;
   std::unique_ptr<TypeNode> type_;

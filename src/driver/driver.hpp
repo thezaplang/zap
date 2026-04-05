@@ -176,6 +176,9 @@ public:
   }
 
 private:
+  friend bool compileLoadedModules(driver &drv,
+                                   const std::filesystem::path &entryPath);
+
   std::vector<std::string> inputs;            ///< A vector of input files.
   std::vector<std::filesystem::path> sources; ///< A vector of .zap files.
   std::vector<std::filesystem::path> objects; ///< A vector of .o files.

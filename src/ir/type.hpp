@@ -118,10 +118,13 @@ class RecordType : public Type {
   };
 
   std::string name;
+  std::string codegenName;
   std::vector<Field> fields;
 
 public:
-  RecordType(std::string n) : name(std::move(n)) {}
+  RecordType(std::string n, std::string codegen = "")
+      : name(std::move(n)),
+        codegenName(codegen.empty() ? name : std::move(codegen)) {}
   TypeKind getKind() const override { return TypeKind::Record; }
   std::string toString() const override { return "%" + name; }
   bool isReferenceType() const override { return true; }
@@ -132,21 +135,26 @@ public:
 
   const std::vector<Field> &getFields() const { return fields; }
   const std::string &getName() const { return name; }
+  const std::string &getCodegenName() const { return codegenName; }
 };
 
 class EnumType : public Type {
   std::string name;
+  std::string codegenName;
   std::vector<std::string> variants;
 
 public:
-  EnumType(std::string n, std::vector<std::string> v)
-      : name(std::move(n)), variants(std::move(v)) {}
+  EnumType(std::string n, std::vector<std::string> v, std::string codegen = "")
+      : name(std::move(n)),
+        codegenName(codegen.empty() ? name : std::move(codegen)),
+        variants(std::move(v)) {}
   TypeKind getKind() const override { return TypeKind::Enum; }
   std::string toString() const override { return "enum " + name; }
   bool isReferenceType() const override { return false; }
 
   const std::vector<std::string> &getVariants() const { return variants; }
   const std::string &getName() const { return name; }
+  const std::string &getCodegenName() const { return codegenName; }
 
   int getVariantIndex(const std::string &variantName) const {
     for (size_t i = 0; i < variants.size(); ++i) {

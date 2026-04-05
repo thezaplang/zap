@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 global var g: Int = 42;
 
 fun main() {

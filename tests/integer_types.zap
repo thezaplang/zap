@@ -1,3 +1,5 @@
+import "std/prelude" { printInt };
+
 fun main() {
     var a: Int8 = 1;
     var b: Int16 = 2;

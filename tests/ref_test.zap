@@ -1,3 +1,5 @@
+import "std/prelude" { println };
+
 fun increment(ref x: Int) {
     x = x + 1;
 }

@@ -3,7 +3,9 @@
 #include "../ast/visitor.hpp"
 #include "../utils/diagnostics.hpp"
 #include "bound_nodes.hpp"
+#include "module_info.hpp"
 #include "symbol_table.hpp"
+#include <map>
 #include <memory>
 #include <optional>
 #include <stack>
@@ -16,8 +18,10 @@ namespace sema
   public:
     Binder(zap::DiagnosticEngine &diag);
     std::unique_ptr<BoundRootNode> bind(RootNode &root);
+    std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo> &modules);
 
     void visit(RootNode &node) override;
+    void visit(ImportNode &node) override;
     void visit(FunDecl &node) override;
     void visit(ExtDecl &node) override;
     void visit(BodyNode &node) override;
@@ -51,6 +55,7 @@ namespace sema
   private:
     zap::DiagnosticEngine &_diag;
     std::shared_ptr<SymbolTable> currentScope_;
+    std::shared_ptr<SymbolTable> builtinScope_;
     std::unique_ptr<BoundRootNode> boundRoot_;
 
     std::stack<std::unique_ptr<BoundExpression>> expressionStack_;
@@ -63,11 +68,36 @@ namespace sema
     void popScope();
 
     std::shared_ptr<FunctionSymbol> currentFunction_ = nullptr;
+    std::string currentModuleId_;
+
+    struct ModuleState {
+      ModuleInfo *info = nullptr;
+      std::shared_ptr<SymbolTable> scope;
+      std::shared_ptr<ModuleSymbol> symbol;
+    };
+    std::map<std::string, ModuleState> modules_;
 
     std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
+    std::shared_ptr<Symbol> resolveQualifiedSymbol(const std::vector<std::string> &parts,
+                                                   SourceSpan span,
+                                                   SymbolKind expectedKind = SymbolKind::Variable,
+                                                   bool allowAnyKind = false);
+    std::shared_ptr<Symbol> resolveModuleMember(const std::string &moduleName,
+                                                const std::string &memberName,
+                                                SourceSpan span);
     std::optional<int64_t> evaluateConstantInt(const BoundExpression *expr);
     std::unique_ptr<BoundExpression> wrapInCast(std::unique_ptr<BoundExpression> expr, std::shared_ptr<zir::Type> targetType);
     void error(SourceSpan span, const std::string &message);
+    std::string mangleName(const std::string &modulePath, const std::string &name) const;
+    std::string currentModuleLinkPath() const;
+    std::string displayTypeName(const std::string &moduleName, const std::string &name) const;
+    std::unique_ptr<BoundBlock> bindBody(BodyNode *body, bool createScope);
+    void initializeBuiltins();
+    void predeclareModuleTypes(ModuleState &module);
+    void predeclareModuleAliases(ModuleState &module);
+    void predeclareModuleValues(ModuleState &module);
+    void applyImports(ModuleState &module, bool allowIncomplete = false);
+    std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
 
     bool isNumeric(std::shared_ptr<zir::Type> type);
     bool canConvert(std::shared_ptr<zir::Type> from,

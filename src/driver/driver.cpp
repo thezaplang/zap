@@ -6,6 +6,7 @@
 #include "parser/parser.hpp"
 #include "sema/binder.hpp"
 #include "sema/bound_nodes.hpp"
+#include "sema/module_info.hpp"
 #include "utils/diagnostics.hpp"
 #include "utils/stream.hpp"
 #include <algorithm>
@@ -13,9 +14,293 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <optional>
+#include <set>
 #include <string_view>
 
 namespace zap {
+bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput);
+namespace {
+
+std::string stripZapExtension(const std::filesystem::path &path) {
+  auto normalized = path.generic_string();
+  if (path.extension() == ".zap" && normalized.size() >= 4) {
+    normalized.resize(normalized.size() - 4);
+  }
+  return normalized;
+}
+
+std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath) {
+  auto stdRoot =
+      std::filesystem::weakly_canonical(std::filesystem::path(ZAPC_STDLIB_DIR));
+  auto cwdRoot = std::filesystem::weakly_canonical(std::filesystem::current_path());
+
+  auto buildRelative = [&](const std::filesystem::path &root,
+                           const std::string &prefix = "")
+      -> std::optional<std::string> {
+    auto rootText = root.generic_string();
+    auto pathText = canonicalPath.generic_string();
+    if (pathText == rootText || pathText.rfind(rootText + "/", 0) != 0) {
+      return std::nullopt;
+    }
+
+    auto rel = std::filesystem::relative(canonicalPath, root);
+    auto stripped = stripZapExtension(rel);
+    if (prefix.empty()) {
+      return stripped;
+    }
+    return prefix + "/" + stripped;
+  };
+
+  if (auto logical = buildRelative(stdRoot, "std")) {
+    return *logical;
+  }
+  if (auto logical = buildRelative(cwdRoot)) {
+    return *logical;
+  }
+  return stripZapExtension(canonicalPath.filename());
+}
+
+bool readSourceFile(const std::filesystem::path &path, std::string &content) {
+  std::ifstream file(path, std::ios::binary | std::ios::ate);
+  if (!file) {
+    driver::reportError("couldn't open the provided file: ", path,
+                        "\nreason: ", strerror(errno));
+    return true;
+  }
+
+  auto size = file.tellg();
+  content.assign(static_cast<size_t>(std::max<std::streamsize>(size, 0)), '\0');
+
+  if (size == 0) {
+    err() << "warning: provided file is empty: " << path << '\n';
+  } else {
+    file.seekg(0);
+    file.read(content.data(), size);
+  }
+
+  return false;
+}
+
+bool resolveImportTargets(const std::filesystem::path &modulePath,
+                          const ImportNode &importNode,
+                          std::vector<std::filesystem::path> &targets) {
+  std::filesystem::path resolvedPath;
+  if (importNode.path.rfind("std/", 0) == 0) {
+    resolvedPath = std::filesystem::path(ZAPC_STDLIB_DIR) /
+                   importNode.path.substr(std::string("std/").size());
+  } else {
+    resolvedPath = modulePath.parent_path() / importNode.path;
+  }
+
+  auto tryFile = [&](const std::filesystem::path &path) -> bool {
+    if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path)) {
+      targets.push_back(std::filesystem::weakly_canonical(path));
+      return true;
+    }
+    return false;
+  };
+
+  if (tryFile(resolvedPath)) {
+    return false;
+  }
+
+  if (resolvedPath.extension() != ".zap" && tryFile(resolvedPath.string() + ".zap")) {
+    return false;
+  }
+
+  if (std::filesystem::exists(resolvedPath) &&
+      std::filesystem::is_directory(resolvedPath)) {
+    for (const auto &entry : std::filesystem::directory_iterator(resolvedPath)) {
+      if (!entry.is_regular_file()) {
+        continue;
+      }
+      if (entry.path().extension() == ".zap") {
+        targets.push_back(std::filesystem::weakly_canonical(entry.path()));
+      }
+    }
+    std::sort(targets.begin(), targets.end());
+    return false;
+  }
+
+  driver::reportError("import path not found: ", resolvedPath);
+  return true;
+}
+
+bool loadModuleGraph(
+    const std::filesystem::path &entryPath,
+    std::map<std::string, std::unique_ptr<sema::ModuleInfo>> &modules,
+    std::set<std::string> &visiting) {
+  auto canonicalPath = std::filesystem::weakly_canonical(entryPath);
+  auto moduleId = canonicalPath.string();
+
+  if (modules.find(moduleId) != modules.end()) {
+    return false;
+  }
+  if (visiting.count(moduleId)) {
+    driver::reportError("cyclic import detected involving ", canonicalPath);
+    return true;
+  }
+
+  visiting.insert(moduleId);
+
+  std::string source;
+  if (readSourceFile(canonicalPath, source)) {
+    return true;
+  }
+
+  DiagnosticEngine diagnostics(source, canonicalPath.string());
+  Lexer lex(diagnostics);
+  auto tokens = lex.tokenize(source);
+  Parser parser(tokens, diagnostics);
+  auto ast = parser.parse();
+
+  if (diagnostics.hadErrors() || !ast) {
+    return true;
+  }
+
+  auto module = std::make_unique<sema::ModuleInfo>();
+  module->moduleId = moduleId;
+  module->moduleName = canonicalPath.stem().string();
+  module->linkPath = computeLogicalModulePath(canonicalPath);
+  module->sourceName = canonicalPath.string();
+  module->root = std::move(ast);
+
+  for (const auto &child : module->root->children) {
+    auto importNode = dynamic_cast<ImportNode *>(child.get());
+    if (!importNode) {
+      continue;
+    }
+
+    sema::ResolvedImport resolved;
+    resolved.rawPath = importNode->path;
+    resolved.moduleAlias = importNode->moduleAlias;
+    resolved.visibility = importNode->visibility_;
+    resolved.span = importNode->span;
+    for (const auto &binding : importNode->bindings) {
+      resolved.bindings.push_back({binding.sourceName, binding.localName});
+    }
+
+    std::vector<std::filesystem::path> importTargets;
+    if (resolveImportTargets(canonicalPath, *importNode, importTargets)) {
+      return true;
+    }
+
+    for (const auto &target : importTargets) {
+      resolved.targetModuleIds.push_back(target.string());
+    }
+
+    module->imports.push_back(std::move(resolved));
+  }
+
+  for (const auto &import : module->imports) {
+    for (const auto &targetId : import.targetModuleIds) {
+      if (loadModuleGraph(targetId, modules, visiting)) {
+        return true;
+      }
+    }
+  }
+
+  visiting.erase(moduleId);
+  modules[moduleId] = std::move(module);
+  return false;
+}
+
+} // namespace
+
+bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
+  std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
+  std::set<std::string> visiting;
+  if (loadModuleGraph(entryPath, moduleMap, visiting)) {
+    return true;
+  }
+
+  auto entryId = std::filesystem::weakly_canonical(entryPath).string();
+  if (moduleMap.find(entryId) == moduleMap.end()) {
+    driver::reportError("failed to load entry module: ", entryPath);
+    return true;
+  }
+  moduleMap[entryId]->isEntry = true;
+
+  std::string entrySource;
+  if (readSourceFile(entryPath, entrySource)) {
+    return true;
+  }
+  DiagnosticEngine diagnostics(entrySource, entryPath.string());
+
+  std::vector<sema::ModuleInfo> modules;
+  modules.reserve(moduleMap.size());
+  for (auto &[_, module] : moduleMap) {
+    modules.push_back(std::move(*module));
+  }
+
+  sema::Binder binder(diagnostics);
+  auto boundAst = binder.bind(modules);
+
+  if (!boundAst) {
+    driver::reportError(entryPath, ": semantic analysis failed");
+    return true;
+  }
+
+  if (drv.binary_output()) {
+    if (drv.get_output_type() == driver::output_type::LLVM)
+      return true;
+
+    std::filesystem::path out_path;
+
+    if (drv.get_output_type() == driver::output_type::EXEC) {
+      out_path = entryPath.string() + ".o";
+      drv.cleanups.emplace_back(out_path);
+    } else if (drv.get_output_type() == driver::output_type::OBJECT) {
+      if (drv.is_implicit_output()) {
+        out_path = entryPath.string() + ".o";
+      } else {
+        out_path = drv.get_output();
+      }
+    }
+
+    codegen::LLVMCodeGen llvmGen;
+    llvmGen.generate(*boundAst);
+
+    if (!llvmGen.emitObjectFile(out_path.string())) {
+      driver::reportError("object file emission failed");
+      return true;
+    }
+
+    drv.objects.emplace_back(std::move(out_path));
+  } else {
+    std::filesystem::path out_path =
+        drv.is_implicit_output()
+            ? std::filesystem::path(entryPath.string() +
+                                    driver::format_fileextension(drv.get_output_type()))
+            : drv.get_output();
+
+    std::ofstream ofoutput(out_path, std::ios::binary);
+
+    if (!ofoutput) {
+      driver::reportError("couldn't open the provided file: ", out_path,
+                          "\nreason: ", strerror(errno));
+      return true;
+    }
+
+    if (drv.get_output_type() == driver::output_type::ZIR) {
+      if (compileSourceZIR(*boundAst, ofoutput))
+        return true;
+    } else if (drv.get_output_type() == driver::output_type::TEXT_LLVM) {
+      codegen::LLVMCodeGen llvmGen;
+      llvmGen.generate(*boundAst);
+      std::string ir;
+      llvm::raw_string_ostream rs(ir);
+      llvmGen.printIR(rs);
+      ofoutput << ir;
+    } else {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 driver::driver() {}
 
@@ -282,26 +567,7 @@ bool driver::compileSourceFile(const std::string &source,
 
 bool driver::compile() {
   for (const std::filesystem::path &input : sources) {
-    std::ifstream file(input, std::ios::binary | std::ios::ate);
-    if (!file) {
-      reportError("couldn't open the provided file: ", input,
-                  "\nreason: ", strerror(errno));
-      return true;
-    }
-
-    auto size = file.tellg();
-    std::string content(size, '\0');
-
-    if (size == 0) {
-      err() << "warning: provided file is empty: " << input << '\n';
-    } else {
-      file.seekg(0);
-      file.read(content.data(), size);
-    }
-
-    file.close();
-
-    if (compileSourceFile(content, input.string()))
+    if (compileLoadedModules(*this, input))
       return true;
   }
 

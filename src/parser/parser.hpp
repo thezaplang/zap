@@ -3,12 +3,14 @@
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
+#include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/expr_node.hpp"
 #include "../ast/ext_decl.hpp"
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
+#include "../ast/import_node.hpp"
 #include "../ast/record_decl.hpp"
 #include "../ast/struct_decl.hpp"
 #include "../ast/struct_literal.hpp"
@@ -57,6 +59,7 @@ namespace zap
     // Parsing rules
     std::unique_ptr<FunDecl> parseFunDecl();
     std::unique_ptr<ExtDecl> parseExtDecl();
+    std::unique_ptr<ImportNode> parseImportDecl();
     std::unique_ptr<BodyNode> parseBody();
     std::unique_ptr<VarDecl> parseVarDecl();
     std::unique_ptr<ConstDecl> parseConstDecl();
@@ -82,5 +85,6 @@ namespace zap
     std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);
     std::unique_ptr<BreakNode> parseBreak();
     std::unique_ptr<ContinueNode> parseContinue();
+    std::vector<std::string> parseQualifiedIdentifier();
   };
 } // namespace zap
