@@ -33,7 +33,8 @@
           "zap"
         ],
         "extensions": [
-          ".zp"
+          ".zp",
+          ".zap"
         ],
         "configuration": "./language-configuration.json"
       }
