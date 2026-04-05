@@ -5,7 +5,7 @@ var namespacezap =
       [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29", null ],
       [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
       [ "resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4", null ],
-      [ "stripZapExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#ad26cedee145d4fdb93dd5c287c346a4c", null ]
+      [ "stripSourceExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acbf6eae3836b52a72fa7cee7634b63e1", null ]
     ] ],
     [ "lsp", "d5/d23/namespacezap_1_1lsp.html", "d5/d23/namespacezap_1_1lsp" ],
     [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
