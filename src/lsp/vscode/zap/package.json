@@ -1,12 +1,28 @@
 {
   "name": "zap",
   "displayName": "Zap",
+  "publisher": "zap-lang",
   "description": "Provides LSP for the Zap programming language",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.54.0"
+    "vscode": "^1.97.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zap-language/zap"
   },
   "main": "./out/extension.js",
+  "files": [
+    "out/**",
+    "bin/**",
+    "node_modules/**",
+    "src/**",
+    "syntaxes/**",
+    "language-configuration.json",
+    "README.md",
+    "CHANGELOG.md",
+    "package.json"
+  ],
   "activationEvents": [
     "onLanguage:zap"
   ],
@@ -49,14 +65,18 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "@types/vscode": "^1.97.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
     "typescript": "^5.9.3",
-    "vsce": "^2.15.0",
-    "vscode": "^1.1.37"
+    "vsce": "^2.15.0"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
   },
   "scripts": {
-    "package": "vsce package"
+    "compile": "tsc -p .",
+    "vscode:prepublish": "npm run compile",
+    "package": "node ./scripts/package-vsix.js"
   }
 }

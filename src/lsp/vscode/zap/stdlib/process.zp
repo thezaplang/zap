@@ -1,0 +1,12 @@
+import "std/io" { eprintln };
+
+pub ext fun exit(code: Int) Void;
+pub ext fun argc() Int;
+pub ext fun argv(i: Int) String;
+pub ext fun exec(cmd: String) Int;
+pub ext fun cwd() String;
+
+pub fun panic(message: String) Void {
+  eprintln(message);
+  exit(1);
+}

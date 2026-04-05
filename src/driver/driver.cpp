@@ -158,6 +158,7 @@ bool loadModuleGraph(
   auto ast = parser.parse();
 
   if (diagnostics.hadErrors() || !ast) {
+    diagnostics.printText(err());
     return true;
   }
 
@@ -238,6 +239,7 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
 
   sema::Binder binder(diagnostics);
   auto boundAst = binder.bind(modules);
+  diagnostics.printText(err());
 
   if (!boundAst) {
     driver::reportError(entryPath, ": semantic analysis failed");
@@ -489,16 +491,19 @@ bool driver::compileSourceFile(const std::string &source,
   auto ast = parser.parse();
 
   if (diagnostics.hadErrors()) {
+    diagnostics.printText(err());
     return true;
   }
 
   if (!ast) {
+    diagnostics.printText(err());
     reportError(source_name, ": failed parsing the provided file");
     return true;
   }
 
   sema::Binder binder(diagnostics);
   auto boundAst = binder.bind(*ast);
+  diagnostics.printText(err());
 
   if (!boundAst) {
     reportError(source_name, ": semantic analysis failed");

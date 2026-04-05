@@ -62,6 +62,8 @@ Makefile
 # LSP
 src/lsp/vscode/zap/node_modules
 src/lsp/vscode/zap/out
+!src/lsp/vscode/zap/out/
+!src/lsp/vscode/zap/out/**
 src/lsp/vscode/zap/package-lock.json
 
 # clangd
@@ -73,3 +75,5 @@ AGENTS.md
 .gemini
 .gemini-*
 .claude
+src/lsp/vscode/zap/bin/zap-lsp
+src/lsp/vscode/zap/zap-0.0.1.vsix
