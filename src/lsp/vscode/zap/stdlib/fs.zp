@@ -1,0 +1,33 @@
+import "std/path";
+import "std/string";
+
+pub ext fun exists(path: String) Bool;
+pub ext fun isFile(path: String) Bool;
+pub ext fun isDir(path: String) Bool;
+pub ext fun mkdir(path: String) Int;
+pub ext fun readFile(path: String) String;
+pub ext fun writeFile(path: String, content: String) Int;
+
+pub fun mkdirAll(target: String) Int {
+  if string.len(target) == 0 {
+    return 22;
+  }
+
+  if isDir(target) {
+    return 0;
+  }
+
+  var parentDir: String = path.parent(target);
+  if !string.eq(parentDir, ".") && !string.eq(parentDir, target) {
+    var parentErr: Int = mkdirAll(parentDir);
+    if parentErr != 0 {
+      return parentErr;
+    }
+  }
+
+  var err: Int = mkdir(target);
+  if err != 0 && isDir(target) {
+    return 0;
+  }
+  return err;
+}

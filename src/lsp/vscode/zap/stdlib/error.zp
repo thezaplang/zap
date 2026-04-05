@@ -1,0 +1,12 @@
+pub enum ErrorKind {
+  Unknown, NotFound, PermissionDenied, InvalidInput, AlreadyExists, Io
+}
+
+pub struct Error {
+  kind: ErrorKind,
+  code: Int,
+  message: String,
+}
+
+pub alias Err = Error;
+pub alias Kind = ErrorKind;

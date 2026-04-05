@@ -1,5 +1,6 @@
 import "./helper.zp" as std;
 import "./sub/../helper.zp" as std;
+import "std/io" as io;
 
 fun main() Int {
   return std.answer();

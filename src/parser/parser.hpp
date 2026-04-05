@@ -55,6 +55,7 @@ namespace zap
     Token eat(TokenType expectedType);
     bool isAtEnd() const;
     void synchronize();
+    SourceSpan pointAfter(const SourceSpan &span) const;
 
     // Parsing rules
     std::unique_ptr<FunDecl> parseFunDecl();
