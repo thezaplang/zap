@@ -61,6 +61,7 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", null ],
         [ "Macros", "globals_defs.html", null ]
@@ -73,14 +74,14 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1",
-"d3/d09/classzap_1_1Stream.html#a386543e154b3dd47bba6646ecc3ec097",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a87fdcd2ffa8f71b49da9e0cfd4fb893f",
-"d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec",
-"d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea66a0128ad08b2053e4809e07fe05728c",
-"da/db6/classzir_1_1RetainInst.html#ac5e38f6ae165e478eb0f7eb190165617",
-"dc/d13/structVisitor.html#a69c98026240b0f527159961aac88ce3b",
-"dd/d86/classFunCall.html#a9619f42a13158a0a21868d8276ba4d7a",
-"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8"
+"d3/d09/classzap_1_1Stream.html#a3572685e772befedde1b784c75f0ec72",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a865555c9f2e0458a7078486aa1b3254f",
+"d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa",
+"d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea1540c5fa1532634962f63ab8195258e8",
+"da/db6/classzir_1_1RetainInst.html#a7e6eb9f85b6c81ec480bdb86542d777c",
+"db/dfa/stdlib_8c.html#affbff8151771a213943b986cdd9ce941",
+"dd/d06/classExpressionNode.html",
+"df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -2,6 +2,7 @@ var namespacesema =
 [
     [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
       [ "extractQualifiedPath", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ad1b399bc505845ab3aa9428f3c9d41cf", null ],
+      [ "isStringType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a9f741f0d35c5c2d675089274971a5196", null ],
       [ "splitQualified", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a83ab1716b289fa2170d5cd37bd82536f", null ]
     ] ],
     [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],

@@ -68,7 +68,7 @@ $(function(){initNavTree('da/d74/classsema_1_1SymbolTable.html','../../','db/dd8
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a822c995d1ee0591ef2dd05a9fb30769c" id="r_a822c995d1ee0591ef2dd05a9fb30769c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a822c995d1ee0591ef2dd05a9fb30769c">SymbolTable</a> (std::shared_ptr&lt; SymbolTable &gt; parent=nullptr)</td></tr>
+<tr class="memitem:a822c995d1ee0591ef2dd05a9fb30769c" id="r_a822c995d1ee0591ef2dd05a9fb30769c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a822c995d1ee0591ef2dd05a9fb30769c">SymbolTable</a> (std::shared_ptr&lt; SymbolTable &gt; <a class="el" href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a>=nullptr)</td></tr>
 <tr class="memitem:a0342d7dbe67f842df3ba3b8758ac0d56" id="r_a0342d7dbe67f842df3ba3b8758ac0d56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0342d7dbe67f842df3ba3b8758ac0d56">declare</a> (const std::string &amp;name, std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; symbol)</td></tr>
 <tr class="memitem:a9affdf0ca6a94fee68f94da2b4aa2fa6" id="r_a9affdf0ca6a94fee68f94da2b4aa2fa6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9affdf0ca6a94fee68f94da2b4aa2fa6">lookup</a> (const std::string &amp;name) const</td></tr>
 <tr class="memitem:a5d08f94a34d4ca55b1e63851774e2022" id="r_a5d08f94a34d4ca55b1e63851774e2022"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d08f94a34d4ca55b1e63851774e2022">lookupLocal</a> (const std::string &amp;name) const</td></tr>
@@ -107,10 +107,11 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>      : <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>(std::move(parent)) {}</div>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>      : <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>(std::move(<a class="code hl_function" href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a>)) {}</div>
 <div class="ttc" id="aclasssema_1_1SymbolTable_html_ad9c7154034579e1ca6d3f01018d85834"><div class="ttname"><a href="#ad9c7154034579e1ca6d3f01018d85834">sema::SymbolTable::parent_</a></div><div class="ttdeci">std::shared_ptr&lt; SymbolTable &gt; parent_</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">symbol_table.hpp:45</a></div></div>
+<div class="ttc" id="astdlib_8c_html_a0f99b2c8a24adf4ea26017903a46b1ea"><div class="ttname"><a href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a></div><div class="ttdeci">zap_string_t parent(zap_string_t path)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00434">stdlib.c:434</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">parent_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00434">parent()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">parent_</a>.</p>
 
 </div>
 </div>

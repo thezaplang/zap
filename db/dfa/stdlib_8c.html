@@ -63,9 +63,14 @@ $(function(){initNavTree('db/dfa/stdlib_8c.html','../../',''); });
   <div class="headertitle"><div class="title">stdlib.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;sys/wait.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 </div>
 <p><a href="../../db/dfa/stdlib_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -80,16 +85,198 @@ Functions</h2></td></tr>
 <tr class="memitem:a76eac198d32546178be6bb118b6318a1" id="r_a76eac198d32546178be6bb118b6318a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76eac198d32546178be6bb118b6318a1">printFloat64</a> (double v)</td></tr>
 <tr class="memitem:af9781c34b5472cee6c7a4df1259aa581" id="r_af9781c34b5472cee6c7a4df1259aa581"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9781c34b5472cee6c7a4df1259aa581">printBool</a> (_Bool v)</td></tr>
 <tr class="memitem:a079ee199d48ff94b19306b7532e57216" id="r_a079ee199d48ff94b19306b7532e57216"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a079ee199d48ff94b19306b7532e57216">printChar</a> (char v)</td></tr>
-<tr class="memitem:a8a39f4c93bfca5e32e9f2f6563270266" id="r_a8a39f4c93bfca5e32e9f2f6563270266"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a> (const char *ptr, long len)</td></tr>
+<tr class="memitem:a8a39f4c93bfca5e32e9f2f6563270266" id="r_a8a39f4c93bfca5e32e9f2f6563270266"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a> (const char *ptr, long <a class="el" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>)</td></tr>
 <tr class="memitem:a1331af51349d3d2c59aec3afee59d0a7" id="r_a1331af51349d3d2c59aec3afee59d0a7"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1331af51349d3d2c59aec3afee59d0a7">string_concat_ptrlen</a> (const char *a, long a_len, const char *b, long b_len)</td></tr>
+<tr class="memitem:a3f6fb078c0d56ebb52e97b75f4c3f43a" id="r_a3f6fb078c0d56ebb52e97b75f4c3f43a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f6fb078c0d56ebb52e97b75f4c3f43a">__zap_process_set_args</a> (int <a class="el" href="#a075cc3441ec8c716b40a9be107afa1de">argc</a>, char **<a class="el" href="#ae944645c5876290769281c22603adbb7">argv</a>)</td></tr>
 <tr class="memitem:ab464bf6a88a6497cbef877deb91d8c32" id="r_ab464bf6a88a6497cbef877deb91d8c32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab464bf6a88a6497cbef877deb91d8c32">println</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s)</td></tr>
 <tr class="memitem:a5af6b601f28289f91b749eb2b230fcd2" id="r_a5af6b601f28289f91b749eb2b230fcd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5af6b601f28289f91b749eb2b230fcd2">eprintln</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s)</td></tr>
 <tr class="memitem:a4e617cd646401dbbbe1a5c1f561249cc" id="r_a4e617cd646401dbbbe1a5c1f561249cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e617cd646401dbbbe1a5c1f561249cc">println_cstr</a> (const char *s)</td></tr>
 <tr class="memitem:a7138b263f34f27da147cbe6a5ed8d116" id="r_a7138b263f34f27da147cbe6a5ed8d116"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7138b263f34f27da147cbe6a5ed8d116">getLn</a> ()</td></tr>
-<tr class="memitem:a00b5f35c1367f1b8a030aaf539b77a32" id="r_a00b5f35c1367f1b8a030aaf539b77a32"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00b5f35c1367f1b8a030aaf539b77a32">stringLen</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s)</td></tr>
-<tr class="memitem:a815dbf2433b99bffc161c75c88241e63" id="r_a815dbf2433b99bffc161c75c88241e63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a815dbf2433b99bffc161c75c88241e63">panic</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> message)</td></tr>
+<tr class="memitem:a075cc3441ec8c716b40a9be107afa1de" id="r_a075cc3441ec8c716b40a9be107afa1de"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a075cc3441ec8c716b40a9be107afa1de">argc</a> ()</td></tr>
+<tr class="memitem:ae944645c5876290769281c22603adbb7" id="r_ae944645c5876290769281c22603adbb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae944645c5876290769281c22603adbb7">argv</a> (long i)</td></tr>
+<tr class="memitem:a3fd3ae63aaaf61592ee119e0eed1b2c2" id="r_a3fd3ae63aaaf61592ee119e0eed1b2c2"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s)</td></tr>
+<tr class="memitem:aa11952b6971dbce50f02c4a27b69e34b" id="r_aa11952b6971dbce50f02c4a27b69e34b"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa11952b6971dbce50f02c4a27b69e34b">at</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s, long i)</td></tr>
+<tr class="memitem:a768fbe26f8d9de5a5f64130f84be0d37" id="r_a768fbe26f8d9de5a5f64130f84be0d37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a768fbe26f8d9de5a5f64130f84be0d37">slice</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> s, long start, long length)</td></tr>
+<tr class="memitem:a17a1603ec3fb1e76b9dcd9385793781b" id="r_a17a1603ec3fb1e76b9dcd9385793781b"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17a1603ec3fb1e76b9dcd9385793781b">eq</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> a, <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> b)</td></tr>
+<tr class="memitem:ad9a6507e54b999bffdab3834a58cc72f" id="r_ad9a6507e54b999bffdab3834a58cc72f"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9a6507e54b999bffdab3834a58cc72f">exec</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> cmd)</td></tr>
+<tr class="memitem:a4a038b46d19c0ba3226e4c4daf7315a7" id="r_a4a038b46d19c0ba3226e4c4daf7315a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a038b46d19c0ba3226e4c4daf7315a7">cwd</a> ()</td></tr>
+<tr class="memitem:a32842691873b173b0c656e21a37f3d17" id="r_a32842691873b173b0c656e21a37f3d17"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32842691873b173b0c656e21a37f3d17">zap_stat_path</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path, struct stat *st)</td></tr>
+<tr class="memitem:ae9123704f1b7c7d41e2854f51ee55174" id="r_ae9123704f1b7c7d41e2854f51ee55174"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a74317ec5ef52657637e2f8537d48a687" id="r_a74317ec5ef52657637e2f8537d48a687"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74317ec5ef52657637e2f8537d48a687">exists</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a79a53752b0ce05542c38b6c22081ea7a" id="r_a79a53752b0ce05542c38b6c22081ea7a"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79a53752b0ce05542c38b6c22081ea7a">isFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:add0c4e5bcf70e64f979559a2f0840414" id="r_add0c4e5bcf70e64f979559a2f0840414"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add0c4e5bcf70e64f979559a2f0840414">isDir</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a3f33e88f5e22588aa7ceac746049bf06" id="r_a3f33e88f5e22588aa7ceac746049bf06"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f33e88f5e22588aa7ceac746049bf06">zap_fs_mkdir</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a24aabb9a7a72cec1b5b68eef67665cdd" id="r_a24aabb9a7a72cec1b5b68eef67665cdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24aabb9a7a72cec1b5b68eef67665cdd">readFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a1385884eb69bec52509538ca561e37d2" id="r_a1385884eb69bec52509538ca561e37d2"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1385884eb69bec52509538ca561e37d2">writeFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path, <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> content)</td></tr>
+<tr class="memitem:ae0c5685dec040535258039d52f208307" id="r_ae0c5685dec040535258039d52f208307"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a> (const char *start, size_t <a class="el" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>)</td></tr>
+<tr class="memitem:a0f99b2c8a24adf4ea26017903a46b1ea" id="r_a0f99b2c8a24adf4ea26017903a46b1ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:affbff8151771a213943b986cdd9ce941" id="r_affbff8151771a213943b986cdd9ce941"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affbff8151771a213943b986cdd9ce941">zap_path_basename</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:af4b25dcb5d4604ec5cce2658e3e72bae" id="r_af4b25dcb5d4604ec5cce2658e3e72bae"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b25dcb5d4604ec5cce2658e3e72bae">zapMathSqrt</a> (double x)</td></tr>
+<tr class="memitem:aa9d959558860bc1c2edcc8ee0bf9742c" id="r_aa9d959558860bc1c2edcc8ee0bf9742c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9d959558860bc1c2edcc8ee0bf9742c">zapMathFloor</a> (double x)</td></tr>
+<tr class="memitem:a1c768f9a1db5948b13e038e6279f3128" id="r_a1c768f9a1db5948b13e038e6279f3128"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c768f9a1db5948b13e038e6279f3128">zapMathCeil</a> (double x)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a8fa584def8aa59792c511e0f2d069165" id="r_a8fa584def8aa59792c511e0f2d069165"><td class="memItemLeft" align="right" valign="top">static long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fa584def8aa59792c511e0f2d069165">zap_process_argc</a> = 0</td></tr>
+<tr class="memitem:a340004a04bf7692e9a9402bb3c47fee2" id="r_a340004a04bf7692e9a9402bb3c47fee2"><td class="memItemLeft" align="right" valign="top">static char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a> = NULL</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a3f6fb078c0d56ebb52e97b75f4c3f43a" name="a3f6fb078c0d56ebb52e97b75f4c3f43a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f6fb078c0d56ebb52e97b75f4c3f43a">&#9670;&#160;</a></span>__zap_process_set_args()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void __zap_process_set_args </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00069">69</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>{</div>
+<div class="line"><span class="lineno">   71</span>    <a class="code hl_variable" href="#a8fa584def8aa59792c511e0f2d069165">zap_process_argc</a> = <a class="code hl_function" href="#a075cc3441ec8c716b40a9be107afa1de">argc</a>;</div>
+<div class="line"><span class="lineno">   72</span>    <a class="code hl_variable" href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a> = <a class="code hl_function" href="#ae944645c5876290769281c22603adbb7">argv</a>;</div>
+<div class="line"><span class="lineno">   73</span>}</div>
+<div class="ttc" id="astdlib_8c_html_a075cc3441ec8c716b40a9be107afa1de"><div class="ttname"><a href="#a075cc3441ec8c716b40a9be107afa1de">argc</a></div><div class="ttdeci">long argc()</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00120">stdlib.c:120</a></div></div>
+<div class="ttc" id="astdlib_8c_html_a340004a04bf7692e9a9402bb3c47fee2"><div class="ttname"><a href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a></div><div class="ttdeci">static char ** zap_process_argv</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00067">stdlib.c:67</a></div></div>
+<div class="ttc" id="astdlib_8c_html_a8fa584def8aa59792c511e0f2d069165"><div class="ttname"><a href="#a8fa584def8aa59792c511e0f2d069165">zap_process_argc</a></div><div class="ttdeci">static long zap_process_argc</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00066">stdlib.c:66</a></div></div>
+<div class="ttc" id="astdlib_8c_html_ae944645c5876290769281c22603adbb7"><div class="ttname"><a href="#ae944645c5876290769281c22603adbb7">argv</a></div><div class="ttdeci">zap_string_t argv(long i)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00125">stdlib.c:125</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00120">argc()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00125">argv()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">zap_process_argc</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00067">zap_process_argv</a>.</p>
+
+</div>
+</div>
+<a id="a075cc3441ec8c716b40a9be107afa1de" name="a075cc3441ec8c716b40a9be107afa1de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a075cc3441ec8c716b40a9be107afa1de">&#9670;&#160;</a></span>argc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long argc </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00120">120</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  121</span>{</div>
+<div class="line"><span class="lineno">  122</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8fa584def8aa59792c511e0f2d069165">zap_process_argc</a>;</div>
+<div class="line"><span class="lineno">  123</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">zap_process_argc</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00069">__zap_process_set_args()</a>, <a class="el" href="../../df/d0a/main_8cpp_source.html#l00003">main()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00308">zap::driver::parseArgs()</a>.</p>
+
+</div>
+</div>
+<a id="ae944645c5876290769281c22603adbb7" name="ae944645c5876290769281c22603adbb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae944645c5876290769281c22603adbb7">&#9670;&#160;</a></span>argv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> argv </td>
+          <td>(</td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00125">125</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  126</span>{</div>
+<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span> (i &lt; 0 || i &gt;= <a class="code hl_variable" href="#a8fa584def8aa59792c511e0f2d069165">zap_process_argc</a> || !<a class="code hl_variable" href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a> || !<a class="code hl_variable" href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a>[i])</div>
+<div class="line"><span class="lineno">  128</span>    {</div>
+<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  130</span>    }</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *arg = <a class="code hl_variable" href="#a340004a04bf7692e9a9402bb3c47fee2">zap_process_argv</a>[i];</div>
+<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = arg, .len = (long)strlen(arg)};</div>
+<div class="line"><span class="lineno">  134</span>}</div>
+<div class="ttc" id="astructzap__string__t_html"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00061">stdlib.c:61</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">zap_process_argc</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00067">zap_process_argv</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00069">__zap_process_set_args()</a>, <a class="el" href="../../df/d0a/main_8cpp_source.html#l00003">main()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00308">zap::driver::parseArgs()</a>.</p>
+
+</div>
+</div>
+<a id="aa11952b6971dbce50f02c4a27b69e34b" name="aa11952b6971dbce50f02c4a27b69e34b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa11952b6971dbce50f02c4a27b69e34b">&#9670;&#160;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00141">141</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>{</div>
+<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">if</span> (!s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || i &lt; 0 || i &gt;= s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>)</div>
+<div class="line"><span class="lineno">  144</span>    {</div>
+<div class="line"><span class="lineno">  145</span>        <span class="keywordflow">return</span> <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  146</span>    }</div>
+<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">return</span> s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[i];</div>
+<div class="line"><span class="lineno">  148</span>}</div>
+<div class="ttc" id="astructzap__string__t_html_a1020b249f346d5bd1a052b9d9142a80e"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">zap_string_t::len</a></div><div class="ttdeci">long len</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00063">stdlib.c:63</a></div></div>
+<div class="ttc" id="astructzap__string__t_html_a68e87933396be35b70f51381f01a95df"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">zap_string_t::ptr</a></div><div class="ttdeci">const char * ptr</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00062">stdlib.c:62</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00111">codegen::LLVMCodeGen::toLLVMType()</a>.</p>
+
+</div>
+</div>
+<a id="a4a038b46d19c0ba3226e4c4daf7315a7" name="a4a038b46d19c0ba3226e4c4daf7315a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a038b46d19c0ba3226e4c4daf7315a7">&#9670;&#160;</a></span>cwd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> cwd </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00238">238</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  239</span>{</div>
+<div class="line"><span class="lineno">  240</span>    <span class="keywordtype">char</span> *dir = getcwd(NULL, 0);</div>
+<div class="line"><span class="lineno">  241</span>    <span class="keywordflow">if</span> (!dir)</div>
+<div class="line"><span class="lineno">  242</span>    {</div>
+<div class="line"><span class="lineno">  243</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  244</span>    }</div>
+<div class="line"><span class="lineno">  245</span> </div>
+<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = dir, .len = (long)strlen(dir)};</div>
+<div class="line"><span class="lineno">  247</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a5af6b601f28289f91b749eb2b230fcd2" name="a5af6b601f28289f91b749eb2b230fcd2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5af6b601f28289f91b749eb2b230fcd2">&#9670;&#160;</a></span>eprintln()</h2>
 
@@ -105,22 +292,138 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">66</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>{</div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (!s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> &lt;= 0)</div>
-<div class="line"><span class="lineno">   69</span>    {</div>
-<div class="line"><span class="lineno">   70</span>        fputc(<span class="charliteral">&#39;\n&#39;</span>, stderr);</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
-<div class="line"><span class="lineno">   73</span>    fwrite(s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, 1, (<span class="keywordtype">size_t</span>)s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>, stderr);</div>
-<div class="line"><span class="lineno">   74</span>    fputc(<span class="charliteral">&#39;\n&#39;</span>, stderr);</div>
-<div class="line"><span class="lineno">   75</span>}</div>
-<div class="ttc" id="astructzap__string__t_html_a1020b249f346d5bd1a052b9d9142a80e"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">zap_string_t::len</a></div><div class="ttdeci">long len</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00058">stdlib.c:58</a></div></div>
-<div class="ttc" id="astructzap__string__t_html_a68e87933396be35b70f51381f01a95df"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">zap_string_t::ptr</a></div><div class="ttdeci">const char * ptr</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00057">stdlib.c:57</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00080">80</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>{</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> &lt;= 0)</div>
+<div class="line"><span class="lineno">   83</span>    {</div>
+<div class="line"><span class="lineno">   84</span>        fputc(<span class="charliteral">&#39;\n&#39;</span>, stderr);</div>
+<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   86</span>    }</div>
+<div class="line"><span class="lineno">   87</span>    fwrite(s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, 1, (<span class="keywordtype">size_t</span>)s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>, stderr);</div>
+<div class="line"><span class="lineno">   88</span>    fputc(<span class="charliteral">&#39;\n&#39;</span>, stderr);</div>
+<div class="line"><span class="lineno">   89</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00058">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00057">zap_string_t::ptr</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00111">panic()</a>.</p>
+</div>
+</div>
+<a id="a17a1603ec3fb1e76b9dcd9385793781b" name="a17a1603ec3fb1e76b9dcd9385793781b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17a1603ec3fb1e76b9dcd9385793781b">&#9670;&#160;</a></span>eq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">_Bool eq </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00186">186</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  187</span>{</div>
+<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">if</span> (a.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> != b.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>)</div>
+<div class="line"><span class="lineno">  189</span>    {</div>
+<div class="line"><span class="lineno">  190</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  191</span>    }</div>
+<div class="line"><span class="lineno">  192</span> </div>
+<div class="line"><span class="lineno">  193</span>    <span class="keywordflow">if</span> (a.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0)</div>
+<div class="line"><span class="lineno">  194</span>    {</div>
+<div class="line"><span class="lineno">  195</span>        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><span class="lineno">  196</span>    }</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>    <span class="keywordflow">if</span> (!a.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || !b.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>)</div>
+<div class="line"><span class="lineno">  199</span>    {</div>
+<div class="line"><span class="lineno">  200</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  201</span>    }</div>
+<div class="line"><span class="lineno">  202</span> </div>
+<div class="line"><span class="lineno">  203</span>    <span class="keywordflow">return</span> memcmp(a.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, b.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)a.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>) == 0;</div>
+<div class="line"><span class="lineno">  204</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
+
+</div>
+</div>
+<a id="ad9a6507e54b999bffdab3834a58cc72f" name="ad9a6507e54b999bffdab3834a58cc72f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9a6507e54b999bffdab3834a58cc72f">&#9670;&#160;</a></span>exec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long exec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>cmd</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00206">206</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  207</span>{</div>
+<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">if</span> (!cmd.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>)</div>
+<div class="line"><span class="lineno">  209</span>    {</div>
+<div class="line"><span class="lineno">  210</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  211</span>    }</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>    <span class="keywordtype">char</span> *buffer = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)cmd.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> + 1);</div>
+<div class="line"><span class="lineno">  214</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  215</span>    {</div>
+<div class="line"><span class="lineno">  216</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  217</span>    }</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>    memcpy(buffer, cmd.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)cmd.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>);</div>
+<div class="line"><span class="lineno">  220</span>    buffer[cmd.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  221</span> </div>
+<div class="line"><span class="lineno">  222</span>    <span class="keywordtype">int</span> result = system(buffer);</div>
+<div class="line"><span class="lineno">  223</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>    <span class="keywordflow">if</span> (result == -1)</div>
+<div class="line"><span class="lineno">  226</span>    {</div>
+<div class="line"><span class="lineno">  227</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  228</span>    }</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>    <span class="keywordflow">if</span> (WIFEXITED(result))</div>
+<div class="line"><span class="lineno">  231</span>    {</div>
+<div class="line"><span class="lineno">  232</span>        <span class="keywordflow">return</span> WEXITSTATUS(result);</div>
+<div class="line"><span class="lineno">  233</span>    }</div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  236</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
+
+</div>
+</div>
+<a id="a74317ec5ef52657637e2f8537d48a687" name="a74317ec5ef52657637e2f8537d48a687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74317ec5ef52657637e2f8537d48a687">&#9670;&#160;</a></span>exists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">_Bool exists </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00288">288</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  289</span>{</div>
+<div class="line"><span class="lineno">  290</span>    <span class="keyword">struct </span>stat st;</div>
+<div class="line"><span class="lineno">  291</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a32842691873b173b0c656e21a37f3d17">zap_stat_path</a>(path, &amp;st) == 0;</div>
+<div class="line"><span class="lineno">  292</span>}</div>
+<div class="ttc" id="astdlib_8c_html_a32842691873b173b0c656e21a37f3d17"><div class="ttname"><a href="#a32842691873b173b0c656e21a37f3d17">zap_stat_path</a></div><div class="ttdeci">static int zap_stat_path(zap_string_t path, struct stat *st)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00249">stdlib.c:249</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00249">zap_stat_path()</a>.</p>
 
 </div>
 </div>
@@ -139,51 +442,167 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00087">87</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   88</span>{</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordtype">char</span> *line = NULL;</div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordtype">size_t</span> len = 0;</div>
-<div class="line"><span class="lineno">   91</span>    <span class="keywordtype">size_t</span> read = getline(&amp;line, &amp;len, stdin);</div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">if</span> (read == -1)</div>
-<div class="line"><span class="lineno">   93</span>    {</div>
-<div class="line"><span class="lineno">   94</span>        free(line);</div>
-<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = NULL, .len = 0};</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
-<div class="line"><span class="lineno">   97</span>    <span class="comment">// Remove newline if present</span></div>
-<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">if</span> (read &gt; 0 &amp;&amp; line[read - 1] == <span class="charliteral">&#39;\n&#39;</span>)</div>
-<div class="line"><span class="lineno">   99</span>    {</div>
-<div class="line"><span class="lineno">  100</span>        line[--read] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">  101</span>    }</div>
-<div class="line"><span class="lineno">  102</span>    <a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> result = {.ptr = line, .len = read};</div>
-<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  104</span>}</div>
-<div class="ttc" id="astructzap__string__t_html"><div class="ttname"><a href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00056">stdlib.c:56</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00101">101</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>{</div>
+<div class="line"><span class="lineno">  103</span>    <span class="keywordtype">char</span> *line = NULL;</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> = 0;</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordtype">size_t</span> read = getline(&amp;line, &amp;<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>, stdin);</div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">if</span> (read == -1)</div>
+<div class="line"><span class="lineno">  107</span>    {</div>
+<div class="line"><span class="lineno">  108</span>        free(line);</div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = NULL, .len = 0};</div>
+<div class="line"><span class="lineno">  110</span>    }</div>
+<div class="line"><span class="lineno">  111</span>    <span class="comment">// Remove newline if present</span></div>
+<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">if</span> (read &gt; 0 &amp;&amp; line[read - 1] == <span class="charliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><span class="lineno">  113</span>    {</div>
+<div class="line"><span class="lineno">  114</span>        line[--read] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span>    <a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> result = {.ptr = line, .len = read};</div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  118</span>}</div>
+<div class="ttc" id="astdlib_8c_html_a3fd3ae63aaaf61592ee119e0eed1b2c2"><div class="ttname"><a href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a></div><div class="ttdeci">long len(zap_string_t s)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00136">stdlib.c:136</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00136">len()</a>.</p>
+
 </div>
 </div>
-<a id="a815dbf2433b99bffc161c75c88241e63" name="a815dbf2433b99bffc161c75c88241e63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a815dbf2433b99bffc161c75c88241e63">&#9670;&#160;</a></span>panic()</h2>
+<a id="add0c4e5bcf70e64f979559a2f0840414" name="add0c4e5bcf70e64f979559a2f0840414"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add0c4e5bcf70e64f979559a2f0840414">&#9670;&#160;</a></span>isDir()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void panic </td>
+          <td class="memname">_Bool isDir </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00111">111</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  112</span>{</div>
-<div class="line"><span class="lineno">  113</span>    <a class="code hl_function" href="#a5af6b601f28289f91b749eb2b230fcd2">eprintln</a>(message);</div>
-<div class="line"><span class="lineno">  114</span>    exit(1);</div>
-<div class="line"><span class="lineno">  115</span>}</div>
-<div class="ttc" id="astdlib_8c_html_a5af6b601f28289f91b749eb2b230fcd2"><div class="ttname"><a href="#a5af6b601f28289f91b749eb2b230fcd2">eprintln</a></div><div class="ttdeci">void eprintln(zap_string_t s)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00066">stdlib.c:66</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00305">305</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  306</span>{</div>
+<div class="line"><span class="lineno">  307</span>    <span class="keyword">struct </span>stat st;</div>
+<div class="line"><span class="lineno">  308</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a32842691873b173b0c656e21a37f3d17">zap_stat_path</a>(path, &amp;st) != 0)</div>
+<div class="line"><span class="lineno">  309</span>    {</div>
+<div class="line"><span class="lineno">  310</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  311</span>    }</div>
+<div class="line"><span class="lineno">  312</span> </div>
+<div class="line"><span class="lineno">  313</span>    <span class="keywordflow">return</span> S_ISDIR(st.st_mode);</div>
+<div class="line"><span class="lineno">  314</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">eprintln()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00249">zap_stat_path()</a>.</p>
+
+</div>
+</div>
+<a id="a79a53752b0ce05542c38b6c22081ea7a" name="a79a53752b0ce05542c38b6c22081ea7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a53752b0ce05542c38b6c22081ea7a">&#9670;&#160;</a></span>isFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">_Bool isFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00294">294</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  295</span>{</div>
+<div class="line"><span class="lineno">  296</span>    <span class="keyword">struct </span>stat st;</div>
+<div class="line"><span class="lineno">  297</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a32842691873b173b0c656e21a37f3d17">zap_stat_path</a>(path, &amp;st) != 0)</div>
+<div class="line"><span class="lineno">  298</span>    {</div>
+<div class="line"><span class="lineno">  299</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  300</span>    }</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>    <span class="keywordflow">return</span> S_ISREG(st.st_mode);</div>
+<div class="line"><span class="lineno">  303</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00249">zap_stat_path()</a>.</p>
+
+</div>
+</div>
+<a id="a3fd3ae63aaaf61592ee119e0eed1b2c2" name="a3fd3ae63aaaf61592ee119e0eed1b2c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">&#9670;&#160;</a></span>len()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long len </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00136">136</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  137</span>{</div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
+<div class="line"><span class="lineno">  139</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00101">getLn()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00048">zap::DiagnosticEngine::printContext()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">printStringPtrLen()</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00087">SourceSpan::SourceSpan()</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00005">Lexer::tokenize()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00418">zap_copy_string_range()</a>.</p>
+
+</div>
+</div>
+<a id="a0f99b2c8a24adf4ea26017903a46b1ea" name="a0f99b2c8a24adf4ea26017903a46b1ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f99b2c8a24adf4ea26017903a46b1ea">&#9670;&#160;</a></span>parent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> parent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00434">434</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  435</span>{</div>
+<div class="line"><span class="lineno">  436</span>    <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0)</div>
+<div class="line"><span class="lineno">  437</span>    {</div>
+<div class="line"><span class="lineno">  438</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  439</span>    }</div>
+<div class="line"><span class="lineno">  440</span> </div>
+<div class="line"><span class="lineno">  441</span>    <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
+<div class="line"><span class="lineno">  442</span>    <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  443</span>    {</div>
+<div class="line"><span class="lineno">  444</span>        --end;</div>
+<div class="line"><span class="lineno">  445</span>    }</div>
+<div class="line"><span class="lineno">  446</span> </div>
+<div class="line"><span class="lineno">  447</span>    <span class="keywordtype">long</span> slash = end - 1;</div>
+<div class="line"><span class="lineno">  448</span>    <span class="keywordflow">while</span> (slash &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[slash] != <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  449</span>    {</div>
+<div class="line"><span class="lineno">  450</span>        --slash;</div>
+<div class="line"><span class="lineno">  451</span>    }</div>
+<div class="line"><span class="lineno">  452</span> </div>
+<div class="line"><span class="lineno">  453</span>    <span class="keywordflow">if</span> (slash &lt; 0)</div>
+<div class="line"><span class="lineno">  454</span>    {</div>
+<div class="line"><span class="lineno">  455</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  456</span>    }</div>
+<div class="line"><span class="lineno">  457</span> </div>
+<div class="line"><span class="lineno">  458</span>    <span class="keywordflow">if</span> (slash == 0)</div>
+<div class="line"><span class="lineno">  459</span>    {</div>
+<div class="line"><span class="lineno">  460</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  461</span>    }</div>
+<div class="line"><span class="lineno">  462</span> </div>
+<div class="line"><span class="lineno">  463</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)slash);</div>
+<div class="line"><span class="lineno">  464</span>}</div>
+<div class="ttc" id="astdlib_8c_html_ae0c5685dec040535258039d52f208307"><div class="ttname"><a href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a></div><div class="ttdeci">static zap_string_t zap_copy_string_range(const char *start, size_t len)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00418">stdlib.c:418</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00418">zap_copy_string_range()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">sema::SymbolTable::SymbolTable()</a>.</p>
 
 </div>
 </div>
@@ -202,10 +621,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00020">20</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{</div>
-<div class="line"><span class="lineno">   22</span>    printf(<span class="stringliteral">&quot;%s\n&quot;</span>, v ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>);</div>
-<div class="line"><span class="lineno">   23</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00025">25</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{</div>
+<div class="line"><span class="lineno">   27</span>    printf(<span class="stringliteral">&quot;%s\n&quot;</span>, v ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -224,11 +643,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00025">25</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>{</div>
-<div class="line"><span class="lineno">   27</span>    putchar(v);</div>
-<div class="line"><span class="lineno">   28</span>    putchar(<span class="charliteral">&#39;\n&#39;</span>);</div>
-<div class="line"><span class="lineno">   29</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00030">30</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{</div>
+<div class="line"><span class="lineno">   32</span>    putchar(v);</div>
+<div class="line"><span class="lineno">   33</span>    putchar(<span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><span class="lineno">   34</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -247,10 +666,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00010">10</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>    printf(<span class="stringliteral">&quot;%f\n&quot;</span>, v);</div>
-<div class="line"><span class="lineno">   13</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00015">15</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
+<div class="line"><span class="lineno">   17</span>    printf(<span class="stringliteral">&quot;%f\n&quot;</span>, v);</div>
+<div class="line"><span class="lineno">   18</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -269,10 +688,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00015">15</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
-<div class="line"><span class="lineno">   17</span>    printf(<span class="stringliteral">&quot;%f\n&quot;</span>, v);</div>
-<div class="line"><span class="lineno">   18</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00020">20</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{</div>
+<div class="line"><span class="lineno">   22</span>    printf(<span class="stringliteral">&quot;%f\n&quot;</span>, v);</div>
+<div class="line"><span class="lineno">   23</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -291,10 +710,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00005">5</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
-<div class="line"><span class="lineno">    7</span>    printf(<span class="stringliteral">&quot;%ld\n&quot;</span>, v);</div>
-<div class="line"><span class="lineno">    8</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00010">10</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
+<div class="line"><span class="lineno">   12</span>    printf(<span class="stringliteral">&quot;%ld\n&quot;</span>, v);</div>
+<div class="line"><span class="lineno">   13</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -313,13 +732,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00061">61</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>{</div>
-<div class="line"><span class="lineno">   63</span>    <a class="code hl_function" href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a>(s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>);</div>
-<div class="line"><span class="lineno">   64</span>}</div>
-<div class="ttc" id="astdlib_8c_html_a8a39f4c93bfca5e32e9f2f6563270266"><div class="ttname"><a href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a></div><div class="ttdeci">void printStringPtrLen(const char *ptr, long len)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00031">stdlib.c:31</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00075">75</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   76</span>{</div>
+<div class="line"><span class="lineno">   77</span>    <a class="code hl_function" href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a>(s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>);</div>
+<div class="line"><span class="lineno">   78</span>}</div>
+<div class="ttc" id="astdlib_8c_html_a8a39f4c93bfca5e32e9f2f6563270266"><div class="ttname"><a href="#a8a39f4c93bfca5e32e9f2f6563270266">printStringPtrLen</a></div><div class="ttdeci">void printStringPtrLen(const char *ptr, long len)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00036">stdlib.c:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00058">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00031">printStringPtrLen()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00057">zap_string_t::ptr</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">printStringPtrLen()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
 
 </div>
 </div>
@@ -338,15 +757,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00077">77</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>{</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">if</span> (!s)</div>
-<div class="line"><span class="lineno">   80</span>    {</div>
-<div class="line"><span class="lineno">   81</span>        printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   83</span>    }</div>
-<div class="line"><span class="lineno">   84</span>    puts(s);</div>
-<div class="line"><span class="lineno">   85</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00091">91</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   92</span>{</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">if</span> (!s)</div>
+<div class="line"><span class="lineno">   94</span>    {</div>
+<div class="line"><span class="lineno">   95</span>        printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   96</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   97</span>    }</div>
+<div class="line"><span class="lineno">   98</span>    puts(s);</div>
+<div class="line"><span class="lineno">   99</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,18 +788,158 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00031">31</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>{</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keywordflow">if</span> (!ptr || len &lt;= 0)</div>
-<div class="line"><span class="lineno">   34</span>    {</div>
-<div class="line"><span class="lineno">   35</span>        printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   37</span>    }</div>
-<div class="line"><span class="lineno">   38</span>    fwrite(ptr, 1, (<span class="keywordtype">size_t</span>)len, stdout);</div>
-<div class="line"><span class="lineno">   39</span>    printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   40</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">36</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>{</div>
+<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">if</span> (!ptr || <a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> &lt;= 0)</div>
+<div class="line"><span class="lineno">   39</span>    {</div>
+<div class="line"><span class="lineno">   40</span>        printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   41</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   42</span>    }</div>
+<div class="line"><span class="lineno">   43</span>    fwrite(ptr, 1, (<span class="keywordtype">size_t</span>)<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>, stdout);</div>
+<div class="line"><span class="lineno">   44</span>    printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   45</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00061">println()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00136">len()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00075">println()</a>.</p>
+
+</div>
+</div>
+<a id="a24aabb9a7a72cec1b5b68eef67665cdd" name="a24aabb9a7a72cec1b5b68eef67665cdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24aabb9a7a72cec1b5b68eef67665cdd">&#9670;&#160;</a></span>readFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> readFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00336">336</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  337</span>{</div>
+<div class="line"><span class="lineno">  338</span>    <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  339</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  340</span>    {</div>
+<div class="line"><span class="lineno">  341</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  342</span>    }</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  344</span>    FILE *file = fopen(buffer, <span class="stringliteral">&quot;rb&quot;</span>);</div>
+<div class="line"><span class="lineno">  345</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  346</span>    <span class="keywordflow">if</span> (!file)</div>
+<div class="line"><span class="lineno">  347</span>    {</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  349</span>    }</div>
+<div class="line"><span class="lineno">  350</span> </div>
+<div class="line"><span class="lineno">  351</span>    <span class="keywordflow">if</span> (fseek(file, 0, SEEK_END) != 0)</div>
+<div class="line"><span class="lineno">  352</span>    {</div>
+<div class="line"><span class="lineno">  353</span>        fclose(file);</div>
+<div class="line"><span class="lineno">  354</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  355</span>    }</div>
+<div class="line"><span class="lineno">  356</span> </div>
+<div class="line"><span class="lineno">  357</span>    <span class="keywordtype">long</span> size = ftell(file);</div>
+<div class="line"><span class="lineno">  358</span>    <span class="keywordflow">if</span> (size &lt; 0)</div>
+<div class="line"><span class="lineno">  359</span>    {</div>
+<div class="line"><span class="lineno">  360</span>        fclose(file);</div>
+<div class="line"><span class="lineno">  361</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  362</span>    }</div>
+<div class="line"><span class="lineno">  363</span> </div>
+<div class="line"><span class="lineno">  364</span>    <span class="keywordflow">if</span> (fseek(file, 0, SEEK_SET) != 0)</div>
+<div class="line"><span class="lineno">  365</span>    {</div>
+<div class="line"><span class="lineno">  366</span>        fclose(file);</div>
+<div class="line"><span class="lineno">  367</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  368</span>    }</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>    <span class="keywordtype">char</span> *content = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)size + 1);</div>
+<div class="line"><span class="lineno">  371</span>    <span class="keywordflow">if</span> (!content)</div>
+<div class="line"><span class="lineno">  372</span>    {</div>
+<div class="line"><span class="lineno">  373</span>        fclose(file);</div>
+<div class="line"><span class="lineno">  374</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  375</span>    }</div>
+<div class="line"><span class="lineno">  376</span> </div>
+<div class="line"><span class="lineno">  377</span>    <span class="keywordtype">size_t</span> read = fread(content, 1, (<span class="keywordtype">size_t</span>)size, file);</div>
+<div class="line"><span class="lineno">  378</span>    fclose(file);</div>
+<div class="line"><span class="lineno">  379</span>    <span class="keywordflow">if</span> (read != (<span class="keywordtype">size_t</span>)size)</div>
+<div class="line"><span class="lineno">  380</span>    {</div>
+<div class="line"><span class="lineno">  381</span>        free(content);</div>
+<div class="line"><span class="lineno">  382</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  383</span>    }</div>
+<div class="line"><span class="lineno">  384</span> </div>
+<div class="line"><span class="lineno">  385</span>    content[size] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  386</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = content, .len = size};</div>
+<div class="line"><span class="lineno">  387</span>}</div>
+<div class="ttc" id="astdlib_8c_html_ae9123704f1b7c7d41e2854f51ee55174"><div class="ttname"><a href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a></div><div class="ttdeci">static char * zap_copy_path(zap_string_t path)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00270">stdlib.c:270</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00270">zap_copy_path()</a>.</p>
+
+</div>
+</div>
+<a id="a768fbe26f8d9de5a5f64130f84be0d37" name="a768fbe26f8d9de5a5f64130f84be0d37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a768fbe26f8d9de5a5f64130f84be0d37">&#9670;&#160;</a></span>slice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> slice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>start</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00150">150</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  151</span>{</div>
+<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">if</span> (!s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> &lt;= 0 || length &lt;= 0 || start &gt;= s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>)</div>
+<div class="line"><span class="lineno">  153</span>    {</div>
+<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  155</span>    }</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>    <span class="keywordflow">if</span> (start &lt; 0)</div>
+<div class="line"><span class="lineno">  158</span>    {</div>
+<div class="line"><span class="lineno">  159</span>        start = 0;</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>    <span class="keywordtype">long</span> available = s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> - start;</div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">if</span> (available &lt; 0)</div>
+<div class="line"><span class="lineno">  164</span>    {</div>
+<div class="line"><span class="lineno">  165</span>        available = 0;</div>
+<div class="line"><span class="lineno">  166</span>    }</div>
+<div class="line"><span class="lineno">  167</span>    <span class="keywordflow">if</span> (length &gt; available)</div>
+<div class="line"><span class="lineno">  168</span>    {</div>
+<div class="line"><span class="lineno">  169</span>        length = available;</div>
+<div class="line"><span class="lineno">  170</span>    }</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>    <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)length + 1);</div>
+<div class="line"><span class="lineno">  173</span>    <span class="keywordflow">if</span> (!out)</div>
+<div class="line"><span class="lineno">  174</span>    {</div>
+<div class="line"><span class="lineno">  175</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = NULL, .len = 0};</div>
+<div class="line"><span class="lineno">  176</span>    }</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">if</span> (length &gt; 0)</div>
+<div class="line"><span class="lineno">  179</span>    {</div>
+<div class="line"><span class="lineno">  180</span>        memcpy(out, s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + start, (<span class="keywordtype">size_t</span>)length);</div>
+<div class="line"><span class="lineno">  181</span>    }</div>
+<div class="line"><span class="lineno">  182</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[length] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  183</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>, .len = length};</div>
+<div class="line"><span class="lineno">  184</span>}</div>
+<div class="ttc" id="anamespacezap_html_ae6ad8e87b28adc8798a538d35a6f3e66"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">zap::out</a></div><div class="ttdeci">Stream &amp; out()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00105">stream.cpp:105</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
 
 </div>
 </div>
@@ -413,44 +972,427 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00042">42</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
-<div class="line"><span class="lineno">   44</span>    <span class="keywordtype">long</span> total = a_len + b_len;</div>
-<div class="line"><span class="lineno">   45</span>    <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)total + 1);</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!out)</div>
-<div class="line"><span class="lineno">   47</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">if</span> (a_len &gt; 0)</div>
-<div class="line"><span class="lineno">   49</span>        memcpy(out, a, (<span class="keywordtype">size_t</span>)a_len);</div>
-<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">if</span> (b_len &gt; 0)</div>
-<div class="line"><span class="lineno">   51</span>        memcpy(out + a_len, b, (<span class="keywordtype">size_t</span>)b_len);</div>
-<div class="line"><span class="lineno">   52</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[total] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
-<div class="line"><span class="lineno">   54</span>}</div>
-<div class="ttc" id="anamespacezap_html_ae6ad8e87b28adc8798a538d35a6f3e66"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">zap::out</a></div><div class="ttdeci">Stream &amp; out()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00105">stream.cpp:105</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00047">47</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>{</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordtype">long</span> total = a_len + b_len;</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)total + 1);</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> (!out)</div>
+<div class="line"><span class="lineno">   52</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (a_len &gt; 0)</div>
+<div class="line"><span class="lineno">   54</span>        memcpy(out, a, (<span class="keywordtype">size_t</span>)a_len);</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">if</span> (b_len &gt; 0)</div>
+<div class="line"><span class="lineno">   56</span>        memcpy(out + a_len, b, (<span class="keywordtype">size_t</span>)b_len);</div>
+<div class="line"><span class="lineno">   57</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[total] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
+<div class="line"><span class="lineno">   59</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a00b5f35c1367f1b8a030aaf539b77a32" name="a00b5f35c1367f1b8a030aaf539b77a32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00b5f35c1367f1b8a030aaf539b77a32">&#9670;&#160;</a></span>stringLen()</h2>
+<a id="a1385884eb69bec52509538ca561e37d2" name="a1385884eb69bec52509538ca561e37d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1385884eb69bec52509538ca561e37d2">&#9670;&#160;</a></span>writeFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long stringLen </td>
+          <td class="memname">long writeFile </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>content</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00389">389</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  390</span>{</div>
+<div class="line"><span class="lineno">  391</span>    <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  392</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  393</span>    {</div>
+<div class="line"><span class="lineno">  394</span>        <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  395</span>    }</div>
+<div class="line"><span class="lineno">  396</span> </div>
+<div class="line"><span class="lineno">  397</span>    FILE *file = fopen(buffer, <span class="stringliteral">&quot;wb&quot;</span>);</div>
+<div class="line"><span class="lineno">  398</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  399</span>    <span class="keywordflow">if</span> (!file)</div>
+<div class="line"><span class="lineno">  400</span>    {</div>
+<div class="line"><span class="lineno">  401</span>        <span class="keywordflow">return</span> errno;</div>
+<div class="line"><span class="lineno">  402</span>    }</div>
+<div class="line"><span class="lineno">  403</span> </div>
+<div class="line"><span class="lineno">  404</span>    <span class="keywordtype">size_t</span> written = fwrite(content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, 1, (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>, file);</div>
+<div class="line"><span class="lineno">  405</span>    <span class="keywordflow">if</span> (fclose(file) != 0)</div>
+<div class="line"><span class="lineno">  406</span>    {</div>
+<div class="line"><span class="lineno">  407</span>        <span class="keywordflow">return</span> errno;</div>
+<div class="line"><span class="lineno">  408</span>    }</div>
+<div class="line"><span class="lineno">  409</span> </div>
+<div class="line"><span class="lineno">  410</span>    <span class="keywordflow">if</span> (written != (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>)</div>
+<div class="line"><span class="lineno">  411</span>    {</div>
+<div class="line"><span class="lineno">  412</span>        <span class="keywordflow">return</span> EIO;</div>
+<div class="line"><span class="lineno">  413</span>    }</div>
+<div class="line"><span class="lineno">  414</span> </div>
+<div class="line"><span class="lineno">  415</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  416</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00270">zap_copy_path()</a>.</p>
+
+</div>
+</div>
+<a id="ae9123704f1b7c7d41e2854f51ee55174" name="ae9123704f1b7c7d41e2854f51ee55174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9123704f1b7c7d41e2854f51ee55174">&#9670;&#160;</a></span>zap_copy_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * zap_copy_path </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00270">270</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  271</span>{</div>
+<div class="line"><span class="lineno">  272</span>    <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>)</div>
+<div class="line"><span class="lineno">  273</span>    {</div>
+<div class="line"><span class="lineno">  274</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">  275</span>    }</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>    <span class="keywordtype">char</span> *buffer = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> + 1);</div>
+<div class="line"><span class="lineno">  278</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  279</span>    {</div>
+<div class="line"><span class="lineno">  280</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">  281</span>    }</div>
+<div class="line"><span class="lineno">  282</span> </div>
+<div class="line"><span class="lineno">  283</span>    memcpy(buffer, path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>);</div>
+<div class="line"><span class="lineno">  284</span>    buffer[path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  285</span>    <span class="keywordflow">return</span> buffer;</div>
+<div class="line"><span class="lineno">  286</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00336">readFile()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00389">writeFile()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00316">zap_fs_mkdir()</a>.</p>
+
+</div>
+</div>
+<a id="ae0c5685dec040535258039d52f208307" name="ae0c5685dec040535258039d52f208307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c5685dec040535258039d52f208307">&#9670;&#160;</a></span>zap_copy_string_range()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> zap_copy_string_range </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>start</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00418">418</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  419</span>{</div>
+<div class="line"><span class="lineno">  420</span>    <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc(<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> + 1);</div>
+<div class="line"><span class="lineno">  421</span>    <span class="keywordflow">if</span> (!out)</div>
+<div class="line"><span class="lineno">  422</span>    {</div>
+<div class="line"><span class="lineno">  423</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  424</span>    }</div>
+<div class="line"><span class="lineno">  425</span> </div>
+<div class="line"><span class="lineno">  426</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> &gt; 0)</div>
+<div class="line"><span class="lineno">  427</span>    {</div>
+<div class="line"><span class="lineno">  428</span>        memcpy(out, start, <a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>);</div>
+<div class="line"><span class="lineno">  429</span>    }</div>
+<div class="line"><span class="lineno">  430</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  431</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>, .len = (long)<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>};</div>
+<div class="line"><span class="lineno">  432</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00136">len()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00434">parent()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00466">zap_path_basename()</a>.</p>
+
+</div>
+</div>
+<a id="a3f33e88f5e22588aa7ceac746049bf06" name="a3f33e88f5e22588aa7ceac746049bf06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f33e88f5e22588aa7ceac746049bf06">&#9670;&#160;</a></span>zap_fs_mkdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long zap_fs_mkdir </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00106">106</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  107</span>{</div>
-<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> s.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
-<div class="line"><span class="lineno">  109</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00316">316</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  317</span>{</div>
+<div class="line"><span class="lineno">  318</span>    <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  319</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  320</span>    {</div>
+<div class="line"><span class="lineno">  321</span>        <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  322</span>    }</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>    <span class="keywordflow">if</span> (mkdir(buffer, 0777) == 0)</div>
+<div class="line"><span class="lineno">  325</span>    {</div>
+<div class="line"><span class="lineno">  326</span>        chmod(buffer, 0777);</div>
+<div class="line"><span class="lineno">  327</span>        free(buffer);</div>
+<div class="line"><span class="lineno">  328</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  329</span>    }</div>
+<div class="line"><span class="lineno">  330</span> </div>
+<div class="line"><span class="lineno">  331</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a> = errno;</div>
+<div class="line"><span class="lineno">  332</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  333</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>;</div>
+<div class="line"><span class="lineno">  334</span>}</div>
+<div class="ttc" id="anamespacezap_html_a674956178a1a7ce6606f78a8839a2e18"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">zap::err</a></div><div class="ttdeci">Stream &amp; err()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00100">stream.cpp:100</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00058">zap_string_t::len</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00270">zap_copy_path()</a>.</p>
+
+</div>
+</div>
+<a id="affbff8151771a213943b986cdd9ce941" name="affbff8151771a213943b986cdd9ce941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affbff8151771a213943b986cdd9ce941">&#9670;&#160;</a></span>zap_path_basename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> zap_path_basename </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00466">466</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  467</span>{</div>
+<div class="line"><span class="lineno">  468</span>    <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0)</div>
+<div class="line"><span class="lineno">  469</span>    {</div>
+<div class="line"><span class="lineno">  470</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  471</span>    }</div>
+<div class="line"><span class="lineno">  472</span> </div>
+<div class="line"><span class="lineno">  473</span>    <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
+<div class="line"><span class="lineno">  474</span>    <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  475</span>    {</div>
+<div class="line"><span class="lineno">  476</span>        --end;</div>
+<div class="line"><span class="lineno">  477</span>    }</div>
+<div class="line"><span class="lineno">  478</span> </div>
+<div class="line"><span class="lineno">  479</span>    <span class="keywordflow">if</span> (end == 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[0] == <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  480</span>    {</div>
+<div class="line"><span class="lineno">  481</span>        <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  482</span>    }</div>
+<div class="line"><span class="lineno">  483</span> </div>
+<div class="line"><span class="lineno">  484</span>    <span class="keywordtype">long</span> start = end - 1;</div>
+<div class="line"><span class="lineno">  485</span>    <span class="keywordflow">while</span> (start &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[start] != <span class="charliteral">&#39;/&#39;</span>)</div>
+<div class="line"><span class="lineno">  486</span>    {</div>
+<div class="line"><span class="lineno">  487</span>        --start;</div>
+<div class="line"><span class="lineno">  488</span>    }</div>
+<div class="line"><span class="lineno">  489</span>    ++start;</div>
+<div class="line"><span class="lineno">  490</span> </div>
+<div class="line"><span class="lineno">  491</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + start, (<span class="keywordtype">size_t</span>)(end - start));</div>
+<div class="line"><span class="lineno">  492</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00418">zap_copy_string_range()</a>.</p>
+
+</div>
+</div>
+<a id="a32842691873b173b0c656e21a37f3d17" name="a32842691873b173b0c656e21a37f3d17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32842691873b173b0c656e21a37f3d17">&#9670;&#160;</a></span>zap_stat_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zap_stat_path </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct stat *</td>          <td class="paramname"><span class="paramname"><em>st</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00249">249</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>{</div>
+<div class="line"><span class="lineno">  251</span>    <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>)</div>
+<div class="line"><span class="lineno">  252</span>    {</div>
+<div class="line"><span class="lineno">  253</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  254</span>    }</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>    <span class="keywordtype">char</span> *buffer = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> + 1);</div>
+<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><span class="lineno">  258</span>    {</div>
+<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  260</span>    }</div>
+<div class="line"><span class="lineno">  261</span> </div>
+<div class="line"><span class="lineno">  262</span>    memcpy(buffer, path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>);</div>
+<div class="line"><span class="lineno">  263</span>    buffer[path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  264</span> </div>
+<div class="line"><span class="lineno">  265</span>    <span class="keywordtype">int</span> result = stat(buffer, st);</div>
+<div class="line"><span class="lineno">  266</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  267</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  268</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00063">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00062">zap_string_t::ptr</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00288">exists()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00305">isDir()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00294">isFile()</a>.</p>
+
+</div>
+</div>
+<a id="a1c768f9a1db5948b13e038e6279f3128" name="a1c768f9a1db5948b13e038e6279f3128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c768f9a1db5948b13e038e6279f3128">&#9670;&#160;</a></span>zapMathCeil()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double zapMathCeil </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00504">504</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  505</span>{</div>
+<div class="line"><span class="lineno">  506</span>    <span class="keywordflow">return</span> ceil(x);</div>
+<div class="line"><span class="lineno">  507</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa9d959558860bc1c2edcc8ee0bf9742c" name="aa9d959558860bc1c2edcc8ee0bf9742c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9d959558860bc1c2edcc8ee0bf9742c">&#9670;&#160;</a></span>zapMathFloor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double zapMathFloor </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00499">499</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  500</span>{</div>
+<div class="line"><span class="lineno">  501</span>    <span class="keywordflow">return</span> floor(x);</div>
+<div class="line"><span class="lineno">  502</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af4b25dcb5d4604ec5cce2658e3e72bae" name="af4b25dcb5d4604ec5cce2658e3e72bae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4b25dcb5d4604ec5cce2658e3e72bae">&#9670;&#160;</a></span>zapMathSqrt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double zapMathSqrt </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00494">494</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  495</span>{</div>
+<div class="line"><span class="lineno">  496</span>    <span class="keywordflow">return</span> sqrt(x);</div>
+<div class="line"><span class="lineno">  497</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a8fa584def8aa59792c511e0f2d069165" name="a8fa584def8aa59792c511e0f2d069165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fa584def8aa59792c511e0f2d069165">&#9670;&#160;</a></span>zap_process_argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">long zap_process_argc = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00066">66</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00069">__zap_process_set_args()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00120">argc()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00125">argv()</a>.</p>
+
+</div>
+</div>
+<a id="a340004a04bf7692e9a9402bb3c47fee2" name="a340004a04bf7692e9a9402bb3c47fee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a340004a04bf7692e9a9402bb3c47fee2">&#9670;&#160;</a></span>zap_process_argv</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** zap_process_argv = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00067">67</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00069">__zap_process_set_args()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00125">argv()</a>.</p>
 
 </div>
 </div>
