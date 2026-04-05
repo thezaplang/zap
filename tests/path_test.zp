@@ -1,0 +1,46 @@
+import "std/path";
+import "std/string";
+
+fun main() Int {
+    if !string.eq(path.join("/tmp", "file.txt"), "/tmp/file.txt") {
+        return 1;
+    }
+
+    if !string.eq(path.join("/tmp/", "file.txt"), "/tmp/file.txt") {
+        return 2;
+    }
+
+    if !string.eq(path.join("", "file.txt"), "file.txt") {
+        return 3;
+    }
+
+    if !string.eq(path.parent("/tmp/file.txt"), "/tmp") {
+        return 4;
+    }
+
+    if !string.eq(path.parent("/tmp/dir/"), "/tmp") {
+        return 5;
+    }
+
+    if !string.eq(path.parent("file.txt"), ".") {
+        return 6;
+    }
+
+    if !string.eq(path.parent("/"), "/") {
+        return 7;
+    }
+
+    if !string.eq(path.basename("/tmp/file.txt"), "file.txt") {
+        return 8;
+    }
+
+    if !string.eq(path.basename("/tmp/dir/"), "dir") {
+        return 9;
+    }
+
+    if !string.eq(path.basename("/"), "/") {
+        return 10;
+    }
+
+    return 0;
+}

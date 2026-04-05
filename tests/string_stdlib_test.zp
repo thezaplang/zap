@@ -9,7 +9,7 @@ fun main() Int {
         return 2;
     }
 
-    var one: String = string.from_char('x');
+    var one: String = string.fromChar('x');
     if string.len(one) != 1 {
         return 3;
     }

@@ -186,6 +186,10 @@ run_runtime_test "tests/ext_default_void_runtime.zp" 0 "External function withou
 run_runtime_args_test "tests/process_args_test.zp" 0 "Process argument access" alpha beta gamma
 run_runtime_test "tests/process_exec_test.zp" 0 "Process execution"
 run_runtime_test "tests/process_cwd_test.zp" 0 "Current working directory access"
+run_runtime_test "tests/fs_test.zp" 0 "Filesystem path checks"
+run_runtime_test "tests/fs_mkdir_test.zp" 0 "Filesystem directory creation"
+run_runtime_test "tests/fs_file_io_test.zp" 0 "Filesystem text file IO"
+run_runtime_test "tests/path_test.zp" 0 "Path helpers"
 
 # Lexer errors (exit code 1)
 run_test "tests/lexer_error.zp" 1 "Lexer error: Unterminated string"

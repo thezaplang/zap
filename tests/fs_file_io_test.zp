@@ -1,0 +1,38 @@
+import "std/fs";
+import "std/process";
+import "std/string";
+import "std/path";
+
+fun main() Int {
+    var filePath: String = path.join("/tmp", "zap_fs_file_io.txt");
+    var content: String = "hello\nzap";
+
+    process.exec("rm -f \"" ~ filePath ~ "\"");
+
+    if fs.writeFile(filePath, content) != 0 {
+        return 1;
+    }
+
+    if !fs.exists(filePath) {
+        return 2;
+    }
+
+    if !fs.isFile(filePath) {
+        return 3;
+    }
+
+    if !string.eq(fs.readFile(filePath), content) {
+        return 4;
+    }
+
+    if fs.writeFile(filePath, "rewritten") != 0 {
+        return 5;
+    }
+
+    if !string.eq(fs.readFile(filePath), "rewritten") {
+        return 6;
+    }
+
+    process.exec("rm -f \"" ~ filePath ~ "\"");
+    return 0;
+}

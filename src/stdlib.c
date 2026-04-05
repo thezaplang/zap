@@ -1,6 +1,8 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -149,7 +151,7 @@ char at(zap_string_t s, long i)
     return s.ptr[i];
 }
 
-zap_string_t from_char(char c)
+zap_string_t fromChar(char c)
 {
     char *out = (char *)malloc(2);
     if (!out)
@@ -275,4 +277,345 @@ zap_string_t cwd()
     }
 
     return (zap_string_t){.ptr = dir, .len = (long)strlen(dir)};
+}
+
+static int zap_stat_path(zap_string_t path, struct stat *st)
+{
+    if (!path.ptr)
+    {
+        return -1;
+    }
+
+    char *buffer = (char *)malloc((size_t)path.len + 1);
+    if (!buffer)
+    {
+        return -1;
+    }
+
+    memcpy(buffer, path.ptr, (size_t)path.len);
+    buffer[path.len] = '\0';
+
+    int result = stat(buffer, st);
+    free(buffer);
+    return result;
+}
+
+static char *zap_copy_path(zap_string_t path)
+{
+    if (!path.ptr)
+    {
+        return NULL;
+    }
+
+    char *buffer = (char *)malloc((size_t)path.len + 1);
+    if (!buffer)
+    {
+        return NULL;
+    }
+
+    memcpy(buffer, path.ptr, (size_t)path.len);
+    buffer[path.len] = '\0';
+    return buffer;
+}
+
+_Bool exists(zap_string_t path)
+{
+    struct stat st;
+    return zap_stat_path(path, &st) == 0;
+}
+
+_Bool isFile(zap_string_t path)
+{
+    struct stat st;
+    if (zap_stat_path(path, &st) != 0)
+    {
+        return 0;
+    }
+
+    return S_ISREG(st.st_mode);
+}
+
+_Bool isDir(zap_string_t path)
+{
+    struct stat st;
+    if (zap_stat_path(path, &st) != 0)
+    {
+        return 0;
+    }
+
+    return S_ISDIR(st.st_mode);
+}
+
+long zap_fs_mkdir(zap_string_t path)
+{
+    char *buffer = zap_copy_path(path);
+    if (!buffer)
+    {
+        return ENOMEM;
+    }
+
+    if (mkdir(buffer, 0777) == 0)
+    {
+        chmod(buffer, 0777);
+        free(buffer);
+        return 0;
+    }
+
+    int err = errno;
+    free(buffer);
+    return err;
+}
+
+long mkdirAll(zap_string_t path)
+{
+    char *buffer = zap_copy_path(path);
+    if (!buffer)
+    {
+        return ENOMEM;
+    }
+
+    size_t len = strlen(buffer);
+    if (len == 0)
+    {
+        free(buffer);
+        return EINVAL;
+    }
+
+    for (char *p = buffer + 1; *p; ++p)
+    {
+        if (*p != '/')
+        {
+            continue;
+        }
+
+        *p = '\0';
+        if (mkdir(buffer, 0777) == 0)
+        {
+            chmod(buffer, 0777);
+        }
+        else if (errno != EEXIST)
+        {
+            int err = errno;
+            free(buffer);
+            return err;
+        }
+        *p = '/';
+    }
+
+    if (mkdir(buffer, 0777) == 0)
+    {
+        chmod(buffer, 0777);
+    }
+    else
+    {
+        if (errno == EEXIST)
+        {
+            struct stat st;
+            if (stat(buffer, &st) == 0 && S_ISDIR(st.st_mode))
+            {
+                free(buffer);
+                return 0;
+            }
+        }
+
+        int err = errno;
+        free(buffer);
+        return err;
+    }
+
+    free(buffer);
+    return 0;
+}
+
+zap_string_t readFile(zap_string_t path)
+{
+    char *buffer = zap_copy_path(path);
+    if (!buffer)
+    {
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    FILE *file = fopen(buffer, "rb");
+    free(buffer);
+    if (!file)
+    {
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    if (fseek(file, 0, SEEK_END) != 0)
+    {
+        fclose(file);
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    long size = ftell(file);
+    if (size < 0)
+    {
+        fclose(file);
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    if (fseek(file, 0, SEEK_SET) != 0)
+    {
+        fclose(file);
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    char *content = (char *)malloc((size_t)size + 1);
+    if (!content)
+    {
+        fclose(file);
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    size_t read = fread(content, 1, (size_t)size, file);
+    fclose(file);
+    if (read != (size_t)size)
+    {
+        free(content);
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    content[size] = '\0';
+    return (zap_string_t){.ptr = content, .len = size};
+}
+
+long writeFile(zap_string_t path, zap_string_t content)
+{
+    char *buffer = zap_copy_path(path);
+    if (!buffer)
+    {
+        return ENOMEM;
+    }
+
+    FILE *file = fopen(buffer, "wb");
+    free(buffer);
+    if (!file)
+    {
+        return errno;
+    }
+
+    size_t written = fwrite(content.ptr, 1, (size_t)content.len, file);
+    if (fclose(file) != 0)
+    {
+        return errno;
+    }
+
+    if (written != (size_t)content.len)
+    {
+        return EIO;
+    }
+
+    return 0;
+}
+
+static zap_string_t zap_copy_string_range(const char *start, size_t len)
+{
+    char *out = (char *)malloc(len + 1);
+    if (!out)
+    {
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    if (len > 0)
+    {
+        memcpy(out, start, len);
+    }
+    out[len] = '\0';
+    return (zap_string_t){.ptr = out, .len = (long)len};
+}
+
+zap_string_t parent(zap_string_t path)
+{
+    if (!path.ptr || path.len == 0)
+    {
+        return (zap_string_t){.ptr = ".", .len = 1};
+    }
+
+    long end = path.len;
+    while (end > 1 && path.ptr[end - 1] == '/')
+    {
+        --end;
+    }
+
+    long slash = end - 1;
+    while (slash >= 0 && path.ptr[slash] != '/')
+    {
+        --slash;
+    }
+
+    if (slash < 0)
+    {
+        return (zap_string_t){.ptr = ".", .len = 1};
+    }
+
+    if (slash == 0)
+    {
+        return (zap_string_t){.ptr = "/", .len = 1};
+    }
+
+    return zap_copy_string_range(path.ptr, (size_t)slash);
+}
+
+zap_string_t join(zap_string_t a, zap_string_t b)
+{
+    if (!a.ptr || a.len == 0)
+    {
+        return zap_copy_string_range(b.ptr ? b.ptr : "", (size_t)(b.ptr ? b.len : 0));
+    }
+    if (!b.ptr || b.len == 0)
+    {
+        return zap_copy_string_range(a.ptr, (size_t)a.len);
+    }
+    if (b.ptr[0] == '/')
+    {
+        return zap_copy_string_range(b.ptr, (size_t)b.len);
+    }
+
+    int needs_sep = a.ptr[a.len - 1] != '/';
+    size_t total = (size_t)a.len + (size_t)b.len + (size_t)needs_sep;
+    char *out = (char *)malloc(total + 1);
+    if (!out)
+    {
+        return (zap_string_t){.ptr = "", .len = 0};
+    }
+
+    memcpy(out, a.ptr, (size_t)a.len);
+    size_t pos = (size_t)a.len;
+    if (needs_sep)
+    {
+        out[pos++] = '/';
+    }
+    memcpy(out + pos, b.ptr, (size_t)b.len);
+    pos += (size_t)b.len;
+    out[pos] = '\0';
+    return (zap_string_t){.ptr = out, .len = (long)pos};
+}
+
+zap_string_t zap_path_basename(zap_string_t path)
+{
+    if (!path.ptr || path.len == 0)
+    {
+        return (zap_string_t){.ptr = ".", .len = 1};
+    }
+
+    long end = path.len;
+    while (end > 1 && path.ptr[end - 1] == '/')
+    {
+        --end;
+    }
+
+    if (end == 1 && path.ptr[0] == '/')
+    {
+        return (zap_string_t){.ptr = "/", .len = 1};
+    }
+
+    long start = end - 1;
+    while (start >= 0 && path.ptr[start] != '/')
+    {
+        --start;
+    }
+    ++start;
+
+    return zap_copy_string_range(path.ptr + start, (size_t)(end - start));
 }

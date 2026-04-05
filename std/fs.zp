@@ -1,0 +1,7 @@
+pub ext fun exists(path: String) Bool;
+pub ext fun isFile(path: String) Bool;
+pub ext fun isDir(path: String) Bool;
+pub ext fun mkdir(path: String) Int;
+pub ext fun mkdirAll(path: String) Int;
+pub ext fun readFile(path: String) String;
+pub ext fun writeFile(path: String, content: String) Int;

@@ -566,8 +566,24 @@ namespace sema
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
 
+        auto linkName = extDecl->name_;
+        bool isStdFsModule =
+            module.info->moduleName == "fs" &&
+            module.info->sourceName.find("/std/fs.zp") != std::string::npos;
+        bool isStdPathModule =
+            module.info->moduleName == "path" &&
+            module.info->sourceName.find("/std/path.zp") != std::string::npos;
+        if (isStdFsModule && extDecl->name_ == "mkdir")
+        {
+          linkName = "zap_fs_mkdir";
+        }
+        else if (isStdPathModule && extDecl->name_ == "basename")
+        {
+          linkName = "zap_path_basename";
+        }
+
         auto symbol = std::make_shared<FunctionSymbol>(
-            extDecl->name_, std::move(params), std::move(retType), extDecl->name_,
+            extDecl->name_, std::move(params), std::move(retType), linkName,
             module.info->moduleName, extDecl->visibility_);
 
         if (!module.scope->declare(extDecl->name_, symbol))
