@@ -165,8 +165,9 @@ run_test "tests/syntax_error.zp" 1 "Multiple syntax errors"
 
 # Concat tests
 run_runtime_test "tests/concat.zp" 0 "Concat literal strings"
-run_test "tests/concat_char.zp" 1 "Concat char + string is currently rejected"
+run_runtime_test "tests/concat_char.zp" 0 "Concat String and Char"
 run_runtime_test "tests/string_index_test.zp" 0 "String indexing"
+run_runtime_test "tests/string_stdlib_test.zp" 0 "String stdlib helpers"
 run_test "tests/string_index_assign_error.zp" 1 "String indexing is read-only"
 
 # Logical operator tests
@@ -198,6 +199,7 @@ run_runtime_test "tests/import_flat/main.zp" 0 "Selective flat import with brace
 run_runtime_test "tests/import_alias/main.zp" 0 "Selective import alias with as"
 run_runtime_test "tests/import_module_alias/main.zp" 0 "Module namespace alias with as"
 run_runtime_test "tests/import_module_alias_same/main.zp" 0 "The same module may reuse the same alias"
+run_runtime_test "tests/import_std_string/main.zp" 0 "Importing std/string module namespace"
 run_test "tests/import_module_alias_conflict/main.zp" 1 "Different modules cannot reuse the same alias"
 run_runtime_test "tests/import_folder/main.zp" 0 "Importing an entire folder as namespaces"
 run_runtime_test "tests/import_canonical/main.zp" 0 "Import paths resolving to the same file share one module"

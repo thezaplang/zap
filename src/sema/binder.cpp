@@ -1089,13 +1089,19 @@ namespace sema
 
     if (node.op_ == "~")
     {
-      if (!isStringType(leftType) || !isStringType(rightType))
+      bool leftOk = isStringType(leftType) ||
+                    leftType->getKind() == zir::TypeKind::Char;
+      bool rightOk = isStringType(rightType) ||
+                     rightType->getKind() == zir::TypeKind::Char;
+      bool hasString = isStringType(leftType) || isStringType(rightType);
+
+      if (!leftOk || !rightOk || !hasString)
       {
-        error(node.span, "Concatenation requires String operands, got '" +
+        error(node.span, "Concatenation requires String and/or Char operands with at least one String, got '" +
                              leftType->toString() + "' and '" +
                              rightType->toString() + "'");
       }
-      resultType = leftType;
+      resultType = std::make_shared<zir::RecordType>("String", "String");
     }
     else if (node.op_ == "+" || node.op_ == "-" || node.op_ == "*" ||
              node.op_ == "/" || node.op_ == "%" || node.op_ == "^")

@@ -1,3 +1,3 @@
 pub import "std/io" { println, printInt, printFloat, printFloat64, printBool, printChar, eprintln, getLn };
-pub import "std/string" { stringLen };
+pub import "std/string" { stringLen, len, at, from_char, pushChar, slice, eq };
 pub import "std/process" { exit, panic };

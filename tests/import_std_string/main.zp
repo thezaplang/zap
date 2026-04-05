@@ -1,5 +1,5 @@
 import "std/string";
 
 fun main() Int {
-  return string.stringLen("abc") - 3;
+  return string.len("abc") - 3;
 }
