@@ -1,5 +1,9 @@
 var namespacesema =
 [
+    [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
+      [ "extractQualifiedPath", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ad1b399bc505845ab3aa9428f3c9d41cf", null ],
+      [ "splitQualified", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a83ab1716b289fa2170d5cd37bd82536f", null ]
+    ] ],
     [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
     [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
     [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
@@ -10,6 +14,7 @@ var namespacesema =
     [ "BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],
     [ "BoundCast", "d2/d0f/classsema_1_1BoundCast.html", "d2/d0f/classsema_1_1BoundCast" ],
     [ "BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", "dc/d46/classsema_1_1BoundVariableExpression" ],
+    [ "BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", "d5/d03/classsema_1_1BoundModuleReference" ],
     [ "BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", "df/dee/classsema_1_1BoundBinaryExpression" ],
     [ "BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", "db/d94/classsema_1_1BoundTernaryExpression" ],
     [ "BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],
@@ -30,14 +35,18 @@ var namespacesema =
     [ "BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", "db/ddd/classsema_1_1BoundMemberAccess" ],
     [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+    [ "ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", "d9/ddd/structsema_1_1ResolvedImport" ],
+    [ "ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", "d0/d65/structsema_1_1ModuleInfo" ],
     [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
     [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],
     [ "FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", "db/db1/classsema_1_1FunctionSymbol" ],
     [ "TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", "d0/d06/classsema_1_1TypeSymbol" ],
+    [ "ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", "d3/d56/classsema_1_1ModuleSymbol" ],
     [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ],
     [ "SymbolKind", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524", [
       [ "Variable", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9", null ],
       [ "Function", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261", null ],
-      [ "Type", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508", null ]
+      [ "Type", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508", null ],
+      [ "Module", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42", null ]
     ] ]
 ];

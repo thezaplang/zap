@@ -9,6 +9,7 @@ var bound__nodes_8hpp =
     [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],
     [ "sema::BoundCast", "d2/d0f/classsema_1_1BoundCast.html", "d2/d0f/classsema_1_1BoundCast" ],
     [ "sema::BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", "dc/d46/classsema_1_1BoundVariableExpression" ],
+    [ "sema::BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", "d5/d03/classsema_1_1BoundModuleReference" ],
     [ "sema::BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", "df/dee/classsema_1_1BoundBinaryExpression" ],
     [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", "db/d94/classsema_1_1BoundTernaryExpression" ],
     [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],

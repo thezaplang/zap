@@ -72,15 +72,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d2/d0f/classsema_1_1BoundCast.html#ad9303d46b66c2aed387274db986e23ee",
-"d3/d09/classzap_1_1Stream.html#af9a9373bd62a219d4a9588c9f7e96d7a",
-"d4/d67/classzir_1_1PointerType.html#a8bdd960293f8e0d2bf3dd790254208d7",
-"d7/d9b/binder_8hpp_source.html",
-"d9/d67/ext__decl_8hpp.html",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#ac422baac0ccf9876da632ad18e8e07f2",
-"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f",
-"de/d73/classzap_1_1Parser.html#af7c39bd6c0b177459239660fe41c9508",
-"functions_vars_h.html"
+"d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1",
+"d3/d09/classzap_1_1Stream.html#a386543e154b3dd47bba6646ecc3ec097",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a87fdcd2ffa8f71b49da9e0cfd4fb893f",
+"d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec",
+"d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea66a0128ad08b2053e4809e07fe05728c",
+"da/db6/classzir_1_1RetainInst.html#ac5e38f6ae165e478eb0f7eb190165617",
+"dc/d13/structVisitor.html#a69c98026240b0f527159961aac88ce3b",
+"dd/d86/classFunCall.html#a9619f42a13158a0a21868d8276ba4d7a",
+"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

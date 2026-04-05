@@ -4,6 +4,7 @@ var hierarchy =
     [ "Argument", "dc/d8f/structArgument.html", null ],
     [ "AstBuilder", "de/d56/classAstBuilder.html", null ],
     [ "zir::BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", null ],
+    [ "sema::ResolvedImport::Binding", "dc/d93/structsema_1_1ResolvedImport_1_1Binding.html", null ],
     [ "sema::BoundNode", "d0/db2/classsema_1_1BoundNode.html", [
       [ "sema::BoundEnumDeclaration", "d2/d9e/classsema_1_1BoundEnumDeclaration.html", null ],
       [ "sema::BoundExpression", "db/d06/classsema_1_1BoundExpression.html", [
@@ -14,6 +15,7 @@ var hierarchy =
         [ "sema::BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", null ],
         [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", null ],
         [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", null ],
+        [ "sema::BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", null ],
         [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
         [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
@@ -44,6 +46,7 @@ var hierarchy =
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
+    [ "ImportBinding", "d7/de6/structImportBinding.html", null ],
     [ "zir::Instruction", "d0/dad/classzir_1_1Instruction.html", [
       [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", null ],
       [ "zir::AllocaInst", "d2/d4b/classzir_1_1AllocaInst.html", null ],
@@ -66,6 +69,8 @@ var hierarchy =
     [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
     [ "Lexer", "d6/dc0/classLexer.html", null ],
     [ "zir::Module", "d9/d68/classzir_1_1Module.html", null ],
+    [ "sema::ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", null ],
+    [ "sema::Binder::ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", null ],
     [ "Node", "df/dd0/classNode.html", [
       [ "ExpressionNode", "dd/d06/classExpressionNode.html", [
         [ "ArrayLiteralNode", "d0/d85/classArrayLiteralNode.html", null ],
@@ -98,17 +103,20 @@ var hierarchy =
         [ "WhileNode", "d2/df8/classWhileNode.html", null ]
       ] ],
       [ "TopLevel", "d8/d65/classTopLevel.html", [
+        [ "ConstDecl", "d2/def/classConstDecl.html", null ],
         [ "EnumDecl", "d0/d96/classEnumDecl.html", null ],
         [ "ExtDecl", "d3/df9/classExtDecl.html", null ],
         [ "FunDecl", "d3/d94/classFunDecl.html", null ],
         [ "ImportNode", "d5/d3f/classImportNode.html", null ],
         [ "RecordDecl", "d9/d3d/classRecordDecl.html", null ],
         [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html", null ],
-        [ "TypeAliasDecl", "d2/daf/classTypeAliasDecl.html", null ]
+        [ "TypeAliasDecl", "d2/daf/classTypeAliasDecl.html", null ],
+        [ "VarDecl", "d0/d3d/classVarDecl.html", null ]
       ] ],
       [ "TypeNode", "d7/d9f/classTypeNode.html", null ]
     ] ],
     [ "zap::Parser", "de/d73/classzap_1_1Parser.html", null ],
+    [ "sema::ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", null ],
     [ "std::runtime_error", null, [
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
@@ -123,6 +131,7 @@ var hierarchy =
     [ "StructFieldInit", "d8/d96/structStructFieldInit.html", null ],
     [ "sema::Symbol", "d1/df6/classsema_1_1Symbol.html", [
       [ "sema::FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", null ],
+      [ "sema::ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", null ],
       [ "sema::TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", null ],
       [ "sema::VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", null ]
     ] ],

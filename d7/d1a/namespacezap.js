@@ -1,6 +1,16 @@
 var namespacezap =
 [
+    [ "anonymous_namespace{driver.cpp}", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html", [
+      [ "computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
+      [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29", null ],
+      [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
+      [ "resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4", null ],
+      [ "stripZapExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#ad26cedee145d4fdb93dd5c287c346a4c", null ]
+    ] ],
     [ "lsp", "d5/d23/namespacezap_1_1lsp.html", "d5/d23/namespacezap_1_1lsp" ],
+    [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
+      [ "qualifiedNameFromExpression", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html#a05f2998a2f843ce15a663ecb08b93391", null ]
+    ] ],
     [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
     [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],
     [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ],
@@ -39,6 +49,7 @@ var namespacezap =
       [ "Warning", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
       [ "Error", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd", null ]
     ] ],
+    [ "compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
     [ "compileSourceZIR", "d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595", null ],
     [ "err", "d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18", null ],
     [ "out", "d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66", null ],

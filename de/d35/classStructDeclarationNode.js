@@ -1,5 +1,6 @@
 var classStructDeclarationNode =
 [
+    [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html#aad13fbc394d0485859b8b0d0d7a661ad", null ],
     [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html#a921573b0a0199e38b521a480008b24bd", null ],
     [ "accept", "de/d35/classStructDeclarationNode.html#a5519f61a187dacaa475648150965f6ee", null ],
     [ "fields_", "de/d35/classStructDeclarationNode.html#afb3ed65aab801a29339072786d1e0088", null ],

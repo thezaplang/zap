@@ -80,7 +80,7 @@ $(function(){initNavTree('d5/d3f/classImportNode.html','../../','d2/d29/classImp
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3b8f7fe05da24480ecb9d860f476bd21" id="r_a3b8f7fe05da24480ecb9d860f476bd21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b8f7fe05da24480ecb9d860f476bd21">ImportNode</a> () noexcept=default</td></tr>
-<tr class="memitem:aaca14e74d7f1b9f9e833b01411c21823" id="r_aaca14e74d7f1b9f9e833b01411c21823"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaca14e74d7f1b9f9e833b01411c21823">ImportNode</a> (const std::vector&lt; std::string &gt; &amp;importPath)</td></tr>
+<tr class="memitem:ad17cdd6fecbf706e50f3fd0384aac609" id="r_ad17cdd6fecbf706e50f3fd0384aac609"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad17cdd6fecbf706e50f3fd0384aac609">ImportNode</a> (std::string importPath, std::string alias=&quot;&quot;, std::vector&lt; <a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a> &gt; importBindings={})</td></tr>
 <tr class="memitem:a0b7848fd35d8b025e2d247788533f9e3" id="r_a0b7848fd35d8b025e2d247788533f9e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b7848fd35d8b025e2d247788533f9e3">~ImportNode</a> () noexcept override=default</td></tr>
 <tr class="memitem:ae9fc819a6ec9c0b806bd886e855a674a" id="r_ae9fc819a6ec9c0b806bd886e855a674a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9fc819a6ec9c0b806bd886e855a674a">accept</a> (<a class="el" href="../../dc/d13/structVisitor.html">Visitor</a> &amp;v) override</td></tr>
 <tr class="inherit_header pub_methods_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
@@ -91,13 +91,17 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad71f516f823d886860f8fe5d921fd971" id="r_ad71f516f823d886860f8fe5d921fd971"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad71f516f823d886860f8fe5d921fd971">path</a></td></tr>
+<tr class="memitem:ac923d54057d65a0df6f9db9b77e91a7a" id="r_ac923d54057d65a0df6f9db9b77e91a7a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac923d54057d65a0df6f9db9b77e91a7a">path</a></td></tr>
+<tr class="memitem:a3359ebbc1b6bed869e9dc9bcda5abde4" id="r_a3359ebbc1b6bed869e9dc9bcda5abde4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3359ebbc1b6bed869e9dc9bcda5abde4">moduleAlias</a></td></tr>
+<tr class="memitem:a8c414c46f3ccaa2a0cba6cd2c155f94b" id="r_a8c414c46f3ccaa2a0cba6cd2c155f94b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c414c46f3ccaa2a0cba6cd2c155f94b">bindings</a></td></tr>
+<tr class="inherit_header pub_attribs_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
+<tr class="memitem:aa6ff8b85c21ab2c17c18348011c6cae8 inherit pub_attribs_classTopLevel" id="r_aa6ff8b85c21ab2c17c18348011c6cae8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/classTopLevel.html#aa6ff8b85c21ab2c17c18348011c6cae8">visibility_</a> = <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></td></tr>
 <tr class="inherit_header pub_attribs_classNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../df/dd0/classNode.html">Node</a></td></tr>
 <tr class="memitem:a48ef306cfa64ff29194ade8b098f127f inherit pub_attribs_classNode" id="r_a48ef306cfa64ff29194ade8b098f127f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3b8f7fe05da24480ecb9d860f476bd21" name="a3b8f7fe05da24480ecb9d860f476bd21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b8f7fe05da24480ecb9d860f476bd21">&#9670;&#160;</a></span>ImportNode() <span class="overload">[1/2]</span></h2>
@@ -122,12 +126,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00014">ImportNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00020">ImportNode()</a>.</p>
 
 </div>
 </div>
-<a id="aaca14e74d7f1b9f9e833b01411c21823" name="aaca14e74d7f1b9f9e833b01411c21823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaca14e74d7f1b9f9e833b01411c21823">&#9670;&#160;</a></span>ImportNode() <span class="overload">[2/2]</span></h2>
+<a id="ad17cdd6fecbf706e50f3fd0384aac609" name="ad17cdd6fecbf706e50f3fd0384aac609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad17cdd6fecbf706e50f3fd0384aac609">&#9670;&#160;</a></span>ImportNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,8 +142,17 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">ImportNode::ImportNode </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>importPath</em></span></td><td>)</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>importPath</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>alias</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>importBindings</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -149,11 +162,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>: <a class="code hl_variable" href="#ad71f516f823d886860f8fe5d921fd971">path</a>(importPath) {}</div>
-<div class="ttc" id="aclassImportNode_html_ad71f516f823d886860f8fe5d921fd971"><div class="ttname"><a href="#ad71f516f823d886860f8fe5d921fd971">ImportNode::path</a></div><div class="ttdeci">std::vector&lt; std::string &gt; path</div><div class="ttdef"><b>Definition</b> <a href="../../de/de6/import__node_8hpp_source.html#l00011">import_node.hpp:11</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>                                                       {})</div>
+<div class="line"><span class="lineno">   22</span>      : <a class="code hl_variable" href="#ac923d54057d65a0df6f9db9b77e91a7a">path</a>(std::move(importPath)), <a class="code hl_variable" href="#a3359ebbc1b6bed869e9dc9bcda5abde4">moduleAlias</a>(std::move(alias)),</div>
+<div class="line"><span class="lineno">   23</span>        <a class="code hl_variable" href="#a8c414c46f3ccaa2a0cba6cd2c155f94b">bindings</a>(std::move(importBindings)) {}</div>
+<div class="ttc" id="aclassImportNode_html_a3359ebbc1b6bed869e9dc9bcda5abde4"><div class="ttname"><a href="#a3359ebbc1b6bed869e9dc9bcda5abde4">ImportNode::moduleAlias</a></div><div class="ttdeci">std::string moduleAlias</div><div class="ttdef"><b>Definition</b> <a href="../../de/de6/import__node_8hpp_source.html#l00016">import_node.hpp:16</a></div></div>
+<div class="ttc" id="aclassImportNode_html_a8c414c46f3ccaa2a0cba6cd2c155f94b"><div class="ttname"><a href="#a8c414c46f3ccaa2a0cba6cd2c155f94b">ImportNode::bindings</a></div><div class="ttdeci">std::vector&lt; ImportBinding &gt; bindings</div><div class="ttdef"><b>Definition</b> <a href="../../de/de6/import__node_8hpp_source.html#l00017">import_node.hpp:17</a></div></div>
+<div class="ttc" id="aclassImportNode_html_ac923d54057d65a0df6f9db9b77e91a7a"><div class="ttname"><a href="#ac923d54057d65a0df6f9db9b77e91a7a">ImportNode::path</a></div><div class="ttdeci">std::string path</div><div class="ttdef"><b>Definition</b> <a href="../../de/de6/import__node_8hpp_source.html#l00015">import_node.hpp:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="#a3b8f7fe05da24480ecb9d860f476bd21">ImportNode()</a>, and <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00011">path</a>.</p>
+<p class="reference">References <a class="el" href="#a3b8f7fe05da24480ecb9d860f476bd21">ImportNode()</a>.</p>
 
 </div>
 </div>
@@ -208,32 +225,64 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00027">27</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00049">visitor.hpp:49</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00018">accept()</a>.</p>
+<p class="reference">References <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00027">accept()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00018">accept()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00027">accept()</a>.</p>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="ad71f516f823d886860f8fe5d921fd971" name="ad71f516f823d886860f8fe5d921fd971"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad71f516f823d886860f8fe5d921fd971">&#9670;&#160;</a></span>path</h2>
+<a id="a8c414c46f3ccaa2a0cba6cd2c155f94b" name="a8c414c46f3ccaa2a0cba6cd2c155f94b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c414c46f3ccaa2a0cba6cd2c155f94b">&#9670;&#160;</a></span>bindings</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::string&gt; ImportNode::path</td>
+          <td class="memname">std::vector&lt;<a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a>&gt; ImportNode::bindings</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00014">ImportNode()</a>.</p>
+</div>
+</div>
+<a id="a3359ebbc1b6bed869e9dc9bcda5abde4" name="a3359ebbc1b6bed869e9dc9bcda5abde4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3359ebbc1b6bed869e9dc9bcda5abde4">&#9670;&#160;</a></span>moduleAlias</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ImportNode::moduleAlias</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac923d54057d65a0df6f9db9b77e91a7a" name="ac923d54057d65a0df6f9db9b77e91a7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac923d54057d65a0df6f9db9b77e91a7a">&#9670;&#160;</a></span>path</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ImportNode::path</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../de/de6/import__node_8hpp_source.html">import_node.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00086">zap::anonymous_namespace{driver.cpp}::resolveImportTargets()</a>.</p>
 
 </div>
 </div>

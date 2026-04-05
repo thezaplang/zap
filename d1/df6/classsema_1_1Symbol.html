@@ -73,8 +73,9 @@ $(function(){initNavTree('d1/df6/classsema_1_1Symbol.html','../../','d5/d7f/clas
   <img src="../../d1/df6/classsema_1_1Symbol.png" usemap="#sema_3A_3ASymbol_map" alt=""/>
   <map id="sema_3A_3ASymbol_map" name="sema_3A_3ASymbol_map">
 <area href="../../db/db1/classsema_1_1FunctionSymbol.html" alt="sema::FunctionSymbol" shape="rect" coords="0,56,137,80"/>
-<area href="../../d0/d06/classsema_1_1TypeSymbol.html" alt="sema::TypeSymbol" shape="rect" coords="147,56,284,80"/>
-<area href="../../d8/d9a/classsema_1_1VariableSymbol.html" alt="sema::VariableSymbol" shape="rect" coords="294,56,431,80"/>
+<area href="../../d3/d56/classsema_1_1ModuleSymbol.html" alt="sema::ModuleSymbol" shape="rect" coords="147,56,284,80"/>
+<area href="../../d0/d06/classsema_1_1TypeSymbol.html" alt="sema::TypeSymbol" shape="rect" coords="294,56,431,80"/>
+<area href="../../d8/d9a/classsema_1_1VariableSymbol.html" alt="sema::VariableSymbol" shape="rect" coords="441,56,578,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -86,15 +87,18 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a29e8c19b610c0090ca847b1f37df19a2" id="r_a29e8c19b610c0090ca847b1f37df19a2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a></td></tr>
+<tr class="memitem:a47472cf1d7dcdedbd0a8fd7fc91d7106" id="r_a47472cf1d7dcdedbd0a8fd7fc91d7106"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">linkName</a></td></tr>
+<tr class="memitem:a1e285c400593fdbe195b42812ecc5026" id="r_a1e285c400593fdbe195b42812ecc5026"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e285c400593fdbe195b42812ecc5026">moduleName</a></td></tr>
 <tr class="memitem:a4eeccdceff1891f5d84fb39fcc20e084" id="r_a4eeccdceff1891f5d84fb39fcc20e084"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eeccdceff1891f5d84fb39fcc20e084">type</a></td></tr>
+<tr class="memitem:a4064bb2d9547566a99ac87f7133a29de" id="r_a4064bb2d9547566a99ac87f7133a29de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4064bb2d9547566a99ac87f7133a29de">visibility</a> = <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ae8849f505b778f03eb63eaf853958aa3" id="r_ae8849f505b778f03eb63eaf853958aa3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8849f505b778f03eb63eaf853958aa3">Symbol</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; t)</td></tr>
+<tr class="memitem:ad418fedc0924f4c66d40b9c2d245aa34" id="r_ad418fedc0924f4c66d40b9c2d245aa34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; t, std::string link=&quot;&quot;, std::string module=&quot;&quot;, <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a> vis=<a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab68ea39182c42f1dd3098f06dc53057a" name="ab68ea39182c42f1dd3098f06dc53057a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab68ea39182c42f1dd3098f06dc53057a">&#9670;&#160;</a></span>~Symbol()</h2>
@@ -121,8 +125,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae8849f505b778f03eb63eaf853958aa3" name="ae8849f505b778f03eb63eaf853958aa3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8849f505b778f03eb63eaf853958aa3">&#9670;&#160;</a></span>Symbol()</h2>
+<a id="ad418fedc0924f4c66d40b9c2d245aa34" name="ad418fedc0924f4c66d40b9c2d245aa34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad418fedc0924f4c66d40b9c2d245aa34">&#9670;&#160;</a></span>Symbol()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +142,22 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>t</em></span>&#160;)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>link</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>module</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a></td>          <td class="paramname"><span class="paramname"><em>vis</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -148,14 +167,18 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>      : <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a>(std::move(n)), <a class="code hl_variable" href="#a4eeccdceff1891f5d84fb39fcc20e084">type</a>(std::move(t)) {}</div>
-<div class="ttc" id="aclasssema_1_1Symbol_html_a29e8c19b610c0090ca847b1f37df19a2"><div class="ttname"><a href="#a29e8c19b610c0090ca847b1f37df19a2">sema::Symbol::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00015">symbol.hpp:15</a></div></div>
-<div class="ttc" id="aclasssema_1_1Symbol_html_a4eeccdceff1891f5d84fb39fcc20e084"><div class="ttname"><a href="#a4eeccdceff1891f5d84fb39fcc20e084">sema::Symbol::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00016">symbol.hpp:16</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>      : <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a>(std::move(n)), <a class="code hl_variable" href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">linkName</a>(link.empty() ? <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a> : std::move(link)),</div>
+<div class="line"><span class="lineno">   30</span>        <a class="code hl_variable" href="#a1e285c400593fdbe195b42812ecc5026">moduleName</a>(std::move(module)), <a class="code hl_variable" href="#a4eeccdceff1891f5d84fb39fcc20e084">type</a>(std::move(t)), <a class="code hl_variable" href="#a4064bb2d9547566a99ac87f7133a29de">visibility</a>(vis) {}</div>
+<div class="ttc" id="aclasssema_1_1Symbol_html_a1e285c400593fdbe195b42812ecc5026"><div class="ttname"><a href="#a1e285c400593fdbe195b42812ecc5026">sema::Symbol::moduleName</a></div><div class="ttdeci">std::string moduleName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00019">symbol.hpp:19</a></div></div>
+<div class="ttc" id="aclasssema_1_1Symbol_html_a29e8c19b610c0090ca847b1f37df19a2"><div class="ttname"><a href="#a29e8c19b610c0090ca847b1f37df19a2">sema::Symbol::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00017">symbol.hpp:17</a></div></div>
+<div class="ttc" id="aclasssema_1_1Symbol_html_a4064bb2d9547566a99ac87f7133a29de"><div class="ttname"><a href="#a4064bb2d9547566a99ac87f7133a29de">sema::Symbol::visibility</a></div><div class="ttdeci">Visibility visibility</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00021">symbol.hpp:21</a></div></div>
+<div class="ttc" id="aclasssema_1_1Symbol_html_a47472cf1d7dcdedbd0a8fd7fc91d7106"><div class="ttname"><a href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">sema::Symbol::linkName</a></div><div class="ttdeci">std::string linkName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00018">symbol.hpp:18</a></div></div>
+<div class="ttc" id="aclasssema_1_1Symbol_html_a4eeccdceff1891f5d84fb39fcc20e084"><div class="ttname"><a href="#a4eeccdceff1891f5d84fb39fcc20e084">sema::Symbol::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00020">symbol.hpp:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00015">name</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">Symbol()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00016">type</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00018">linkName</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00019">moduleName</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00017">name</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00020">type</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">visibility</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00040">sema::FunctionSymbol::FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">sema::TypeSymbol::TypeSymbol()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00030">sema::VariableSymbol::VariableSymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">sema::FunctionSymbol::FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00074">sema::ModuleSymbol::ModuleSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00063">sema::TypeSymbol::TypeSymbol()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00038">sema::VariableSymbol::VariableSymbol()</a>.</p>
 
 </div>
 </div>
@@ -183,7 +206,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html#a13f7318b763c30f0e271b6c414d51ba6">sema::FunctionSymbol</a>, <a class="el" href="../../d0/d06/classsema_1_1TypeSymbol.html#ac9ff43e73e510f4faec519091439ca14">sema::TypeSymbol</a>, and <a class="el" href="../../d8/d9a/classsema_1_1VariableSymbol.html#a32ed8f1b628d462abd3a64f58e827256">sema::VariableSymbol</a>.</p>
+<p>Implemented in <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html#a13f7318b763c30f0e271b6c414d51ba6">sema::FunctionSymbol</a>, <a class="el" href="../../d3/d56/classsema_1_1ModuleSymbol.html#ae92802c1d2230d65b69f1de3265921d0">sema::ModuleSymbol</a>, <a class="el" href="../../d0/d06/classsema_1_1TypeSymbol.html#ac9ff43e73e510f4faec519091439ca14">sema::TypeSymbol</a>, and <a class="el" href="../../d8/d9a/classsema_1_1VariableSymbol.html#a32ed8f1b628d462abd3a64f58e827256">sema::VariableSymbol</a>.</p>
 
 <p class="reference">References <a class="el" href="#a37b5470260ed0c5d4dab3b05df8286f1">getKind()</a>.</p>
 
@@ -192,6 +215,42 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a47472cf1d7dcdedbd0a8fd7fc91d7106" name="a47472cf1d7dcdedbd0a8fd7fc91d7106"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">&#9670;&#160;</a></span>linkName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sema::Symbol::linkName</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>.</p>
+
+</div>
+</div>
+<a id="a1e285c400593fdbe195b42812ecc5026" name="a1e285c400593fdbe195b42812ecc5026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e285c400593fdbe195b42812ecc5026">&#9670;&#160;</a></span>moduleName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sema::Symbol::moduleName</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>.</p>
+
+</div>
+</div>
 <a id="a29e8c19b610c0090ca847b1f37df19a2" name="a29e8c19b610c0090ca847b1f37df19a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29e8c19b610c0090ca847b1f37df19a2">&#9670;&#160;</a></span>name</h2>
 
@@ -204,9 +263,9 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">Symbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>.</p>
 
 </div>
 </div>
@@ -222,9 +281,27 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">Symbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>.</p>
+
+</div>
+</div>
+<a id="a4064bb2d9547566a99ac87f7133a29de" name="a4064bb2d9547566a99ac87f7133a29de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4064bb2d9547566a99ac87f7133a29de">&#9670;&#160;</a></span>visibility</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a> sema::Symbol::visibility = <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">Symbol()</a>.</p>
 
 </div>
 </div>

@@ -71,6 +71,7 @@ $(function(){initNavTree('d5/d15/driver_8cpp.html','../../',''); });
 <code>#include &quot;<a class="el" href="../../d1/d46/parser_8hpp_source.html">parser/parser.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d7/d9b/binder_8hpp_source.html">sema/binder.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">sema/bound_nodes.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../da/de6/module__info_8hpp_source.html">sema/module_info.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">utils/diagnostics.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d9/d0f/stream_8hpp_source.html">utils/stream.hpp</a>&quot;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
@@ -78,6 +79,9 @@ $(function(){initNavTree('d5/d15/driver_8cpp.html','../../',''); });
 <code>#include &lt;cstring&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;set&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 </div>
 <p><a href="../../d5/d15/driver_8cpp_source.html">Go to the source code of this file.</a></p>
@@ -85,11 +89,18 @@ $(function(){initNavTree('d5/d15/driver_8cpp.html','../../',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:zap" id="r_zap"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html">zap</a></td></tr>
+<tr class="memitem:zap_3A_3Aanonymous_5Fnamespace_7Bdriver_2Ecpp_7D" id="r_zap_3A_3Aanonymous_5Fnamespace_7Bdriver_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html">zap::anonymous_namespace{driver.cpp}</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2a6e0e7719e15570ecf3fccf40924d36" id="r_a2a6e0e7719e15570ecf3fccf40924d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#a2a6e0e7719e15570ecf3fccf40924d36">zap::verifyFile</a> (const std::filesystem::path &amp;input)</td></tr>
 <tr class="memitem:a4568178cd71b87328c92ebc2c1ddf595" id="r_a4568178cd71b87328c92ebc2c1ddf595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595">zap::compileSourceZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
+<tr class="memitem:ad26cedee145d4fdb93dd5c287c346a4c" id="r_ad26cedee145d4fdb93dd5c287c346a4c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#ad26cedee145d4fdb93dd5c287c346a4c">zap::anonymous_namespace{driver.cpp}::stripZapExtension</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memitem:aec887b6f2fdb75498785916f4fe3bd13" id="r_aec887b6f2fdb75498785916f4fe3bd13"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13">zap::anonymous_namespace{driver.cpp}::computeLogicalModulePath</a> (const std::filesystem::path &amp;canonicalPath)</td></tr>
+<tr class="memitem:af4bbc238e3e3e6f7f312f70f61694f2a" id="r_af4bbc238e3e3e6f7f312f70f61694f2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a">zap::anonymous_namespace{driver.cpp}::readSourceFile</a> (const std::filesystem::path &amp;path, std::string &amp;content)</td></tr>
+<tr class="memitem:a55d5b8a988ea0ec485ebdbda73d289b4" id="r_a55d5b8a988ea0ec485ebdbda73d289b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4">zap::anonymous_namespace{driver.cpp}::resolveImportTargets</a> (const std::filesystem::path &amp;modulePath, const <a class="el" href="../../d5/d3f/classImportNode.html">ImportNode</a> &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets)</td></tr>
+<tr class="memitem:a5133a75d670ba094d22e9aefdaef5c29" id="r_a5133a75d670ba094d22e9aefdaef5c29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29">zap::anonymous_namespace{driver.cpp}::loadModuleGraph</a> (const std::filesystem::path &amp;entryPath, std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting)</td></tr>
+<tr class="memitem:a5b534b45b24952eb8d0ee6cbdb4eb199" id="r_a5b534b45b24952eb8d0ee6cbdb4eb199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199">zap::compileLoadedModules</a> (<a class="el" href="../../d9/d00/classzap_1_1driver.html">driver</a> &amp;drv, const std::filesystem::path &amp;entryPath)</td></tr>
+<tr class="memitem:a2a6e0e7719e15570ecf3fccf40924d36" id="r_a2a6e0e7719e15570ecf3fccf40924d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#a2a6e0e7719e15570ecf3fccf40924d36">zap::verifyFile</a> (const std::filesystem::path &amp;input)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

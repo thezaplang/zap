@@ -99,6 +99,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a939c9891330bc492a4a89151031cbfe9" id="r_a939c9891330bc492a4a89151031cbfe9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a939c9891330bc492a4a89151031cbfe9">visit</a> (<a class="el" href="../../d2/d9e/classsema_1_1BoundEnumDeclaration.html">sema::BoundEnumDeclaration</a> &amp;node) override</td></tr>
 <tr class="memitem:a66c586afbf4b0e2e494bbde63fdfc27f" id="r_a66c586afbf4b0e2e494bbde63fdfc27f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66c586afbf4b0e2e494bbde63fdfc27f">visit</a> (<a class="el" href="../../db/ddd/classsema_1_1BoundMemberAccess.html">sema::BoundMemberAccess</a> &amp;node) override</td></tr>
 <tr class="memitem:a68eafad8e56694bba35221a19d80b1aa" id="r_a68eafad8e56694bba35221a19d80b1aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68eafad8e56694bba35221a19d80b1aa">visit</a> (<a class="el" href="../../d8/d4b/classsema_1_1BoundStructLiteral.html">sema::BoundStructLiteral</a> &amp;node) override</td></tr>
+<tr class="memitem:a87b31eae181c3de54153841d08f1a479" id="r_a87b31eae181c3de54153841d08f1a479"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87b31eae181c3de54153841d08f1a479">visit</a> (<a class="el" href="../../d5/d03/classsema_1_1BoundModuleReference.html">sema::BoundModuleReference</a> &amp;node) override</td></tr>
 <tr class="memitem:a38b81707ba970049372c7bb4feff8140" id="r_a38b81707ba970049372c7bb4feff8140"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38b81707ba970049372c7bb4feff8140">visit</a> (<a class="el" href="../../d0/dec/classsema_1_1BoundIfStatement.html">sema::BoundIfStatement</a> &amp;node) override</td></tr>
 <tr class="memitem:ab77094dd405a58b294d433237c1d1f89" id="r_ab77094dd405a58b294d433237c1d1f89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab77094dd405a58b294d433237c1d1f89">visit</a> (<a class="el" href="../../d3/d65/classsema_1_1BoundWhileStatement.html">sema::BoundWhileStatement</a> &amp;node) override</td></tr>
 <tr class="memitem:ac79ee8c2ad1306d097bab81be6c96bba" id="r_ac79ee8c2ad1306d097bab81be6c96bba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac79ee8c2ad1306d097bab81be6c96bba">visit</a> (<a class="el" href="../../d1/d54/classsema_1_1BoundBreakStatement.html">sema::BoundBreakStatement</a> &amp;node) override</td></tr>
@@ -155,12 +156,12 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  377</span>  {</div>
 <div class="line"><span class="lineno">  378</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a> + <span class="stringliteral">&quot;.&quot;</span> + std::to_string(<a class="code hl_variable" href="#a90aec8c572fe1ccc5641b0322f83515f">nextBlockId_</a>++);</div>
 <div class="line"><span class="lineno">  379</span>  }</div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a90aec8c572fe1ccc5641b0322f83515f"><div class="ttname"><a href="#a90aec8c572fe1ccc5641b0322f83515f">zir::BoundIRGenerator::nextBlockId_</a></div><div class="ttdeci">int nextBlockId_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00053">ir_generator.hpp:53</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a90aec8c572fe1ccc5641b0322f83515f"><div class="ttname"><a href="#a90aec8c572fe1ccc5641b0322f83515f">zir::BoundIRGenerator::nextBlockId_</a></div><div class="ttdeci">int nextBlockId_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00054">ir_generator.hpp:54</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a3bdf989e09b16dcd5ef0ef15627db32c"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">zap::lsp::prefix</a></div><div class="ttdeci">constexpr std::string_view prefix</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00267">lsp.cpp:267</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00053">nextBlockId_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00054">nextBlockId_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00485">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">visit()</a>.</p>
 
 </div>
 </div>
@@ -191,11 +192,11 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  372</span>  {</div>
 <div class="line"><span class="lineno">  373</span>    <span class="keywordflow">return</span> std::make_shared&lt;Register&gt;(std::to_string(<a class="code hl_variable" href="#a6faa8e516073a281ad62101206891e18">nextRegisterId_</a>++), type);</div>
 <div class="line"><span class="lineno">  374</span>  }</div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a6faa8e516073a281ad62101206891e18"><div class="ttname"><a href="#a6faa8e516073a281ad62101206891e18">zir::BoundIRGenerator::nextRegisterId_</a></div><div class="ttdeci">int nextRegisterId_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00052">ir_generator.hpp:52</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a6faa8e516073a281ad62101206891e18"><div class="ttname"><a href="#a6faa8e516073a281ad62101206891e18">zir::BoundIRGenerator::nextRegisterId_</a></div><div class="ttdeci">int nextRegisterId_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00053">ir_generator.hpp:53</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00052">nextRegisterId_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00053">nextRegisterId_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00624">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00599">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00630">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00605">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>.</p>
 
 </div>
 </div>
@@ -220,17 +221,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   10</span>    root.<a class="code hl_function" href="../../da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb">accept</a>(*<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">   11</span>    <span class="keywordflow">return</span> std::move(<a class="code hl_variable" href="#a6f4dc9fe3389e2df321acb83917e6912">module_</a>);</div>
 <div class="line"><span class="lineno">   12</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_af74ca9c4f31c2e1e740002b5e174b7cb"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb">sema::BoundRootNode::accept</a></div><div class="ttdeci">void accept(BoundVisitor &amp;v) override</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00438">bound_nodes.hpp:438</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a6f4dc9fe3389e2df321acb83917e6912"><div class="ttname"><a href="#a6f4dc9fe3389e2df321acb83917e6912">zir::BoundIRGenerator::module_</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; module_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00045">ir_generator.hpp:45</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_af74ca9c4f31c2e1e740002b5e174b7cb"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb">sema::BoundRootNode::accept</a></div><div class="ttdeci">void accept(BoundVisitor &amp;v) override</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00454">bound_nodes.hpp:454</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a6f4dc9fe3389e2df321acb83917e6912"><div class="ttname"><a href="#a6f4dc9fe3389e2df321acb83917e6912">zir::BoundIRGenerator::module_</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; module_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00046">ir_generator.hpp:46</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00438">sema::BoundRootNode::accept()</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">module_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00454">sema::BoundRootNode::accept()</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">module_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00183">zap::compileSourceZIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00468">zap::compileSourceZIR()</a>.</p>
 
 </div>
 </div>
 <a id="a191f154271fba1cede2d0e221092e63b" name="a191f154271fba1cede2d0e221092e63b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a191f154271fba1cede2d0e221092e63b">&#9670;&#160;</a></span>visit() <span class="overload">[1/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a191f154271fba1cede2d0e221092e63b">&#9670;&#160;</a></span>visit() <span class="overload">[1/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,15 +259,15 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  387</span>  {</div>
 <div class="line"><span class="lineno">  388</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(std::make_shared&lt;Constant&gt;(<span class="stringliteral">&quot;0&quot;</span>, node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
 <div class="line"><span class="lineno">  389</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundExpression_html_a0351a430992b2fd812ba4a8dfb3cfec6"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">sema::BoundExpression::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">bound_nodes.hpp:79</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_af54372f2f252aa081e39f30aa09d4c22"><div class="ttname"><a href="#af54372f2f252aa081e39f30aa09d4c22">zir::BoundIRGenerator::valueStack_</a></div><div class="ttdeci">std::stack&lt; std::shared_ptr&lt; Value &gt; &gt; valueStack_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00050">ir_generator.hpp:50</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundExpression_html_a0351a430992b2fd812ba4a8dfb3cfec6"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">sema::BoundExpression::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">bound_nodes.hpp:81</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_af54372f2f252aa081e39f30aa09d4c22"><div class="ttname"><a href="#af54372f2f252aa081e39f30aa09d4c22">zir::BoundIRGenerator::valueStack_</a></div><div class="ttdeci">std::stack&lt; std::shared_ptr&lt; Value &gt; &gt; valueStack_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00051">ir_generator.hpp:51</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a3a7a540227e0d1fcbebdc0a1b470dff6" name="a3a7a540227e0d1fcbebdc0a1b470dff6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a7a540227e0d1fcbebdc0a1b470dff6">&#9670;&#160;</a></span>visit() <span class="overload">[2/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a7a540227e0d1fcbebdc0a1b470dff6">&#9670;&#160;</a></span>visit() <span class="overload">[2/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,16 +302,16 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  149</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
 <div class="line"><span class="lineno">  150</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;StoreInst&gt;(val, target));</div>
 <div class="line"><span class="lineno">  151</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundAssignment_html_a804d8d2d534a90e7353f2de70f568d30"><div class="ttname"><a href="../../d1/d29/classsema_1_1BoundAssignment.html#a804d8d2d534a90e7353f2de70f568d30">sema::BoundAssignment::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00293">bound_nodes.hpp:293</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundAssignment_html_ab75f28be66775888b0aa139a85a13aee"><div class="ttname"><a href="../../d1/d29/classsema_1_1BoundAssignment.html#ab75f28be66775888b0aa139a85a13aee">sema::BoundAssignment::target</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; target</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00292">bound_nodes.hpp:292</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a432d802384e75d8e633da0e7917c9bca"><div class="ttname"><a href="#a432d802384e75d8e633da0e7917c9bca">zir::BoundIRGenerator::currentBlock_</a></div><div class="ttdeci">BasicBlock * currentBlock_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00047">ir_generator.hpp:47</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundAssignment_html_a804d8d2d534a90e7353f2de70f568d30"><div class="ttname"><a href="../../d1/d29/classsema_1_1BoundAssignment.html#a804d8d2d534a90e7353f2de70f568d30">sema::BoundAssignment::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00309">bound_nodes.hpp:309</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundAssignment_html_ab75f28be66775888b0aa139a85a13aee"><div class="ttname"><a href="../../d1/d29/classsema_1_1BoundAssignment.html#ab75f28be66775888b0aa139a85a13aee">sema::BoundAssignment::target</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; target</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00308">bound_nodes.hpp:308</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a432d802384e75d8e633da0e7917c9bca"><div class="ttname"><a href="#a432d802384e75d8e633da0e7917c9bca">zir::BoundIRGenerator::currentBlock_</a></div><div class="ttdeci">BasicBlock * currentBlock_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00048">ir_generator.hpp:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00293">sema::BoundAssignment::expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00292">sema::BoundAssignment::target</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00309">sema::BoundAssignment::expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00308">sema::BoundAssignment::target</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="ae45ae55e934f864c661caa2339bcfcd4" name="ae45ae55e934f864c661caa2339bcfcd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae45ae55e934f864c661caa2339bcfcd4">&#9670;&#160;</a></span>visit() <span class="overload">[3/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae45ae55e934f864c661caa2339bcfcd4">&#9670;&#160;</a></span>visit() <span class="overload">[3/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -459,10 +460,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  302</span>    }</div>
 <div class="line"><span class="lineno">  303</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(reg);</div>
 <div class="line"><span class="lineno">  304</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a4afebdbdbeb5bb7b949bd47931996bd2"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a4afebdbdbeb5bb7b949bd47931996bd2">sema::BoundBinaryExpression::right</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; right</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00162">bound_nodes.hpp:162</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a712fca1a27f6668ce1b8edad8b1d49c8"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a712fca1a27f6668ce1b8edad8b1d49c8">sema::BoundBinaryExpression::op</a></div><div class="ttdeci">std::string op</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00161">bound_nodes.hpp:161</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a8cd7abfd9579fd22abdd06380d7c7ac5"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5">sema::BoundBinaryExpression::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00160">bound_nodes.hpp:160</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_ac6a01826d1e9b76f196fe38404b58c0b"><div class="ttname"><a href="#ac6a01826d1e9b76f196fe38404b58c0b">zir::BoundIRGenerator::currentFunction_</a></div><div class="ttdeci">Function * currentFunction_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00046">ir_generator.hpp:46</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a4afebdbdbeb5bb7b949bd47931996bd2"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a4afebdbdbeb5bb7b949bd47931996bd2">sema::BoundBinaryExpression::right</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; right</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00178">bound_nodes.hpp:178</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a712fca1a27f6668ce1b8edad8b1d49c8"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a712fca1a27f6668ce1b8edad8b1d49c8">sema::BoundBinaryExpression::op</a></div><div class="ttdeci">std::string op</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00177">bound_nodes.hpp:177</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundBinaryExpression_html_a8cd7abfd9579fd22abdd06380d7c7ac5"><div class="ttname"><a href="../../df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5">sema::BoundBinaryExpression::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00176">bound_nodes.hpp:176</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_ac6a01826d1e9b76f196fe38404b58c0b"><div class="ttname"><a href="#ac6a01826d1e9b76f196fe38404b58c0b">zir::BoundIRGenerator::currentFunction_</a></div><div class="ttdeci">Function * currentFunction_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00047">ir_generator.hpp:47</a></div></div>
 <div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_add850212ddc4adc8032c6422038c1c24"><div class="ttname"><a href="#add850212ddc4adc8032c6422038c1c24">zir::BoundIRGenerator::createBlockLabel</a></div><div class="ttdeci">std::string createBlockLabel(const std::string &amp;prefix)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00376">ir_generator.cpp:376</a></div></div>
 <div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_aee571488fae0ed47913a3278f1b3158f"><div class="ttname"><a href="#aee571488fae0ed47913a3278f1b3158f">zir::BoundIRGenerator::createRegister</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; createRegister(std::shared_ptr&lt; Type &gt; type)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00371">ir_generator.cpp:371</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847a"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a">zir::OpCode</a></div><div class="ttdeci">OpCode</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00009">instruction.hpp:9</a></div></div>
@@ -474,12 +475,12 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2">zir::OpCode::Sub</a></div><div class="ttdeci">@ Sub</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00014">instruction.hpp:14</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9">zir::OpCode::Add</a></div><div class="ttdeci">@ Add</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00013">instruction.hpp:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00013">zir::Add</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00160">sema::BoundBinaryExpression::left</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00015">zir::Mul</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00161">sema::BoundBinaryExpression::op</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00162">sema::BoundBinaryExpression::right</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00016">zir::SDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00018">zir::SRem</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00014">zir::Sub</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00017">zir::UDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00019">zir::URem</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00013">zir::Add</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00176">sema::BoundBinaryExpression::left</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00015">zir::Mul</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00177">sema::BoundBinaryExpression::op</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00178">sema::BoundBinaryExpression::right</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00016">zir::SDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00018">zir::SRem</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00014">zir::Sub</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00017">zir::UDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00019">zir::URem</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a28a32dc4d57b74b9c3e4dfa5124f41e1" name="a28a32dc4d57b74b9c3e4dfa5124f41e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28a32dc4d57b74b9c3e4dfa5124f41e1">&#9670;&#160;</a></span>visit() <span class="overload">[4/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28a32dc4d57b74b9c3e4dfa5124f41e1">&#9670;&#160;</a></span>visit() <span class="overload">[4/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -514,15 +515,15 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>      node.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">  109</span>    }</div>
 <div class="line"><span class="lineno">  110</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundBlock_html_ad688e6dc9eab4af2d0f2f88ddbefdfef"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">sema::BoundBlock::result</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00107">bound_nodes.hpp:107</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundBlock_html_ae629e49ebd3264228a222cc12fbd2de0"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">sema::BoundBlock::statements</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundStatement &gt; &gt; statements</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00106">bound_nodes.hpp:106</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundBlock_html_ad688e6dc9eab4af2d0f2f88ddbefdfef"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">sema::BoundBlock::result</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00109">bound_nodes.hpp:109</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundBlock_html_ae629e49ebd3264228a222cc12fbd2de0"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">sema::BoundBlock::statements</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundStatement &gt; &gt; statements</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00108">bound_nodes.hpp:108</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00107">sema::BoundBlock::result</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00106">sema::BoundBlock::statements</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00109">sema::BoundBlock::result</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00108">sema::BoundBlock::statements</a>.</p>
 
 </div>
 </div>
 <a id="ac79ee8c2ad1306d097bab81be6c96bba" name="ac79ee8c2ad1306d097bab81be6c96bba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac79ee8c2ad1306d097bab81be6c96bba">&#9670;&#160;</a></span>visit() <span class="overload">[5/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac79ee8c2ad1306d097bab81be6c96bba">&#9670;&#160;</a></span>visit() <span class="overload">[5/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -546,24 +547,24 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#ac711b54e3cb8b698593b35abe6d1531b">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00578">578</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  579</span>  {</div>
-<div class="line"><span class="lineno">  580</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.empty())</div>
-<div class="line"><span class="lineno">  581</span>    {</div>
-<div class="line"><span class="lineno">  582</span>      <span class="comment">// Should have been diagnosed earlier in binder, but guard anyway</span></div>
-<div class="line"><span class="lineno">  583</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  584</span>    }</div>
-<div class="line"><span class="lineno">  585</span>    <span class="keyword">auto</span> endLabel = <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.back().second;</div>
-<div class="line"><span class="lineno">  586</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(endLabel));</div>
-<div class="line"><span class="lineno">  587</span>  }</div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_ab27ad956061dc64b46ee46bc80a1b9d5"><div class="ttname"><a href="#ab27ad956061dc64b46ee46bc80a1b9d5">zir::BoundIRGenerator::loopLabelStack_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; loopLabelStack_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00055">ir_generator.hpp:55</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00584">584</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  585</span>  {</div>
+<div class="line"><span class="lineno">  586</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.empty())</div>
+<div class="line"><span class="lineno">  587</span>    {</div>
+<div class="line"><span class="lineno">  588</span>      <span class="comment">// Should have been diagnosed earlier in binder, but guard anyway</span></div>
+<div class="line"><span class="lineno">  589</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  590</span>    }</div>
+<div class="line"><span class="lineno">  591</span>    <span class="keyword">auto</span> endLabel = <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.back().second;</div>
+<div class="line"><span class="lineno">  592</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(endLabel));</div>
+<div class="line"><span class="lineno">  593</span>  }</div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_ab27ad956061dc64b46ee46bc80a1b9d5"><div class="ttname"><a href="#ab27ad956061dc64b46ee46bc80a1b9d5">zir::BoundIRGenerator::loopLabelStack_</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; loopLabelStack_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00056">ir_generator.hpp:56</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00055">loopLabelStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00056">loopLabelStack_</a>.</p>
 
 </div>
 </div>
 <a id="ab3d3bc40f759554b6180c452e9a706ec" name="ab3d3bc40f759554b6180c452e9a706ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3d3bc40f759554b6180c452e9a706ec">&#9670;&#160;</a></span>visit() <span class="overload">[6/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3d3bc40f759554b6180c452e9a706ec">&#9670;&#160;</a></span>visit() <span class="overload">[6/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -587,24 +588,24 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#add26f26a369d5f10bfe8177c0b82fe45">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00624">624</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  625</span>  {</div>
-<div class="line"><span class="lineno">  626</span>    node.<a class="code hl_variable" href="../../d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f">expression</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  627</span>    <span class="keyword">auto</span> src = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
-<div class="line"><span class="lineno">  628</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
-<div class="line"><span class="lineno">  629</span> </div>
-<div class="line"><span class="lineno">  630</span>    <span class="keyword">auto</span> res = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>);</div>
-<div class="line"><span class="lineno">  631</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;CastInst&gt;(res, src, node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
-<div class="line"><span class="lineno">  632</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(res);</div>
-<div class="line"><span class="lineno">  633</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundCast_html_abd77ba9261e7399c8abe98941627415f"><div class="ttname"><a href="../../d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f">sema::BoundCast::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00136">bound_nodes.hpp:136</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00630">630</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  631</span>  {</div>
+<div class="line"><span class="lineno">  632</span>    node.<a class="code hl_variable" href="../../d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f">expression</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  633</span>    <span class="keyword">auto</span> src = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
+<div class="line"><span class="lineno">  634</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
+<div class="line"><span class="lineno">  635</span> </div>
+<div class="line"><span class="lineno">  636</span>    <span class="keyword">auto</span> res = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>);</div>
+<div class="line"><span class="lineno">  637</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;CastInst&gt;(res, src, node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
+<div class="line"><span class="lineno">  638</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(res);</div>
+<div class="line"><span class="lineno">  639</span>  }</div>
+<div class="ttc" id="aclasssema_1_1BoundCast_html_abd77ba9261e7399c8abe98941627415f"><div class="ttname"><a href="../../d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f">sema::BoundCast::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00138">bound_nodes.hpp:138</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00136">sema::BoundCast::expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00138">sema::BoundCast::expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="aa1063895d70a00713a8fdf64cdcea32b" name="aa1063895d70a00713a8fdf64cdcea32b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1063895d70a00713a8fdf64cdcea32b">&#9670;&#160;</a></span>visit() <span class="overload">[7/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1063895d70a00713a8fdf64cdcea32b">&#9670;&#160;</a></span>visit() <span class="overload">[7/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -628,22 +629,22 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#a0087901bb9aed6255fbf6b86eb972458">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00589">589</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  590</span>  {</div>
-<div class="line"><span class="lineno">  591</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.empty())</div>
-<div class="line"><span class="lineno">  592</span>    {</div>
-<div class="line"><span class="lineno">  593</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  594</span>    }</div>
-<div class="line"><span class="lineno">  595</span>    <span class="keyword">auto</span> condLabel = <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.back().first;</div>
-<div class="line"><span class="lineno">  596</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
-<div class="line"><span class="lineno">  597</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00595">595</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  596</span>  {</div>
+<div class="line"><span class="lineno">  597</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.empty())</div>
+<div class="line"><span class="lineno">  598</span>    {</div>
+<div class="line"><span class="lineno">  599</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  600</span>    }</div>
+<div class="line"><span class="lineno">  601</span>    <span class="keyword">auto</span> condLabel = <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.back().first;</div>
+<div class="line"><span class="lineno">  602</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
+<div class="line"><span class="lineno">  603</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00055">loopLabelStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00056">loopLabelStack_</a>.</p>
 
 </div>
 </div>
 <a id="a939c9891330bc492a4a89151031cbfe9" name="a939c9891330bc492a4a89151031cbfe9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a939c9891330bc492a4a89151031cbfe9">&#9670;&#160;</a></span>visit() <span class="overload">[8/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a939c9891330bc492a4a89151031cbfe9">&#9670;&#160;</a></span>visit() <span class="overload">[8/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -671,14 +672,14 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  397</span>  {</div>
 <div class="line"><span class="lineno">  398</span>    <a class="code hl_variable" href="#a6f4dc9fe3389e2df321acb83917e6912">module_</a>-&gt;addType(node.<a class="code hl_variable" href="../../d2/d9e/classsema_1_1BoundEnumDeclaration.html#acb123b10061a3ecad77e361e0e7ca3e5">type</a>);</div>
 <div class="line"><span class="lineno">  399</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundEnumDeclaration_html_acb123b10061a3ecad77e361e0e7ca3e5"><div class="ttname"><a href="../../d2/d9e/classsema_1_1BoundEnumDeclaration.html#acb123b10061a3ecad77e361e0e7ca3e5">sema::BoundEnumDeclaration::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::EnumType &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00392">bound_nodes.hpp:392</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundEnumDeclaration_html_acb123b10061a3ecad77e361e0e7ca3e5"><div class="ttname"><a href="../../d2/d9e/classsema_1_1BoundEnumDeclaration.html#acb123b10061a3ecad77e361e0e7ca3e5">sema::BoundEnumDeclaration::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::EnumType &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00408">bound_nodes.hpp:408</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00392">sema::BoundEnumDeclaration::type</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00408">sema::BoundEnumDeclaration::type</a>.</p>
 
 </div>
 </div>
 <a id="aa9b58017010f8410929bbb583e93b7af" name="aa9b58017010f8410929bbb583e93b7af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9b58017010f8410929bbb583e93b7af">&#9670;&#160;</a></span>visit() <span class="overload">[9/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9b58017010f8410929bbb583e93b7af">&#9670;&#160;</a></span>visit() <span class="overload">[9/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -708,14 +709,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  156</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.empty())</div>
 <div class="line"><span class="lineno">  157</span>      <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
 <div class="line"><span class="lineno">  158</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundExpressionStatement_html_aa0ff8d8c3a66fbf530edf0f64088e006"><div class="ttname"><a href="../../de/d88/classsema_1_1BoundExpressionStatement.html#aa0ff8d8c3a66fbf530edf0f64088e006">sema::BoundExpressionStatement::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00093">bound_nodes.hpp:93</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundExpressionStatement_html_aa0ff8d8c3a66fbf530edf0f64088e006"><div class="ttname"><a href="../../de/d88/classsema_1_1BoundExpressionStatement.html#aa0ff8d8c3a66fbf530edf0f64088e006">sema::BoundExpressionStatement::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00095">bound_nodes.hpp:95</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00093">sema::BoundExpressionStatement::expression</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00095">sema::BoundExpressionStatement::expression</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a2c686f042a03f89b0d063586ba8ede75" name="a2c686f042a03f89b0d063586ba8ede75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c686f042a03f89b0d063586ba8ede75">&#9670;&#160;</a></span>visit() <span class="overload">[10/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c686f042a03f89b0d063586ba8ede75">&#9670;&#160;</a></span>visit() <span class="overload">[10/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -743,7 +744,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   86</span>  {</div>
 <div class="line"><span class="lineno">   87</span>    <span class="keyword">auto</span> symbol = node.<a class="code hl_variable" href="../../d7/d1f/classsema_1_1BoundExternalFunctionDeclaration.html#a6d9a40e7fd8af35aada42f07f4e02f73">symbol</a>;</div>
 <div class="line"><span class="lineno">   88</span>    <span class="keyword">auto</span> func =</div>
-<div class="line"><span class="lineno">   89</span>        std::make_unique&lt;Function&gt;(symbol-&gt;name, symbol-&gt;returnType-&gt;toString());</div>
+<div class="line"><span class="lineno">   89</span>        std::make_unique&lt;Function&gt;(symbol-&gt;linkName, symbol-&gt;returnType-&gt;toString());</div>
 <div class="line"><span class="lineno">   90</span> </div>
 <div class="line"><span class="lineno">   91</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;paramSymbol : symbol-&gt;parameters)</div>
 <div class="line"><span class="lineno">   92</span>    {</div>
@@ -753,14 +754,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   96</span> </div>
 <div class="line"><span class="lineno">   97</span>    <a class="code hl_variable" href="#a6f4dc9fe3389e2df321acb83917e6912">module_</a>-&gt;addExternalFunction(std::move(func));</div>
 <div class="line"><span class="lineno">   98</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundExternalFunctionDeclaration_html_a6d9a40e7fd8af35aada42f07f4e02f73"><div class="ttname"><a href="../../d7/d1f/classsema_1_1BoundExternalFunctionDeclaration.html#a6d9a40e7fd8af35aada42f07f4e02f73">sema::BoundExternalFunctionDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00375">bound_nodes.hpp:375</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundExternalFunctionDeclaration_html_a6d9a40e7fd8af35aada42f07f4e02f73"><div class="ttname"><a href="../../d7/d1f/classsema_1_1BoundExternalFunctionDeclaration.html#a6d9a40e7fd8af35aada42f07f4e02f73">sema::BoundExternalFunctionDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00391">bound_nodes.hpp:391</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00375">sema::BoundExternalFunctionDeclaration::symbol</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00391">sema::BoundExternalFunctionDeclaration::symbol</a>.</p>
 
 </div>
 </div>
 <a id="a4399781b94d5a111293589da4cf113fd" name="a4399781b94d5a111293589da4cf113fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4399781b94d5a111293589da4cf113fd">&#9670;&#160;</a></span>visit() <span class="overload">[11/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4399781b94d5a111293589da4cf113fd">&#9670;&#160;</a></span>visit() <span class="overload">[11/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -796,18 +797,18 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  363</span> </div>
 <div class="line"><span class="lineno">  364</span>    <span class="keyword">auto</span> reg = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>);</div>
 <div class="line"><span class="lineno">  365</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
-<div class="line"><span class="lineno">  366</span>        std::make_unique&lt;CallInst&gt;(reg, node.<a class="code hl_variable" href="../../df/da0/classsema_1_1BoundFunctionCall.html#acefadcf2a9f6aaedbf7b67e4540bbb6d">symbol</a>-&gt;name, args));</div>
+<div class="line"><span class="lineno">  366</span>        std::make_unique&lt;CallInst&gt;(reg, node.<a class="code hl_variable" href="../../df/da0/classsema_1_1BoundFunctionCall.html#acefadcf2a9f6aaedbf7b67e4540bbb6d">symbol</a>-&gt;linkName, args));</div>
 <div class="line"><span class="lineno">  367</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(reg);</div>
 <div class="line"><span class="lineno">  368</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundFunctionCall_html_ac7d92434c392b192bbeb725607a21286"><div class="ttname"><a href="../../df/da0/classsema_1_1BoundFunctionCall.html#ac7d92434c392b192bbeb725607a21286">sema::BoundFunctionCall::arguments</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExpression &gt; &gt; arguments</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00214">bound_nodes.hpp:214</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundFunctionCall_html_acefadcf2a9f6aaedbf7b67e4540bbb6d"><div class="ttname"><a href="../../df/da0/classsema_1_1BoundFunctionCall.html#acefadcf2a9f6aaedbf7b67e4540bbb6d">sema::BoundFunctionCall::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00213">bound_nodes.hpp:213</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundFunctionCall_html_ac7d92434c392b192bbeb725607a21286"><div class="ttname"><a href="../../df/da0/classsema_1_1BoundFunctionCall.html#ac7d92434c392b192bbeb725607a21286">sema::BoundFunctionCall::arguments</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExpression &gt; &gt; arguments</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00230">bound_nodes.hpp:230</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundFunctionCall_html_acefadcf2a9f6aaedbf7b67e4540bbb6d"><div class="ttname"><a href="../../df/da0/classsema_1_1BoundFunctionCall.html#acefadcf2a9f6aaedbf7b67e4540bbb6d">sema::BoundFunctionCall::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00229">bound_nodes.hpp:229</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00214">sema::BoundFunctionCall::arguments</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00213">sema::BoundFunctionCall::symbol</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00230">sema::BoundFunctionCall::arguments</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00229">sema::BoundFunctionCall::symbol</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a13f2d2b605b8385769e7a5369e42f97e" name="a13f2d2b605b8385769e7a5369e42f97e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13f2d2b605b8385769e7a5369e42f97e">&#9670;&#160;</a></span>visit() <span class="overload">[12/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a13f2d2b605b8385769e7a5369e42f97e">&#9670;&#160;</a></span>visit() <span class="overload">[12/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -835,7 +836,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   35</span>  {</div>
 <div class="line"><span class="lineno">   36</span>    <span class="keyword">auto</span> symbol = node.<a class="code hl_variable" href="../../db/d37/classsema_1_1BoundFunctionDeclaration.html#a0b00118e83f28e11740994d9bdc71689">symbol</a>;</div>
 <div class="line"><span class="lineno">   37</span>    <span class="keyword">auto</span> func =</div>
-<div class="line"><span class="lineno">   38</span>        std::make_unique&lt;Function&gt;(symbol-&gt;name, symbol-&gt;returnType-&gt;toString());</div>
+<div class="line"><span class="lineno">   38</span>        std::make_unique&lt;Function&gt;(symbol-&gt;linkName, symbol-&gt;returnType-&gt;toString());</div>
 <div class="line"><span class="lineno">   39</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a> = func.get();</div>
 <div class="line"><span class="lineno">   40</span> </div>
 <div class="line"><span class="lineno">   41</span>    <span class="keyword">auto</span> entryBlock = std::make_unique&lt;BasicBlock&gt;(<span class="stringliteral">&quot;entry&quot;</span>);</div>
@@ -881,18 +882,18 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   81</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><span class="lineno">   82</span>    <a class="code hl_variable" href="#a7e94129151ed9095a91bca695953dc60">symbolMap_</a>.clear();</div>
 <div class="line"><span class="lineno">   83</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundFunctionDeclaration_html_a0b00118e83f28e11740994d9bdc71689"><div class="ttname"><a href="../../db/d37/classsema_1_1BoundFunctionDeclaration.html#a0b00118e83f28e11740994d9bdc71689">sema::BoundFunctionDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00363">bound_nodes.hpp:363</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundFunctionDeclaration_html_af4481b6f6424ed4a9cf880ac381aae1e"><div class="ttname"><a href="../../db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e">sema::BoundFunctionDeclaration::body</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; body</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00364">bound_nodes.hpp:364</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a7e94129151ed9095a91bca695953dc60"><div class="ttname"><a href="#a7e94129151ed9095a91bca695953dc60">zir::BoundIRGenerator::symbolMap_</a></div><div class="ttdeci">std::map&lt; std::shared_ptr&lt; sema::Symbol &gt;, std::shared_ptr&lt; Value &gt; &gt; symbolMap_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00049">ir_generator.hpp:49</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundFunctionDeclaration_html_a0b00118e83f28e11740994d9bdc71689"><div class="ttname"><a href="../../db/d37/classsema_1_1BoundFunctionDeclaration.html#a0b00118e83f28e11740994d9bdc71689">sema::BoundFunctionDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00379">bound_nodes.hpp:379</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundFunctionDeclaration_html_af4481b6f6424ed4a9cf880ac381aae1e"><div class="ttname"><a href="../../db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e">sema::BoundFunctionDeclaration::body</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; body</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00380">bound_nodes.hpp:380</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_a7e94129151ed9095a91bca695953dc60"><div class="ttname"><a href="#a7e94129151ed9095a91bca695953dc60">zir::BoundIRGenerator::symbolMap_</a></div><div class="ttdeci">std::map&lt; std::shared_ptr&lt; sema::Symbol &gt;, std::shared_ptr&lt; Value &gt; &gt; symbolMap_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00050">ir_generator.hpp:50</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a></div><div class="ttdeci">@ Void</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00009">type.hpp:9</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">zir::OpCode::Ret</a></div><div class="ttdeci">@ Ret</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00023">instruction.hpp:23</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00364">sema::BoundFunctionDeclaration::body</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">currentFunction_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">module_</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00363">sema::BoundFunctionDeclaration::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00049">symbolMap_</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00009">zir::Void</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00380">sema::BoundFunctionDeclaration::body</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentFunction_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">module_</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00379">sema::BoundFunctionDeclaration::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">symbolMap_</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00009">zir::Void</a>.</p>
 
 </div>
 </div>
 <a id="a38b81707ba970049372c7bb4feff8140" name="a38b81707ba970049372c7bb4feff8140"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38b81707ba970049372c7bb4feff8140">&#9670;&#160;</a></span>visit() <span class="overload">[13/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b81707ba970049372c7bb4feff8140">&#9670;&#160;</a></span>visit() <span class="overload">[13/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -916,76 +917,76 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#a662bfdf3942fbcbfa51710a04437f85f">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">479</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  480</span>  {</div>
-<div class="line"><span class="lineno">  481</span>    <span class="keyword">auto</span> trueLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.then&quot;</span>);</div>
-<div class="line"><span class="lineno">  482</span>    <span class="keyword">auto</span> falseLabel = node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a> ? <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.else&quot;</span>) : <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">  483</span>    <span class="keyword">auto</span> mergeLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.merge&quot;</span>);</div>
-<div class="line"><span class="lineno">  484</span> </div>
-<div class="line"><span class="lineno">  485</span>    node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">condition</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  486</span>    <span class="keyword">auto</span> cond = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
-<div class="line"><span class="lineno">  487</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
-<div class="line"><span class="lineno">  488</span> </div>
-<div class="line"><span class="lineno">  489</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>)</div>
-<div class="line"><span class="lineno">  490</span>    {</div>
-<div class="line"><span class="lineno">  491</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
-<div class="line"><span class="lineno">  492</span>          std::make_unique&lt;CondBranchInst&gt;(cond, trueLabel, falseLabel));</div>
-<div class="line"><span class="lineno">  493</span>    }</div>
-<div class="line"><span class="lineno">  494</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  495</span>    {</div>
-<div class="line"><span class="lineno">  496</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
-<div class="line"><span class="lineno">  497</span>          std::make_unique&lt;CondBranchInst&gt;(cond, trueLabel, mergeLabel));</div>
-<div class="line"><span class="lineno">  498</span>    }</div>
-<div class="line"><span class="lineno">  499</span> </div>
-<div class="line"><span class="lineno">  500</span>    <span class="keyword">auto</span> thenBlock = std::make_unique&lt;BasicBlock&gt;(trueLabel);</div>
-<div class="line"><span class="lineno">  501</span>    <span class="keyword">auto</span> *thenBlockPtr = thenBlock.get();</div>
-<div class="line"><span class="lineno">  502</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(thenBlock));</div>
-<div class="line"><span class="lineno">  503</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = thenBlockPtr;</div>
-<div class="line"><span class="lineno">  504</span> </div>
-<div class="line"><span class="lineno">  505</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>)</div>
-<div class="line"><span class="lineno">  506</span>      node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  507</span> </div>
-<div class="line"><span class="lineno">  508</span>    std::string actualThenLabel = <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;label;</div>
-<div class="line"><span class="lineno">  509</span> </div>
-<div class="line"><span class="lineno">  510</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
-<div class="line"><span class="lineno">  511</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
-<div class="line"><span class="lineno">  512</span>    {</div>
-<div class="line"><span class="lineno">  513</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(mergeLabel));</div>
-<div class="line"><span class="lineno">  514</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00485">485</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  486</span>  {</div>
+<div class="line"><span class="lineno">  487</span>    <span class="keyword">auto</span> trueLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.then&quot;</span>);</div>
+<div class="line"><span class="lineno">  488</span>    <span class="keyword">auto</span> falseLabel = node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a> ? <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.else&quot;</span>) : <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><span class="lineno">  489</span>    <span class="keyword">auto</span> mergeLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;if.merge&quot;</span>);</div>
+<div class="line"><span class="lineno">  490</span> </div>
+<div class="line"><span class="lineno">  491</span>    node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">condition</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  492</span>    <span class="keyword">auto</span> cond = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
+<div class="line"><span class="lineno">  493</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
+<div class="line"><span class="lineno">  494</span> </div>
+<div class="line"><span class="lineno">  495</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>)</div>
+<div class="line"><span class="lineno">  496</span>    {</div>
+<div class="line"><span class="lineno">  497</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
+<div class="line"><span class="lineno">  498</span>          std::make_unique&lt;CondBranchInst&gt;(cond, trueLabel, falseLabel));</div>
+<div class="line"><span class="lineno">  499</span>    }</div>
+<div class="line"><span class="lineno">  500</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  501</span>    {</div>
+<div class="line"><span class="lineno">  502</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
+<div class="line"><span class="lineno">  503</span>          std::make_unique&lt;CondBranchInst&gt;(cond, trueLabel, mergeLabel));</div>
+<div class="line"><span class="lineno">  504</span>    }</div>
+<div class="line"><span class="lineno">  505</span> </div>
+<div class="line"><span class="lineno">  506</span>    <span class="keyword">auto</span> thenBlock = std::make_unique&lt;BasicBlock&gt;(trueLabel);</div>
+<div class="line"><span class="lineno">  507</span>    <span class="keyword">auto</span> *thenBlockPtr = thenBlock.get();</div>
+<div class="line"><span class="lineno">  508</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(thenBlock));</div>
+<div class="line"><span class="lineno">  509</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = thenBlockPtr;</div>
+<div class="line"><span class="lineno">  510</span> </div>
+<div class="line"><span class="lineno">  511</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>)</div>
+<div class="line"><span class="lineno">  512</span>      node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  513</span> </div>
+<div class="line"><span class="lineno">  514</span>    std::string actualThenLabel = <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;label;</div>
 <div class="line"><span class="lineno">  515</span> </div>
-<div class="line"><span class="lineno">  516</span>    std::string actualElseLabel = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">  517</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>)</div>
+<div class="line"><span class="lineno">  516</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
+<div class="line"><span class="lineno">  517</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
 <div class="line"><span class="lineno">  518</span>    {</div>
-<div class="line"><span class="lineno">  519</span>      <span class="keyword">auto</span> elseBlock = std::make_unique&lt;BasicBlock&gt;(falseLabel);</div>
-<div class="line"><span class="lineno">  520</span>      <span class="keyword">auto</span> *elseBlockPtr = elseBlock.get();</div>
-<div class="line"><span class="lineno">  521</span>      <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(elseBlock));</div>
-<div class="line"><span class="lineno">  522</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = elseBlockPtr;</div>
-<div class="line"><span class="lineno">  523</span>      node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  524</span> </div>
-<div class="line"><span class="lineno">  525</span>      actualElseLabel = <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;label;</div>
-<div class="line"><span class="lineno">  526</span> </div>
-<div class="line"><span class="lineno">  527</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
-<div class="line"><span class="lineno">  528</span>          <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
-<div class="line"><span class="lineno">  529</span>      {</div>
-<div class="line"><span class="lineno">  530</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(mergeLabel));</div>
-<div class="line"><span class="lineno">  531</span>      }</div>
-<div class="line"><span class="lineno">  532</span>    }</div>
-<div class="line"><span class="lineno">  533</span> </div>
-<div class="line"><span class="lineno">  534</span>    <span class="keyword">auto</span> mergeBlock = std::make_unique&lt;BasicBlock&gt;(mergeLabel);</div>
-<div class="line"><span class="lineno">  535</span>    <span class="keyword">auto</span> *mergeBlockPtr = mergeBlock.get();</div>
-<div class="line"><span class="lineno">  536</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(mergeBlock));</div>
-<div class="line"><span class="lineno">  537</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = mergeBlockPtr;</div>
-<div class="line"><span class="lineno">  538</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a540703b417077859f149be894f93b024"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">sema::BoundIfStatement::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00307">bound_nodes.hpp:307</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a87c9298a122721e367dde855fed4d90e"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">sema::BoundIfStatement::thenBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; thenBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00308">bound_nodes.hpp:308</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a8b8da77476dfddba9b5821b60c951419"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">sema::BoundIfStatement::elseBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; elseBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00309">bound_nodes.hpp:309</a></div></div>
+<div class="line"><span class="lineno">  519</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(mergeLabel));</div>
+<div class="line"><span class="lineno">  520</span>    }</div>
+<div class="line"><span class="lineno">  521</span> </div>
+<div class="line"><span class="lineno">  522</span>    std::string actualElseLabel = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><span class="lineno">  523</span>    <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>)</div>
+<div class="line"><span class="lineno">  524</span>    {</div>
+<div class="line"><span class="lineno">  525</span>      <span class="keyword">auto</span> elseBlock = std::make_unique&lt;BasicBlock&gt;(falseLabel);</div>
+<div class="line"><span class="lineno">  526</span>      <span class="keyword">auto</span> *elseBlockPtr = elseBlock.get();</div>
+<div class="line"><span class="lineno">  527</span>      <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(elseBlock));</div>
+<div class="line"><span class="lineno">  528</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = elseBlockPtr;</div>
+<div class="line"><span class="lineno">  529</span>      node.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  530</span> </div>
+<div class="line"><span class="lineno">  531</span>      actualElseLabel = <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;label;</div>
+<div class="line"><span class="lineno">  532</span> </div>
+<div class="line"><span class="lineno">  533</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
+<div class="line"><span class="lineno">  534</span>          <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
+<div class="line"><span class="lineno">  535</span>      {</div>
+<div class="line"><span class="lineno">  536</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(mergeLabel));</div>
+<div class="line"><span class="lineno">  537</span>      }</div>
+<div class="line"><span class="lineno">  538</span>    }</div>
+<div class="line"><span class="lineno">  539</span> </div>
+<div class="line"><span class="lineno">  540</span>    <span class="keyword">auto</span> mergeBlock = std::make_unique&lt;BasicBlock&gt;(mergeLabel);</div>
+<div class="line"><span class="lineno">  541</span>    <span class="keyword">auto</span> *mergeBlockPtr = mergeBlock.get();</div>
+<div class="line"><span class="lineno">  542</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(mergeBlock));</div>
+<div class="line"><span class="lineno">  543</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = mergeBlockPtr;</div>
+<div class="line"><span class="lineno">  544</span>  }</div>
+<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a540703b417077859f149be894f93b024"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">sema::BoundIfStatement::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">bound_nodes.hpp:323</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a87c9298a122721e367dde855fed4d90e"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">sema::BoundIfStatement::thenBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; thenBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00324">bound_nodes.hpp:324</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a8b8da77476dfddba9b5821b60c951419"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">sema::BoundIfStatement::elseBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; elseBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00325">bound_nodes.hpp:325</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00307">sema::BoundIfStatement::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00309">sema::BoundIfStatement::elseBody</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00308">sema::BoundIfStatement::thenBody</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">sema::BoundIfStatement::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00325">sema::BoundIfStatement::elseBody</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00324">sema::BoundIfStatement::thenBody</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="aa02ad01aea6cd608911fcac3a902cb30" name="aa02ad01aea6cd608911fcac3a902cb30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa02ad01aea6cd608911fcac3a902cb30">&#9670;&#160;</a></span>visit() <span class="overload">[14/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa02ad01aea6cd608911fcac3a902cb30">&#9670;&#160;</a></span>visit() <span class="overload">[14/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1009,40 +1010,40 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#a81ce17662aa044532e84ac5ae11bceed">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00599">599</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  600</span>  {</div>
-<div class="line"><span class="lineno">  601</span>    node.<a class="code hl_variable" href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#ad400d905a8403a974c5d99f5e0779a49">left</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  602</span>    <span class="keyword">auto</span> left = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
-<div class="line"><span class="lineno">  603</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
-<div class="line"><span class="lineno">  604</span> </div>
-<div class="line"><span class="lineno">  605</span>    node.<a class="code hl_variable" href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#adb815a2934679f39a18647d83eae5e1a">index</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  606</span>    <span class="keyword">auto</span> indexVal = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
-<div class="line"><span class="lineno">  607</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
-<div class="line"><span class="lineno">  608</span> </div>
-<div class="line"><span class="lineno">  609</span>    <span class="keywordtype">int</span> idx = 0;</div>
-<div class="line"><span class="lineno">  610</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> *c = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a> *<span class="keyword">&gt;</span>(indexVal.get())) {</div>
-<div class="line"><span class="lineno">  611</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  612</span>            idx = std::stoi(c-&gt;getName());</div>
-<div class="line"><span class="lineno">  613</span>        } <span class="keywordflow">catch</span> (...) {}</div>
-<div class="line"><span class="lineno">  614</span>    }</div>
-<div class="line"><span class="lineno">  615</span> </div>
-<div class="line"><span class="lineno">  616</span>    <span class="keyword">auto</span> ptr = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(std::make_shared&lt;PointerType&gt;(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
-<div class="line"><span class="lineno">  617</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;GetElementPtrInst&gt;(ptr, left, idx));</div>
-<div class="line"><span class="lineno">  618</span>    </div>
-<div class="line"><span class="lineno">  619</span>    <span class="keyword">auto</span> res = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>);</div>
-<div class="line"><span class="lineno">  620</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;LoadInst&gt;(res, ptr));</div>
-<div class="line"><span class="lineno">  621</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(res);</div>
-<div class="line"><span class="lineno">  622</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundIndexAccess_html_ad400d905a8403a974c5d99f5e0779a49"><div class="ttname"><a href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#ad400d905a8403a974c5d99f5e0779a49">sema::BoundIndexAccess::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00248">bound_nodes.hpp:248</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundIndexAccess_html_adb815a2934679f39a18647d83eae5e1a"><div class="ttname"><a href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#adb815a2934679f39a18647d83eae5e1a">sema::BoundIndexAccess::index</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; index</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00249">bound_nodes.hpp:249</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00605">605</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  606</span>  {</div>
+<div class="line"><span class="lineno">  607</span>    node.<a class="code hl_variable" href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#ad400d905a8403a974c5d99f5e0779a49">left</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  608</span>    <span class="keyword">auto</span> left = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
+<div class="line"><span class="lineno">  609</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
+<div class="line"><span class="lineno">  610</span> </div>
+<div class="line"><span class="lineno">  611</span>    node.<a class="code hl_variable" href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#adb815a2934679f39a18647d83eae5e1a">index</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  612</span>    <span class="keyword">auto</span> indexVal = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
+<div class="line"><span class="lineno">  613</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
+<div class="line"><span class="lineno">  614</span> </div>
+<div class="line"><span class="lineno">  615</span>    <span class="keywordtype">int</span> idx = 0;</div>
+<div class="line"><span class="lineno">  616</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> *c = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a> *<span class="keyword">&gt;</span>(indexVal.get())) {</div>
+<div class="line"><span class="lineno">  617</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  618</span>            idx = std::stoi(c-&gt;getName());</div>
+<div class="line"><span class="lineno">  619</span>        } <span class="keywordflow">catch</span> (...) {}</div>
+<div class="line"><span class="lineno">  620</span>    }</div>
+<div class="line"><span class="lineno">  621</span> </div>
+<div class="line"><span class="lineno">  622</span>    <span class="keyword">auto</span> ptr = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(std::make_shared&lt;PointerType&gt;(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
+<div class="line"><span class="lineno">  623</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;GetElementPtrInst&gt;(ptr, left, idx));</div>
+<div class="line"><span class="lineno">  624</span>    </div>
+<div class="line"><span class="lineno">  625</span>    <span class="keyword">auto</span> res = <a class="code hl_function" href="#aee571488fae0ed47913a3278f1b3158f">createRegister</a>(node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>);</div>
+<div class="line"><span class="lineno">  626</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;LoadInst&gt;(res, ptr));</div>
+<div class="line"><span class="lineno">  627</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(res);</div>
+<div class="line"><span class="lineno">  628</span>  }</div>
+<div class="ttc" id="aclasssema_1_1BoundIndexAccess_html_ad400d905a8403a974c5d99f5e0779a49"><div class="ttname"><a href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#ad400d905a8403a974c5d99f5e0779a49">sema::BoundIndexAccess::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00264">bound_nodes.hpp:264</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundIndexAccess_html_adb815a2934679f39a18647d83eae5e1a"><div class="ttname"><a href="../../d6/d5e/classsema_1_1BoundIndexAccess.html#adb815a2934679f39a18647d83eae5e1a">sema::BoundIndexAccess::index</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; index</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00265">bound_nodes.hpp:265</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"><div class="ttname"><a href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">zir::ValueKind::Constant</a></div><div class="ttdeci">@ Constant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00008">value.hpp:8</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00249">sema::BoundIndexAccess::index</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00248">sema::BoundIndexAccess::left</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00265">sema::BoundIndexAccess::index</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00264">sema::BoundIndexAccess::left</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a31d6eae13ba5909ab3b94ec62727d69e" name="a31d6eae13ba5909ab3b94ec62727d69e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31d6eae13ba5909ab3b94ec62727d69e">&#9670;&#160;</a></span>visit() <span class="overload">[15/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a31d6eae13ba5909ab3b94ec62727d69e">&#9670;&#160;</a></span>visit() <span class="overload">[15/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1070,14 +1071,14 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  161</span>  {</div>
 <div class="line"><span class="lineno">  162</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(std::make_shared&lt;Constant&gt;(node.<a class="code hl_variable" href="../../db/d85/classsema_1_1BoundLiteral.html#a1caa8a189a795aab30284fb1eeb364aa">value</a>, node.<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>));</div>
 <div class="line"><span class="lineno">  163</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundLiteral_html_a1caa8a189a795aab30284fb1eeb364aa"><div class="ttname"><a href="../../db/d85/classsema_1_1BoundLiteral.html#a1caa8a189a795aab30284fb1eeb364aa">sema::BoundLiteral::value</a></div><div class="ttdeci">std::string value</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00124">bound_nodes.hpp:124</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundLiteral_html_a1caa8a189a795aab30284fb1eeb364aa"><div class="ttname"><a href="../../db/d85/classsema_1_1BoundLiteral.html#a1caa8a189a795aab30284fb1eeb364aa">sema::BoundLiteral::value</a></div><div class="ttdeci">std::string value</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00126">bound_nodes.hpp:126</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00124">sema::BoundLiteral::value</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00126">sema::BoundLiteral::value</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a66c586afbf4b0e2e494bbde63fdfc27f" name="a66c586afbf4b0e2e494bbde63fdfc27f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66c586afbf4b0e2e494bbde63fdfc27f">&#9670;&#160;</a></span>visit() <span class="overload">[16/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a66c586afbf4b0e2e494bbde63fdfc27f">&#9670;&#160;</a></span>visit() <span class="overload">[16/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1144,18 +1145,51 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  441</span> </div>
 <div class="line"><span class="lineno">  442</span>    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Member &#39;&quot;</span> + node.<a class="code hl_variable" href="../../db/ddd/classsema_1_1BoundMemberAccess.html#afe55fd27cc43f78a47bca7fa6dcf9aa1">member</a> + <span class="stringliteral">&quot;&#39; not found in type &#39;&quot;</span> + left-&gt;getTypeName() + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
 <div class="line"><span class="lineno">  443</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundMemberAccess_html_a70e558358f0212abf427d624992ed08e"><div class="ttname"><a href="../../db/ddd/classsema_1_1BoundMemberAccess.html#a70e558358f0212abf427d624992ed08e">sema::BoundMemberAccess::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00399">bound_nodes.hpp:399</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundMemberAccess_html_afe55fd27cc43f78a47bca7fa6dcf9aa1"><div class="ttname"><a href="../../db/ddd/classsema_1_1BoundMemberAccess.html#afe55fd27cc43f78a47bca7fa6dcf9aa1">sema::BoundMemberAccess::member</a></div><div class="ttdeci">std::string member</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00400">bound_nodes.hpp:400</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundMemberAccess_html_a70e558358f0212abf427d624992ed08e"><div class="ttname"><a href="../../db/ddd/classsema_1_1BoundMemberAccess.html#a70e558358f0212abf427d624992ed08e">sema::BoundMemberAccess::left</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; left</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00415">bound_nodes.hpp:415</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundMemberAccess_html_afe55fd27cc43f78a47bca7fa6dcf9aa1"><div class="ttname"><a href="../../db/ddd/classsema_1_1BoundMemberAccess.html#afe55fd27cc43f78a47bca7fa6dcf9aa1">sema::BoundMemberAccess::member</a></div><div class="ttdeci">std::string member</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00416">bound_nodes.hpp:416</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a></div><div class="ttdeci">@ Int</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00018">type.hpp:18</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00026">type.hpp:26</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00028">type.hpp:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::Int</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00399">sema::BoundMemberAccess::left</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00400">sema::BoundMemberAccess::member</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Record</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::Int</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00415">sema::BoundMemberAccess::left</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00416">sema::BoundMemberAccess::member</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Record</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
+<a id="a87b31eae181c3de54153841d08f1a479" name="a87b31eae181c3de54153841d08f1a479"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87b31eae181c3de54153841d08f1a479">&#9670;&#160;</a></span>visit() <span class="overload">[17/26]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::BoundIRGenerator::visit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d03/classsema_1_1BoundModuleReference.html">sema::BoundModuleReference</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#a4a9487156c524abc8a0834a0ce4605cb">sema::BoundVisitor</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">479</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  480</span>  {</div>
+<div class="line"><span class="lineno">  481</span>    (void)node;</div>
+<div class="line"><span class="lineno">  482</span>    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;module reference reached ZIR generation&quot;</span>);</div>
+<div class="line"><span class="lineno">  483</span>  }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a27a583ea3b727c41d34508def8c49da0" name="a27a583ea3b727c41d34508def8c49da0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27a583ea3b727c41d34508def8c49da0">&#9670;&#160;</a></span>visit() <span class="overload">[17/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a27a583ea3b727c41d34508def8c49da0">&#9670;&#160;</a></span>visit() <span class="overload">[18/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1183,14 +1217,14 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  392</span>  {</div>
 <div class="line"><span class="lineno">  393</span>    <a class="code hl_variable" href="#a6f4dc9fe3389e2df321acb83917e6912">module_</a>-&gt;addType(node.<a class="code hl_variable" href="../../d1/d8b/classsema_1_1BoundRecordDeclaration.html#ade80221fe0a4b314f40b7e2afb1abbfe">type</a>);</div>
 <div class="line"><span class="lineno">  394</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundRecordDeclaration_html_ade80221fe0a4b314f40b7e2afb1abbfe"><div class="ttname"><a href="../../d1/d8b/classsema_1_1BoundRecordDeclaration.html#ade80221fe0a4b314f40b7e2afb1abbfe">sema::BoundRecordDeclaration::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::RecordType &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00385">bound_nodes.hpp:385</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRecordDeclaration_html_ade80221fe0a4b314f40b7e2afb1abbfe"><div class="ttname"><a href="../../d1/d8b/classsema_1_1BoundRecordDeclaration.html#ade80221fe0a4b314f40b7e2afb1abbfe">sema::BoundRecordDeclaration::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::RecordType &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00401">bound_nodes.hpp:401</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00385">sema::BoundRecordDeclaration::type</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">module_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00401">sema::BoundRecordDeclaration::type</a>.</p>
 
 </div>
 </div>
 <a id="a1e5740c75e8e2fcce5d0b5679ef123ac" name="a1e5740c75e8e2fcce5d0b5679ef123ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e5740c75e8e2fcce5d0b5679ef123ac">&#9670;&#160;</a></span>visit() <span class="overload">[18/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e5740c75e8e2fcce5d0b5679ef123ac">&#9670;&#160;</a></span>visit() <span class="overload">[19/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1225,14 +1259,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  137</span>    }</div>
 <div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;ReturnInst&gt;(val));</div>
 <div class="line"><span class="lineno">  139</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundReturnStatement_html_a9579d473a754ca89a9d1d85c83df62b1"><div class="ttname"><a href="../../d2/d99/classsema_1_1BoundReturnStatement.html#a9579d473a754ca89a9d1d85c83df62b1">sema::BoundReturnStatement::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00280">bound_nodes.hpp:280</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundReturnStatement_html_a9579d473a754ca89a9d1d85c83df62b1"><div class="ttname"><a href="../../d2/d99/classsema_1_1BoundReturnStatement.html#a9579d473a754ca89a9d1d85c83df62b1">sema::BoundReturnStatement::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00296">bound_nodes.hpp:296</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00280">sema::BoundReturnStatement::expression</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00296">sema::BoundReturnStatement::expression</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="ad7c3f1c0c341ebf0e04c6bf86482d80b" name="ad7c3f1c0c341ebf0e04c6bf86482d80b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7c3f1c0c341ebf0e04c6bf86482d80b">&#9670;&#160;</a></span>visit() <span class="overload">[19/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7c3f1c0c341ebf0e04c6bf86482d80b">&#9670;&#160;</a></span>visit() <span class="overload">[20/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1275,17 +1309,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   30</span>      func-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">   31</span>    }</div>
 <div class="line"><span class="lineno">   32</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a4279539bfef00d727d26c9d96fd5f76d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a4279539bfef00d727d26c9d96fd5f76d">sema::BoundRootNode::externalFunctions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExternalFunctionDeclaration &gt; &gt; externalFunctions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00437">bound_nodes.hpp:437</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a79fd1396e9702ca9c2f71f23c96b1eb9"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">sema::BoundRootNode::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundFunctionDeclaration &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00435">bound_nodes.hpp:435</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a99dae104acce35b8891156bb06a131fa"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a99dae104acce35b8891156bb06a131fa">sema::BoundRootNode::enums</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundEnumDeclaration &gt; &gt; enums</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00433">bound_nodes.hpp:433</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_ab8deb56b40049f1620cda5218c4e500d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">sema::BoundRootNode::records</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundRecordDeclaration &gt; &gt; records</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00432">bound_nodes.hpp:432</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a4279539bfef00d727d26c9d96fd5f76d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a4279539bfef00d727d26c9d96fd5f76d">sema::BoundRootNode::externalFunctions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExternalFunctionDeclaration &gt; &gt; externalFunctions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00453">bound_nodes.hpp:453</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a79fd1396e9702ca9c2f71f23c96b1eb9"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">sema::BoundRootNode::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundFunctionDeclaration &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00451">bound_nodes.hpp:451</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a99dae104acce35b8891156bb06a131fa"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a99dae104acce35b8891156bb06a131fa">sema::BoundRootNode::enums</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundEnumDeclaration &gt; &gt; enums</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00449">bound_nodes.hpp:449</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_ab8deb56b40049f1620cda5218c4e500d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">sema::BoundRootNode::records</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundRecordDeclaration &gt; &gt; records</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00448">bound_nodes.hpp:448</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00433">sema::BoundRootNode::enums</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00437">sema::BoundRootNode::externalFunctions</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00435">sema::BoundRootNode::functions</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00432">sema::BoundRootNode::records</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00449">sema::BoundRootNode::enums</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00453">sema::BoundRootNode::externalFunctions</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00451">sema::BoundRootNode::functions</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00448">sema::BoundRootNode::records</a>.</p>
 
 </div>
 </div>
 <a id="a68eafad8e56694bba35221a19d80b1aa" name="a68eafad8e56694bba35221a19d80b1aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68eafad8e56694bba35221a19d80b1aa">&#9670;&#160;</a></span>visit() <span class="overload">[20/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a68eafad8e56694bba35221a19d80b1aa">&#9670;&#160;</a></span>visit() <span class="overload">[21/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1342,14 +1376,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  475</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;LoadInst&gt;(result, allocaReg));</div>
 <div class="line"><span class="lineno">  476</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(result);</div>
 <div class="line"><span class="lineno">  477</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundStructLiteral_html_ac77518974d217b6130d5a25e2481c800"><div class="ttname"><a href="../../d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800">sema::BoundStructLiteral::fields</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::unique_ptr&lt; BoundExpression &gt; &gt; &gt; fields</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00414">bound_nodes.hpp:414</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundStructLiteral_html_ac77518974d217b6130d5a25e2481c800"><div class="ttname"><a href="../../d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800">sema::BoundStructLiteral::fields</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::unique_ptr&lt; BoundExpression &gt; &gt; &gt; fields</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00430">bound_nodes.hpp:430</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00414">sema::BoundStructLiteral::fields</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00430">sema::BoundStructLiteral::fields</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="aec47c185511f61025d2ca7a0b26fb0d2" name="aec47c185511f61025d2ca7a0b26fb0d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec47c185511f61025d2ca7a0b26fb0d2">&#9670;&#160;</a></span>visit() <span class="overload">[21/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aec47c185511f61025d2ca7a0b26fb0d2">&#9670;&#160;</a></span>visit() <span class="overload">[22/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1420,16 +1454,16 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  350</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;PhiInst&gt;(res, incoming));</div>
 <div class="line"><span class="lineno">  351</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(res);</div>
 <div class="line"><span class="lineno">  352</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_a71b307b8a74a79f0aca4c044494166a6"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#a71b307b8a74a79f0aca4c044494166a6">sema::BoundTernaryExpression::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00178">bound_nodes.hpp:178</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_a9c4e5e75927fe9e692397ec647f2f542"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#a9c4e5e75927fe9e692397ec647f2f542">sema::BoundTernaryExpression::elseExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; elseExpr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00180">bound_nodes.hpp:180</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_aebbd152b98b3c2fba4a9932880e42c47"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#aebbd152b98b3c2fba4a9932880e42c47">sema::BoundTernaryExpression::thenExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; thenExpr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00179">bound_nodes.hpp:179</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_a71b307b8a74a79f0aca4c044494166a6"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#a71b307b8a74a79f0aca4c044494166a6">sema::BoundTernaryExpression::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00194">bound_nodes.hpp:194</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_a9c4e5e75927fe9e692397ec647f2f542"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#a9c4e5e75927fe9e692397ec647f2f542">sema::BoundTernaryExpression::elseExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; elseExpr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00196">bound_nodes.hpp:196</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundTernaryExpression_html_aebbd152b98b3c2fba4a9932880e42c47"><div class="ttname"><a href="../../db/d94/classsema_1_1BoundTernaryExpression.html#aebbd152b98b3c2fba4a9932880e42c47">sema::BoundTernaryExpression::thenExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; thenExpr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00195">bound_nodes.hpp:195</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00178">sema::BoundTernaryExpression::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00180">sema::BoundTernaryExpression::elseExpr</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00179">sema::BoundTernaryExpression::thenExpr</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00194">sema::BoundTernaryExpression::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentFunction_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00196">sema::BoundTernaryExpression::elseExpr</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00195">sema::BoundTernaryExpression::thenExpr</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a262d7f51907efac5f1c85ec4d7920dc2" name="a262d7f51907efac5f1c85ec4d7920dc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a262d7f51907efac5f1c85ec4d7920dc2">&#9670;&#160;</a></span>visit() <span class="overload">[22/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a262d7f51907efac5f1c85ec4d7920dc2">&#9670;&#160;</a></span>visit() <span class="overload">[23/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1457,14 +1491,14 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  382</span>  {</div>
 <div class="line"><span class="lineno">  383</span>    node.<a class="code hl_variable" href="../../d6/d6f/classsema_1_1BoundUnaryExpression.html#ac8adc29f71ae2c35c0b936f21a1c4b9c">expr</a>-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">  384</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundUnaryExpression_html_ac8adc29f71ae2c35c0b936f21a1c4b9c"><div class="ttname"><a href="../../d6/d6f/classsema_1_1BoundUnaryExpression.html#ac8adc29f71ae2c35c0b936f21a1c4b9c">sema::BoundUnaryExpression::expr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00199">bound_nodes.hpp:199</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundUnaryExpression_html_ac8adc29f71ae2c35c0b936f21a1c4b9c"><div class="ttname"><a href="../../d6/d6f/classsema_1_1BoundUnaryExpression.html#ac8adc29f71ae2c35c0b936f21a1c4b9c">sema::BoundUnaryExpression::expr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expr</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00215">bound_nodes.hpp:215</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00199">sema::BoundUnaryExpression::expr</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00215">sema::BoundUnaryExpression::expr</a>.</p>
 
 </div>
 </div>
 <a id="af759bc9fc74013154433566ecc57faed" name="af759bc9fc74013154433566ecc57faed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af759bc9fc74013154433566ecc57faed">&#9670;&#160;</a></span>visit() <span class="overload">[23/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af759bc9fc74013154433566ecc57faed">&#9670;&#160;</a></span>visit() <span class="overload">[24/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1504,15 +1538,15 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  125</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;StoreInst&gt;(val, reg));</div>
 <div class="line"><span class="lineno">  126</span>    }</div>
 <div class="line"><span class="lineno">  127</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundVariableDeclaration_html_a76d5d0c58e4fb42fd1a1c3512563c30d"><div class="ttname"><a href="../../d2/d5b/classsema_1_1BoundVariableDeclaration.html#a76d5d0c58e4fb42fd1a1c3512563c30d">sema::BoundVariableDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00265">bound_nodes.hpp:265</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundVariableDeclaration_html_a7adec5f5b569d03cbf1663cad04b3dc3"><div class="ttname"><a href="../../d2/d5b/classsema_1_1BoundVariableDeclaration.html#a7adec5f5b569d03cbf1663cad04b3dc3">sema::BoundVariableDeclaration::initializer</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; initializer</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00266">bound_nodes.hpp:266</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundVariableDeclaration_html_a76d5d0c58e4fb42fd1a1c3512563c30d"><div class="ttname"><a href="../../d2/d5b/classsema_1_1BoundVariableDeclaration.html#a76d5d0c58e4fb42fd1a1c3512563c30d">sema::BoundVariableDeclaration::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00281">bound_nodes.hpp:281</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundVariableDeclaration_html_a7adec5f5b569d03cbf1663cad04b3dc3"><div class="ttname"><a href="../../d2/d5b/classsema_1_1BoundVariableDeclaration.html#a7adec5f5b569d03cbf1663cad04b3dc3">sema::BoundVariableDeclaration::initializer</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; initializer</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00282">bound_nodes.hpp:282</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00266">sema::BoundVariableDeclaration::initializer</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00265">sema::BoundVariableDeclaration::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00049">symbolMap_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00282">sema::BoundVariableDeclaration::initializer</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00281">sema::BoundVariableDeclaration::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">symbolMap_</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="a576b2e50a24d9386f64fbb5dc7aa9e40" name="a576b2e50a24d9386f64fbb5dc7aa9e40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a576b2e50a24d9386f64fbb5dc7aa9e40">&#9670;&#160;</a></span>visit() <span class="overload">[24/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a576b2e50a24d9386f64fbb5dc7aa9e40">&#9670;&#160;</a></span>visit() <span class="overload">[25/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1550,14 +1584,14 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  176</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;LoadInst&gt;(reg, addr));</div>
 <div class="line"><span class="lineno">  177</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.push(reg);</div>
 <div class="line"><span class="lineno">  178</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundVariableExpression_html_aaa2c9b3d656def8a58d37923b96bb000"><div class="ttname"><a href="../../dc/d46/classsema_1_1BoundVariableExpression.html#aaa2c9b3d656def8a58d37923b96bb000">sema::BoundVariableExpression::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00148">bound_nodes.hpp:148</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundVariableExpression_html_aaa2c9b3d656def8a58d37923b96bb000"><div class="ttname"><a href="../../dc/d46/classsema_1_1BoundVariableExpression.html#aaa2c9b3d656def8a58d37923b96bb000">sema::BoundVariableExpression::symbol</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; symbol</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00150">bound_nodes.hpp:150</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00148">sema::BoundVariableExpression::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00049">symbolMap_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00079">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00150">sema::BoundVariableExpression::symbol</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">symbolMap_</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00081">sema::BoundExpression::type</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
 <a id="ab77094dd405a58b294d433237c1d1f89" name="ab77094dd405a58b294d433237c1d1f89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab77094dd405a58b294d433237c1d1f89">&#9670;&#160;</a></span>visit() <span class="overload">[25/25]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab77094dd405a58b294d433237c1d1f89">&#9670;&#160;</a></span>visit() <span class="overload">[26/26]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1581,47 +1615,47 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#adcf84f4d87eec92029ed19831bd510af">sema::BoundVisitor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">540</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  541</span>  {</div>
-<div class="line"><span class="lineno">  542</span>    <span class="keyword">auto</span> condLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.cond&quot;</span>);</div>
-<div class="line"><span class="lineno">  543</span>    <span class="keyword">auto</span> bodyLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.body&quot;</span>);</div>
-<div class="line"><span class="lineno">  544</span>    <span class="keyword">auto</span> endLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.end&quot;</span>);</div>
-<div class="line"><span class="lineno">  545</span> </div>
-<div class="line"><span class="lineno">  546</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
-<div class="line"><span class="lineno">  547</span> </div>
-<div class="line"><span class="lineno">  548</span>    <span class="keyword">auto</span> condBlock = std::make_unique&lt;BasicBlock&gt;(condLabel);</div>
-<div class="line"><span class="lineno">  549</span>    <span class="keyword">auto</span> *condBlockPtr = condBlock.get();</div>
-<div class="line"><span class="lineno">  550</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(condBlock));</div>
-<div class="line"><span class="lineno">  551</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = condBlockPtr;</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span>    node.<a class="code hl_variable" href="../../d3/d65/classsema_1_1BoundWhileStatement.html#a5de81b499290259d786bddf82548e6b0">condition</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  554</span>    <span class="keyword">auto</span> cond = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
-<div class="line"><span class="lineno">  555</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
-<div class="line"><span class="lineno">  556</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
-<div class="line"><span class="lineno">  557</span>        std::make_unique&lt;CondBranchInst&gt;(cond, bodyLabel, endLabel));</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">546</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  547</span>  {</div>
+<div class="line"><span class="lineno">  548</span>    <span class="keyword">auto</span> condLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.cond&quot;</span>);</div>
+<div class="line"><span class="lineno">  549</span>    <span class="keyword">auto</span> bodyLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.body&quot;</span>);</div>
+<div class="line"><span class="lineno">  550</span>    <span class="keyword">auto</span> endLabel = <a class="code hl_function" href="#add850212ddc4adc8032c6422038c1c24">createBlockLabel</a>(<span class="stringliteral">&quot;while.end&quot;</span>);</div>
+<div class="line"><span class="lineno">  551</span> </div>
+<div class="line"><span class="lineno">  552</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
+<div class="line"><span class="lineno">  553</span> </div>
+<div class="line"><span class="lineno">  554</span>    <span class="keyword">auto</span> condBlock = std::make_unique&lt;BasicBlock&gt;(condLabel);</div>
+<div class="line"><span class="lineno">  555</span>    <span class="keyword">auto</span> *condBlockPtr = condBlock.get();</div>
+<div class="line"><span class="lineno">  556</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(condBlock));</div>
+<div class="line"><span class="lineno">  557</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = condBlockPtr;</div>
 <div class="line"><span class="lineno">  558</span> </div>
-<div class="line"><span class="lineno">  559</span>    <span class="keyword">auto</span> bodyBlock = std::make_unique&lt;BasicBlock&gt;(bodyLabel);</div>
-<div class="line"><span class="lineno">  560</span>    <span class="keyword">auto</span> *bodyBlockPtr = bodyBlock.get();</div>
-<div class="line"><span class="lineno">  561</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(bodyBlock));</div>
-<div class="line"><span class="lineno">  562</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = bodyBlockPtr;</div>
-<div class="line"><span class="lineno">  563</span>    <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.push_back({condLabel, endLabel});</div>
-<div class="line"><span class="lineno">  564</span>    node.<a class="code hl_variable" href="../../d3/d65/classsema_1_1BoundWhileStatement.html#aa84bad323eeb4262e37478dece17da1c">body</a>-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  565</span>    <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.pop_back();</div>
-<div class="line"><span class="lineno">  566</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
-<div class="line"><span class="lineno">  567</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
-<div class="line"><span class="lineno">  568</span>    {</div>
-<div class="line"><span class="lineno">  569</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
-<div class="line"><span class="lineno">  570</span>    }</div>
-<div class="line"><span class="lineno">  571</span> </div>
-<div class="line"><span class="lineno">  572</span>    <span class="keyword">auto</span> endBlock = std::make_unique&lt;BasicBlock&gt;(endLabel);</div>
-<div class="line"><span class="lineno">  573</span>    <span class="keyword">auto</span> *endBlockPtr = endBlock.get();</div>
-<div class="line"><span class="lineno">  574</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(endBlock));</div>
-<div class="line"><span class="lineno">  575</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = endBlockPtr;</div>
-<div class="line"><span class="lineno">  576</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundWhileStatement_html_a5de81b499290259d786bddf82548e6b0"><div class="ttname"><a href="../../d3/d65/classsema_1_1BoundWhileStatement.html#a5de81b499290259d786bddf82548e6b0">sema::BoundWhileStatement::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00327">bound_nodes.hpp:327</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundWhileStatement_html_aa84bad323eeb4262e37478dece17da1c"><div class="ttname"><a href="../../d3/d65/classsema_1_1BoundWhileStatement.html#aa84bad323eeb4262e37478dece17da1c">sema::BoundWhileStatement::body</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; body</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00328">bound_nodes.hpp:328</a></div></div>
+<div class="line"><span class="lineno">  559</span>    node.<a class="code hl_variable" href="../../d3/d65/classsema_1_1BoundWhileStatement.html#a5de81b499290259d786bddf82548e6b0">condition</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  560</span>    <span class="keyword">auto</span> cond = <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.top();</div>
+<div class="line"><span class="lineno">  561</span>    <a class="code hl_variable" href="#af54372f2f252aa081e39f30aa09d4c22">valueStack_</a>.pop();</div>
+<div class="line"><span class="lineno">  562</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(</div>
+<div class="line"><span class="lineno">  563</span>        std::make_unique&lt;CondBranchInst&gt;(cond, bodyLabel, endLabel));</div>
+<div class="line"><span class="lineno">  564</span> </div>
+<div class="line"><span class="lineno">  565</span>    <span class="keyword">auto</span> bodyBlock = std::make_unique&lt;BasicBlock&gt;(bodyLabel);</div>
+<div class="line"><span class="lineno">  566</span>    <span class="keyword">auto</span> *bodyBlockPtr = bodyBlock.get();</div>
+<div class="line"><span class="lineno">  567</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(bodyBlock));</div>
+<div class="line"><span class="lineno">  568</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = bodyBlockPtr;</div>
+<div class="line"><span class="lineno">  569</span>    <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.push_back({condLabel, endLabel});</div>
+<div class="line"><span class="lineno">  570</span>    node.<a class="code hl_variable" href="../../d3/d65/classsema_1_1BoundWhileStatement.html#aa84bad323eeb4262e37478dece17da1c">body</a>-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  571</span>    <a class="code hl_variable" href="#ab27ad956061dc64b46ee46bc80a1b9d5">loopLabelStack_</a>.pop_back();</div>
+<div class="line"><span class="lineno">  572</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.empty() ||</div>
+<div class="line"><span class="lineno">  573</span>        <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;instructions.back()-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a>)</div>
+<div class="line"><span class="lineno">  574</span>    {</div>
+<div class="line"><span class="lineno">  575</span>      <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a>-&gt;addInstruction(std::make_unique&lt;BranchInst&gt;(condLabel));</div>
+<div class="line"><span class="lineno">  576</span>    }</div>
+<div class="line"><span class="lineno">  577</span> </div>
+<div class="line"><span class="lineno">  578</span>    <span class="keyword">auto</span> endBlock = std::make_unique&lt;BasicBlock&gt;(endLabel);</div>
+<div class="line"><span class="lineno">  579</span>    <span class="keyword">auto</span> *endBlockPtr = endBlock.get();</div>
+<div class="line"><span class="lineno">  580</span>    <a class="code hl_variable" href="#ac6a01826d1e9b76f196fe38404b58c0b">currentFunction_</a>-&gt;addBlock(std::move(endBlock));</div>
+<div class="line"><span class="lineno">  581</span>    <a class="code hl_variable" href="#a432d802384e75d8e633da0e7917c9bca">currentBlock_</a> = endBlockPtr;</div>
+<div class="line"><span class="lineno">  582</span>  }</div>
+<div class="ttc" id="aclasssema_1_1BoundWhileStatement_html_a5de81b499290259d786bddf82548e6b0"><div class="ttname"><a href="../../d3/d65/classsema_1_1BoundWhileStatement.html#a5de81b499290259d786bddf82548e6b0">sema::BoundWhileStatement::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00343">bound_nodes.hpp:343</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundWhileStatement_html_aa84bad323eeb4262e37478dece17da1c"><div class="ttname"><a href="../../d3/d65/classsema_1_1BoundWhileStatement.html#aa84bad323eeb4262e37478dece17da1c">sema::BoundWhileStatement::body</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; body</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00344">bound_nodes.hpp:344</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00328">sema::BoundWhileStatement::body</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00327">sema::BoundWhileStatement::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">currentFunction_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00055">loopLabelStack_</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">valueStack_</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00344">sema::BoundWhileStatement::body</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00343">sema::BoundWhileStatement::condition</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">currentBlock_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">currentFunction_</a>, <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00056">loopLabelStack_</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00023">zir::Ret</a>, and <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">valueStack_</a>.</p>
 
 </div>
 </div>
@@ -1646,9 +1680,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">47</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00141">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00578">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00624">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00589">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00599">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00129">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00141">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00584">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00630">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00595">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00485">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00605">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00129">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">visit()</a>.</p>
 
 </div>
 </div>
@@ -1672,9 +1706,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00047">47</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00485">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">visit()</a>.</p>
 
 </div>
 </div>
@@ -1698,7 +1732,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00057">57</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00058">58</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
 </div>
 </div>
@@ -1722,9 +1756,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00056">56</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00578">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00589">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00584">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00595">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">visit()</a>.</p>
 
 </div>
 </div>
@@ -1748,7 +1782,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00007">generate()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00396">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00085">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00391">visit()</a>.</p>
 
@@ -1774,7 +1808,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00054">54</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00376">createBlockLabel()</a>.</p>
 
@@ -1800,7 +1834,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00371">createRegister()</a>.</p>
 
@@ -1826,7 +1860,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00049">49</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00034">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>.</p>
 
@@ -1852,9 +1886,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d31/ir__generator_8hpp_source.html#l00051">51</a> of file <a class="el" href="../../df/d31/ir__generator_8hpp_source.html">ir_generator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00386">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00141">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00624">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00153">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00479">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00599">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00160">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00129">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00540">visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00386">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00141">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00180">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00630">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00153">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00354">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00485">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00605">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00160">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00401">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00129">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00445">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00306">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00112">visit()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00165">visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00546">visit()</a>.</p>
 
 </div>
 </div>
