@@ -72,8 +72,48 @@ Functions</h2></td></tr>
 <tr class="memitem:afbd671b9673e4b74ed1febb85465bbb7" id="r_afbd671b9673e4b74ed1febb85465bbb7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbd671b9673e4b74ed1febb85465bbb7">isVariadicViewType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 <tr class="memitem:a83ab1716b289fa2170d5cd37bd82536f" id="r_a83ab1716b289fa2170d5cd37bd82536f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83ab1716b289fa2170d5cd37bd82536f">splitQualified</a> (const std::string &amp;value)</td></tr>
 <tr class="memitem:ad1b399bc505845ab3aa9428f3c9d41cf" id="r_ad1b399bc505845ab3aa9428f3c9d41cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1b399bc505845ab3aa9428f3c9d41cf">extractQualifiedPath</a> (const <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> *expr, std::vector&lt; std::string &gt; &amp;parts)</td></tr>
+<tr class="memitem:a4a9fa0d08cfc6480388b295673336108" id="r_a4a9fa0d08cfc6480388b295673336108"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a9fa0d08cfc6480388b295673336108">collectOverloads</a> (const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;symbol)</td></tr>
+<tr class="memitem:a7b3b4eee5a59eb1d603ef56f9fd3c66a" id="r_a7b3b4eee5a59eb1d603ef56f9fd3c66a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b3b4eee5a59eb1d603ef56f9fd3c66a">sameFunctionSignature</a> (const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;lhs, const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;rhs)</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a4a9fa0d08cfc6480388b295673336108" name="a4a9fa0d08cfc6480388b295673336108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a9fa0d08cfc6480388b295673336108">&#9670;&#160;</a></span>collectOverloads()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt; &gt; sema::anonymous_namespace{binder.cpp}::collectOverloads </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00094">94</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   95</span>    {</div>
+<div class="line"><span class="lineno">   96</span>      <span class="keywordflow">if</span> (!symbol)</div>
+<div class="line"><span class="lineno">   97</span>      {</div>
+<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">   99</span>      }</div>
+<div class="line"><span class="lineno">  100</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> function = std::dynamic_pointer_cast&lt;FunctionSymbol&gt;(symbol))</div>
+<div class="line"><span class="lineno">  101</span>      {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> {function};</div>
+<div class="line"><span class="lineno">  103</span>      }</div>
+<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> set = std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(symbol))</div>
+<div class="line"><span class="lineno">  105</span>      {</div>
+<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">return</span> set-&gt;overloads;</div>
+<div class="line"><span class="lineno">  107</span>      }</div>
+<div class="line"><span class="lineno">  108</span>      <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  109</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00094">collectOverloads()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00094">collectOverloads()</a>.</p>
+
+</div>
+</div>
 <a id="ad1b399bc505845ab3aa9428f3c9d41cf" name="ad1b399bc505845ab3aa9428f3c9d41cf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1b399bc505845ab3aa9428f3c9d41cf">&#9670;&#160;</a></span>extractQualifiedPath()</h2>
 
@@ -213,6 +253,58 @@ Functions</h2></td></tr>
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::Int</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">makeVariadicViewType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">sanitizeTypeName()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">makeVariadicViewType()</a>.</p>
+
+</div>
+</div>
+<a id="a7b3b4eee5a59eb1d603ef56f9fd3c66a" name="a7b3b4eee5a59eb1d603ef56f9fd3c66a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b3b4eee5a59eb1d603ef56f9fd3c66a">&#9670;&#160;</a></span>sameFunctionSignature()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sema::anonymous_namespace{binder.cpp}::sameFunctionSignature </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00111">111</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>    {</div>
+<div class="line"><span class="lineno">  114</span>      <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() ||</div>
+<div class="line"><span class="lineno">  115</span>          lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>)</div>
+<div class="line"><span class="lineno">  116</span>      {</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  118</span>      }</div>
+<div class="line"><span class="lineno">  119</span>      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i)</div>
+<div class="line"><span class="lineno">  120</span>      {</div>
+<div class="line"><span class="lineno">  121</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
+<div class="line"><span class="lineno">  122</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
+<div class="line"><span class="lineno">  124</span>            left-&gt;is_variadic_pack != right-&gt;is_variadic_pack)</div>
+<div class="line"><span class="lineno">  125</span>        {</div>
+<div class="line"><span class="lineno">  126</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  127</span>        }</div>
+<div class="line"><span class="lineno">  128</span>        <span class="keywordflow">if</span> (!left-&gt;type || !right-&gt;type ||</div>
+<div class="line"><span class="lineno">  129</span>            left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString())</div>
+<div class="line"><span class="lineno">  130</span>        {</div>
+<div class="line"><span class="lineno">  131</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  132</span>        }</div>
+<div class="line"><span class="lineno">  133</span>      }</div>
+<div class="line"><span class="lineno">  134</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  135</span>    }</div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7bdd63ef87dae33bb0edc0b04690b324"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">sema::FunctionSymbol::isCVariadic</a></div><div class="ttdeci">bool isCVariadic</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00053">symbol.hpp:53</a></div></div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7f8af1e428604f4eaa3460b07273aa25"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">sema::FunctionSymbol::parameters</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; VariableSymbol &gt; &gt; parameters</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00050">symbol.hpp:50</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00053">sema::FunctionSymbol::isCVariadic</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">sema::FunctionSymbol::parameters</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00111">sameFunctionSignature()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00111">sameFunctionSignature()</a>.</p>
 
 </div>
 </div>

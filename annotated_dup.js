@@ -51,6 +51,7 @@ var annotated_dup =
       [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
       [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],
       [ "FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", "db/db1/classsema_1_1FunctionSymbol" ],
+      [ "OverloadSetSymbol", "de/d14/classsema_1_1OverloadSetSymbol.html", "de/d14/classsema_1_1OverloadSetSymbol" ],
       [ "TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", "d0/d06/classsema_1_1TypeSymbol" ],
       [ "ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", "d3/d56/classsema_1_1ModuleSymbol" ],
       [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ]

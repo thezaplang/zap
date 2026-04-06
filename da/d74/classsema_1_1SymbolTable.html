@@ -70,6 +70,7 @@ $(function(){initNavTree('da/d74/classsema_1_1SymbolTable.html','../../','db/dd8
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a822c995d1ee0591ef2dd05a9fb30769c" id="r_a822c995d1ee0591ef2dd05a9fb30769c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a822c995d1ee0591ef2dd05a9fb30769c">SymbolTable</a> (std::shared_ptr&lt; SymbolTable &gt; <a class="el" href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a>=nullptr)</td></tr>
 <tr class="memitem:a0342d7dbe67f842df3ba3b8758ac0d56" id="r_a0342d7dbe67f842df3ba3b8758ac0d56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0342d7dbe67f842df3ba3b8758ac0d56">declare</a> (const std::string &amp;name, std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; symbol)</td></tr>
+<tr class="memitem:a78d1fc2f78696ccffb87c38bb1229435" id="r_a78d1fc2f78696ccffb87c38bb1229435"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../de/d14/classsema_1_1OverloadSetSymbol.html">OverloadSetSymbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78d1fc2f78696ccffb87c38bb1229435">declareFunction</a> (const std::string &amp;name, std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt; function)</td></tr>
 <tr class="memitem:a9affdf0ca6a94fee68f94da2b4aa2fa6" id="r_a9affdf0ca6a94fee68f94da2b4aa2fa6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9affdf0ca6a94fee68f94da2b4aa2fa6">lookup</a> (const std::string &amp;name) const</td></tr>
 <tr class="memitem:a5d08f94a34d4ca55b1e63851774e2022" id="r_a5d08f94a34d4ca55b1e63851774e2022"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d08f94a34d4ca55b1e63851774e2022">lookupLocal</a> (const std::string &amp;name) const</td></tr>
 <tr class="memitem:a8ddf0e7dbfd000be10b2cfaedf057aa7" id="r_a8ddf0e7dbfd000be10b2cfaedf057aa7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="#a822c995d1ee0591ef2dd05a9fb30769c">SymbolTable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ddf0e7dbfd000be10b2cfaedf057aa7">getParent</a> () const</td></tr>
@@ -108,10 +109,10 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   13</span>      : <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>(std::move(<a class="code hl_function" href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a>)) {}</div>
-<div class="ttc" id="aclasssema_1_1SymbolTable_html_ad9c7154034579e1ca6d3f01018d85834"><div class="ttname"><a href="#ad9c7154034579e1ca6d3f01018d85834">sema::SymbolTable::parent_</a></div><div class="ttdeci">std::shared_ptr&lt; SymbolTable &gt; parent_</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">symbol_table.hpp:45</a></div></div>
-<div class="ttc" id="astdlib_8c_html_a0f99b2c8a24adf4ea26017903a46b1ea"><div class="ttname"><a href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a></div><div class="ttdeci">zap_string_t parent(zap_string_t path)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00495">stdlib.c:495</a></div></div>
+<div class="ttc" id="aclasssema_1_1SymbolTable_html_ad9c7154034579e1ca6d3f01018d85834"><div class="ttname"><a href="#ad9c7154034579e1ca6d3f01018d85834">sema::SymbolTable::parent_</a></div><div class="ttdeci">std::shared_ptr&lt; SymbolTable &gt; parent_</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d5e/symbol__table_8hpp_source.html#l00068">symbol_table.hpp:68</a></div></div>
+<div class="ttc" id="astdlib_8c_html_a0f99b2c8a24adf4ea26017903a46b1ea"><div class="ttname"><a href="../../db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea">parent</a></div><div class="ttdeci">zap_string_t parent(zap_string_t path)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00557">stdlib.c:557</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00495">parent()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">parent_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00557">parent()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00068">parent_</a>.</p>
 
 </div>
 </div>
@@ -151,9 +152,64 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   19</span>    <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>[name] = std::move(symbol);</div>
 <div class="line"><span class="lineno">   20</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   21</span>  }</div>
-<div class="ttc" id="aclasssema_1_1SymbolTable_html_a367d0ab422f7eb8293f0cd917a942dfe"><div class="ttname"><a href="#a367d0ab422f7eb8293f0cd917a942dfe">sema::SymbolTable::symbols_</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; Symbol &gt; &gt; symbols_</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">symbol_table.hpp:46</a></div></div>
+<div class="ttc" id="aclasssema_1_1SymbolTable_html_a367d0ab422f7eb8293f0cd917a942dfe"><div class="ttname"><a href="#a367d0ab422f7eb8293f0cd917a942dfe">sema::SymbolTable::symbols_</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; Symbol &gt; &gt; symbols_</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">symbol_table.hpp:69</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">symbols_</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">symbols_</a>.</p>
+
+</div>
+</div>
+<a id="a78d1fc2f78696ccffb87c38bb1229435" name="a78d1fc2f78696ccffb87c38bb1229435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78d1fc2f78696ccffb87c38bb1229435">&#9670;&#160;</a></span>declareFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../de/d14/classsema_1_1OverloadSetSymbol.html">OverloadSetSymbol</a> &gt; sema::SymbolTable::declareFunction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>function</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>                                                                     {</div>
+<div class="line"><span class="lineno">   25</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.find(name);</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.end()) {</div>
+<div class="line"><span class="lineno">   27</span>      <span class="keyword">auto</span> set = std::make_shared&lt;OverloadSetSymbol&gt;(name, function ? function-&gt;moduleName : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   28</span>      set-&gt;visibility = function ? function-&gt;visibility : <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>;</div>
+<div class="line"><span class="lineno">   29</span>      <span class="keywordflow">if</span> (function) {</div>
+<div class="line"><span class="lineno">   30</span>        set-&gt;addOverload(function);</div>
+<div class="line"><span class="lineno">   31</span>      }</div>
+<div class="line"><span class="lineno">   32</span>      <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>[name] = set;</div>
+<div class="line"><span class="lineno">   33</span>      <span class="keywordflow">return</span> set;</div>
+<div class="line"><span class="lineno">   34</span>    }</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   36</span>    <span class="keyword">auto</span> set = std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(it-&gt;second);</div>
+<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">if</span> (!set) {</div>
+<div class="line"><span class="lineno">   38</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   39</span>    }</div>
+<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">if</span> (function) {</div>
+<div class="line"><span class="lineno">   41</span>      set-&gt;addOverload(function);</div>
+<div class="line"><span class="lineno">   42</span>    }</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> set;</div>
+<div class="line"><span class="lineno">   44</span>  }</div>
+<div class="ttc" id="avisibility_8hpp_html_a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1"><div class="ttname"><a href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></div><div class="ttdeci">@ Private</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d21/visibility_8hpp_source.html#l00004">visibility.hpp:4</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">symbols_</a>.</p>
 
 </div>
 </div>
@@ -180,10 +236,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00065">65</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">parent_</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00068">parent_</a>.</p>
 
 </div>
 </div>
@@ -210,19 +266,19 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>                                                            {</div>
-<div class="line"><span class="lineno">   24</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.find(name);</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.end()) {</div>
-<div class="line"><span class="lineno">   26</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
-<div class="line"><span class="lineno">   27</span>    }</div>
-<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>) {</div>
-<div class="line"><span class="lineno">   29</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>-&gt;lookup(name);</div>
-<div class="line"><span class="lineno">   30</span>    }</div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   32</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                                                            {</div>
+<div class="line"><span class="lineno">   47</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.find(name);</div>
+<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.end()) {</div>
+<div class="line"><span class="lineno">   49</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><span class="lineno">   50</span>    }</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>) {</div>
+<div class="line"><span class="lineno">   52</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad9c7154034579e1ca6d3f01018d85834">parent_</a>-&gt;lookup(name);</div>
+<div class="line"><span class="lineno">   53</span>    }</div>
+<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   55</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">parent_</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">symbols_</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00068">parent_</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">symbols_</a>.</p>
 
 </div>
 </div>
@@ -249,16 +305,16 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>                                                                 {</div>
-<div class="line"><span class="lineno">   35</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.find(name);</div>
-<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.end()) {</div>
-<div class="line"><span class="lineno">   37</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
-<div class="line"><span class="lineno">   38</span>    }</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   40</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00057">57</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>                                                                 {</div>
+<div class="line"><span class="lineno">   58</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.find(name);</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="#a367d0ab422f7eb8293f0cd917a942dfe">symbols_</a>.end()) {</div>
+<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><span class="lineno">   61</span>    }</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   63</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">symbols_</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">symbols_</a>.</p>
 
 </div>
 </div>
@@ -283,9 +339,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00068">68</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00042">getParent()</a>, <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00023">lookup()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">SymbolTable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00065">getParent()</a>, <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">lookup()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">SymbolTable()</a>.</p>
 
 </div>
 </div>
@@ -309,9 +365,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00069">69</a> of file <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html">symbol_table.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00015">declare()</a>, <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00023">lookup()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00034">lookupLocal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00015">declare()</a>, <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00023">declareFunction()</a>, <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00046">lookup()</a>, and <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00057">lookupLocal()</a>.</p>
 
 </div>
 </div>

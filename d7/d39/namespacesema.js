@@ -1,10 +1,12 @@
 var namespacesema =
 [
     [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
+      [ "collectOverloads", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a4a9fa0d08cfc6480388b295673336108", null ],
       [ "extractQualifiedPath", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ad1b399bc505845ab3aa9428f3c9d41cf", null ],
       [ "isStringType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a9f741f0d35c5c2d675089274971a5196", null ],
       [ "isVariadicViewType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#afbd671b9673e4b74ed1febb85465bbb7", null ],
       [ "makeVariadicViewType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#acc20b48e31f0b9d7d5782c1350469d46", null ],
+      [ "sameFunctionSignature", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a7b3b4eee5a59eb1d603ef56f9fd3c66a", null ],
       [ "sanitizeTypeName", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ac66bfac4869c52fd33f43c64eea7f16c", null ],
       [ "splitQualified", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a83ab1716b289fa2170d5cd37bd82536f", null ]
     ] ],
@@ -44,12 +46,14 @@ var namespacesema =
     [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
     [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],
     [ "FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", "db/db1/classsema_1_1FunctionSymbol" ],
+    [ "OverloadSetSymbol", "de/d14/classsema_1_1OverloadSetSymbol.html", "de/d14/classsema_1_1OverloadSetSymbol" ],
     [ "TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", "d0/d06/classsema_1_1TypeSymbol" ],
     [ "ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", "d3/d56/classsema_1_1ModuleSymbol" ],
     [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ],
     [ "SymbolKind", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524", [
       [ "Variable", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9", null ],
       [ "Function", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261", null ],
+      [ "OverloadSet", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05", null ],
       [ "Type", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508", null ],
       [ "Module", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42", null ]
     ] ]

@@ -106,6 +106,7 @@ Classes</h2></td></tr>
 <tr class="memitem:Symbol" id="r_Symbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a></td></tr>
 <tr class="memitem:VariableSymbol" id="r_VariableSymbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d9a/classsema_1_1VariableSymbol.html">VariableSymbol</a></td></tr>
 <tr class="memitem:FunctionSymbol" id="r_FunctionSymbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a></td></tr>
+<tr class="memitem:OverloadSetSymbol" id="r_OverloadSetSymbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d14/classsema_1_1OverloadSetSymbol.html">OverloadSetSymbol</a></td></tr>
 <tr class="memitem:TypeSymbol" id="r_TypeSymbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d06/classsema_1_1TypeSymbol.html">TypeSymbol</a></td></tr>
 <tr class="memitem:ModuleSymbol" id="r_ModuleSymbol"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d56/classsema_1_1ModuleSymbol.html">ModuleSymbol</a></td></tr>
 <tr class="memitem:SymbolTable" id="r_SymbolTable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/classsema_1_1SymbolTable.html">SymbolTable</a></td></tr>
@@ -116,6 +117,8 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9">Variable</a>
 , <br />
 &#160;&#160;<a class="el" href="#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">Function</a>
+, <br />
+&#160;&#160;<a class="el" href="#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">OverloadSet</a>
 , <br />
 &#160;&#160;<a class="el" href="#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">Type</a>
 , <br />
@@ -146,16 +149,18 @@ Enumerations</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9" name="afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9"></a>Variable&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261" name="afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261"></a>Function&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05" name="afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05"></a>OverloadSet&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508" name="afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508"></a>Type&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42" name="afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42"></a>Module&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>{ <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9">Variable</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">Function</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">Type</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42">Module</a> };</div>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>{ <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9">Variable</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">Function</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">OverloadSet</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">Type</a>, <a class="code hl_enumvalue" href="#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42">Module</a> };</div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9"><div class="ttname"><a href="#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9">sema::SymbolKind::Variable</a></div><div class="ttdeci">@ Variable</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261"><div class="ttname"><a href="#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">sema::SymbolKind::Function</a></div><div class="ttdeci">@ Function</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508"><div class="ttname"><a href="#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">sema::SymbolKind::Type</a></div><div class="ttdeci">@ Type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42"><div class="ttname"><a href="#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42">sema::SymbolKind::Module</a></div><div class="ttdeci">@ Module</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
+<div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05"><div class="ttname"><a href="#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">sema::SymbolKind::OverloadSet</a></div><div class="ttdeci">@ OverloadSet</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

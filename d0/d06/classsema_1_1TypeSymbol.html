@@ -100,7 +100,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00083">83</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00102">102</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab54d4d60f7a6423f7c8a617fa5c15be7" name="ab54d4d60f7a6423f7c8a617fa5c15be7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab54d4d60f7a6423f7c8a617fa5c15be7">&#9670;&#160;</a></span>TypeSymbol()</h2>
@@ -149,13 +149,13 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00086">86</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   89</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), std::move(t), std::move(link), std::move(module), vis),</div>
-<div class="line"><span class="lineno">   90</span>        <a class="code hl_variable" href="#a829431c76208adee4110819590fd545e">isUnsafe</a>(unsafe) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00105">105</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), std::move(t), std::move(link), std::move(module), vis),</div>
+<div class="line"><span class="lineno">  109</span>        <a class="code hl_variable" href="#a829431c76208adee4110819590fd545e">isUnsafe</a>(unsafe) {}</div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_ad418fedc0924f4c66d40b9c2d245aa34"><div class="ttname"><a href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">sema::Symbol::Symbol</a></div><div class="ttdeci">Symbol(std::string n, std::shared_ptr&lt; zir::Type &gt; t, std::string link=&quot;&quot;, std::string module=&quot;&quot;, Visibility vis=Visibility::Private)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00026">symbol.hpp:26</a></div></div>
-<div class="ttc" id="aclasssema_1_1TypeSymbol_html_a829431c76208adee4110819590fd545e"><div class="ttname"><a href="#a829431c76208adee4110819590fd545e">sema::TypeSymbol::isUnsafe</a></div><div class="ttdeci">bool isUnsafe</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00085">symbol.hpp:85</a></div></div>
+<div class="ttc" id="aclasssema_1_1TypeSymbol_html_a829431c76208adee4110819590fd545e"><div class="ttname"><a href="#a829431c76208adee4110819590fd545e">sema::TypeSymbol::isUnsafe</a></div><div class="ttdeci">bool isUnsafe</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00104">symbol.hpp:104</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00085">isUnsafe</a>, <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">sema::Symbol::Symbol()</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00104">isUnsafe</a>, <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">sema::Symbol::Symbol()</a>.</p>
 
 </div>
 </div>
@@ -185,8 +185,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1">sema::Symbol</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00091">91</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   91</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">SymbolKind::Type</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00110">110</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  110</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">SymbolKind::Type</a>; }</div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508"><div class="ttname"><a href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508">sema::SymbolKind::Type</a></div><div class="ttdeci">@ Type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00011">sema::Type</a>.</p>
@@ -206,9 +206,9 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00085">85</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00104">104</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00086">TypeSymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00105">TypeSymbol()</a>.</p>
 
 </div>
 </div>

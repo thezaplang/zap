@@ -148,6 +148,7 @@ var hierarchy =
     [ "sema::Symbol", "d1/df6/classsema_1_1Symbol.html", [
       [ "sema::FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", null ],
       [ "sema::ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", null ],
+      [ "sema::OverloadSetSymbol", "de/d14/classsema_1_1OverloadSetSymbol.html", null ],
       [ "sema::TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", null ],
       [ "sema::VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", null ]
     ] ],
