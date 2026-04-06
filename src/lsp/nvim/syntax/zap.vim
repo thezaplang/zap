@@ -6,7 +6,7 @@ syntax case match
 
 syntax keyword zapConditional if else match
 syntax keyword zapRepeat while for
-syntax keyword zapStatement return break continue import as
+syntax keyword zapStatement return break continue import as unsafe
 syntax keyword zapStorageClass fun ext pub priv global const var ref module impl static
 syntax keyword zapStructure record struct enum alias
 
@@ -15,17 +15,18 @@ syntax region zapString start=+"+ skip=+\\\\\|\\"+ end=+"+
 syntax match zapEscape "\\\\." contained containedin=zapString
 syntax region zapChar start=+'+ skip=+\\\\\|\\'+ end=+'+
 syntax match zapNumber "\<[0-9]\+\(\.[0-9]\+\)\?\>"
-syntax keyword zapBoolean true false
+syntax keyword zapBoolean true false null
 
 syntax match zapNamespace "\<[A-Za-z_][A-Za-z0-9_]*\>\ze\s*\."
-syntax match zapFunction "\<\%(fun\|ext\s\+fun\)\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
+syntax match zapFunction "\<\%(unsafe\s\+fun\|fun\|ext\s\+fun\)\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapFunctionCall "\<[A-Za-z_][A-Za-z0-9_]*\>\ze\s*("
-syntax match zapTypeDecl "\<\%(record\|struct\|enum\|alias\)\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
+syntax match zapTypeDecl "\<\%(record\|struct\|unsafe\s\+struct\|enum\|alias\)\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapVarDecl "\<\%(var\|const\)\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapParameter "\<\%(ref\s\+\)\?\zs[A-Za-z_][A-Za-z0-9_]*\ze\s*:"
-syntax match zapType ":\s*\zs[A-Za-z_][A-Za-z0-9_]*\%(\s*\.\s*[A-Za-z_][A-Za-z0-9_]*\)*\>"
-syntax match zapReturnType ")\s*\zs[A-Za-z_][A-Za-z0-9_]*\%(\s*\.\s*[A-Za-z_][A-Za-z0-9_]*\)*\>"
+syntax match zapType ":\s*\zs\%(\*\s*\)*[A-Za-z_][A-Za-z0-9_]*\%(\s*\.\s*[A-Za-z_][A-Za-z0-9_]*\)*\>"
+syntax match zapReturnType ")\s*\zs\%(\*\s*\)*[A-Za-z_][A-Za-z0-9_]*\%(\s*\.\s*[A-Za-z_][A-Za-z0-9_]*\)*\>"
 syntax match zapBuiltinType "\<\%(Int\|Int8\|Int16\|Int32\|Int64\|UInt\|UInt8\|UInt16\|UInt32\|UInt64\|Float\|Float32\|Float64\|Bool\|Void\|Char\|String\)\>"
+syntax match zapPointerOperator "\%(^\|[^A-Za-z0-9_]\)\zs[&*]\ze\%([^=]\|$\)"
 
 highlight default link zapConditional Conditional
 highlight default link zapRepeat Repeat
@@ -47,5 +48,6 @@ highlight default link zapParameter Identifier
 highlight default link zapType Type
 highlight default link zapReturnType Type
 highlight default link zapBuiltinType Type
+highlight default link zapPointerOperator Operator
 
 let b:current_syntax = "zap"

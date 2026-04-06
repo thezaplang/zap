@@ -1,0 +1,23 @@
+import "std/prelude" { println };
+
+struct Box {
+    ptr: *Int
+}
+
+fun main() Int {
+    var value: Int = 42;
+    var result: Int = 0;
+
+    unsafe {
+        var box: Box = Box{ptr: &value};
+        result = *box.ptr;
+    }
+
+    if (result == 42) {
+        println("Struct pointer field test passed!");
+        return 0;
+    }
+
+    println("Struct pointer field test failed!");
+    return 1;
+}

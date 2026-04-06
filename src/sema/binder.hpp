@@ -16,7 +16,7 @@ namespace sema
   class Binder : public Visitor
   {
   public:
-    Binder(zap::DiagnosticEngine &diag);
+    Binder(zap::DiagnosticEngine &diag, bool allowUnsafe = false);
     std::unique_ptr<BoundRootNode> bind(RootNode &root);
     std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo> &modules);
 
@@ -45,12 +45,15 @@ namespace sema
     void visit(ConstString &node) override;
     void visit(ConstChar &node) override;
     void visit(UnaryExpr &node) override;
+    void visit(CastExpr &node) override;
     void visit(ArrayLiteralNode &node) override;
+    void visit(ConstNull &node) override;
     void visit(EnumDecl &node) override;
     void visit(TypeAliasDecl &node) override;
     void visit(RecordDecl &node) override;
     void visit(StructDeclarationNode &node) override;
     void visit(StructLiteralNode &node) override;
+    void visit(UnsafeBlockNode &node) override;
 
   private:
     zap::DiagnosticEngine &_diag;
@@ -63,6 +66,10 @@ namespace sema
     std::unique_ptr<BoundBlock> currentBlock_;
 
     int loopDepth_ = 0;
+    int unsafeDepth_ = 0;
+    int unsafeTypeContextDepth_ = 0;
+    int externTypeContextDepth_ = 0;
+    bool allowUnsafe_ = false;
 
     void pushScope();
     void popScope();
@@ -100,6 +107,11 @@ namespace sema
     std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
 
     bool isNumeric(std::shared_ptr<zir::Type> type);
+    bool isPointerType(std::shared_ptr<zir::Type> type) const;
+    bool isNullType(std::shared_ptr<zir::Type> type) const;
+    bool isUnsafeActive() const;
+    void requireUnsafeEnabled(SourceSpan span, const std::string &feature);
+    void requireUnsafeContext(SourceSpan span, const std::string &feature);
     bool canConvert(std::shared_ptr<zir::Type> from,
                     std::shared_ptr<zir::Type> to);
     std::shared_ptr<zir::Type> getPromotedType(std::shared_ptr<zir::Type> t1,

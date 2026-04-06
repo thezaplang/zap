@@ -189,6 +189,7 @@ private:
       driver::output_type::EXEC; ///< Output type, default executable.
   bool implicit_output;          ///< Was the output implicit or explicit.
   bool inc_stdlib;               ///< Include the zap stdlib.o or not.
+  bool allow_unsafe = false;     ///< Allow unsafe language features.
 
   /// @brief Used internally by the compile() function.
   /// @return True if an error has occured.

@@ -140,8 +140,15 @@ namespace codegen
     case zir::TypeKind::Pointer:
     {
       const auto &pt = static_cast<const zir::PointerType &>(ty);
-      return llvm::PointerType::getUnqual(toLLVMType(*pt.getBaseType()));
+      auto *baseTy = toLLVMType(*pt.getBaseType());
+      if (baseTy->isVoidTy())
+      {
+        baseTy = llvm::Type::getInt8Ty(ctx_);
+      }
+      return llvm::PointerType::getUnqual(baseTy);
     }
+    case zir::TypeKind::NullPtr:
+      return llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
     case zir::TypeKind::Enum:
       return llvm::Type::getInt64Ty(ctx_);
     case zir::TypeKind::Record:
@@ -347,9 +354,13 @@ namespace codegen
   {
     for (const auto &stmt : node.statements)
     {
+      if (builder_.GetInsertBlock()->getTerminator())
+      {
+        break;
+      }
       stmt->accept(*this);
     }
-    if (node.result)
+    if (node.result && !builder_.GetInsertBlock()->getTerminator())
     {
       node.result->accept(*this);
     }
@@ -414,10 +425,23 @@ namespace codegen
 
     if (srcTy == destTy)
     {
+      lastValue_ = src;
       return;
     }
 
-    if (srcTy->isIntegerTy() && destTy->isIntegerTy())
+    if (srcTy->isPointerTy() && destTy->isPointerTy())
+    {
+      lastValue_ = builder_.CreateBitCast(src, destTy);
+    }
+    else if (srcTy->isPointerTy() && destTy->isIntegerTy())
+    {
+      lastValue_ = builder_.CreatePtrToInt(src, destTy);
+    }
+    else if (srcTy->isIntegerTy() && destTy->isPointerTy())
+    {
+      lastValue_ = builder_.CreateIntToPtr(src, destTy);
+    }
+    else if (srcTy->isIntegerTy() && destTy->isIntegerTy())
     {
       unsigned srcBits = srcTy->getIntegerBitWidth();
       unsigned destBits = destTy->getIntegerBitWidth();
@@ -685,8 +709,42 @@ namespace codegen
     node.right->accept(*this);
     auto *rhs = lastValue_;
 
+    bool isPointer = lhs->getType()->isPointerTy() || rhs->getType()->isPointerTy();
     bool isFP = lhs->getType()->isFloatingPointTy();
     bool isUnsigned = node.left->type->isUnsigned();
+
+    if (isPointer && (node.op == "+" || node.op == "-"))
+    {
+      llvm::Value *pointerValue = lhs->getType()->isPointerTy() ? lhs : rhs;
+      llvm::Value *offsetValue = lhs->getType()->isPointerTy() ? rhs : lhs;
+      auto ptrType = std::static_pointer_cast<zir::PointerType>(
+          lhs->getType()->isPointerTy() ? node.left->type : node.right->type);
+      auto *elemTy = toLLVMType(*ptrType->getBaseType());
+
+      if (lhs->getType()->isPointerTy() && rhs->getType()->isPointerTy())
+      {
+        auto *i64Ty = llvm::Type::getInt64Ty(ctx_);
+        auto *lhsInt = builder_.CreatePtrToInt(lhs, i64Ty);
+        auto *rhsInt = builder_.CreatePtrToInt(rhs, i64Ty);
+        auto *bytes = builder_.CreateSub(lhsInt, rhsInt);
+        llvm::Value *elemSize64 = llvm::ConstantExpr::getSizeOf(elemTy);
+        if (elemSize64->getType() != i64Ty)
+        {
+          elemSize64 = builder_.CreateIntCast(elemSize64, i64Ty, /*isSigned=*/false);
+        }
+        lastValue_ = builder_.CreateSDiv(bytes, elemSize64);
+        return;
+      }
+
+      auto *indexTy = llvm::Type::getInt64Ty(ctx_);
+      auto *index = builder_.CreateIntCast(offsetValue, indexTy, /*isSigned=*/true);
+      if (node.op == "-")
+      {
+        index = builder_.CreateNeg(index);
+      }
+      lastValue_ = builder_.CreateInBoundsGEP(elemTy, pointerValue, index);
+      return;
+    }
 
     if (node.op == "+")
       lastValue_ =
@@ -820,6 +878,32 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundUnaryExpression &node)
   {
+    if (node.op == "&")
+    {
+      bool old = evaluateAsAddr_;
+      evaluateAsAddr_ = true;
+      node.expr->accept(*this);
+      evaluateAsAddr_ = old;
+      return;
+    }
+    else if (node.op == "*")
+    {
+      bool old = evaluateAsAddr_;
+      evaluateAsAddr_ = false;
+      node.expr->accept(*this);
+      evaluateAsAddr_ = old;
+      auto *ptr = lastValue_;
+      if (evaluateAsAddr_)
+      {
+        lastValue_ = ptr;
+      }
+      else
+      {
+        lastValue_ = builder_.CreateLoad(toLLVMType(*node.type), ptr, "deref");
+      }
+      return;
+    }
+
     node.expr->accept(*this);
     if (node.op == "-")
     {

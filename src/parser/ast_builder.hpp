@@ -7,12 +7,14 @@
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
+#include "../ast/cast_expr.hpp"
 #include "../ast/const/const_bool.hpp"
+#include "../ast/const/const_char.hpp"
 #include "../ast/const/const_float.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
+#include "../ast/const/const_null.hpp"
 #include "../ast/const/const_string.hpp"
-#include "../ast/const/const_char.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/fun_call.hpp"
 #include "../ast/fun_decl.hpp"
@@ -27,6 +29,7 @@
 #include "../ast/ternary_expr.hpp"
 #include "../ast/type_node.hpp"
 #include "../ast/unary_expr.hpp"
+#include "../ast/unsafe_block_node.hpp"
 #include "../ast/var_decl.hpp"
 #include "../ast/const_decl.hpp"
 #include "../ast/while_node.hpp"
@@ -72,6 +75,10 @@ public:
 
   std::unique_ptr<BodyNode> makeBody() { return std::make_unique<BodyNode>(); }
 
+  std::unique_ptr<UnsafeBlockNode> makeUnsafeBlock() {
+    return std::make_unique<UnsafeBlockNode>();
+  }
+
   std::unique_ptr<IfNode> makeIf(std::unique_ptr<ExpressionNode> condition,
                                  std::unique_ptr<BodyNode> thenBody,
                                  std::unique_ptr<BodyNode> elseBody) {
@@ -111,6 +118,12 @@ public:
     return std::make_unique<UnaryExpr>(op, std::move(expr));
   }
 
+  std::unique_ptr<CastExpr>
+  makeCastExpr(std::unique_ptr<ExpressionNode> expr,
+               std::unique_ptr<TypeNode> type) {
+    return std::make_unique<CastExpr>(std::move(expr), std::move(type));
+  }
+
   std::unique_ptr<BinExpr> makeBinExpr(std::unique_ptr<ExpressionNode> left,
                                        const std::string &op,
                                        std::unique_ptr<ExpressionNode> right) {
@@ -148,6 +161,10 @@ public:
 
   std::unique_ptr<ConstChar> makeConstChar(const std::string &value) {
     return std::make_unique<ConstChar>(value);
+  }
+
+  std::unique_ptr<ConstNull> makeConstNull() {
+    return std::make_unique<ConstNull>();
   }
 
   std::unique_ptr<ParameterNode> makeParam(const std::string &name,

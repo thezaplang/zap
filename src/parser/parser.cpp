@@ -53,6 +53,13 @@ namespace zap
           importDecl->visibility_ = visibility;
           root->addChild(std::move(importDecl));
         }
+        else if (peek().type == TokenType::UNSAFE && peek(1).type == TokenType::FUN)
+        {
+          eat(TokenType::UNSAFE);
+          auto decl = parseFunDecl(true);
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
+        }
         else if (peek().type == TokenType::FUN)
         {
           auto decl = parseFunDecl();
@@ -74,6 +81,13 @@ namespace zap
         else if (peek().type == TokenType::ALIAS)
         {
           auto decl = parseTypeAliasDecl();
+          applyVisibility(decl.get());
+          root->addChild(std::move(decl));
+        }
+        else if (peek().type == TokenType::UNSAFE && peek(1).type == TokenType::STRUCT)
+        {
+          eat(TokenType::UNSAFE);
+          auto decl = parseStructDecl(true);
           applyVisibility(decl.get());
           root->addChild(std::move(decl));
         }
@@ -171,12 +185,13 @@ namespace zap
     return importDecl;
   }
 
-  std::unique_ptr<FunDecl> Parser::parseFunDecl()
+  std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe)
   {
     Token funKeyword = eat(TokenType::FUN);
 
     Token funNameToken = eat(TokenType::ID);
     auto funDecl = _builder.makeFunDecl(funNameToken.value);
+    funDecl->isUnsafe_ = isUnsafe;
 
     eat(TokenType::LPAREN);
 
@@ -299,6 +314,10 @@ namespace zap
         else if (peek().type == TokenType::CONTINUE)
         {
           body->addStatement(parseContinue());
+        }
+        else if (peek().type == TokenType::UNSAFE)
+        {
+          body->addStatement(parseUnsafeBlock());
         }
         else
         {
@@ -425,6 +444,20 @@ namespace zap
 
   std::unique_ptr<TypeNode> Parser::parseType()
   {
+    if (peek().type == TokenType::MULTIPLY)
+    {
+      Token starToken = eat(TokenType::MULTIPLY);
+      auto baseType = parseType();
+
+      auto pointerType = _builder.makeType("");
+      pointerType->isPointer = true;
+      pointerType->baseType = std::move(baseType);
+
+      _builder.setSpan(pointerType.get(),
+                       SourceSpan::merge(starToken.span, pointerType->baseType->span));
+      return pointerType;
+    }
+
     if (peek().type == TokenType::SQUARE_LBRACE &&
         (peek(1).type == TokenType::INTEGER || peek(1).type == TokenType::ID || peek(1).type == TokenType::SQUARE_LBRACE))
     {
@@ -597,7 +630,40 @@ namespace zap
 
   std::unique_ptr<ExpressionNode> Parser::parseExpression()
   {
-    return parseTernaryExpression();
+    return parseCastExpression();
+  }
+
+  std::unique_ptr<UnsafeBlockNode> Parser::parseUnsafeBlock()
+  {
+    Token unsafeKeyword = eat(TokenType::UNSAFE);
+    eat(TokenType::LBRACE);
+    auto body = parseBody();
+    Token rbraceToken = eat(TokenType::RBRACE);
+
+    auto unsafeBlock = _builder.makeUnsafeBlock();
+    unsafeBlock->statements = std::move(body->statements);
+    unsafeBlock->result = std::move(body->result);
+    _builder.setSpan(unsafeBlock.get(),
+                     SourceSpan::merge(unsafeKeyword.span, rbraceToken.span));
+    return unsafeBlock;
+  }
+
+  std::unique_ptr<ExpressionNode> Parser::parseCastExpression()
+  {
+    auto expr = parseTernaryExpression();
+
+    while (peek().type == TokenType::AS)
+    {
+      eat(TokenType::AS);
+      auto type = parseType();
+      SourceSpan startSpan = expr->span;
+      SourceSpan endSpan = type->span;
+      auto castExpr = _builder.makeCastExpr(std::move(expr), std::move(type));
+      _builder.setSpan(castExpr.get(), SourceSpan::merge(startSpan, endSpan));
+      expr = std::move(castExpr);
+    }
+
+    return expr;
   }
 
   std::unique_ptr<ExpressionNode> Parser::parseTernaryExpression()
@@ -657,7 +723,9 @@ namespace zap
 
   std::unique_ptr<ExpressionNode> Parser::parseUnaryExpression()
   {
-    if (peek().type == TokenType::NOT || peek().type == TokenType::MINUS)
+    if (peek().type == TokenType::NOT || peek().type == TokenType::MINUS ||
+        peek().type == TokenType::PLUS || peek().type == TokenType::REFERENCE ||
+        peek().type == TokenType::MULTIPLY)
     {
       Token opToken = eat(peek().type);
       auto expr = parseUnaryExpression();
@@ -786,6 +854,13 @@ namespace zap
       auto constBool = _builder.makeConstBool(current.value == "true");
       _builder.setSpan(constBool.get(), current.span);
       return constBool;
+    }
+    else if (current.type == TokenType::NULL_LITERAL)
+    {
+      eat(TokenType::NULL_LITERAL);
+      auto constNull = _builder.makeConstNull();
+      _builder.setSpan(constNull.get(), current.span);
+      return constNull;
     }
     else if (current.type == TokenType::ID)
     {
@@ -922,6 +997,7 @@ namespace zap
       case TokenType::WHILE:
       case TokenType::RETURN:
       case TokenType::RBRACE:
+      case TokenType::UNSAFE:
         return;
       default:
         _pos++;
@@ -1014,7 +1090,7 @@ namespace zap
     return recordDecl;
   }
 
-  std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl()
+  std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl(bool isUnsafe)
   {
     Token structKeyword = eat(TokenType::STRUCT);
     Token structNameToken = eat(TokenType::ID);
@@ -1040,7 +1116,7 @@ namespace zap
     }
 
     eat(TokenType::RBRACE);
-    return std::make_unique<StructDeclarationNode>(structNameToken.value, std::move(fields));
+    return std::make_unique<StructDeclarationNode>(structNameToken.value, std::move(fields), isUnsafe);
   }
 
   std::unique_ptr<StructLiteralNode> Parser::parseStructLiteral(const std::string& type_name)

@@ -1,0 +1,26 @@
+import "std/prelude" { println };
+
+unsafe struct Cell {
+    value: Int
+}
+
+unsafe fun read(cell: Cell) Int {
+    return cell.value;
+}
+
+fun main() Int {
+    var result: Int = 0;
+
+    unsafe {
+        var cell: Cell = Cell{value: 21};
+        result = read(cell);
+    }
+
+    if (result == 21) {
+        println("Unsafe struct test passed!");
+        return 0;
+    }
+
+    println("Unsafe struct test failed!");
+    return 1;
+}

@@ -1,0 +1,32 @@
+import "std/prelude" { println };
+
+ext fun malloc(size: Int) *Void;
+ext fun free(ptr: *Void);
+
+unsafe fun store_two_words(raw: *Void) Int {
+    var ints: *Int = raw as *Int;
+    *ints = 12;
+    *(ints + 1) = 30;
+    return *ints + *(ints + 1);
+}
+
+fun main() Int {
+    unsafe {
+        var raw: *Void = malloc(2 * 8);
+
+        if (raw == null) {
+            return 1;
+        }
+
+        var total: Int = store_two_words(raw);
+        free(raw);
+
+        if (total == 42) {
+            println("Unsafe void pointer test passed!");
+            return 0;
+        }
+    }
+
+    println("Unsafe void pointer test failed!");
+    return 2;
+}

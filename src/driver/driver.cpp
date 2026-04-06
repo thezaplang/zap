@@ -237,7 +237,7 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     modules.push_back(std::move(*module));
   }
 
-  sema::Binder binder(diagnostics);
+  sema::Binder binder(diagnostics, drv.allow_unsafe);
   auto boundAst = binder.bind(modules);
   diagnostics.printText(err());
 
@@ -320,6 +320,7 @@ bool driver::parseArgs(int argc, char **argv) {
   std::string_view output_str = "a.out";
   implicit_output = true;
   inc_stdlib = true;
+  allow_unsafe = false;
 
   for (size_t i = 0; i < args.size(); ++i) {
     auto arg = args[i];
@@ -336,7 +337,8 @@ bool driver::parseArgs(int argc, char **argv) {
           << "  -c              Compile and assemble but not link\n"
           << "  -S              Compile only no assembling or linking\n"
           << "  -emit-llvm      Emit LLVM IR instead of final output\n"
-          << "  -emit-zir       Emit ZIR instead of final output\n";
+          << "  -emit-zir       Emit ZIR instead of final output\n"
+          << "  --allow-unsafe  Enable unsafe blocks, unsafe functions, and raw pointers\n";
       return false;
     } else if (arg == "--version") {
       out() << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
@@ -362,6 +364,8 @@ bool driver::parseArgs(int argc, char **argv) {
       emit_llvm = true;
     } else if (arg == "-emit-zir") {
       emit_zir = true;
+    } else if (arg == "--allow-unsafe") {
+      allow_unsafe = true;
     } else if (arg.substr(0, 1) == "-") {
       reportError("unknown argument: ", arg);
       return false;
@@ -501,7 +505,7 @@ bool driver::compileSourceFile(const std::string &source,
     return true;
   }
 
-  sema::Binder binder(diagnostics);
+  sema::Binder binder(diagnostics, allow_unsafe);
   auto boundAst = binder.bind(*ast);
   diagnostics.printText(err());
 

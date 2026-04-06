@@ -1,0 +1,39 @@
+import "std/prelude" { println };
+import "std/mem";
+
+unsafe fun sum_heap(ptr: *Int, count: Int) Int {
+    var total: Int = 0;
+    var i: Int = 0;
+
+    while (i < count) {
+        total = total + *(ptr + i);
+        i = i + 1;
+    }
+
+    return total;
+}
+
+fun main() Int {
+    unsafe {
+        var ptr: *Int = mem.malloc(3 * 8) as *Int;
+
+        if (ptr == null) {
+            return 1;
+        }
+
+        *ptr = 7;
+        *(ptr + 1) = 8;
+        *(ptr + 2) = 9;
+
+        var total: Int = sum_heap(ptr, 3);
+        mem.free(ptr as *Void);
+
+        if (total == 24) {
+            println("Unsafe heap test passed!");
+            return 0;
+        }
+    }
+
+    println("Unsafe heap test failed!");
+    return 2;
+}

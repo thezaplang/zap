@@ -1,0 +1,22 @@
+import "std/io" { println, printInt };
+
+struct Box {
+    ptr: *Int
+}
+
+unsafe fun read(box: Box) Int {
+    return *box.ptr;
+}
+
+fun main() Int {
+    var value: Int = 123;
+
+    unsafe {
+        var box: Box = Box{ptr: &value};
+        printInt(read(box));
+        println(" <- value through struct pointer field");
+        return 0;
+    }
+
+    return 1;
+}

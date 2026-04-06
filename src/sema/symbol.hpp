@@ -47,22 +47,28 @@ class FunctionSymbol : public Symbol {
 public:
   std::vector<std::shared_ptr<VariableSymbol>> parameters;
   std::shared_ptr<zir::Type> returnType;
+  bool isUnsafe = false;
 
   FunctionSymbol(std::string n,
                  std::vector<std::shared_ptr<VariableSymbol>> params,
                  std::shared_ptr<zir::Type> retType, std::string link = "",
-                 std::string module = "", Visibility vis = Visibility::Private)
+                 std::string module = "", Visibility vis = Visibility::Private,
+                 bool unsafe = false)
       : Symbol(std::move(n), nullptr, std::move(link), std::move(module), vis),
-        parameters(std::move(params)), returnType(std::move(retType)) {}
+        parameters(std::move(params)), returnType(std::move(retType)),
+        isUnsafe(unsafe) {}
 
   SymbolKind getKind() const noexcept override { return SymbolKind::Function; }
 };
 
 class TypeSymbol : public Symbol {
 public:
+  bool isUnsafe = false;
   TypeSymbol(std::string n, std::shared_ptr<zir::Type> t, std::string link = "",
-             std::string module = "", Visibility vis = Visibility::Private)
-      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module), vis) {}
+             std::string module = "", Visibility vis = Visibility::Private,
+             bool unsafe = false)
+      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module), vis),
+        isUnsafe(unsafe) {}
   SymbolKind getKind() const noexcept override { return SymbolKind::Type; }
 };
 

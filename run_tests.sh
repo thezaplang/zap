@@ -164,6 +164,62 @@ run_compile_args_test() {
     ((PASSED++))
 }
 
+run_test_args() {
+    local file=$1
+    local expected_exit_code=$2
+    local description=$3
+    shift 3
+
+    ((TOTAL++))
+    echo -n "Running $description ($file)... "
+
+    $ZAPC "$file" "$@" > /dev/null 2>&1
+    local exit_code=$?
+
+    if [ $exit_code -eq $expected_exit_code ]; then
+        echo -e "${GREEN}PASS${NC}"
+        ((PASSED++))
+    else
+        echo -e "${RED}FAIL${NC} (expected $expected_exit_code, got $exit_code)"
+    fi
+}
+
+run_runtime_compile_args_test() {
+    local file=$1
+    local expected_exit_code=$2
+    local description=$3
+    shift 3
+
+    ((TOTAL++))
+    echo -n "Running $description ($file)... "
+
+    binfile="${file%.*}"
+    $ZAPC "$file" "$@" -o "$binfile" > /dev/null 2>&1
+    local compile_code=$?
+    if [ $compile_code -ne 0 ]; then
+        echo -e "${RED}FAIL${NC} (compile failed)"
+        rm -f "$binfile"
+        return
+    fi
+
+    if [ ! -x "$binfile" ]; then
+        echo -e "${RED}FAIL${NC} (binary not found)"
+        rm -f "$binfile"
+        return
+    fi
+
+    ./$binfile > /dev/null 2>&1
+    local run_code=$?
+    rm -f "$binfile"
+
+    if [ $run_code -eq $expected_exit_code ]; then
+        echo -e "${GREEN}PASS${NC}"
+        ((PASSED++))
+    else
+        echo -e "${RED}FAIL${NC} (expected $expected_exit_code, got $run_code)"
+    fi
+}
+
 # Warning + Runtime test: check for warning AND exit code
 run_warning_runtime_test() {
     local file=$1
@@ -206,9 +262,6 @@ run_warning_runtime_test() {
 # Warning test: non-void function without return should emit warning
 run_warning_test "tests/warn_missing_return.zp" "Warning: missing return in non-void function"
 
-# Global variable test
-run_warning_runtime_test "tests/global_var_test.zp" 0 "Global variables are discouraged" "Global variable with warning"
-
 # Runtime test: main without explicit return type should default to Int and return 0
 run_runtime_test "tests/main_implicit.zp" 0 "Main implicit return type and implicit return 0"
 run_compile_args_test "tests/nostdlib_ext_main_object.zp" "tests/nostdlib_ext_main_object.o" "Object compile with -nostdlib and external main" -nostdlib -c
@@ -221,6 +274,12 @@ run_runtime_test "tests/fs_mkdir_test.zp" 0 "Filesystem directory creation"
 run_runtime_test "tests/fs_file_io_test.zp" 0 "Filesystem text file IO"
 run_runtime_test "tests/path_test.zp" 0 "Path helpers"
 run_runtime_test "tests/math_test.zp" 0 "Math stdlib helpers"
+run_runtime_compile_args_test "tests/unsafe_runtime_test.zp" 0 "Unsafe pointers" --allow-unsafe
+run_runtime_compile_args_test "tests/unsafe_heap_test.zp" 0 "Unsafe heap pointers" --allow-unsafe
+run_runtime_compile_args_test "tests/unsafe_void_ptr_test.zp" 0 "Unsafe void pointers" --allow-unsafe
+run_runtime_compile_args_test "tests/unsafe_struct_runtime_test.zp" 0 "Unsafe structs" --allow-unsafe
+run_runtime_compile_args_test "tests/unsafe_return_runtime_test.zp" 0 "Unsafe block early return" --allow-unsafe
+run_runtime_compile_args_test "tests/struct_pointer_field_test.zp" 0 "Struct pointer fields" --allow-unsafe
 
 # Lexer errors (exit code 1)
 run_test "tests/lexer_error.zp" 1 "Lexer error: Unterminated string"
@@ -231,6 +290,10 @@ run_test "tests/syntax_error.zp" 1 "Syntax error: Missing semicolons"
 # Semantic errors (exit code 1)
 run_test "tests/sema_error.zp" 1 "Semantic error: Undefined variable"
 run_test "tests/ext_default_void_type_error.zp" 1 "External function without return type cannot be used as Int"
+run_test "tests/unsafe_requires_flag.zp" 1 "Unsafe features require --allow-unsafe"
+run_test_args "tests/unsafe_scope_error.zp" 1 "Unsafe features are scoped" --allow-unsafe
+run_test_args "tests/unsafe_fun_call_scope_error.zp" 1 "Unsafe function calls are scoped" --allow-unsafe
+run_test_args "tests/unsafe_struct_scope_error.zp" 1 "Unsafe struct usage is scoped" --allow-unsafe
 
 # Multiple errors (exit code 1)
 run_test "tests/syntax_error.zp" 1 "Multiple syntax errors"

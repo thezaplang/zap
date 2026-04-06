@@ -25,11 +25,13 @@ class ImportNode;
 class ParameterNode;
 class TypeNode;
 class IndexAccessNode;
+class UnsafeBlockNode;
 
 class ExpressionNode;
 class BinExpr;
 class TernaryExpr;
 class UnaryExpr;
+class CastExpr;
 class FunCall;
 class ArrayLiteralNode;
 class AssignNode;
@@ -40,6 +42,7 @@ class ConstString;
 class ConstChar;
 class ConstBool;
 class ConstId;
+class ConstNull;
 
 /// @brief Visitor interface with empty implementations to allow selective overrides.
 struct Visitor
@@ -70,11 +73,13 @@ struct Visitor
   virtual void visit(ParameterNode &) {}
   virtual void visit(TypeNode &) {}
   virtual void visit(IndexAccessNode &) {}
+  virtual void visit(UnsafeBlockNode &) {}
 
   virtual void visit(ExpressionNode &) {}
   virtual void visit(BinExpr &) {}
   virtual void visit(TernaryExpr &) {}
   virtual void visit(UnaryExpr &) {}
+  virtual void visit(CastExpr &) {}
   virtual void visit(FunCall &) {}
   virtual void visit(ArrayLiteralNode &) {}
   virtual void visit(AssignNode &) {}
@@ -85,4 +90,5 @@ struct Visitor
   virtual void visit(ConstChar &) {}
   virtual void visit(ConstBool &) {}
   virtual void visit(ConstId &) {}
+  virtual void visit(ConstNull &) {}
 };

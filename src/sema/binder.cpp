@@ -53,7 +53,8 @@ namespace sema
     }
   } // namespace
 
-  Binder::Binder(zap::DiagnosticEngine &diag) : _diag(diag), hadError_(false) {}
+  Binder::Binder(zap::DiagnosticEngine &diag, bool allowUnsafe)
+      : _diag(diag), allowUnsafe_(allowUnsafe), hadError_(false) {}
 
   std::unique_ptr<BoundRootNode> Binder::bind(RootNode &root)
   {
@@ -71,6 +72,9 @@ namespace sema
     currentScope_.reset();
     currentFunction_.reset();
     currentModuleId_.clear();
+    unsafeDepth_ = 0;
+    unsafeTypeContextDepth_ = 0;
+    externTypeContextDepth_ = 0;
 
     initializeBuiltins();
 
@@ -249,7 +253,7 @@ namespace sema
             mangleName(module.info->linkPath.empty() ? module.info->moduleId
                                                      : module.info->linkPath,
                        recordDecl->name_),
-            module.info->moduleName, recordDecl->visibility_);
+            module.info->moduleName, recordDecl->visibility_, false);
         if (!module.scope->declare(recordDecl->name_, symbol))
         {
           error(recordDecl->span,
@@ -273,7 +277,8 @@ namespace sema
             mangleName(module.info->linkPath.empty() ? module.info->moduleId
                                                      : module.info->linkPath,
                        structDecl->name_),
-            module.info->moduleName, structDecl->visibility_);
+            module.info->moduleName, structDecl->visibility_,
+            structDecl->isUnsafe_);
         if (!module.scope->declare(structDecl->name_, symbol))
         {
           error(structDecl->span,
@@ -298,7 +303,7 @@ namespace sema
             mangleName(module.info->linkPath.empty() ? module.info->moduleId
                                                      : module.info->linkPath,
                        enumDecl->name_),
-            module.info->moduleName, enumDecl->visibility_);
+            module.info->moduleName, enumDecl->visibility_, false);
         if (!module.scope->declare(enumDecl->name_, symbol))
         {
           error(enumDecl->span,
@@ -334,7 +339,7 @@ namespace sema
             mangleName(module.info->linkPath.empty() ? module.info->moduleId
                                                      : module.info->linkPath,
                        aliasDecl->name_),
-            module.info->moduleName, aliasDecl->visibility_);
+            module.info->moduleName, aliasDecl->visibility_, false);
         if (!module.scope->declare(aliasDecl->name_, symbol))
         {
           error(aliasDecl->span,
@@ -484,6 +489,12 @@ namespace sema
     {
       if (auto funDecl = dynamic_cast<FunDecl *>(child.get()))
       {
+        if (funDecl->isUnsafe_)
+        {
+          requireUnsafeEnabled(funDecl->span, "'unsafe fun'");
+          ++unsafeTypeContextDepth_;
+        }
+
         std::vector<std::shared_ptr<VariableSymbol>> params;
         for (const auto &p : funDecl->params_)
         {
@@ -518,6 +529,11 @@ namespace sema
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
 
+        if (funDecl->isUnsafe_)
+        {
+          --unsafeTypeContextDepth_;
+        }
+
         auto linkName =
             (funDecl->name_ == "main" && module.info->isEntry)
                 ? std::string("main")
@@ -526,7 +542,7 @@ namespace sema
                              funDecl->name_);
         auto symbol = std::make_shared<FunctionSymbol>(
             funDecl->name_, std::move(params), std::move(retType), linkName,
-            module.info->moduleName, funDecl->visibility_);
+            module.info->moduleName, funDecl->visibility_, funDecl->isUnsafe_);
 
         if (!module.scope->declare(funDecl->name_, symbol))
         {
@@ -541,6 +557,7 @@ namespace sema
       }
       else if (auto extDecl = dynamic_cast<ExtDecl *>(child.get()))
       {
+        ++externTypeContextDepth_;
         std::vector<std::shared_ptr<VariableSymbol>> params;
         for (const auto &p : extDecl->params_)
         {
@@ -565,6 +582,7 @@ namespace sema
                                    extDecl->name_ + "'.");
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
+        --externTypeContextDepth_;
 
         auto linkName = extDecl->name_;
         bool isStdFsModule =
@@ -584,7 +602,7 @@ namespace sema
 
         auto symbol = std::make_shared<FunctionSymbol>(
             extDecl->name_, std::move(params), std::move(retType), linkName,
-            module.info->moduleName, extDecl->visibility_);
+            module.info->moduleName, extDecl->visibility_, false);
 
         if (!module.scope->declare(extDecl->name_, symbol))
         {
@@ -756,6 +774,12 @@ namespace sema
     pushScope();
     auto oldFunction = currentFunction_;
     currentFunction_ = symbol;
+    int oldUnsafeDepth = unsafeDepth_;
+    if (node.isUnsafe_)
+    {
+      requireUnsafeEnabled(node.span, "'unsafe fun'");
+      ++unsafeDepth_;
+    }
 
     for (const auto &param : symbol->parameters)
     {
@@ -769,6 +793,7 @@ namespace sema
 
     popScope();
     currentFunction_ = oldFunction;
+    unsafeDepth_ = oldUnsafeDepth;
 
     bool hasReturn = false;
     if (boundBody)
@@ -902,6 +927,28 @@ namespace sema
         expressionStack_.pop();
       }
     }
+  }
+
+  void Binder::visit(UnsafeBlockNode &node)
+  {
+    requireUnsafeEnabled(node.span, "'unsafe' block");
+    int oldUnsafeDepth = unsafeDepth_;
+    ++unsafeDepth_;
+
+    auto savedBlock = std::move(currentBlock_);
+    pushScope();
+    visit(static_cast<BodyNode &>(node));
+
+    auto boundBody = std::make_unique<BoundBlock>();
+    if (currentBlock_)
+    {
+      boundBody = std::move(currentBlock_);
+    }
+
+    popScope();
+    currentBlock_ = std::move(savedBlock);
+    unsafeDepth_ = oldUnsafeDepth;
+    statementStack_.push(std::move(boundBody));
   }
 
   void Binder::visit(VarDecl &node)
@@ -1114,6 +1161,46 @@ namespace sema
       }
       resultType = std::make_shared<zir::RecordType>("String", "String");
     }
+    else if ((node.op_ == "+" || node.op_ == "-") &&
+             (isPointerType(leftType) || isPointerType(rightType)))
+    {
+      requireUnsafeEnabled(node.span, "pointer arithmetic");
+      requireUnsafeContext(node.span, "pointer arithmetic");
+
+      if (node.op_ == "+" &&
+          isPointerType(leftType) && rightType->isInteger())
+      {
+        resultType = leftType;
+      }
+      else if (node.op_ == "+" &&
+               leftType->isInteger() && isPointerType(rightType))
+      {
+        std::swap(left, right);
+        std::swap(leftType, rightType);
+        resultType = leftType;
+      }
+      else if (node.op_ == "-" &&
+               isPointerType(leftType) && rightType->isInteger())
+      {
+        resultType = leftType;
+      }
+      else if (node.op_ == "-" &&
+               isPointerType(leftType) && isPointerType(rightType))
+      {
+        if (leftType->toString() != rightType->toString())
+        {
+          error(SourceSpan::merge(node.left_->span, node.right_->span),
+                "Pointer subtraction requires operands of the same type.");
+        }
+        resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+      }
+      else
+      {
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Invalid pointer arithmetic between '" + leftType->toString() +
+                  "' and '" + rightType->toString() + "'");
+      }
+    }
     else if (node.op_ == "+" || node.op_ == "-" || node.op_ == "*" ||
              node.op_ == "/" || node.op_ == "%" || node.op_ == "^")
     {
@@ -1134,11 +1221,25 @@ namespace sema
     else if (node.op_ == "==" || node.op_ == "!=" || node.op_ == "<" ||
              node.op_ == "<=" || node.op_ == ">" || node.op_ == ">=")
     {
+      if ((isPointerType(leftType) || isPointerType(rightType) ||
+           isNullType(leftType) || isNullType(rightType)))
+      {
+        requireUnsafeEnabled(node.span, "pointer comparisons");
+        requireUnsafeContext(node.span, "pointer comparisons");
+      }
       if (!canConvert(leftType, rightType) && !canConvert(rightType, leftType))
       {
         error(SourceSpan::merge(node.left_->span, node.right_->span),
               "Cannot compare '" + leftType->toString() + "' and '" +
                   rightType->toString() + "'");
+      }
+      else if (isNullType(leftType) && isPointerType(rightType))
+      {
+        left = wrapInCast(std::move(left), rightType);
+      }
+      else if (isNullType(rightType) && isPointerType(leftType))
+      {
+        right = wrapInCast(std::move(right), leftType);
       }
       resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
     }
@@ -1230,6 +1331,54 @@ namespace sema
         node.value_, std::make_shared<zir::PrimitiveType>(zir::TypeKind::Char)));
   }
 
+  void Binder::visit(ConstNull &node)
+  {
+    requireUnsafeEnabled(node.span, "'null'");
+    requireUnsafeContext(node.span, "'null'");
+    expressionStack_.push(std::make_unique<BoundLiteral>(
+        "0", std::make_shared<zir::PrimitiveType>(zir::TypeKind::NullPtr)));
+  }
+
+  void Binder::visit(CastExpr &node)
+  {
+    node.expr_->accept(*this);
+    if (expressionStack_.empty())
+      return;
+
+    auto expr = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    auto targetType = mapType(*node.type_);
+    if (!targetType)
+    {
+      error(node.type_->span, "Unknown type: " + node.type_->qualifiedName());
+      return;
+    }
+
+    requireUnsafeEnabled(node.span, "explicit casts");
+    requireUnsafeContext(node.span, "explicit casts");
+
+    bool castAllowed = false;
+    if (isNumeric(expr->type) && isNumeric(targetType))
+      castAllowed = true;
+    else if ((isPointerType(expr->type) || isNullType(expr->type)) &&
+             isPointerType(targetType))
+      castAllowed = true;
+    else if (isPointerType(expr->type) && targetType->isInteger())
+      castAllowed = true;
+    else if (expr->type->isInteger() && isPointerType(targetType))
+      castAllowed = true;
+
+    if (!castAllowed)
+    {
+      error(node.span, "Cannot cast from '" + expr->type->toString() +
+                           "' to '" + targetType->toString() + "'");
+      return;
+    }
+
+    expressionStack_.push(std::make_unique<BoundCast>(std::move(expr), targetType));
+  }
+
   void Binder::visit(ConstId &node)
   {
     auto symbol = currentScope_->lookup(node.value_);
@@ -1267,7 +1416,9 @@ namespace sema
 
     bool isLValue = dynamic_cast<BoundVariableExpression *>(target.get()) ||
                     dynamic_cast<BoundIndexAccess *>(target.get()) ||
-                    dynamic_cast<BoundMemberAccess *>(target.get());
+                    dynamic_cast<BoundMemberAccess *>(target.get()) ||
+                    (dynamic_cast<BoundUnaryExpression *>(target.get()) &&
+                     static_cast<BoundUnaryExpression *>(target.get())->op == "*");
 
     if (!isLValue)
     {
@@ -1457,6 +1608,12 @@ namespace sema
     {
       error(node.span, "'" + calleeParts.back() + "' is not a function.");
       return;
+    }
+
+    if (funcSymbol->isUnsafe)
+    {
+      requireUnsafeEnabled(node.span, "unsafe function calls");
+      requireUnsafeContext(node.span, "unsafe function calls");
     }
 
     if (node.params_.size() != funcSymbol->parameters.size())
@@ -1691,6 +1848,11 @@ namespace sema
 
     if (typeNode.isPointer)
     {
+      requireUnsafeEnabled(typeNode.span, "raw pointer types");
+      if (!isUnsafeActive() && externTypeContextDepth_ <= 0)
+      {
+        error(typeNode.span, "Raw pointer types are only allowed inside unsafe code.");
+      }
       if (!typeNode.baseType)
         return nullptr;
       auto base = mapType(*typeNode.baseType);
@@ -1703,6 +1865,12 @@ namespace sema
         resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type);
     if (symbol && symbol->getKind() == SymbolKind::Type)
     {
+      auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
+      if (typeSymbol->isUnsafe)
+      {
+        requireUnsafeEnabled(typeNode.span, "unsafe struct types");
+        requireUnsafeContext(typeNode.span, "unsafe struct types");
+      }
       return symbol->type;
     }
 
@@ -1725,7 +1893,42 @@ namespace sema
     expressionStack_.pop();
 
     auto type = expr->type;
-    if (node.op_ == "-" || node.op_ == "+")
+    if (node.op_ == "&")
+    {
+      requireUnsafeEnabled(node.span, "address-of");
+      requireUnsafeContext(node.span, "address-of");
+
+      bool isLValue = dynamic_cast<BoundVariableExpression *>(expr.get()) ||
+                      dynamic_cast<BoundIndexAccess *>(expr.get()) ||
+                      dynamic_cast<BoundMemberAccess *>(expr.get()) ||
+                      (dynamic_cast<BoundUnaryExpression *>(expr.get()) &&
+                       static_cast<BoundUnaryExpression *>(expr.get())->op == "*");
+      if (!isLValue)
+      {
+        error(node.span, "Cannot take the address of a non-lvalue expression.");
+      }
+
+      type = std::make_shared<zir::PointerType>(expr->type);
+    }
+    else if (node.op_ == "*")
+    {
+      requireUnsafeEnabled(node.span, "pointer dereference");
+      requireUnsafeContext(node.span, "pointer dereference");
+      if (!isPointerType(type))
+      {
+        error(node.span, "Cannot dereference non-pointer type '" +
+                             type->toString() + "'");
+      }
+      else
+      {
+        type = std::static_pointer_cast<zir::PointerType>(type)->getBaseType();
+        if (type->getKind() == zir::TypeKind::Void)
+        {
+          error(node.span, "Cannot dereference '*Void' directly. Cast it to a concrete pointer type first.");
+        }
+      }
+    }
+    else if (node.op_ == "-" || node.op_ == "+")
     {
       if (!isNumeric(type))
       {
@@ -1811,6 +2014,14 @@ namespace sema
     auto symbol = std::dynamic_pointer_cast<TypeSymbol>(
         currentScope_->lookup(node.name_));
     auto recordType = std::static_pointer_cast<zir::RecordType>(symbol->type);
+    int oldUnsafeTypeContextDepth = unsafeTypeContextDepth_;
+    int oldExternTypeContextDepth = externTypeContextDepth_;
+    if (node.isUnsafe_)
+    {
+      requireUnsafeEnabled(node.span, "'unsafe struct'");
+      ++unsafeTypeContextDepth_;
+    }
+    ++externTypeContextDepth_;
 
     for (const auto &field : node.fields_)
     {
@@ -1822,6 +2033,9 @@ namespace sema
       }
       recordType->addField(field->name, fieldType);
     }
+
+    unsafeTypeContextDepth_ = oldUnsafeTypeContextDepth;
+    externTypeContextDepth_ = oldExternTypeContextDepth;
 
     auto boundRecord = std::make_unique<BoundRecordDeclaration>();
     boundRecord->type = recordType;
@@ -1844,6 +2058,12 @@ namespace sema
     {
       error(node.span, "'" + node.type_name_ + "' is not a struct.");
       return;
+    }
+
+    if (typeSymbol->isUnsafe)
+    {
+      requireUnsafeEnabled(node.span, "unsafe struct literals");
+      requireUnsafeContext(node.span, "unsafe struct literals");
     }
 
     auto recordType = std::static_pointer_cast<zir::RecordType>(typeSymbol->type);
@@ -1920,6 +2140,37 @@ namespace sema
     return type->isInteger() || type->isFloatingPoint();
   }
 
+  bool Binder::isPointerType(std::shared_ptr<zir::Type> type) const
+  {
+    return type && type->getKind() == zir::TypeKind::Pointer;
+  }
+
+  bool Binder::isNullType(std::shared_ptr<zir::Type> type) const
+  {
+    return type && type->getKind() == zir::TypeKind::NullPtr;
+  }
+
+  bool Binder::isUnsafeActive() const
+  {
+    return unsafeDepth_ > 0 || unsafeTypeContextDepth_ > 0;
+  }
+
+  void Binder::requireUnsafeEnabled(SourceSpan span, const std::string &feature)
+  {
+    if (!allowUnsafe_)
+    {
+      error(span, "Using " + feature + " requires '--allow-unsafe'.");
+    }
+  }
+
+  void Binder::requireUnsafeContext(SourceSpan span, const std::string &feature)
+  {
+    if (!isUnsafeActive())
+    {
+      error(span, "Using " + feature + " is only allowed inside unsafe code.");
+    }
+  }
+
   bool Binder::canConvert(std::shared_ptr<zir::Type> from,
                           std::shared_ptr<zir::Type> to)
   {
@@ -1927,6 +2178,8 @@ namespace sema
       return false;
     if (from->getKind() == to->getKind() &&
         from->toString() == to->toString())
+      return true;
+    if (isNullType(from) && isPointerType(to))
       return true;
     if (isNumeric(from) && isNumeric(to))
       return true;
@@ -1961,6 +2214,10 @@ namespace sema
         expr->type->toString() == targetType->toString())
     {
       return expr;
+    }
+    if (isNullType(expr->type) && isPointerType(targetType))
+    {
+      return std::make_unique<BoundCast>(std::move(expr), targetType);
     }
     return std::make_unique<BoundCast>(std::move(expr), targetType);
   }

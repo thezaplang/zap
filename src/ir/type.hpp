@@ -23,6 +23,7 @@ enum class TypeKind {
   Bool,
   Char,
   Pointer,
+  NullPtr,
   Record,
   Array,
   Enum
@@ -34,6 +35,10 @@ public:
   virtual TypeKind getKind() const = 0;
   virtual std::string toString() const = 0;
   virtual bool isReferenceType() const { return false; }
+  virtual bool isPointerLike() const {
+    auto k = getKind();
+    return k == TypeKind::Pointer || k == TypeKind::NullPtr;
+  }
   virtual bool isInteger() const {
     auto k = getKind();
     return k == TypeKind::Int8 || k == TypeKind::Int16 || k == TypeKind::Int32 ||
@@ -94,6 +99,8 @@ public:
       return "i8";
     case TypeKind::Void:
       return "void";
+    case TypeKind::NullPtr:
+      return "null";
     default:
       return "unknown";
     }

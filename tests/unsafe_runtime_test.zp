@@ -1,0 +1,48 @@
+import "std/prelude" { println };
+
+unsafe fun write(ptr: *Int, value: Int) {
+    *ptr = value;
+}
+
+unsafe fun read(ptr: *Int) Int {
+    return *ptr;
+}
+
+fun main() Int {
+    var values: [2]Int = {10, 20};
+    var result: Int = 0;
+
+    unsafe {
+        var base: *Int = &values[0];
+        write(base, 11);
+
+        var next: *Int = base + 1;
+        var diff: Int = next - base;
+        var addr: Int = base as Int;
+        var roundtrip: *Int = addr as *Int;
+        var missing: *Int = null;
+
+        if (missing != null) {
+            return 1;
+        }
+
+        if (read(roundtrip) != 11) {
+            return 2;
+        }
+
+        if (*(base + 1) != 20) {
+            return 3;
+        }
+
+        *next = 33;
+        result = *next + diff;
+    }
+
+    if (result == 34 && values[0] == 11 && values[1] == 33) {
+        println("Unsafe pointer test passed!");
+        return 0;
+    }
+
+    println("Unsafe pointer test failed!");
+    return 4;
+}

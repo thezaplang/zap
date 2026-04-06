@@ -1,0 +1,38 @@
+import "std/io" { println, printInt };
+import "std/mem";
+
+unsafe fun sum(ptr: *Int, count: Int) Int {
+    var total: Int = 0;
+    var i: Int = 0;
+
+    while (i < count) {
+        total = total + *(ptr + i);
+        i = i + 1;
+    }
+
+    return total;
+}
+
+fun main() Int {
+    unsafe {
+        var ptr: *Int = mem.malloc(3 * 8) as *Int;
+
+        if (ptr == null) {
+            println("malloc failed");
+            return 1;
+        }
+
+        *ptr = 10;
+        *(ptr + 1) = 20;
+        *(ptr + 2) = 30;
+
+        var total: Int = sum(ptr, 3);
+        printInt(total);
+        println(" <- heap sum");
+
+        mem.free(ptr as *Void);
+        return 0;
+    }
+
+    return 1;
+}

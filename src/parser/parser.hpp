@@ -5,6 +5,7 @@
 #include "../ast/body_node.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
+#include "../ast/cast_expr.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/expr_node.hpp"
 #include "../ast/ext_decl.hpp"
@@ -15,6 +16,7 @@
 #include "../ast/struct_decl.hpp"
 #include "../ast/struct_literal.hpp"
 #include "../ast/return_node.hpp"
+#include "../ast/unsafe_block_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/continue_node.hpp"
 #include "../ast/root_node.hpp"
@@ -58,10 +60,11 @@ namespace zap
     SourceSpan pointAfter(const SourceSpan &span) const;
 
     // Parsing rules
-    std::unique_ptr<FunDecl> parseFunDecl();
+    std::unique_ptr<FunDecl> parseFunDecl(bool isUnsafe = false);
     std::unique_ptr<ExtDecl> parseExtDecl();
     std::unique_ptr<ImportNode> parseImportDecl();
     std::unique_ptr<BodyNode> parseBody();
+    std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
     std::unique_ptr<VarDecl> parseVarDecl();
     std::unique_ptr<ConstDecl> parseConstDecl();
     std::unique_ptr<AssignNode> parseAssign();
@@ -71,6 +74,7 @@ namespace zap
     std::unique_ptr<WhileNode> parseWhile();
     std::unique_ptr<ReturnNode> parseReturnStmt();
     std::unique_ptr<ExpressionNode> parseExpression();
+    std::unique_ptr<ExpressionNode> parseCastExpression();
     std::unique_ptr<ExpressionNode> parseTernaryExpression();
     std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
     std::unique_ptr<ExpressionNode> parseUnaryExpression();
@@ -82,7 +86,7 @@ namespace zap
     std::unique_ptr<EnumDecl> parseEnumDecl();
     std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
     std::unique_ptr<RecordDecl> parseRecordDecl();
-    std::unique_ptr<StructDeclarationNode> parseStructDecl();
+    std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
     std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);
     std::unique_ptr<BreakNode> parseBreak();
     std::unique_ptr<ContinueNode> parseContinue();

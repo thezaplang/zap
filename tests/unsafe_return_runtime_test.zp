@@ -1,0 +1,10 @@
+import "std/io" { println };
+
+fun main() Int {
+    unsafe {
+        println("Unsafe return test passed!");
+        return 0;
+    }
+
+    return 1;
+}

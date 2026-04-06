@@ -70,6 +70,8 @@ enum TokenType {
   AS,
   GLOBAL,
   CONST,
+  UNSAFE,
+  NULL_LITERAL,
 };
 
 /// @brief Contains in-file related information like line, column, offset, and length.
@@ -159,6 +161,8 @@ inline std::string tokenTypeToString(TokenType type)
     case TokenType::BOOL: return "boolean literal";
     case TokenType::GLOBAL: return "global";
     case TokenType::CONST: return "const";
+    case TokenType::UNSAFE: return "unsafe";
+    case TokenType::NULL_LITERAL: return "null";
     case TokenType::ALIAS: return "alias";
     case TokenType::REF: return "ref";
     case TokenType::AS: return "as";

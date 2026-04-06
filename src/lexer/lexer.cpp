@@ -318,6 +318,10 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::GLOBAL;
       else if (identStr == "const")
         type = TokenType::CONST;
+      else if (identStr == "unsafe")
+        type = TokenType::UNSAFE;
+      else if (identStr == "null")
+        type = TokenType::NULL_LITERAL;
       else if (identStr == "alias")
         type = TokenType::ALIAS;
       else if (identStr == "ref")

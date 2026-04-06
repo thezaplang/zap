@@ -1,0 +1,18 @@
+import "std/io" { println, printInt };
+
+unsafe fun increment(ptr: *Int) {
+    *ptr = *ptr + 1;
+}
+
+fun main() Int {
+    var value: Int = 41;
+
+    unsafe {
+        var ptr: *Int = &value;
+        increment(ptr);
+        printInt(*ptr);
+    }
+
+    println(" <- value after unsafe increment");
+    return 0;
+}

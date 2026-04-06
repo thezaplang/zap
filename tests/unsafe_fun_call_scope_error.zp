@@ -1,0 +1,7 @@
+unsafe fun bump(value: Int) Int {
+    return value + 1;
+}
+
+fun main() Int {
+    return bump(41);
+}

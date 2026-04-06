@@ -1,0 +1,8 @@
+unsafe struct Secret {
+    value: Int
+}
+
+fun main() Int {
+    var secret: Secret = Secret{value: 7};
+    return secret.value;
+}
