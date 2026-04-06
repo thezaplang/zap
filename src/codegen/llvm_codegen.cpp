@@ -1057,11 +1057,28 @@ namespace codegen
 
   void LLVMCodeGen::visit(sema::BoundMemberAccess &node)
   {
-    bool old = evaluateAsAddr_;
-    evaluateAsAddr_ = true;
-    node.left->accept(*this);
-    llvm::Value *leftAddr = lastValue_;
-    evaluateAsAddr_ = old;
+    llvm::Value *leftAddr = nullptr;
+    
+    // Check if left is a dereference (*ptr).field
+    auto *unary = dynamic_cast<sema::BoundUnaryExpression*>(node.left.get());
+    if (unary && unary->op == "*")
+    {
+      // Evaluate the pointer directly, skip the dereference
+      bool old = evaluateAsAddr_;
+      evaluateAsAddr_ = false;
+      unary->expr->accept(*this);
+      leftAddr = lastValue_;
+      evaluateAsAddr_ = old;
+    }
+    else
+    {
+      // Normal case: evaluate as address
+      bool old = evaluateAsAddr_;
+      evaluateAsAddr_ = true;
+      node.left->accept(*this);
+      leftAddr = lastValue_;
+      evaluateAsAddr_ = old;
+    }
 
     auto recordType = std::static_pointer_cast<zir::RecordType>(node.left->type);
     int fieldIndex = -1;

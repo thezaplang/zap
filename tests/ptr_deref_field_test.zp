@@ -1,0 +1,29 @@
+struct Parser {
+  pos: Int,
+  line: Int
+}
+
+unsafe fun get_pos(parser: *Parser) Int {
+  return (*parser).pos;
+}
+
+unsafe fun get_line(parser: *Parser) Int {
+  return (*parser).line;
+}
+
+fun main() Int {
+  unsafe {
+    var p: Parser = Parser { pos: 42, line: 10 };
+    var ptr: *Parser = &p;
+    
+    if get_pos(ptr) != 42 {
+      return 1;
+    }
+    
+    if get_line(ptr) != 10 {
+      return 2;
+    }
+    
+    return 0;
+  }
+}

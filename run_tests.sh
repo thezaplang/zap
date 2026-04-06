@@ -280,6 +280,8 @@ run_runtime_compile_args_test "tests/unsafe_void_ptr_test.zp" 0 "Unsafe void poi
 run_runtime_compile_args_test "tests/unsafe_struct_runtime_test.zp" 0 "Unsafe structs" --allow-unsafe
 run_runtime_compile_args_test "tests/unsafe_return_runtime_test.zp" 0 "Unsafe block early return" --allow-unsafe
 run_runtime_compile_args_test "tests/struct_pointer_field_test.zp" 0 "Struct pointer fields" --allow-unsafe
+run_runtime_compile_args_test "tests/ptr_deref_field_test.zp" 0 "Pointer dereference field access (*ptr).field" --allow-unsafe
+run_runtime_compile_args_test "tests/ptr_deref_nested_field_test.zp" 0 "Pointer dereference nested field access" --allow-unsafe
 
 # Lexer errors (exit code 1)
 run_test "tests/lexer_error.zp" 1 "Lexer error: Unterminated string"
@@ -327,6 +329,7 @@ run_runtime_test "tests/struct_nested_test.zp" 0 "Nested struct member access"
 run_runtime_test "tests/struct_fn_test.zp" 0 "Structs as function parameters and return values"
 run_runtime_test "tests/struct_array_test.zp" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zp" 0 "Structs with diverse field types"
+run_test "tests/struct_compare_error.zp" 1 "Struct comparison is rejected"
 run_runtime_test "tests/precedence_test.zp" 0 "Operator precedence (NOT vs Member access)"
 run_runtime_test "tests/type_alias.zp" 42 "Type aliasing (alias Name = Type)"
 run_runtime_test "tests/ref_test.zp" 0 "Reference type test"

@@ -1,0 +1,15 @@
+struct Point {
+  x: Int,
+  y: Int
+}
+
+fun main() Int {
+  var p1: Point = Point { x: 1, y: 2 };
+  var p2: Point = Point { x: 1, y: 2 };
+  
+  if p1 == p2 {
+    return 0;
+  }
+  
+  return 1;
+}

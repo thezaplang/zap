@@ -1227,6 +1227,16 @@ namespace sema
         requireUnsafeEnabled(node.span, "pointer comparisons");
         requireUnsafeContext(node.span, "pointer comparisons");
       }
+      
+      // Reject comparisons of struct types
+      if (leftType->getKind() == zir::TypeKind::Record ||
+          rightType->getKind() == zir::TypeKind::Record)
+      {
+        error(SourceSpan::merge(node.left_->span, node.right_->span),
+              "Cannot compare struct types '" + leftType->toString() + "' and '" +
+                  rightType->toString() + "'");
+      }
+      
       if (!canConvert(leftType, rightType) && !canConvert(rightType, leftType))
       {
         error(SourceSpan::merge(node.left_->span, node.right_->span),
