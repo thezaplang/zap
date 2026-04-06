@@ -2,10 +2,13 @@ var namespacezap =
 [
     [ "anonymous_namespace{driver.cpp}", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html", [
       [ "computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
+      [ "currentExecutablePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1b46bdefb6c665374ef9f52c428c8df1", null ],
       [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29", null ],
       [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
       [ "resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4", null ],
-      [ "stripSourceExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acbf6eae3836b52a72fa7cee7634b63e1", null ]
+      [ "stdlibRootPath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a240275382280d14435c28bf270732618", null ],
+      [ "stripSourceExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acbf6eae3836b52a72fa7cee7634b63e1", null ],
+      [ "g_executable_path", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a4d03d938e1256c804d3a8483d1823b61", null ]
     ] ],
     [ "lsp", "d5/d23/namespacezap_1_1lsp.html", "d5/d23/namespacezap_1_1lsp" ],
     [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
