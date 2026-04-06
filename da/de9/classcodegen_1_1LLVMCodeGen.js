@@ -8,7 +8,6 @@ var classcodegen_1_1LLVMCodeGen =
     [ "getOrCreateGlobalString", "da/de9/classcodegen_1_1LLVMCodeGen.html#ad31fb84474e17beeac3ada4e97db75ed", null ],
     [ "printIR", "da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9", null ],
     [ "toLLVMType", "da/de9/classcodegen_1_1LLVMCodeGen.html#ae3bb55455dffa72a700f6175eb2f942c", null ],
-    [ "variadicCountSlotName", "da/de9/classcodegen_1_1LLVMCodeGen.html#a99b6c3a0ac13e7dcd062eb3a8e7d116a", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#af59d6d6a1b35ecbad6efa1df4b7afb1a", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0f0e9aa3d8ba541cc44f9e331eb0c6bf", null ],

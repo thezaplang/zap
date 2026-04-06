@@ -67,6 +67,9 @@ $(function(){initNavTree('d0/dc5/namespacesema_1_1anonymous__namespace_02binder_
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a9f741f0d35c5c2d675089274971a5196" id="r_a9f741f0d35c5c2d675089274971a5196"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f741f0d35c5c2d675089274971a5196">isStringType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
+<tr class="memitem:ac66bfac4869c52fd33f43c64eea7f16c" id="r_ac66bfac4869c52fd33f43c64eea7f16c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac66bfac4869c52fd33f43c64eea7f16c">sanitizeTypeName</a> (const std::string &amp;value)</td></tr>
+<tr class="memitem:acc20b48e31f0b9d7d5782c1350469d46" id="r_acc20b48e31f0b9d7d5782c1350469d46"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc20b48e31f0b9d7d5782c1350469d46">makeVariadicViewType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;elementType)</td></tr>
+<tr class="memitem:afbd671b9673e4b74ed1febb85465bbb7" id="r_afbd671b9673e4b74ed1febb85465bbb7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbd671b9673e4b74ed1febb85465bbb7">isVariadicViewType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 <tr class="memitem:a83ab1716b289fa2170d5cd37bd82536f" id="r_a83ab1716b289fa2170d5cd37bd82536f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83ab1716b289fa2170d5cd37bd82536f">splitQualified</a> (const std::string &amp;value)</td></tr>
 <tr class="memitem:ad1b399bc505845ab3aa9428f3c9d41cf" id="r_ad1b399bc505845ab3aa9428f3c9d41cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1b399bc505845ab3aa9428f3c9d41cf">extractQualifiedPath</a> (const <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> *expr, std::vector&lt; std::string &gt; &amp;parts)</td></tr>
 </table>
@@ -90,33 +93,33 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>    {</div>
-<div class="line"><span class="lineno">   36</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr))</div>
-<div class="line"><span class="lineno">   37</span>      {</div>
-<div class="line"><span class="lineno">   38</span>        parts.push_back(id-&gt;value_);</div>
-<div class="line"><span class="lineno">   39</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   40</span>      }</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr))</div>
-<div class="line"><span class="lineno">   43</span>      {</div>
-<div class="line"><span class="lineno">   44</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#ad1b399bc505845ab3aa9428f3c9d41cf">extractQualifiedPath</a>(member-&gt;left_.get(), parts))</div>
-<div class="line"><span class="lineno">   45</span>        {</div>
-<div class="line"><span class="lineno">   46</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   47</span>        }</div>
-<div class="line"><span class="lineno">   48</span>        parts.push_back(member-&gt;member_);</div>
-<div class="line"><span class="lineno">   49</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   50</span>      }</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00071">71</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>    {</div>
+<div class="line"><span class="lineno">   74</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr))</div>
+<div class="line"><span class="lineno">   75</span>      {</div>
+<div class="line"><span class="lineno">   76</span>        parts.push_back(id-&gt;value_);</div>
+<div class="line"><span class="lineno">   77</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   78</span>      }</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr))</div>
+<div class="line"><span class="lineno">   81</span>      {</div>
+<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#ad1b399bc505845ab3aa9428f3c9d41cf">extractQualifiedPath</a>(member-&gt;left_.get(), parts))</div>
+<div class="line"><span class="lineno">   83</span>        {</div>
+<div class="line"><span class="lineno">   84</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
+<div class="line"><span class="lineno">   86</span>        parts.push_back(member-&gt;member_);</div>
+<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   88</span>      }</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   91</span>    }</div>
 <div class="ttc" id="aclassConstId_html"><div class="ttname"><a href="../../d3/d4c/classConstId.html">ConstId</a></div><div class="ttdef"><b>Definition</b> <a href="../../d5/df9/const__id_8hpp_source.html#l00004">const_id.hpp:4</a></div></div>
 <div class="ttc" id="aclassMemberAccessNode_html"><div class="ttname"><a href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d5f/member__access_8hpp_source.html#l00007">member_access.hpp:7</a></div></div>
-<div class="ttc" id="anamespacesema_1_1anonymous__namespace_02binder_8cpp_03_html_ad1b399bc505845ab3aa9428f3c9d41cf"><div class="ttname"><a href="#ad1b399bc505845ab3aa9428f3c9d41cf">sema::anonymous_namespace{binder.cpp}::extractQualifiedPath</a></div><div class="ttdeci">bool extractQualifiedPath(const ExpressionNode *expr, std::vector&lt; std::string &gt; &amp;parts)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00033">binder.cpp:33</a></div></div>
+<div class="ttc" id="anamespacesema_1_1anonymous__namespace_02binder_8cpp_03_html_ad1b399bc505845ab3aa9428f3c9d41cf"><div class="ttname"><a href="#ad1b399bc505845ab3aa9428f3c9d41cf">sema::anonymous_namespace{binder.cpp}::extractQualifiedPath</a></div><div class="ttdeci">bool extractQualifiedPath(const ExpressionNode *expr, std::vector&lt; std::string &gt; &amp;parts)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00071">binder.cpp:71</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00033">extractQualifiedPath()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00071">extractQualifiedPath()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00033">extractQualifiedPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00071">extractQualifiedPath()</a>.</p>
 
 </div>
 </div>
@@ -150,6 +153,109 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afbd671b9673e4b74ed1febb85465bbb7" name="afbd671b9673e4b74ed1febb85465bbb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbd671b9673e4b74ed1febb85465bbb7">&#9670;&#160;</a></span>isVariadicViewType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sema::anonymous_namespace{binder.cpp}::isVariadicViewType </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00048">48</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>    {</div>
+<div class="line"><span class="lineno">   50</span>      <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">   51</span>             <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())</div>
+<div class="line"><span class="lineno">   52</span>                     -&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>()</div>
+<div class="line"><span class="lineno">   53</span>                     .rfind(<span class="stringliteral">&quot;__zap_varargs_&quot;</span>, 0) == 0;</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">zir::RecordType::getName()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00048">isVariadicViewType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00048">isVariadicViewType()</a>.</p>
+
+</div>
+</div>
+<a id="acc20b48e31f0b9d7d5782c1350469d46" name="acc20b48e31f0b9d7d5782c1350469d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc20b48e31f0b9d7d5782c1350469d46">&#9670;&#160;</a></span>makeVariadicViewType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> &gt; sema::anonymous_namespace{binder.cpp}::makeVariadicViewType </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>elementType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">37</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>    {</div>
+<div class="line"><span class="lineno">   39</span>      <span class="keyword">auto</span> suffix = <a class="code hl_function" href="#ac66bfac4869c52fd33f43c64eea7f16c">sanitizeTypeName</a>(elementType-&gt;toString());</div>
+<div class="line"><span class="lineno">   40</span>      <span class="keyword">auto</span> type = std::make_shared&lt;zir::RecordType&gt;(</div>
+<div class="line"><span class="lineno">   41</span>          <span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix, <span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix);</div>
+<div class="line"><span class="lineno">   42</span>      type-&gt;addField(<span class="stringliteral">&quot;data&quot;</span>, std::make_shared&lt;zir::PointerType&gt;(elementType));</div>
+<div class="line"><span class="lineno">   43</span>      type-&gt;addField(<span class="stringliteral">&quot;len&quot;</span>,</div>
+<div class="line"><span class="lineno">   44</span>                     std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a>));</div>
+<div class="line"><span class="lineno">   45</span>      <span class="keywordflow">return</span> type;</div>
+<div class="line"><span class="lineno">   46</span>    }</div>
+<div class="ttc" id="anamespacesema_1_1anonymous__namespace_02binder_8cpp_03_html_ac66bfac4869c52fd33f43c64eea7f16c"><div class="ttname"><a href="#ac66bfac4869c52fd33f43c64eea7f16c">sema::anonymous_namespace{binder.cpp}::sanitizeTypeName</a></div><div class="ttdeci">std::string sanitizeTypeName(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00018">binder.cpp:18</a></div></div>
+<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a></div><div class="ttdeci">@ Int</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00018">type.hpp:18</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::Int</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">makeVariadicViewType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">sanitizeTypeName()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">makeVariadicViewType()</a>.</p>
+
+</div>
+</div>
+<a id="ac66bfac4869c52fd33f43c64eea7f16c" name="ac66bfac4869c52fd33f43c64eea7f16c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac66bfac4869c52fd33f43c64eea7f16c">&#9670;&#160;</a></span>sanitizeTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sema::anonymous_namespace{binder.cpp}::sanitizeTypeName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>    {</div>
+<div class="line"><span class="lineno">   20</span>      std::string out;</div>
+<div class="line"><span class="lineno">   21</span>      out.reserve(value.size());</div>
+<div class="line"><span class="lineno">   22</span>      <span class="keywordflow">for</span> (<span class="keywordtype">char</span> ch : value)</div>
+<div class="line"><span class="lineno">   23</span>      {</div>
+<div class="line"><span class="lineno">   24</span>        <span class="keywordflow">if</span> (std::isalnum(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(ch)))</div>
+<div class="line"><span class="lineno">   25</span>        {</div>
+<div class="line"><span class="lineno">   26</span>          out.push_back(ch);</div>
+<div class="line"><span class="lineno">   27</span>        }</div>
+<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>          out.push_back(<span class="charliteral">&#39;_&#39;</span>);</div>
+<div class="line"><span class="lineno">   31</span>        }</div>
+<div class="line"><span class="lineno">   32</span>      }</div>
+<div class="line"><span class="lineno">   33</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
+<div class="line"><span class="lineno">   34</span>    }</div>
+<div class="ttc" id="anamespacezap_html_ae6ad8e87b28adc8798a538d35a6f3e66"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">zap::out</a></div><div class="ttdeci">Stream &amp; out()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00110">stream.cpp:110</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">sanitizeTypeName()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00037">makeVariadicViewType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">sanitizeTypeName()</a>.</p>
+
+</div>
+</div>
 <a id="a83ab1716b289fa2170d5cd37bd82536f" name="a83ab1716b289fa2170d5cd37bd82536f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83ab1716b289fa2170d5cd37bd82536f">&#9670;&#160;</a></span>splitQualified()</h2>
 
@@ -165,24 +271,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>    {</div>
-<div class="line"><span class="lineno">   20</span>      std::vector&lt;std::string&gt; parts;</div>
-<div class="line"><span class="lineno">   21</span>      std::stringstream ss(value);</div>
-<div class="line"><span class="lineno">   22</span>      std::string item;</div>
-<div class="line"><span class="lineno">   23</span>      <span class="keywordflow">while</span> (std::getline(ss, item, <span class="charliteral">&#39;.&#39;</span>))</div>
-<div class="line"><span class="lineno">   24</span>      {</div>
-<div class="line"><span class="lineno">   25</span>        <span class="keywordflow">if</span> (!item.empty())</div>
-<div class="line"><span class="lineno">   26</span>        {</div>
-<div class="line"><span class="lineno">   27</span>          parts.push_back(item);</div>
-<div class="line"><span class="lineno">   28</span>        }</div>
-<div class="line"><span class="lineno">   29</span>      }</div>
-<div class="line"><span class="lineno">   30</span>      <span class="keywordflow">return</span> parts;</div>
-<div class="line"><span class="lineno">   31</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00056">56</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>    {</div>
+<div class="line"><span class="lineno">   58</span>      std::vector&lt;std::string&gt; parts;</div>
+<div class="line"><span class="lineno">   59</span>      std::stringstream ss(value);</div>
+<div class="line"><span class="lineno">   60</span>      std::string item;</div>
+<div class="line"><span class="lineno">   61</span>      <span class="keywordflow">while</span> (std::getline(ss, item, <span class="charliteral">&#39;.&#39;</span>))</div>
+<div class="line"><span class="lineno">   62</span>      {</div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">if</span> (!item.empty())</div>
+<div class="line"><span class="lineno">   64</span>        {</div>
+<div class="line"><span class="lineno">   65</span>          parts.push_back(item);</div>
+<div class="line"><span class="lineno">   66</span>        }</div>
+<div class="line"><span class="lineno">   67</span>      }</div>
+<div class="line"><span class="lineno">   68</span>      <span class="keywordflow">return</span> parts;</div>
+<div class="line"><span class="lineno">   69</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">splitQualified()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00056">splitQualified()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">splitQualified()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00056">splitQualified()</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"dd/d2a/structzap__string__t.html":[2,0,53],
+"dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e":[2,0,53,0],
 "dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df":[2,0,53,1],
 "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html":[0],
 "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md12":[0,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "df/d1c/enum__decl_8hpp_source.html":[3,0,0,0,9],
 "df/d31/classzir_1_1CallInst.html":[1,0,4,9],
 "df/d31/classzir_1_1CallInst.html":[2,0,4,9],
-"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b":[1,0,4,9,4],
-"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b":[2,0,4,9,4],
-"df/d31/classzir_1_1CallInst.html#a3578bb2464fcc66fd3193958787ad83a":[1,0,4,9,5]
+"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b":[1,0,4,9,4]
 };
