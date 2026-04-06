@@ -5,6 +5,9 @@ var annotated_dup =
       [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
       [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
       [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
+      [ "LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature" ],
+      [ "CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext" ],
+      [ "HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo" ],
       [ "Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace" ]
     ] ],
     [ "codegen", "d0/df2/namespacecodegen.html", [

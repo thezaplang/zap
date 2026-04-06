@@ -42,6 +42,7 @@ var hierarchy =
       [ "codegen::LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", null ],
       [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ]
     ] ],
+    [ "anonymous_namespace{lsp-main.cpp}::CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", null ],
     [ "zap::Diagnostic", "df/d01/structzap_1_1Diagnostic.html", null ],
     [ "zap::DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", null ],
     [ "zap::DiagnosticPosition", "d7/dc4/structzap_1_1DiagnosticPosition.html", null ],
@@ -52,6 +53,7 @@ var hierarchy =
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
+    [ "anonymous_namespace{lsp-main.cpp}::HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", null ],
     [ "ImportBinding", "d7/de6/structImportBinding.html", null ],
     [ "zir::Instruction", "d0/dad/classzir_1_1Instruction.html", [
       [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", null ],
@@ -74,6 +76,7 @@ var hierarchy =
     [ "zap::lsp::JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", null ],
     [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
     [ "Lexer", "d6/dc0/classLexer.html", null ],
+    [ "anonymous_namespace{lsp-main.cpp}::LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", null ],
     [ "anonymous_namespace{lsp-main.cpp}::LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", null ],
     [ "zir::Module", "d9/d68/classzir_1_1Module.html", null ],
     [ "sema::ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", null ],

@@ -1,5 +1,11 @@
 var NAVTREEINDEX5 =
 {
+"d8/d9a/classsema_1_1VariableSymbol.html#a32ed8f1b628d462abd3a64f58e827256":[1,0,2,35,1],
+"d8/d9a/classsema_1_1VariableSymbol.html#a32ed8f1b628d462abd3a64f58e827256":[2,0,2,34,1],
+"d8/d9a/classsema_1_1VariableSymbol.html#a7ac3d686fa35a0701e029b1cf86dbd18":[1,0,2,35,4],
+"d8/d9a/classsema_1_1VariableSymbol.html#a7ac3d686fa35a0701e029b1cf86dbd18":[2,0,2,34,4],
+"d8/d9a/classsema_1_1VariableSymbol.html#ade1edc3a6a721c02f7f0c5c0059ac8d9":[1,0,2,35,0],
+"d8/d9a/classsema_1_1VariableSymbol.html#ade1edc3a6a721c02f7f0c5c0059ac8d9":[2,0,2,34,0],
 "d8/d9e/body__node_8hpp.html":[3,0,0,0,4],
 "d8/d9e/body__node_8hpp_source.html":[3,0,0,0,4],
 "d8/da4/return__node_8hpp.html":[3,0,0,0,21],
@@ -232,7 +238,7 @@ var NAVTREEINDEX5 =
 "d9/dff/classMemberAccessNode.html#acda6ec6df0784e80012f56470e6db0f3":[2,0,30,3],
 "d9/dff/classMemberAccessNode.html#ae305ceb27ec172265b0deecc93bada64":[2,0,30,1],
 "da/d0c/lsp-main_8cpp.html":[3,0,0,5,2],
-"da/d0c/lsp-main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4":[3,0,0,5,2,21],
+"da/d0c/lsp-main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4":[3,0,0,5,2,29],
 "da/d0c/lsp-main_8cpp_source.html":[3,0,0,5,2],
 "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html":[1,0,1,0],
 "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac":[1,0,1,0,0],
@@ -243,11 +249,5 @@ var NAVTREEINDEX5 =
 "da/d1e/classzir_1_1Register.html#a519ccd2e3676974459ea1665990e217e":[1,0,4,27,5],
 "da/d1e/classzir_1_1Register.html#a519ccd2e3676974459ea1665990e217e":[2,0,4,27,5],
 "da/d1e/classzir_1_1Register.html#a882e860b5fa6e5fdbcfc6fbe8996e04a":[1,0,4,27,1],
-"da/d1e/classzir_1_1Register.html#a882e860b5fa6e5fdbcfc6fbe8996e04a":[2,0,4,27,1],
-"da/d1e/classzir_1_1Register.html#aa51036924e5bbe7c010c7010a23b905b":[1,0,4,27,0],
-"da/d1e/classzir_1_1Register.html#aa51036924e5bbe7c010c7010a23b905b":[2,0,4,27,0],
-"da/d1e/classzir_1_1Register.html#ab815b50066f14f7a4946380f067185f5":[1,0,4,27,3],
-"da/d1e/classzir_1_1Register.html#ab815b50066f14f7a4946380f067185f5":[2,0,4,27,3],
-"da/d1e/classzir_1_1Register.html#abfac667e6eb03863fd99eb3c591803b4":[1,0,4,27,2],
-"da/d1e/classzir_1_1Register.html#abfac667e6eb03863fd99eb3c591803b4":[2,0,4,27,2]
+"da/d1e/classzir_1_1Register.html#a882e860b5fa6e5fdbcfc6fbe8996e04a":[2,0,4,27,1]
 };

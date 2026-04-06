@@ -74,15 +74,15 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abf255234f8145f4a18d6e0878a154376",
-"d2/df1/classzir_1_1ReturnInst.html#a0ec4c6825b3d68da6500654eeb282aa4",
-"d3/dfe/classzap_1_1lsp_1_1JsonParser.html#ab7a3eefb2e0da5bef75d636183b034eb",
-"d6/d62/symbol_8hpp_source.html",
-"d8/d9e/body__node_8hpp.html",
-"da/d27/classzap_1_1Parser_1_1ParseError.html",
-"db/d94/classsema_1_1BoundTernaryExpression.html#a2b017488695a41b48c930c0154fb16e6",
-"dc/d2c/classsema_1_1Binder.html#adbb6e6a9cd76e780bcd9a058d068ced8",
-"de/d73/classzap_1_1Parser.html#a262e106a5ff6b6267ebaa941e3a85efb",
-"df/dd7/classzir_1_1EnumType.html#a77c45a23a86690738bbc68a6cac434a4"
+"d2/def/classConstDecl.html#adf823c0832a90581d47c4fe5d18ed71d",
+"d3/dfd/classzap_1_1__version__base.html#aec7a7e79b1d8c8064e605ff8896b5173",
+"d6/d5e/classsema_1_1BoundIndexAccess.html#a8fe6e722e40303a94a8df0c65a95cb5c",
+"d8/d9a/classsema_1_1VariableSymbol.html#a32ed8f1b628d462abd3a64f58e827256",
+"da/d1e/classzir_1_1Register.html#aa51036924e5bbe7c010c7010a23b905b",
+"db/d85/classsema_1_1BoundLiteral.html#a710689e4530cf77b77c53412a1ba553b",
+"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f",
+"de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f",
+"df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
