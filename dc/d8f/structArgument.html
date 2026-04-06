@@ -68,20 +68,21 @@ $(function(){initNavTree('dc/d8f/structArgument.html','../../','d4/d24/structArg
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5e7a191de57f96ce114167cd6effa41e" id="r_a5e7a191de57f96ce114167cd6effa41e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e7a191de57f96ce114167cd6effa41e">Argument</a> (const std::string &amp;argName, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; argValue, bool <a class="el" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>=false)</td></tr>
+<tr class="memitem:a75e63bf02ca25c00ed2bfe80aa5a6f7b" id="r_a75e63bf02ca25c00ed2bfe80aa5a6f7b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75e63bf02ca25c00ed2bfe80aa5a6f7b">Argument</a> (const std::string &amp;argName, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; argValue, bool <a class="el" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>=false, bool <a class="el" href="#ae88b348f5b579a65d46a330de88a40fb">isSpread</a>=false)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a375d201845c18e0c6fdeeb696f1ff185" id="r_a375d201845c18e0c6fdeeb696f1ff185"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a375d201845c18e0c6fdeeb696f1ff185">name</a></td></tr>
 <tr class="memitem:ac2a9480403974372604cb677c84a7072" id="r_ac2a9480403974372604cb677c84a7072"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2a9480403974372604cb677c84a7072">value</a></td></tr>
 <tr class="memitem:a7bd9d8e381f7c4a3fe140697c7b6fc98" id="r_a7bd9d8e381f7c4a3fe140697c7b6fc98"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a> = false</td></tr>
+<tr class="memitem:ae88b348f5b579a65d46a330de88a40fb" id="r_ae88b348f5b579a65d46a330de88a40fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae88b348f5b579a65d46a330de88a40fb">isSpread</a> = false</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00004">4</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5e7a191de57f96ce114167cd6effa41e" name="a5e7a191de57f96ce114167cd6effa41e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e7a191de57f96ce114167cd6effa41e">&#9670;&#160;</a></span>Argument()</h2>
+<a id="a75e63bf02ca25c00ed2bfe80aa5a6f7b" name="a75e63bf02ca25c00ed2bfe80aa5a6f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e63bf02ca25c00ed2bfe80aa5a6f7b">&#9670;&#160;</a></span>Argument()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -102,7 +103,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isRef</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isRef</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isSpread</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -112,13 +118,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>      : <a class="code hl_variable" href="#a375d201845c18e0c6fdeeb696f1ff185">name</a>(argName), <a class="code hl_variable" href="#ac2a9480403974372604cb677c84a7072">value</a>(std::move(argValue)), <a class="code hl_variable" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>(<a class="code hl_variable" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   12</span>      : <a class="code hl_variable" href="#a375d201845c18e0c6fdeeb696f1ff185">name</a>(argName), <a class="code hl_variable" href="#ac2a9480403974372604cb677c84a7072">value</a>(std::move(argValue)), <a class="code hl_variable" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>(<a class="code hl_variable" href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">isRef</a>),</div>
+<div class="line"><span class="lineno">   13</span>        <a class="code hl_variable" href="#ae88b348f5b579a65d46a330de88a40fb">isSpread</a>(<a class="code hl_variable" href="#ae88b348f5b579a65d46a330de88a40fb">isSpread</a>) {}</div>
 <div class="ttc" id="astructArgument_html_a375d201845c18e0c6fdeeb696f1ff185"><div class="ttname"><a href="#a375d201845c18e0c6fdeeb696f1ff185">Argument::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d32/fun__call_8hpp_source.html#l00005">fun_call.hpp:5</a></div></div>
 <div class="ttc" id="astructArgument_html_a7bd9d8e381f7c4a3fe140697c7b6fc98"><div class="ttname"><a href="#a7bd9d8e381f7c4a3fe140697c7b6fc98">Argument::isRef</a></div><div class="ttdeci">bool isRef</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d32/fun__call_8hpp_source.html#l00007">fun_call.hpp:7</a></div></div>
 <div class="ttc" id="astructArgument_html_ac2a9480403974372604cb677c84a7072"><div class="ttname"><a href="#ac2a9480403974372604cb677c84a7072">Argument::value</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; value</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d32/fun__call_8hpp_source.html#l00006">fun_call.hpp:6</a></div></div>
+<div class="ttc" id="astructArgument_html_ae88b348f5b579a65d46a330de88a40fb"><div class="ttname"><a href="#ae88b348f5b579a65d46a330de88a40fb">Argument::isSpread</a></div><div class="ttdeci">bool isSpread</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d32/fun__call_8hpp_source.html#l00008">fun_call.hpp:8</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00007">isRef</a>, <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00005">name</a>, and <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00006">value</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00007">isRef</a>, <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00008">isSpread</a>, <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00005">name</a>, and <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00006">value</a>.</p>
 
 </div>
 </div>
@@ -137,7 +145,25 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00007">7</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00009">Argument()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00010">Argument()</a>.</p>
+
+</div>
+</div>
+<a id="ae88b348f5b579a65d46a330de88a40fb" name="ae88b348f5b579a65d46a330de88a40fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae88b348f5b579a65d46a330de88a40fb">&#9670;&#160;</a></span>isSpread</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Argument::isSpread = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00010">Argument()</a>.</p>
 
 </div>
 </div>
@@ -155,7 +181,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00005">5</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00009">Argument()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00010">Argument()</a>.</p>
 
 </div>
 </div>
@@ -173,7 +199,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00006">6</a> of file <a class="el" href="../../d0/d32/fun__call_8hpp_source.html">fun_call.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00009">Argument()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/d32/fun__call_8hpp_source.html#l00010">Argument()</a>.</p>
 
 </div>
 </div>

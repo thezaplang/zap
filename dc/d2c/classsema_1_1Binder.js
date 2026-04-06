@@ -11,6 +11,7 @@ var classsema_1_1Binder =
     [ "displayTypeName", "dc/d2c/classsema_1_1Binder.html#acc6ded3321ad49d4ee009780cacb20f5", null ],
     [ "error", "dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a", null ],
     [ "evaluateConstantInt", "dc/d2c/classsema_1_1Binder.html#a4de5e9c89239303acb2f9524373e52de", null ],
+    [ "getCVariadicArgumentType", "dc/d2c/classsema_1_1Binder.html#a2da5af115d5d8f2a037c87f551f6c605", null ],
     [ "getPromotedType", "dc/d2c/classsema_1_1Binder.html#a8b08f09e613662a8380a6d4cde95ce59", null ],
     [ "initializeBuiltins", "dc/d2c/classsema_1_1Binder.html#adbb6e6a9cd76e780bcd9a058d068ced8", null ],
     [ "isNullType", "dc/d2c/classsema_1_1Binder.html#a882ec2613888190c9d0616b6a648fe7d", null ],
