@@ -167,6 +167,44 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
   return true;
 }
 
+struct LspFlags {
+  bool allowUnsafe = false;
+};
+
+LspFlags readFlagsFromFile(const std::filesystem::path &path) {
+  LspFlags flags;
+  std::ifstream file(path);
+  if (!file) {
+    return flags;
+  }
+
+  std::string line;
+  while (std::getline(file, line)) {
+    if (line == "--allow-unsafe") {
+      flags.allowUnsafe = true;
+    }
+  }
+  return flags;
+}
+
+LspFlags findAndReadFlags(std::filesystem::path startPath) {
+  if (std::filesystem::is_regular_file(startPath)) {
+    startPath = startPath.parent_path();
+  }
+
+  while (true) {
+    auto flagsPath = startPath / "zap_flags.txt";
+    if (std::filesystem::exists(flagsPath)) {
+      return readFlagsFromFile(flagsPath);
+    }
+    if (startPath == startPath.parent_path()) {
+      break;
+    }
+    startPath = startPath.parent_path();
+  }
+  return {};
+}
+
 bool resolveImportTargets(const std::filesystem::path &modulePath,
                           const ImportNode &importNode,
                           std::vector<std::filesystem::path> &targets) {
@@ -1231,7 +1269,9 @@ public:
       modules.push_back(std::move(*module));
     }
 
-    sema::Binder binder(diagnostics);
+    auto flags = findAndReadFlags(docIt->second.path);
+
+    sema::Binder binder(diagnostics, flags.allowUnsafe);
     auto boundAst = binder.bind(modules);
     (void)boundAst;
 

@@ -47,9 +47,9 @@
 			}]
 		},
 		"numbers": {
-    	"patterns": [{
-        "name": "constant.numeric.zap",
-        "match": "\\b\\d+(\\.\\d+)?\\b"
+			"patterns": [{
+				"name": "constant.numeric.zap",
+				"match": "\\b\\d+(\\.\\d+)?\\b"
 			}]
 		},
 		"keywords": {
@@ -157,15 +157,6 @@
 			"patterns": [
 				{
 					"name": "entity.name.namespace.zap",
-					"match": "\\bimport\\s+\"[^\"]+\"\\s+as\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": {
-							"name": "entity.name.namespace.zap"
-						}
-					}
-				},
-				{
-					"name": "entity.name.namespace.zap",
 					"match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*\\.)",
 					"captures": {
 						"1": {
@@ -198,15 +189,10 @@
 			]
 		},
 		"strings": {
-			"name": "string.quoted.double.zap",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.zap",
-					"match": "\\\\."
-				}
-			]
+			"patterns": [{
+				"name": "string.quoted.double.zap",
+				"match": "\"(?:[^\"\\\\]|\\\\.)*\""
+			}]
 		}
 	},
 	"scopeName": "source.zap"

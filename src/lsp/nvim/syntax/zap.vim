@@ -11,9 +11,12 @@ syntax keyword zapStorageClass fun ext pub priv global const var ref module impl
 syntax keyword zapStructure record struct enum alias
 
 syntax match zapLineComment "//.*$"
-syntax region zapString start=+"+ skip=+\\\\\|\\"+ end=+"+
-syntax match zapEscape "\\\\." contained containedin=zapString
-syntax region zapChar start=+'+ skip=+\\\\\|\\'+ end=+'+
+syntax region zapString start=+"+ skip=+\\.+ end=+"+ contains=zapEscape
+syntax match zapEscape +\\["\\abfnrtv0]+ contained
+syntax match zapEscape +\\x[0-9a-fA-F]\{2}+ contained
+syntax match zapEscape +\\u[0-9a-fA-F]\{4}+ contained
+syntax match zapEscape +\\U[0-9a-fA-F]\{8}+ contained
+syntax region zapChar start=+'+ skip=+\\.+ end=+'+ contains=zapEscape
 syntax match zapNumber "\<[0-9]\+\(\.[0-9]\+\)\?\>"
 syntax keyword zapBoolean true false null
 
