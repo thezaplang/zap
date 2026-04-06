@@ -1,6 +1,7 @@
 var namespaceanonymous__namespace_02lsp_main_8cpp_03 =
 [
     [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
+    [ "LspFlags", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags" ],
     [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
     [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
     [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
@@ -20,6 +21,7 @@ var namespaceanonymous__namespace_02lsp_main_8cpp_03 =
     [ "computeLogicalModulePath", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#acb4ec042e9c13b3488e20f1e9942102e", null ],
     [ "containsOffset", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a242945295a4736ccc7d1371228bfd78f", null ],
     [ "effectiveImportAlias", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a768d0befdaf966cb3547b0b0b702444a", null ],
+    [ "findAndReadFlags", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac241ac84f6d8c30373076aff80b90cb7", null ],
     [ "findTopLevelHover", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a3635f083ce1e28bfae81e759eefc1be8", null ],
     [ "findTopLevelSignature", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a4c83b439102d2573cdf62eb200f06ebd", null ],
     [ "getField", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a8d9748171e327194d9aa6ca6500de94a", null ],
@@ -44,6 +46,7 @@ var namespaceanonymous__namespace_02lsp_main_8cpp_03 =
     [ "pathToUri", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903", null ],
     [ "publishAnalysis", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ae3fc1a312a10effac7e60a93f5ade500", null ],
     [ "qualifiedIdentifierAtOffset", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a19f19ba9872d3fab74adf0dc1c6a4ca5", null ],
+    [ "readFlagsFromFile", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aaa685e0d1ae41c8077a5d93a2d03e87f", null ],
     [ "readSourceFile", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd", null ],
     [ "renderParameter", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a16e5bfd0d9d6bacdb0dd40526cc3bfa9", null ],
     [ "renderType", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aa9f27971b824fa903a1e20bee35f7864", null ],

@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "anonymous_namespace{lsp-main.cpp}", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html", [
       [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
+      [ "LspFlags", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags" ],
       [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
       [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
       [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],

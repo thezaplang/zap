@@ -71,6 +71,10 @@ var NAVTREEINDEX4 =
 "d6/dc0/classLexer.html#ac943fad065fd87ca7fb6d9656657ea0b":[2,0,31,8],
 "d6/dc0/classLexer.html#af45f1ec9a0c02ec9232930c33a63c78f":[2,0,31,9],
 "d6/dc0/classLexer.html#aff86c298ab2717a0d7c078cc31253424":[2,0,31,0],
+"d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html":[1,0,0,1],
+"d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html":[2,0,0,1],
+"d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html#a984bbcd85f4a6a4c680481940fd73eee":[1,0,0,1,0],
+"d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html#a984bbcd85f4a6a4c680481940fd73eee":[2,0,0,1,0],
 "d6/dda/value_8hpp.html":[3,0,0,3,7],
 "d6/dda/value_8hpp_source.html":[3,0,0,3,7],
 "d6/dea/const__decl_8hpp.html":[3,0,0,0,7],
@@ -245,9 +249,5 @@ var NAVTREEINDEX4 =
 "d8/d6d/classzir_1_1LoadInst.html":[1,0,4,5],
 "d8/d6d/classzir_1_1LoadInst.html":[2,0,4,5],
 "d8/d6d/classzir_1_1LoadInst.html#a48474255d9157f5fe3bd4cf9257869ca":[1,0,4,5,4],
-"d8/d6d/classzir_1_1LoadInst.html#a48474255d9157f5fe3bd4cf9257869ca":[2,0,4,5,4],
-"d8/d6d/classzir_1_1LoadInst.html#ab3a73a2e50fe741c0bb1d13bf68ab6d0":[1,0,4,5,0],
-"d8/d6d/classzir_1_1LoadInst.html#ab3a73a2e50fe741c0bb1d13bf68ab6d0":[2,0,4,5,0],
-"d8/d6d/classzir_1_1LoadInst.html#ab57bf864e7fc292514e608b6bf730193":[1,0,4,5,3],
-"d8/d6d/classzir_1_1LoadInst.html#ab57bf864e7fc292514e608b6bf730193":[2,0,4,5,3]
+"d8/d6d/classzir_1_1LoadInst.html#a48474255d9157f5fe3bd4cf9257869ca":[2,0,4,5,4]
 };

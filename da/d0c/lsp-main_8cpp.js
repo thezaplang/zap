@@ -1,6 +1,7 @@
 var lsp_main_8cpp =
 [
     [ "anonymous_namespace{lsp-main.cpp}::DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
+    [ "anonymous_namespace{lsp-main.cpp}::LspFlags", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags" ],
     [ "anonymous_namespace{lsp-main.cpp}::AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
     [ "anonymous_namespace{lsp-main.cpp}::ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
     [ "anonymous_namespace{lsp-main.cpp}::LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
@@ -20,6 +21,7 @@ var lsp_main_8cpp =
     [ "anonymous_namespace{lsp-main.cpp}::computeLogicalModulePath", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#acb4ec042e9c13b3488e20f1e9942102e", null ],
     [ "anonymous_namespace{lsp-main.cpp}::containsOffset", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a242945295a4736ccc7d1371228bfd78f", null ],
     [ "anonymous_namespace{lsp-main.cpp}::effectiveImportAlias", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a768d0befdaf966cb3547b0b0b702444a", null ],
+    [ "anonymous_namespace{lsp-main.cpp}::findAndReadFlags", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac241ac84f6d8c30373076aff80b90cb7", null ],
     [ "anonymous_namespace{lsp-main.cpp}::findTopLevelHover", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a3635f083ce1e28bfae81e759eefc1be8", null ],
     [ "anonymous_namespace{lsp-main.cpp}::findTopLevelSignature", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a4c83b439102d2573cdf62eb200f06ebd", null ],
     [ "anonymous_namespace{lsp-main.cpp}::getField", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a8d9748171e327194d9aa6ca6500de94a", null ],
@@ -45,6 +47,7 @@ var lsp_main_8cpp =
     [ "anonymous_namespace{lsp-main.cpp}::pathToUri", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903", null ],
     [ "anonymous_namespace{lsp-main.cpp}::publishAnalysis", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ae3fc1a312a10effac7e60a93f5ade500", null ],
     [ "anonymous_namespace{lsp-main.cpp}::qualifiedIdentifierAtOffset", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a19f19ba9872d3fab74adf0dc1c6a4ca5", null ],
+    [ "anonymous_namespace{lsp-main.cpp}::readFlagsFromFile", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aaa685e0d1ae41c8077a5d93a2d03e87f", null ],
     [ "anonymous_namespace{lsp-main.cpp}::readSourceFile", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd", null ],
     [ "anonymous_namespace{lsp-main.cpp}::renderParameter", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a16e5bfd0d9d6bacdb0dd40526cc3bfa9", null ],
     [ "anonymous_namespace{lsp-main.cpp}::renderType", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aa9f27971b824fa903a1e20bee35f7864", null ],
