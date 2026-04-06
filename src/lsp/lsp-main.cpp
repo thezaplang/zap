@@ -223,6 +223,16 @@ struct LspSymbol {
   Visibility visibility = Visibility::Private;
 };
 
+struct LspSignature {
+  std::string label;
+  std::vector<std::string> parameters;
+};
+
+class Workspace;
+
+std::string effectiveImportAlias(const sema::ResolvedImport &import,
+                                 const sema::ModuleInfo &target);
+
 size_t offsetFromPosition(const std::string &text, int64_t line, int64_t character) {
   size_t offset = 0;
   int64_t currentLine = 0;
@@ -417,6 +427,438 @@ std::optional<LspSymbol> makeSymbol(const std::string &uri, const std::string &n
                                     const SourceSpan &span, int64_t kind,
                                     Visibility visibility = Visibility::Private) {
   return LspSymbol{name, uri, span, kind, visibility};
+}
+
+std::string renderType(const TypeNode *type) {
+  if (!type) {
+    return "Void";
+  }
+  if (type->isArray && type->baseType) {
+    return "[" + renderType(type->baseType.get()) + "]";
+  }
+  return type->qualifiedName();
+}
+
+std::string renderParameter(const ParameterNode *param) {
+  if (!param) {
+    return "";
+  }
+  return std::string(param->isRef ? "ref " : "") + param->name + ": " +
+         renderType(param->type.get());
+}
+
+std::optional<LspSignature> signatureForNode(const Node *node) {
+  if (auto fun = dynamic_cast<const FunDecl *>(node)) {
+    std::vector<std::string> params;
+    for (const auto &param : fun->params_) {
+      params.push_back(renderParameter(param.get()));
+    }
+    std::string label = fun->name_ + "(";
+    for (size_t i = 0; i < params.size(); ++i) {
+      if (i != 0) {
+        label += ", ";
+      }
+      label += params[i];
+    }
+    label += ") " + renderType(fun->returnType_.get());
+    return LspSignature{std::move(label), std::move(params)};
+  }
+  if (auto ext = dynamic_cast<const ExtDecl *>(node)) {
+    std::vector<std::string> params;
+    for (const auto &param : ext->params_) {
+      params.push_back(renderParameter(param.get()));
+    }
+    std::string label = ext->name_ + "(";
+    for (size_t i = 0; i < params.size(); ++i) {
+      if (i != 0) {
+        label += ", ";
+      }
+      label += params[i];
+    }
+    label += ") " + renderType(ext->returnType_.get());
+    return LspSignature{std::move(label), std::move(params)};
+  }
+  return std::nullopt;
+}
+
+std::optional<LspSignature> findTopLevelSignature(const sema::ModuleInfo &module,
+                                                  std::string_view name,
+                                                  bool publicOnly = false) {
+  for (const auto &child : module.root->children) {
+    const TopLevel *topLevel = dynamic_cast<const TopLevel *>(child.get());
+    std::optional<std::string> childName;
+    if (auto fun = dynamic_cast<const FunDecl *>(child.get())) {
+      childName = fun->name_;
+    } else if (auto ext = dynamic_cast<const ExtDecl *>(child.get())) {
+      childName = ext->name_;
+    }
+    if (!childName || *childName != name) {
+      continue;
+    }
+    if (publicOnly && (!topLevel || topLevel->visibility_ != Visibility::Public)) {
+      continue;
+    }
+    if (auto signature = signatureForNode(child.get())) {
+      return signature;
+    }
+  }
+  return std::nullopt;
+}
+
+struct CallContext {
+  std::string callee;
+  int64_t activeParameter = 0;
+};
+
+struct HoverInfo {
+  std::string language = "zap";
+  std::string value;
+};
+
+std::optional<CallContext> callContextAtOffset(const std::string &source, size_t offset) {
+  if (source.empty()) {
+    return std::nullopt;
+  }
+
+  size_t pos = std::min(offset, source.size());
+  int nestedParens = 0;
+  int nestedBrackets = 0;
+  int nestedBraces = 0;
+  int64_t activeParameter = 0;
+  bool foundOpenParen = false;
+  size_t openParen = 0;
+
+  while (pos > 0) {
+    --pos;
+    char ch = source[pos];
+    if (ch == ')') {
+      ++nestedParens;
+    } else if (ch == '(') {
+      if (nestedParens == 0 && nestedBrackets == 0 && nestedBraces == 0) {
+        openParen = pos;
+        foundOpenParen = true;
+        break;
+      }
+      if (nestedParens > 0) {
+        --nestedParens;
+      }
+    } else if (ch == ']') {
+      ++nestedBrackets;
+    } else if (ch == '[') {
+      if (nestedBrackets > 0) {
+        --nestedBrackets;
+      }
+    } else if (ch == '}') {
+      ++nestedBraces;
+    } else if (ch == '{') {
+      if (nestedBraces > 0) {
+        --nestedBraces;
+      }
+    } else if (ch == ',' && nestedParens == 0 && nestedBrackets == 0 && nestedBraces == 0) {
+      ++activeParameter;
+    }
+  }
+
+  if (!foundOpenParen) {
+    return std::nullopt;
+  }
+
+  size_t end = openParen;
+  while (end > 0 && std::isspace(static_cast<unsigned char>(source[end - 1]))) {
+    --end;
+  }
+  size_t start = end;
+  while (start > 0) {
+    char ch = source[start - 1];
+    if (isIdentifierChar(ch) || ch == '.' ||
+        std::isspace(static_cast<unsigned char>(ch))) {
+      --start;
+      continue;
+    }
+    break;
+  }
+
+  std::string callee = source.substr(start, end - start);
+  callee.erase(std::remove_if(callee.begin(), callee.end(),
+                              [](unsigned char ch) { return std::isspace(ch); }),
+               callee.end());
+  if (callee.empty()) {
+    return std::nullopt;
+  }
+
+  return CallContext{std::move(callee), activeParameter};
+}
+
+std::optional<CallContext> callContextNearOffset(const std::string &source, size_t offset) {
+  if (auto call = callContextAtOffset(source, offset)) {
+    return call;
+  }
+
+  if (source.empty()) {
+    return std::nullopt;
+  }
+
+  size_t pos = std::min(offset, source.size() - 1);
+  if (isIdentifierChar(source[pos])) {
+    size_t end = pos + 1;
+    while (end < source.size() && isIdentifierChar(source[end])) {
+      ++end;
+    }
+    while (end < source.size() && std::isspace(static_cast<unsigned char>(source[end]))) {
+      ++end;
+    }
+    if (end < source.size() && source[end] == '(') {
+      return callContextAtOffset(source, end + 1);
+    }
+  }
+
+  if (pos < source.size() && source[pos] == '(') {
+    return callContextAtOffset(source, pos + 1);
+  }
+
+  return std::nullopt;
+}
+
+std::optional<LspSignature> resolveSignature(const std::string &source,
+                                             const std::string &uri,
+                                             const ProjectState &project,
+                                             size_t offset,
+                                             int64_t &activeParameter) {
+  auto path = uriToPath(uri);
+  if (!path) {
+    return std::nullopt;
+  }
+
+  auto call = callContextNearOffset(source, offset);
+  if (!call) {
+    return std::nullopt;
+  }
+  activeParameter = call->activeParameter;
+
+  std::string moduleId = std::filesystem::weakly_canonical(*path).string();
+  auto moduleIt = project.moduleMap.find(moduleId);
+  if (moduleIt == project.moduleMap.end()) {
+    return std::nullopt;
+  }
+  const sema::ModuleInfo &module = *moduleIt->second;
+
+  auto dot = call->callee.find('.');
+  if (dot != std::string::npos) {
+    std::string base = call->callee.substr(0, dot);
+    std::string member = call->callee.substr(dot + 1);
+    for (const auto &import : module.imports) {
+      for (const auto &targetId : import.targetModuleIds) {
+        auto targetIt = project.moduleMap.find(targetId);
+        if (targetIt == project.moduleMap.end()) {
+          continue;
+        }
+        if (effectiveImportAlias(import, *targetIt->second) != base) {
+          continue;
+        }
+        if (auto signature =
+                findTopLevelSignature(*targetIt->second, member, true)) {
+          return signature;
+        }
+      }
+    }
+    return std::nullopt;
+  }
+
+  if (auto signature = findTopLevelSignature(module, call->callee)) {
+    return signature;
+  }
+
+  for (const auto &import : module.imports) {
+    for (const auto &binding : import.bindings) {
+      if (binding.localName != call->callee) {
+        continue;
+      }
+      for (const auto &targetId : import.targetModuleIds) {
+        auto targetIt = project.moduleMap.find(targetId);
+        if (targetIt == project.moduleMap.end()) {
+          continue;
+        }
+        if (auto signature =
+                findTopLevelSignature(*targetIt->second, binding.sourceName, true)) {
+          return signature;
+        }
+      }
+    }
+  }
+
+  return std::nullopt;
+}
+
+std::optional<HoverInfo> hoverForNode(const Node *node) {
+  if (dynamic_cast<const FunDecl *>(node)) {
+    if (auto signature = signatureForNode(node)) {
+      return HoverInfo{"zap", signature->label};
+    }
+  }
+  if (dynamic_cast<const ExtDecl *>(node)) {
+    if (auto signature = signatureForNode(node)) {
+      return HoverInfo{"zap", "ext fun " + signature->label};
+    }
+  }
+  if (auto var = dynamic_cast<const VarDecl *>(node)) {
+    return HoverInfo{"zap", "var " + var->name_ + ": " + renderType(var->type_.get())};
+  }
+  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
+    return HoverInfo{"zap", "const " + cnst->name_ + ": " + renderType(cnst->type_.get())};
+  }
+  if (auto record = dynamic_cast<const RecordDecl *>(node)) {
+    return HoverInfo{"zap", "record " + record->name_};
+  }
+  if (auto strukt = dynamic_cast<const StructDeclarationNode *>(node)) {
+    return HoverInfo{"zap", "struct " + strukt->name_};
+  }
+  if (auto enm = dynamic_cast<const EnumDecl *>(node)) {
+    return HoverInfo{"zap", "enum " + enm->name_};
+  }
+  if (auto alias = dynamic_cast<const TypeAliasDecl *>(node)) {
+    return HoverInfo{"zap", "alias " + alias->name_ + " = " + renderType(alias->type_.get())};
+  }
+  return std::nullopt;
+}
+
+std::optional<HoverInfo> findTopLevelHover(const sema::ModuleInfo &module,
+                                           std::string_view name,
+                                           bool publicOnly = false) {
+  for (const auto &child : module.root->children) {
+    const TopLevel *topLevel = dynamic_cast<const TopLevel *>(child.get());
+    std::optional<std::string> childName;
+    if (auto fun = dynamic_cast<const FunDecl *>(child.get())) {
+      childName = fun->name_;
+    } else if (auto ext = dynamic_cast<const ExtDecl *>(child.get())) {
+      childName = ext->name_;
+    } else if (auto var = dynamic_cast<const VarDecl *>(child.get())) {
+      childName = var->name_;
+    } else if (auto cnst = dynamic_cast<const ConstDecl *>(child.get())) {
+      childName = cnst->name_;
+    } else if (auto record = dynamic_cast<const RecordDecl *>(child.get())) {
+      childName = record->name_;
+    } else if (auto strukt = dynamic_cast<const StructDeclarationNode *>(child.get())) {
+      childName = strukt->name_;
+    } else if (auto enm = dynamic_cast<const EnumDecl *>(child.get())) {
+      childName = enm->name_;
+    } else if (auto alias = dynamic_cast<const TypeAliasDecl *>(child.get())) {
+      childName = alias->name_;
+    }
+    if (!childName || *childName != name) {
+      continue;
+    }
+    if (publicOnly && (!topLevel || topLevel->visibility_ != Visibility::Public)) {
+      continue;
+    }
+    if (auto hover = hoverForNode(child.get())) {
+      return hover;
+    }
+  }
+  return std::nullopt;
+}
+
+JsonObject makeHover(const HoverInfo &hover) {
+  JsonObject::Object contents;
+  contents.emplace("kind", JsonObject("markdown"));
+  contents.emplace("value", JsonObject("```" + hover.language + "\n" + hover.value + "\n```"));
+
+  JsonObject::Object result;
+  result.emplace("contents", JsonObject(std::move(contents)));
+  return JsonObject(std::move(result));
+}
+
+std::optional<HoverInfo> resolveHover(const std::string &source,
+                                      const std::string &uri,
+                                      const ProjectState &project,
+                                      size_t offset) {
+  auto path = uriToPath(uri);
+  if (!path) {
+    return std::nullopt;
+  }
+  std::string moduleId = std::filesystem::weakly_canonical(*path).string();
+  auto moduleIt = project.moduleMap.find(moduleId);
+  if (moduleIt == project.moduleMap.end()) {
+    return std::nullopt;
+  }
+  const sema::ModuleInfo &module = *moduleIt->second;
+
+  if (auto qualified = qualifiedIdentifierAtOffset(source, offset)) {
+    const auto &[base, rest] = *qualified;
+    if (!rest.empty()) {
+      std::string memberName = rest;
+      size_t dot = memberName.rfind('.');
+      if (dot != std::string::npos) {
+        memberName = memberName.substr(dot + 1);
+      }
+      for (const auto &import : module.imports) {
+        for (const auto &targetId : import.targetModuleIds) {
+          auto targetIt = project.moduleMap.find(targetId);
+          if (targetIt == project.moduleMap.end()) {
+            continue;
+          }
+          if (effectiveImportAlias(import, *targetIt->second) != base) {
+            continue;
+          }
+          if (auto hover = findTopLevelHover(*targetIt->second, memberName, true)) {
+            return hover;
+          }
+        }
+      }
+    }
+  }
+
+  auto name = identifierAt(source, offset);
+  if (!name) {
+    return std::nullopt;
+  }
+
+  if (auto hover = findTopLevelHover(module, *name)) {
+    return hover;
+  }
+
+  for (const auto &import : module.imports) {
+    for (const auto &binding : import.bindings) {
+      if (binding.localName != *name) {
+        continue;
+      }
+      for (const auto &targetId : import.targetModuleIds) {
+        auto targetIt = project.moduleMap.find(targetId);
+        if (targetIt == project.moduleMap.end()) {
+          continue;
+        }
+        if (auto hover = findTopLevelHover(*targetIt->second, binding.sourceName, true)) {
+          return hover;
+        }
+      }
+    }
+  }
+
+  return std::nullopt;
+}
+
+JsonObject makeSignatureHelp(const LspSignature &signature, int64_t activeParameter) {
+  JsonObject::List parameters;
+  parameters.reserve(signature.parameters.size());
+  for (const auto &param : signature.parameters) {
+    JsonObject::Object parameter;
+    parameter.emplace("label", JsonObject(param));
+    parameters.push_back(JsonObject(std::move(parameter)));
+  }
+
+  JsonObject::Object sig;
+  sig.emplace("label", JsonObject(signature.label));
+  sig.emplace("parameters", JsonObject(std::move(parameters)));
+
+  JsonObject::Object result;
+  result.emplace("signatures", JsonObject(JsonObject::List{JsonObject(std::move(sig))}));
+  result.emplace("activeSignature", JsonObject(int64_t(0)));
+  result.emplace("activeParameter",
+                 JsonObject(std::max<int64_t>(0, std::min<int64_t>(
+                                                  activeParameter,
+                                                  static_cast<int64_t>(signature.parameters.empty()
+                                                                           ? 0
+                                                                           : signature.parameters.size() - 1)))));
+  return JsonObject(std::move(result));
 }
 
 std::string effectiveImportAlias(const sema::ResolvedImport &import,
@@ -1065,6 +1507,7 @@ int main() {
       JsonObject::Object capabilities;
       capabilities.emplace("textDocumentSync", JsonObject(std::move(syncOptions)));
       capabilities.emplace("definitionProvider", JsonObject(true));
+      capabilities.emplace("hoverProvider", JsonObject(true));
 
       JsonObject::Object completionOptions;
       completionOptions.emplace("resolveProvider", JsonObject(false));
@@ -1090,6 +1533,13 @@ int main() {
                                     JsonObject("W"), JsonObject("X"), JsonObject("Y"),
                                     JsonObject("Z")}));
       capabilities.emplace("completionProvider", JsonObject(std::move(completionOptions)));
+
+      JsonObject::Object signatureHelpOptions;
+      signatureHelpOptions.emplace(
+          "triggerCharacters",
+          JsonObject(JsonObject::List{JsonObject("("), JsonObject(",")}));
+      capabilities.emplace("signatureHelpProvider",
+                           JsonObject(std::move(signatureHelpOptions)));
 
       JsonObject::Object serverInfo;
       serverInfo.emplace("name", JsonObject("zap-lsp"));
@@ -1214,6 +1664,44 @@ int main() {
             auto symbol = resolveDefinition(workspace, *uri, *project, offset);
             if (symbol) {
               result = makeLocation(symbol->uri, symbol->span);
+            }
+          }
+        }
+        server.sendMessage(makeResponse(id, std::move(result)));
+      }
+    } else if (*method == "textDocument/hover") {
+      auto uri = getStringField(request, {"params", "textDocument", "uri"});
+      auto line = getIntegerField(request, {"params", "position", "line"});
+      auto character = getIntegerField(request, {"params", "position", "character"});
+      if (id && uri && line && character) {
+        JsonObject result(nullptr);
+        if (const auto *document = workspace.document(*uri)) {
+          auto project = workspace.loadProject(*uri, true);
+          if (project) {
+            size_t offset = offsetFromPosition(document->text, *line, *character);
+            auto hover = resolveHover(document->text, *uri, *project, offset);
+            if (hover) {
+              result = makeHover(*hover);
+            }
+          }
+        }
+        server.sendMessage(makeResponse(id, std::move(result)));
+      }
+    } else if (*method == "textDocument/signatureHelp") {
+      auto uri = getStringField(request, {"params", "textDocument", "uri"});
+      auto line = getIntegerField(request, {"params", "position", "line"});
+      auto character = getIntegerField(request, {"params", "position", "character"});
+      if (id && uri && line && character) {
+        JsonObject result(nullptr);
+        if (const auto *document = workspace.document(*uri)) {
+          auto project = workspace.loadProject(*uri, true);
+          if (project) {
+            size_t offset = offsetFromPosition(document->text, *line, *character);
+            int64_t activeParameter = 0;
+            auto signature = resolveSignature(document->text, *uri, *project, offset,
+                                              activeParameter);
+            if (signature) {
+              result = makeSignatureHelp(*signature, activeParameter);
             }
           }
         }

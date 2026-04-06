@@ -45,10 +45,73 @@ local function make_capabilities()
   return capabilities
 end
 
-local function on_attach(_, bufnr)
+local function trim_empty_lines(lines)
+  while #lines > 0 and lines[1] == "" do
+    table.remove(lines, 1)
+  end
+  while #lines > 0 and lines[#lines] == "" do
+    table.remove(lines, #lines)
+  end
+  return lines
+end
+
+local function on_attach(client, bufnr)
+  local function open_float(method, params_builder)
+    local params = params_builder()
+    vim.lsp.buf_request(bufnr, method, params, function(err, result, ctx, _)
+      if err or not result then
+        return
+      end
+
+      if method == "textDocument/hover" then
+        local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+        markdown_lines = trim_empty_lines(markdown_lines)
+        if vim.tbl_isempty(markdown_lines) then
+          return
+        end
+        vim.lsp.util.open_floating_preview(markdown_lines, "markdown", {
+          border = "rounded",
+          focusable = true,
+          max_width = 80,
+        })
+        return
+      end
+
+      if method == "textDocument/signatureHelp" then
+        if not result.signatures or vim.tbl_isempty(result.signatures) then
+          return
+        end
+        local active_sig = (result.activeSignature or 0) + 1
+        local sig = result.signatures[active_sig]
+        if not sig or not sig.label then
+          return
+        end
+        vim.lsp.util.open_floating_preview({ sig.label }, "zap", {
+          border = "rounded",
+          focusable = false,
+          max_width = 80,
+        })
+      end
+    end)
+  end
+
+  local function hover_float()
+    open_float("textDocument/hover", function()
+      return vim.lsp.util.make_position_params(0, client.offset_encoding)
+    end)
+  end
+
+  local function signature_float()
+    open_float("textDocument/signatureHelp", function()
+      return vim.lsp.util.make_position_params(0, client.offset_encoding)
+    end)
+  end
+
   local opts = { buffer = bufnr, silent = true }
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+  vim.keymap.set("n", "K", hover_float, opts)
+  vim.keymap.set("n", "<C-k>", signature_float, opts)
+  vim.keymap.set("i", "<C-k>", signature_float, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)

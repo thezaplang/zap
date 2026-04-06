@@ -3,6 +3,21 @@ if vim.g.loaded_zap_nvim == 1 then
 end
 vim.g.loaded_zap_nvim = 1
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+  focusable = true,
+  max_width = 80,
+})
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  {
+    border = "rounded",
+    focusable = false,
+    max_width = 80,
+  }
+)
+
 local function setup_lsp()
   if vim.g.loaded_zap_nvim_lsp == 1 then
     return
