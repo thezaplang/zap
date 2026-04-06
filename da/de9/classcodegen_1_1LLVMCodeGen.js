@@ -1,7 +1,7 @@
 var classcodegen_1_1LLVMCodeGen =
 [
     [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3c37317c537f2b09837a228fb0d801eb", null ],
-    [ "buildFunctionType", "da/de9/classcodegen_1_1LLVMCodeGen.html#aa56ba45fd7b3a135db0924ac58707194", null ],
+    [ "buildFunctionType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0bd8f94bb6c33a9086f42dbfe60a5ec6", null ],
     [ "createEntryAlloca", "da/de9/classcodegen_1_1LLVMCodeGen.html#a053e04a5dd91f4f9bbcaf0b7865137fa", null ],
     [ "emitObjectFile", "da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775", null ],
     [ "generate", "da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4", null ],
