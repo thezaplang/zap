@@ -21,7 +21,9 @@ var hierarchy =
         [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
         [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
-        [ "sema::BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", null ]
+        [ "sema::BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", null ],
+        [ "sema::BoundWeakAliveExpression", "d2/d78/classsema_1_1BoundWeakAliveExpression.html", null ],
+        [ "sema::BoundWeakLockExpression", "d8/df0/classsema_1_1BoundWeakLockExpression.html", null ]
       ] ],
       [ "sema::BoundExternalFunctionDeclaration", "d7/d1f/classsema_1_1BoundExternalFunctionDeclaration.html", null ],
       [ "sema::BoundFunctionDeclaration", "db/d37/classsema_1_1BoundFunctionDeclaration.html", null ],
@@ -177,5 +179,7 @@ var hierarchy =
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
     ] ],
     [ "anonymous_namespace{lsp-main.cpp}::Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", null ],
+    [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", null ],
+    [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", null ],
     [ "zap_string_t", "dd/d2a/structzap__string__t.html", null ]
 ];

@@ -10,6 +10,7 @@ var classTypeNode =
     [ "isPointer", "d7/d9f/classTypeNode.html#a4c15832a2a2ff30f11e9d9261f07b845", null ],
     [ "isReference", "d7/d9f/classTypeNode.html#aa8d94fd70ae642e0b0771ad71eb7ea88", null ],
     [ "isVarArgs", "d7/d9f/classTypeNode.html#a89f1af81554c9a25014435bc7e7fdd97", null ],
+    [ "isWeak", "d7/d9f/classTypeNode.html#a37a884ac0564238c4428481453dd407e", null ],
     [ "qualifiers", "d7/d9f/classTypeNode.html#ad3d05ecf2d69ce7d98646e4ea4dcdbfc", null ],
     [ "typeName", "d7/d9f/classTypeNode.html#a44ada38889136659fab21c3ee3b7fa7c", null ]
 ];

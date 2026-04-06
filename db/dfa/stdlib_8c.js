@@ -1,6 +1,10 @@
 var stdlib_8c =
 [
+    [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", "d4/d2c/structzap__arc__metadata__t" ],
+    [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", "d1/de8/structzap__arc__header__t" ],
     [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ],
+    [ "zap_arc_header_t", "db/dfa/stdlib_8c.html#a2703279e8973d27a5e355ed8927a8090", null ],
+    [ "zap_arc_metadata_t", "db/dfa/stdlib_8c.html#a6e7f94aaff23d5d5b24c26fe80fd5ef4", null ],
     [ "__zap_process_set_args", "db/dfa/stdlib_8c.html#a3f6fb078c0d56ebb52e97b75f4c3f43a", null ],
     [ "argc", "db/dfa/stdlib_8c.html#a075cc3441ec8c716b40a9be107afa1de", null ],
     [ "argv", "db/dfa/stdlib_8c.html#ae944645c5876290769281c22603adbb7", null ],
@@ -27,6 +31,12 @@ var stdlib_8c =
     [ "slice", "db/dfa/stdlib_8c.html#a768fbe26f8d9de5a5f64130f84be0d37", null ],
     [ "string_concat_ptrlen", "db/dfa/stdlib_8c.html#a1331af51349d3d2c59aec3afee59d0a7", null ],
     [ "writeFile", "db/dfa/stdlib_8c.html#a1385884eb69bec52509538ca561e37d2", null ],
+    [ "zap_arc_collect_edge", "db/dfa/stdlib_8c.html#af874a597ddf3f580afda753a969be9ac", null ],
+    [ "zap_arc_cycle_collect", "db/dfa/stdlib_8c.html#a69300e9f414298e57faec3089380fd27", null ],
+    [ "zap_arc_find_object_index", "db/dfa/stdlib_8c.html#a00ae925bec6220680a58e86b19f13ce2", null ],
+    [ "zap_arc_mark_reachable", "db/dfa/stdlib_8c.html#ae014ea7f733613e26091858669750e4e", null ],
+    [ "zap_arc_register", "db/dfa/stdlib_8c.html#a872ae13e4e6db310e74a222f79d8ba0e", null ],
+    [ "zap_arc_unregister", "db/dfa/stdlib_8c.html#a40cfdeb7eea8e65334003dd35d8d6b7f", null ],
     [ "zap_copy_path", "db/dfa/stdlib_8c.html#ae9123704f1b7c7d41e2854f51ee55174", null ],
     [ "zap_copy_string_range", "db/dfa/stdlib_8c.html#ae0c5685dec040535258039d52f208307", null ],
     [ "zap_fs_mkdir", "db/dfa/stdlib_8c.html#a3f33e88f5e22588aa7ceac746049bf06", null ],
@@ -46,6 +56,10 @@ var stdlib_8c =
     [ "zapMathCeil", "db/dfa/stdlib_8c.html#a1c768f9a1db5948b13e038e6279f3128", null ],
     [ "zapMathFloor", "db/dfa/stdlib_8c.html#aa9d959558860bc1c2edcc8ee0bf9742c", null ],
     [ "zapMathSqrt", "db/dfa/stdlib_8c.html#af4b25dcb5d4604ec5cce2658e3e72bae", null ],
+    [ "zap_arc_collecting", "db/dfa/stdlib_8c.html#ae40079c24cb904648b760a17d22f9d70", null ],
+    [ "zap_arc_object_capacity", "db/dfa/stdlib_8c.html#ae592d0aafa160cea47c0e89115a2c2a7", null ],
+    [ "zap_arc_object_count", "db/dfa/stdlib_8c.html#af86f45e7d0c31519b98bb032dc2fbd0f", null ],
+    [ "zap_arc_objects", "db/dfa/stdlib_8c.html#a31d3cafcee5ae13e87bd5a12bb07deaf", null ],
     [ "zap_process_argc", "db/dfa/stdlib_8c.html#a8fa584def8aa59792c511e0f2d069165", null ],
     [ "zap_process_argv", "db/dfa/stdlib_8c.html#a340004a04bf7692e9a9402bb3c47fee2", null ]
 ];

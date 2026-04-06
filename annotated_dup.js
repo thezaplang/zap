@@ -33,6 +33,8 @@ var annotated_dup =
       [ "BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", "df/da0/classsema_1_1BoundFunctionCall" ],
       [ "BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", "dd/d9c/classsema_1_1BoundArrayLiteral" ],
       [ "BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", "db/d54/classsema_1_1BoundNewExpression" ],
+      [ "BoundWeakLockExpression", "d8/df0/classsema_1_1BoundWeakLockExpression.html", "d8/df0/classsema_1_1BoundWeakLockExpression" ],
+      [ "BoundWeakAliveExpression", "d2/d78/classsema_1_1BoundWeakAliveExpression.html", "d2/d78/classsema_1_1BoundWeakAliveExpression" ],
       [ "BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", "d6/d5e/classsema_1_1BoundIndexAccess" ],
       [ "BoundVariableDeclaration", "d2/d5b/classsema_1_1BoundVariableDeclaration.html", "d2/d5b/classsema_1_1BoundVariableDeclaration" ],
       [ "BoundReturnStatement", "d2/d99/classsema_1_1BoundReturnStatement.html", "d2/d99/classsema_1_1BoundReturnStatement" ],
@@ -162,5 +164,7 @@ var annotated_dup =
     [ "VarDecl", "d0/d3d/classVarDecl.html", "d0/d3d/classVarDecl" ],
     [ "Visitor", "dc/d13/structVisitor.html", "dc/d13/structVisitor" ],
     [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ],
+    [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", "d1/de8/structzap__arc__header__t" ],
+    [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", "d4/d2c/structzap__arc__metadata__t" ],
     [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ]
 ];
