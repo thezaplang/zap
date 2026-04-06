@@ -42,32 +42,32 @@
 
 ## Phase 5 — Unsafe Block
 
-- [ ] `unsafe {}` block syntax
-- [ ] Raw pointer type `*T` — only valid inside `unsafe`
-- [ ] Address-of operator `&` — only valid inside `unsafe`
-- [ ] Pointer arithmetic inside `unsafe`
+- [x] `unsafe {}` block syntax
+- [x] Raw pointer type `*T` — only valid inside `unsafe`
+- [x] Address-of operator `&` — only valid inside `unsafe`
+- [x] Pointer arithmetic inside `unsafe`
 
 ---
 
 ## Phase 6 — Classes & ARC
 
-- [ ] `class` declaration — always heap-allocated
-- [ ] Class instances always passed by reference (implicit)
-- [ ] Constructor (`init`) and destructor (`deinit`)
-- [ ] Fields with `pub`/`priv` visibility
-- [ ] Methods
-- [ ] **ARC**
-  - [ ] Retain/release on assignment and scope exit
-  - [ ] Strong references (default)
-  - [ ] Weak references
-  - [ ] Cycle detection
+- [x] `class` declaration — always heap-allocated
+- [x] Class instances always passed by reference (implicit)
+- [x] Constructor (`init`) and destructor (`deinit`)
+- [x] Fields with `pub`/`priv` visibility
+- [x] Methods
+- [x] **ARC**
+  - [x] Retain/release on assignment and scope exit
+  - [x] Strong references (default)
+  - [x] Weak references
+  - [x] Cycle detection
 
 ---
 
 ## Release Criteria
 
-- [ ] Non-trivial program compiles and runs end-to-end
+- [x] Non-trivial program compiles and runs end-to-end
 - [ ] ARC: no leaks or double-frees on a representative test suite
-- [ ] Useful compiler errors for all new features
-- [ ] Documentation updated to reflect current language state
-- [ ] `examples/` covering each phase
+- [x] Useful compiler errors for all new features
+- [x] Documentation updated to reflect current language state
+- [x] `examples/` covering each phase
