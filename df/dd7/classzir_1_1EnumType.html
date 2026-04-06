@@ -88,6 +88,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab156a4fe6e20aaa6499c4ae8906eec69" id="r_ab156a4fe6e20aaa6499c4ae8906eec69"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab156a4fe6e20aaa6499c4ae8906eec69">getVariantIndex</a> (const std::string &amp;variantName) const</td></tr>
 <tr class="inherit_header pub_methods_classzir_1_1Type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classzir_1_1Type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a></td></tr>
 <tr class="memitem:abe32a959bde0e2bc5435294cae74fbfc inherit pub_methods_classzir_1_1Type" id="r_abe32a959bde0e2bc5435294cae74fbfc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#abe32a959bde0e2bc5435294cae74fbfc">~Type</a> ()=default</td></tr>
+<tr class="memitem:a563b64ebd2739f2e60696ce33bf5a826 inherit pub_methods_classzir_1_1Type" id="r_a563b64ebd2739f2e60696ce33bf5a826"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#a563b64ebd2739f2e60696ce33bf5a826">isPointerLike</a> () const</td></tr>
 <tr class="memitem:acc302fa582a1a797c427d35a66193f2f inherit pub_methods_classzir_1_1Type" id="r_acc302fa582a1a797c427d35a66193f2f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#acc302fa582a1a797c427d35a66193f2f">isInteger</a> () const</td></tr>
 <tr class="memitem:a29efaed69a507dde612f0afdeab63776 inherit pub_methods_classzir_1_1Type" id="r_a29efaed69a507dde612f0afdeab63776"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#a29efaed69a507dde612f0afdeab63776">isUnsigned</a> () const</td></tr>
 <tr class="memitem:a71658fa6d44100c27ea6817474c67067 inherit pub_methods_classzir_1_1Type" id="r_a71658fa6d44100c27ea6817474c67067"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#a71658fa6d44100c27ea6817474c67067">isFloatingPoint</a> () const</td></tr>
@@ -100,7 +101,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00141">141</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00148">148</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a77c45a23a86690738bbc68a6cac434a4" name="a77c45a23a86690738bbc68a6cac434a4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a77c45a23a86690738bbc68a6cac434a4">&#9670;&#160;</a></span>EnumType()</h2>
@@ -134,15 +135,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00147">147</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>      : <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>(std::move(n)),</div>
-<div class="line"><span class="lineno">  149</span>        <a class="code hl_variable" href="#ae146978da549c2ec6b6670f761ebff6c">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a> : std::move(codegen)),</div>
-<div class="line"><span class="lineno">  150</span>        <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>(std::move(v)) {}</div>
-<div class="ttc" id="aclasszir_1_1EnumType_html_a75ba9f528ce7272aba9e55efd6a67a37"><div class="ttname"><a href="#a75ba9f528ce7272aba9e55efd6a67a37">zir::EnumType::variants</a></div><div class="ttdeci">std::vector&lt; std::string &gt; variants</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00144">type.hpp:144</a></div></div>
-<div class="ttc" id="aclasszir_1_1EnumType_html_adbcddedf3b5cc4592d70f39229e5505f"><div class="ttname"><a href="#adbcddedf3b5cc4592d70f39229e5505f">zir::EnumType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00142">type.hpp:142</a></div></div>
-<div class="ttc" id="aclasszir_1_1EnumType_html_ae146978da549c2ec6b6670f761ebff6c"><div class="ttname"><a href="#ae146978da549c2ec6b6670f761ebff6c">zir::EnumType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00143">type.hpp:143</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00154">154</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  155</span>      : <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>(std::move(n)),</div>
+<div class="line"><span class="lineno">  156</span>        <a class="code hl_variable" href="#ae146978da549c2ec6b6670f761ebff6c">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a> : std::move(codegen)),</div>
+<div class="line"><span class="lineno">  157</span>        <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>(std::move(v)) {}</div>
+<div class="ttc" id="aclasszir_1_1EnumType_html_a75ba9f528ce7272aba9e55efd6a67a37"><div class="ttname"><a href="#a75ba9f528ce7272aba9e55efd6a67a37">zir::EnumType::variants</a></div><div class="ttdeci">std::vector&lt; std::string &gt; variants</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00151">type.hpp:151</a></div></div>
+<div class="ttc" id="aclasszir_1_1EnumType_html_adbcddedf3b5cc4592d70f39229e5505f"><div class="ttname"><a href="#adbcddedf3b5cc4592d70f39229e5505f">zir::EnumType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00149">type.hpp:149</a></div></div>
+<div class="ttc" id="aclasszir_1_1EnumType_html_ae146978da549c2ec6b6670f761ebff6c"><div class="ttname"><a href="#ae146978da549c2ec6b6670f761ebff6c">zir::EnumType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00150">type.hpp:150</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">codegenName</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">name</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00150">codegenName</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">name</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">variants</a>.</p>
 
 </div>
 </div>
@@ -170,10 +171,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00157">157</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ae146978da549c2ec6b6670f761ebff6c">codegenName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00164">164</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  164</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ae146978da549c2ec6b6670f761ebff6c">codegenName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">codegenName</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00150">codegenName</a>.</p>
 
 </div>
 </div>
@@ -202,11 +203,11 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">151</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>; }</div>
-<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00028">type.hpp:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00158">158</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>; }</div>
+<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00029">type.hpp:29</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Enum</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Enum</a>.</p>
 
 </div>
 </div>
@@ -233,10 +234,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">156</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  156</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00163">163</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">name</a>.</p>
 
 </div>
 </div>
@@ -263,17 +264,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00159">159</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  159</span>                                                          {</div>
-<div class="line"><span class="lineno">  160</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  161</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>[i] == variantName) {</div>
-<div class="line"><span class="lineno">  162</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(i);</div>
-<div class="line"><span class="lineno">  163</span>      }</div>
-<div class="line"><span class="lineno">  164</span>    }</div>
-<div class="line"><span class="lineno">  165</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  166</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00166">166</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>                                                          {</div>
+<div class="line"><span class="lineno">  167</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  168</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>[i] == variantName) {</div>
+<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(i);</div>
+<div class="line"><span class="lineno">  170</span>      }</div>
+<div class="line"><span class="lineno">  171</span>    }</div>
+<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  173</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">variants</a>.</p>
 
 </div>
 </div>
@@ -300,10 +301,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00155">155</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00162">162</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  162</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a75ba9f528ce7272aba9e55efd6a67a37">variants</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">variants</a>.</p>
 
 </div>
 </div>
@@ -332,8 +333,8 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a0df5d6f9acac147ffcb2906eab0918b0">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00153">153</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  153</span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00160">160</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -362,10 +363,10 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a1551f8a18c1f267c3f77b0f151645a14">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00152">152</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  152</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;enum &quot;</span> + <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00159">159</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  159</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;enum &quot;</span> + <a class="code hl_variable" href="#adbcddedf3b5cc4592d70f39229e5505f">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">name</a>.</p>
 
 </div>
 </div>
@@ -390,9 +391,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">143</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00150">150</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00147">EnumType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00157">getCodegenName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00154">EnumType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00164">getCodegenName()</a>.</p>
 
 </div>
 </div>
@@ -416,9 +417,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">142</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">149</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00147">EnumType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">getName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00152">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00154">EnumType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00163">getName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00159">toString()</a>.</p>
 
 </div>
 </div>
@@ -442,9 +443,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">144</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">151</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00147">EnumType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00159">getVariantIndex()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00155">getVariants()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00154">EnumType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00166">getVariantIndex()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00162">getVariants()</a>.</p>
 
 </div>
 </div>

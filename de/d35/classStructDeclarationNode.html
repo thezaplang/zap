@@ -80,7 +80,7 @@ $(function(){initNavTree('de/d35/classStructDeclarationNode.html','../../','d3/d
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aad13fbc394d0485859b8b0d0d7a661ad" id="r_aad13fbc394d0485859b8b0d0d7a661ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad13fbc394d0485859b8b0d0d7a661ad">StructDeclarationNode</a> ()=default</td></tr>
-<tr class="memitem:a921573b0a0199e38b521a480008b24bd" id="r_a921573b0a0199e38b521a480008b24bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a921573b0a0199e38b521a480008b24bd">StructDeclarationNode</a> (std::string name, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt; fields)</td></tr>
+<tr class="memitem:a7d5f0d8a4ad94694a3ab0349244adb75" id="r_a7d5f0d8a4ad94694a3ab0349244adb75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d5f0d8a4ad94694a3ab0349244adb75">StructDeclarationNode</a> (std::string name, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt; fields, bool isUnsafe=false)</td></tr>
 <tr class="memitem:a5519f61a187dacaa475648150965f6ee" id="r_a5519f61a187dacaa475648150965f6ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5519f61a187dacaa475648150965f6ee">accept</a> (<a class="el" href="../../dc/d13/structVisitor.html">Visitor</a> &amp;v) override</td></tr>
 <tr class="inherit_header pub_methods_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
 <tr class="memitem:adf106d20d9345c146a4a0cd9590f5fef inherit pub_methods_classTopLevel" id="r_adf106d20d9345c146a4a0cd9590f5fef"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/classTopLevel.html#adf106d20d9345c146a4a0cd9590f5fef">~TopLevel</a> () noexcept=default</td></tr>
@@ -92,6 +92,7 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1d010f0c5074255c0463be6508985e85" id="r_a1d010f0c5074255c0463be6508985e85"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d010f0c5074255c0463be6508985e85">name_</a></td></tr>
 <tr class="memitem:afb3ed65aab801a29339072786d1e0088" id="r_afb3ed65aab801a29339072786d1e0088"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb3ed65aab801a29339072786d1e0088">fields_</a></td></tr>
+<tr class="memitem:a7939cb16a0d5e5691bc25509bc4a5702" id="r_a7939cb16a0d5e5691bc25509bc4a5702"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7939cb16a0d5e5691bc25509bc4a5702">isUnsafe_</a> = false</td></tr>
 <tr class="inherit_header pub_attribs_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
 <tr class="memitem:aa6ff8b85c21ab2c17c18348011c6cae8 inherit pub_attribs_classTopLevel" id="r_aa6ff8b85c21ab2c17c18348011c6cae8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/classTopLevel.html#aa6ff8b85c21ab2c17c18348011c6cae8">visibility_</a> = <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></td></tr>
 <tr class="inherit_header pub_attribs_classNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../df/dd0/classNode.html">Node</a></td></tr>
@@ -126,8 +127,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a921573b0a0199e38b521a480008b24bd" name="a921573b0a0199e38b521a480008b24bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a921573b0a0199e38b521a480008b24bd">&#9670;&#160;</a></span>StructDeclarationNode() <span class="overload">[2/2]</span></h2>
+<a id="a7d5f0d8a4ad94694a3ab0349244adb75" name="a7d5f0d8a4ad94694a3ab0349244adb75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d5f0d8a4ad94694a3ab0349244adb75">&#9670;&#160;</a></span>StructDeclarationNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -143,7 +144,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>fields</em></span>&#160;)</td>
+          <td class="paramtype">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>fields</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isUnsafe</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -153,12 +159,13 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>      : <a class="code hl_variable" href="#a1d010f0c5074255c0463be6508985e85">name_</a>(std::move(name)), <a class="code hl_variable" href="#afb3ed65aab801a29339072786d1e0088">fields_</a>(std::move(fields)) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   17</span>      : <a class="code hl_variable" href="#a1d010f0c5074255c0463be6508985e85">name_</a>(std::move(name)), <a class="code hl_variable" href="#afb3ed65aab801a29339072786d1e0088">fields_</a>(std::move(fields)), <a class="code hl_variable" href="#a7939cb16a0d5e5691bc25509bc4a5702">isUnsafe_</a>(isUnsafe) {}</div>
 <div class="ttc" id="aclassStructDeclarationNode_html_a1d010f0c5074255c0463be6508985e85"><div class="ttname"><a href="#a1d010f0c5074255c0463be6508985e85">StructDeclarationNode::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d0b/struct__decl_8hpp_source.html#l00010">struct_decl.hpp:10</a></div></div>
+<div class="ttc" id="aclassStructDeclarationNode_html_a7939cb16a0d5e5691bc25509bc4a5702"><div class="ttname"><a href="#a7939cb16a0d5e5691bc25509bc4a5702">StructDeclarationNode::isUnsafe_</a></div><div class="ttdeci">bool isUnsafe_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d0b/struct__decl_8hpp_source.html#l00012">struct_decl.hpp:12</a></div></div>
 <div class="ttc" id="aclassStructDeclarationNode_html_afb3ed65aab801a29339072786d1e0088"><div class="ttname"><a href="#afb3ed65aab801a29339072786d1e0088">StructDeclarationNode::fields_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; ParameterNode &gt; &gt; fields_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d0b/struct__decl_8hpp_source.html#l00011">struct_decl.hpp:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00011">fields_</a>, and <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00010">name_</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00011">fields_</a>, <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00012">isUnsafe_</a>, and <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00010">name_</a>.</p>
 
 </div>
 </div>
@@ -188,11 +195,11 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
-<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00049">visitor.hpp:49</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00052">visitor.hpp:52</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00049">Visitor::visit()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00052">Visitor::visit()</a>.</p>
 
 </div>
 </div>
@@ -211,7 +218,25 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00014">StructDeclarationNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01809">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00015">StructDeclarationNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02012">sema::Binder::visit()</a>.</p>
+
+</div>
+</div>
+<a id="a7939cb16a0d5e5691bc25509bc4a5702" name="a7939cb16a0d5e5691bc25509bc4a5702"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7939cb16a0d5e5691bc25509bc4a5702">&#9670;&#160;</a></span>isUnsafe_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool StructDeclarationNode::isUnsafe_ = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00015">StructDeclarationNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02012">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -229,7 +254,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html">struct_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00014">StructDeclarationNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01809">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00015">StructDeclarationNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02012">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>

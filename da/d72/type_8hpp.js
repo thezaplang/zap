@@ -25,6 +25,7 @@ var type_8hpp =
       [ "zir::TypeKind::Bool", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034", null ],
       [ "zir::TypeKind::Char", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9", null ],
       [ "zir::TypeKind::Pointer", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7", null ],
+      [ "zir::TypeKind::NullPtr", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38", null ],
       [ "zir::TypeKind::Record", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36", null ],
       [ "zir::TypeKind::Array", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a4410ec34d9e6c1a68100ca0ce033fb17", null ],
       [ "zir::TypeKind::Enum", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c", null ]

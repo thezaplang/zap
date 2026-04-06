@@ -85,12 +85,16 @@ var hierarchy =
       [ "ExpressionNode", "dd/d06/classExpressionNode.html", [
         [ "ArrayLiteralNode", "d0/d85/classArrayLiteralNode.html", null ],
         [ "BinExpr", "da/d53/classBinExpr.html", null ],
-        [ "BodyNode", "de/df0/classBodyNode.html", null ],
+        [ "BodyNode", "de/df0/classBodyNode.html", [
+          [ "UnsafeBlockNode", "d5/dff/classUnsafeBlockNode.html", null ]
+        ] ],
+        [ "CastExpr", "d1/d4d/classCastExpr.html", null ],
         [ "ConstBool", "d4/d03/classConstBool.html", null ],
         [ "ConstChar", "db/d12/classConstChar.html", null ],
         [ "ConstFloat", "dd/db3/classConstFloat.html", null ],
         [ "ConstId", "d3/d4c/classConstId.html", null ],
         [ "ConstInt", "d5/de1/classConstInt.html", null ],
+        [ "ConstNull", "d5/ddf/classConstNull.html", null ],
         [ "ConstString", "dd/d93/classConstString.html", null ],
         [ "FunCall", "dd/d86/classFunCall.html", null ],
         [ "IndexAccessNode", "d9/ddc/classIndexAccessNode.html", null ],

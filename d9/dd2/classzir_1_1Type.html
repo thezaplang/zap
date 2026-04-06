@@ -86,13 +86,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f9d7e4e67cf2a4f3fdd98d21a9b22d9" id="r_a2f9d7e4e67cf2a4f3fdd98d21a9b22d9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959">TypeKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a> () const =0</td></tr>
 <tr class="memitem:a1551f8a18c1f267c3f77b0f151645a14" id="r_a1551f8a18c1f267c3f77b0f151645a14"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1551f8a18c1f267c3f77b0f151645a14">toString</a> () const =0</td></tr>
 <tr class="memitem:a0df5d6f9acac147ffcb2906eab0918b0" id="r_a0df5d6f9acac147ffcb2906eab0918b0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0df5d6f9acac147ffcb2906eab0918b0">isReferenceType</a> () const</td></tr>
+<tr class="memitem:a563b64ebd2739f2e60696ce33bf5a826" id="r_a563b64ebd2739f2e60696ce33bf5a826"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a563b64ebd2739f2e60696ce33bf5a826">isPointerLike</a> () const</td></tr>
 <tr class="memitem:acc302fa582a1a797c427d35a66193f2f" id="r_acc302fa582a1a797c427d35a66193f2f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc302fa582a1a797c427d35a66193f2f">isInteger</a> () const</td></tr>
 <tr class="memitem:a29efaed69a507dde612f0afdeab63776" id="r_a29efaed69a507dde612f0afdeab63776"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29efaed69a507dde612f0afdeab63776">isUnsigned</a> () const</td></tr>
 <tr class="memitem:a71658fa6d44100c27ea6817474c67067" id="r_a71658fa6d44100c27ea6817474c67067"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71658fa6d44100c27ea6817474c67067">isFloatingPoint</a> () const</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">31</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00032">32</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abe32a959bde0e2bc5435294cae74fbfc" name="abe32a959bde0e2bc5435294cae74fbfc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe32a959bde0e2bc5435294cae74fbfc">&#9670;&#160;</a></span>~Type()</h2>
@@ -145,7 +146,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="../../d8/d68/classzir_1_1ArrayType.html#a0351644427b0d3ea571345257ad9cba4">zir::ArrayType</a>, <a class="el" href="../../df/dd7/classzir_1_1EnumType.html#a59e1feb89a5be952893ff7215160bcb6">zir::EnumType</a>, <a class="el" href="../../d4/d67/classzir_1_1PointerType.html#a25218caf75574c20758f2236d7c9cad1">zir::PointerType</a>, <a class="el" href="../../d0/d21/classzir_1_1PrimitiveType.html#a85cb3746e08296f672c0d0c85a6b25c6">zir::PrimitiveType</a>, and <a class="el" href="../../da/de1/classzir_1_1RecordType.html#a4477e37f3bcd8a83efe5053d17c2e58f">zir::RecordType</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00050">isFloatingPoint()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00037">isInteger()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00044">isUnsigned()</a>, and <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00111">codegen::LLVMCodeGen::toLLVMType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00055">isFloatingPoint()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00042">isInteger()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00038">isPointerLike()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00049">isUnsigned()</a>, and <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00111">codegen::LLVMCodeGen::toLLVMType()</a>.</p>
 
 </div>
 </div>
@@ -172,12 +173,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>                                       {</div>
-<div class="line"><span class="lineno">   51</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">TypeKind::Float</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">TypeKind::Float32</a> ||</div>
-<div class="line"><span class="lineno">   53</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">TypeKind::Float64</a>;</div>
-<div class="line"><span class="lineno">   54</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>                                       {</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">TypeKind::Float</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">TypeKind::Float32</a> ||</div>
+<div class="line"><span class="lineno">   58</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">TypeKind::Float64</a>;</div>
+<div class="line"><span class="lineno">   59</span>  }</div>
 <div class="ttc" id="aclasszir_1_1Type_html_a2f9d7e4e67cf2a4f3fdd98d21a9b22d9"><div class="ttname"><a href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">zir::Type::getKind</a></div><div class="ttdeci">virtual TypeKind getKind() const =0</div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a></div><div class="ttdeci">@ Float32</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00021">type.hpp:21</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">zir::TypeKind::Float</a></div><div class="ttdeci">@ Float</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00020">type.hpp:20</a></div></div>
@@ -210,14 +211,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   37</span>                                 {</div>
-<div class="line"><span class="lineno">   38</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a7d839b2c12bfd40ac121b4cc9e81c539">TypeKind::Int8</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208">TypeKind::Int16</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac06129f6e6e15c09328365e553f1dc31">TypeKind::Int32</a> ||</div>
-<div class="line"><span class="lineno">   40</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">TypeKind::Int64</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">TypeKind::UInt8</a> ||</div>
-<div class="line"><span class="lineno">   41</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">TypeKind::UInt16</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">TypeKind::UInt32</a> ||</div>
-<div class="line"><span class="lineno">   42</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">TypeKind::UInt64</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">TypeKind::Int</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">TypeKind::UInt</a>;</div>
-<div class="line"><span class="lineno">   43</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                                 {</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a7d839b2c12bfd40ac121b4cc9e81c539">TypeKind::Int8</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208">TypeKind::Int16</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac06129f6e6e15c09328365e553f1dc31">TypeKind::Int32</a> ||</div>
+<div class="line"><span class="lineno">   45</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">TypeKind::Int64</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">TypeKind::UInt8</a> ||</div>
+<div class="line"><span class="lineno">   46</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">TypeKind::UInt16</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">TypeKind::UInt32</a> ||</div>
+<div class="line"><span class="lineno">   47</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">TypeKind::UInt64</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">TypeKind::Int</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">TypeKind::UInt</a>;</div>
+<div class="line"><span class="lineno">   48</span>  }</div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">zir::TypeKind::UInt</a></div><div class="ttdeci">@ UInt</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00019">type.hpp:19</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a></div><div class="ttdeci">@ Int</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00018">type.hpp:18</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208">zir::TypeKind::Int16</a></div><div class="ttdeci">@ Int16</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00011">type.hpp:11</a></div></div>
@@ -230,6 +231,41 @@ Public Member Functions</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">zir::TypeKind::Int64</a></div><div class="ttdeci">@ Int64</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00013">type.hpp:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::Int</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00011">zir::Int16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00012">zir::Int32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00013">zir::Int64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Int8</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::UInt</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00015">zir::UInt16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00016">zir::UInt32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00017">zir::UInt64</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00014">zir::UInt8</a>.</p>
+
+</div>
+</div>
+<a id="a563b64ebd2739f2e60696ce33bf5a826" name="a563b64ebd2739f2e60696ce33bf5a826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a563b64ebd2739f2e60696ce33bf5a826">&#9670;&#160;</a></span>isPointerLike()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool zir::Type::isPointerLike </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00038">38</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>                                     {</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
+<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">TypeKind::Pointer</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">TypeKind::NullPtr</a>;</div>
+<div class="line"><span class="lineno">   41</span>  }</div>
+<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a></div><div class="ttdeci">@ Pointer</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00025">type.hpp:25</a></div></div>
+<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a></div><div class="ttdeci">@ NullPtr</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00026">type.hpp:26</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::NullPtr</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00025">zir::Pointer</a>.</p>
 
 </div>
 </div>
@@ -258,8 +294,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../df/dd7/classzir_1_1EnumType.html#aea6d8c9ebc167de29af145bb67b18023">zir::EnumType</a>, <a class="el" href="../../d4/d67/classzir_1_1PointerType.html#a45416bbb9fd32e3e889c2d04ed48b3fc">zir::PointerType</a>, and <a class="el" href="../../da/de1/classzir_1_1RecordType.html#a6007ff97516fc2b6d85ecfab290dea4b">zir::RecordType</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00036">36</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -286,13 +322,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>                                  {</div>
-<div class="line"><span class="lineno">   45</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">TypeKind::UInt8</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">TypeKind::UInt16</a> ||</div>
-<div class="line"><span class="lineno">   47</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">TypeKind::UInt32</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">TypeKind::UInt64</a> ||</div>
-<div class="line"><span class="lineno">   48</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">TypeKind::UInt</a>;</div>
-<div class="line"><span class="lineno">   49</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00049">49</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>                                  {</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keyword">auto</span> k = <a class="code hl_function" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind</a>();</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">return</span> k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">TypeKind::UInt8</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">TypeKind::UInt16</a> ||</div>
+<div class="line"><span class="lineno">   52</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">TypeKind::UInt32</a> || k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">TypeKind::UInt64</a> ||</div>
+<div class="line"><span class="lineno">   53</span>           k == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">TypeKind::UInt</a>;</div>
+<div class="line"><span class="lineno">   54</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">getKind()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::UInt</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00015">zir::UInt16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00016">zir::UInt32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00017">zir::UInt64</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00014">zir::UInt8</a>.</p>
 

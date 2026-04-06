@@ -29,6 +29,7 @@ var classzap_1_1driver =
     [ "verifyOutput", "d9/d00/classzap_1_1driver.html#a6cbbb308dba62d35d49909a4abdee7f3", null ],
     [ "verifySources", "d9/d00/classzap_1_1driver.html#a2e6f807c443f88930e4eed3dad96a2ca", null ],
     [ "compileLoadedModules", "d9/d00/classzap_1_1driver.html#a65f5fa44cacde36b1e45f62f37f8af61", null ],
+    [ "allow_unsafe", "d9/d00/classzap_1_1driver.html#a9c2f7273c97891bee4791cafaa5e806a", null ],
     [ "cleanups", "d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1", null ],
     [ "implicit_output", "d9/d00/classzap_1_1driver.html#a1d9fef1c35250a41bf4b7c3fe3d0ad52", null ],
     [ "inc_stdlib", "d9/d00/classzap_1_1driver.html#a21d41cfb87773126f37c71bffa87bd84", null ],

@@ -72,288 +72,316 @@ $(function(){initNavTree('d4/d78/ast__builder_8hpp_source.html','../../',''); })
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="../../dd/d97/assign__node_8hpp.html">../ast/assign_node.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/d7f/bin__expr_8hpp.html">../ast/bin_expr.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="../../d8/d9e/body__node_8hpp.html">../ast/body_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/dac/const__bool_8hpp.html">../ast/const/const_bool.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="../../d7/dcf/const__float_8hpp.html">../ast/const/const_float.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/df9/const__id_8hpp.html">../ast/const/const_id.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/d70/const__int_8hpp.html">../ast/const/const_int.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/dc5/const__string_8hpp.html">../ast/const/const_string.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d61/const__char_8hpp.html">../ast/const/const_char.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="../../df/d1c/enum__decl_8hpp.html">../ast/enum_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/d32/fun__call_8hpp.html">../ast/fun_call.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d84/fun__decl_8hpp.html">../ast/fun_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6c/if__node_8hpp.html">../ast/if_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="../../de/de6/import__node_8hpp.html">../ast/import_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;<a class="code" href="../../da/d49/index__access_8hpp.html">../ast/index_access.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d0b/parameter__node_8hpp.html">../ast/parameter_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/da6/record__decl_8hpp.html">../ast/record_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="../../d8/da4/return__node_8hpp.html">../ast/return_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;<a class="code" href="../../da/d4e/type__alias__decl_8hpp.html">../ast/type_alias_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &quot;<a class="code" href="../../d3/d3c/root__node_8hpp.html">../ast/root_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/d2b/ternary__expr_8hpp.html">../ast/ternary_expr.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &quot;<a class="code" href="../../d3/ddb/type__node_8hpp.html">../ast/type_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d2e/unary__expr_8hpp.html">../ast/unary_expr.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/df1/var__decl_8hpp.html">../ast/var_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/dea/const__decl_8hpp.html">../ast/const_decl.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;<a class="code" href="../../db/db2/while__node_8hpp.html">../ast/while_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d9d/break__node_8hpp.html">../ast/break_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &quot;<a class="code" href="../../d8/de7/continue__node_8hpp.html">../ast/continue_node.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html">   36</a></span><span class="keyword">class </span><a class="code hl_class" href="../../de/d56/classAstBuilder.html">AstBuilder</a> {</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">   38</a></span>  std::unique_ptr&lt;RootNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">makeRoot</a>() { <span class="keywordflow">return</span> std::make_unique&lt;RootNode&gt;(); }</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">   40</a></span>  std::unique_ptr&lt;AssignNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">makeAssign</a>(std::unique_ptr&lt;ExpressionNode&gt; target,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                                         std::unique_ptr&lt;ExpressionNode&gt; expr) {</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">return</span> std::make_unique&lt;AssignNode&gt;(std::move(target), std::move(expr));</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  }</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/d10/cast__expr_8hpp.html">../ast/cast_expr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/dac/const__bool_8hpp.html">../ast/const/const_bool.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d61/const__char_8hpp.html">../ast/const/const_char.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="../../d7/dcf/const__float_8hpp.html">../ast/const/const_float.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/df9/const__id_8hpp.html">../ast/const/const_id.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/d70/const__int_8hpp.html">../ast/const/const_int.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/d41/const__null_8hpp.html">../ast/const/const_null.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/dc5/const__string_8hpp.html">../ast/const/const_string.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="../../df/d1c/enum__decl_8hpp.html">../ast/enum_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/d32/fun__call_8hpp.html">../ast/fun_call.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d84/fun__decl_8hpp.html">../ast/fun_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6c/if__node_8hpp.html">../ast/if_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="../../de/de6/import__node_8hpp.html">../ast/import_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;<a class="code" href="../../da/d49/index__access_8hpp.html">../ast/index_access.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d0b/parameter__node_8hpp.html">../ast/parameter_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/da6/record__decl_8hpp.html">../ast/record_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &quot;<a class="code" href="../../d8/da4/return__node_8hpp.html">../ast/return_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &quot;<a class="code" href="../../da/d4e/type__alias__decl_8hpp.html">../ast/type_alias_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &quot;<a class="code" href="../../d3/d3c/root__node_8hpp.html">../ast/root_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/d2b/ternary__expr_8hpp.html">../ast/ternary_expr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;<a class="code" href="../../d3/ddb/type__node_8hpp.html">../ast/type_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d2e/unary__expr_8hpp.html">../ast/unary_expr.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;<a class="code" href="../../d2/d40/unsafe__block__node_8hpp.html">../ast/unsafe_block_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/df1/var__decl_8hpp.html">../ast/var_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/dea/const__decl_8hpp.html">../ast/const_decl.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &quot;<a class="code" href="../../db/db2/while__node_8hpp.html">../ast/while_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d9d/break__node_8hpp.html">../ast/break_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &quot;<a class="code" href="../../d8/de7/continue__node_8hpp.html">../ast/continue_node.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html">   39</a></span><span class="keyword">class </span><a class="code hl_class" href="../../de/d56/classAstBuilder.html">AstBuilder</a> {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">   41</a></span>  std::unique_ptr&lt;RootNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">makeRoot</a>() { <span class="keywordflow">return</span> std::make_unique&lt;RootNode&gt;(); }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">   43</a></span>  std::unique_ptr&lt;AssignNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">makeAssign</a>(std::unique_ptr&lt;ExpressionNode&gt; target,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                                         std::unique_ptr&lt;ExpressionNode&gt; expr) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> std::make_unique&lt;AssignNode&gt;(std::move(target), std::move(expr));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  }</div>
 </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  std::unique_ptr&lt;IndexAccessNode&gt;</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">   46</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">makeIndexAccess</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                  std::unique_ptr&lt;ExpressionNode&gt; index) {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">return</span> std::make_unique&lt;IndexAccessNode&gt;(std::move(left), std::move(index));</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  std::unique_ptr&lt;IndexAccessNode&gt;</div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">   49</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">makeIndexAccess</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                  std::unique_ptr&lt;ExpressionNode&gt; index) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">return</span> std::make_unique&lt;IndexAccessNode&gt;(std::move(left), std::move(index));</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  }</div>
 </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  std::unique_ptr&lt;ArrayLiteralNode&gt;</div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">   52</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">makeArrayLiteral</a>(std::vector&lt;std::unique_ptr&lt;ExpressionNode&gt;&gt; elements) {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> std::make_unique&lt;ArrayLiteralNode&gt;(std::move(elements));</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  std::unique_ptr&lt;ArrayLiteralNode&gt;</div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">   55</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">makeArrayLiteral</a>(std::vector&lt;std::unique_ptr&lt;ExpressionNode&gt;&gt; elements) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> std::make_unique&lt;ArrayLiteralNode&gt;(std::move(elements));</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  }</div>
 </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">   56</a></span>  std::unique_ptr&lt;FunDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">makeFunDecl</a>(<span class="keyword">const</span> std::string &amp;name) {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunDecl&gt;();</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    f-&gt;name_ = name;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">return</span> f;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">   59</a></span>  std::unique_ptr&lt;FunDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">makeFunDecl</a>(<span class="keyword">const</span> std::string &amp;name) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunDecl&gt;();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    f-&gt;name_ = name;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> f;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  }</div>
 </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">   62</a></span>  std::unique_ptr&lt;MemberAccessNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">makeMemberAccess</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                                    <span class="keyword">const</span> std::string &amp;member) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> std::make_unique&lt;MemberAccessNode&gt;(std::move(left), member);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">   65</a></span>  std::unique_ptr&lt;MemberAccessNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">makeMemberAccess</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                                    <span class="keyword">const</span> std::string &amp;member) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">return</span> std::make_unique&lt;MemberAccessNode&gt;(std::move(left), member);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  }</div>
 </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">   67</a></span>  std::unique_ptr&lt;FunCall&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">makeFunCall</a>(std::unique_ptr&lt;ExpressionNode&gt; callee) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunCall&gt;();</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    f-&gt;callee_ = std::move(callee);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">return</span> f;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">   70</a></span>  std::unique_ptr&lt;FunCall&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">makeFunCall</a>(std::unique_ptr&lt;ExpressionNode&gt; callee) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunCall&gt;();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    f-&gt;callee_ = std::move(callee);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">return</span> f;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  }</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">   73</a></span>  std::unique_ptr&lt;BodyNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">makeBody</a>() { <span class="keywordflow">return</span> std::make_unique&lt;BodyNode&gt;(); }</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">   75</a></span>  std::unique_ptr&lt;IfNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">makeIf</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                                 std::unique_ptr&lt;BodyNode&gt; thenBody,</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                                 std::unique_ptr&lt;BodyNode&gt; elseBody) {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfNode&gt;(std::move(condition), std::move(thenBody),</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                                    std::move(elseBody));</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">   76</a></span>  std::unique_ptr&lt;BodyNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">makeBody</a>() { <span class="keywordflow">return</span> std::make_unique&lt;BodyNode&gt;(); }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a9faa921e18701dd8ca80c1b647ae8981">   78</a></span>  std::unique_ptr&lt;UnsafeBlockNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a9faa921e18701dd8ca80c1b647ae8981">makeUnsafeBlock</a>() {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnsafeBlockNode&gt;();</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  }</div>
 </div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  std::unique_ptr&lt;WhileNode&gt;</div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">   83</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">makeWhile</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            std::unique_ptr&lt;BodyNode&gt; body) {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> std::make_unique&lt;WhileNode&gt;(std::move(condition), std::move(body));</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  }</div>
+<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">   82</a></span>  std::unique_ptr&lt;IfNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">makeIf</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                                 std::unique_ptr&lt;BodyNode&gt; thenBody,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                                 std::unique_ptr&lt;BodyNode&gt; elseBody) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfNode&gt;(std::move(condition), std::move(thenBody),</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                                    std::move(elseBody));</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  }</div>
 </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">   88</a></span>  std::unique_ptr&lt;VarDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">makeVarDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                       std::unique_ptr&lt;TypeNode&gt; type,</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                       std::unique_ptr&lt;ExpressionNode&gt; init) {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">return</span> std::make_unique&lt;VarDecl&gt;(name, std::move(type), std::move(init));</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  std::unique_ptr&lt;WhileNode&gt;</div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">   90</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">makeWhile</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            std::unique_ptr&lt;BodyNode&gt; body) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">return</span> std::make_unique&lt;WhileNode&gt;(std::move(condition), std::move(body));</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  }</div>
 </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">   94</a></span>  std::unique_ptr&lt;ConstDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">makeConstDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                                         std::unique_ptr&lt;TypeNode&gt; type,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                                         std::unique_ptr&lt;ExpressionNode&gt; init) {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstDecl&gt;(name, std::move(type), std::move(init));</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">   95</a></span>  std::unique_ptr&lt;VarDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">makeVarDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                                       std::unique_ptr&lt;TypeNode&gt; type,</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                                       std::unique_ptr&lt;ExpressionNode&gt; init) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">return</span> std::make_unique&lt;VarDecl&gt;(name, std::move(type), std::move(init));</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  }</div>
 </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  std::unique_ptr&lt;ReturnNode&gt;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
 <div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">  101</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">makeReturn</a>(std::unique_ptr&lt;ExpressionNode&gt; value) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> std::make_unique&lt;ReturnNode&gt;(std::move(value));</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  }</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">  101</a></span>  std::unique_ptr&lt;ConstDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">makeConstDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                                         std::unique_ptr&lt;TypeNode&gt; type,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                                         std::unique_ptr&lt;ExpressionNode&gt; init) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstDecl&gt;(name, std::move(type), std::move(init));</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  }</div>
 </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">  105</a></span>  std::unique_ptr&lt;BreakNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">makeBreak</a>() { <span class="keywordflow">return</span> std::make_unique&lt;BreakNode&gt;(); }</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">  107</a></span>  std::unique_ptr&lt;ContinueNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">makeContinue</a>() { <span class="keywordflow">return</span> std::make_unique&lt;ContinueNode&gt;(); }</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  std::unique_ptr&lt;UnaryExpr&gt;</div>
-<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">  110</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">makeUnaryExpr</a>(<span class="keyword">const</span> std::string &amp;op, std::unique_ptr&lt;ExpressionNode&gt; expr) {</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnaryExpr&gt;(op, std::move(expr));</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  std::unique_ptr&lt;ReturnNode&gt;</div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">  108</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">makeReturn</a>(std::unique_ptr&lt;ExpressionNode&gt; value) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> std::make_unique&lt;ReturnNode&gt;(std::move(value));</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  }</div>
 </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">  112</a></span>  std::unique_ptr&lt;BreakNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">makeBreak</a>() { <span class="keywordflow">return</span> std::make_unique&lt;BreakNode&gt;(); }</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="foldopen" id="foldopen00114" data-start="{" data-end="}">
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">  114</a></span>  std::unique_ptr&lt;BinExpr&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">makeBinExpr</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                                       <span class="keyword">const</span> std::string &amp;op,</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                       std::unique_ptr&lt;ExpressionNode&gt; right) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> std::make_unique&lt;BinExpr&gt;(std::move(left), op, std::move(right));</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">  114</a></span>  std::unique_ptr&lt;ContinueNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">makeContinue</a>() { <span class="keywordflow">return</span> std::make_unique&lt;ContinueNode&gt;(); }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  std::unique_ptr&lt;UnaryExpr&gt;</div>
+<div class="foldopen" id="foldopen00117" data-start="{" data-end="}">
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">  117</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">makeUnaryExpr</a>(<span class="keyword">const</span> std::string &amp;op, std::unique_ptr&lt;ExpressionNode&gt; expr) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnaryExpr&gt;(op, std::move(expr));</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  }</div>
 </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  std::unique_ptr&lt;TernaryExpr&gt;</div>
-<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">  121</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">makeTernaryExpr</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                  std::unique_ptr&lt;ExpressionNode&gt; thenExpr,</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                  std::unique_ptr&lt;ExpressionNode&gt; elseExpr) {</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> std::make_unique&lt;TernaryExpr&gt;(std::move(condition),</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                                         std::move(thenExpr),</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                                         std::move(elseExpr));</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  std::unique_ptr&lt;CastExpr&gt;</div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a9bb10432f67f62f914f3c1016fa39924">  122</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a9bb10432f67f62f914f3c1016fa39924">makeCastExpr</a>(std::unique_ptr&lt;ExpressionNode&gt; expr,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>               std::unique_ptr&lt;TypeNode&gt; type) {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> std::make_unique&lt;CastExpr&gt;(std::move(expr), std::move(type));</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  }</div>
 </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="foldopen" id="foldopen00129" data-start="{" data-end="}">
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">  129</a></span>  std::unique_ptr&lt;ConstInt&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">makeConstInt</a>(int64_t value) {</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(value);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">  127</a></span>  std::unique_ptr&lt;BinExpr&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">makeBinExpr</a>(std::unique_ptr&lt;ExpressionNode&gt; left,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                                       <span class="keyword">const</span> std::string &amp;op,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                                       std::unique_ptr&lt;ExpressionNode&gt; right) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> std::make_unique&lt;BinExpr&gt;(std::move(left), op, std::move(right));</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  }</div>
 </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">  133</a></span>  std::unique_ptr&lt;ConstFloat&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">makeConstFloat</a>(<span class="keywordtype">double</span> value) {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstFloat&gt;(value);</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  std::unique_ptr&lt;TernaryExpr&gt;</div>
+<div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">  134</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">makeTernaryExpr</a>(std::unique_ptr&lt;ExpressionNode&gt; condition,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                  std::unique_ptr&lt;ExpressionNode&gt; thenExpr,</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                  std::unique_ptr&lt;ExpressionNode&gt; elseExpr) {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordflow">return</span> std::make_unique&lt;TernaryExpr&gt;(std::move(condition),</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                                         std::move(thenExpr),</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                                         std::move(elseExpr));</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  }</div>
 </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">  137</a></span>  std::unique_ptr&lt;ConstBool&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">makeConstBool</a>(<span class="keywordtype">bool</span> value) {</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstBool&gt;(value);</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00142" data-start="{" data-end="}">
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">  142</a></span>  std::unique_ptr&lt;ConstInt&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">makeConstInt</a>(int64_t value) {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(value);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  }</div>
 </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="foldopen" id="foldopen00141" data-start="{" data-end="}">
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">  141</a></span>  std::unique_ptr&lt;ConstId&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">makeConstId</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstId&gt;(value);</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  }</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">  146</a></span>  std::unique_ptr&lt;ConstFloat&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">makeConstFloat</a>(<span class="keywordtype">double</span> value) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstFloat&gt;(value);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  }</div>
 </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="foldopen" id="foldopen00145" data-start="{" data-end="}">
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">  145</a></span>  std::unique_ptr&lt;ConstString&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">makeConstString</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstString&gt;(value);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  }</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="foldopen" id="foldopen00150" data-start="{" data-end="}">
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">  150</a></span>  std::unique_ptr&lt;ConstBool&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">makeConstBool</a>(<span class="keywordtype">bool</span> value) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstBool&gt;(value);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  }</div>
 </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
-<div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">  149</a></span>  std::unique_ptr&lt;ConstChar&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">makeConstChar</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstChar&gt;(value);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="foldopen" id="foldopen00154" data-start="{" data-end="}">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">  154</a></span>  std::unique_ptr&lt;ConstId&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">makeConstId</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstId&gt;(value);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  }</div>
 </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
-<div class="foldopen" id="foldopen00153" data-start="{" data-end="}">
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">  153</a></span>  std::unique_ptr&lt;ParameterNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">makeParam</a>(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                                           std::unique_ptr&lt;TypeNode&gt; type,</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                                           <span class="keywordtype">bool</span> isRef = <span class="keyword">false</span>) {</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">return</span> std::make_unique&lt;ParameterNode&gt;(name, std::move(type), isRef);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">  158</a></span>  std::unique_ptr&lt;ConstString&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">makeConstString</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstString&gt;(value);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  }</div>
 </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="foldopen" id="foldopen00159" data-start="{" data-end="}">
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">  159</a></span>  std::unique_ptr&lt;TypeNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">makeType</a>(<span class="keyword">const</span> std::string &amp;name) {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeNode&gt;(name);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">  162</a></span>  std::unique_ptr&lt;ConstChar&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">makeConstChar</a>(<span class="keyword">const</span> std::string &amp;value) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstChar&gt;(value);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  }</div>
 </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
-<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">  163</a></span>  std::unique_ptr&lt;ImportNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">makeImport</a>(std::string path,</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                                         std::string moduleAlias = <span class="stringliteral">&quot;&quot;</span>,</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                                         std::vector&lt;ImportBinding&gt; bindings = {}) {</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">return</span> std::make_unique&lt;ImportNode&gt;(std::move(path), std::move(moduleAlias),</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                                        std::move(bindings));</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a97c1e5a8af9ab231edc200cec1978812">  166</a></span>  std::unique_ptr&lt;ConstNull&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a97c1e5a8af9ab231edc200cec1978812">makeConstNull</a>() {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstNull&gt;();</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  }</div>
 </div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
 <div class="foldopen" id="foldopen00170" data-start="{" data-end="}">
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">  170</a></span>  std::unique_ptr&lt;EnumDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">makeEnumDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                                         std::vector&lt;std::string&gt; entries) {</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordflow">return</span> std::make_unique&lt;EnumDecl&gt;(name, std::move(entries));</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  }</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">  170</a></span>  std::unique_ptr&lt;ParameterNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">makeParam</a>(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                                           std::unique_ptr&lt;TypeNode&gt; type,</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                                           <span class="keywordtype">bool</span> isRef = <span class="keyword">false</span>) {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">return</span> std::make_unique&lt;ParameterNode&gt;(name, std::move(type), isRef);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  }</div>
 </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  std::unique_ptr&lt;RecordDecl&gt;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
 <div class="foldopen" id="foldopen00176" data-start="{" data-end="}">
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">  176</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">makeRecordDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                 std::vector&lt;std::unique_ptr&lt;ParameterNode&gt;&gt; fields) {</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordflow">return</span> std::make_unique&lt;RecordDecl&gt;(name, std::move(fields));</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>  }</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">  176</a></span>  std::unique_ptr&lt;TypeNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">makeType</a>(<span class="keyword">const</span> std::string &amp;name) {</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeNode&gt;(name);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  }</div>
 </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>  std::unique_ptr&lt;TypeAliasDecl&gt;</div>
-<div class="foldopen" id="foldopen00182" data-start="{" data-end="}">
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">  182</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">makeTypeAliasDecl</a>(<span class="keyword">const</span> std::string &amp;name, std::unique_ptr&lt;TypeNode&gt; type) {</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeAliasDecl&gt;(name, std::move(type));</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>  }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="foldopen" id="foldopen00180" data-start="{" data-end="}">
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">  180</a></span>  std::unique_ptr&lt;ImportNode&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">makeImport</a>(std::string path,</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                                         std::string moduleAlias = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                                         std::vector&lt;ImportBinding&gt; bindings = {}) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keywordflow">return</span> std::make_unique&lt;ImportNode&gt;(std::move(path), std::move(moduleAlias),</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                                        std::move(bindings));</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>  }</div>
 </div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="foldopen" id="foldopen00186" data-start="{" data-end="}">
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">  186</a></span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T *<a class="code hl_function" href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">setSpan</a>(T *node, <span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;span) {</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">if</span> (node) {</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      node-&gt;span = span;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordflow">return</span> node;</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  }</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="foldopen" id="foldopen00187" data-start="{" data-end="}">
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">  187</a></span>  std::unique_ptr&lt;EnumDecl&gt; <a class="code hl_function" href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">makeEnumDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                                         std::vector&lt;std::string&gt; entries) {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="keywordflow">return</span> std::make_unique&lt;EnumDecl&gt;(name, std::move(entries));</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>  }</div>
 </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>};</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>  std::unique_ptr&lt;RecordDecl&gt;</div>
+<div class="foldopen" id="foldopen00193" data-start="{" data-end="}">
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">  193</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">makeRecordDecl</a>(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                 std::vector&lt;std::unique_ptr&lt;ParameterNode&gt;&gt; fields) {</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keywordflow">return</span> std::make_unique&lt;RecordDecl&gt;(name, std::move(fields));</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>  }</div>
+</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>  std::unique_ptr&lt;TypeAliasDecl&gt;</div>
+<div class="foldopen" id="foldopen00199" data-start="{" data-end="}">
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">  199</a></span>  <a class="code hl_function" href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">makeTypeAliasDecl</a>(<span class="keyword">const</span> std::string &amp;name, std::unique_ptr&lt;TypeNode&gt; type) {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeAliasDecl&gt;(name, std::move(type));</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  }</div>
+</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="foldopen" id="foldopen00203" data-start="{" data-end="}">
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">  203</a></span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T *<a class="code hl_function" href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">setSpan</a>(T *node, <span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;span) {</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">if</span> (node) {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>      node-&gt;span = span;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordflow">return</span> node;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>  }</div>
+</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>};</div>
 </div>
 <div class="ttc" id="aarray__literal_8hpp_html"><div class="ttname"><a href="../../d7/d1f/array__literal_8hpp.html">array_literal.hpp</a></div></div>
 <div class="ttc" id="aassign__node_8hpp_html"><div class="ttname"><a href="../../dd/d97/assign__node_8hpp.html">assign_node.hpp</a></div></div>
 <div class="ttc" id="abin__expr_8hpp_html"><div class="ttname"><a href="../../d5/d7f/bin__expr_8hpp.html">bin_expr.hpp</a></div></div>
 <div class="ttc" id="abody__node_8hpp_html"><div class="ttname"><a href="../../d8/d9e/body__node_8hpp.html">body_node.hpp</a></div></div>
 <div class="ttc" id="abreak__node_8hpp_html"><div class="ttname"><a href="../../d9/d9d/break__node_8hpp.html">break_node.hpp</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html"><div class="ttname"><a href="../../de/d56/classAstBuilder.html">AstBuilder</a></div><div class="ttdef"><b>Definition</b> <a href="#l00036">ast_builder.hpp:36</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a053201373600cfba5ab164a743360138"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">AstBuilder::makeParam</a></div><div class="ttdeci">std::unique_ptr&lt; ParameterNode &gt; makeParam(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, bool isRef=false)</div><div class="ttdef"><b>Definition</b> <a href="#l00153">ast_builder.hpp:153</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a2ace1747b3a98638ac1af9151043f837"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">AstBuilder::makeMemberAccess</a></div><div class="ttdeci">std::unique_ptr&lt; MemberAccessNode &gt; makeMemberAccess(std::unique_ptr&lt; ExpressionNode &gt; left, const std::string &amp;member)</div><div class="ttdef"><b>Definition</b> <a href="#l00062">ast_builder.hpp:62</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a2ec0551bdfa44848335dafa1481e03a7"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">AstBuilder::makeAssign</a></div><div class="ttdeci">std::unique_ptr&lt; AssignNode &gt; makeAssign(std::unique_ptr&lt; ExpressionNode &gt; target, std::unique_ptr&lt; ExpressionNode &gt; expr)</div><div class="ttdef"><b>Definition</b> <a href="#l00040">ast_builder.hpp:40</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a32c304c34179039490ab58a94216113f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">AstBuilder::makeConstString</a></div><div class="ttdeci">std::unique_ptr&lt; ConstString &gt; makeConstString(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00145">ast_builder.hpp:145</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a34ee5c93eb19d1b3cf8568fbadd9a191"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">AstBuilder::makeFunCall</a></div><div class="ttdeci">std::unique_ptr&lt; FunCall &gt; makeFunCall(std::unique_ptr&lt; ExpressionNode &gt; callee)</div><div class="ttdef"><b>Definition</b> <a href="#l00067">ast_builder.hpp:67</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a3c90f430c4f3361e1ac584b171bb251f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">AstBuilder::makeConstDecl</a></div><div class="ttdeci">std::unique_ptr&lt; ConstDecl &gt; makeConstDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, std::unique_ptr&lt; ExpressionNode &gt; init)</div><div class="ttdef"><b>Definition</b> <a href="#l00094">ast_builder.hpp:94</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a42f89f5e37be22ccf9f36ddc2a1bfeff"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">AstBuilder::makeIndexAccess</a></div><div class="ttdeci">std::unique_ptr&lt; IndexAccessNode &gt; makeIndexAccess(std::unique_ptr&lt; ExpressionNode &gt; left, std::unique_ptr&lt; ExpressionNode &gt; index)</div><div class="ttdef"><b>Definition</b> <a href="#l00046">ast_builder.hpp:46</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a44d6fe2b77975539fb422e618d3eee5b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">AstBuilder::makeConstBool</a></div><div class="ttdeci">std::unique_ptr&lt; ConstBool &gt; makeConstBool(bool value)</div><div class="ttdef"><b>Definition</b> <a href="#l00137">ast_builder.hpp:137</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a44d9093a4b7bbd8722645ac31548540e"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">AstBuilder::makeUnaryExpr</a></div><div class="ttdeci">std::unique_ptr&lt; UnaryExpr &gt; makeUnaryExpr(const std::string &amp;op, std::unique_ptr&lt; ExpressionNode &gt; expr)</div><div class="ttdef"><b>Definition</b> <a href="#l00110">ast_builder.hpp:110</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a475df4c7fe3dfa4e13ecf50612ddae1b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">AstBuilder::makeConstChar</a></div><div class="ttdeci">std::unique_ptr&lt; ConstChar &gt; makeConstChar(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00149">ast_builder.hpp:149</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a4f929409e28845d5a57a5b137015d788"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">AstBuilder::makeRoot</a></div><div class="ttdeci">std::unique_ptr&lt; RootNode &gt; makeRoot()</div><div class="ttdef"><b>Definition</b> <a href="#l00038">ast_builder.hpp:38</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a536efab66b2dbb77e05bb8d0050ddba1"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">AstBuilder::makeVarDecl</a></div><div class="ttdeci">std::unique_ptr&lt; VarDecl &gt; makeVarDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, std::unique_ptr&lt; ExpressionNode &gt; init)</div><div class="ttdef"><b>Definition</b> <a href="#l00088">ast_builder.hpp:88</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a5582d45c5eea72bdef7af5ac5e6096f7"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">AstBuilder::makeEnumDecl</a></div><div class="ttdeci">std::unique_ptr&lt; EnumDecl &gt; makeEnumDecl(const std::string &amp;name, std::vector&lt; std::string &gt; entries)</div><div class="ttdef"><b>Definition</b> <a href="#l00170">ast_builder.hpp:170</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a59be3be3368a68dcdbdb215ecd7e6850"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">AstBuilder::makeConstFloat</a></div><div class="ttdeci">std::unique_ptr&lt; ConstFloat &gt; makeConstFloat(double value)</div><div class="ttdef"><b>Definition</b> <a href="#l00133">ast_builder.hpp:133</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a6159f65c76cc2c64b78992aad2ab7acc"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">AstBuilder::makeReturn</a></div><div class="ttdeci">std::unique_ptr&lt; ReturnNode &gt; makeReturn(std::unique_ptr&lt; ExpressionNode &gt; value)</div><div class="ttdef"><b>Definition</b> <a href="#l00101">ast_builder.hpp:101</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a6d3d6fd45f588edd20ac26149d07586e"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">AstBuilder::makeConstId</a></div><div class="ttdeci">std::unique_ptr&lt; ConstId &gt; makeConstId(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00141">ast_builder.hpp:141</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a79a5fad7ecec3cf8622e4e8b87721fae"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">AstBuilder::setSpan</a></div><div class="ttdeci">T * setSpan(T *node, const SourceSpan &amp;span)</div><div class="ttdef"><b>Definition</b> <a href="#l00186">ast_builder.hpp:186</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a845dc5d2ed66465d5e5686919dd9483f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">AstBuilder::makeContinue</a></div><div class="ttdeci">std::unique_ptr&lt; ContinueNode &gt; makeContinue()</div><div class="ttdef"><b>Definition</b> <a href="#l00107">ast_builder.hpp:107</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a94bd12c5569379b9ec5115c7348e09ed"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">AstBuilder::makeBinExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BinExpr &gt; makeBinExpr(std::unique_ptr&lt; ExpressionNode &gt; left, const std::string &amp;op, std::unique_ptr&lt; ExpressionNode &gt; right)</div><div class="ttdef"><b>Definition</b> <a href="#l00114">ast_builder.hpp:114</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_a9f89f87faa5a8a2282053caa42598cd0"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">AstBuilder::makeFunDecl</a></div><div class="ttdeci">std::unique_ptr&lt; FunDecl &gt; makeFunDecl(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="#l00056">ast_builder.hpp:56</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ab0658306e6876ee0de3b69e54debde94"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">AstBuilder::makeWhile</a></div><div class="ttdeci">std::unique_ptr&lt; WhileNode &gt; makeWhile(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; BodyNode &gt; body)</div><div class="ttdef"><b>Definition</b> <a href="#l00083">ast_builder.hpp:83</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ab11f1dc58c8deae55be12b57e11e4a17"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">AstBuilder::makeType</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; makeType(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="#l00159">ast_builder.hpp:159</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ab9eb852498da6f2991e63aaeac1674b0"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">AstBuilder::makeIf</a></div><div class="ttdeci">std::unique_ptr&lt; IfNode &gt; makeIf(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; BodyNode &gt; thenBody, std::unique_ptr&lt; BodyNode &gt; elseBody)</div><div class="ttdef"><b>Definition</b> <a href="#l00075">ast_builder.hpp:75</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_abff2047bcc19919f5ae546ee79246fab"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">AstBuilder::makeConstInt</a></div><div class="ttdeci">std::unique_ptr&lt; ConstInt &gt; makeConstInt(int64_t value)</div><div class="ttdef"><b>Definition</b> <a href="#l00129">ast_builder.hpp:129</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ac775564386a6ab1120f918e8ee7a171b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">AstBuilder::makeTypeAliasDecl</a></div><div class="ttdeci">std::unique_ptr&lt; TypeAliasDecl &gt; makeTypeAliasDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type)</div><div class="ttdef"><b>Definition</b> <a href="#l00182">ast_builder.hpp:182</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ace48a90e8a2d663df73f77cf8a2aa6c6"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">AstBuilder::makeTernaryExpr</a></div><div class="ttdeci">std::unique_ptr&lt; TernaryExpr &gt; makeTernaryExpr(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; ExpressionNode &gt; thenExpr, std::unique_ptr&lt; ExpressionNode &gt; elseExpr)</div><div class="ttdef"><b>Definition</b> <a href="#l00121">ast_builder.hpp:121</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_adc49af93510eb83a2e28e7e145864c97"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">AstBuilder::makeArrayLiteral</a></div><div class="ttdeci">std::unique_ptr&lt; ArrayLiteralNode &gt; makeArrayLiteral(std::vector&lt; std::unique_ptr&lt; ExpressionNode &gt; &gt; elements)</div><div class="ttdef"><b>Definition</b> <a href="#l00052">ast_builder.hpp:52</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_add1f1cc36b637c14dac70d735b5d4218"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">AstBuilder::makeBody</a></div><div class="ttdeci">std::unique_ptr&lt; BodyNode &gt; makeBody()</div><div class="ttdef"><b>Definition</b> <a href="#l00073">ast_builder.hpp:73</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_ae2d2d2f3f301515a8d052cdedf3ed281"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">AstBuilder::makeBreak</a></div><div class="ttdeci">std::unique_ptr&lt; BreakNode &gt; makeBreak()</div><div class="ttdef"><b>Definition</b> <a href="#l00105">ast_builder.hpp:105</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_afc6fd118976087fddc9b314af2344555"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">AstBuilder::makeRecordDecl</a></div><div class="ttdeci">std::unique_ptr&lt; RecordDecl &gt; makeRecordDecl(const std::string &amp;name, std::vector&lt; std::unique_ptr&lt; ParameterNode &gt; &gt; fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00176">ast_builder.hpp:176</a></div></div>
-<div class="ttc" id="aclassAstBuilder_html_afcfb4fe4e1ff5ae0a73020ce10d8d403"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">AstBuilder::makeImport</a></div><div class="ttdeci">std::unique_ptr&lt; ImportNode &gt; makeImport(std::string path, std::string moduleAlias=&quot;&quot;, std::vector&lt; ImportBinding &gt; bindings={})</div><div class="ttdef"><b>Definition</b> <a href="#l00163">ast_builder.hpp:163</a></div></div>
+<div class="ttc" id="acast__expr_8hpp_html"><div class="ttname"><a href="../../d6/d10/cast__expr_8hpp.html">cast_expr.hpp</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html"><div class="ttname"><a href="../../de/d56/classAstBuilder.html">AstBuilder</a></div><div class="ttdef"><b>Definition</b> <a href="#l00039">ast_builder.hpp:39</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a053201373600cfba5ab164a743360138"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a053201373600cfba5ab164a743360138">AstBuilder::makeParam</a></div><div class="ttdeci">std::unique_ptr&lt; ParameterNode &gt; makeParam(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, bool isRef=false)</div><div class="ttdef"><b>Definition</b> <a href="#l00170">ast_builder.hpp:170</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a2ace1747b3a98638ac1af9151043f837"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837">AstBuilder::makeMemberAccess</a></div><div class="ttdeci">std::unique_ptr&lt; MemberAccessNode &gt; makeMemberAccess(std::unique_ptr&lt; ExpressionNode &gt; left, const std::string &amp;member)</div><div class="ttdef"><b>Definition</b> <a href="#l00065">ast_builder.hpp:65</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a2ec0551bdfa44848335dafa1481e03a7"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7">AstBuilder::makeAssign</a></div><div class="ttdeci">std::unique_ptr&lt; AssignNode &gt; makeAssign(std::unique_ptr&lt; ExpressionNode &gt; target, std::unique_ptr&lt; ExpressionNode &gt; expr)</div><div class="ttdef"><b>Definition</b> <a href="#l00043">ast_builder.hpp:43</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a32c304c34179039490ab58a94216113f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f">AstBuilder::makeConstString</a></div><div class="ttdeci">std::unique_ptr&lt; ConstString &gt; makeConstString(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00158">ast_builder.hpp:158</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a34ee5c93eb19d1b3cf8568fbadd9a191"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191">AstBuilder::makeFunCall</a></div><div class="ttdeci">std::unique_ptr&lt; FunCall &gt; makeFunCall(std::unique_ptr&lt; ExpressionNode &gt; callee)</div><div class="ttdef"><b>Definition</b> <a href="#l00070">ast_builder.hpp:70</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a3c90f430c4f3361e1ac584b171bb251f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f">AstBuilder::makeConstDecl</a></div><div class="ttdeci">std::unique_ptr&lt; ConstDecl &gt; makeConstDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, std::unique_ptr&lt; ExpressionNode &gt; init)</div><div class="ttdef"><b>Definition</b> <a href="#l00101">ast_builder.hpp:101</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a42f89f5e37be22ccf9f36ddc2a1bfeff"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff">AstBuilder::makeIndexAccess</a></div><div class="ttdeci">std::unique_ptr&lt; IndexAccessNode &gt; makeIndexAccess(std::unique_ptr&lt; ExpressionNode &gt; left, std::unique_ptr&lt; ExpressionNode &gt; index)</div><div class="ttdef"><b>Definition</b> <a href="#l00049">ast_builder.hpp:49</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a44d6fe2b77975539fb422e618d3eee5b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b">AstBuilder::makeConstBool</a></div><div class="ttdeci">std::unique_ptr&lt; ConstBool &gt; makeConstBool(bool value)</div><div class="ttdef"><b>Definition</b> <a href="#l00150">ast_builder.hpp:150</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a44d9093a4b7bbd8722645ac31548540e"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e">AstBuilder::makeUnaryExpr</a></div><div class="ttdeci">std::unique_ptr&lt; UnaryExpr &gt; makeUnaryExpr(const std::string &amp;op, std::unique_ptr&lt; ExpressionNode &gt; expr)</div><div class="ttdef"><b>Definition</b> <a href="#l00117">ast_builder.hpp:117</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a475df4c7fe3dfa4e13ecf50612ddae1b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b">AstBuilder::makeConstChar</a></div><div class="ttdeci">std::unique_ptr&lt; ConstChar &gt; makeConstChar(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00162">ast_builder.hpp:162</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a4f929409e28845d5a57a5b137015d788"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a4f929409e28845d5a57a5b137015d788">AstBuilder::makeRoot</a></div><div class="ttdeci">std::unique_ptr&lt; RootNode &gt; makeRoot()</div><div class="ttdef"><b>Definition</b> <a href="#l00041">ast_builder.hpp:41</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a536efab66b2dbb77e05bb8d0050ddba1"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1">AstBuilder::makeVarDecl</a></div><div class="ttdeci">std::unique_ptr&lt; VarDecl &gt; makeVarDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type, std::unique_ptr&lt; ExpressionNode &gt; init)</div><div class="ttdef"><b>Definition</b> <a href="#l00095">ast_builder.hpp:95</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a5582d45c5eea72bdef7af5ac5e6096f7"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a5582d45c5eea72bdef7af5ac5e6096f7">AstBuilder::makeEnumDecl</a></div><div class="ttdeci">std::unique_ptr&lt; EnumDecl &gt; makeEnumDecl(const std::string &amp;name, std::vector&lt; std::string &gt; entries)</div><div class="ttdef"><b>Definition</b> <a href="#l00187">ast_builder.hpp:187</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a59be3be3368a68dcdbdb215ecd7e6850"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850">AstBuilder::makeConstFloat</a></div><div class="ttdeci">std::unique_ptr&lt; ConstFloat &gt; makeConstFloat(double value)</div><div class="ttdef"><b>Definition</b> <a href="#l00146">ast_builder.hpp:146</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a6159f65c76cc2c64b78992aad2ab7acc"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a6159f65c76cc2c64b78992aad2ab7acc">AstBuilder::makeReturn</a></div><div class="ttdeci">std::unique_ptr&lt; ReturnNode &gt; makeReturn(std::unique_ptr&lt; ExpressionNode &gt; value)</div><div class="ttdef"><b>Definition</b> <a href="#l00108">ast_builder.hpp:108</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a6d3d6fd45f588edd20ac26149d07586e"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e">AstBuilder::makeConstId</a></div><div class="ttdeci">std::unique_ptr&lt; ConstId &gt; makeConstId(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="#l00154">ast_builder.hpp:154</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a79a5fad7ecec3cf8622e4e8b87721fae"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae">AstBuilder::setSpan</a></div><div class="ttdeci">T * setSpan(T *node, const SourceSpan &amp;span)</div><div class="ttdef"><b>Definition</b> <a href="#l00203">ast_builder.hpp:203</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a845dc5d2ed66465d5e5686919dd9483f"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f">AstBuilder::makeContinue</a></div><div class="ttdeci">std::unique_ptr&lt; ContinueNode &gt; makeContinue()</div><div class="ttdef"><b>Definition</b> <a href="#l00114">ast_builder.hpp:114</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a94bd12c5569379b9ec5115c7348e09ed"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed">AstBuilder::makeBinExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BinExpr &gt; makeBinExpr(std::unique_ptr&lt; ExpressionNode &gt; left, const std::string &amp;op, std::unique_ptr&lt; ExpressionNode &gt; right)</div><div class="ttdef"><b>Definition</b> <a href="#l00127">ast_builder.hpp:127</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a97c1e5a8af9ab231edc200cec1978812"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a97c1e5a8af9ab231edc200cec1978812">AstBuilder::makeConstNull</a></div><div class="ttdeci">std::unique_ptr&lt; ConstNull &gt; makeConstNull()</div><div class="ttdef"><b>Definition</b> <a href="#l00166">ast_builder.hpp:166</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a9bb10432f67f62f914f3c1016fa39924"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a9bb10432f67f62f914f3c1016fa39924">AstBuilder::makeCastExpr</a></div><div class="ttdeci">std::unique_ptr&lt; CastExpr &gt; makeCastExpr(std::unique_ptr&lt; ExpressionNode &gt; expr, std::unique_ptr&lt; TypeNode &gt; type)</div><div class="ttdef"><b>Definition</b> <a href="#l00122">ast_builder.hpp:122</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a9f89f87faa5a8a2282053caa42598cd0"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0">AstBuilder::makeFunDecl</a></div><div class="ttdeci">std::unique_ptr&lt; FunDecl &gt; makeFunDecl(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="#l00059">ast_builder.hpp:59</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_a9faa921e18701dd8ca80c1b647ae8981"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#a9faa921e18701dd8ca80c1b647ae8981">AstBuilder::makeUnsafeBlock</a></div><div class="ttdeci">std::unique_ptr&lt; UnsafeBlockNode &gt; makeUnsafeBlock()</div><div class="ttdef"><b>Definition</b> <a href="#l00078">ast_builder.hpp:78</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ab0658306e6876ee0de3b69e54debde94"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94">AstBuilder::makeWhile</a></div><div class="ttdeci">std::unique_ptr&lt; WhileNode &gt; makeWhile(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; BodyNode &gt; body)</div><div class="ttdef"><b>Definition</b> <a href="#l00090">ast_builder.hpp:90</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ab11f1dc58c8deae55be12b57e11e4a17"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab11f1dc58c8deae55be12b57e11e4a17">AstBuilder::makeType</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; makeType(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="#l00176">ast_builder.hpp:176</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ab9eb852498da6f2991e63aaeac1674b0"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0">AstBuilder::makeIf</a></div><div class="ttdeci">std::unique_ptr&lt; IfNode &gt; makeIf(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; BodyNode &gt; thenBody, std::unique_ptr&lt; BodyNode &gt; elseBody)</div><div class="ttdef"><b>Definition</b> <a href="#l00082">ast_builder.hpp:82</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_abff2047bcc19919f5ae546ee79246fab"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab">AstBuilder::makeConstInt</a></div><div class="ttdeci">std::unique_ptr&lt; ConstInt &gt; makeConstInt(int64_t value)</div><div class="ttdef"><b>Definition</b> <a href="#l00142">ast_builder.hpp:142</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ac775564386a6ab1120f918e8ee7a171b"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b">AstBuilder::makeTypeAliasDecl</a></div><div class="ttdeci">std::unique_ptr&lt; TypeAliasDecl &gt; makeTypeAliasDecl(const std::string &amp;name, std::unique_ptr&lt; TypeNode &gt; type)</div><div class="ttdef"><b>Definition</b> <a href="#l00199">ast_builder.hpp:199</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ace48a90e8a2d663df73f77cf8a2aa6c6"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ace48a90e8a2d663df73f77cf8a2aa6c6">AstBuilder::makeTernaryExpr</a></div><div class="ttdeci">std::unique_ptr&lt; TernaryExpr &gt; makeTernaryExpr(std::unique_ptr&lt; ExpressionNode &gt; condition, std::unique_ptr&lt; ExpressionNode &gt; thenExpr, std::unique_ptr&lt; ExpressionNode &gt; elseExpr)</div><div class="ttdef"><b>Definition</b> <a href="#l00134">ast_builder.hpp:134</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_adc49af93510eb83a2e28e7e145864c97"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97">AstBuilder::makeArrayLiteral</a></div><div class="ttdeci">std::unique_ptr&lt; ArrayLiteralNode &gt; makeArrayLiteral(std::vector&lt; std::unique_ptr&lt; ExpressionNode &gt; &gt; elements)</div><div class="ttdef"><b>Definition</b> <a href="#l00055">ast_builder.hpp:55</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_add1f1cc36b637c14dac70d735b5d4218"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218">AstBuilder::makeBody</a></div><div class="ttdeci">std::unique_ptr&lt; BodyNode &gt; makeBody()</div><div class="ttdef"><b>Definition</b> <a href="#l00076">ast_builder.hpp:76</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_ae2d2d2f3f301515a8d052cdedf3ed281"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281">AstBuilder::makeBreak</a></div><div class="ttdeci">std::unique_ptr&lt; BreakNode &gt; makeBreak()</div><div class="ttdef"><b>Definition</b> <a href="#l00112">ast_builder.hpp:112</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_afc6fd118976087fddc9b314af2344555"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#afc6fd118976087fddc9b314af2344555">AstBuilder::makeRecordDecl</a></div><div class="ttdeci">std::unique_ptr&lt; RecordDecl &gt; makeRecordDecl(const std::string &amp;name, std::vector&lt; std::unique_ptr&lt; ParameterNode &gt; &gt; fields)</div><div class="ttdef"><b>Definition</b> <a href="#l00193">ast_builder.hpp:193</a></div></div>
+<div class="ttc" id="aclassAstBuilder_html_afcfb4fe4e1ff5ae0a73020ce10d8d403"><div class="ttname"><a href="../../de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403">AstBuilder::makeImport</a></div><div class="ttdeci">std::unique_ptr&lt; ImportNode &gt; makeImport(std::string path, std::string moduleAlias=&quot;&quot;, std::vector&lt; ImportBinding &gt; bindings={})</div><div class="ttdef"><b>Definition</b> <a href="#l00180">ast_builder.hpp:180</a></div></div>
 <div class="ttc" id="aconst__bool_8hpp_html"><div class="ttname"><a href="../../d5/dac/const__bool_8hpp.html">const_bool.hpp</a></div></div>
 <div class="ttc" id="aconst__char_8hpp_html"><div class="ttname"><a href="../../d9/d61/const__char_8hpp.html">const_char.hpp</a></div></div>
 <div class="ttc" id="aconst__decl_8hpp_html"><div class="ttname"><a href="../../d6/dea/const__decl_8hpp.html">const_decl.hpp</a></div></div>
 <div class="ttc" id="aconst__float_8hpp_html"><div class="ttname"><a href="../../d7/dcf/const__float_8hpp.html">const_float.hpp</a></div></div>
 <div class="ttc" id="aconst__id_8hpp_html"><div class="ttname"><a href="../../d5/df9/const__id_8hpp.html">const_id.hpp</a></div></div>
 <div class="ttc" id="aconst__int_8hpp_html"><div class="ttname"><a href="../../d0/d70/const__int_8hpp.html">const_int.hpp</a></div></div>
+<div class="ttc" id="aconst__null_8hpp_html"><div class="ttname"><a href="../../d5/d41/const__null_8hpp.html">const_null.hpp</a></div></div>
 <div class="ttc" id="aconst__string_8hpp_html"><div class="ttname"><a href="../../d9/dc5/const__string_8hpp.html">const_string.hpp</a></div></div>
 <div class="ttc" id="acontinue__node_8hpp_html"><div class="ttname"><a href="../../d8/de7/continue__node_8hpp.html">continue_node.hpp</a></div></div>
 <div class="ttc" id="aenum__decl_8hpp_html"><div class="ttname"><a href="../../df/d1c/enum__decl_8hpp.html">enum_decl.hpp</a></div></div>
@@ -366,11 +394,12 @@ $(function(){initNavTree('d4/d78/ast__builder_8hpp_source.html','../../',''); })
 <div class="ttc" id="arecord__decl_8hpp_html"><div class="ttname"><a href="../../d0/da6/record__decl_8hpp.html">record_decl.hpp</a></div></div>
 <div class="ttc" id="areturn__node_8hpp_html"><div class="ttname"><a href="../../d8/da4/return__node_8hpp.html">return_node.hpp</a></div></div>
 <div class="ttc" id="aroot__node_8hpp_html"><div class="ttname"><a href="../../d3/d3c/root__node_8hpp.html">root_node.hpp</a></div></div>
-<div class="ttc" id="astructSourceSpan_html"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html">SourceSpan</a></div><div class="ttdoc">Contains in-file related information like line, column, offset, and length.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00076">token.hpp:76</a></div></div>
+<div class="ttc" id="astructSourceSpan_html"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html">SourceSpan</a></div><div class="ttdoc">Contains in-file related information like line, column, offset, and length.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00078">token.hpp:78</a></div></div>
 <div class="ttc" id="aternary__expr_8hpp_html"><div class="ttname"><a href="../../d5/d2b/ternary__expr_8hpp.html">ternary_expr.hpp</a></div></div>
 <div class="ttc" id="atype__alias__decl_8hpp_html"><div class="ttname"><a href="../../da/d4e/type__alias__decl_8hpp.html">type_alias_decl.hpp</a></div></div>
 <div class="ttc" id="atype__node_8hpp_html"><div class="ttname"><a href="../../d3/ddb/type__node_8hpp.html">type_node.hpp</a></div></div>
 <div class="ttc" id="aunary__expr_8hpp_html"><div class="ttname"><a href="../../d2/d2e/unary__expr_8hpp.html">unary_expr.hpp</a></div></div>
+<div class="ttc" id="aunsafe__block__node_8hpp_html"><div class="ttname"><a href="../../d2/d40/unsafe__block__node_8hpp.html">unsafe_block_node.hpp</a></div></div>
 <div class="ttc" id="avar__decl_8hpp_html"><div class="ttname"><a href="../../d5/df1/var__decl_8hpp.html">var_decl.hpp</a></div></div>
 <div class="ttc" id="awhile__node_8hpp_html"><div class="ttname"><a href="../../db/db2/while__node_8hpp.html">while_node.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
