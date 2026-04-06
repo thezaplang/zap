@@ -17,6 +17,7 @@ var hierarchy =
         [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", null ],
         [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", null ],
         [ "sema::BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", null ],
+        [ "sema::BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", null ],
         [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
         [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
@@ -43,6 +44,8 @@ var hierarchy =
       [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ]
     ] ],
     [ "anonymous_namespace{lsp-main.cpp}::CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", null ],
+    [ "codegen::ClassArcEmitter", "d9/d1d/classcodegen_1_1ClassArcEmitter.html", null ],
+    [ "sema::Binder::ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", null ],
     [ "zap::Diagnostic", "df/d01/structzap_1_1Diagnostic.html", null ],
     [ "zap::DiagnosticEngine", "d3/d28/classzap_1_1DiagnosticEngine.html", null ],
     [ "zap::DiagnosticPosition", "d7/dc4/structzap_1_1DiagnosticPosition.html", null ],
@@ -100,6 +103,7 @@ var hierarchy =
         [ "FunCall", "dd/d86/classFunCall.html", null ],
         [ "IndexAccessNode", "d9/ddc/classIndexAccessNode.html", null ],
         [ "MemberAccessNode", "d9/dff/classMemberAccessNode.html", null ],
+        [ "NewExpr", "d9/d59/classNewExpr.html", null ],
         [ "StructLiteralNode", "de/d32/classStructLiteralNode.html", null ],
         [ "TernaryExpr", "d5/d02/classTernaryExpr.html", null ],
         [ "UnaryExpr", "dd/d97/classUnaryExpr.html", null ]
@@ -118,6 +122,7 @@ var hierarchy =
         [ "WhileNode", "d2/df8/classWhileNode.html", null ]
       ] ],
       [ "TopLevel", "d8/d65/classTopLevel.html", [
+        [ "ClassDecl", "d6/d7b/classClassDecl.html", null ],
         [ "ConstDecl", "d2/def/classConstDecl.html", null ],
         [ "EnumDecl", "d0/d96/classEnumDecl.html", null ],
         [ "ExtDecl", "d3/df9/classExtDecl.html", null ],
@@ -159,7 +164,9 @@ var hierarchy =
       [ "zir::EnumType", "df/dd7/classzir_1_1EnumType.html", null ],
       [ "zir::PointerType", "d4/d67/classzir_1_1PointerType.html", null ],
       [ "zir::PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", null ],
-      [ "zir::RecordType", "da/de1/classzir_1_1RecordType.html", null ]
+      [ "zir::RecordType", "da/de1/classzir_1_1RecordType.html", [
+        [ "zir::ClassType", "dc/dae/classzir_1_1ClassType.html", null ]
+      ] ]
     ] ],
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
       [ "zir::Argument", "d3/d57/classzir_1_1Argument.html", null ],

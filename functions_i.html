@@ -91,14 +91,19 @@ $(function(){initNavTree('functions_i.html','',''); });
 <li>isArray&#160;:&#160;<a class="el" href="d7/d9f/classTypeNode.html#ad7bd61029e0c8852ba4e11f0df9fc5ac">TypeNode</a></li>
 <li>isAtEnd()&#160;:&#160;<a class="el" href="d6/dc0/classLexer.html#a8dfb44d73a78bf91b79fae2e3a58072b">Lexer</a>, <a class="el" href="de/d73/classzap_1_1Parser.html#a2a92f47732e0f6d6b83ec4cbc0ac3e95">zap::Parser</a></li>
 <li>isBoolean()&#160;:&#160;<a class="el" href="d2/dba/classzap_1_1lsp_1_1JsonObject.html#aeb4e92ce48978d9a6c1f92ccd16dc34b">zap::lsp::JsonObject</a></li>
+<li>isClass&#160;:&#160;<a class="el" href="d0/d06/classsema_1_1TypeSymbol.html#a39ef5da6fd288e8ea166e1b0692ddc67">sema::TypeSymbol</a></li>
+<li>isClassType()&#160;:&#160;<a class="el" href="d9/d1d/classcodegen_1_1ClassArcEmitter.html#a97abc7b3744ccc2d58bd56edbe234f3d">codegen::ClassArcEmitter</a>, <a class="el" href="da/de9/classcodegen_1_1LLVMCodeGen.html#a087d90dde701c5f67a15e1c39ed7284f">codegen::LLVMCodeGen</a></li>
+<li>isConstructor&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#a4cb12f2fbd79c5f964529d9e83c010d8">sema::FunctionSymbol</a></li>
 <li>isCVariadic&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">sema::FunctionSymbol</a></li>
 <li>isCVariadic_&#160;:&#160;<a class="el" href="d3/df9/classExtDecl.html#a41b1c4c2cf12d5cd4c9a706c58cd9161">ExtDecl</a></li>
+<li>isDestructor&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#a1f4685aa3367c3d0a268aa5beede23db">sema::FunctionSymbol</a></li>
 <li>isEntry&#160;:&#160;<a class="el" href="d0/d65/structsema_1_1ModuleInfo.html#a4b770dda88e30535b8a87314ed4cd055">sema::ModuleInfo</a></li>
 <li>isExtern_&#160;:&#160;<a class="el" href="d3/d94/classFunDecl.html#a1ae49eb2c973ce953ed54147527abe31">FunDecl</a></li>
 <li>isFloatingPoint()&#160;:&#160;<a class="el" href="d9/dd2/classzir_1_1Type.html#a71658fa6d44100c27ea6817474c67067">zir::Type</a></li>
 <li>isGlobal_&#160;:&#160;<a class="el" href="d0/d3d/classVarDecl.html#aa225ad472911dacf338f0ffcdf3495a8">VarDecl</a></li>
 <li>isInteger()&#160;:&#160;<a class="el" href="d2/dba/classzap_1_1lsp_1_1JsonObject.html#adb6a6687a934d46790c9bfeae27023e0">zap::lsp::JsonObject</a>, <a class="el" href="d9/dd2/classzir_1_1Type.html#acc302fa582a1a797c427d35a66193f2f">zir::Type</a></li>
 <li>isList()&#160;:&#160;<a class="el" href="d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2178824d9c1fd22b5a9261fb8cd15f0f">zap::lsp::JsonObject</a></li>
+<li>isMethod&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">sema::FunctionSymbol</a></li>
 <li>isNull()&#160;:&#160;<a class="el" href="d2/dba/classzap_1_1lsp_1_1JsonObject.html#a111192ca0e192355b56f4940c7c535dc">zap::lsp::JsonObject</a></li>
 <li>isNullType()&#160;:&#160;<a class="el" href="dc/d2c/classsema_1_1Binder.html#a882ec2613888190c9d0616b6a648fe7d">sema::Binder</a></li>
 <li>isNumeric()&#160;:&#160;<a class="el" href="dc/d2c/classsema_1_1Binder.html#a7635a388d118bbf7ff2dfad8ecad533b">sema::Binder</a></li>
@@ -108,9 +113,10 @@ $(function(){initNavTree('functions_i.html','',''); });
 <li>isPointerType()&#160;:&#160;<a class="el" href="dc/d2c/classsema_1_1Binder.html#a63e5d2b519a5a5cb0dfc88f4e057dc9e">sema::Binder</a></li>
 <li>isRef&#160;:&#160;<a class="el" href="dc/d8f/structArgument.html#a7bd9d8e381f7c4a3fe140697c7b6fc98">Argument</a>, <a class="el" href="d9/dd3/classParameterNode.html#a019d0f420600682a60fd06212b43fe7d">ParameterNode</a></li>
 <li>isReference&#160;:&#160;<a class="el" href="d7/d9f/classTypeNode.html#aa8d94fd70ae642e0b0771ad71eb7ea88">TypeNode</a></li>
-<li>isReferenceType()&#160;:&#160;<a class="el" href="df/dd7/classzir_1_1EnumType.html#aea6d8c9ebc167de29af145bb67b18023">zir::EnumType</a>, <a class="el" href="d4/d67/classzir_1_1PointerType.html#a45416bbb9fd32e3e889c2d04ed48b3fc">zir::PointerType</a>, <a class="el" href="da/de1/classzir_1_1RecordType.html#a6007ff97516fc2b6d85ecfab290dea4b">zir::RecordType</a>, <a class="el" href="d9/dd2/classzir_1_1Type.html#a0df5d6f9acac147ffcb2906eab0918b0">zir::Type</a></li>
+<li>isReferenceType()&#160;:&#160;<a class="el" href="dc/dae/classzir_1_1ClassType.html#a2c111d421ded3e95727222a6f1795741">zir::ClassType</a>, <a class="el" href="df/dd7/classzir_1_1EnumType.html#aea6d8c9ebc167de29af145bb67b18023">zir::EnumType</a>, <a class="el" href="d4/d67/classzir_1_1PointerType.html#a45416bbb9fd32e3e889c2d04ed48b3fc">zir::PointerType</a>, <a class="el" href="da/de1/classzir_1_1RecordType.html#a6007ff97516fc2b6d85ecfab290dea4b">zir::RecordType</a>, <a class="el" href="d9/dd2/classzir_1_1Type.html#a0df5d6f9acac147ffcb2906eab0918b0">zir::Type</a></li>
 <li>isSignedIntegerType()&#160;:&#160;<a class="el" href="dc/d2c/classsema_1_1Binder.html#a11016c23d5de5ea573e0b31dd7bec642">sema::Binder</a></li>
 <li>isSpread&#160;:&#160;<a class="el" href="dc/d8f/structArgument.html#ae88b348f5b579a65d46a330de88a40fb">Argument</a></li>
+<li>isStatic&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#afffddd0441c8d1938ea93a01c1c7a461">sema::FunctionSymbol</a></li>
 <li>isStatic_&#160;:&#160;<a class="el" href="d3/d94/classFunDecl.html#a83e0d910a55a3b4535942de6263e49c5">FunDecl</a></li>
 <li>isString()&#160;:&#160;<a class="el" href="d2/dba/classzap_1_1lsp_1_1JsonObject.html#ad51a63fdd58834114432b8f5cc35aae5">zap::lsp::JsonObject</a></li>
 <li>isUnsafe&#160;:&#160;<a class="el" href="db/db1/classsema_1_1FunctionSymbol.html#a98403044a9a29aa20527a65abcd40337">sema::FunctionSymbol</a>, <a class="el" href="d0/d06/classsema_1_1TypeSymbol.html#a829431c76208adee4110819590fd545e">sema::TypeSymbol</a></li>

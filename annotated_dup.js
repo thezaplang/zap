@@ -12,6 +12,7 @@ var annotated_dup =
       [ "Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace" ]
     ] ],
     [ "codegen", "d0/df2/namespacecodegen.html", [
+      [ "ClassArcEmitter", "d9/d1d/classcodegen_1_1ClassArcEmitter.html", "d9/d1d/classcodegen_1_1ClassArcEmitter" ],
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
     ] ],
     [ "sema", "d7/d39/namespacesema.html", [
@@ -31,6 +32,7 @@ var annotated_dup =
       [ "BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],
       [ "BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", "df/da0/classsema_1_1BoundFunctionCall" ],
       [ "BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", "dd/d9c/classsema_1_1BoundArrayLiteral" ],
+      [ "BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", "db/d54/classsema_1_1BoundNewExpression" ],
       [ "BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", "d6/d5e/classsema_1_1BoundIndexAccess" ],
       [ "BoundVariableDeclaration", "d2/d5b/classsema_1_1BoundVariableDeclaration.html", "d2/d5b/classsema_1_1BoundVariableDeclaration" ],
       [ "BoundReturnStatement", "d2/d99/classsema_1_1BoundReturnStatement.html", "d2/d99/classsema_1_1BoundReturnStatement" ],
@@ -102,6 +104,7 @@ var annotated_dup =
       [ "PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", "d0/d21/classzir_1_1PrimitiveType" ],
       [ "PointerType", "d4/d67/classzir_1_1PointerType.html", "d4/d67/classzir_1_1PointerType" ],
       [ "RecordType", "da/de1/classzir_1_1RecordType.html", "da/de1/classzir_1_1RecordType" ],
+      [ "ClassType", "dc/dae/classzir_1_1ClassType.html", "dc/dae/classzir_1_1ClassType" ],
       [ "EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
       [ "ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
       [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
@@ -117,6 +120,7 @@ var annotated_dup =
     [ "BodyNode", "de/df0/classBodyNode.html", "de/df0/classBodyNode" ],
     [ "BreakNode", "d7/db8/classBreakNode.html", "d7/db8/classBreakNode" ],
     [ "CastExpr", "d1/d4d/classCastExpr.html", "d1/d4d/classCastExpr" ],
+    [ "ClassDecl", "d6/d7b/classClassDecl.html", "d6/d7b/classClassDecl" ],
     [ "ConstBool", "d4/d03/classConstBool.html", "d4/d03/classConstBool" ],
     [ "ConstChar", "db/d12/classConstChar.html", "db/d12/classConstChar" ],
     [ "ConstDecl", "d2/def/classConstDecl.html", "d2/def/classConstDecl" ],
@@ -137,6 +141,7 @@ var annotated_dup =
     [ "IndexAccessNode", "d9/ddc/classIndexAccessNode.html", "d9/ddc/classIndexAccessNode" ],
     [ "Lexer", "d6/dc0/classLexer.html", "d6/dc0/classLexer" ],
     [ "MemberAccessNode", "d9/dff/classMemberAccessNode.html", "d9/dff/classMemberAccessNode" ],
+    [ "NewExpr", "d9/d59/classNewExpr.html", "d9/d59/classNewExpr" ],
     [ "Node", "df/dd0/classNode.html", "df/dd0/classNode" ],
     [ "ParameterNode", "d9/dd3/classParameterNode.html", "d9/dd3/classParameterNode" ],
     [ "RecordDecl", "d9/d3d/classRecordDecl.html", "d9/d3d/classRecordDecl" ],

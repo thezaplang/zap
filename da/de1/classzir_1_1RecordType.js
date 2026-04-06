@@ -3,6 +3,7 @@ var classzir_1_1RecordType =
     [ "Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", "d3/dc7/structzir_1_1RecordType_1_1Field" ],
     [ "RecordType", "da/de1/classzir_1_1RecordType.html#a40b0e02dfcf54c7c9d8b9a28c548cec9", null ],
     [ "addField", "da/de1/classzir_1_1RecordType.html#a366d2dce5a511dd096d26fa3a1fe8256", null ],
+    [ "addField", "da/de1/classzir_1_1RecordType.html#acabd57192206346ce4460d42b014139a", null ],
     [ "getCodegenName", "da/de1/classzir_1_1RecordType.html#ae6314d160618f733727b7c2bc9825cf5", null ],
     [ "getFields", "da/de1/classzir_1_1RecordType.html#acec119b3f75180788156f86dca6fba8b", null ],
     [ "getKind", "da/de1/classzir_1_1RecordType.html#a4477e37f3bcd8a83efe5053d17c2e58f", null ],

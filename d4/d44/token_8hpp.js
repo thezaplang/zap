@@ -70,7 +70,10 @@ var token_8hpp =
       [ "GLOBAL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afde1bb5ef04b28059e61df449501f1c0", null ],
       [ "CONST", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a3d044162d972156d897cea80f216b9ca", null ],
       [ "UNSAFE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a6ff4613da261ce44ff1313390d26312a", null ],
-      [ "NULL_LITERAL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ad09e18e6251f251a86cd6c7942354ec5", null ]
+      [ "NULL_LITERAL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ad09e18e6251f251a86cd6c7942354ec5", null ],
+      [ "CLASS", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a8dabc58c34c5df57f2151d6f233d6c15", null ],
+      [ "PROT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4965c5a2738945d912c8afcbfe435ad1", null ],
+      [ "NEW", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aec34b0b90541576a22697631105dc847", null ]
     ] ],
     [ "tokenTypeToString", "d4/d44/token_8hpp.html#adcf4232d1b543f396684ab4b9d3d4bc5", null ]
 ];

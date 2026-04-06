@@ -5,5 +5,6 @@ var classParameterNode =
     [ "isRef", "d9/dd3/classParameterNode.html#a019d0f420600682a60fd06212b43fe7d", null ],
     [ "isVariadic", "d9/dd3/classParameterNode.html#a2067b4a6403b8e41db9466caf4286940", null ],
     [ "name", "d9/dd3/classParameterNode.html#aae51ace071580306ea4277e6be7000a1", null ],
-    [ "type", "d9/dd3/classParameterNode.html#a0dc6964a533cc555cdba9d2042995258", null ]
+    [ "type", "d9/dd3/classParameterNode.html#a0dc6964a533cc555cdba9d2042995258", null ],
+    [ "visibility_", "d9/dd3/classParameterNode.html#acc3779516cfbab7031137e3d6dfe3ebe", null ]
 ];

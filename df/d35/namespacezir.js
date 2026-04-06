@@ -24,6 +24,7 @@ var namespacezir =
     [ "PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", "d0/d21/classzir_1_1PrimitiveType" ],
     [ "PointerType", "d4/d67/classzir_1_1PointerType.html", "d4/d67/classzir_1_1PointerType" ],
     [ "RecordType", "da/de1/classzir_1_1RecordType.html", "da/de1/classzir_1_1RecordType" ],
+    [ "ClassType", "dc/dae/classzir_1_1ClassType.html", "dc/dae/classzir_1_1ClassType" ],
     [ "EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
     [ "ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
     [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
@@ -73,6 +74,7 @@ var namespacezir =
       [ "Pointer", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7", null ],
       [ "NullPtr", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38", null ],
       [ "Record", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36", null ],
+      [ "Class", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af", null ],
       [ "Array", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a4410ec34d9e6c1a68100ca0ce033fb17", null ],
       [ "Enum", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c", null ]
     ] ],

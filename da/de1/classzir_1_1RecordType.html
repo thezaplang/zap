@@ -73,6 +73,7 @@ $(function(){initNavTree('da/de1/classzir_1_1RecordType.html','../../','d2/d2f/c
   <img src="../../da/de1/classzir_1_1RecordType.png" usemap="#zir_3A_3ARecordType_map" alt=""/>
   <map id="zir_3A_3ARecordType_map" name="zir_3A_3ARecordType_map">
 <area href="../../d9/dd2/classzir_1_1Type.html" alt="zir::Type" shape="rect" coords="0,0,101,24"/>
+<area href="../../dc/dae/classzir_1_1ClassType.html" alt="zir::ClassType" shape="rect" coords="0,112,101,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -87,6 +88,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a09d4c52f8e08da46b8ac342c1ee2d078" id="r_a09d4c52f8e08da46b8ac342c1ee2d078"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09d4c52f8e08da46b8ac342c1ee2d078">toString</a> () const override</td></tr>
 <tr class="memitem:a6007ff97516fc2b6d85ecfab290dea4b" id="r_a6007ff97516fc2b6d85ecfab290dea4b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6007ff97516fc2b6d85ecfab290dea4b">isReferenceType</a> () const override</td></tr>
 <tr class="memitem:a366d2dce5a511dd096d26fa3a1fe8256" id="r_a366d2dce5a511dd096d26fa3a1fe8256"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a366d2dce5a511dd096d26fa3a1fe8256">addField</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; t)</td></tr>
+<tr class="memitem:acabd57192206346ce4460d42b014139a" id="r_acabd57192206346ce4460d42b014139a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acabd57192206346ce4460d42b014139a">addField</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; t, int visibility)</td></tr>
 <tr class="memitem:acec119b3f75180788156f86dca6fba8b" id="r_acec119b3f75180788156f86dca6fba8b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d3/dc7/structzir_1_1RecordType_1_1Field.html">Field</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acec119b3f75180788156f86dca6fba8b">getFields</a> () const</td></tr>
 <tr class="memitem:a0bbbb00719716290a60850a809054510" id="r_a0bbbb00719716290a60850a809054510"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bbbb00719716290a60850a809054510">getName</a> () const</td></tr>
 <tr class="memitem:ae6314d160618f733727b7c2bc9825cf5" id="r_ae6314d160618f733727b7c2bc9825cf5"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6314d160618f733727b7c2bc9825cf5">getCodegenName</a> () const</td></tr>
@@ -97,15 +99,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a29efaed69a507dde612f0afdeab63776 inherit pub_methods_classzir_1_1Type" id="r_a29efaed69a507dde612f0afdeab63776"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#a29efaed69a507dde612f0afdeab63776">isUnsigned</a> () const</td></tr>
 <tr class="memitem:a71658fa6d44100c27ea6817474c67067 inherit pub_methods_classzir_1_1Type" id="r_a71658fa6d44100c27ea6817474c67067"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#a71658fa6d44100c27ea6817474c67067">isFloatingPoint</a> () const</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr class="memitem:a936f8a075123ef83e837a8f5abe7248d" id="r_a936f8a075123ef83e837a8f5abe7248d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a936f8a075123ef83e837a8f5abe7248d">name</a></td></tr>
 <tr class="memitem:ad6dcdc541634befd52df3cbe2574f3ae" id="r_ad6dcdc541634befd52df3cbe2574f3ae"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a></td></tr>
 <tr class="memitem:abeebac58447c3ef06d16eaefac0eb170" id="r_abeebac58447c3ef06d16eaefac0eb170"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d3/dc7/structzir_1_1RecordType_1_1Field.html">Field</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00121">121</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00122">122</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a40b0e02dfcf54c7c9d8b9a28c548cec9" name="a40b0e02dfcf54c7c9d8b9a28c548cec9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a40b0e02dfcf54c7c9d8b9a28c548cec9">&#9670;&#160;</a></span>RecordType()</h2>
@@ -134,19 +136,21 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">132</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  133</span>      : <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>(std::move(n)),</div>
-<div class="line"><span class="lineno">  134</span>        <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a> : std::move(codegen)) {}</div>
-<div class="ttc" id="aclasszir_1_1RecordType_html_a936f8a075123ef83e837a8f5abe7248d"><div class="ttname"><a href="#a936f8a075123ef83e837a8f5abe7248d">zir::RecordType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00127">type.hpp:127</a></div></div>
-<div class="ttc" id="aclasszir_1_1RecordType_html_ad6dcdc541634befd52df3cbe2574f3ae"><div class="ttname"><a href="#ad6dcdc541634befd52df3cbe2574f3ae">zir::RecordType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00128">type.hpp:128</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00135">135</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  136</span>      : <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>(std::move(n)),</div>
+<div class="line"><span class="lineno">  137</span>        <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a> : std::move(codegen)) {}</div>
+<div class="ttc" id="aclasszir_1_1RecordType_html_a936f8a075123ef83e837a8f5abe7248d"><div class="ttname"><a href="#a936f8a075123ef83e837a8f5abe7248d">zir::RecordType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00130">type.hpp:130</a></div></div>
+<div class="ttc" id="aclasszir_1_1RecordType_html_ad6dcdc541634befd52df3cbe2574f3ae"><div class="ttname"><a href="#ad6dcdc541634befd52df3cbe2574f3ae">zir::RecordType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00131">type.hpp:131</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00128">codegenName</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00127">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00131">codegenName</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00130">name</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00159">zir::ClassType::ClassType()</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a366d2dce5a511dd096d26fa3a1fe8256" name="a366d2dce5a511dd096d26fa3a1fe8256"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a366d2dce5a511dd096d26fa3a1fe8256">&#9670;&#160;</a></span>addField()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a366d2dce5a511dd096d26fa3a1fe8256">&#9670;&#160;</a></span>addField() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,13 +176,54 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">139</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  139</span>                                                    {</div>
-<div class="line"><span class="lineno">  140</span>    <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>.push_back({std::move(n), std::move(t)});</div>
-<div class="line"><span class="lineno">  141</span>  }</div>
-<div class="ttc" id="aclasszir_1_1RecordType_html_abeebac58447c3ef06d16eaefac0eb170"><div class="ttname"><a href="#abeebac58447c3ef06d16eaefac0eb170">zir::RecordType::fields</a></div><div class="ttdeci">std::vector&lt; Field &gt; fields</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00129">type.hpp:129</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">142</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                    {</div>
+<div class="line"><span class="lineno">  143</span>    <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>.push_back({std::move(n), std::move(t), 0});</div>
+<div class="line"><span class="lineno">  144</span>  }</div>
+<div class="ttc" id="aclasszir_1_1RecordType_html_abeebac58447c3ef06d16eaefac0eb170"><div class="ttname"><a href="#abeebac58447c3ef06d16eaefac0eb170">zir::RecordType::fields</a></div><div class="ttdeci">std::vector&lt; Field &gt; fields</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00132">type.hpp:132</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00129">fields</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">fields</a>.</p>
+
+</div>
+</div>
+<a id="acabd57192206346ce4460d42b014139a" name="acabd57192206346ce4460d42b014139a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acabd57192206346ce4460d42b014139a">&#9670;&#160;</a></span>addField() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::RecordType::addField </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>visibility</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00146">146</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>                                                                    {</div>
+<div class="line"><span class="lineno">  147</span>    <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>.push_back({std::move(n), std::move(t), visibility});</div>
+<div class="line"><span class="lineno">  148</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">fields</a>.</p>
 
 </div>
 </div>
@@ -205,10 +250,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00145">145</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00152">152</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  152</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00128">codegenName</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00131">codegenName</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00125">codegen::LLVMCodeGen::toLLVMType()</a>.</p>
 
 </div>
 </div>
@@ -235,10 +282,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">143</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  143</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00150">150</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  150</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00129">fields</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">fields</a>.</p>
 
 </div>
 </div>
@@ -267,8 +314,8 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00135">135</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  135</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00138">138</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>; }</div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00027">type.hpp:27</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
@@ -298,12 +345,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">144</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">151</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  151</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00127">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00130">name</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">codegen::anonymous_namespace{llvm_codegen.cpp}::isStringType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00012">sema::anonymous_namespace{binder.cpp}::isStringType()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00027">codegen::anonymous_namespace{llvm_codegen.cpp}::isVariadicViewType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00048">sema::anonymous_namespace{binder.cpp}::isVariadicViewType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00022">codegen::anonymous_namespace{llvm_codegen.cpp}::isStringType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00013">sema::anonymous_namespace{binder.cpp}::isStringType()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00028">codegen::anonymous_namespace{llvm_codegen.cpp}::isVariadicViewType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00051">sema::anonymous_namespace{binder.cpp}::isVariadicViewType()</a>.</p>
 
 </div>
 </div>
@@ -332,8 +379,8 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a0df5d6f9acac147ffcb2906eab0918b0">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00137">137</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  137</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00140">140</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  140</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -362,10 +409,10 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a1551f8a18c1f267c3f77b0f151645a14">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00136">136</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  136</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;%&quot;</span> + <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">139</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  139</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;%&quot;</span> + <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00127">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00130">name</a>.</p>
 
 </div>
 </div>
@@ -385,14 +432,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00128">128</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00131">131</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00145">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">RecordType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00152">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00135">RecordType()</a>.</p>
 
 </div>
 </div>
@@ -411,14 +458,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00129">129</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">132</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">addField()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">getFields()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">addField()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00146">addField()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00150">getFields()</a>.</p>
 
 </div>
 </div>
@@ -437,14 +484,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00127">127</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00130">130</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00144">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00132">RecordType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00136">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00151">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00135">RecordType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00163">zir::ClassType::toString()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">toString()</a>.</p>
 
 </div>
 </div>
