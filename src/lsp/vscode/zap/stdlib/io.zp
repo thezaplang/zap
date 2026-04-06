@@ -6,3 +6,5 @@ pub ext fun printBool(b: Bool) Void;
 pub ext fun printChar(c: Char) Void;
 pub ext fun eprintln(s: String) Void;
 pub ext fun getLn() String;
+pub ext fun printf(format: String, ...) Int;
+pub ext fun printfln(format: String, ...) Int;

@@ -116,6 +116,8 @@ namespace sema
                     std::shared_ptr<zir::Type> to);
     std::shared_ptr<zir::Type> getPromotedType(std::shared_ptr<zir::Type> t1,
                                                std::shared_ptr<zir::Type> t2);
+    std::shared_ptr<zir::Type> getCVariadicArgumentType(
+        std::shared_ptr<zir::Type> type);
 
     bool hadError_ = false;
   };

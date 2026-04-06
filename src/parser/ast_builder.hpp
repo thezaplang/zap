@@ -169,8 +169,10 @@ public:
 
   std::unique_ptr<ParameterNode> makeParam(const std::string &name,
                                            std::unique_ptr<TypeNode> type,
-                                           bool isRef = false) {
-    return std::make_unique<ParameterNode>(name, std::move(type), isRef);
+                                           bool isRef = false,
+                                           bool isVariadic = false) {
+    return std::make_unique<ParameterNode>(name, std::move(type), isRef,
+                                           isVariadic);
   }
 
   std::unique_ptr<TypeNode> makeType(const std::string &name) {

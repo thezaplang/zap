@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <math.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +21,19 @@ void printFloat(float v)
 void printFloat64(double v)
 {
     printf("%f\n", v);
+}
+
+long zap_sum_variadic(long count, ...)
+{
+    va_list args;
+    va_start(args, count);
+    long sum = 0;
+    for (long i = 0; i < count; ++i)
+    {
+        sum += va_arg(args, long);
+    }
+    va_end(args);
+    return sum;
 }
 
 void printBool(_Bool v)
@@ -63,6 +77,18 @@ typedef struct {
     long len;
 } zap_string_t;
 
+static char *zap_string_to_cstr(zap_string_t s)
+{
+    size_t len = s.len > 0 ? (size_t)s.len : 0;
+    char *out = (char *)malloc(len + 1);
+    if (!out)
+        return NULL;
+    if (len > 0 && s.ptr)
+        memcpy(out, s.ptr, len);
+    out[len] = '\0';
+    return out;
+}
+
 static long zap_process_argc = 0;
 static char **zap_process_argv = NULL;
 
@@ -75,6 +101,41 @@ void __zap_process_set_args(int argc, char **argv)
 void println(zap_string_t s)
 {
     printStringPtrLen(s.ptr, s.len);
+}
+
+long zap_printf(zap_string_t format, ...)
+{
+    char *fmt = zap_string_to_cstr(format);
+    if (!fmt)
+        return -1;
+
+    va_list args;
+    va_start(args, format);
+    long written = vprintf(fmt, args);
+    va_end(args);
+
+    free(fmt);
+    return written;
+}
+
+long zap_printfln(zap_string_t format, ...)
+{
+    char *fmt = zap_string_to_cstr(format);
+    if (!fmt)
+        return -1;
+
+    va_list args;
+    va_start(args, format);
+    long written = vprintf(fmt, args);
+    va_end(args);
+
+    free(fmt);
+
+    if (written < 0)
+        return written;
+    if (printf("\n") < 0)
+        return -1;
+    return written + 1;
 }
 
 void eprintln(zap_string_t s)

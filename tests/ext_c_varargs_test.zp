@@ -1,0 +1,16 @@
+ext fun zap_sum_variadic(count: Int, ...) Int;
+ext fun printf(format: *Char, ...) Int;
+
+fun main() Int {
+    if zap_sum_variadic(4, 1, 2, 3, 4) != 10 {
+        return 1;
+    }
+
+    unsafe {
+        if printf("sum=%d\n" as *Char, 10) <= 0 {
+            return 2;
+        }
+    }
+
+    return 0;
+}

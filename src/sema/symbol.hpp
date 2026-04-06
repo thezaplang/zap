@@ -34,6 +34,8 @@ class VariableSymbol : public Symbol {
 public:
   bool is_const = false;
   bool is_ref = false;
+  bool is_variadic_pack = false;
+  std::shared_ptr<zir::Type> variadic_element_type = nullptr;
   std::shared_ptr<BoundExpression> constant_value = nullptr;
   VariableSymbol(std::string n, std::shared_ptr<zir::Type> t, bool isConst = false,
                  bool isRef = false, std::string link = "",
@@ -48,17 +50,34 @@ public:
   std::vector<std::shared_ptr<VariableSymbol>> parameters;
   std::shared_ptr<zir::Type> returnType;
   bool isUnsafe = false;
+  bool isCVariadic = false;
 
   FunctionSymbol(std::string n,
                  std::vector<std::shared_ptr<VariableSymbol>> params,
                  std::shared_ptr<zir::Type> retType, std::string link = "",
                  std::string module = "", Visibility vis = Visibility::Private,
-                 bool unsafe = false)
+                 bool unsafe = false, bool cVariadic = false)
       : Symbol(std::move(n), nullptr, std::move(link), std::move(module), vis),
         parameters(std::move(params)), returnType(std::move(retType)),
-        isUnsafe(unsafe) {}
+        isUnsafe(unsafe), isCVariadic(cVariadic) {}
 
   SymbolKind getKind() const noexcept override { return SymbolKind::Function; }
+
+  bool hasVariadicParameter() const {
+    return !parameters.empty() && parameters.back()->is_variadic_pack;
+  }
+
+  bool acceptsExtraArguments() const {
+    return hasVariadicParameter() || isCVariadic;
+  }
+
+  size_t fixedParameterCount() const {
+    return hasVariadicParameter() ? parameters.size() - 1 : parameters.size();
+  }
+
+  std::shared_ptr<VariableSymbol> variadicParameter() const {
+    return hasVariadicParameter() ? parameters.back() : nullptr;
+  }
 };
 
 class TypeSymbol : public Symbol {

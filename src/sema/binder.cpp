@@ -496,17 +496,33 @@ namespace sema
         }
 
         std::vector<std::shared_ptr<VariableSymbol>> params;
-        for (const auto &p : funDecl->params_)
+        for (size_t i = 0; i < funDecl->params_.size(); ++i)
         {
+          const auto &p = funDecl->params_[i];
+          if (p->isVariadic && i + 1 != funDecl->params_.size())
+          {
+            error(p->span, "Variadic parameter must be the last parameter.");
+          }
+          if (p->isVariadic && p->isRef)
+          {
+            error(p->span, "Variadic parameter cannot be passed by 'ref'.");
+          }
           auto mappedType = mapType(*p->type);
           if (!mappedType)
           {
             error(p->span, "Unknown type: " + p->type->qualifiedName());
             mappedType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
           }
-          params.push_back(std::make_shared<VariableSymbol>(
+          auto symbol = std::make_shared<VariableSymbol>(
               p->name, mappedType, false, p->isRef, p->name,
-              module.info->moduleName, Visibility::Private));
+              module.info->moduleName, Visibility::Private);
+          if (p->isVariadic)
+          {
+            symbol->is_variadic_pack = true;
+            symbol->variadic_element_type = mappedType;
+            symbol->type = std::make_shared<zir::PointerType>(mappedType);
+          }
+          params.push_back(std::move(symbol));
         }
 
         std::shared_ptr<zir::Type> retType = nullptr;
@@ -561,6 +577,11 @@ namespace sema
         std::vector<std::shared_ptr<VariableSymbol>> params;
         for (const auto &p : extDecl->params_)
         {
+          if (p->isVariadic)
+          {
+            error(p->span,
+                  "Variadic parameters are only supported in Zap function declarations.");
+          }
           auto mappedType = mapType(*p->type);
           if (!mappedType)
           {
@@ -588,12 +609,23 @@ namespace sema
         bool isStdFsModule =
             module.info->moduleName == "fs" &&
             module.info->sourceName.find("/std/fs.zp") != std::string::npos;
+        bool isStdIoModule =
+            module.info->moduleName == "io" &&
+            module.info->sourceName.find("/std/io.zp") != std::string::npos;
         bool isStdPathModule =
             module.info->moduleName == "path" &&
             module.info->sourceName.find("/std/path.zp") != std::string::npos;
         if (isStdFsModule && extDecl->name_ == "mkdir")
         {
           linkName = "zap_fs_mkdir";
+        }
+        else if (isStdIoModule && extDecl->name_ == "printf")
+        {
+          linkName = "zap_printf";
+        }
+        else if (isStdIoModule && extDecl->name_ == "printfln")
+        {
+          linkName = "zap_printfln";
         }
         else if (isStdPathModule && extDecl->name_ == "basename")
         {
@@ -602,7 +634,8 @@ namespace sema
 
         auto symbol = std::make_shared<FunctionSymbol>(
             extDecl->name_, std::move(params), std::move(retType), linkName,
-            module.info->moduleName, extDecl->visibility_, false);
+            module.info->moduleName, extDecl->visibility_, false,
+            extDecl->isCVariadic_);
 
         if (!module.scope->declare(extDecl->name_, symbol))
         {
@@ -1374,6 +1407,8 @@ namespace sema
     else if ((isPointerType(expr->type) || isNullType(expr->type)) &&
              isPointerType(targetType))
       castAllowed = true;
+    else if (isStringType(expr->type) && isPointerType(targetType))
+      castAllowed = true;
     else if (isPointerType(expr->type) && targetType->isInteger())
       castAllowed = true;
     else if (expr->type->isInteger() && isPointerType(targetType))
@@ -1626,19 +1661,38 @@ namespace sema
       requireUnsafeContext(node.span, "unsafe function calls");
     }
 
-    if (node.params_.size() != funcSymbol->parameters.size())
+    size_t fixedParamCount = funcSymbol->fixedParameterCount();
+    if (!funcSymbol->acceptsExtraArguments() &&
+        node.params_.size() != funcSymbol->parameters.size())
     {
       error(node.callee_->span, "Function '" + funcSymbol->name + "' expects " +
                                     std::to_string(funcSymbol->parameters.size()) +
                                     " arguments, but received " +
                                     std::to_string(node.params_.size()));
     }
+    if (funcSymbol->acceptsExtraArguments() && node.params_.size() < fixedParamCount)
+    {
+      error(node.callee_->span, "Function '" + funcSymbol->name + "' expects at least " +
+                                    std::to_string(fixedParamCount) +
+                                    " arguments, but received " +
+                                    std::to_string(node.params_.size()));
+    }
 
     std::vector<std::unique_ptr<BoundExpression>> boundArgs;
     std::vector<bool> argIsRefList;
+    std::unique_ptr<BoundExpression> variadicPack = nullptr;
+    bool seenSpreadArg = false;
+    auto variadicParam = funcSymbol->variadicParameter();
 
     for (size_t i = 0; i < node.params_.size(); ++i)
     {
+      if (seenSpreadArg)
+      {
+        error(node.params_[i]->value->span,
+              "Spread argument must be the last argument in a function call.");
+        return;
+      }
+
       node.params_[i]->value->accept(*this);
       if (expressionStack_.empty())
         return;
@@ -1646,9 +1700,42 @@ namespace sema
       auto arg = std::move(expressionStack_.top());
       expressionStack_.pop();
       bool argIsRef = node.params_[i]->isRef;
-      argIsRefList.push_back(argIsRef);
+      bool argIsSpread = node.params_[i]->isSpread;
 
-      if (i < funcSymbol->parameters.size())
+      if (argIsSpread)
+      {
+        if (argIsRef)
+        {
+          error(node.params_[i]->value->span,
+                "Spread arguments cannot be passed by 'ref'.");
+        }
+        if (!funcSymbol->hasVariadicParameter())
+        {
+          error(node.params_[i]->value->span,
+                "Spread arguments can only be used when calling a variadic function.");
+        }
+
+        auto *varExpr = dynamic_cast<BoundVariableExpression *>(arg.get());
+        if (!varExpr || !varExpr->symbol->is_variadic_pack)
+        {
+          error(node.params_[i]->value->span,
+                "Spread arguments must reference a variadic parameter.");
+        }
+        else if (!variadicParam ||
+                 varExpr->symbol->variadic_element_type->toString() !=
+                     variadicParam->variadic_element_type->toString())
+        {
+          error(node.params_[i]->value->span,
+                "Spread argument element type does not match the variadic parameter type.");
+        }
+
+        variadicPack = std::move(arg);
+        seenSpreadArg = true;
+        continue;
+      }
+
+      argIsRefList.push_back(argIsRef);
+      if (i < fixedParamCount)
       {
         auto expectedType = funcSymbol->parameters[i]->type;
         if (argIsRef != funcSymbol->parameters[i]->is_ref)
@@ -1687,12 +1774,52 @@ namespace sema
           arg = wrapInCast(std::move(arg), expectedType);
         }
       }
+      else if (funcSymbol->hasVariadicParameter())
+      {
+        if (argIsRef)
+        {
+          error(node.params_[i]->value->span,
+                "Variadic arguments cannot be passed by 'ref'.");
+        }
+        auto expectedType = variadicParam->variadic_element_type;
+        if (!canConvert(arg->type, expectedType))
+        {
+          error(node.params_[i]->value->span,
+                "Variadic argument " + std::to_string(i + 1) + " expects type '" +
+                    expectedType->toString() + "', but received type '" +
+                    arg->type->toString() + "'");
+        }
+        else
+        {
+          arg = wrapInCast(std::move(arg), expectedType);
+        }
+      }
+      else if (funcSymbol->isCVariadic)
+      {
+        if (argIsRef)
+        {
+          error(node.params_[i]->value->span,
+                "C variadic arguments cannot be passed by 'ref'.");
+        }
+        auto promotedType = getCVariadicArgumentType(arg->type);
+        if (!promotedType)
+        {
+          error(node.params_[i]->value->span,
+                "Type '" + arg->type->toString() +
+                    "' is not supported in C variadic arguments.");
+        }
+        else
+        {
+          arg = wrapInCast(std::move(arg), promotedType);
+        }
+      }
 
       boundArgs.push_back(std::move(arg));
     }
 
     expressionStack_.push(std::make_unique<BoundFunctionCall>(
-        funcSymbol, std::move(boundArgs), std::move(argIsRefList)));
+        funcSymbol, std::move(boundArgs), std::move(argIsRefList),
+        std::move(variadicPack)));
   }
 
   void Binder::visit(IfNode &node)
@@ -1826,6 +1953,13 @@ namespace sema
 
   std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode)
   {
+    if (typeNode.isVarArgs)
+    {
+      if (!typeNode.baseType)
+        return nullptr;
+      return mapType(*typeNode.baseType);
+    }
+
     if (typeNode.isArray)
     {
       if (!typeNode.baseType)
@@ -2212,6 +2346,40 @@ namespace sema
       return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float);
     }
     return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int64);
+  }
+
+  std::shared_ptr<zir::Type>
+  Binder::getCVariadicArgumentType(std::shared_ptr<zir::Type> type)
+  {
+    if (!type)
+      return nullptr;
+
+    if (isPointerType(type))
+      return type;
+
+    switch (type->getKind())
+    {
+    case zir::TypeKind::Float:
+    case zir::TypeKind::Float32:
+      return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Float64);
+    case zir::TypeKind::Bool:
+    case zir::TypeKind::Char:
+    case zir::TypeKind::Int8:
+    case zir::TypeKind::Int16:
+    case zir::TypeKind::UInt8:
+    case zir::TypeKind::UInt16:
+      return std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+    case zir::TypeKind::Int32:
+    case zir::TypeKind::Int64:
+    case zir::TypeKind::UInt32:
+    case zir::TypeKind::UInt64:
+    case zir::TypeKind::Int:
+    case zir::TypeKind::UInt:
+    case zir::TypeKind::Float64:
+      return type;
+    default:
+      return nullptr;
+    }
   }
 
   std::unique_ptr<BoundExpression>

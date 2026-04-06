@@ -1,0 +1,23 @@
+fun take(first: Int, rest: ...Int) Int {
+    return first;
+}
+
+fun pass(rest: ...Int) Int {
+    return take(9, ...rest);
+}
+
+fun main() Int {
+    if take(4, 1, 2) != 4 {
+        return 1;
+    }
+
+    if pass(7, 8, 9) != 9 {
+        return 2;
+    }
+
+    if pass() != 9 {
+        return 3;
+    }
+
+    return 0;
+}

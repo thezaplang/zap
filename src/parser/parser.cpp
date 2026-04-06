@@ -242,6 +242,12 @@ namespace zap
     {
       do
       {
+        if (peek().type == TokenType::ELLIPSIS)
+        {
+          eat(TokenType::ELLIPSIS);
+          extDecl->isCVariadic_ = true;
+          break;
+        }
         extDecl->params_.push_back(parseParameter());
       } while (peek().type == TokenType::COMMA &&
                eat(TokenType::COMMA).type == TokenType::COMMA);
@@ -369,8 +375,10 @@ namespace zap
     Token paramNameToken = eat(TokenType::ID);
     eat(TokenType::COLON);
     auto typeNode = parseType();
+    bool isVariadic = typeNode && typeNode->isVarArgs;
     auto paramNode =
-        _builder.makeParam(paramNameToken.value, std::move(typeNode), isRef);
+        _builder.makeParam(paramNameToken.value, std::move(typeNode), isRef,
+                           isVariadic);
     _builder.setSpan(paramNode.get(), SourceSpan::merge(paramNameToken.span,
                                                         paramNode->type->span));
     return paramNode;
@@ -444,6 +452,21 @@ namespace zap
 
   std::unique_ptr<TypeNode> Parser::parseType()
   {
+    if (peek().type == TokenType::ELLIPSIS)
+    {
+      Token ellipsisToken = eat(TokenType::ELLIPSIS);
+      auto baseType = parseType();
+
+      auto variadicType = _builder.makeType("");
+      variadicType->isVarArgs = true;
+      variadicType->baseType = std::move(baseType);
+
+      _builder.setSpan(variadicType.get(),
+                       SourceSpan::merge(ellipsisToken.span,
+                                         variadicType->baseType->span));
+      return variadicType;
+    }
+
     if (peek().type == TokenType::MULTIPLY)
     {
       Token starToken = eat(TokenType::MULTIPLY);
@@ -776,11 +799,16 @@ namespace zap
           {
             std::string argName = "";
             bool argIsRef = false;
+            bool argIsSpread = false;
             if (peek().type == TokenType::ID &&
                 peek(1).type == TokenType::ASSIGN)
             {
               argName = eat(TokenType::ID).value;
               eat(TokenType::ASSIGN);
+            }
+            if (peek().type == TokenType::ELLIPSIS) {
+              eat(TokenType::ELLIPSIS);
+              argIsSpread = true;
             }
             if (peek().type == TokenType::REF) {
               eat(TokenType::REF);
@@ -788,7 +816,8 @@ namespace zap
             }
             auto argValue = parseExpression();
             funCall->params_.push_back(
-                std::make_unique<Argument>(argName, std::move(argValue), argIsRef));
+                std::make_unique<Argument>(argName, std::move(argValue), argIsRef,
+                                           argIsSpread));
           } while (peek().type == TokenType::COMMA &&
                    eat(TokenType::COMMA).type == TokenType::COMMA);
         }

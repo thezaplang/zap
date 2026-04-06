@@ -11,9 +11,11 @@ public:
   std::string name;
   std::unique_ptr<TypeNode> type;
   bool isRef = false;
+  bool isVariadic = false;
 
-  ParameterNode(const std::string &name, std::unique_ptr<TypeNode> type, bool isRef = false)
-      : name(name), type(std::move(type)), isRef(isRef) {}
+  ParameterNode(const std::string &name, std::unique_ptr<TypeNode> type,
+                bool isRef = false, bool isVariadic = false)
+      : name(name), type(std::move(type)), isRef(isRef), isVariadic(isVariadic) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

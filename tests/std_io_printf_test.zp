@@ -1,0 +1,13 @@
+import "std/io";
+
+fun main() Int {
+    if io.printf("sum=%d", 10) != 6 {
+        return 1;
+    }
+
+    if io.printfln("sum=%d", 10) != 7 {
+        return 2;
+    }
+
+    return 0;
+}

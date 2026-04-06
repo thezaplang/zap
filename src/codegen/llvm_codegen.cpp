@@ -203,6 +203,13 @@ namespace codegen
     }
     for (const auto &param : sym.parameters)
     {
+      if (param->is_variadic_pack)
+      {
+        paramTypes.push_back(llvm::Type::getInt32Ty(ctx_));
+        paramTypes.push_back(
+            llvm::PointerType::getUnqual(toLLVMType(*param->variadic_element_type)));
+        continue;
+      }
       auto *ty = toLLVMType(*param->type);
       if (param->is_ref)
         ty = llvm::PointerType::getUnqual(ty);
@@ -210,7 +217,7 @@ namespace codegen
     }
 
     llvm::Type *retTy = toLLVMType(*sym.returnType);
-    return llvm::FunctionType::get(retTy, paramTypes, /*isVarArg=*/false);
+    return llvm::FunctionType::get(retTy, paramTypes, sym.isCVariadic);
   }
 
   llvm::AllocaInst *LLVMCodeGen::createEntryAlloca(llvm::Function *fn,
@@ -221,6 +228,11 @@ namespace codegen
     return entry.CreateAlloca(ty, nullptr, name);
   }
 
+  std::string LLVMCodeGen::variadicCountSlotName(const std::string &name) const
+  {
+    return name + "#count";
+  }
+
   void LLVMCodeGen::visit(sema::BoundRootNode &node)
   {
     for (const auto &extFn : node.externalFunctions)
@@ -228,9 +240,20 @@ namespace codegen
       auto *ft = buildFunctionType(*extFn->symbol);
       auto *f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                        extFn->symbol->linkName, *module_);
-      size_t idx = 0;
-      for (auto &arg : f->args())
-        arg.setName(extFn->symbol->parameters[idx++]->name);
+      auto argIt = f->arg_begin();
+      for (const auto &param : extFn->symbol->parameters)
+      {
+        if (param->is_variadic_pack)
+        {
+          argIt->setName(param->name + ".count");
+          ++argIt;
+          argIt->setName(param->name + ".data");
+          ++argIt;
+          continue;
+        }
+        argIt->setName(param->name);
+        ++argIt;
+      }
 
       functionMap_[extFn->symbol->linkName] = f;
     }
@@ -241,27 +264,26 @@ namespace codegen
       auto *ft = buildFunctionType(*fn->symbol, isEntryMain);
       auto *f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                        fn->symbol->linkName, *module_);
-      size_t idx = 0;
-      for (auto &arg : f->args())
+      auto argIt = f->arg_begin();
+      if (isEntryMain)
       {
-        if (isEntryMain)
+        argIt->setName("argc");
+        ++argIt;
+        argIt->setName("argv");
+        ++argIt;
+      }
+      for (const auto &param : fn->symbol->parameters)
+      {
+        if (param->is_variadic_pack)
         {
-          if (idx == 0)
-          {
-            arg.setName("argc");
-            ++idx;
-            continue;
-          }
-          if (idx == 1)
-          {
-            arg.setName("argv");
-            ++idx;
-            continue;
-          }
-          arg.setName(fn->symbol->parameters[idx++ - 2]->name);
+          argIt->setName(param->name + ".count");
+          ++argIt;
+          argIt->setName(param->name + ".data");
+          ++argIt;
           continue;
         }
-        arg.setName(fn->symbol->parameters[idx++]->name);
+        argIt->setName(param->name);
+        ++argIt;
       }
 
       functionMap_[fn->symbol->linkName] = f;
@@ -315,8 +337,24 @@ namespace codegen
     size_t idx = 0;
     for (; argIt != fn->arg_end(); ++argIt)
     {
-      auto &arg = *argIt;
       const auto &param = node.symbol->parameters[idx++];
+      if (param->is_variadic_pack)
+      {
+        auto &countArg = *argIt;
+        auto *countAlloca = createEntryAlloca(fn, variadicCountSlotName(param->name),
+                                              countArg.getType());
+        builder_.CreateStore(&countArg, countAlloca);
+        localValues_[variadicCountSlotName(param->name)] = countAlloca;
+
+        ++argIt;
+        auto &dataArg = *argIt;
+        auto *dataAlloca = createEntryAlloca(fn, param->name, dataArg.getType());
+        builder_.CreateStore(&dataArg, dataAlloca);
+        localValues_[param->name] = dataAlloca;
+        continue;
+      }
+
+      auto &arg = *argIt;
       auto *alloca = createEntryAlloca(fn, param->name, arg.getType());
       builder_.CreateStore(&arg, alloca);
       localValues_[param->name] = alloca;
@@ -422,6 +460,20 @@ namespace codegen
     auto *src = lastValue_;
     auto *srcTy = src->getType();
     auto *destTy = toLLVMType(*node.type);
+
+    if (isStringType(node.expression->type) && destTy->isPointerTy())
+    {
+      auto *ptr = builder_.CreateExtractValue(src, {0}, "str.ptr");
+      if (ptr->getType() == destTy)
+      {
+        lastValue_ = ptr;
+      }
+      else
+      {
+        lastValue_ = builder_.CreateBitCast(ptr, destTy);
+      }
+      return;
+    }
 
     if (srcTy == destTy)
     {
@@ -921,10 +973,11 @@ namespace codegen
   {
     auto *callee = functionMap_.at(node.symbol->linkName);
     std::vector<llvm::Value *> args;
+    size_t fixedParamCount = node.symbol->fixedParameterCount();
     for (size_t i = 0; i < node.arguments.size(); ++i)
     {
       bool isRef = false;
-      if (i < node.argumentIsRef.size())
+      if (i < fixedParamCount && i < node.argumentIsRef.size())
         isRef = node.argumentIsRef[i];
       
       bool old = evaluateAsAddr_;
@@ -935,6 +988,93 @@ namespace codegen
       args.push_back(lastValue_);
       
       evaluateAsAddr_ = old;
+    }
+
+    if (node.symbol->hasVariadicParameter())
+    {
+      auto variadicParam = node.symbol->variadicParameter();
+      auto *elemTy = toLLVMType(*variadicParam->variadic_element_type);
+      auto *elemPtrTy = llvm::PointerType::getUnqual(elemTy);
+      size_t explicitVariadicCount = node.arguments.size() - fixedParamCount;
+
+      llvm::Value *forwardedCount = llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_), 0);
+      llvm::Value *forwardedData = llvm::ConstantPointerNull::get(elemPtrTy);
+      if (node.variadicPack)
+      {
+        auto *packVar = dynamic_cast<sema::BoundVariableExpression *>(node.variadicPack.get());
+        node.variadicPack->accept(*this);
+        forwardedData = lastValue_;
+        auto *countAlloca = localValues_.at(variadicCountSlotName(packVar->symbol->name));
+        forwardedCount = builder_.CreateLoad(llvm::Type::getInt32Ty(ctx_), countAlloca,
+                                             packVar->symbol->name + ".count");
+      }
+
+      llvm::Value *explicitCount =
+          llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_),
+                                 static_cast<uint64_t>(explicitVariadicCount));
+
+      if (explicitVariadicCount == 0 && !node.variadicPack)
+      {
+        args.push_back(explicitCount);
+        args.push_back(llvm::ConstantPointerNull::get(elemPtrTy));
+      }
+      else if (explicitVariadicCount == 0)
+      {
+        args.push_back(forwardedCount);
+        args.push_back(forwardedData);
+      }
+      else
+      {
+        llvm::Value *totalCount = explicitCount;
+        if (node.variadicPack)
+        {
+          totalCount = builder_.CreateAdd(explicitCount, forwardedCount, "varargs.total");
+        }
+
+        auto *buffer = builder_.CreateAlloca(elemTy, totalCount, "varargs.buf");
+        for (size_t i = 0; i < explicitVariadicCount; ++i)
+        {
+          auto *dst = builder_.CreateInBoundsGEP(
+              elemTy, buffer,
+              llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_),
+                                     static_cast<uint64_t>(i)));
+          builder_.CreateStore(args[fixedParamCount + i], dst);
+        }
+
+        if (node.variadicPack)
+        {
+          auto *copyCondBB = llvm::BasicBlock::Create(ctx_, "varargs.copy.cond", currentFn_);
+          auto *copyBodyBB = llvm::BasicBlock::Create(ctx_, "varargs.copy.body", currentFn_);
+          auto *copyDoneBB = llvm::BasicBlock::Create(ctx_, "varargs.copy.done", currentFn_);
+          auto *copyPreheaderBB = builder_.GetInsertBlock();
+
+          builder_.CreateBr(copyCondBB);
+          builder_.SetInsertPoint(copyCondBB);
+          auto *indexPhi = builder_.CreatePHI(llvm::Type::getInt32Ty(ctx_), 2, "varargs.i");
+          indexPhi->addIncoming(
+              llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_), 0),
+              copyPreheaderBB);
+          auto *hasMore = builder_.CreateICmpSLT(indexPhi, forwardedCount);
+          builder_.CreateCondBr(hasMore, copyBodyBB, copyDoneBB);
+
+          builder_.SetInsertPoint(copyBodyBB);
+          auto *src = builder_.CreateInBoundsGEP(elemTy, forwardedData, indexPhi);
+          auto *dstIndex = builder_.CreateAdd(explicitCount, indexPhi);
+          auto *dst = builder_.CreateInBoundsGEP(elemTy, buffer, dstIndex);
+          auto *loaded = builder_.CreateLoad(elemTy, src);
+          builder_.CreateStore(loaded, dst);
+          auto *nextIndex = builder_.CreateAdd(
+              indexPhi, llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_), 1));
+          builder_.CreateBr(copyCondBB);
+          indexPhi->addIncoming(nextIndex, copyBodyBB);
+
+          builder_.SetInsertPoint(copyDoneBB);
+        }
+
+        args.resize(fixedParamCount);
+        args.push_back(totalCount);
+        args.push_back(buffer);
+      }
     }
     lastValue_ = builder_.CreateCall(callee, args);
   }

@@ -1,0 +1,15 @@
+import "std/io";
+
+fun sum(first: Int, rest: ...Int) Int {
+    return first;
+}
+
+fun forward(rest: ...Int) Int {
+    return sum(10, ...rest);
+}
+
+fun main() Int {
+    io.printfln("sum(5, 1, 2, 3) = %d", sum(5, 1, 2, 3));
+    io.printfln("forward(7, 8) = %d", forward(7, 8));
+    return 0;
+}

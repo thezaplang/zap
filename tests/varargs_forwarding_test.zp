@@ -1,0 +1,31 @@
+fun keep(first: Int, rest: ...Int) Int {
+    return first;
+}
+
+fun forward_only(rest: ...Int) Int {
+    return keep(11, ...rest);
+}
+
+fun forward_with_prefix(prefix: Int, rest: ...Int) Int {
+    return keep(prefix, 21, ...rest);
+}
+
+fun main() Int {
+    if keep(7, 1, 2, 3) != 7 {
+        return 1;
+    }
+
+    if forward_only(4, 5, 6) != 11 {
+        return 2;
+    }
+
+    if forward_only() != 11 {
+        return 3;
+    }
+
+    if forward_with_prefix(9, 1, 2) != 9 {
+        return 4;
+    }
+
+    return 0;
+}
