@@ -67,7 +67,7 @@
 ## Release Criteria
 
 - [x] Non-trivial program compiles and runs end-to-end
-- [ ] ARC: no leaks or double-frees on a representative test suite
+- [x] ARC: no leaks or double-frees on a representative test suite
 - [x] Useful compiler errors for all new features
 - [x] Documentation updated to reflect current language state
 - [x] `examples/` covering each phase
