@@ -43,6 +43,14 @@ without low-level frustration.
 
 ---
 
+## Cycles
+
+If you know what ARC is, you probably also know that when two objects point to each other, ARC will never delete them even though they are not needed.
+Swift added `weak` to prevent this, we also added weak in Zap, but it often happens that you simply don't see that there is a cycle somewhere.
+Zap solves this problem thanks to its Cycle Collector, i.e. it is actually a garbage collector operating on objects causing the cycle, REST OF OBJECTS ARE NOT AFFECTED (cycle collector can be disabled if someone needs it!)
+
+---
+
 ## Error Handling
 
 > [!WARNING]
