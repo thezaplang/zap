@@ -1,9 +1,13 @@
 var driver_8cpp =
 [
     [ "zap::compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
+    [ "zap::compileObjectFromZIR", "d7/d1a/namespacezap.html#a49a535ddcd33f51bd094f8aa9d517e80", null ],
+    [ "zap::compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9", null ],
     [ "zap::compileSourceZIR", "d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595", null ],
     [ "zap::anonymous_namespace{driver.cpp}::computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
     [ "zap::anonymous_namespace{driver.cpp}::currentExecutablePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1b46bdefb6c665374ef9f52c428c8df1", null ],
+    [ "zap::anonymous_namespace{driver.cpp}::emitRequestedTextOutputs", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3", null ],
+    [ "zap::generateZIRModule", "d7/d1a/namespacezap.html#ac3b3cc5f8cb33ef1c1ae96b60e68125e", null ],
     [ "zap::anonymous_namespace{driver.cpp}::loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29", null ],
     [ "zap::anonymous_namespace{driver.cpp}::readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
     [ "zap::anonymous_namespace{driver.cpp}::resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4", null ],

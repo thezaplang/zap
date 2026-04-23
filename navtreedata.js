@@ -74,17 +74,18 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d56/classzir_1_1CmpInst.html#a78caccf64166d5aca001c06f7ecb73f5",
-"d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c",
-"d3/d94/classFunDecl.html#a83e0d910a55a3b4535942de6263e49c5",
-"d4/da0/classzir_1_1BoundIRGenerator.html#ab27ad956061dc64b46ee46bc80a1b9d5",
-"d7/db8/classBreakNode.html#a5b3edd36d192166ee81650a4891e6b68",
-"d9/d0d/classzap_1_1lsp_1_1Server.html#a2b02a996ec32275c88e5d47485c3a975",
-"da/d98/classzir_1_1Value.html#a927d59ebbf31211b45917ebf498b23b9",
-"db/d94/classsema_1_1BoundTernaryExpression.html",
-"dc/d2c/classsema_1_1Binder.html#a2da5af115d5d8f2a037c87f551f6c605",
-"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a262f643d3419fad1721ffb7ff4429a44",
-"de/d73/classzap_1_1Parser.html#a86742714ba6960471bde3daf4e2e9352",
+"d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html#aedd474f828d859220035c0546d8d63bb",
+"d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2178824d9c1fd22b5a9261fb8cd15f0f",
+"d3/d31/classzir_1_1WeakAliveInst.html#a8ef81c76870252e161b72b016b9909cd",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afa9f13a3d80049b1e7f9cef4e57108c1",
+"d6/dc0/classLexer.html#a781a725dce0bb22cd0435dd232976059",
+"d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a1bb729aec0104c49db7adf1a0b5c1e3c",
+"d9/d68/classzir_1_1Module.html#aeea93ebed8bdab412f9d897ba8b337f5",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a48f5016b7cbc80bb2a4ae8f95ec633e4",
+"db/ddd/classsema_1_1BoundMemberAccess.html#a02deaf842e898608ff910971c083b0b6",
+"dc/d2c/classsema_1_1Binder.html#a759de976b6b7730df5715e940b6339e5",
+"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aa757bf7081fee514c981a4a7e1fd8e1a",
+"de/d73/classzap_1_1Parser.html#add7f92840539e0eec9fe45af9ab45914",
 "df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5"
 ];
 

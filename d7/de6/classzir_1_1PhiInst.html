@@ -80,6 +80,8 @@ $(function(){initNavTree('d7/de6/classzir_1_1PhiInst.html','../../','de/d46/clas
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a96adcfb4e80796d4232e6ffc029620cc" id="r_a96adcfb4e80796d4232e6ffc029620cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96adcfb4e80796d4232e6ffc029620cc">PhiInst</a> (std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; res, std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &gt; &gt; inc)</td></tr>
 <tr class="memitem:af1bd0ddf0c91a60d643b0f5c086a9c0c" id="r_af1bd0ddf0c91a60d643b0f5c086a9c0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a">OpCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1bd0ddf0c91a60d643b0f5c086a9c0c">getOpCode</a> () const override</td></tr>
+<tr class="memitem:adef3e5c4d803b4fd1271bc79e3085b44" id="r_adef3e5c4d803b4fd1271bc79e3085b44"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adef3e5c4d803b4fd1271bc79e3085b44">getResult</a> () const</td></tr>
+<tr class="memitem:a55dfb00ea6a5c7f10928c594078bb375" id="r_a55dfb00ea6a5c7f10928c594078bb375"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55dfb00ea6a5c7f10928c594078bb375">getIncoming</a> () const</td></tr>
 <tr class="memitem:aadfd5649686bb8a878d9496eafd5aadf" id="r_aadfd5649686bb8a878d9496eafd5aadf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadfd5649686bb8a878d9496eafd5aadf">toString</a> () const override</td></tr>
 <tr class="inherit_header pub_methods_classzir_1_1Instruction"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classzir_1_1Instruction')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d0/dad/classzir_1_1Instruction.html">zir::Instruction</a></td></tr>
 <tr class="memitem:a4d788557171ac7f64fcb2802a9afecc6 inherit pub_methods_classzir_1_1Instruction" id="r_a4d788557171ac7f64fcb2802a9afecc6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dad/classzir_1_1Instruction.html#a4d788557171ac7f64fcb2802a9afecc6">~Instruction</a> ()=default</td></tr>
@@ -91,7 +93,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00245">245</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00288">288</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a96adcfb4e80796d4232e6ffc029620cc" name="a96adcfb4e80796d4232e6ffc029620cc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96adcfb4e80796d4232e6ffc029620cc">&#9670;&#160;</a></span>PhiInst()</h2>
@@ -120,16 +122,48 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00250">250</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  252</span>      : <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>(std::move(res)), <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>(std::move(inc)) {}</div>
-<div class="ttc" id="aclasszir_1_1PhiInst_html_a24806cfde1ca5a1df7851791a359f9ce"><div class="ttname"><a href="#a24806cfde1ca5a1df7851791a359f9ce">zir::PhiInst::result</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00246">instruction.hpp:246</a></div></div>
-<div class="ttc" id="aclasszir_1_1PhiInst_html_ad12d848f870964263eb718959aeb8ec3"><div class="ttname"><a href="#ad12d848f870964263eb718959aeb8ec3">zir::PhiInst::incoming</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; Value &gt; &gt; &gt; incoming</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00247">instruction.hpp:247</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00293">293</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  295</span>      : <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>(std::move(res)), <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>(std::move(inc)) {}</div>
+<div class="ttc" id="aclasszir_1_1PhiInst_html_a24806cfde1ca5a1df7851791a359f9ce"><div class="ttname"><a href="#a24806cfde1ca5a1df7851791a359f9ce">zir::PhiInst::result</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00289">instruction.hpp:289</a></div></div>
+<div class="ttc" id="aclasszir_1_1PhiInst_html_ad12d848f870964263eb718959aeb8ec3"><div class="ttname"><a href="#ad12d848f870964263eb718959aeb8ec3">zir::PhiInst::incoming</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; Value &gt; &gt; &gt; incoming</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00290">instruction.hpp:290</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00247">incoming</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00246">result</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00290">incoming</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00289">result</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a55dfb00ea6a5c7f10928c594078bb375" name="a55dfb00ea6a5c7f10928c594078bb375"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55dfb00ea6a5c7f10928c594078bb375">&#9670;&#160;</a></span>getIncoming()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &gt; &gt; &amp; zir::PhiInst::getIncoming </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00299">299</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  299</span>                      {</div>
+<div class="line"><span class="lineno">  300</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>;</div>
+<div class="line"><span class="lineno">  301</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00290">incoming</a>.</p>
+
+</div>
+</div>
 <a id="af1bd0ddf0c91a60d643b0f5c086a9c0c" name="af1bd0ddf0c91a60d643b0f5c086a9c0c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1bd0ddf0c91a60d643b0f5c086a9c0c">&#9670;&#160;</a></span>getOpCode()</h2>
 
@@ -155,11 +189,41 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#a3681c8ca34e3c301971ad31a2a0a31a7">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00253">253</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  253</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">OpCode::Phi</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00296">296</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  296</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">OpCode::Phi</a>; }</div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">zir::OpCode::Phi</a></div><div class="ttdeci">@ Phi</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00029">instruction.hpp:29</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00029">zir::Phi</a>.</p>
+
+</div>
+</div>
+<a id="adef3e5c4d803b4fd1271bc79e3085b44" name="adef3e5c4d803b4fd1271bc79e3085b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adef3e5c4d803b4fd1271bc79e3085b44">&#9670;&#160;</a></span>getResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp; zir::PhiInst::getResult </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00297">297</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00289">result</a>.</p>
 
 </div>
 </div>
@@ -188,19 +252,19 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#aaa4f318b5ed4218bb699787c6e19751d">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00254">254</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  254</span>                                      {</div>
-<div class="line"><span class="lineno">  255</span>    std::string s = <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>-&gt;getName() + <span class="stringliteral">&quot; = phi &quot;</span> + <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span>;</div>
-<div class="line"><span class="lineno">  256</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  257</span>      std::string valName =</div>
-<div class="line"><span class="lineno">  258</span>          <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].second ? <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].second-&gt;getName() : <span class="stringliteral">&quot;undef&quot;</span>;</div>
-<div class="line"><span class="lineno">  259</span>      s += <span class="stringliteral">&quot;[ &quot;</span> + valName + <span class="stringliteral">&quot;, %&quot;</span> + <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].first + <span class="stringliteral">&quot; ]&quot;</span> +</div>
-<div class="line"><span class="lineno">  260</span>           (i &lt; <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">  261</span>    }</div>
-<div class="line"><span class="lineno">  262</span>    <span class="keywordflow">return</span> s;</div>
-<div class="line"><span class="lineno">  263</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00302">302</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  302</span>                                      {</div>
+<div class="line"><span class="lineno">  303</span>    std::string s = <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>-&gt;getName() + <span class="stringliteral">&quot; = phi &quot;</span> + <a class="code hl_variable" href="#a24806cfde1ca5a1df7851791a359f9ce">result</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  305</span>      std::string valName =</div>
+<div class="line"><span class="lineno">  306</span>          <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].second ? <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].second-&gt;getName() : <span class="stringliteral">&quot;undef&quot;</span>;</div>
+<div class="line"><span class="lineno">  307</span>      s += <span class="stringliteral">&quot;[ &quot;</span> + valName + <span class="stringliteral">&quot;, %&quot;</span> + <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>[i].first + <span class="stringliteral">&quot; ]&quot;</span> +</div>
+<div class="line"><span class="lineno">  308</span>           (i &lt; <a class="code hl_variable" href="#ad12d848f870964263eb718959aeb8ec3">incoming</a>.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">  309</span>    }</div>
+<div class="line"><span class="lineno">  310</span>    <span class="keywordflow">return</span> s;</div>
+<div class="line"><span class="lineno">  311</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00247">incoming</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00246">result</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00290">incoming</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00289">result</a>.</p>
 
 </div>
 </div>
@@ -225,9 +289,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00247">247</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00290">290</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00250">PhiInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00254">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00299">getIncoming()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00293">PhiInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00302">toString()</a>.</p>
 
 </div>
 </div>
@@ -251,9 +315,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00246">246</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00289">289</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00250">PhiInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00254">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00297">getResult()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00293">PhiInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00302">toString()</a>.</p>
 
 </div>
 </div>

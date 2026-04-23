@@ -75,7 +75,9 @@ var hierarchy =
       [ "zir::ReleaseInst", "d0/db2/classzir_1_1ReleaseInst.html", null ],
       [ "zir::RetainInst", "da/db6/classzir_1_1RetainInst.html", null ],
       [ "zir::ReturnInst", "d2/df1/classzir_1_1ReturnInst.html", null ],
-      [ "zir::StoreInst", "dc/d2e/classzir_1_1StoreInst.html", null ]
+      [ "zir::StoreInst", "dc/d2e/classzir_1_1StoreInst.html", null ],
+      [ "zir::WeakAliveInst", "d3/d31/classzir_1_1WeakAliveInst.html", null ],
+      [ "zir::WeakLockInst", "d0/d7a/classzir_1_1WeakLockInst.html", null ]
     ] ],
     [ "zap::lsp::JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", null ],
     [ "zap::lsp::JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", null ],
@@ -173,6 +175,7 @@ var hierarchy =
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
       [ "zir::Argument", "d3/d57/classzir_1_1Argument.html", null ],
       [ "zir::Constant", "da/d2d/classzir_1_1Constant.html", null ],
+      [ "zir::Global", "d0/d8c/classzir_1_1Global.html", null ],
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]
     ] ],
     [ "Visitor", "dc/d13/structVisitor.html", [

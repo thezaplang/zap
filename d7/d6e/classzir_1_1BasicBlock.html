@@ -70,6 +70,8 @@ $(function(){initNavTree('d7/d6e/classzir_1_1BasicBlock.html','../../','d5/d3e/c
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac9265afe87e55aad0be11c22aed3354a" id="r_ac9265afe87e55aad0be11c22aed3354a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9265afe87e55aad0be11c22aed3354a">BasicBlock</a> (std::string <a class="el" href="#a5bd36183b510f980ef9e6ef69a811bfd">label</a>)</td></tr>
 <tr class="memitem:a2d02a10aa67f80d7fe1637337d321aba" id="r_a2d02a10aa67f80d7fe1637337d321aba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d02a10aa67f80d7fe1637337d321aba">addInstruction</a> (std::unique_ptr&lt; <a class="el" href="../../d0/dad/classzir_1_1Instruction.html">Instruction</a> &gt; inst)</td></tr>
+<tr class="memitem:a27ec01188b9ba44e64bf6dbf998dd5e0" id="r_a27ec01188b9ba44e64bf6dbf998dd5e0"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d0/dad/classzir_1_1Instruction.html">Instruction</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27ec01188b9ba44e64bf6dbf998dd5e0">getInstructions</a> () const</td></tr>
+<tr class="memitem:a11edc41825b215024d4d2814750e440a" id="r_a11edc41825b215024d4d2814750e440a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11edc41825b215024d4d2814750e440a">empty</a> () const</td></tr>
 <tr class="memitem:a7a55ca2a10a59f8ef8d4416b85b0dab7" id="r_a7a55ca2a10a59f8ef8d4416b85b0dab7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a55ca2a10a59f8ef8d4416b85b0dab7">toString</a> () const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -146,6 +148,68 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a11edc41825b215024d4d2814750e440a" name="a11edc41825b215024d4d2814750e440a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11edc41825b215024d4d2814750e440a">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zir::BasicBlock::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a98df5b8d7db7080f89acc97800170b81">instructions</a>.empty(); }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">instructions</a>.</p>
+
+</div>
+</div>
+<a id="a27ec01188b9ba44e64bf6dbf998dd5e0" name="a27ec01188b9ba44e64bf6dbf998dd5e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27ec01188b9ba44e64bf6dbf998dd5e0">&#9670;&#160;</a></span>getInstructions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d0/dad/classzir_1_1Instruction.html">Instruction</a> &gt; &gt; &amp; zir::BasicBlock::getInstructions </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>                                                                       {</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a98df5b8d7db7080f89acc97800170b81">instructions</a>;</div>
+<div class="line"><span class="lineno">   22</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">instructions</a>.</p>
+
+</div>
+</div>
 <a id="a7a55ca2a10a59f8ef8d4416b85b0dab7" name="a7a55ca2a10a59f8ef8d4416b85b0dab7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a55ca2a10a59f8ef8d4416b85b0dab7">&#9670;&#160;</a></span>toString()</h2>
 
@@ -169,14 +233,14 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   20</span>                             {</div>
-<div class="line"><span class="lineno">   21</span>    std::string res = <a class="code hl_variable" href="#a5bd36183b510f980ef9e6ef69a811bfd">label</a> + <span class="stringliteral">&quot;:\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;inst : <a class="code hl_variable" href="#a98df5b8d7db7080f89acc97800170b81">instructions</a>) {</div>
-<div class="line"><span class="lineno">   23</span>      res += <span class="stringliteral">&quot;    &quot;</span> + inst-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   24</span>    }</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   26</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>                             {</div>
+<div class="line"><span class="lineno">   27</span>    std::string res = <a class="code hl_variable" href="#a5bd36183b510f980ef9e6ef69a811bfd">label</a> + <span class="stringliteral">&quot;:\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;inst : <a class="code hl_variable" href="#a98df5b8d7db7080f89acc97800170b81">instructions</a>) {</div>
+<div class="line"><span class="lineno">   29</span>      res += <span class="stringliteral">&quot;    &quot;</span> + inst-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   30</span>    }</div>
+<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">   32</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">instructions</a>, and <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00011">label</a>.</p>
 
@@ -197,7 +261,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00016">addInstruction()</a>, and <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00016">addInstruction()</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00024">empty()</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">getInstructions()</a>, and <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00026">toString()</a>.</p>
 
 </div>
 </div>
@@ -215,7 +279,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../df/dab/basic__block_8hpp_source.html">basic_block.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00014">BasicBlock()</a>, and <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00014">BasicBlock()</a>, and <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00026">toString()</a>.</p>
 
 </div>
 </div>

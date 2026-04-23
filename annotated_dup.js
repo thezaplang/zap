@@ -100,6 +100,8 @@ var annotated_dup =
       [ "GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", "db/dee/classzir_1_1GetElementPtrInst" ],
       [ "PhiInst", "d7/de6/classzir_1_1PhiInst.html", "d7/de6/classzir_1_1PhiInst" ],
       [ "CastInst", "d8/d42/classzir_1_1CastInst.html", "d8/d42/classzir_1_1CastInst" ],
+      [ "WeakLockInst", "d0/d7a/classzir_1_1WeakLockInst.html", "d0/d7a/classzir_1_1WeakLockInst" ],
+      [ "WeakAliveInst", "d3/d31/classzir_1_1WeakAliveInst.html", "d3/d31/classzir_1_1WeakAliveInst" ],
       [ "BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", "d4/da0/classzir_1_1BoundIRGenerator" ],
       [ "Module", "d9/d68/classzir_1_1Module.html", "d9/d68/classzir_1_1Module" ],
       [ "Type", "d9/dd2/classzir_1_1Type.html", "d9/dd2/classzir_1_1Type" ],
@@ -112,7 +114,8 @@ var annotated_dup =
       [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
       [ "Register", "da/d1e/classzir_1_1Register.html", "da/d1e/classzir_1_1Register" ],
       [ "Constant", "da/d2d/classzir_1_1Constant.html", "da/d2d/classzir_1_1Constant" ],
-      [ "Argument", "d3/d57/classzir_1_1Argument.html", "d3/d57/classzir_1_1Argument" ]
+      [ "Argument", "d3/d57/classzir_1_1Argument.html", "d3/d57/classzir_1_1Argument" ],
+      [ "Global", "d0/d8c/classzir_1_1Global.html", "d0/d8c/classzir_1_1Global" ]
     ] ],
     [ "Argument", "dc/d8f/structArgument.html", "dc/d8f/structArgument" ],
     [ "ArrayLiteralNode", "d0/d85/classArrayLiteralNode.html", "d0/d85/classArrayLiteralNode" ],

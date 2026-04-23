@@ -84,6 +84,8 @@ Classes</h2></td></tr>
 <tr class="memitem:GetElementPtrInst" id="r_GetElementPtrInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dee/classzir_1_1GetElementPtrInst.html">GetElementPtrInst</a></td></tr>
 <tr class="memitem:PhiInst" id="r_PhiInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/de6/classzir_1_1PhiInst.html">PhiInst</a></td></tr>
 <tr class="memitem:CastInst" id="r_CastInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d42/classzir_1_1CastInst.html">CastInst</a></td></tr>
+<tr class="memitem:WeakLockInst" id="r_WeakLockInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7a/classzir_1_1WeakLockInst.html">WeakLockInst</a></td></tr>
+<tr class="memitem:WeakAliveInst" id="r_WeakAliveInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d31/classzir_1_1WeakAliveInst.html">WeakAliveInst</a></td></tr>
 <tr class="memitem:BoundIRGenerator" id="r_BoundIRGenerator"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/da0/classzir_1_1BoundIRGenerator.html">BoundIRGenerator</a></td></tr>
 <tr class="memitem:Module" id="r_Module"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d68/classzir_1_1Module.html">Module</a></td></tr>
 <tr class="memitem:Type" id="r_Type"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a></td></tr>
@@ -97,6 +99,7 @@ Classes</h2></td></tr>
 <tr class="memitem:Register" id="r_Register"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d1e/classzir_1_1Register.html">Register</a></td></tr>
 <tr class="memitem:Constant" id="r_Constant"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d2d/classzir_1_1Constant.html">Constant</a></td></tr>
 <tr class="memitem:Argument" id="r_Argument"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d57/classzir_1_1Argument.html">Argument</a></td></tr>
+<tr class="memitem:Global" id="r_Global"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -142,6 +145,10 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">Phi</a>
 , <br />
 &#160;&#160;<a class="el" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c">Cast</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47">WeakLock</a>
+, <br />
+&#160;&#160;<a class="el" href="#ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c">WeakAlive</a>
 <br />
  }</td></tr>
 <tr class="memitem:a8aff9f37489c6b980b6ff3787f3a6959" id="r_a8aff9f37489c6b980b6ff3787f3a6959"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8aff9f37489c6b980b6ff3787f3a6959">TypeKind</a> { <br />
@@ -196,6 +203,8 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a>
 , <br />
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">Global</a>
 <br />
  }</td></tr>
 </table>
@@ -241,6 +250,8 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f" name="ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f"></a>GetElementPtr&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67" name="ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67"></a>Phi&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c" name="ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c"></a>Cast&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47" name="ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47"></a>WeakLock&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c" name="ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c"></a>WeakAlive&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
@@ -265,8 +276,10 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   27</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aaea571dc00aef155a16d4e7e1861e1682">Alloc</a>,</div>
 <div class="line"><span class="lineno">   28</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f">GetElementPtr</a>,</div>
 <div class="line"><span class="lineno">   29</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">Phi</a>,</div>
-<div class="line"><span class="lineno">   30</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c">Cast</a></div>
-<div class="line"><span class="lineno">   31</span>};</div>
+<div class="line"><span class="lineno">   30</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c">Cast</a>,</div>
+<div class="line"><span class="lineno">   31</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47">WeakLock</a>,</div>
+<div class="line"><span class="lineno">   32</span>  <a class="code hl_enumvalue" href="#ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c">WeakAlive</a></div>
+<div class="line"><span class="lineno">   33</span>};</div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1">zir::OpCode::UDiv</a></div><div class="ttdeci">@ UDiv</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00017">instruction.hpp:17</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c">zir::OpCode::Cast</a></div><div class="ttdeci">@ Cast</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00030">instruction.hpp:30</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aa58b2d3fcee1d34f2fbb772b5f1295c4f">zir::OpCode::GetElementPtr</a></div><div class="ttdeci">@ GetElementPtr</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00028">instruction.hpp:28</a></div></div>
@@ -281,7 +294,9 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaafece4245269582cb2f1009d4fb52047"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aaafece4245269582cb2f1009d4fb52047">zir::OpCode::Retain</a></div><div class="ttdeci">@ Retain</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00025">instruction.hpp:25</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aab8e7b465df7c5979dc731d06e84ce2cf"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aab8e7b465df7c5979dc731d06e84ce2cf">zir::OpCode::Release</a></div><div class="ttdeci">@ Release</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00026">instruction.hpp:26</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aac3755e61202abd74da5885d2e9c9160e"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aac3755e61202abd74da5885d2e9c9160e">zir::OpCode::Call</a></div><div class="ttdeci">@ Call</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00024">instruction.hpp:24</a></div></div>
+<div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47">zir::OpCode::WeakLock</a></div><div class="ttdeci">@ WeakLock</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00031">instruction.hpp:31</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aac9b4c62f6dc1bc5caf3c768b687cbf7e"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aac9b4c62f6dc1bc5caf3c768b687cbf7e">zir::OpCode::Cmp</a></div><div class="ttdeci">@ Cmp</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00020">instruction.hpp:20</a></div></div>
+<div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c">zir::OpCode::WeakAlive</a></div><div class="ttdeci">@ WeakAlive</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00032">instruction.hpp:32</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aadb253826d18dad4c6bf8baedd448cd17"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aadb253826d18dad4c6bf8baedd448cd17">zir::OpCode::Alloca</a></div><div class="ttdeci">@ Alloca</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00010">instruction.hpp:10</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2">zir::OpCode::Sub</a></div><div class="ttdeci">@ Sub</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00014">instruction.hpp:14</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaea571dc00aef155a16d4e7e1861e1682"><div class="ttname"><a href="#ab4e12cb1b0618e9ddeb42f32bacb847aaea571dc00aef155a16d4e7e1861e1682">zir::OpCode::Alloc</a></div><div class="ttdeci">@ Alloc</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00027">instruction.hpp:27</a></div></div>
@@ -408,12 +423,14 @@ Enumerations</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4" name="a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4"></a>Register&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255" name="a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"></a>Constant&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb" name="a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb"></a>Argument&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8" name="a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"></a>Global&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    8</span>{ <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4">Register</a>, <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a>, <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a> };</div>
+<div class="fragment"><div class="line"><span class="lineno">    8</span>{ <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4">Register</a>, <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a>, <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a>, <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">Global</a> };</div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4">zir::ValueKind::Register</a></div><div class="ttdeci">@ Register</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00008">value.hpp:8</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">zir::ValueKind::Argument</a></div><div class="ttdeci">@ Argument</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00008">value.hpp:8</a></div></div>
+<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::ValueKind::Global</a></div><div class="ttdeci">@ Global</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00008">value.hpp:8</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">zir::ValueKind::Constant</a></div><div class="ttdeci">@ Constant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00008">value.hpp:8</a></div></div>
 </div><!-- fragment -->
 </div>

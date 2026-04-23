@@ -34,6 +34,8 @@ var classzir_1_1BoundIRGenerator =
     [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#ab77094dd405a58b294d433237c1d1f89", null ],
     [ "currentBlock_", "d4/da0/classzir_1_1BoundIRGenerator.html#a432d802384e75d8e633da0e7917c9bca", null ],
     [ "currentFunction_", "d4/da0/classzir_1_1BoundIRGenerator.html#ac6a01826d1e9b76f196fe38404b58c0b", null ],
+    [ "evaluateAsAddress_", "d4/da0/classzir_1_1BoundIRGenerator.html#ae97192c7575079a42b0e661e404ca4b7", null ],
+    [ "globalSymbolMap_", "d4/da0/classzir_1_1BoundIRGenerator.html#ae0be4db5fb96e9c7fc45b85af204f062", null ],
     [ "lastResultValue_", "d4/da0/classzir_1_1BoundIRGenerator.html#a00cbfd798d2a6a3ac73bbea84dda5533", null ],
     [ "loopLabelStack_", "d4/da0/classzir_1_1BoundIRGenerator.html#ab27ad956061dc64b46ee46bc80a1b9d5", null ],
     [ "module_", "d4/da0/classzir_1_1BoundIRGenerator.html#a6f4dc9fe3389e2df321acb83917e6912", null ],

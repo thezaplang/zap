@@ -154,6 +154,9 @@ Functions</h2></td></tr>
 <tr class="memitem:acbcdf2e98ce8607163e935ee2f4cb7b8" id="r_acbcdf2e98ce8607163e935ee2f4cb7b8"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbcdf2e98ce8607163e935ee2f4cb7b8">ZAP_VERSION</a> (0, 1, 1)</td></tr>
 <tr class="memdesc:acbcdf2e98ce8607163e935ee2f4cb7b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zap's version, displayed when &ndash;version is used.  <br /></td></tr>
 <tr class="memitem:a4568178cd71b87328c92ebc2c1ddf595" id="r_a4568178cd71b87328c92ebc2c1ddf595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4568178cd71b87328c92ebc2c1ddf595">compileSourceZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
+<tr class="memitem:a59eaa38dc4c00c6b9ffe0e78eec3f3c9" id="r_a59eaa38dc4c00c6b9ffe0e78eec3f3c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59eaa38dc4c00c6b9ffe0e78eec3f3c9">compileSourceLLVMFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
+<tr class="memitem:ac3b3cc5f8cb33ef1c1ae96b60e68125e" id="r_ac3b3cc5f8cb33ef1c1ae96b60e68125e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/d68/classzir_1_1Module.html">zir::Module</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">generateZIRModule</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node)</td></tr>
+<tr class="memitem:a49a535ddcd33f51bd094f8aa9d517e80" id="r_a49a535ddcd33f51bd094f8aa9d517e80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49a535ddcd33f51bd094f8aa9d517e80">compileObjectFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, const std::string &amp;output_path)</td></tr>
 <tr class="memitem:a5b534b45b24952eb8d0ee6cbdb4eb199" id="r_a5b534b45b24952eb8d0ee6cbdb4eb199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b534b45b24952eb8d0ee6cbdb4eb199">compileLoadedModules</a> (<a class="el" href="../../d9/d00/classzap_1_1driver.html">driver</a> &amp;drv, const std::filesystem::path &amp;entryPath)</td></tr>
 <tr class="memitem:a2a6e0e7719e15570ecf3fccf40924d36" id="r_a2a6e0e7719e15570ecf3fccf40924d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a6e0e7719e15570ecf3fccf40924d36">verifyFile</a> (const std::filesystem::path &amp;input)</td></tr>
 <tr class="memitem:a674956178a1a7ce6606f78a8839a2e18" id="r_a674956178a1a7ce6606f78a8839a2e18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a674956178a1a7ce6606f78a8839a2e18">err</a> ()</td></tr>
@@ -354,122 +357,179 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">277</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  277</span>                                                                           {</div>
-<div class="line"><span class="lineno">  278</span>  std::map&lt;std::string, std::unique_ptr&lt;sema::ModuleInfo&gt;&gt; moduleMap;</div>
-<div class="line"><span class="lineno">  279</span>  std::set&lt;std::string&gt; visiting;</div>
-<div class="line"><span class="lineno">  280</span>  <span class="keywordflow">if</span> (loadModuleGraph(entryPath, moduleMap, visiting)) {</div>
-<div class="line"><span class="lineno">  281</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  282</span>  }</div>
-<div class="line"><span class="lineno">  283</span> </div>
-<div class="line"><span class="lineno">  284</span>  <span class="keyword">auto</span> entryId = std::filesystem::weakly_canonical(entryPath).string();</div>
-<div class="line"><span class="lineno">  285</span>  <span class="keywordflow">if</span> (moduleMap.find(entryId) == moduleMap.end()) {</div>
-<div class="line"><span class="lineno">  286</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to load entry module: &quot;</span>, entryPath);</div>
-<div class="line"><span class="lineno">  287</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  288</span>  }</div>
-<div class="line"><span class="lineno">  289</span>  moduleMap[entryId]-&gt;isEntry = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>  std::string entrySource;</div>
-<div class="line"><span class="lineno">  292</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a">readSourceFile</a>(entryPath, entrySource)) {</div>
-<div class="line"><span class="lineno">  293</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  294</span>  }</div>
-<div class="line"><span class="lineno">  295</span>  <a class="code hl_class" href="../../d3/d28/classzap_1_1DiagnosticEngine.html">DiagnosticEngine</a> diagnostics(entrySource, entryPath.string());</div>
-<div class="line"><span class="lineno">  296</span> </div>
-<div class="line"><span class="lineno">  297</span>  std::vector&lt;sema::ModuleInfo&gt; modules;</div>
-<div class="line"><span class="lineno">  298</span>  modules.reserve(moduleMap.size());</div>
-<div class="line"><span class="lineno">  299</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, module] : moduleMap) {</div>
-<div class="line"><span class="lineno">  300</span>    modules.push_back(std::move(*module));</div>
-<div class="line"><span class="lineno">  301</span>  }</div>
-<div class="line"><span class="lineno">  302</span> </div>
-<div class="line"><span class="lineno">  303</span>  sema::Binder binder(diagnostics, drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#a9c2f7273c97891bee4791cafaa5e806a">allow_unsafe</a>);</div>
-<div class="line"><span class="lineno">  304</span>  <span class="keyword">auto</span> boundAst = binder.bind(modules);</div>
-<div class="line"><span class="lineno">  305</span>  diagnostics.printText(<a class="code hl_function" href="#a674956178a1a7ce6606f78a8839a2e18">err</a>());</div>
-<div class="line"><span class="lineno">  306</span> </div>
-<div class="line"><span class="lineno">  307</span>  <span class="keywordflow">if</span> (!boundAst) {</div>
-<div class="line"><span class="lineno">  308</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(entryPath, <span class="stringliteral">&quot;: semantic analysis failed&quot;</span>);</div>
-<div class="line"><span class="lineno">  309</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  310</span>  }</div>
-<div class="line"><span class="lineno">  311</span> </div>
-<div class="line"><span class="lineno">  312</span>  <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0540b39cc80d1ad1c22d4c4cfd8a535f">binary_output</a>()) {</div>
-<div class="line"><span class="lineno">  313</span>    <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea66a0128ad08b2053e4809e07fe05728c">driver::output_type::LLVM</a>)</div>
-<div class="line"><span class="lineno">  314</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  315</span> </div>
-<div class="line"><span class="lineno">  316</span>    std::filesystem::path out_path;</div>
-<div class="line"><span class="lineno">  317</span> </div>
-<div class="line"><span class="lineno">  318</span>    <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff">driver::output_type::EXEC</a>) {</div>
-<div class="line"><span class="lineno">  319</span>      out_path = entryPath.string() + <span class="stringliteral">&quot;.o&quot;</span>;</div>
-<div class="line"><span class="lineno">  320</span>      drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1">cleanups</a>.emplace_back(out_path);</div>
-<div class="line"><span class="lineno">  321</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53">driver::output_type::OBJECT</a>) {</div>
-<div class="line"><span class="lineno">  322</span>      <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">is_implicit_output</a>()) {</div>
-<div class="line"><span class="lineno">  323</span>        out_path = entryPath.string() + <span class="stringliteral">&quot;.o&quot;</span>;</div>
-<div class="line"><span class="lineno">  324</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  325</span>        out_path = drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a3260c2ed648b09c03827391005626b98">get_output</a>();</div>
-<div class="line"><span class="lineno">  326</span>      }</div>
-<div class="line"><span class="lineno">  327</span>    }</div>
-<div class="line"><span class="lineno">  328</span> </div>
-<div class="line"><span class="lineno">  329</span>    codegen::LLVMCodeGen llvmGen;</div>
-<div class="line"><span class="lineno">  330</span>    llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">generate</a>(*boundAst);</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>    <span class="keywordflow">if</span> (!llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775">emitObjectFile</a>(out_path.string())) {</div>
-<div class="line"><span class="lineno">  333</span>      <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;object file emission failed&quot;</span>);</div>
-<div class="line"><span class="lineno">  334</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  335</span>    }</div>
-<div class="line"><span class="lineno">  336</span> </div>
-<div class="line"><span class="lineno">  337</span>    drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#a7ccbc03112e80c027c644a2e85689b98">objects</a>.emplace_back(std::move(out_path));</div>
-<div class="line"><span class="lineno">  338</span>  } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  339</span>    std::filesystem::path out_path =</div>
-<div class="line"><span class="lineno">  340</span>        drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">is_implicit_output</a>()</div>
-<div class="line"><span class="lineno">  341</span>            ? std::filesystem::path(entryPath.string() +</div>
-<div class="line"><span class="lineno">  342</span>                                    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#ae170c37200b2b35aca5175c480205b2e">driver::format_fileextension</a>(drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>()))</div>
-<div class="line"><span class="lineno">  343</span>            : drv.get_output();</div>
-<div class="line"><span class="lineno">  344</span> </div>
-<div class="line"><span class="lineno">  345</span>    std::ofstream ofoutput(out_path, std::ios::binary);</div>
-<div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>    <span class="keywordflow">if</span> (!ofoutput) {</div>
-<div class="line"><span class="lineno">  348</span>      <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;couldn&#39;t open the provided file: &quot;</span>, out_path,</div>
-<div class="line"><span class="lineno">  349</span>                          <span class="stringliteral">&quot;\nreason: &quot;</span>, strerror(errno));</div>
-<div class="line"><span class="lineno">  350</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  351</span>    }</div>
-<div class="line"><span class="lineno">  352</span> </div>
-<div class="line"><span class="lineno">  353</span>    <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea1540c5fa1532634962f63ab8195258e8">driver::output_type::ZIR</a>) {</div>
-<div class="line"><span class="lineno">  354</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a4568178cd71b87328c92ebc2c1ddf595">compileSourceZIR</a>(*boundAst, ofoutput))</div>
-<div class="line"><span class="lineno">  355</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  356</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea987eec23f0aa855d7b77f0b53bca2c61">driver::output_type::TEXT_LLVM</a>) {</div>
-<div class="line"><span class="lineno">  357</span>      codegen::LLVMCodeGen llvmGen;</div>
-<div class="line"><span class="lineno">  358</span>      llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">generate</a>(*boundAst);</div>
-<div class="line"><span class="lineno">  359</span>      std::string ir;</div>
-<div class="line"><span class="lineno">  360</span>      llvm::raw_string_ostream rs(ir);</div>
-<div class="line"><span class="lineno">  361</span>      llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9">printIR</a>(rs);</div>
-<div class="line"><span class="lineno">  362</span>      ofoutput &lt;&lt; ir;</div>
-<div class="line"><span class="lineno">  363</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  364</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  365</span>    }</div>
-<div class="line"><span class="lineno">  366</span>  }</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  369</span>}</div>
-<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_ac2ebe10d30c2e968fce18fa4618c5fe9"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9">codegen::LLVMCodeGen::printIR</a></div><div class="ttdeci">void printIR(llvm::raw_ostream &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00082">llvm_codegen.cpp:82</a></div></div>
-<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_afde253b6d5c9ce9b8a9a5d70027eb775"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775">codegen::LLVMCodeGen::emitObjectFile</a></div><div class="ttdeci">bool emitObjectFile(const std::string &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00087">llvm_codegen.cpp:87</a></div></div>
-<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_aff5cf6bf6405eea22cfadefc422b04c4"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">codegen::LLVMCodeGen::generate</a></div><div class="ttdeci">void generate(sema::BoundRootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">llvm_codegen.cpp:62</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00324">324</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  324</span>                                                                           {</div>
+<div class="line"><span class="lineno">  325</span>  std::map&lt;std::string, std::unique_ptr&lt;sema::ModuleInfo&gt;&gt; moduleMap;</div>
+<div class="line"><span class="lineno">  326</span>  std::set&lt;std::string&gt; visiting;</div>
+<div class="line"><span class="lineno">  327</span>  <span class="keywordflow">if</span> (loadModuleGraph(entryPath, moduleMap, visiting)) {</div>
+<div class="line"><span class="lineno">  328</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  329</span>  }</div>
+<div class="line"><span class="lineno">  330</span> </div>
+<div class="line"><span class="lineno">  331</span>  <span class="keyword">auto</span> entryId = std::filesystem::weakly_canonical(entryPath).string();</div>
+<div class="line"><span class="lineno">  332</span>  <span class="keywordflow">if</span> (moduleMap.find(entryId) == moduleMap.end()) {</div>
+<div class="line"><span class="lineno">  333</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to load entry module: &quot;</span>, entryPath);</div>
+<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  335</span>  }</div>
+<div class="line"><span class="lineno">  336</span>  moduleMap[entryId]-&gt;isEntry = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  337</span> </div>
+<div class="line"><span class="lineno">  338</span>  std::string entrySource;</div>
+<div class="line"><span class="lineno">  339</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a">readSourceFile</a>(entryPath, entrySource)) {</div>
+<div class="line"><span class="lineno">  340</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  341</span>  }</div>
+<div class="line"><span class="lineno">  342</span>  <a class="code hl_class" href="../../d3/d28/classzap_1_1DiagnosticEngine.html">DiagnosticEngine</a> diagnostics(entrySource, entryPath.string());</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  344</span>  std::vector&lt;sema::ModuleInfo&gt; modules;</div>
+<div class="line"><span class="lineno">  345</span>  modules.reserve(moduleMap.size());</div>
+<div class="line"><span class="lineno">  346</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, module] : moduleMap) {</div>
+<div class="line"><span class="lineno">  347</span>    modules.push_back(std::move(*module));</div>
+<div class="line"><span class="lineno">  348</span>  }</div>
+<div class="line"><span class="lineno">  349</span> </div>
+<div class="line"><span class="lineno">  350</span>  sema::Binder binder(diagnostics, drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#a9c2f7273c97891bee4791cafaa5e806a">allow_unsafe</a>);</div>
+<div class="line"><span class="lineno">  351</span>  <span class="keyword">auto</span> boundAst = binder.bind(modules);</div>
+<div class="line"><span class="lineno">  352</span>  diagnostics.printText(<a class="code hl_function" href="#a674956178a1a7ce6606f78a8839a2e18">err</a>());</div>
+<div class="line"><span class="lineno">  353</span> </div>
+<div class="line"><span class="lineno">  354</span>  <span class="keywordflow">if</span> (!boundAst) {</div>
+<div class="line"><span class="lineno">  355</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(entryPath, <span class="stringliteral">&quot;: semantic analysis failed&quot;</span>);</div>
+<div class="line"><span class="lineno">  356</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  357</span>  }</div>
+<div class="line"><span class="lineno">  358</span> </div>
+<div class="line"><span class="lineno">  359</span>  <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0540b39cc80d1ad1c22d4c4cfd8a535f">binary_output</a>()) {</div>
+<div class="line"><span class="lineno">  360</span>    std::filesystem::path out_path;</div>
+<div class="line"><span class="lineno">  361</span> </div>
+<div class="line"><span class="lineno">  362</span>    <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff">driver::output_type::EXEC</a>) {</div>
+<div class="line"><span class="lineno">  363</span>      out_path = entryPath.string() + <span class="stringliteral">&quot;.o&quot;</span>;</div>
+<div class="line"><span class="lineno">  364</span>      drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1">cleanups</a>.emplace_back(out_path);</div>
+<div class="line"><span class="lineno">  365</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">get_output_type</a>() == <a class="code hl_enumvalue" href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53">driver::output_type::OBJECT</a>) {</div>
+<div class="line"><span class="lineno">  366</span>      <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">is_implicit_output</a>()) {</div>
+<div class="line"><span class="lineno">  367</span>        out_path = entryPath.string() + <span class="stringliteral">&quot;.o&quot;</span>;</div>
+<div class="line"><span class="lineno">  368</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  369</span>        out_path = drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a3260c2ed648b09c03827391005626b98">get_output</a>();</div>
+<div class="line"><span class="lineno">  370</span>      }</div>
+<div class="line"><span class="lineno">  371</span>    }</div>
+<div class="line"><span class="lineno">  372</span> </div>
+<div class="line"><span class="lineno">  373</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a49a535ddcd33f51bd094f8aa9d517e80">compileObjectFromZIR</a>(*boundAst, out_path.string())) {</div>
+<div class="line"><span class="lineno">  374</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  375</span>    }</div>
+<div class="line"><span class="lineno">  376</span> </div>
+<div class="line"><span class="lineno">  377</span>    drv.<a class="code hl_variable" href="../../d9/d00/classzap_1_1driver.html#a7ccbc03112e80c027c644a2e85689b98">objects</a>.emplace_back(std::move(out_path));</div>
+<div class="line"><span class="lineno">  378</span>  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#afa170fa539648be9cfa7398b2dc3951e">emits_text_output</a>()) {</div>
+<div class="line"><span class="lineno">  379</span>    std::filesystem::path out_path =</div>
+<div class="line"><span class="lineno">  380</span>        drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">is_implicit_output</a>() ? entryPath : drv.<a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a3260c2ed648b09c03827391005626b98">get_output</a>();</div>
+<div class="line"><span class="lineno">  381</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3">emitRequestedTextOutputs</a>(drv, *boundAst, out_path)) {</div>
+<div class="line"><span class="lineno">  382</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  383</span>    }</div>
+<div class="line"><span class="lineno">  384</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  385</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  386</span>  }</div>
+<div class="line"><span class="lineno">  387</span> </div>
+<div class="line"><span class="lineno">  388</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  389</span>}</div>
 <div class="ttc" id="aclasszap_1_1DiagnosticEngine_html"><div class="ttname"><a href="../../d3/d28/classzap_1_1DiagnosticEngine.html">zap::DiagnosticEngine</a></div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00248">diagnostics.hpp:248</a></div></div>
 <div class="ttc" id="aclasszap_1_1driver_html_a0540b39cc80d1ad1c22d4c4cfd8a535f"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a0540b39cc80d1ad1c22d4c4cfd8a535f">zap::driver::binary_output</a></div><div class="ttdeci">bool binary_output() const noexcept</div><div class="ttdoc">Returns whether the output is binary or text.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00147">driver.hpp:147</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a0958bb807d28a48357f784f362b51735"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">zap::driver::reportError</a></div><div class="ttdeci">static void reportError(Args &amp;&amp;...args)</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00165">driver.hpp:165</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a1458c8977729680da2798e1cf9075088"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">zap::driver::get_output_type</a></div><div class="ttdeci">output_type get_output_type() const noexcept</div><div class="ttdoc">Returns the chosen output type.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00088">driver.hpp:88</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a0958bb807d28a48357f784f362b51735"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">zap::driver::reportError</a></div><div class="ttdeci">static void reportError(Args &amp;&amp;...args)</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00168">driver.hpp:168</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a1458c8977729680da2798e1cf9075088"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a1458c8977729680da2798e1cf9075088">zap::driver::get_output_type</a></div><div class="ttdeci">output_type get_output_type() const noexcept</div><div class="ttdoc">Returns the chosen output type.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00093">driver.hpp:93</a></div></div>
 <div class="ttc" id="aclasszap_1_1driver_html_a3260c2ed648b09c03827391005626b98"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a3260c2ed648b09c03827391005626b98">zap::driver::get_output</a></div><div class="ttdeci">const std::filesystem::path &amp; get_output() const noexcept</div><div class="ttdoc">Returns the desired path of the output file.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00069">driver.hpp:69</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a7ccbc03112e80c027c644a2e85689b98"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a7ccbc03112e80c027c644a2e85689b98">zap::driver::objects</a></div><div class="ttdeci">std::vector&lt; std::filesystem::path &gt; objects</div><div class="ttdoc">A vector of .o files.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00185">driver.hpp:185</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9c2f7273c97891bee4791cafaa5e806a"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9c2f7273c97891bee4791cafaa5e806a">zap::driver::allow_unsafe</a></div><div class="ttdeci">bool allow_unsafe</div><div class="ttdoc">Allow unsafe language features.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00193">driver.hpp:193</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5ea1540c5fa1532634962f63ab8195258e8"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea1540c5fa1532634962f63ab8195258e8">zap::driver::output_type::ZIR</a></div><div class="ttdeci">@ ZIR</div><div class="ttdoc">ZIR.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00084">driver.hpp:84</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5ea66a0128ad08b2053e4809e07fe05728c"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea66a0128ad08b2053e4809e07fe05728c">zap::driver::output_type::LLVM</a></div><div class="ttdeci">@ LLVM</div><div class="ttdoc">LLVM IR (.bc).</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00083">driver.hpp:83</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53">zap::driver::output_type::OBJECT</a></div><div class="ttdeci">@ OBJECT</div><div class="ttdoc">Object file, no linking.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00080">driver.hpp:80</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5ea987eec23f0aa855d7b77f0b53bca2c61"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea987eec23f0aa855d7b77f0b53bca2c61">zap::driver::output_type::TEXT_LLVM</a></div><div class="ttdeci">@ TEXT_LLVM</div><div class="ttdoc">Textual LLVM IR (-S -emit-llvm).</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00082">driver.hpp:82</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff">zap::driver::output_type::EXEC</a></div><div class="ttdeci">@ EXEC</div><div class="ttdoc">Executable (default), link.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00079">driver.hpp:79</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a7ccbc03112e80c027c644a2e85689b98"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a7ccbc03112e80c027c644a2e85689b98">zap::driver::objects</a></div><div class="ttdeci">std::vector&lt; std::filesystem::path &gt; objects</div><div class="ttdoc">A vector of .o files.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00188">driver.hpp:188</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a9c2f7273c97891bee4791cafaa5e806a"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9c2f7273c97891bee4791cafaa5e806a">zap::driver::allow_unsafe</a></div><div class="ttdeci">bool allow_unsafe</div><div class="ttdoc">Allow unsafe language features.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00196">driver.hpp:196</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5ea8eee8e217391199668cbac89472ace53">zap::driver::output_type::OBJECT</a></div><div class="ttdeci">@ OBJECT</div><div class="ttdoc">Object file, no linking.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00085">driver.hpp:85</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#a9eded799a199182766d527386c3e0e5eaf28b3aad7d43b371527fde69de8d93ff">zap::driver::output_type::EXEC</a></div><div class="ttdeci">@ EXEC</div><div class="ttdoc">Executable (default), link.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00084">driver.hpp:84</a></div></div>
 <div class="ttc" id="aclasszap_1_1driver_html_aa325927167bfcfdae34b1966234c72f4"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">zap::driver::is_implicit_output</a></div><div class="ttdeci">bool is_implicit_output() const noexcept</div><div class="ttdoc">Returns whether or not the output was explicit (-o) or not.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00073">driver.hpp:73</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_aaa6bd5a698ddd9e6c057af948fb7cee1"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1">zap::driver::cleanups</a></div><div class="ttdeci">std::vector&lt; std::filesystem::path &gt; cleanups</div><div class="ttdoc">A vector of files that need to be deleted.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00187">driver.hpp:187</a></div></div>
-<div class="ttc" id="aclasszap_1_1driver_html_ae170c37200b2b35aca5175c480205b2e"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#ae170c37200b2b35aca5175c480205b2e">zap::driver::format_fileextension</a></div><div class="ttdeci">static constexpr const char * format_fileextension(output_type type) noexcept</div><div class="ttdoc">Returns a file extension based on the file format given.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00122">driver.hpp:122</a></div></div>
-<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_af4bbc238e3e3e6f7f312f70f61694f2a"><div class="ttname"><a href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a">zap::anonymous_namespace{driver.cpp}::readSourceFile</a></div><div class="ttdeci">bool readSourceFile(const std::filesystem::path &amp;path, std::string &amp;content)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00121">driver.cpp:121</a></div></div>
-<div class="ttc" id="anamespacezap_html_a4568178cd71b87328c92ebc2c1ddf595"><div class="ttname"><a href="#a4568178cd71b87328c92ebc2c1ddf595">zap::compileSourceZIR</a></div><div class="ttdeci">bool compileSourceZIR(sema::BoundRootNode &amp;node, std::ostream &amp;ofoutput)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00536">driver.cpp:536</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_aaa6bd5a698ddd9e6c057af948fb7cee1"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1">zap::driver::cleanups</a></div><div class="ttdeci">std::vector&lt; std::filesystem::path &gt; cleanups</div><div class="ttdoc">A vector of files that need to be deleted.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00190">driver.hpp:190</a></div></div>
+<div class="ttc" id="aclasszap_1_1driver_html_afa170fa539648be9cfa7398b2dc3951e"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#afa170fa539648be9cfa7398b2dc3951e">zap::driver::emits_text_output</a></div><div class="ttdeci">bool emits_text_output() const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00076">driver.hpp:76</a></div></div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_acfb14e0533098d3b50db6c54a7b5cfb3"><div class="ttname"><a href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3">zap::anonymous_namespace{driver.cpp}::emitRequestedTextOutputs</a></div><div class="ttdeci">bool emitRequestedTextOutputs(driver &amp;drv, sema::BoundRootNode &amp;node, const std::filesystem::path &amp;base_output_path)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00032">driver.cpp:32</a></div></div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_af4bbc238e3e3e6f7f312f70f61694f2a"><div class="ttname"><a href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a">zap::anonymous_namespace{driver.cpp}::readSourceFile</a></div><div class="ttdeci">bool readSourceFile(const std::filesystem::path &amp;path, std::string &amp;content)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00168">driver.cpp:168</a></div></div>
+<div class="ttc" id="anamespacezap_html_a49a535ddcd33f51bd094f8aa9d517e80"><div class="ttname"><a href="#a49a535ddcd33f51bd094f8aa9d517e80">zap::compileObjectFromZIR</a></div><div class="ttdeci">bool compileObjectFromZIR(sema::BoundRootNode &amp;node, const std::string &amp;output_path)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00589">driver.cpp:589</a></div></div>
 <div class="ttc" id="anamespacezap_html_a674956178a1a7ce6606f78a8839a2e18"><div class="ttname"><a href="#a674956178a1a7ce6606f78a8839a2e18">zap::err</a></div><div class="ttdeci">Stream &amp; err()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00105">stream.cpp:105</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a49a535ddcd33f51bd094f8aa9d517e80" name="a49a535ddcd33f51bd094f8aa9d517e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a535ddcd33f51bd094f8aa9d517e80">&#9670;&#160;</a></span>compileObjectFromZIR()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::compileObjectFromZIR </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>output_path</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00589">589</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  590</span>                                                        {</div>
+<div class="line"><span class="lineno">  591</span>  <span class="keyword">auto</span> mod = <a class="code hl_function" href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">generateZIRModule</a>(node);</div>
+<div class="line"><span class="lineno">  592</span>  <span class="keywordflow">if</span> (!mod) {</div>
+<div class="line"><span class="lineno">  593</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to generate ZIR&quot;</span>);</div>
+<div class="line"><span class="lineno">  594</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  595</span>  }</div>
+<div class="line"><span class="lineno">  596</span> </div>
+<div class="line"><span class="lineno">  597</span>  <a class="code hl_class" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html">codegen::LLVMCodeGen</a> llvmGen;</div>
+<div class="line"><span class="lineno">  598</span>  llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">generate</a>(*mod);</div>
+<div class="line"><span class="lineno">  599</span>  <span class="keywordflow">if</span> (!llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775">emitObjectFile</a>(output_path)) {</div>
+<div class="line"><span class="lineno">  600</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;object file emission failed&quot;</span>);</div>
+<div class="line"><span class="lineno">  601</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  602</span>  }</div>
+<div class="line"><span class="lineno">  603</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  604</span>}</div>
+<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html">codegen::LLVMCodeGen</a></div><div class="ttdef"><b>Definition</b> <a href="../../d2/d70/llvm__codegen_8hpp_source.html#l00018">llvm_codegen.hpp:18</a></div></div>
+<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_afde253b6d5c9ce9b8a9a5d70027eb775"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#afde253b6d5c9ce9b8a9a5d70027eb775">codegen::LLVMCodeGen::emitObjectFile</a></div><div class="ttdeci">bool emitObjectFile(const std::string &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00150">llvm_codegen.cpp:150</a></div></div>
+<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_aff5cf6bf6405eea22cfadefc422b04c4"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">codegen::LLVMCodeGen::generate</a></div><div class="ttdeci">void generate(sema::BoundRootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00080">llvm_codegen.cpp:80</a></div></div>
+<div class="ttc" id="anamespacezap_html_ac3b3cc5f8cb33ef1c1ae96b60e68125e"><div class="ttname"><a href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">zap::generateZIRModule</a></div><div class="ttdeci">std::unique_ptr&lt; zir::Module &gt; generateZIRModule(sema::BoundRootNode &amp;node)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00556">driver.cpp:556</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00150">codegen::LLVMCodeGen::emitObjectFile()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00080">codegen::LLVMCodeGen::generate()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00556">generateZIRModule()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00168">zap::driver::reportError()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00324">zap::driver::compileLoadedModules</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00606">zap::driver::compileSourceFile()</a>.</p>
+
+</div>
+</div>
+<a id="a59eaa38dc4c00c6b9ffe0e78eec3f3c9" name="a59eaa38dc4c00c6b9ffe0e78eec3f3c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59eaa38dc4c00c6b9ffe0e78eec3f3c9">&#9670;&#160;</a></span>compileSourceLLVMFromZIR()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::compileSourceLLVMFromZIR </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>ofoutput</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00572">572</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  573</span>                                                    {</div>
+<div class="line"><span class="lineno">  574</span>  <span class="keyword">auto</span> mod = <a class="code hl_function" href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">generateZIRModule</a>(node);</div>
+<div class="line"><span class="lineno">  575</span>  <span class="keywordflow">if</span> (!mod) {</div>
+<div class="line"><span class="lineno">  576</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to generate ZIR&quot;</span>);</div>
+<div class="line"><span class="lineno">  577</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  578</span>  }</div>
+<div class="line"><span class="lineno">  579</span> </div>
+<div class="line"><span class="lineno">  580</span>  <a class="code hl_class" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html">codegen::LLVMCodeGen</a> llvmGen;</div>
+<div class="line"><span class="lineno">  581</span>  llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#aff5cf6bf6405eea22cfadefc422b04c4">generate</a>(*mod);</div>
+<div class="line"><span class="lineno">  582</span>  std::string ir;</div>
+<div class="line"><span class="lineno">  583</span>  llvm::raw_string_ostream rs(ir);</div>
+<div class="line"><span class="lineno">  584</span>  llvmGen.<a class="code hl_function" href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9">printIR</a>(rs);</div>
+<div class="line"><span class="lineno">  585</span>  ofoutput &lt;&lt; ir;</div>
+<div class="line"><span class="lineno">  586</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  587</span>}</div>
+<div class="ttc" id="aclasscodegen_1_1LLVMCodeGen_html_ac2ebe10d30c2e968fce18fa4618c5fe9"><div class="ttname"><a href="../../da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9">codegen::LLVMCodeGen::printIR</a></div><div class="ttdeci">void printIR(llvm::raw_ostream &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00145">llvm_codegen.cpp:145</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00080">codegen::LLVMCodeGen::generate()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00556">generateZIRModule()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00145">codegen::LLVMCodeGen::printIR()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00168">zap::driver::reportError()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00032">zap::anonymous_namespace{driver.cpp}::emitRequestedTextOutputs()</a>.</p>
+
 </div>
 </div>
 <a id="a4568178cd71b87328c92ebc2c1ddf595" name="a4568178cd71b87328c92ebc2c1ddf595"></a>
@@ -491,24 +551,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00536">536</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  536</span>                                                                     {</div>
-<div class="line"><span class="lineno">  537</span>  <a class="code hl_class" href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a> irGen;</div>
-<div class="line"><span class="lineno">  538</span>  <span class="keyword">auto</span> mod = irGen.<a class="code hl_function" href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">generate</a>(node);</div>
-<div class="line"><span class="lineno">  539</span>  <span class="keywordflow">if</span> (mod) {</div>
-<div class="line"><span class="lineno">  540</span>    ofoutput &lt;&lt; mod-&gt;toString();</div>
-<div class="line"><span class="lineno">  541</span>  } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  542</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to generate ZIR&quot;</span>);</div>
-<div class="line"><span class="lineno">  543</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  544</span>  }</div>
-<div class="line"><span class="lineno">  545</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  546</span>}</div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00012">ir_generator.hpp:12</a></div></div>
-<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_abf97cfb82a0ef117b7f0f62b2e7da8f4"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">zir::BoundIRGenerator::generate</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; generate(sema::BoundRootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00006">ir_generator.cpp:6</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00561">561</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  561</span>                                                                     {</div>
+<div class="line"><span class="lineno">  562</span>  <span class="keyword">auto</span> mod = <a class="code hl_function" href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">generateZIRModule</a>(node);</div>
+<div class="line"><span class="lineno">  563</span>  <span class="keywordflow">if</span> (mod) {</div>
+<div class="line"><span class="lineno">  564</span>    ofoutput &lt;&lt; mod-&gt;toString();</div>
+<div class="line"><span class="lineno">  565</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  566</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;failed to generate ZIR&quot;</span>);</div>
+<div class="line"><span class="lineno">  567</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  568</span>  }</div>
+<div class="line"><span class="lineno">  569</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  570</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00006">zir::BoundIRGenerator::generate()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00165">zap::driver::reportError()</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00556">generateZIRModule()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00168">zap::driver::reportError()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">zap::driver::compileLoadedModules</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00548">zap::driver::compileSourceFile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00032">zap::anonymous_namespace{driver.cpp}::emitRequestedTextOutputs()</a>.</p>
 
 </div>
 </div>
@@ -534,7 +591,36 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>}</div>
 <div class="ttc" id="aclasszap_1_1StderrStream_html"><div class="ttname"><a href="../../d6/da5/classzap_1_1StderrStream.html">zap::StderrStream</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00094">stream.cpp:94</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00548">zap::driver::compileSourceFile()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00188">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00121">zap::anonymous_namespace{driver.cpp}::readSourceFile()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00165">zap::driver::reportError()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00172">zap::driver::reportWarning()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00324">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00606">zap::driver::compileSourceFile()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00235">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00168">zap::anonymous_namespace{driver.cpp}::readSourceFile()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00168">zap::driver::reportError()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00175">zap::driver::reportWarning()</a>.</p>
+
+</div>
+</div>
+<a id="ac3b3cc5f8cb33ef1c1ae96b60e68125e" name="ac3b3cc5f8cb33ef1c1ae96b60e68125e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">&#9670;&#160;</a></span>generateZIRModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="../../d9/d68/classzir_1_1Module.html">zir::Module</a> &gt; zap::generateZIRModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00556">556</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  556</span>                                                                    {</div>
+<div class="line"><span class="lineno">  557</span>  <a class="code hl_class" href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a> irGen;</div>
+<div class="line"><span class="lineno">  558</span>  <span class="keywordflow">return</span> irGen.<a class="code hl_function" href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">generate</a>(node);</div>
+<div class="line"><span class="lineno">  559</span>}</div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html">zir::BoundIRGenerator</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d31/ir__generator_8hpp_source.html#l00012">ir_generator.hpp:12</a></div></div>
+<div class="ttc" id="aclasszir_1_1BoundIRGenerator_html_abf97cfb82a0ef117b7f0f62b2e7da8f4"><div class="ttname"><a href="../../d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4">zir::BoundIRGenerator::generate</a></div><div class="ttdeci">std::unique_ptr&lt; Module &gt; generate(sema::BoundRootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00006">ir_generator.cpp:6</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00006">zir::BoundIRGenerator::generate()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00589">compileObjectFromZIR()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00572">compileSourceLLVMFromZIR()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00561">compileSourceZIR()</a>.</p>
 
 </div>
 </div>
@@ -560,7 +646,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  113</span>}</div>
 <div class="ttc" id="aclasszap_1_1StdoutStream_html"><div class="ttname"><a href="../../dc/de8/classzap_1_1StdoutStream.html">zap::StdoutStream</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00083">stream.cpp:83</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00256">zap::lsp::anonymous_namespace{lsp.cpp}::appendEscapedJsonString()</a>, <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00020">zap::lsp::anonymous_namespace{lsp.cpp}::appendUtf8()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00371">zap::driver::parseArgs()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00296">zap::lsp::anonymous_namespace{lsp.cpp}::stringifyJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00256">zap::lsp::anonymous_namespace{lsp.cpp}::appendEscapedJsonString()</a>, <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00020">zap::lsp::anonymous_namespace{lsp.cpp}::appendUtf8()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00391">zap::driver::parseArgs()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00296">zap::lsp::anonymous_namespace{lsp.cpp}::stringifyJson()</a>.</p>
 
 </div>
 </div>
@@ -579,21 +665,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00513">513</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  513</span>                                                {</div>
-<div class="line"><span class="lineno">  514</span>  <span class="keywordflow">if</span> (!std::filesystem::exists(input)) {</div>
-<div class="line"><span class="lineno">  515</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file doesn&#39;t exist: &quot;</span>, input);</div>
-<div class="line"><span class="lineno">  516</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  517</span>  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!std::filesystem::is_regular_file(input)) {</div>
-<div class="line"><span class="lineno">  518</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file isn&#39;t a regular file: &quot;</span>, input);</div>
-<div class="line"><span class="lineno">  519</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  520</span>  }</div>
-<div class="line"><span class="lineno">  521</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  522</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00533">533</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  533</span>                                                {</div>
+<div class="line"><span class="lineno">  534</span>  <span class="keywordflow">if</span> (!std::filesystem::exists(input)) {</div>
+<div class="line"><span class="lineno">  535</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file doesn&#39;t exist: &quot;</span>, input);</div>
+<div class="line"><span class="lineno">  536</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  537</span>  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!std::filesystem::is_regular_file(input)) {</div>
+<div class="line"><span class="lineno">  538</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;provided file isn&#39;t a regular file: &quot;</span>, input);</div>
+<div class="line"><span class="lineno">  539</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  540</span>  }</div>
+<div class="line"><span class="lineno">  541</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  542</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00165">zap::driver::reportError()</a>.</p>
+<p class="reference">References <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00168">zap::driver::reportError()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00524">zap::driver::verifySources()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00544">zap::driver::verifySources()</a>.</p>
 
 </div>
 </div>
@@ -631,7 +717,7 @@ Variables</h2></td></tr>
 
 <p>Zap's version, displayed when &ndash;version is used. </p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00371">zap::driver::parseArgs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00391">zap::driver::parseArgs()</a>.</p>
 
 </div>
 </div>

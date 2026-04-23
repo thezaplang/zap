@@ -80,6 +80,9 @@ $(function(){initNavTree('df/d0a/classzir_1_1BinaryInst.html','../../','dd/d5c/c
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a13f4d646a7656080a95890a53f05f955" id="r_a13f4d646a7656080a95890a53f05f955"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13f4d646a7656080a95890a53f05f955">BinaryInst</a> (<a class="el" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a">OpCode</a> o, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; res, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; l, std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; r)</td></tr>
 <tr class="memitem:a090e35febe9040bfe62985fc0fd40ccb" id="r_a090e35febe9040bfe62985fc0fd40ccb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a">OpCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a090e35febe9040bfe62985fc0fd40ccb">getOpCode</a> () const override</td></tr>
+<tr class="memitem:a99f10faf699509ca57f7ef9a68ed9203" id="r_a99f10faf699509ca57f7ef9a68ed9203"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99f10faf699509ca57f7ef9a68ed9203">getResult</a> () const</td></tr>
+<tr class="memitem:ae4935628700257c03da6b50aa5dddff0" id="r_ae4935628700257c03da6b50aa5dddff0"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4935628700257c03da6b50aa5dddff0">getLhs</a> () const</td></tr>
+<tr class="memitem:a526df582c270c2b763a82d5843aa2342" id="r_a526df582c270c2b763a82d5843aa2342"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a526df582c270c2b763a82d5843aa2342">getRhs</a> () const</td></tr>
 <tr class="memitem:a7b0451b11515cf845d2b976ca890e9e5" id="r_a7b0451b11515cf845d2b976ca890e9e5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b0451b11515cf845d2b976ca890e9e5">toString</a> () const override</td></tr>
 <tr class="inherit_header pub_methods_classzir_1_1Instruction"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classzir_1_1Instruction')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d0/dad/classzir_1_1Instruction.html">zir::Instruction</a></td></tr>
 <tr class="memitem:a4d788557171ac7f64fcb2802a9afecc6 inherit pub_methods_classzir_1_1Instruction" id="r_a4d788557171ac7f64fcb2802a9afecc6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dad/classzir_1_1Instruction.html#a4d788557171ac7f64fcb2802a9afecc6">~Instruction</a> ()=default</td></tr>
@@ -93,7 +96,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00040">40</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a13f4d646a7656080a95890a53f05f955" name="a13f4d646a7656080a95890a53f05f955"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13f4d646a7656080a95890a53f05f955">&#9670;&#160;</a></span>BinaryInst()</h2>
@@ -132,18 +135,48 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>      : <a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>(o), <a class="code hl_variable" href="#a19f3656d35271f310463391b5fdc5d77">result</a>(std::move(res)), <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>(std::move(l)), <a class="code hl_variable" href="#abde5779e839fc3a97dbd386b1b352b1f">rhs</a>(std::move(r)) {}</div>
-<div class="ttc" id="aclasszir_1_1BinaryInst_html_a19f3656d35271f310463391b5fdc5d77"><div class="ttname"><a href="#a19f3656d35271f310463391b5fdc5d77">zir::BinaryInst::result</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00042">instruction.hpp:42</a></div></div>
-<div class="ttc" id="aclasszir_1_1BinaryInst_html_a8d3556d4c1455e310c6d7092f4bd7e13"><div class="ttname"><a href="#a8d3556d4c1455e310c6d7092f4bd7e13">zir::BinaryInst::op</a></div><div class="ttdeci">OpCode op</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00041">instruction.hpp:41</a></div></div>
-<div class="ttc" id="aclasszir_1_1BinaryInst_html_abde5779e839fc3a97dbd386b1b352b1f"><div class="ttname"><a href="#abde5779e839fc3a97dbd386b1b352b1f">zir::BinaryInst::rhs</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; rhs</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00042">instruction.hpp:42</a></div></div>
-<div class="ttc" id="aclasszir_1_1BinaryInst_html_af9c53f8f5f6acd322f8a07f73ec2f4c2"><div class="ttname"><a href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">zir::BinaryInst::lhs</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; lhs</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00042">instruction.hpp:42</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00047">47</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>      : <a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>(o), <a class="code hl_variable" href="#a19f3656d35271f310463391b5fdc5d77">result</a>(std::move(res)), <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>(std::move(l)), <a class="code hl_variable" href="#abde5779e839fc3a97dbd386b1b352b1f">rhs</a>(std::move(r)) {}</div>
+<div class="ttc" id="aclasszir_1_1BinaryInst_html_a19f3656d35271f310463391b5fdc5d77"><div class="ttname"><a href="#a19f3656d35271f310463391b5fdc5d77">zir::BinaryInst::result</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00044">instruction.hpp:44</a></div></div>
+<div class="ttc" id="aclasszir_1_1BinaryInst_html_a8d3556d4c1455e310c6d7092f4bd7e13"><div class="ttname"><a href="#a8d3556d4c1455e310c6d7092f4bd7e13">zir::BinaryInst::op</a></div><div class="ttdeci">OpCode op</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00043">instruction.hpp:43</a></div></div>
+<div class="ttc" id="aclasszir_1_1BinaryInst_html_abde5779e839fc3a97dbd386b1b352b1f"><div class="ttname"><a href="#abde5779e839fc3a97dbd386b1b352b1f">zir::BinaryInst::rhs</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; rhs</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00044">instruction.hpp:44</a></div></div>
+<div class="ttc" id="aclasszir_1_1BinaryInst_html_af9c53f8f5f6acd322f8a07f73ec2f4c2"><div class="ttname"><a href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">zir::BinaryInst::lhs</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; lhs</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00044">instruction.hpp:44</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">lhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00041">op</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">result</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">rhs</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">lhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00043">op</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">result</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">rhs</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="ae4935628700257c03da6b50aa5dddff0" name="ae4935628700257c03da6b50aa5dddff0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4935628700257c03da6b50aa5dddff0">&#9670;&#160;</a></span>getLhs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp; zir::BinaryInst::getLhs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">lhs</a>.</p>
+
+</div>
+</div>
 <a id="a090e35febe9040bfe62985fc0fd40ccb" name="a090e35febe9040bfe62985fc0fd40ccb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a090e35febe9040bfe62985fc0fd40ccb">&#9670;&#160;</a></span>getOpCode()</h2>
 
@@ -169,10 +202,70 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#a3681c8ca34e3c301971ad31a2a0a31a7">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00041">op</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00043">op</a>.</p>
+
+</div>
+</div>
+<a id="a99f10faf699509ca57f7ef9a68ed9203" name="a99f10faf699509ca57f7ef9a68ed9203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99f10faf699509ca57f7ef9a68ed9203">&#9670;&#160;</a></span>getResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp; zir::BinaryInst::getResult </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00051">51</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a19f3656d35271f310463391b5fdc5d77">result</a>; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">result</a>.</p>
+
+</div>
+</div>
+<a id="a526df582c270c2b763a82d5843aa2342" name="a526df582c270c2b763a82d5843aa2342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a526df582c270c2b763a82d5843aa2342">&#9670;&#160;</a></span>getRhs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::shared_ptr&lt; <a class="el" href="../../da/d98/classzir_1_1Value.html">Value</a> &gt; &amp; zir::BinaryInst::getRhs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#abde5779e839fc3a97dbd386b1b352b1f">rhs</a>; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">rhs</a>.</p>
 
 </div>
 </div>
@@ -201,38 +294,38 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/dad/classzir_1_1Instruction.html#aaa4f318b5ed4218bb699787c6e19751d">zir::Instruction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00049">49</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>                                      {</div>
-<div class="line"><span class="lineno">   50</span>    std::string opStr;</div>
-<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>) {</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9">OpCode::Add</a>:</div>
-<div class="line"><span class="lineno">   53</span>      opStr = <span class="stringliteral">&quot;add&quot;</span>;</div>
-<div class="line"><span class="lineno">   54</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2">OpCode::Sub</a>:</div>
-<div class="line"><span class="lineno">   56</span>      opStr = <span class="stringliteral">&quot;sub&quot;</span>;</div>
-<div class="line"><span class="lineno">   57</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2">OpCode::Mul</a>:</div>
-<div class="line"><span class="lineno">   59</span>      opStr = <span class="stringliteral">&quot;mul&quot;</span>;</div>
-<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85">OpCode::SDiv</a>:</div>
-<div class="line"><span class="lineno">   62</span>      opStr = <span class="stringliteral">&quot;sdiv&quot;</span>;</div>
-<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1">OpCode::UDiv</a>:</div>
-<div class="line"><span class="lineno">   65</span>      opStr = <span class="stringliteral">&quot;udiv&quot;</span>;</div>
-<div class="line"><span class="lineno">   66</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa9c46bb7eea63f34b9659973c34a62392">OpCode::SRem</a>:</div>
-<div class="line"><span class="lineno">   68</span>      opStr = <span class="stringliteral">&quot;srem&quot;</span>;</div>
-<div class="line"><span class="lineno">   69</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8">OpCode::URem</a>:</div>
-<div class="line"><span class="lineno">   71</span>      opStr = <span class="stringliteral">&quot;urem&quot;</span>;</div>
-<div class="line"><span class="lineno">   72</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   74</span>      opStr = <span class="stringliteral">&quot;binary&quot;</span>;</div>
-<div class="line"><span class="lineno">   75</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a19f3656d35271f310463391b5fdc5d77">result</a>-&gt;getName() + <span class="stringliteral">&quot; = &quot;</span> + opStr + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> +</div>
-<div class="line"><span class="lineno">   78</span>           <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>-&gt;getName() + <span class="stringliteral">&quot;, &quot;</span> + <a class="code hl_variable" href="#abde5779e839fc3a97dbd386b1b352b1f">rhs</a>-&gt;getName();</div>
-<div class="line"><span class="lineno">   79</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00054">54</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>                                      {</div>
+<div class="line"><span class="lineno">   55</span>    std::string opStr;</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="#a8d3556d4c1455e310c6d7092f4bd7e13">op</a>) {</div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9">OpCode::Add</a>:</div>
+<div class="line"><span class="lineno">   58</span>      opStr = <span class="stringliteral">&quot;add&quot;</span>;</div>
+<div class="line"><span class="lineno">   59</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2">OpCode::Sub</a>:</div>
+<div class="line"><span class="lineno">   61</span>      opStr = <span class="stringliteral">&quot;sub&quot;</span>;</div>
+<div class="line"><span class="lineno">   62</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2">OpCode::Mul</a>:</div>
+<div class="line"><span class="lineno">   64</span>      opStr = <span class="stringliteral">&quot;mul&quot;</span>;</div>
+<div class="line"><span class="lineno">   65</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85">OpCode::SDiv</a>:</div>
+<div class="line"><span class="lineno">   67</span>      opStr = <span class="stringliteral">&quot;sdiv&quot;</span>;</div>
+<div class="line"><span class="lineno">   68</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1">OpCode::UDiv</a>:</div>
+<div class="line"><span class="lineno">   70</span>      opStr = <span class="stringliteral">&quot;udiv&quot;</span>;</div>
+<div class="line"><span class="lineno">   71</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa9c46bb7eea63f34b9659973c34a62392">OpCode::SRem</a>:</div>
+<div class="line"><span class="lineno">   73</span>      opStr = <span class="stringliteral">&quot;srem&quot;</span>;</div>
+<div class="line"><span class="lineno">   74</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8">OpCode::URem</a>:</div>
+<div class="line"><span class="lineno">   76</span>      opStr = <span class="stringliteral">&quot;urem&quot;</span>;</div>
+<div class="line"><span class="lineno">   77</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   79</span>      opStr = <span class="stringliteral">&quot;binary&quot;</span>;</div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   81</span>    }</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a19f3656d35271f310463391b5fdc5d77">result</a>-&gt;getName() + <span class="stringliteral">&quot; = &quot;</span> + opStr + <span class="stringliteral">&quot; &quot;</span> + <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>-&gt;getTypeName() + <span class="stringliteral">&quot; &quot;</span> +</div>
+<div class="line"><span class="lineno">   83</span>           <a class="code hl_variable" href="#af9c53f8f5f6acd322f8a07f73ec2f4c2">lhs</a>-&gt;getName() + <span class="stringliteral">&quot;, &quot;</span> + <a class="code hl_variable" href="#abde5779e839fc3a97dbd386b1b352b1f">rhs</a>-&gt;getName();</div>
+<div class="line"><span class="lineno">   84</span>  }</div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa100a973b58634646d669bda4a2da9ea1">zir::OpCode::UDiv</a></div><div class="ttdeci">@ UDiv</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00017">instruction.hpp:17</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8">zir::OpCode::URem</a></div><div class="ttdeci">@ URem</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00019">instruction.hpp:19</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2">zir::OpCode::Mul</a></div><div class="ttdeci">@ Mul</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00015">instruction.hpp:15</a></div></div>
@@ -241,7 +334,7 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aae80155eceb940c89e2de63ad05868db2">zir::OpCode::Sub</a></div><div class="ttdeci">@ Sub</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00014">instruction.hpp:14</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9">zir::OpCode::Add</a></div><div class="ttdeci">@ Add</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00013">instruction.hpp:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00013">zir::Add</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">lhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00015">zir::Mul</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00041">op</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">result</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">rhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00016">zir::SDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00018">zir::SRem</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00014">zir::Sub</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00017">zir::UDiv</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00019">zir::URem</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00013">zir::Add</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">lhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00015">zir::Mul</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00043">op</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">result</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">rhs</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00016">zir::SDiv</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00018">zir::SRem</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00014">zir::Sub</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00017">zir::UDiv</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00019">zir::URem</a>.</p>
 
 </div>
 </div>
@@ -266,9 +359,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00045">BinaryInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00049">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00047">BinaryInst()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00052">getLhs()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00054">toString()</a>.</p>
 
 </div>
 </div>
@@ -292,9 +385,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00041">41</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00043">43</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00045">BinaryInst()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00048">getOpCode()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00049">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00047">BinaryInst()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00050">getOpCode()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00054">toString()</a>.</p>
 
 </div>
 </div>
@@ -318,9 +411,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00045">BinaryInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00049">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00047">BinaryInst()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00051">getResult()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00054">toString()</a>.</p>
 
 </div>
 </div>
@@ -344,9 +437,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../d5/db2/instruction_8hpp_source.html">instruction.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00045">BinaryInst()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00049">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00047">BinaryInst()</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00053">getRhs()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00054">toString()</a>.</p>
 
 </div>
 </div>
