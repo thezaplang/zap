@@ -304,7 +304,12 @@ run_runtime_test "tests/fs_mkdir_test.zp" 0 "Filesystem directory creation"
 run_runtime_test "tests/fs_file_io_test.zp" 0 "Filesystem text file IO"
 run_runtime_test "tests/path_test.zp" 0 "Path helpers"
 run_runtime_test "tests/math_test.zp" 0 "Math stdlib helpers"
+run_compile_args_test "tests/valid.zp" "/tmp/zap-valid.ll" "Emit LLVM IR for a valid program" -S -emit-llvm
+run_compile_args_test "tests/logical_ops.zp" "/tmp/zap-logical.ll" "Emit LLVM IR for logical operators" -S -emit-llvm
+run_compile_args_test "tests/function_call_test.zp" "/tmp/zap-calls.ll" "Emit LLVM IR for function calls" -S -emit-llvm
+run_compile_args_test "tests/struct_test.zp" "/tmp/zap-struct.ll" "Emit LLVM IR for struct member access" -S -emit-llvm
 run_runtime_compile_args_test "tests/unsafe_runtime_test.zp" 0 "Unsafe pointers" --allow-unsafe
+run_runtime_compile_args_test "tests/pointer_usage_scope_runtime_test.zp" 0 "Pointer usage outside unsafe scope" --allow-unsafe
 run_runtime_compile_args_test "tests/unsafe_heap_test.zp" 0 "Unsafe heap pointers" --allow-unsafe
 run_runtime_compile_args_test "tests/unsafe_void_ptr_test.zp" 0 "Unsafe void pointers" --allow-unsafe
 run_runtime_compile_args_test "tests/unsafe_struct_runtime_test.zp" 0 "Unsafe structs" --allow-unsafe
@@ -318,7 +323,10 @@ run_test "tests/ext_default_void_type_error.zp" 1 "External function without ret
 run_test "tests/unsafe_requires_flag.zp" 1 "Unsafe features require --allow-unsafe"
 run_test_args "tests/unsafe_scope_error.zp" 1 "Unsafe features are scoped" --allow-unsafe
 run_test_args "tests/unsafe_fun_call_scope_error.zp" 1 "Unsafe function calls are scoped" --allow-unsafe
+run_test_args "tests/class_unsafe_method_scope_error.zp" 1 "Unsafe class methods are scoped" --allow-unsafe
+run_test_args "tests/class_unsafe_static_method_scope_error.zp" 1 "Unsafe static class methods are scoped" --allow-unsafe
 run_test_args "tests/unsafe_struct_scope_error.zp" 1 "Unsafe struct usage is scoped" --allow-unsafe
+run_test_args "tests/class_pointer_field_private_error.zp" 1 "Private class pointer fields stay inaccessible" --allow-unsafe
 
 # Concat tests
 run_runtime_test "tests/concat.zp" 0 "Concat literal strings"
@@ -351,6 +359,10 @@ run_runtime_test "tests/struct_fn_test.zp" 0 "Structs as function parameters and
 run_runtime_test "tests/struct_array_test.zp" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zp" 0 "Structs with diverse field types"
 run_runtime_test "tests/class_test.zp" 0 "Heap-only classes with methods and inheritance"
+run_runtime_compile_args_test "tests/class_pointer_field_test.zp" 0 "Class pointer fields" --allow-unsafe
+run_runtime_compile_args_test "tests/class_unsafe_method_test.zp" 0 "Unsafe class methods" --allow-unsafe
+run_runtime_compile_args_test "tests/class_unsafe_static_method_test.zp" 0 "Unsafe static class methods" --allow-unsafe
+run_runtime_compile_args_test "tests/class_unsafe_inheritance_test.zp" 0 "Unsafe class inheritance with pointer fields" --allow-unsafe
 run_runtime_test "tests/class_inheritance_test.zp" 0 "Class inheritance supports base-typed references"
 run_runtime_test "tests/class_polymorphism_test.zp" 0 "Class polymorphism dispatches derived overrides through base type"
 run_runtime_test "tests/class_arc_test.zp" 0 "ARC releases classes, fields, and value params"

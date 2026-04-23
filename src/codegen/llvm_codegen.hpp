@@ -1,4 +1,5 @@
 #pragma once
+#include "../ir/module.hpp"
 #include "../sema/bound_nodes.hpp"
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
@@ -8,6 +9,8 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace codegen {
 class ClassArcEmitter;
@@ -18,6 +21,7 @@ public:
   ~LLVMCodeGen();
 
   void generate(sema::BoundRootNode &root);
+  void generate(const zir::Module &module);
 
   void printIR(llvm::raw_ostream &) const;
 
@@ -65,6 +69,7 @@ private:
   std::map<std::string, llvm::Value *> localValues_;
   std::map<std::string, llvm::GlobalVariable *> globalValues_;
   std::map<std::string, llvm::Function *> functionMap_;
+  std::map<std::string, const zir::Function *> zirFunctionMap_;
   std::map<std::string, llvm::StructType *> structCache_;
   std::map<std::string, std::map<int, llvm::Function *>> classVirtualMethodFns_;
   std::map<std::string, llvm::GlobalVariable *> classVTables_;
@@ -76,6 +81,15 @@ private:
   std::vector<std::vector<std::pair<std::shared_ptr<zir::Type>, llvm::Value *>>>
       scopeClassLocals_;
   std::unique_ptr<ClassArcEmitter> arcEmitter_;
+  std::unordered_map<const zir::Value *, llvm::Value *> zirValueMap_;
+  std::unordered_map<std::string, llvm::BasicBlock *> zirBlockMap_;
+  std::unordered_set<const zir::Value *> zirOwnedClassValues_;
+  std::unordered_set<const zir::Value *> zirClassParamAllocas_;
+  std::unordered_set<const zir::Value *> zirPendingClassParamInitAllocas_;
+  std::vector<std::pair<std::shared_ptr<zir::Type>, llvm::Value *>>
+      zirFunctionClassLocals_;
+  const zir::Function *currentZIRFunction_ = nullptr;
+  size_t zirParamSpillIndex_ = 0;
 
   int nextStringId_ = 0;
 
@@ -87,6 +101,21 @@ private:
   llvm::Type *toLLVMType(const zir::Type &ty);
   llvm::FunctionType *buildFunctionType(const sema::FunctionSymbol &sym,
                                         bool injectMainProcessArgs = false);
+  llvm::FunctionType *buildFunctionType(const zir::Function &fn);
+  void initializeModule();
+  void declareZIRFunction(const zir::Function &fn, bool isExternal);
+  void emitZIRFunction(const zir::Function &fn);
+  void emitZIRInstruction(const zir::Instruction &inst);
+  llvm::Value *lowerZIRValue(const std::shared_ptr<zir::Value> &value);
+  llvm::Value *lowerZIRRValue(const std::shared_ptr<zir::Value> &value);
+  llvm::Constant *lowerZIRConstant(const zir::Constant &constant);
+  llvm::Value *lowerZIRCast(llvm::Value *src,
+                            const std::shared_ptr<zir::Type> &sourceType,
+                            const std::shared_ptr<zir::Type> &targetType);
+  llvm::Value *emitStringConcat(llvm::Value *lhs, llvm::Value *rhs,
+                                const std::shared_ptr<zir::Type> &lhsType,
+                                const std::shared_ptr<zir::Type> &rhsType,
+                                const std::shared_ptr<zir::Type> &resultType);
 
   llvm::AllocaInst *createEntryAlloca(llvm::Function *fn,
                                       const std::string &name, llvm::Type *ty);

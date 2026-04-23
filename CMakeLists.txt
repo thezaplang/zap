@@ -4,8 +4,10 @@ project(zapc)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Use exactly version 21.1.8 as found
-find_package(LLVM 21.1.8 REQUIRED CONFIG)
+# Accept the system LLVM version and handle API differences in code when needed.
+find_package(LLVM REQUIRED CONFIG)
+
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 
 # Source files
 set(SOURCES

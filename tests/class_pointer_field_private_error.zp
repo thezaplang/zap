@@ -1,0 +1,16 @@
+class Box {
+    ptr: *Int;
+
+    fun init(ptr: *Int) {
+        self.ptr = ptr;
+    }
+}
+
+fun main() Int {
+    var value: Int = 9;
+    var box: Box = new Box(&value);
+
+    unsafe {
+        return *box.ptr;
+    }
+}

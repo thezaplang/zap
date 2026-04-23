@@ -1,9 +1,5 @@
-unsafe fun deref(ptr: *Int) Int {
-    return *ptr;
-}
-
 fun main() Int {
     var value: Int = 10;
-    var ptr: *Int = null;
-    return value;
+    var ptr: *Int = &value;
+    return *ptr;
 }

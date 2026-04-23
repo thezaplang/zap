@@ -854,6 +854,11 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       }
 
       for (const auto &methodDecl : classDecl->methods_) {
+        if (methodDecl->isUnsafe_) {
+          requireUnsafeEnabled(methodDecl->span, "'unsafe fun'");
+          ++unsafeTypeContextDepth_;
+        }
+
         std::vector<std::shared_ptr<VariableSymbol>> params;
         if (!methodDecl->isStatic_) {
           params.push_back(std::make_shared<VariableSymbol>(
@@ -893,6 +898,10 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         }
         if (!retType) {
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+        }
+
+        if (methodDecl->isUnsafe_) {
+          --unsafeTypeContextDepth_;
         }
 
         auto symbol = std::make_shared<FunctionSymbol>(
@@ -1548,7 +1557,6 @@ void Binder::visit(BinExpr &node) {
   } else if ((node.op_ == "+" || node.op_ == "-") &&
              (isPointerType(leftType) || isPointerType(rightType))) {
     requireUnsafeEnabled(node.span, "pointer arithmetic");
-    requireUnsafeContext(node.span, "pointer arithmetic");
 
     if (node.op_ == "+" && isPointerType(leftType) && rightType->isInteger()) {
       resultType = leftType;
@@ -1593,7 +1601,6 @@ void Binder::visit(BinExpr &node) {
         (isPointerType(leftType) || isPointerType(rightType) ||
          isNullType(leftType) || isNullType(rightType))) {
       requireUnsafeEnabled(node.span, "pointer comparisons");
-      requireUnsafeContext(node.span, "pointer comparisons");
     }
 
     // Reject comparisons of struct types
@@ -1704,7 +1711,6 @@ void Binder::visit(ConstNull &node) {
 
   if (!nullIsSafeHere) {
     requireUnsafeEnabled(node.span, "'null'");
-    requireUnsafeContext(node.span, "'null'");
   }
   expressionStack_.push(std::make_unique<BoundLiteral>(
       "0", std::make_shared<zir::PrimitiveType>(zir::TypeKind::NullPtr)));
@@ -1725,7 +1731,6 @@ void Binder::visit(CastExpr &node) {
   }
 
   requireUnsafeEnabled(node.span, "explicit casts");
-  requireUnsafeContext(node.span, "explicit casts");
 
   bool castAllowed = false;
   if (isNumeric(expr->type) && isNumeric(targetType))
@@ -2003,6 +2008,10 @@ void Binder::visit(FunCall &node) {
       if (!methodAllowed) {
         error(node.span, "Method '" + member->member_ + "' is not accessible.");
         return;
+      }
+      if (funcSymbol->isUnsafe) {
+        requireUnsafeEnabled(node.span, "unsafe function calls");
+        requireUnsafeContext(node.span, "unsafe function calls");
       }
 
       std::vector<std::unique_ptr<BoundExpression>> args;
@@ -2726,10 +2735,6 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
 
   if (typeNode.isPointer) {
     requireUnsafeEnabled(typeNode.span, "raw pointer types");
-    if (!isUnsafeActive() && externTypeContextDepth_ <= 0) {
-      error(typeNode.span,
-            "Raw pointer types are only allowed inside unsafe code.");
-    }
     if (!typeNode.baseType)
       return nullptr;
     auto base = mapType(*typeNode.baseType);
@@ -2778,7 +2783,6 @@ void Binder::visit(UnaryExpr &node) {
   auto type = expr->type;
   if (node.op_ == "&") {
     requireUnsafeEnabled(node.span, "address-of");
-    requireUnsafeContext(node.span, "address-of");
 
     bool isLValue =
         dynamic_cast<BoundVariableExpression *>(expr.get()) ||

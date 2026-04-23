@@ -1,0 +1,31 @@
+import "std/prelude" { println };
+
+fun main() Int {
+    var values: [2]Int = {10, 20};
+    var base: *Int = &values[0];
+    var next: *Int = base + 1;
+    var diff: Int = next - base;
+    var addr: Int = base as Int;
+    var roundtrip: *Int = addr as *Int;
+    var missing: *Int = null;
+
+    if (missing != null) {
+        return 1;
+    }
+
+    unsafe {
+        *roundtrip = 11;
+
+        if (*(base + 1) != 20) {
+            return 2;
+        }
+    }
+
+    if (diff == 1 && values[0] == 11) {
+        println("Pointer scope test passed!");
+        return 0;
+    }
+
+    println("Pointer scope test failed!");
+    return 3;
+}

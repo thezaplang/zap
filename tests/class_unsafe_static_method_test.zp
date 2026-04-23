@@ -1,0 +1,22 @@
+class MathBox {
+    pub static unsafe fun read(ptr: *Int) Int {
+        return *ptr;
+    }
+
+    pub unsafe static fun write(ptr: *Int, value: Int) {
+        *ptr = value;
+    }
+}
+
+fun main() Int {
+    var value: Int = 12;
+
+    unsafe {
+        MathBox.write(&value, 44);
+        if (MathBox.read(&value) == 44) {
+            return 0;
+        }
+    }
+
+    return 1;
+}

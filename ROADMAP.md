@@ -1,5 +1,5 @@
 ## Zap v0.2.0
-- [ ] using pointers outside of unsafe{} (only dereferencing is unsafe)
+- [x] using pointers outside of unsafe{} (only dereferencing is unsafe)
 - [ ] generics (syntax like in C#)
 - [ ] Cycle detection via reference count subtraction(the one we have now is just MVP which we need to replacd)
 - [ ] proper error handling via failable function

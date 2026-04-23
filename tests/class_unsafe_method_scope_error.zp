@@ -1,0 +1,17 @@
+class Reader {
+    priv ptr: *Int;
+
+    fun init(ptr: *Int) {
+        self.ptr = ptr;
+    }
+
+    pub unsafe fun read() Int {
+        return *self.ptr;
+    }
+}
+
+fun main() Int {
+    var value: Int = 7;
+    var reader: Reader = new Reader(&value);
+    return reader.read();
+}

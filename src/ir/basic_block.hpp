@@ -17,6 +17,12 @@ public:
     instructions.push_back(std::move(inst));
   }
 
+  const std::vector<std::unique_ptr<Instruction>> &getInstructions() const {
+    return instructions;
+  }
+
+  bool empty() const { return instructions.empty(); }
+
   std::string toString() const {
     std::string res = label + ":\n";
     for (const auto &inst : instructions) {

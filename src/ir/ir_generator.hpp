@@ -49,6 +49,8 @@ private:
   BasicBlock *currentBlock_ = nullptr;
 
   std::map<std::shared_ptr<sema::Symbol>, std::shared_ptr<Value>> symbolMap_;
+  std::map<std::shared_ptr<sema::Symbol>, std::shared_ptr<Value>>
+      globalSymbolMap_;
   std::stack<std::shared_ptr<Value>> valueStack_;
 
   int nextRegisterId_ = 0;
@@ -57,6 +59,7 @@ private:
   std::vector<std::pair<std::string, std::string>> loopLabelStack_;
 
   std::shared_ptr<Value> lastResultValue_ = nullptr;
+  bool evaluateAsAddress_ = false;
   std::shared_ptr<Value> createRegister(std::shared_ptr<Type> type);
   std::string createBlockLabel(const std::string &prefix);
 };

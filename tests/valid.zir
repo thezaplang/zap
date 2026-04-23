@@ -1,0 +1,12 @@
+; Module: zap_module
+
+; External Functions
+
+@main() i32 {
+entry:
+    %0 = alloca i32
+    store i32 42, i32* %0
+    %1 = load i32, i32* %0
+    ret i32 %1
+}
+

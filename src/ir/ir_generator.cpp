@@ -5,6 +5,7 @@ namespace zir {
 
 std::unique_ptr<Module> BoundIRGenerator::generate(sema::BoundRootNode &root) {
   module_ = std::make_unique<Module>("zap_module");
+  globalSymbolMap_.clear();
   root.accept(*this);
   return std::move(module_);
 }
@@ -16,6 +17,9 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
   for (const auto &en : node.enums) {
     en->accept(*this);
   }
+  for (const auto &global : node.globals) {
+    global->accept(*this);
+  }
   for (const auto &extFunc : node.externalFunctions) {
     extFunc->accept(*this);
   }
@@ -26,8 +30,11 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
 
 void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
   auto symbol = node.symbol;
-  auto func = std::make_unique<Function>(symbol->linkName,
-                                         symbol->returnType->toString());
+  auto func = std::make_unique<Function>(symbol->linkName, symbol->returnType,
+                                         symbol->ownerTypeName,
+                                         symbol->isDestructor,
+                                         symbol->vtableSlot,
+                                         symbol->isCVariadic);
   currentFunction_ = func.get();
 
   auto entryBlock = std::make_unique<BasicBlock>("entry");
@@ -35,13 +42,21 @@ void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
   currentFunction_->addBlock(std::move(entryBlock));
 
   for (const auto &paramSymbol : symbol->parameters) {
-    auto arg = std::make_shared<Argument>(paramSymbol->name, paramSymbol->type);
+    auto argType = paramSymbol->is_ref
+                       ? std::static_pointer_cast<Type>(
+                             std::make_shared<PointerType>(paramSymbol->type))
+                       : paramSymbol->type;
+    auto arg = std::make_shared<Argument>(
+        paramSymbol->name, argType, paramSymbol->is_ref,
+        paramSymbol->is_variadic_pack, paramSymbol->variadic_element_type);
     currentFunction_->arguments.push_back(arg);
 
-    auto allocaReg =
-        createRegister(std::make_shared<PointerType>(paramSymbol->type));
+    auto spillType = paramSymbol->is_ref
+                         ? std::make_shared<PointerType>(paramSymbol->type)
+                         : paramSymbol->type;
+    auto allocaReg = createRegister(std::make_shared<PointerType>(spillType));
     currentBlock_->addInstruction(
-        std::make_unique<AllocaInst>(allocaReg, paramSymbol->type));
+        std::make_unique<AllocaInst>(allocaReg, spillType));
     currentBlock_->addInstruction(std::make_unique<StoreInst>(arg, allocaReg));
 
     symbolMap_[paramSymbol] = allocaReg;
@@ -70,11 +85,20 @@ void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
 
 void BoundIRGenerator::visit(sema::BoundExternalFunctionDeclaration &node) {
   auto symbol = node.symbol;
-  auto func = std::make_unique<Function>(symbol->linkName,
-                                         symbol->returnType->toString());
+  auto func = std::make_unique<Function>(symbol->linkName, symbol->returnType,
+                                         symbol->ownerTypeName,
+                                         symbol->isDestructor,
+                                         symbol->vtableSlot,
+                                         symbol->isCVariadic);
 
   for (const auto &paramSymbol : symbol->parameters) {
-    auto arg = std::make_shared<Argument>(paramSymbol->name, paramSymbol->type);
+    auto argType = paramSymbol->is_ref
+                       ? std::static_pointer_cast<Type>(
+                             std::make_shared<PointerType>(paramSymbol->type))
+                       : paramSymbol->type;
+    auto arg = std::make_shared<Argument>(
+        paramSymbol->name, argType, paramSymbol->is_ref,
+        paramSymbol->is_variadic_pack, paramSymbol->variadic_element_type);
     func->arguments.push_back(arg);
   }
 
@@ -82,16 +106,58 @@ void BoundIRGenerator::visit(sema::BoundExternalFunctionDeclaration &node) {
 }
 
 void BoundIRGenerator::visit(sema::BoundBlock &node) {
+  std::vector<std::shared_ptr<sema::VariableSymbol>> blockClassLocals;
   for (const auto &stmt : node.statements) {
     stmt->accept(*this);
+    if (currentFunction_) {
+      if (auto *varDecl =
+              dynamic_cast<sema::BoundVariableDeclaration *>(stmt.get())) {
+        if (varDecl->symbol->type &&
+            varDecl->symbol->type->getKind() == TypeKind::Class) {
+          blockClassLocals.push_back(varDecl->symbol);
+        }
+      }
+    }
   }
   if (node.result) {
     node.result->accept(*this);
+  }
+
+  if (currentFunction_ && currentBlock_ &&
+      (currentBlock_->instructions.empty() ||
+       (currentBlock_->instructions.back()->getOpCode() != OpCode::Ret &&
+        currentBlock_->instructions.back()->getOpCode() != OpCode::Br &&
+        currentBlock_->instructions.back()->getOpCode() != OpCode::CondBr))) {
+    for (auto it = blockClassLocals.rbegin(); it != blockClassLocals.rend();
+         ++it) {
+      auto symbolIt = symbolMap_.find(*it);
+      if (symbolIt == symbolMap_.end()) {
+        continue;
+      }
+      currentBlock_->addInstruction(std::make_unique<StoreInst>(
+          std::make_shared<Constant>("null", (*it)->type), symbolIt->second));
+    }
   }
 }
 
 void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node) {
   auto type = node.symbol->type;
+
+  if (!currentFunction_) {
+    std::shared_ptr<Value> initializer = nullptr;
+    if (node.initializer) {
+      node.initializer->accept(*this);
+      initializer = valueStack_.top();
+      valueStack_.pop();
+    }
+    auto global = std::make_shared<Global>(node.symbol->name,
+                                           node.symbol->linkName, type,
+                                           initializer, node.symbol->is_const);
+    module_->addGlobal(global);
+    globalSymbolMap_[node.symbol] = global;
+    return;
+  }
+
   auto reg = createRegister(std::make_shared<PointerType>(type));
   currentBlock_->addInstruction(std::make_unique<AllocaInst>(reg, type));
   symbolMap_[node.symbol] = reg;
@@ -116,7 +182,10 @@ void BoundIRGenerator::visit(sema::BoundReturnStatement &node) {
 }
 
 void BoundIRGenerator::visit(sema::BoundAssignment &node) {
+  bool oldEvaluateAsAddress = evaluateAsAddress_;
+  evaluateAsAddress_ = true;
   node.target->accept(*this);
+  evaluateAsAddress_ = oldEvaluateAsAddress;
   auto target = valueStack_.top();
   valueStack_.pop();
 
@@ -137,13 +206,38 @@ void BoundIRGenerator::visit(sema::BoundLiteral &node) {
 }
 
 void BoundIRGenerator::visit(sema::BoundVariableExpression &node) {
-  auto it = symbolMap_.find(node.symbol);
-  if (it == symbolMap_.end()) {
+  std::shared_ptr<Value> addr = nullptr;
+  auto localIt = symbolMap_.find(node.symbol);
+  if (localIt != symbolMap_.end()) {
+    addr = localIt->second;
+  } else {
+    auto globalIt = globalSymbolMap_.find(node.symbol);
+    if (globalIt != globalSymbolMap_.end()) {
+      addr = globalIt->second;
+    }
+  }
+  if (!addr) {
     std::cerr << "Error: Symbol " << node.symbol->name
               << " not found in IR symbol map\n";
     return;
   }
-  auto addr = it->second;
+  if (node.symbol->is_ref) {
+    auto ptrReg =
+        createRegister(std::make_shared<PointerType>(node.symbol->type));
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(ptrReg, addr));
+    if (evaluateAsAddress_) {
+      valueStack_.push(ptrReg);
+      return;
+    }
+    auto valueReg = createRegister(node.type);
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(valueReg, ptrReg));
+    valueStack_.push(valueReg);
+    return;
+  }
+  if (evaluateAsAddress_) {
+    valueStack_.push(addr);
+    return;
+  }
   auto reg = createRegister(node.type);
   currentBlock_->addInstruction(std::make_unique<LoadInst>(reg, addr));
   valueStack_.push(reg);
@@ -326,15 +420,28 @@ void BoundIRGenerator::visit(sema::BoundTernaryExpression &node) {
 
 void BoundIRGenerator::visit(sema::BoundFunctionCall &node) {
   std::vector<std::shared_ptr<Value>> args;
-  for (const auto &arg : node.arguments) {
-    arg->accept(*this);
+  for (size_t i = 0; i < node.arguments.size(); ++i) {
+    bool oldEvaluateAsAddress = evaluateAsAddress_;
+    if (i < node.argumentIsRef.size() && node.argumentIsRef[i]) {
+      evaluateAsAddress_ = true;
+    }
+    node.arguments[i]->accept(*this);
+    evaluateAsAddress_ = oldEvaluateAsAddress;
     args.push_back(valueStack_.top());
+    valueStack_.pop();
+  }
+
+  std::shared_ptr<Value> variadicPack = nullptr;
+  if (node.variadicPack) {
+    node.variadicPack->accept(*this);
+    variadicPack = valueStack_.top();
     valueStack_.pop();
   }
 
   auto reg = createRegister(node.type);
   currentBlock_->addInstruction(
-      std::make_unique<CallInst>(reg, node.symbol->linkName, args));
+      std::make_unique<CallInst>(reg, node.symbol->linkName, args,
+                                 node.argumentIsRef, variadicPack));
   valueStack_.push(reg);
 }
 
@@ -348,11 +455,86 @@ std::string BoundIRGenerator::createBlockLabel(const std::string &prefix) {
 }
 
 void BoundIRGenerator::visit(sema::BoundUnaryExpression &node) {
+  if (node.op == "&") {
+    bool oldEvaluateAsAddress = evaluateAsAddress_;
+    evaluateAsAddress_ = true;
+    node.expr->accept(*this);
+    evaluateAsAddress_ = oldEvaluateAsAddress;
+    return;
+  }
+
+  if (node.op == "*") {
+    bool oldEvaluateAsAddress = evaluateAsAddress_;
+    evaluateAsAddress_ = false;
+    node.expr->accept(*this);
+    evaluateAsAddress_ = oldEvaluateAsAddress;
+
+    auto ptr = valueStack_.top();
+    valueStack_.pop();
+    if (evaluateAsAddress_) {
+      valueStack_.push(ptr);
+      return;
+    }
+
+    auto reg = createRegister(node.type);
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(reg, ptr));
+    valueStack_.push(reg);
+    return;
+  }
+
   node.expr->accept(*this);
+  auto expr = valueStack_.top();
+  valueStack_.pop();
+
+  if (node.op == "+") {
+    valueStack_.push(expr);
+    return;
+  }
+
+  if (node.op == "-") {
+    auto zero = std::make_shared<Constant>("0", node.type);
+    auto reg = createRegister(node.type);
+    currentBlock_->addInstruction(
+        std::make_unique<BinaryInst>(OpCode::Sub, reg, zero, expr));
+    valueStack_.push(reg);
+    return;
+  }
+
+  if (node.op == "!") {
+    auto zero = std::make_shared<Constant>(
+        "false", std::make_shared<PrimitiveType>(TypeKind::Bool));
+    auto reg = createRegister(node.type);
+    currentBlock_->addInstruction(
+        std::make_unique<CmpInst>("eq", reg, expr, zero));
+    valueStack_.push(reg);
+    return;
+  }
+
+  valueStack_.push(expr);
 }
 
 void BoundIRGenerator::visit(sema::BoundArrayLiteral &node) {
-  valueStack_.push(std::make_shared<Constant>("0", node.type));
+  auto arrayType = std::static_pointer_cast<zir::ArrayType>(node.type);
+  auto allocaReg = createRegister(std::make_shared<PointerType>(arrayType));
+  currentBlock_->addInstruction(
+      std::make_unique<AllocaInst>(allocaReg, arrayType));
+
+  for (size_t i = 0; i < node.elements.size(); ++i) {
+    node.elements[i]->accept(*this);
+    auto value = std::move(valueStack_.top());
+    valueStack_.pop();
+
+    auto elementAddr = createRegister(
+        std::make_shared<PointerType>(arrayType->getBaseType()));
+    currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+        elementAddr, allocaReg, static_cast<int>(i)));
+    currentBlock_->addInstruction(
+        std::make_unique<StoreInst>(value, elementAddr));
+  }
+
+  auto result = createRegister(arrayType);
+  currentBlock_->addInstruction(std::make_unique<LoadInst>(result, allocaReg));
+  valueStack_.push(result);
 }
 
 void BoundIRGenerator::visit(sema::BoundRecordDeclaration &node) {
@@ -364,11 +546,17 @@ void BoundIRGenerator::visit(sema::BoundEnumDeclaration &node) {
 }
 
 void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
-  node.left->accept(*this);
-  auto left = std::move(valueStack_.top());
-  valueStack_.pop();
+  auto isStringRecord = [](const std::shared_ptr<zir::Type> &type) {
+    return type && type->getKind() == zir::TypeKind::Record &&
+           std::static_pointer_cast<zir::RecordType>(type)->getName() ==
+               "String";
+  };
 
-  if (left->getType()->getKind() == zir::TypeKind::Enum) {
+  if (node.left->type->getKind() == zir::TypeKind::Enum) {
+    node.left->accept(*this);
+    auto left = std::move(valueStack_.top());
+    valueStack_.pop();
+
     auto enumType = std::static_pointer_cast<zir::EnumType>(left->getType());
     int value = enumType->getVariantIndex(node.member);
     if (value != -1) {
@@ -377,7 +565,103 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
           std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
       return;
     }
-  } else if (left->getType()->getKind() == zir::TypeKind::Record) {
+  }
+
+  bool oldEvaluateAsAddress = evaluateAsAddress_;
+  evaluateAsAddress_ =
+      !(node.left->type->getKind() == zir::TypeKind::Class ||
+        node.left->type->getKind() == zir::TypeKind::Pointer);
+  node.left->accept(*this);
+  evaluateAsAddress_ = oldEvaluateAsAddress;
+
+  auto left = std::move(valueStack_.top());
+  valueStack_.pop();
+
+  if (node.left->type->getKind() == zir::TypeKind::Class) {
+    auto classType = std::static_pointer_cast<zir::ClassType>(node.left->type);
+    int fieldIndex = -1;
+    const auto &fields = classType->getFields();
+    for (size_t i = 0; i < fields.size(); ++i) {
+      if (fields[i].name == node.member) {
+        fieldIndex = static_cast<int>(i);
+        break;
+      }
+    }
+
+    if (fieldIndex != -1) {
+      auto fieldAddr = createRegister(
+          std::make_shared<PointerType>(fields[fieldIndex].type));
+      currentBlock_->addInstruction(
+          std::make_unique<GetElementPtrInst>(fieldAddr, left, fieldIndex));
+      if (evaluateAsAddress_) {
+        valueStack_.push(fieldAddr);
+      } else {
+        auto result = createRegister(fields[fieldIndex].type);
+        currentBlock_->addInstruction(
+            std::make_unique<LoadInst>(result, fieldAddr));
+        valueStack_.push(result);
+      }
+      return;
+    }
+  } else if (left->getType()->getKind() == zir::TypeKind::Pointer) {
+    auto baseType =
+        std::static_pointer_cast<zir::PointerType>(left->getType())->getBaseType();
+    if (baseType->getKind() == zir::TypeKind::Class) {
+      auto classType = std::static_pointer_cast<zir::ClassType>(baseType);
+      int fieldIndex = -1;
+      const auto &fields = classType->getFields();
+      for (size_t i = 0; i < fields.size(); ++i) {
+        if (fields[i].name == node.member) {
+          fieldIndex = static_cast<int>(i);
+          break;
+        }
+      }
+
+      if (fieldIndex != -1) {
+        auto fieldAddr = createRegister(
+            std::make_shared<PointerType>(fields[fieldIndex].type));
+        currentBlock_->addInstruction(
+            std::make_unique<GetElementPtrInst>(fieldAddr, left, fieldIndex));
+        if (evaluateAsAddress_) {
+          valueStack_.push(fieldAddr);
+        } else {
+          auto result = createRegister(fields[fieldIndex].type);
+          currentBlock_->addInstruction(
+              std::make_unique<LoadInst>(result, fieldAddr));
+          valueStack_.push(result);
+        }
+        return;
+      }
+    } else if (baseType->getKind() == zir::TypeKind::Record &&
+               !isStringRecord(baseType)) {
+      auto recordType = std::static_pointer_cast<zir::RecordType>(baseType);
+      int fieldIndex = -1;
+      const auto &fields = recordType->getFields();
+      for (size_t i = 0; i < fields.size(); ++i) {
+        if (fields[i].name == node.member) {
+          fieldIndex = static_cast<int>(i);
+          break;
+        }
+      }
+
+      if (fieldIndex != -1) {
+        auto fieldAddr = createRegister(
+            std::make_shared<PointerType>(fields[fieldIndex].type));
+        currentBlock_->addInstruction(
+            std::make_unique<GetElementPtrInst>(fieldAddr, left, fieldIndex));
+        if (evaluateAsAddress_) {
+          valueStack_.push(fieldAddr);
+        } else {
+          auto result = createRegister(fields[fieldIndex].type);
+          currentBlock_->addInstruction(
+              std::make_unique<LoadInst>(result, fieldAddr));
+          valueStack_.push(result);
+        }
+        return;
+      }
+    }
+  } else if (left->getType()->getKind() == zir::TypeKind::Record &&
+             !isStringRecord(left->getType())) {
     auto recordType =
         std::static_pointer_cast<zir::RecordType>(left->getType());
     int fieldIndex = -1;
@@ -390,10 +674,18 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
     }
 
     if (fieldIndex != -1) {
-      auto result = createRegister(fields[fieldIndex].type);
+      auto fieldAddr = createRegister(
+          std::make_shared<PointerType>(fields[fieldIndex].type));
       currentBlock_->addInstruction(
-          std::make_unique<GetElementPtrInst>(result, left, fieldIndex));
-      valueStack_.push(result);
+          std::make_unique<GetElementPtrInst>(fieldAddr, left, fieldIndex));
+      if (evaluateAsAddress_) {
+        valueStack_.push(fieldAddr);
+      } else {
+        auto result = createRegister(fields[fieldIndex].type);
+        currentBlock_->addInstruction(
+            std::make_unique<LoadInst>(result, fieldAddr));
+        valueStack_.push(result);
+      }
       return;
     }
   }
@@ -549,23 +841,92 @@ void BoundIRGenerator::visit(sema::BoundContinueStatement &node) {
 
 void BoundIRGenerator::visit(sema::BoundWeakLockExpression &node) {
   node.weakExpression->accept(*this);
-  if (!valueStack_.empty()) {
-    valueStack_.pop();
-  }
-  valueStack_.push(std::make_shared<Constant>("0", node.type));
+  auto weakValue = valueStack_.top();
+  valueStack_.pop();
+  auto result = createRegister(node.type);
+  currentBlock_->addInstruction(
+      std::make_unique<WeakLockInst>(result, weakValue));
+  valueStack_.push(result);
 }
 
 void BoundIRGenerator::visit(sema::BoundWeakAliveExpression &node) {
   node.weakExpression->accept(*this);
-  if (!valueStack_.empty()) {
-    valueStack_.pop();
-  }
-  valueStack_.push(std::make_shared<Constant>(
-      "false", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool)));
+  auto weakValue = valueStack_.top();
+  valueStack_.pop();
+  auto result = createRegister(node.type);
+  currentBlock_->addInstruction(
+      std::make_unique<WeakAliveInst>(result, weakValue));
+  valueStack_.push(result);
 }
 
 void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
+  if (node.left->type->getKind() == zir::TypeKind::Record) {
+    auto recordType =
+        std::static_pointer_cast<zir::RecordType>(node.left->type);
+    if (recordType->getName() == "String") {
+      if (evaluateAsAddress_) {
+        throw std::runtime_error("String index access is not assignable.");
+      }
+
+      node.left->accept(*this);
+      auto stringValue = valueStack_.top();
+      valueStack_.pop();
+
+      node.index->accept(*this);
+      auto indexValue = valueStack_.top();
+      valueStack_.pop();
+
+      auto result = createRegister(node.type);
+      currentBlock_->addInstruction(std::make_unique<CallInst>(
+          result, "at",
+          std::vector<std::shared_ptr<Value>>{stringValue, indexValue}));
+      valueStack_.push(result);
+      return;
+    }
+
+    if (recordType->getName().rfind("__zap_varargs_", 0) == 0) {
+      bool oldEvaluateAsAddress = evaluateAsAddress_;
+      evaluateAsAddress_ = true;
+      node.left->accept(*this);
+      evaluateAsAddress_ = oldEvaluateAsAddress;
+      auto sliceAddr = valueStack_.top();
+      valueStack_.pop();
+
+      node.index->accept(*this);
+      auto indexValue = valueStack_.top();
+      valueStack_.pop();
+
+      auto elemType =
+          std::static_pointer_cast<zir::PointerType>(recordType->getFields()[0].type)
+              ->getBaseType();
+      auto dataAddr = createRegister(recordType->getFields()[0].type);
+      currentBlock_->addInstruction(
+          std::make_unique<GetElementPtrInst>(dataAddr, sliceAddr, 0));
+
+      auto dataPtr = createRegister(recordType->getFields()[0].type);
+      currentBlock_->addInstruction(
+          std::make_unique<LoadInst>(dataPtr, dataAddr));
+
+      auto elemAddr = createRegister(std::make_shared<PointerType>(elemType));
+      currentBlock_->addInstruction(std::make_unique<BinaryInst>(
+          OpCode::Add, elemAddr, dataPtr, indexValue));
+
+      if (evaluateAsAddress_) {
+        valueStack_.push(elemAddr);
+      } else {
+        auto res = createRegister(node.type);
+        currentBlock_->addInstruction(
+            std::make_unique<LoadInst>(res, elemAddr));
+        valueStack_.push(res);
+      }
+      return;
+    }
+  }
+
+  bool oldEvaluateAsAddress = evaluateAsAddress_;
+  evaluateAsAddress_ = true;
   node.left->accept(*this);
+  evaluateAsAddress_ = oldEvaluateAsAddress;
   auto left = valueStack_.top();
   valueStack_.pop();
 
@@ -585,9 +946,13 @@ void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
   currentBlock_->addInstruction(
       std::make_unique<GetElementPtrInst>(ptr, left, idx));
 
-  auto res = createRegister(node.type);
-  currentBlock_->addInstruction(std::make_unique<LoadInst>(res, ptr));
-  valueStack_.push(res);
+  if (evaluateAsAddress_) {
+    valueStack_.push(ptr);
+  } else {
+    auto res = createRegister(node.type);
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(res, ptr));
+    valueStack_.push(res);
+  }
 }
 
 void BoundIRGenerator::visit(sema::BoundCast &node) {
@@ -602,13 +967,29 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
 }
 
 void BoundIRGenerator::visit(sema::BoundNewExpression &node) {
-  for (const auto &arg : node.arguments) {
-    arg->accept(*this);
-    if (!valueStack_.empty()) {
+  auto result = createRegister(node.type);
+  currentBlock_->addInstruction(
+      std::make_unique<AllocInst>(result, node.classType));
+
+  if (node.constructor) {
+    std::vector<std::shared_ptr<Value>> args;
+    args.push_back(result);
+    for (size_t i = 0; i < node.arguments.size(); ++i) {
+      bool oldEvaluateAsAddress = evaluateAsAddress_;
+      if (i < node.argumentIsRef.size() && node.argumentIsRef[i]) {
+        evaluateAsAddress_ = true;
+      }
+      node.arguments[i]->accept(*this);
+      evaluateAsAddress_ = oldEvaluateAsAddress;
+      args.push_back(valueStack_.top());
       valueStack_.pop();
     }
+
+    currentBlock_->addInstruction(
+        std::make_unique<CallInst>(nullptr, node.constructor->linkName, args));
   }
-  valueStack_.push(std::make_shared<Constant>("null", node.type));
+
+  valueStack_.push(result);
 }
 
 } // namespace zir

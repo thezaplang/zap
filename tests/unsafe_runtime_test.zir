@@ -1,0 +1,1021 @@
+; Module: zap_module
+%error.Error = type { enum error.ErrorKind, i32, %String }
+enum error.ErrorKind { Unknown, NotFound, PermissionDenied, InvalidInput, AlreadyExists, Io }
+
+; External Functions
+extern @zap_to_string_i64(i64 %x) %String {
+}
+
+extern @zap_to_string_u64(u64 %x) %String {
+}
+
+extern @zap_to_string_f64(f64 %x) %String {
+}
+
+extern @zap_to_int_from_char(i8 %x) i32 {
+}
+
+extern @zap_to_char_from_int(i32 %x) i8 {
+}
+
+extern @exists(%String %path) i1 {
+}
+
+extern @isFile(%String %path) i1 {
+}
+
+extern @isDir(%String %path) i1 {
+}
+
+extern @zap_fs_mkdir(%String %path) i32 {
+}
+
+extern @readFile(%String %path) %String {
+}
+
+extern @writeFile(%String %path, %String %content) i32 {
+}
+
+extern @println(%String %s) void {
+}
+
+extern @printInt(i32 %i) void {
+}
+
+extern @printFloat(f32 %f) void {
+}
+
+extern @printFloat64(f64 %f) void {
+}
+
+extern @printBool(i1 %b) void {
+}
+
+extern @printChar(i8 %c) void {
+}
+
+extern @eprintln(%String %s) void {
+}
+
+extern @getLn() %String {
+}
+
+extern @zap_printf(%String %format) i32 {
+}
+
+extern @zap_printfln(%String %format) i32 {
+}
+
+extern @zapMathSqrt(f64 %x) f64 {
+}
+
+extern @zapMathFloor(f64 %x) f64 {
+}
+
+extern @zapMathCeil(f64 %x) f64 {
+}
+
+extern @parent(%String %path) %String {
+}
+
+extern @zap_path_basename(%String %path) %String {
+}
+
+extern @exit(i32 %code) void {
+}
+
+extern @argc() i32 {
+}
+
+extern @argv(i32 %i) %String {
+}
+
+extern @exec(%String %cmd) i32 {
+}
+
+extern @cwd() %String {
+}
+
+extern @len(%String %s) i32 {
+}
+
+extern @at(%String %s, i32 %i) i8 {
+}
+
+extern @slice(%String %s, i32 %start, i32 %len) %String {
+}
+
+extern @eq(%String %a, %String %b) i1 {
+}
+
+
+@zap$std$conver$toString$_String(%String %x) %String {
+entry:
+    %0 = alloca %String
+    store %String %x, %String* %0
+    %1 = load %String, %String* %0
+    ret %String %1
+}
+
+@zap$std$conver$toString$i1(i1 %x) %String {
+entry:
+    %2 = alloca i1
+    store i1 %x, i1* %2
+    %3 = load i1, i1* %2
+    br i1 %3, label %if.then.0, label %if.merge.1
+if.then.0:
+    ret %String true
+if.merge.1:
+    ret %String false
+}
+
+@zap$std$conver$toString$i8(i8 %x) %String {
+entry:
+    %4 = alloca i8
+    store i8 %x, i8* %4
+    %5 = load i8, i8* %4
+    %6 = call @zap$std$strin$fromChar$i8(i8 %5)
+    ret %String %6
+}
+
+@zap$std$conver$toString$i16(i16 %x) %String {
+entry:
+    %7 = alloca i16
+    store i16 %x, i16* %7
+    %8 = load i16, i16* %7
+    %9 = cast i16 %8 to i64
+    %10 = call @zap_to_string_i64(i64 %9)
+    ret %String %10
+}
+
+@zap$std$conver$toString$i64(i64 %x) %String {
+entry:
+    %11 = alloca i64
+    store i64 %x, i64* %11
+    %12 = load i64, i64* %11
+    %13 = call @zap_to_string_i64(i64 %12)
+    ret %String %13
+}
+
+@zap$std$conver$toString$i32(i32 %x) %String {
+entry:
+    %14 = alloca i32
+    store i32 %x, i32* %14
+    %15 = load i32, i32* %14
+    %16 = cast i32 %15 to i64
+    %17 = call @zap_to_string_i64(i64 %16)
+    ret %String %17
+}
+
+@zap$std$conver$toString$u8(u8 %x) %String {
+entry:
+    %18 = alloca u8
+    store u8 %x, u8* %18
+    %19 = load u8, u8* %18
+    %20 = cast u8 %19 to u64
+    %21 = call @zap_to_string_u64(u64 %20)
+    ret %String %21
+}
+
+@zap$std$conver$toString$u16(u16 %x) %String {
+entry:
+    %22 = alloca u16
+    store u16 %x, u16* %22
+    %23 = load u16, u16* %22
+    %24 = cast u16 %23 to u64
+    %25 = call @zap_to_string_u64(u64 %24)
+    ret %String %25
+}
+
+@zap$std$conver$toString$u64(u64 %x) %String {
+entry:
+    %26 = alloca u64
+    store u64 %x, u64* %26
+    %27 = load u64, u64* %26
+    %28 = call @zap_to_string_u64(u64 %27)
+    ret %String %28
+}
+
+@zap$std$conver$toString$u32(u32 %x) %String {
+entry:
+    %29 = alloca u32
+    store u32 %x, u32* %29
+    %30 = load u32, u32* %29
+    %31 = cast u32 %30 to u64
+    %32 = call @zap_to_string_u64(u64 %31)
+    ret %String %32
+}
+
+@zap$std$conver$toString$f32(f32 %x) %String {
+entry:
+    %33 = alloca f32
+    store f32 %x, f32* %33
+    %34 = load f32, f32* %33
+    %35 = cast f32 %34 to f64
+    %36 = call @zap_to_string_f64(f64 %35)
+    ret %String %36
+}
+
+@zap$std$conver$toString$f64(f64 %x) %String {
+entry:
+    %37 = alloca f64
+    store f64 %x, f64* %37
+    %38 = load f64, f64* %37
+    %39 = call @zap_to_string_f64(f64 %38)
+    ret %String %39
+}
+
+@zap$std$conver$toInt$i16(i16 %x) i32 {
+entry:
+    %40 = alloca i16
+    store i16 %x, i16* %40
+    %41 = load i16, i16* %40
+    %42 = cast i16 %41 to i32
+    ret i32 %42
+}
+
+@zap$std$conver$toInt$i64(i64 %x) i32 {
+entry:
+    %43 = alloca i64
+    store i64 %x, i64* %43
+    %44 = load i64, i64* %43
+    %45 = cast i64 %44 to i32
+    ret i32 %45
+}
+
+@zap$std$conver$toInt$i32(i32 %x) i32 {
+entry:
+    %46 = alloca i32
+    store i32 %x, i32* %46
+    %47 = load i32, i32* %46
+    ret i32 %47
+}
+
+@zap$std$conver$toInt$u8(u8 %x) i32 {
+entry:
+    %48 = alloca u8
+    store u8 %x, u8* %48
+    %49 = load u8, u8* %48
+    %50 = cast u8 %49 to i32
+    ret i32 %50
+}
+
+@zap$std$conver$toInt$u16(u16 %x) i32 {
+entry:
+    %51 = alloca u16
+    store u16 %x, u16* %51
+    %52 = load u16, u16* %51
+    %53 = cast u16 %52 to i32
+    ret i32 %53
+}
+
+@zap$std$conver$toInt$u64(u64 %x) i32 {
+entry:
+    %54 = alloca u64
+    store u64 %x, u64* %54
+    %55 = load u64, u64* %54
+    %56 = cast u64 %55 to i32
+    ret i32 %56
+}
+
+@zap$std$conver$toInt$u32(u32 %x) i32 {
+entry:
+    %57 = alloca u32
+    store u32 %x, u32* %57
+    %58 = load u32, u32* %57
+    %59 = cast u32 %58 to i32
+    ret i32 %59
+}
+
+@zap$std$conver$toInt$f32(f32 %x) i32 {
+entry:
+    %60 = alloca f32
+    store f32 %x, f32* %60
+    %61 = load f32, f32* %60
+    %62 = cast f32 %61 to i32
+    ret i32 %62
+}
+
+@zap$std$conver$toInt$f64(f64 %x) i32 {
+entry:
+    %63 = alloca f64
+    store f64 %x, f64* %63
+    %64 = load f64, f64* %63
+    %65 = cast f64 %64 to i32
+    ret i32 %65
+}
+
+@zap$std$conver$toInt$i1(i1 %x) i32 {
+entry:
+    %66 = alloca i1
+    store i1 %x, i1* %66
+    %67 = load i1, i1* %66
+    br i1 %67, label %if.then.2, label %if.merge.3
+if.then.2:
+    ret i32 1
+if.merge.3:
+    ret i32 0
+}
+
+@zap$std$conver$toInt$i8(i8 %x) i32 {
+entry:
+    %68 = alloca i8
+    store i8 %x, i8* %68
+    %69 = load i8, i8* %68
+    %70 = call @zap_to_int_from_char(i8 %69)
+    ret i32 %70
+}
+
+@zap$std$conver$toFloat$i16(i16 %x) f32 {
+entry:
+    %71 = alloca i16
+    store i16 %x, i16* %71
+    %72 = load i16, i16* %71
+    %73 = cast i16 %72 to f32
+    ret f32 %73
+}
+
+@zap$std$conver$toFloat$i64(i64 %x) f32 {
+entry:
+    %74 = alloca i64
+    store i64 %x, i64* %74
+    %75 = load i64, i64* %74
+    %76 = cast i64 %75 to f32
+    ret f32 %76
+}
+
+@zap$std$conver$toFloat$i32(i32 %x) f32 {
+entry:
+    %77 = alloca i32
+    store i32 %x, i32* %77
+    %78 = load i32, i32* %77
+    %79 = cast i32 %78 to f32
+    ret f32 %79
+}
+
+@zap$std$conver$toFloat$u8(u8 %x) f32 {
+entry:
+    %80 = alloca u8
+    store u8 %x, u8* %80
+    %81 = load u8, u8* %80
+    %82 = cast u8 %81 to f32
+    ret f32 %82
+}
+
+@zap$std$conver$toFloat$u16(u16 %x) f32 {
+entry:
+    %83 = alloca u16
+    store u16 %x, u16* %83
+    %84 = load u16, u16* %83
+    %85 = cast u16 %84 to f32
+    ret f32 %85
+}
+
+@zap$std$conver$toFloat$u64(u64 %x) f32 {
+entry:
+    %86 = alloca u64
+    store u64 %x, u64* %86
+    %87 = load u64, u64* %86
+    %88 = cast u64 %87 to f32
+    ret f32 %88
+}
+
+@zap$std$conver$toFloat$u32(u32 %x) f32 {
+entry:
+    %89 = alloca u32
+    store u32 %x, u32* %89
+    %90 = load u32, u32* %89
+    %91 = cast u32 %90 to f32
+    ret f32 %91
+}
+
+@zap$std$conver$toFloat$f32(f32 %x) f32 {
+entry:
+    %92 = alloca f32
+    store f32 %x, f32* %92
+    %93 = load f32, f32* %92
+    ret f32 %93
+}
+
+@zap$std$conver$toFloat$f64(f64 %x) f32 {
+entry:
+    %94 = alloca f64
+    store f64 %x, f64* %94
+    %95 = load f64, f64* %94
+    %96 = cast f64 %95 to f32
+    ret f32 %96
+}
+
+@zap$std$conver$toFloat$i1(i1 %x) f32 {
+entry:
+    %97 = alloca i1
+    store i1 %x, i1* %97
+    %98 = load i1, i1* %97
+    br i1 %98, label %if.then.4, label %if.merge.5
+if.then.4:
+    ret f32 1.000000
+if.merge.5:
+    ret f32 0.000000
+}
+
+@zap$std$conver$toFloat$i8(i8 %x) f32 {
+entry:
+    %99 = alloca i8
+    store i8 %x, i8* %99
+    %100 = load i8, i8* %99
+    %101 = call @zap$std$conver$toInt$i8(i8 %100)
+    %102 = cast i32 %101 to f32
+    ret f32 %102
+}
+
+@zap$std$conver$toFloat64$i16(i16 %x) f64 {
+entry:
+    %103 = alloca i16
+    store i16 %x, i16* %103
+    %104 = load i16, i16* %103
+    %105 = cast i16 %104 to f64
+    ret f64 %105
+}
+
+@zap$std$conver$toFloat64$i64(i64 %x) f64 {
+entry:
+    %106 = alloca i64
+    store i64 %x, i64* %106
+    %107 = load i64, i64* %106
+    %108 = cast i64 %107 to f64
+    ret f64 %108
+}
+
+@zap$std$conver$toFloat64$i32(i32 %x) f64 {
+entry:
+    %109 = alloca i32
+    store i32 %x, i32* %109
+    %110 = load i32, i32* %109
+    %111 = cast i32 %110 to f64
+    ret f64 %111
+}
+
+@zap$std$conver$toFloat64$u8(u8 %x) f64 {
+entry:
+    %112 = alloca u8
+    store u8 %x, u8* %112
+    %113 = load u8, u8* %112
+    %114 = cast u8 %113 to f64
+    ret f64 %114
+}
+
+@zap$std$conver$toFloat64$u16(u16 %x) f64 {
+entry:
+    %115 = alloca u16
+    store u16 %x, u16* %115
+    %116 = load u16, u16* %115
+    %117 = cast u16 %116 to f64
+    ret f64 %117
+}
+
+@zap$std$conver$toFloat64$u64(u64 %x) f64 {
+entry:
+    %118 = alloca u64
+    store u64 %x, u64* %118
+    %119 = load u64, u64* %118
+    %120 = cast u64 %119 to f64
+    ret f64 %120
+}
+
+@zap$std$conver$toFloat64$u32(u32 %x) f64 {
+entry:
+    %121 = alloca u32
+    store u32 %x, u32* %121
+    %122 = load u32, u32* %121
+    %123 = cast u32 %122 to f64
+    ret f64 %123
+}
+
+@zap$std$conver$toFloat64$f32(f32 %x) f64 {
+entry:
+    %124 = alloca f32
+    store f32 %x, f32* %124
+    %125 = load f32, f32* %124
+    %126 = cast f32 %125 to f64
+    ret f64 %126
+}
+
+@zap$std$conver$toFloat64$f64(f64 %x) f64 {
+entry:
+    %127 = alloca f64
+    store f64 %x, f64* %127
+    %128 = load f64, f64* %127
+    ret f64 %128
+}
+
+@zap$std$conver$toFloat64$i1(i1 %x) f64 {
+entry:
+    %129 = alloca i1
+    store i1 %x, i1* %129
+    %130 = load i1, i1* %129
+    br i1 %130, label %if.then.6, label %if.merge.7
+if.then.6:
+    %131 = cast f32 1.000000 to f64
+    ret f64 %131
+if.merge.7:
+    %132 = cast f32 0.000000 to f64
+    ret f64 %132
+}
+
+@zap$std$conver$toFloat64$i8(i8 %x) f64 {
+entry:
+    %133 = alloca i8
+    store i8 %x, i8* %133
+    %134 = load i8, i8* %133
+    %135 = call @zap$std$conver$toInt$i8(i8 %134)
+    %136 = cast i32 %135 to f64
+    ret f64 %136
+}
+
+@zap$std$conver$toBool$i1(i1 %x) i1 {
+entry:
+    %137 = alloca i1
+    store i1 %x, i1* %137
+    %138 = load i1, i1* %137
+    ret i1 %138
+}
+
+@zap$std$conver$toBool$i16(i16 %x) i1 {
+entry:
+    %139 = alloca i16
+    store i16 %x, i16* %139
+    %140 = load i16, i16* %139
+    %141 = call @zap$std$conver$toInt$i16(i16 %140)
+    %142 = icmp ne i32 %141, 0
+    ret i1 %142
+}
+
+@zap$std$conver$toBool$i64(i64 %x) i1 {
+entry:
+    %143 = alloca i64
+    store i64 %x, i64* %143
+    %144 = load i64, i64* %143
+    %145 = call @zap$std$conver$toInt$i64(i64 %144)
+    %146 = icmp ne i32 %145, 0
+    ret i1 %146
+}
+
+@zap$std$conver$toBool$i32(i32 %x) i1 {
+entry:
+    %147 = alloca i32
+    store i32 %x, i32* %147
+    %148 = load i32, i32* %147
+    %149 = icmp ne i32 %148, 0
+    ret i1 %149
+}
+
+@zap$std$conver$toBool$u8(u8 %x) i1 {
+entry:
+    %150 = alloca u8
+    store u8 %x, u8* %150
+    %151 = load u8, u8* %150
+    %152 = call @zap$std$conver$toInt$u8(u8 %151)
+    %153 = icmp ne i32 %152, 0
+    ret i1 %153
+}
+
+@zap$std$conver$toBool$u16(u16 %x) i1 {
+entry:
+    %154 = alloca u16
+    store u16 %x, u16* %154
+    %155 = load u16, u16* %154
+    %156 = call @zap$std$conver$toInt$u16(u16 %155)
+    %157 = icmp ne i32 %156, 0
+    ret i1 %157
+}
+
+@zap$std$conver$toBool$u64(u64 %x) i1 {
+entry:
+    %158 = alloca u64
+    store u64 %x, u64* %158
+    %159 = load u64, u64* %158
+    %160 = call @zap$std$conver$toInt$u64(u64 %159)
+    %161 = icmp ne i32 %160, 0
+    ret i1 %161
+}
+
+@zap$std$conver$toBool$u32(u32 %x) i1 {
+entry:
+    %162 = alloca u32
+    store u32 %x, u32* %162
+    %163 = load u32, u32* %162
+    %164 = call @zap$std$conver$toInt$u32(u32 %163)
+    %165 = icmp ne i32 %164, 0
+    ret i1 %165
+}
+
+@zap$std$conver$toBool$f32(f32 %x) i1 {
+entry:
+    %166 = alloca f32
+    store f32 %x, f32* %166
+    %167 = load f32, f32* %166
+    %168 = call @zap$std$conver$toFloat64$f32(f32 %167)
+    %169 = call @zap$std$conver$toFloat64$f32(f32 0.000000)
+    %170 = icmp ne f64 %168, %169
+    ret i1 %170
+}
+
+@zap$std$conver$toBool$f64(f64 %x) i1 {
+entry:
+    %171 = alloca f64
+    store f64 %x, f64* %171
+    %172 = load f64, f64* %171
+    %173 = call @zap$std$conver$toFloat64$f32(f32 0.000000)
+    %174 = icmp ne f64 %172, %173
+    ret i1 %174
+}
+
+@zap$std$conver$toBool$i8(i8 %x) i1 {
+entry:
+    %175 = alloca i8
+    store i8 %x, i8* %175
+    %176 = load i8, i8* %175
+    %177 = call @zap$std$conver$toInt$i8(i8 %176)
+    %178 = icmp ne i32 %177, 0
+    ret i1 %178
+}
+
+@zap$std$conver$toBool$_String(%String %x) i1 {
+entry:
+    %179 = alloca %String
+    store %String %x, %String* %179
+    %180 = load %String, %String* %179
+    %181 = call @eq(%String %180, %String true)
+    br i1 %181, label %or.merge.9, label %or.rhs.8
+or.rhs.8:
+    %182 = load %String, %String* %179
+    %183 = call @eq(%String %182, %String 1)
+    br label %or.merge.9
+or.merge.9:
+    %184 = phi i1 [ true, %entry ], [ %183, %or.rhs.8 ]
+    ret i1 %184
+}
+
+@zap$std$conver$toChar$i8(i8 %x) i8 {
+entry:
+    %185 = alloca i8
+    store i8 %x, i8* %185
+    %186 = load i8, i8* %185
+    ret i8 %186
+}
+
+@zap$std$conver$toChar$i32(i32 %x) i8 {
+entry:
+    %187 = alloca i32
+    store i32 %x, i32* %187
+    %188 = load i32, i32* %187
+    %189 = call @zap_to_char_from_int(i32 %188)
+    ret i8 %189
+}
+
+@zap$std$f$mkdirAll$_String(%String %target) i32 {
+entry:
+    %190 = alloca %String
+    store %String %target, %String* %190
+    %191 = load %String, %String* %190
+    %192 = call @len(%String %191)
+    %193 = icmp eq i32 %192, 0
+    br i1 %193, label %if.then.10, label %if.merge.11
+if.then.10:
+    ret i32 22
+if.merge.11:
+    %194 = load %String, %String* %190
+    %195 = call @isDir(%String %194)
+    br i1 %195, label %if.then.12, label %if.merge.13
+if.then.12:
+    ret i32 0
+if.merge.13:
+    %196 = alloca %String
+    %197 = load %String, %String* %190
+    %198 = call @parent(%String %197)
+    store %String %198, %String* %196
+    %199 = load %String, %String* %196
+    %200 = call @eq(%String %199, %String .)
+    %201 = icmp eq i1 %200, false
+    br i1 %201, label %and.rhs.16, label %and.merge.17
+and.rhs.16:
+    %202 = load %String, %String* %196
+    %203 = load %String, %String* %190
+    %204 = call @eq(%String %202, %String %203)
+    %205 = icmp eq i1 %204, false
+    br label %and.merge.17
+and.merge.17:
+    %206 = phi i1 [ false, %if.merge.13 ], [ %205, %and.rhs.16 ]
+    br i1 %206, label %if.then.14, label %if.merge.15
+if.then.14:
+    %207 = alloca i32
+    %208 = load %String, %String* %196
+    %209 = call @zap$std$f$mkdirAll$_String(%String %208)
+    store i32 %209, i32* %207
+    %210 = load i32, i32* %207
+    %211 = icmp ne i32 %210, 0
+    br i1 %211, label %if.then.18, label %if.merge.19
+if.then.18:
+    %212 = load i32, i32* %207
+    ret i32 %212
+if.merge.19:
+    br label %if.merge.15
+if.merge.15:
+    %213 = alloca i32
+    %214 = load %String, %String* %190
+    %215 = call @zap_fs_mkdir(%String %214)
+    store i32 %215, i32* %213
+    %216 = load i32, i32* %213
+    %217 = icmp ne i32 %216, 0
+    br i1 %217, label %and.rhs.22, label %and.merge.23
+and.rhs.22:
+    %218 = load %String, %String* %190
+    %219 = call @isDir(%String %218)
+    br label %and.merge.23
+and.merge.23:
+    %220 = phi i1 [ false, %if.merge.15 ], [ %219, %and.rhs.22 ]
+    br i1 %220, label %if.then.20, label %if.merge.21
+if.then.20:
+    ret i32 0
+if.merge.21:
+    %221 = load i32, i32* %213
+    ret i32 %221
+}
+
+@zap$std$mat$abs$i32(i32 %x) i32 {
+entry:
+    %222 = alloca i32
+    store i32 %x, i32* %222
+    %223 = load i32, i32* %222
+    %224 = icmp slt i32 %223, 0
+    br i1 %224, label %if.then.24, label %if.merge.25
+if.then.24:
+    %225 = load i32, i32* %222
+    %226 = sub i32 0, %225
+    ret i32 %226
+if.merge.25:
+    %227 = load i32, i32* %222
+    ret i32 %227
+}
+
+@zap$std$mat$min$i32_i32(i32 %a, i32 %b) i32 {
+entry:
+    %228 = alloca i32
+    store i32 %a, i32* %228
+    %229 = alloca i32
+    store i32 %b, i32* %229
+    %230 = load i32, i32* %228
+    %231 = load i32, i32* %229
+    %232 = icmp slt i32 %230, %231
+    br i1 %232, label %if.then.26, label %if.merge.27
+if.then.26:
+    %233 = load i32, i32* %228
+    ret i32 %233
+if.merge.27:
+    %234 = load i32, i32* %229
+    ret i32 %234
+}
+
+@zap$std$mat$max$i32_i32(i32 %a, i32 %b) i32 {
+entry:
+    %235 = alloca i32
+    store i32 %a, i32* %235
+    %236 = alloca i32
+    store i32 %b, i32* %236
+    %237 = load i32, i32* %235
+    %238 = load i32, i32* %236
+    %239 = icmp sgt i32 %237, %238
+    br i1 %239, label %if.then.28, label %if.merge.29
+if.then.28:
+    %240 = load i32, i32* %235
+    ret i32 %240
+if.merge.29:
+    %241 = load i32, i32* %236
+    ret i32 %241
+}
+
+@zap$std$mat$sqrt$f64(f64 %x) f64 {
+entry:
+    %242 = alloca f64
+    store f64 %x, f64* %242
+    %243 = load f64, f64* %242
+    %244 = call @zapMathSqrt(f64 %243)
+    ret f64 %244
+}
+
+@zap$std$mat$floor$f64(f64 %x) f64 {
+entry:
+    %245 = alloca f64
+    store f64 %x, f64* %245
+    %246 = load f64, f64* %245
+    %247 = call @zapMathFloor(f64 %246)
+    ret f64 %247
+}
+
+@zap$std$mat$ceil$f64(f64 %x) f64 {
+entry:
+    %248 = alloca f64
+    store f64 %x, f64* %248
+    %249 = load f64, f64* %248
+    %250 = call @zapMathCeil(f64 %249)
+    ret f64 %250
+}
+
+@zap$std$pat$join$_String__String(%String %a, %String %b) %String {
+entry:
+    %251 = alloca %String
+    store %String %a, %String* %251
+    %252 = alloca %String
+    store %String %b, %String* %252
+    %253 = load %String, %String* %251
+    %254 = call @len(%String %253)
+    %255 = icmp eq i32 %254, 0
+    br i1 %255, label %if.then.30, label %if.merge.31
+if.then.30:
+    %256 = load %String, %String* %252
+    ret %String %256
+if.merge.31:
+    %257 = load %String, %String* %252
+    %258 = call @len(%String %257)
+    %259 = icmp eq i32 %258, 0
+    br i1 %259, label %if.then.32, label %if.merge.33
+if.then.32:
+    %260 = load %String, %String* %251
+    ret %String %260
+if.merge.33:
+    %261 = load %String, %String* %252
+    %262 = call @at(%String %261, i32 0)
+    %263 = icmp eq i8 %262, /
+    br i1 %263, label %if.then.34, label %if.merge.35
+if.then.34:
+    %264 = load %String, %String* %252
+    ret %String %264
+if.merge.35:
+    %265 = load %String, %String* %251
+    %266 = load %String, %String* %251
+    %267 = call @len(%String %266)
+    %268 = sub i32 %267, 1
+    %269 = call @at(%String %265, i32 %268)
+    %270 = icmp eq i8 %269, /
+    br i1 %270, label %if.then.36, label %if.merge.37
+if.then.36:
+    %271 = load %String, %String* %251
+    %272 = load %String, %String* %252
+    %273 = add %String %271, %272
+    ret %String %273
+if.merge.37:
+    %274 = load %String, %String* %251
+    %275 = add %String %274, /
+    %276 = load %String, %String* %252
+    %277 = add %String %275, %276
+    ret %String %277
+}
+
+@zap$std$proces$panic$_String(%String %message) void {
+entry:
+    %278 = alloca %String
+    store %String %message, %String* %278
+    %279 = load %String, %String* %278
+    %280 = call @eprintln(%String %279)
+    %281 = call @exit(i32 1)
+    ret void
+}
+
+@zap$std$strin$stringLen$_String(%String %s) i32 {
+entry:
+    %282 = alloca %String
+    store %String %s, %String* %282
+    %283 = load %String, %String* %282
+    %284 = call @len(%String %283)
+    ret i32 %284
+}
+
+@zap$std$strin$fromChar$i8(i8 %c) %String {
+entry:
+    %285 = alloca i8
+    store i8 %c, i8* %285
+    %286 = load i8, i8* %285
+    %287 = add %String , %286
+    ret %String %287
+}
+
+@zap$std$strin$pushChar$_String_i8(%String %s, i8 %c) %String {
+entry:
+    %288 = alloca %String
+    store %String %s, %String* %288
+    %289 = alloca i8
+    store i8 %c, i8* %289
+    %290 = load %String, %String* %288
+    %291 = load i8, i8* %289
+    %292 = add %String %290, %291
+    ret %String %292
+}
+
+@zap$tests$unsafe_runtime_tes$write$i32__i32(i32* %ptr, i32 %value) void {
+entry:
+    %293 = alloca i32*
+    store i32* %ptr, i32** %293
+    %294 = alloca i32
+    store i32 %value, i32* %294
+    %295 = load i32*, i32** %293
+    %296 = load i32, i32* %294
+    store i32 %296, i32* %295
+    ret void
+}
+
+@zap$tests$unsafe_runtime_tes$read$i32_(i32* %ptr) i32 {
+entry:
+    %297 = alloca i32*
+    store i32* %ptr, i32** %297
+    %298 = load i32*, i32** %297
+    %299 = load i32, i32* %298
+    ret i32 %299
+}
+
+@main() i32 {
+entry:
+    %300 = alloca [2]i32
+    store [2]i32 0, [2]i32* %300
+    %301 = alloca i32
+    store i32 0, i32* %301
+    %302 = alloca i32*
+    %303 = getelementptr [2]i32* %300, i32 0
+    store i32* %303, i32** %302
+    %304 = load i32*, i32** %302
+    %305 = call @zap$tests$unsafe_runtime_tes$write$i32__i32(i32* %304, i32 11)
+    %306 = alloca i32*
+    %307 = load i32*, i32** %302
+    %308 = add i32* %307, 1
+    store i32* %308, i32** %306
+    %309 = alloca i32
+    %310 = load i32*, i32** %306
+    %311 = load i32*, i32** %302
+    %312 = sub i32* %310, %311
+    store i32 %312, i32* %309
+    %313 = alloca i32
+    %314 = load i32*, i32** %302
+    %315 = cast i32* %314 to i32
+    store i32 %315, i32* %313
+    %316 = alloca i32*
+    %317 = load i32, i32* %313
+    %318 = cast i32 %317 to i32*
+    store i32* %318, i32** %316
+    %319 = alloca i32*
+    %320 = cast null 0 to i32*
+    store i32* %320, i32** %319
+    %321 = load i32*, i32** %319
+    %322 = cast null 0 to i32*
+    %323 = icmp ne i32* %321, %322
+    br i1 %323, label %if.then.38, label %if.merge.39
+if.then.38:
+    ret i32 1
+if.merge.39:
+    %324 = load i32*, i32** %316
+    %325 = call @zap$tests$unsafe_runtime_tes$read$i32_(i32* %324)
+    %326 = icmp ne i32 %325, 11
+    br i1 %326, label %if.then.40, label %if.merge.41
+if.then.40:
+    ret i32 2
+if.merge.41:
+    %327 = load i32*, i32** %302
+    %328 = add i32* %327, 1
+    %329 = load i32, i32* %328
+    %330 = icmp ne i32 %329, 20
+    br i1 %330, label %if.then.42, label %if.merge.43
+if.then.42:
+    ret i32 3
+if.merge.43:
+    %331 = load i32*, i32** %306
+    store i32 33, i32* %331
+    %332 = load i32*, i32** %306
+    %333 = load i32, i32* %332
+    %334 = load i32, i32* %309
+    %335 = add i32 %333, %334
+    store i32 %335, i32* %301
+    %336 = load i32, i32* %301
+    %337 = icmp eq i32 %336, 34
+    br i1 %337, label %and.rhs.48, label %and.merge.49
+and.rhs.48:
+    %338 = getelementptr [2]i32* %300, i32 0
+    %339 = load i32, i32* %338
+    %340 = icmp eq i32 %339, 11
+    br label %and.merge.49
+and.merge.49:
+    %341 = phi i1 [ false, %if.merge.43 ], [ %340, %and.rhs.48 ]
+    br i1 %341, label %and.rhs.46, label %and.merge.47
+and.rhs.46:
+    %342 = getelementptr [2]i32* %300, i32 1
+    %343 = load i32, i32* %342
+    %344 = icmp eq i32 %343, 33
+    br label %and.merge.47
+and.merge.47:
+    %345 = phi i1 [ false, %and.merge.49 ], [ %344, %and.rhs.46 ]
+    br i1 %345, label %if.then.44, label %if.merge.45
+if.then.44:
+    %346 = call @println(%String Unsafe pointer test passed!)
+    ret i32 0
+if.merge.45:
+    %347 = call @println(%String Unsafe pointer test failed!)
+    ret i32 4
+}
+

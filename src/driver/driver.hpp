@@ -71,6 +71,11 @@ public:
   /// @brief Returns whether or not the output was explicit (-o) or not.
   /// @return True if was implicit, false if explicit.
   bool is_implicit_output() const noexcept { return implicit_output; }
+  bool emits_llvm_text() const noexcept { return emit_llvm_text; }
+  bool emits_zir() const noexcept { return emit_zir_text; }
+  bool emits_text_output() const noexcept {
+    return emit_llvm_text || emit_zir_text || out_type == output_type::ASM;
+  }
 
   /// @brief Different output types that the driver (most likely) supports.
   /// @see parseArgs(int, char**) implementation to see how it chooses the
@@ -91,7 +96,7 @@ public:
   /// @return True if needs, false if not.
   /// This shouldn't be used along link() since it already checks it.
   bool needs_linking() const noexcept {
-    return (out_type == output_type::EXEC);
+    return !emits_text_output() && (out_type == output_type::EXEC);
   }
 
   /// @brief Returns if the current selected format is supported by this
@@ -102,17 +107,12 @@ public:
   bool format_supported() const noexcept {
     switch (out_type) {
     case output_type::EXEC:
-      [[fallthrough]];
     case output_type::OBJECT:
-      [[fallthrough]];
-    case output_type::ZIR:
-      [[fallthrough]];
-    case output_type::TEXT_LLVM:
-      return true;
     case output_type::ASM:
-      [[fallthrough]];
+    case output_type::TEXT_LLVM:
     case output_type::LLVM:
-      return false;
+    case output_type::ZIR:
+      return true;
     }
     return false;
   }
@@ -145,6 +145,9 @@ public:
   /// @brief Returns whether the output is binary or text.
   /// @return True if binary, false if text.
   bool binary_output() const noexcept {
+    if (emit_llvm_text || emit_zir_text) {
+      return false;
+    }
     switch (out_type) {
     case output_type::EXEC:
       [[fallthrough]];
@@ -191,6 +194,8 @@ private:
   bool implicit_output;          ///< Was the output implicit or explicit.
   bool inc_stdlib;               ///< Include the zap stdlib.o or not.
   bool allow_unsafe = false;     ///< Allow unsafe language features.
+  bool emit_llvm_text = false;   ///< Emit textual LLVM IR.
+  bool emit_zir_text = false;    ///< Emit textual ZIR.
   std::filesystem::path executable_path; ///< Path to the running executable.
 
   /// @brief Used internally by the compile() function.

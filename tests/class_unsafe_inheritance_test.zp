@@ -1,0 +1,31 @@
+class BaseReader {
+    prot ptr: *Int;
+
+    pub unsafe fun read() Int {
+        return *self.ptr;
+    }
+}
+
+class DerivedReader : BaseReader {
+    fun init(ptr: *Int) {
+        self.ptr = ptr;
+    }
+}
+
+fun main() Int {
+    var value: Int = 33;
+    var derived: DerivedReader = new DerivedReader(&value);
+    var base: BaseReader = derived;
+
+    unsafe {
+        if (derived.read() != 33) {
+            return 1;
+        }
+
+        if (base.read() != 33) {
+            return 2;
+        }
+    }
+
+    return 0;
+}

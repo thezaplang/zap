@@ -12,6 +12,7 @@ namespace zir
   public:
     std::string name;
     std::vector<std::shared_ptr<Type>> types;
+    std::vector<std::shared_ptr<Global>> globals;
     std::vector<std::unique_ptr<Function>> functions;
     std::vector<std::unique_ptr<Function>> externalFunctions;
 
@@ -24,9 +25,47 @@ namespace zir
       functions.push_back(std::move(func));
     }
 
+    void addGlobal(std::shared_ptr<Global> global)
+    {
+      globals.push_back(std::move(global));
+    }
+
     void addExternalFunction(std::unique_ptr<Function> func)
     {
       externalFunctions.push_back(std::move(func));
+    }
+
+    const std::vector<std::shared_ptr<Type>> &getTypes() const { return types; }
+
+    const std::vector<std::shared_ptr<Global>> &getGlobals() const {
+      return globals;
+    }
+
+    const std::vector<std::unique_ptr<Function>> &getFunctions() const {
+      return functions;
+    }
+
+    const std::vector<std::unique_ptr<Function>> &getExternalFunctions() const {
+      return externalFunctions;
+    }
+
+    Function *findFunction(const std::string &functionName) const
+    {
+      for (const auto &func : functions)
+      {
+        if (func->name == functionName)
+        {
+          return func.get();
+        }
+      }
+      for (const auto &func : externalFunctions)
+      {
+        if (func->name == functionName)
+        {
+          return func.get();
+        }
+      }
+      return nullptr;
     }
 
     std::string toString() const
@@ -59,6 +98,21 @@ namespace zir
         }
       }
       res += "\n";
+      if (!globals.empty())
+      {
+        res += "; Globals\n";
+        for (const auto &global : globals)
+        {
+          res += global->getName() + " = global " +
+                 global->getValueType()->toString();
+          if (global->getInitializer())
+          {
+            res += " " + global->getInitializer()->getName();
+          }
+          res += "\n";
+        }
+        res += "\n";
+      }
       res += "; External Functions\n";
       for (const auto &func : externalFunctions)
       {

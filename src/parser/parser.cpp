@@ -155,9 +155,15 @@ std::unique_ptr<ImportNode> Parser::parseImportDecl() {
 
 std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
   bool isStatic = false;
-  if (peek().type == TokenType::STATIC) {
-    eat(TokenType::STATIC);
-    isStatic = true;
+  while (peek().type == TokenType::STATIC ||
+         peek().type == TokenType::UNSAFE) {
+    if (peek().type == TokenType::STATIC) {
+      eat(TokenType::STATIC);
+      isStatic = true;
+    } else {
+      eat(TokenType::UNSAFE);
+      isUnsafe = true;
+    }
   }
   Token funKeyword = eat(TokenType::FUN);
 
@@ -1029,7 +1035,8 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
       }
     }
 
-    if (peek().type == TokenType::FUN || peek().type == TokenType::STATIC) {
+    if (peek().type == TokenType::FUN || peek().type == TokenType::STATIC ||
+        peek().type == TokenType::UNSAFE) {
       auto method = parseFunDecl();
       method->visibility_ = memberVisibility;
       classDecl->methods_.push_back(std::move(method));

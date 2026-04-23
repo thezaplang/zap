@@ -22,7 +22,54 @@
 
 namespace zap {
 bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput);
+bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
+                              std::ostream &ofoutput);
+std::unique_ptr<zir::Module> generateZIRModule(sema::BoundRootNode &node);
+bool compileObjectFromZIR(sema::BoundRootNode &node,
+                          const std::string &output_path);
 namespace {
+
+bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
+                              const std::filesystem::path &base_output_path) {
+  bool direct_output = !drv.is_implicit_output() &&
+                       (drv.emits_llvm_text() != drv.emits_zir());
+
+  if (drv.emits_zir()) {
+    auto zir_path = direct_output
+                        ? base_output_path
+                        : std::filesystem::path(base_output_path).replace_extension(
+                              driver::format_fileextension(
+                                  driver::output_type::ZIR));
+    std::ofstream zir_output(zir_path, std::ios::binary);
+    if (!zir_output) {
+      driver::reportError("couldn't open the provided file: ", zir_path,
+                          "\nreason: ", strerror(errno));
+      return true;
+    }
+    if (compileSourceZIR(node, zir_output)) {
+      return true;
+    }
+  }
+
+  if (drv.emits_llvm_text()) {
+    auto llvm_path =
+        direct_output
+            ? base_output_path
+            : std::filesystem::path(base_output_path).replace_extension(
+                  driver::format_fileextension(driver::output_type::TEXT_LLVM));
+    std::ofstream llvm_output(llvm_path, std::ios::binary);
+    if (!llvm_output) {
+      driver::reportError("couldn't open the provided file: ", llvm_path,
+                          "\nreason: ", strerror(errno));
+      return true;
+    }
+    if (compileSourceLLVMFromZIR(node, llvm_output)) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 std::filesystem::path g_executable_path;
 
@@ -310,9 +357,6 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   }
 
   if (drv.binary_output()) {
-    if (drv.get_output_type() == driver::output_type::LLVM)
-      return true;
-
     std::filesystem::path out_path;
 
     if (drv.get_output_type() == driver::output_type::EXEC) {
@@ -326,43 +370,19 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
       }
     }
 
-    codegen::LLVMCodeGen llvmGen;
-    llvmGen.generate(*boundAst);
-
-    if (!llvmGen.emitObjectFile(out_path.string())) {
-      driver::reportError("object file emission failed");
+    if (compileObjectFromZIR(*boundAst, out_path.string())) {
       return true;
     }
 
     drv.objects.emplace_back(std::move(out_path));
-  } else {
+  } else if (drv.emits_text_output()) {
     std::filesystem::path out_path =
-        drv.is_implicit_output()
-            ? std::filesystem::path(entryPath.string() +
-                                    driver::format_fileextension(drv.get_output_type()))
-            : drv.get_output();
-
-    std::ofstream ofoutput(out_path, std::ios::binary);
-
-    if (!ofoutput) {
-      driver::reportError("couldn't open the provided file: ", out_path,
-                          "\nreason: ", strerror(errno));
+        drv.is_implicit_output() ? entryPath : drv.get_output();
+    if (emitRequestedTextOutputs(drv, *boundAst, out_path)) {
       return true;
     }
-
-    if (drv.get_output_type() == driver::output_type::ZIR) {
-      if (compileSourceZIR(*boundAst, ofoutput))
-        return true;
-    } else if (drv.get_output_type() == driver::output_type::TEXT_LLVM) {
-      codegen::LLVMCodeGen llvmGen;
-      llvmGen.generate(*boundAst);
-      std::string ir;
-      llvm::raw_string_ostream rs(ir);
-      llvmGen.printIR(rs);
-      ofoutput << ir;
-    } else {
-      return true;
-    }
+  } else {
+    return true;
   }
 
   return false;
@@ -382,6 +402,8 @@ bool driver::parseArgs(int argc, char **argv) {
   implicit_output = true;
   inc_stdlib = true;
   allow_unsafe = false;
+  emit_llvm_text = false;
+  emit_zir_text = false;
 
   for (size_t i = 0; i < args.size(); ++i) {
     auto arg = args[i];
@@ -435,26 +457,24 @@ bool driver::parseArgs(int argc, char **argv) {
     }
   }
 
-  if (emit_llvm && emit_zir) {
-    reportError("choosing multiple emit modes isn't allowed");
-    return false;
+  if (emit_s) {
+    if (!emit_llvm && !emit_zir)
+      out_type = output_type::ASM;
   }
 
-  if (emit_s) {
-    if (emit_llvm)
-      out_type = output_type::TEXT_LLVM;
-    else
-      out_type = output_type::ASM;
-  } else if (emit_llvm)
-    out_type = output_type::LLVM;
-
-  if (emit_zir)
-    out_type = output_type::ZIR;
+  emit_llvm_text = emit_llvm;
+  emit_zir_text = emit_zir;
 
   if (out_type == output_type::EXEC) {
     if (nolink) {
       out_type = output_type::OBJECT;
     }
+  }
+
+  if ((emit_llvm_text || emit_zir_text) && !implicit_output &&
+      (emit_llvm_text == emit_zir_text)) {
+    reportError("cannot use -o when emitting multiple text outputs");
+    return false;
   }
 
   output = std::filesystem::path(output_str);
@@ -489,7 +509,7 @@ bool driver::splitInputs() {
 bool driver::verifyOutput() {
   const zap::driver::output_type &emit_type = get_output_type();
 
-  bool per_file_emit = (emit_type != output_type::EXEC);
+  bool per_file_emit = emits_text_output() || (emit_type != output_type::EXEC);
 
   if (per_file_emit && get_inputs().size() > 1 && !is_implicit_output()) {
     reportError("cannot specify -o with multiple input files");
@@ -533,13 +553,51 @@ bool driver::verifySources() {
   return false;
 }
 
-bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput) {
+std::unique_ptr<zir::Module> generateZIRModule(sema::BoundRootNode &node) {
   zir::BoundIRGenerator irGen;
-  auto mod = irGen.generate(node);
+  return irGen.generate(node);
+}
+
+bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput) {
+  auto mod = generateZIRModule(node);
   if (mod) {
     ofoutput << mod->toString();
   } else {
     driver::reportError("failed to generate ZIR");
+    return true;
+  }
+  return false;
+}
+
+bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
+                              std::ostream &ofoutput) {
+  auto mod = generateZIRModule(node);
+  if (!mod) {
+    driver::reportError("failed to generate ZIR");
+    return true;
+  }
+
+  codegen::LLVMCodeGen llvmGen;
+  llvmGen.generate(*mod);
+  std::string ir;
+  llvm::raw_string_ostream rs(ir);
+  llvmGen.printIR(rs);
+  ofoutput << ir;
+  return false;
+}
+
+bool compileObjectFromZIR(sema::BoundRootNode &node,
+                          const std::string &output_path) {
+  auto mod = generateZIRModule(node);
+  if (!mod) {
+    driver::reportError("failed to generate ZIR");
+    return true;
+  }
+
+  codegen::LLVMCodeGen llvmGen;
+  llvmGen.generate(*mod);
+  if (!llvmGen.emitObjectFile(output_path)) {
+    driver::reportError("object file emission failed");
     return true;
   }
   return false;
@@ -576,9 +634,6 @@ bool driver::compileSourceFile(const std::string &source,
   }
 
   if (binary_output()) {
-    if (out_type == output_type::LLVM)
-      return true; // TODO: Implement LLVM bitcode emission.
-
     std::filesystem::path out_path;
 
     if (out_type == output_type::EXEC) {
@@ -592,45 +647,21 @@ bool driver::compileSourceFile(const std::string &source,
       }
     }
 
-    codegen::LLVMCodeGen llvmGen;
-    llvmGen.generate(*boundAst);
-
-    if (!llvmGen.emitObjectFile(out_path.string())) {
-      reportError("object file emission failed");
+    if (compileObjectFromZIR(*boundAst, out_path.string())) {
       return true;
     }
 
     objects.emplace_back(std::move(out_path));
-  } else {
+  } else if (emits_text_output()) {
     std::filesystem::path out_path =
-        implicit_output ? std::filesystem::path(source_name +
-                                                format_fileextension(out_type))
-                        : output;
-
-    std::ofstream ofoutput(out_path, std::ios::binary);
-
-    if (!ofoutput) {
-      reportError("couldn't open the provided file: ", out_path,
-                  "\nreason: ", strerror(errno));
+        implicit_output ? std::filesystem::path(source_name) : output;
+    if (emitRequestedTextOutputs(*this, *boundAst, out_path)) {
       return true;
     }
-
-    if (out_type == output_type::ZIR) {
-      if (compileSourceZIR(*boundAst, ofoutput))
-        return true;
-    } else if (out_type == output_type::TEXT_LLVM) {
-      codegen::LLVMCodeGen llvmGen;
-      llvmGen.generate(*boundAst);
-      // TODO: Avoid using LLVM types like raw_string_ostream here.
-      std::string ir;
-      llvm::raw_string_ostream rs(ir);
-      llvmGen.printIR(rs);
-      ofoutput << ir;
-    } else if (out_type == output_type::ASM) {
+  } else if (out_type == output_type::ASM) {
       return true; // TODO: Implement assembly emission.
-    } else {
-      return true;
-    }
+  } else {
+    return true;
   }
 
   return false;

@@ -1,7 +1,7 @@
-option(ZAP_BUILD_REFERENCE "Build ZAP Doxygen Reference" ON)
+option(ZAP_BUILD_REFERENCE "Build ZAP Doxygen Reference" OFF)
 
 if(ZAP_BUILD_REFERENCE)
-    find_package(Doxygen REQUIRED)
+    find_package(Doxygen)
     if(DOXYGEN_FOUND)
         message(STATUS "Found Doxygen Version ${DOXYGEN_VERSION} at ${DOXYGEN_EXECUTABLE}")
 
@@ -18,5 +18,7 @@ if(ZAP_BUILD_REFERENCE)
             COMMENT "Generating reference with Doxygen"
             VERBATIM
         )
+    else()
+        message(WARNING "Doxygen not found; skipping reference build.")
     endif()
 endif()

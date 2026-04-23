@@ -5,7 +5,7 @@
 
 namespace zir {
 
-enum class ValueKind { Register, Constant, Argument };
+enum class ValueKind { Register, Constant, Argument, Global };
 
 class Value {
 public:
@@ -26,6 +26,7 @@ public:
   ValueKind getKind() const override { return ValueKind::Register; }
   std::string getName() const override { return "%" + name; }
   std::shared_ptr<Type> getType() const override { return type; }
+  const std::string &getRawName() const { return name; }
 };
 
 class Constant : public Value {
@@ -38,18 +39,56 @@ public:
   ValueKind getKind() const override { return ValueKind::Constant; }
   std::string getName() const override { return value; }
   std::shared_ptr<Type> getType() const override { return type; }
+  const std::string &getLiteral() const { return value; }
 };
 
 class Argument : public Value {
   std::string name;
   std::shared_ptr<Type> type;
+  bool isRef_;
+  bool isVariadicPack_;
+  std::shared_ptr<Type> variadicElementType_;
 
 public:
-  Argument(std::string n, std::shared_ptr<Type> t)
-      : name(std::move(n)), type(std::move(t)) {}
+  Argument(std::string n, std::shared_ptr<Type> t, bool isRef = false,
+           bool isVariadicPack = false,
+           std::shared_ptr<Type> variadicElementType = nullptr)
+      : name(std::move(n)), type(std::move(t)), isRef_(isRef),
+        isVariadicPack_(isVariadicPack),
+        variadicElementType_(std::move(variadicElementType)) {}
   ValueKind getKind() const override { return ValueKind::Argument; }
   std::string getName() const override { return "%" + name; }
   std::shared_ptr<Type> getType() const override { return type; }
+  const std::string &getRawName() const { return name; }
+  bool isRef() const { return isRef_; }
+  bool isVariadicPack() const { return isVariadicPack_; }
+  const std::shared_ptr<Type> &getVariadicElementType() const {
+    return variadicElementType_;
+  }
+};
+
+class Global : public Value {
+  std::string name;
+  std::string linkName;
+  std::shared_ptr<Type> type;
+  std::shared_ptr<Value> initializer;
+  bool isConst;
+
+public:
+  Global(std::string n, std::string ln, std::shared_ptr<Type> t,
+         std::shared_ptr<Value> init = nullptr, bool isConstant = false)
+      : name(std::move(n)), linkName(std::move(ln)), type(std::move(t)),
+        initializer(std::move(init)), isConst(isConstant) {}
+  ValueKind getKind() const override { return ValueKind::Global; }
+  std::string getName() const override { return "@" + linkName; }
+  std::shared_ptr<Type> getType() const override {
+    return std::make_shared<PointerType>(type);
+  }
+  const std::string &getRawName() const { return name; }
+  const std::string &getLinkName() const { return linkName; }
+  const std::shared_ptr<Type> &getValueType() const { return type; }
+  const std::shared_ptr<Value> &getInitializer() const { return initializer; }
+  bool isConstant() const { return isConst; }
 };
 
 } // namespace zir

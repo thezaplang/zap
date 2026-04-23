@@ -1,0 +1,10 @@
+class MathBox {
+    pub static unsafe fun read(ptr: *Int) Int {
+        return *ptr;
+    }
+}
+
+fun main() Int {
+    var value: Int = 12;
+    return MathBox.read(&value);
+}

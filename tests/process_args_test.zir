@@ -1,0 +1,146 @@
+; Module: zap_module
+
+; External Functions
+extern @println(%String %s) void {
+}
+
+extern @printInt(i32 %i) void {
+}
+
+extern @printFloat(f32 %f) void {
+}
+
+extern @printFloat64(f64 %f) void {
+}
+
+extern @printBool(i1 %b) void {
+}
+
+extern @printChar(i8 %c) void {
+}
+
+extern @eprintln(%String %s) void {
+}
+
+extern @getLn() %String {
+}
+
+extern @zap_printf(%String %format) i32 {
+}
+
+extern @zap_printfln(%String %format) i32 {
+}
+
+extern @exit(i32 %code) void {
+}
+
+extern @argc() i32 {
+}
+
+extern @argv(i32 %i) %String {
+}
+
+extern @exec(%String %cmd) i32 {
+}
+
+extern @cwd() %String {
+}
+
+extern @len(%String %s) i32 {
+}
+
+extern @at(%String %s, i32 %i) i8 {
+}
+
+extern @slice(%String %s, i32 %start, i32 %len) %String {
+}
+
+extern @eq(%String %a, %String %b) i1 {
+}
+
+
+@zap$std$proces$panic$_String(%String %message) void {
+entry:
+    %0 = alloca %String
+    store %String %message, %String* %0
+    %1 = load %String, %String* %0
+    %2 = call @eprintln(%String %1)
+    %3 = call @exit(i32 1)
+    ret void
+}
+
+@zap$std$strin$stringLen$_String(%String %s) i32 {
+entry:
+    %4 = alloca %String
+    store %String %s, %String* %4
+    %5 = load %String, %String* %4
+    %6 = call @len(%String %5)
+    ret i32 %6
+}
+
+@zap$std$strin$fromChar$i8(i8 %c) %String {
+entry:
+    %7 = alloca i8
+    store i8 %c, i8* %7
+    %8 = load i8, i8* %7
+    %9 = add %String , %8
+    ret %String %9
+}
+
+@zap$std$strin$pushChar$_String_i8(%String %s, i8 %c) %String {
+entry:
+    %10 = alloca %String
+    store %String %s, %String* %10
+    %11 = alloca i8
+    store i8 %c, i8* %11
+    %12 = load %String, %String* %10
+    %13 = load i8, i8* %11
+    %14 = add %String %12, %13
+    ret %String %14
+}
+
+@main() i32 {
+entry:
+    %15 = call @argc()
+    %16 = icmp ne i32 %15, 4
+    br i1 %16, label %if.then.0, label %if.merge.1
+if.then.0:
+    ret i32 1
+if.merge.1:
+    %17 = call @argv(i32 0)
+    %18 = call @len(%String %17)
+    %19 = icmp eq i32 %18, 0
+    br i1 %19, label %if.then.2, label %if.merge.3
+if.then.2:
+    ret i32 2
+if.merge.3:
+    %20 = call @argv(i32 1)
+    %21 = call @eq(%String %20, %String alpha)
+    %22 = icmp eq i1 %21, false
+    br i1 %22, label %if.then.4, label %if.merge.5
+if.then.4:
+    ret i32 3
+if.merge.5:
+    %23 = call @argv(i32 2)
+    %24 = call @eq(%String %23, %String beta)
+    %25 = icmp eq i1 %24, false
+    br i1 %25, label %if.then.6, label %if.merge.7
+if.then.6:
+    ret i32 4
+if.merge.7:
+    %26 = call @argv(i32 3)
+    %27 = call @eq(%String %26, %String gamma)
+    %28 = icmp eq i1 %27, false
+    br i1 %28, label %if.then.8, label %if.merge.9
+if.then.8:
+    ret i32 5
+if.merge.9:
+    %29 = call @argc()
+    %30 = icmp ne i32 %29, 4
+    br i1 %30, label %if.then.10, label %if.merge.11
+if.then.10:
+    ret i32 6
+if.merge.11:
+    ret i32 0
+}
+
