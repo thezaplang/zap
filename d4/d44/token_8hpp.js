@@ -66,6 +66,8 @@ var token_8hpp =
       [ "BIT_OR", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921abce61f19f2aa0d770c5be4ac769bb22f", null ],
       [ "ALIAS", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a1b4725697f8ee851acd7552d490ddab5", null ],
       [ "REF", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921abfdf17eb53b95728af2d4afeff366dd8", null ],
+      [ "LSHIFT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a39afc29636d1da3daa8d63a694fd326a", null ],
+      [ "RSHIFT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aab6449326eb99b043532c550e60c1502", null ],
       [ "AS", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a0b84664ffa026b1a5f43c051cd6fe69f", null ],
       [ "GLOBAL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afde1bb5ef04b28059e61df449501f1c0", null ],
       [ "CONST", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a3d044162d972156d897cea80f216b9ca", null ],

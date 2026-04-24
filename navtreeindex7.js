@@ -1,5 +1,7 @@
 var NAVTREEINDEX7 =
 {
+"d9/d59/classNewExpr.html#a3e684643deab3600e0727bc91d1ac430":[2,0,36,0],
+"d9/d59/classNewExpr.html#a5ee7b8e0f3d012901b6ea7a696aba760":[2,0,36,1],
 "d9/d59/classNewExpr.html#ae75500f4eb51b8ae098910fdbd89c2f4":[2,0,36,3],
 "d9/d61/const__char_8hpp.html":[3,0,0,0,0,1],
 "d9/d61/const__char_8hpp_source.html":[3,0,0,0,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX7 =
 "da/de1/classzir_1_1RecordType.html#ad3cdd2446a51e59a74d68a09dcff4cb7":[1,0,5,25,8],
 "da/de1/classzir_1_1RecordType.html#ad3cdd2446a51e59a74d68a09dcff4cb7":[2,0,4,25,8],
 "da/de1/classzir_1_1RecordType.html#ad6dcdc541634befd52df3cbe2574f3ae":[1,0,5,25,15],
-"da/de1/classzir_1_1RecordType.html#ad6dcdc541634befd52df3cbe2574f3ae":[2,0,4,25,15],
-"da/de1/classzir_1_1RecordType.html#ae6314d160618f733727b7c2bc9825cf5":[1,0,5,25,4],
-"da/de1/classzir_1_1RecordType.html#ae6314d160618f733727b7c2bc9825cf5":[2,0,4,25,4]
+"da/de1/classzir_1_1RecordType.html#ad6dcdc541634befd52df3cbe2574f3ae":[2,0,4,25,15]
 };
