@@ -1,10 +1,10 @@
 ## Zap v0.2.0
 - [x] using pointers outside of unsafe{} (only dereferencing is unsafe)
 - [x] generics (syntax like in C#)
-- [ ] Cycle detection via reference count subtraction(the one we have now is just MVP which we need to replacd)
+- [ ] Cycle detection via reference count subtraction(the one we have now is just MVP which we need to replace)
 - [ ] proper error handling via failable function
 - [ ] bit shifts
-- [ ] hex values
+- [x] hex values
 - [ ] improvment over std lib
     - [ ] std/network
     - [ ] std/json

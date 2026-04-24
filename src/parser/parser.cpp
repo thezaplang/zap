@@ -1,6 +1,7 @@
 #include "parser.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 
 namespace zap {
 namespace {
@@ -1046,7 +1047,29 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
     return newExpr;
   } else if (current.type == TokenType::INTEGER) {
     eat(TokenType::INTEGER);
-    int64_t val = static_cast<int64_t>(std::stoull(current.value));
+
+    int64_t val = 0;
+    try {
+      int base = 10;
+      std::string parseValue = current.value;
+      if (current.value.size() > 2 && current.value[0] == '0') {
+        if (current.value[1] == 'x' || current.value[1] == 'X') {
+          base = 16;
+        } else if (current.value[1] == 'b' || current.value[1] == 'B') {
+          base = 2;
+          parseValue = current.value.substr(2);
+        } else if (current.value[1] == 'o' || current.value[1] == 'O') {
+          base = 8;
+          parseValue = current.value.substr(2);
+        }
+      }
+      val = std::stoll(parseValue, nullptr, base);
+    } catch (const std::exception &) {
+      _diag.report(current.span, DiagnosticLevel::Error,
+                   "Invalid integer literal: " + current.value);
+      throw ParseError();
+    }
+
     auto constInt = _builder.makeConstInt(val);
     _builder.setSpan(constInt.get(), current.span);
     return constInt;

@@ -1,6 +1,7 @@
 #include "lexer.hpp"
 #include <cctype>
 #include <cstdlib>
+#include <stdexcept>
 
 std::vector<Token> Lexer::tokenize(const std::string &input) {
   std::vector<Token> tokens;
@@ -240,16 +241,87 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
     } else if (std::isdigit(_cur)) {
       std::string numStr;
       bool isFloat = false;
-      while (!isAtEnd() && std::isdigit(_input[_pos])) {
+
+      if (_cur == '0' &&
+          (Peek2() == 'x' || Peek2() == 'X' || Peek2() == 'b' ||
+           Peek2() == 'B' || Peek2() == 'o' || Peek2() == 'O')) {
+        const char prefix = Peek2();
+        int base = 10;
+        auto isValidDigit = [&](char ch) {
+          if (ch == '_')
+            return true;
+          if (prefix == 'x' || prefix == 'X')
+            return std::isxdigit(static_cast<unsigned char>(ch)) != 0;
+          if (prefix == 'b' || prefix == 'B')
+            return ch == '0' || ch == '1';
+          if (prefix == 'o' || prefix == 'O')
+            return ch >= '0' && ch <= '7';
+          return false;
+        };
+
+        if (prefix == 'x' || prefix == 'X')
+          base = 16;
+        else if (prefix == 'b' || prefix == 'B')
+          base = 2;
+        else if (prefix == 'o' || prefix == 'O')
+          base = 8;
+
         numStr += _input[_pos++];
+        _column++;
+        numStr += _input[_pos++];
+        _column++;
+
+        std::string numericPart;
+        size_t digitsStart = _pos;
+
+        while (!isAtEnd() && isValidDigit(_input[_pos])) {
+          if (_input[_pos] != '_') {
+            numericPart += _input[_pos];
+          }
+          numStr += _input[_pos++];
+          _column++;
+        }
+
+        if (_pos == digitsStart || numericPart.empty()) {
+          _diag.report(SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+                       zap::DiagnosticLevel::Error, "Invalid integer literal");
+          return tokens;
+        }
+
+        std::string parsed = "0";
+        parsed += prefix;
+        parsed += numericPart;
+
+        try {
+          (void)std::stoull(parsed, nullptr, base);
+        } catch (const std::exception &) {
+          _diag.report(SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+                       zap::DiagnosticLevel::Error, "Integer literal out of range");
+          return tokens;
+        }
+
+        size_t len = numStr.length();
+        tokens.emplace_back(TokenType::INTEGER, parsed, startLine, startColumn,
+                            startPos, len);
+        continue;
+      }
+
+      while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+        if (_input[_pos] != '_') {
+          numStr += _input[_pos];
+        }
+        _pos++;
         _column++;
       }
       if (!isAtEnd() && _input[_pos] == '.') {
         isFloat = true;
         numStr += _input[_pos++];
         _column++;
-        while (!isAtEnd() && std::isdigit(_input[_pos])) {
-          numStr += _input[_pos++];
+        while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+          if (_input[_pos] != '_') {
+            numStr += _input[_pos];
+          }
+          _pos++;
           _column++;
         }
       }

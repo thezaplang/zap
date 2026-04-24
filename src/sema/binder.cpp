@@ -3985,7 +3985,19 @@ std::optional<int64_t>
 Binder::evaluateConstantInt(const BoundExpression *expr) {
   if (auto lit = dynamic_cast<const BoundLiteral *>(expr)) {
     try {
-      return std::stoll(lit->value);
+      const std::string &v = lit->value;
+      if (v.size() > 2 && v[0] == '0') {
+        if (v[1] == 'x' || v[1] == 'X') {
+          return static_cast<int64_t>(std::stoull(v, nullptr, 16));
+        }
+        if (v[1] == 'b' || v[1] == 'B') {
+          return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 2));
+        }
+        if (v[1] == 'o' || v[1] == 'O') {
+          return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 8));
+        }
+      }
+      return std::stoll(v);
     } catch (...) {
       return std::nullopt;
     }

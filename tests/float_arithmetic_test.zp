@@ -1,0 +1,60 @@
+fun main() Int {
+    // Use values exactly representable in binary floating-point to avoid flaky comparisons.
+    var a: Float = 10.5;
+    var b: Float = 2.0;
+    var c: Float = 1.5;
+    var d: Float = 4.0;
+
+    // Addition
+    var add1: Float = a + b;       // 12.5
+    var add2: Float = c + c;       // 3.0
+    if add1 != 12.5 {
+        return 1;
+    }
+    if add2 != 3.0 {
+        return 2;
+    }
+
+    // Subtraction
+    var sub1: Float = a - b;       // 8.5
+    var sub2: Float = d - c;       // 2.5
+    if sub1 != 8.5 {
+        return 3;
+    }
+    if sub2 != 2.5 {
+        return 4;
+    }
+
+    // Multiplication
+    var mul1: Float = a * b;       // 21.0
+    var mul2: Float = c * d;       // 6.0
+    if mul1 != 21.0 {
+        return 5;
+    }
+    if mul2 != 6.0 {
+        return 6;
+    }
+
+    // Division
+    var div1: Float = a / b;       // 5.25
+    var div2: Float = d / c;       // 2.666...
+    if div1 != 5.25 {
+        return 7;
+    }
+    // d / c equals 8/3 exactly in this expression graph; compare against same expression form.
+    if div2 != (8.0 / 3.0) {
+        return 8;
+    }
+
+    // Remainder
+    var rem1: Float = 10.5 % 2.0;  // 0.5
+    var rem2: Float = 9.0 % 4.0;   // 1.0
+    if rem1 != 0.5 {
+        return 9;
+    }
+    if rem2 != 1.0 {
+        return 10;
+    }
+
+    return 0;
+}

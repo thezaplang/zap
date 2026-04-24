@@ -1,0 +1,35 @@
+import "std/prelude" { printInt };
+
+fun main() Int {
+    // Binary literals
+    var b1: Int = 0b101010;      // 42
+    var b2: Int = 0B1111;        // 15
+
+    // Octal literals
+    var o1: Int = 0o52;          // 42
+    var o2: Int = 0O17;          // 15
+
+    // Decimal with underscore separators
+    var d1: Int = 1_000_000;
+    var d2: Int = 12_34_56;      // 123456
+
+    // Hex with underscore separators
+    var h1: Int = 0xFF_FF;       // 65535
+
+    // Binary and octal with underscore separators
+    var b3: Int = 0b1010_0001;   // 161
+    var o3: Int = 0o7_7;         // 63
+
+    if b1 != 42 { return 1; }
+    if b2 != 15 { return 2; }
+    if o1 != 42 { return 3; }
+    if o2 != 15 { return 4; }
+    if d1 != 1000000 { return 5; }
+    if d2 != 123456 { return 6; }
+    if h1 != 65535 { return 7; }
+    if b3 != 161 { return 8; }
+    if o3 != 63 { return 9; }
+
+    printInt(b1 + o1 + b2 + o2 + b3 + o3); // 338
+    return 0;
+}

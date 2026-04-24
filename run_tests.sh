@@ -350,6 +350,10 @@ run_test "tests/ternary_type_error.zp" 1 "Ternary branch type check"
 run_runtime_test "tests/enum_test.zp" 1 "Enum test"
 run_runtime_test "tests/enum_trailing_comma_test.zp" 0 "Enum trailing comma"
 run_runtime_test "tests/array_test.zp" 0 "Array declaration, initialization, and indexing"
+run_runtime_test "tests/hex_literal_test.zp" 0 "Hexadecimal integer literals"
+run_runtime_test "tests/integer_literal_formats_test.zp" 0 "Binary, octal, and underscore integer literals"
+run_runtime_test "tests/float_underscore_literals_test.zp" 0 "Float literals with underscore separators"
+run_runtime_test "tests/float_arithmetic_test.zp" 0 "Float arithmetic operators (+, -, *, /, %)"
 run_test "tests/array_const_size.zp" 1 "Array size as a constant is currently rejected"
 
 # Struct tests

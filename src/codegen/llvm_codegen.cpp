@@ -705,6 +705,8 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
         auto *index =
             builder_.CreateIntCast(offsetValue, indexTy, /*isSigned=*/true);
         result = builder_.CreateInBoundsGEP(elemTy, pointerValue, index);
+      } else if (lhs->getType()->isFloatingPointTy()) {
+        result = builder_.CreateFAdd(lhs, rhs);
       } else {
         result = builder_.CreateAdd(lhs, rhs);
       }
@@ -731,24 +733,31 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
         auto *index = builder_.CreateIntCast(rhs, indexTy, /*isSigned=*/true);
         index = builder_.CreateNeg(index);
         result = builder_.CreateInBoundsGEP(elemTy, lhs, index);
+      } else if (lhs->getType()->isFloatingPointTy()) {
+        result = builder_.CreateFSub(lhs, rhs);
       } else {
         result = builder_.CreateSub(lhs, rhs);
       }
       break;
     case OpCode::Mul:
-      result = builder_.CreateMul(lhs, rhs);
+      result = lhs->getType()->isFloatingPointTy() ? builder_.CreateFMul(lhs, rhs)
+                                                    : builder_.CreateMul(lhs, rhs);
       break;
     case OpCode::SDiv:
-      result = builder_.CreateSDiv(lhs, rhs);
+      result = lhs->getType()->isFloatingPointTy() ? builder_.CreateFDiv(lhs, rhs)
+                                                    : builder_.CreateSDiv(lhs, rhs);
       break;
     case OpCode::UDiv:
-      result = builder_.CreateUDiv(lhs, rhs);
+      result = lhs->getType()->isFloatingPointTy() ? builder_.CreateFDiv(lhs, rhs)
+                                                    : builder_.CreateUDiv(lhs, rhs);
       break;
     case OpCode::SRem:
-      result = builder_.CreateSRem(lhs, rhs);
+      result = lhs->getType()->isFloatingPointTy() ? builder_.CreateFRem(lhs, rhs)
+                                                    : builder_.CreateSRem(lhs, rhs);
       break;
     case OpCode::URem:
-      result = builder_.CreateURem(lhs, rhs);
+      result = lhs->getType()->isFloatingPointTy() ? builder_.CreateFRem(lhs, rhs)
+                                                    : builder_.CreateURem(lhs, rhs);
       break;
     default:
       break;

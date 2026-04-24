@@ -1,0 +1,24 @@
+import "std/prelude" { printInt };
+
+fun main() Int {
+    var a: Int = 0x2A;      // 42
+    var b: Int = 0x10;      // 16
+    var c: Int = 0Xff;      // 255 (uppercase X)
+    var d: Int = 0x0;       // 0
+
+    if a != 42 { return 1; }
+    if b != 16 { return 2; }
+    if c != 255 { return 3; }
+    if d != 0 { return 4; }
+
+    var sum: Int = a + b + c + d; // 313
+    if sum != 313 { return 5; }
+
+    // Optional visibility when running manually
+    printInt(a);
+    printInt(b);
+    printInt(c);
+    printInt(sum);
+
+    return 0;
+}

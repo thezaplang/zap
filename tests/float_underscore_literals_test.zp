@@ -1,0 +1,29 @@
+fun main() Int {
+    var a: Float = 1_000.5;
+    var b: Float = 12.25;
+    var c: Float = 0.5;
+    var d: Float = 99.25;
+
+    if a != 1000.5 {
+        return 1;
+    }
+
+    if b != 12.25 {
+        return 2;
+    }
+
+    if c != 0.5 {
+        return 3;
+    }
+
+    if d != 99.25 {
+        return 4;
+    }
+
+    var sum: Float = a + b + c + d;
+    if sum != 1112.5 {
+        return 5;
+    }
+
+    return 0;
+}
