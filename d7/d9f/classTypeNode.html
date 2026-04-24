@@ -89,6 +89,8 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a44ada38889136659fab21c3ee3b7fa7c" id="r_a44ada38889136659fab21c3ee3b7fa7c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a></td></tr>
 <tr class="memitem:ad3d05ecf2d69ce7d98646e4ea4dcdbfc" id="r_ad3d05ecf2d69ce7d98646e4ea4dcdbfc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a></td></tr>
+<tr class="memitem:ae0b82524c215961e41499c4013655257" id="r_ae0b82524c215961e41499c4013655257"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0b82524c215961e41499c4013655257">genericArgs</a></td></tr>
+<tr class="memitem:a8688dd5662b8c941cde7863c9b48b02d" id="r_a8688dd5662b8c941cde7863c9b48b02d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8688dd5662b8c941cde7863c9b48b02d">defaultType</a></td></tr>
 <tr class="memitem:aa8d94fd70ae642e0b0771ad71eb7ea88" id="r_aa8d94fd70ae642e0b0771ad71eb7ea88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8d94fd70ae642e0b0771ad71eb7ea88">isReference</a> = false</td></tr>
 <tr class="memitem:a4c15832a2a2ff30f11e9d9261f07b845" id="r_a4c15832a2a2ff30f11e9d9261f07b845"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c15832a2a2ff30f11e9d9261f07b845">isPointer</a> = false</td></tr>
 <tr class="memitem:ad7bd61029e0c8852ba4e11f0df9fc5ac" id="r_ad7bd61029e0c8852ba4e11f0df9fc5ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7bd61029e0c8852ba4e11f0df9fc5ac">isArray</a> = false</td></tr>
@@ -126,7 +128,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00024">TypeNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">TypeNode()</a>.</p>
 
 </div>
 </div>
@@ -153,8 +155,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>: <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>(typeName_) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>: <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>(typeName_) {}</div>
 <div class="ttc" id="aclassTypeNode_html_a44ada38889136659fab21c3ee3b7fa7c"><div class="ttname"><a href="#a44ada38889136659fab21c3ee3b7fa7c">TypeNode::typeName</a></div><div class="ttdeci">std::string typeName</div><div class="ttdef"><b>Definition</b> <a href="../../d3/ddb/type__node_8hpp_source.html#l00011">type_node.hpp:11</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00011">typeName</a>, and <a class="el" href="#aab306faaae43edbe8a55141fce126332">TypeNode()</a>.</p>
@@ -187,11 +189,11 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00043">43</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
-<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00054">visitor.hpp:54</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00055">visitor.hpp:55</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00054">Visitor::visit()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00055">Visitor::visit()</a>.</p>
 
 </div>
 </div>
@@ -218,28 +220,28 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>                                  {</div>
-<div class="line"><span class="lineno">   27</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>.empty()) {</div>
-<div class="line"><span class="lineno">   28</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>;</div>
-<div class="line"><span class="lineno">   29</span>    }</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span>    std::string result;</div>
-<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">   33</span>      <span class="keywordflow">if</span> (i != 0) {</div>
-<div class="line"><span class="lineno">   34</span>        result += <span class="stringliteral">&quot;.&quot;</span>;</div>
-<div class="line"><span class="lineno">   35</span>      }</div>
-<div class="line"><span class="lineno">   36</span>      result += <a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>[i];</div>
-<div class="line"><span class="lineno">   37</span>    }</div>
-<div class="line"><span class="lineno">   38</span>    result += <span class="stringliteral">&quot;.&quot;</span>;</div>
-<div class="line"><span class="lineno">   39</span>    result += <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>;</div>
-<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">   41</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00028">28</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>                                  {</div>
+<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>.empty()) {</div>
+<div class="line"><span class="lineno">   30</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>;</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>    std::string result;</div>
+<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">   35</span>      <span class="keywordflow">if</span> (i != 0) {</div>
+<div class="line"><span class="lineno">   36</span>        result += <span class="stringliteral">&quot;.&quot;</span>;</div>
+<div class="line"><span class="lineno">   37</span>      }</div>
+<div class="line"><span class="lineno">   38</span>      result += <a class="code hl_variable" href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">qualifiers</a>[i];</div>
+<div class="line"><span class="lineno">   39</span>    }</div>
+<div class="line"><span class="lineno">   40</span>    result += <span class="stringliteral">&quot;.&quot;</span>;</div>
+<div class="line"><span class="lineno">   41</span>    result += <a class="code hl_variable" href="#a44ada38889136659fab21c3ee3b7fa7c">typeName</a>;</div>
+<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">   43</span>  }</div>
 <div class="ttc" id="aclassTypeNode_html_ad3d05ecf2d69ce7d98646e4ea4dcdbfc"><div class="ttname"><a href="#ad3d05ecf2d69ce7d98646e4ea4dcdbfc">TypeNode::qualifiers</a></div><div class="ttdeci">std::vector&lt; std::string &gt; qualifiers</div><div class="ttdef"><b>Definition</b> <a href="../../d3/ddb/type__node_8hpp_source.html#l00012">type_node.hpp:12</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00012">qualifiers</a>, and <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00011">typeName</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00739">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
 
 </div>
 </div>
@@ -256,9 +258,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>.</p>
 
 </div>
 </div>
@@ -274,9 +276,43 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+
+</div>
+</div>
+<a id="a8688dd5662b8c941cde7863c9b48b02d" name="a8688dd5662b8c941cde7863c9b48b02d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8688dd5662b8c941cde7863c9b48b02d">&#9670;&#160;</a></span>defaultType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a>&gt; TypeNode::defaultType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae0b82524c215961e41499c4013655257" name="ae0b82524c215961e41499c4013655257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0b82524c215961e41499c4013655257">&#9670;&#160;</a></span>genericArgs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a>&gt; &gt; TypeNode::genericArgs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00739">sema::Binder::instantiateGenericTypeSymbol()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>.</p>
 
 </div>
 </div>
@@ -292,9 +328,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
 
 </div>
 </div>
@@ -310,9 +346,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
 
 </div>
 </div>
@@ -328,7 +364,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
 </div>
 </div>
@@ -344,9 +380,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00501">anonymous_namespace{lsp-main.cpp}::renderType()</a>.</p>
 
 </div>
 </div>
@@ -362,9 +398,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>.</p>
 
 </div>
 </div>
@@ -382,7 +418,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, and <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">qualifiedName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, and <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00028">qualifiedName()</a>.</p>
 
 </div>
 </div>
@@ -400,7 +436,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d3/ddb/type__node_8hpp_source.html">type_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02705">sema::Binder::mapType()</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">qualifiedName()</a>, and <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00024">TypeNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l04026">sema::Binder::mapType()</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00028">qualifiedName()</a>, and <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00026">TypeNode()</a>.</p>
 
 </div>
 </div>

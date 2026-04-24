@@ -91,6 +91,9 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a7f8af1e428604f4eaa3460b07273aa25" id="r_a7f8af1e428604f4eaa3460b07273aa25"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d8/d9a/classsema_1_1VariableSymbol.html">VariableSymbol</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a></td></tr>
 <tr class="memitem:a54bed29808f52f496eb8aa57b8f0e99c" id="r_a54bed29808f52f496eb8aa57b8f0e99c"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54bed29808f52f496eb8aa57b8f0e99c">returnType</a></td></tr>
+<tr class="memitem:af15574f45a91b5cc618c10189a169acc" id="r_af15574f45a91b5cc618c10189a169acc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af15574f45a91b5cc618c10189a169acc">genericParameterNames</a></td></tr>
+<tr class="memitem:add39495c133555bb93e923cb237d30d6" id="r_add39495c133555bb93e923cb237d30d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add39495c133555bb93e923cb237d30d6">isGenericInstantiation</a> = false</td></tr>
+<tr class="memitem:a3a24f61e7d53ad1075fa61dc43dbf092" id="r_a3a24f61e7d53ad1075fa61dc43dbf092"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a24f61e7d53ad1075fa61dc43dbf092">genericArguments</a></td></tr>
 <tr class="memitem:a98403044a9a29aa20527a65abcd40337" id="r_a98403044a9a29aa20527a65abcd40337"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98403044a9a29aa20527a65abcd40337">isUnsafe</a> = false</td></tr>
 <tr class="memitem:a7bdd63ef87dae33bb0edc0b04690b324" id="r_a7bdd63ef87dae33bb0edc0b04690b324"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> = false</td></tr>
 <tr class="memitem:aba7038104981a3674d72f2540c7dca58" id="r_aba7038104981a3674d72f2540c7dca58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba7038104981a3674d72f2540c7dca58">isMethod</a> = false</td></tr>
@@ -172,17 +175,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">61</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   66</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), <span class="keyword">nullptr</span>, std::move(link), std::move(module), vis),</div>
-<div class="line"><span class="lineno">   67</span>        <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>(std::move(params)), <a class="code hl_variable" href="#a54bed29808f52f496eb8aa57b8f0e99c">returnType</a>(std::move(retType)),</div>
-<div class="line"><span class="lineno">   68</span>        <a class="code hl_variable" href="#a98403044a9a29aa20527a65abcd40337">isUnsafe</a>(unsafe), <a class="code hl_variable" href="#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>(cVariadic) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">64</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   69</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), <span class="keyword">nullptr</span>, std::move(link), std::move(module), vis),</div>
+<div class="line"><span class="lineno">   70</span>        <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>(std::move(params)), <a class="code hl_variable" href="#a54bed29808f52f496eb8aa57b8f0e99c">returnType</a>(std::move(retType)),</div>
+<div class="line"><span class="lineno">   71</span>        <a class="code hl_variable" href="#a98403044a9a29aa20527a65abcd40337">isUnsafe</a>(unsafe), <a class="code hl_variable" href="#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>(cVariadic) {}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a54bed29808f52f496eb8aa57b8f0e99c"><div class="ttname"><a href="#a54bed29808f52f496eb8aa57b8f0e99c">sema::FunctionSymbol::returnType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; returnType</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00051">symbol.hpp:51</a></div></div>
-<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7bdd63ef87dae33bb0edc0b04690b324"><div class="ttname"><a href="#a7bdd63ef87dae33bb0edc0b04690b324">sema::FunctionSymbol::isCVariadic</a></div><div class="ttdeci">bool isCVariadic</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00053">symbol.hpp:53</a></div></div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7bdd63ef87dae33bb0edc0b04690b324"><div class="ttname"><a href="#a7bdd63ef87dae33bb0edc0b04690b324">sema::FunctionSymbol::isCVariadic</a></div><div class="ttdeci">bool isCVariadic</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00056">symbol.hpp:56</a></div></div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7f8af1e428604f4eaa3460b07273aa25"><div class="ttname"><a href="#a7f8af1e428604f4eaa3460b07273aa25">sema::FunctionSymbol::parameters</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; VariableSymbol &gt; &gt; parameters</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00050">symbol.hpp:50</a></div></div>
-<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a98403044a9a29aa20527a65abcd40337"><div class="ttname"><a href="#a98403044a9a29aa20527a65abcd40337">sema::FunctionSymbol::isUnsafe</a></div><div class="ttdeci">bool isUnsafe</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00052">symbol.hpp:52</a></div></div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a98403044a9a29aa20527a65abcd40337"><div class="ttname"><a href="#a98403044a9a29aa20527a65abcd40337">sema::FunctionSymbol::isUnsafe</a></div><div class="ttdeci">bool isUnsafe</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00055">symbol.hpp:55</a></div></div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_ad418fedc0924f4c66d40b9c2d245aa34"><div class="ttname"><a href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">sema::Symbol::Symbol</a></div><div class="ttdeci">Symbol(std::string n, std::shared_ptr&lt; zir::Type &gt; t, std::string link=&quot;&quot;, std::string module=&quot;&quot;, Visibility vis=Visibility::Private)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00026">symbol.hpp:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00053">isCVariadic</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00052">isUnsafe</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>, <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">returnType</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">sema::Symbol::Symbol()</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00056">isCVariadic</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00055">isUnsafe</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>, <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">returnType</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00026">sema::Symbol::Symbol()</a>.</p>
 
 </div>
 </div>
@@ -210,13 +213,13 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00076">76</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   76</span>                                     {</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() || <a class="code hl_variable" href="#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>;</div>
-<div class="line"><span class="lineno">   78</span>  }</div>
-<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a4820d804f6d37c7322084f270dbd0d0e"><div class="ttname"><a href="#a4820d804f6d37c7322084f270dbd0d0e">sema::FunctionSymbol::hasVariadicParameter</a></div><div class="ttdeci">bool hasVariadicParameter() const</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00072">symbol.hpp:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00079">79</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>                                     {</div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() || <a class="code hl_variable" href="#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>;</div>
+<div class="line"><span class="lineno">   81</span>  }</div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a4820d804f6d37c7322084f270dbd0d0e"><div class="ttname"><a href="#a4820d804f6d37c7322084f270dbd0d0e">sema::FunctionSymbol::hasVariadicParameter</a></div><div class="ttdeci">bool hasVariadicParameter() const</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00075">symbol.hpp:75</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00072">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00053">isCVariadic</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00075">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00056">isCVariadic</a>.</p>
 
 </div>
 </div>
@@ -243,12 +246,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">80</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>                                     {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() ? <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - 1 : <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size();</div>
-<div class="line"><span class="lineno">   82</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00083">83</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>                                     {</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() ? <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - 1 : <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size();</div>
+<div class="line"><span class="lineno">   85</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00072">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00075">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01184">sema::Binder::buildGenericBindings()</a>.</p>
 
 </div>
 </div>
@@ -277,8 +282,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1">sema::Symbol</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00070">70</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">SymbolKind::Function</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00073">73</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">SymbolKind::Function</a>; }</div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261"><div class="ttname"><a href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261">sema::SymbolKind::Function</a></div><div class="ttdeci">@ Function</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00011">symbol.hpp:11</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00011">sema::Function</a>.</p>
@@ -308,14 +313,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00072">72</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>                                    {</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">return</span> !<a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.empty() &amp;&amp; <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.back()-&gt;is_variadic_pack;</div>
-<div class="line"><span class="lineno">   74</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00075">75</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>                                    {</div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordflow">return</span> !<a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.empty() &amp;&amp; <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.back()-&gt;is_variadic_pack;</div>
+<div class="line"><span class="lineno">   77</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00076">acceptsExtraArguments()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">fixedParameterCount()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00084">variadicParameter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00079">acceptsExtraArguments()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00083">fixedParameterCount()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00087">variadicParameter()</a>.</p>
 
 </div>
 </div>
@@ -342,16 +347,52 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00084">84</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>                                                          {</div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() ? <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.back() : <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   86</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00087">87</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                          {</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a4820d804f6d37c7322084f270dbd0d0e">hasVariadicParameter</a>() ? <a class="code hl_variable" href="#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.back() : <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   89</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00072">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00075">hasVariadicParameter()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">parameters</a>.</p>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a3a24f61e7d53ad1075fa61dc43dbf092" name="a3a24f61e7d53ad1075fa61dc43dbf092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a24f61e7d53ad1075fa61dc43dbf092">&#9670;&#160;</a></span>genericArguments</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, std::shared_ptr&lt;<a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a>&gt; &gt; sema::FunctionSymbol::genericArguments</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00054">54</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00321">sema::Binder::renderFunctionSignature()</a>.</p>
+
+</div>
+</div>
+<a id="af15574f45a91b5cc618c10189a169acc" name="af15574f45a91b5cc618c10189a169acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af15574f45a91b5cc618c10189a169acc">&#9670;&#160;</a></span>genericParameterNames</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; sema::FunctionSymbol::genericParameterNames</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01184">sema::Binder::buildGenericBindings()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00321">sema::Binder::renderFunctionSignature()</a>.</p>
+
+</div>
+</div>
 <a id="a4cb12f2fbd79c5f964529d9e83c010d8" name="a4cb12f2fbd79c5f964529d9e83c010d8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4cb12f2fbd79c5f964529d9e83c010d8">&#9670;&#160;</a></span>isConstructor</h2>
 
@@ -364,7 +405,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00056">56</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00059">59</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,9 +421,9 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00056">56</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00076">acceptsExtraArguments()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00258">sema::Binder::functionSignatureKey()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">FunctionSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00282">sema::Binder::renderFunctionSignature()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00093">sema::anonymous_namespace{binder.cpp}::sameFunctionSignature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00079">acceptsExtraArguments()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00297">sema::Binder::functionSignatureKey()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">FunctionSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00321">sema::Binder::renderFunctionSignature()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">sema::anonymous_namespace{binder.cpp}::sameFunctionSignature()</a>.</p>
 
 </div>
 </div>
@@ -398,7 +439,23 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00057">57</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00060">60</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+
+</div>
+</div>
+<a id="add39495c133555bb93e923cb237d30d6" name="add39495c133555bb93e923cb237d30d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add39495c133555bb93e923cb237d30d6">&#9670;&#160;</a></span>isGenericInstantiation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sema::FunctionSymbol::isGenericInstantiation = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>
@@ -414,7 +471,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00054">54</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00057">57</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>
@@ -430,7 +487,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00058">58</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>
@@ -446,9 +503,9 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">FunctionSymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">FunctionSymbol()</a>.</p>
 
 </div>
 </div>
@@ -464,7 +521,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00059">59</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00062">62</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>
@@ -482,7 +539,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">fixedParameterCount()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00258">sema::Binder::functionSignatureKey()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00072">hasVariadicParameter()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00282">sema::Binder::renderFunctionSignature()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00093">sema::anonymous_namespace{binder.cpp}::sameFunctionSignature()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00084">variadicParameter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01184">sema::Binder::buildGenericBindings()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00083">fixedParameterCount()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00297">sema::Binder::functionSignatureKey()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00075">hasVariadicParameter()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00321">sema::Binder::renderFunctionSignature()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">sema::anonymous_namespace{binder.cpp}::sameFunctionSignature()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00087">variadicParameter()</a>.</p>
 
 </div>
 </div>
@@ -500,7 +557,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">51</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">FunctionSymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00296">codegen::LLVMCodeGen::buildFunctionType()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">FunctionSymbol()</a>.</p>
 
 </div>
 </div>
@@ -516,7 +573,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00058">58</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00061">61</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
 </div>
 </div>

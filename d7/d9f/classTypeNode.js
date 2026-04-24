@@ -6,6 +6,8 @@ var classTypeNode =
     [ "qualifiedName", "d7/d9f/classTypeNode.html#a24b56592c08ce80406c7978cc591e6f5", null ],
     [ "arraySize", "d7/d9f/classTypeNode.html#a01b6d5492085a64bd259115e419be7d7", null ],
     [ "baseType", "d7/d9f/classTypeNode.html#a39bae722822e4da6ef5f9e303a8a7ded", null ],
+    [ "defaultType", "d7/d9f/classTypeNode.html#a8688dd5662b8c941cde7863c9b48b02d", null ],
+    [ "genericArgs", "d7/d9f/classTypeNode.html#ae0b82524c215961e41499c4013655257", null ],
     [ "isArray", "d7/d9f/classTypeNode.html#ad7bd61029e0c8852ba4e11f0df9fc5ac", null ],
     [ "isPointer", "d7/d9f/classTypeNode.html#a4c15832a2a2ff30f11e9d9261f07b845", null ],
     [ "isReference", "d7/d9f/classTypeNode.html#aa8d94fd70ae642e0b0771ad71eb7ea88", null ],

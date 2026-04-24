@@ -74,19 +74,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html#aedd474f828d859220035c0546d8d63bb",
-"d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2178824d9c1fd22b5a9261fb8cd15f0f",
-"d3/d31/classzir_1_1WeakAliveInst.html#a8ef81c76870252e161b72b016b9909cd",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afa9f13a3d80049b1e7f9cef4e57108c1",
-"d6/dc0/classLexer.html#a781a725dce0bb22cd0435dd232976059",
-"d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a1bb729aec0104c49db7adf1a0b5c1e3c",
-"d9/d68/classzir_1_1Module.html#aeea93ebed8bdab412f9d897ba8b337f5",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a48f5016b7cbc80bb2a4ae8f95ec633e4",
-"db/ddd/classsema_1_1BoundMemberAccess.html#a02deaf842e898608ff910971c083b0b6",
-"dc/d2c/classsema_1_1Binder.html#a759de976b6b7730df5715e940b6339e5",
-"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#aa757bf7081fee514c981a4a7e1fd8e1a",
-"de/d73/classzap_1_1Parser.html#add7f92840539e0eec9fe45af9ab45914",
-"df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5"
+"d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html#a876dd381f6fa2736733bd2f23e90454f",
+"d2/d9e/classsema_1_1BoundEnumDeclaration.html",
+"d3/d28/classzap_1_1DiagnosticEngine.html#ab4485f2bc0035ea2a478e78867ad7dd0",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a89e95e5d1ee3b8077a76005fb143771c",
+"d6/d7b/classClassDecl.html",
+"d8/d6d/classzir_1_1LoadInst.html#adb7d2db80404654d51d80d5b916a3bce",
+"d9/d59/classNewExpr.html#ae75500f4eb51b8ae098910fdbd89c2f4",
+"da/de1/classzir_1_1RecordType.html#aee6c17ee50bf30f3ba099632ffad0754",
+"db/d85/classsema_1_1BoundLiteral.html#a7387a527846f53732bcc58f8f8d002f9",
+"dc/d2c/classsema_1_1Binder.html#a1b8774c438d458096eca99071f8cc40e",
+"dc/d90/classzir_1_1Function.html#aa19f032ffb31e5a3e3ef06f2346deefb",
+"de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e",
+"df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

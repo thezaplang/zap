@@ -57,6 +57,7 @@ var hierarchy =
     [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
+    [ "GenericConstraint", "d2/d6f/structGenericConstraint.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
     [ "anonymous_namespace{lsp-main.cpp}::HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", null ],
     [ "ImportBinding", "d7/de6/structImportBinding.html", null ],
@@ -121,6 +122,7 @@ var hierarchy =
         [ "ContinueNode", "dd/d66/classContinueNode.html", null ],
         [ "FunCall", "dd/d86/classFunCall.html", null ],
         [ "IfNode", "d8/dd5/classIfNode.html", null ],
+        [ "IfTypeNode", "d1/dbf/classIfTypeNode.html", null ],
         [ "ReturnNode", "dd/d80/classReturnNode.html", null ],
         [ "VarDecl", "d0/d3d/classVarDecl.html", null ],
         [ "WhileNode", "d2/df8/classWhileNode.html", null ]
