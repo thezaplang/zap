@@ -1,0 +1,41 @@
+class Box<T = Int> {
+    priv value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+
+    pub fun choose<U, V = Bool>(value: V) V {
+        return value;
+    }
+}
+
+fun pick<T, U = Bool>(value: U) U {
+    return value;
+}
+
+fun main() Int {
+    var intBox: Box = new Box(7);
+    if intBox.get() != 7 {
+        return 1;
+    }
+
+    var boolBox: Box<Bool> = new Box<Bool>(true);
+    if boolBox.get() != true {
+        return 2;
+    }
+
+    if pick<Int>(true) != true {
+        return 3;
+    }
+
+    if intBox.choose<Int>(false) != false {
+        return 4;
+    }
+
+    return 0;
+}

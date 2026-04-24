@@ -132,6 +132,9 @@ protected:
   std::string name;
   std::string codegenName;
   std::vector<Field> fields;
+  std::string genericBaseName;
+  std::string genericCodegenBaseName;
+  std::vector<std::shared_ptr<Type>> genericArguments;
 
 public:
   RecordType(std::string n, std::string codegen = "")
@@ -152,6 +155,21 @@ public:
   const std::vector<Field> &getFields() const { return fields; }
   const std::string &getName() const { return name; }
   const std::string &getCodegenName() const { return codegenName; }
+  const std::string &getGenericBaseName() const { return genericBaseName; }
+  const std::string &getGenericCodegenBaseName() const {
+    return genericCodegenBaseName;
+  }
+  const std::vector<std::shared_ptr<Type>> &getGenericArguments() const {
+    return genericArguments;
+  }
+  bool isGenericInstance() const { return !genericBaseName.empty(); }
+
+  void setGenericInstance(std::string baseName, std::string codegenBaseName,
+                          std::vector<std::shared_ptr<Type>> args) {
+    genericBaseName = std::move(baseName);
+    genericCodegenBaseName = std::move(codegenBaseName);
+    genericArguments = std::move(args);
+  }
 };
 
 class ClassType : public RecordType {

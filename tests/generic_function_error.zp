@@ -1,0 +1,17 @@
+fun id<T>(value: T) T {
+    return value;
+}
+
+fun choose<T>(left: T, right: T) T {
+    return left;
+}
+
+fun main() Int {
+    // ERROR 1: Generic argument count mismatch (expects 1, got 2)
+    var a: Int = id<Int, Bool>(42);
+
+    // ERROR 2: Inference failure due to conflicting argument types
+    choose(1, true);
+
+    return 0;
+}

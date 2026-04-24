@@ -1,0 +1,54 @@
+fun classify<T>(value: T) Int {
+    iftype T == Int {
+        return value;
+    } else iftype T == Bool {
+        if value {
+            return 10;
+        }
+        return 11;
+    } else {
+        return 99;
+    }
+}
+
+class Box<T> {
+    priv value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+
+    pub fun score() Int {
+        iftype T == Int {
+            return self.value;
+        } else iftype T == Bool {
+            if self.value {
+                return 20;
+            }
+            return 21;
+        } else {
+            return 77;
+        }
+    }
+}
+
+fun main() Int {
+    if classify<Int>(7) != 7 {
+        return 1;
+    }
+    if classify<Bool>(true) != 10 {
+        return 2;
+    }
+
+    var intBox: Box<Int> = new Box<Int>(5);
+    if intBox.score() != 5 {
+        return 3;
+    }
+
+    var boolBox: Box<Bool> = new Box<Bool>(false);
+    if boolBox.score() != 21 {
+        return 4;
+    }
+
+    return 0;
+}

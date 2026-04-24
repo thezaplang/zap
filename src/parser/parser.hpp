@@ -71,8 +71,12 @@ namespace zap
     std::unique_ptr<ConstDecl> parseConstDecl();
     std::unique_ptr<AssignNode> parseAssign();
     std::unique_ptr<TypeNode> parseType();
+    std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
+    std::vector<std::unique_ptr<TypeNode>> parseGenericParameterList();
+    std::vector<GenericConstraint> parseWhereClauses();
     std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
     std::unique_ptr<IfNode> parseIf();
+    std::unique_ptr<IfTypeNode> parseIfType();
     std::unique_ptr<WhileNode> parseWhile();
     std::unique_ptr<ReturnNode> parseReturnStmt();
     std::unique_ptr<ExpressionNode> parseExpression();
@@ -91,8 +95,14 @@ namespace zap
     std::unique_ptr<ClassDecl> parseClassDecl();
     std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
     std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);
+    std::unique_ptr<StructLiteralNode> parseStructLiteral(std::unique_ptr<TypeNode> type);
     std::unique_ptr<BreakNode> parseBreak();
     std::unique_ptr<ContinueNode> parseContinue();
     std::vector<std::string> parseQualifiedIdentifier();
+    bool isTypeStartToken(TokenType type) const;
+    bool isGenericCallStart() const;
+    bool isGenericStructLiteralStart() const;
+    std::unique_ptr<TypeNode>
+    typeNodeFromQualifiedExpression(const ExpressionNode *expr);
   };
 } // namespace zap

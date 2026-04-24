@@ -17,6 +17,7 @@
 #include "fun_call.hpp"
 #include "fun_decl.hpp"
 #include "if_node.hpp"
+#include "if_type_node.hpp"
 #include "import_node.hpp"
 #include "index_access.hpp"
 #include "class_decl.hpp"

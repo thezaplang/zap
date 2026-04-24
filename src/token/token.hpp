@@ -76,6 +76,8 @@ enum TokenType {
   PROT,
   NEW,
   WEAK,
+  WHERE,
+  IFTYPE,
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -218,6 +220,10 @@ inline std::string tokenTypeToString(TokenType type) {
     return "class";
   case TokenType::PROT:
     return "prot";
+  case TokenType::WHERE:
+    return "where";
+  case TokenType::IFTYPE:
+    return "iftype";
   case TokenType::NEW:
     return "new";
   case TokenType::WEAK:

@@ -1,0 +1,200 @@
+import "std/io" { eprintln };
+
+ext fun exit(code: Int) Void;
+
+fun fail(message: String) Void {
+    eprintln(message);
+    exit(1);
+}
+
+class ListNode<T> {
+    priv value: T;
+    priv next: ListNode<T>;
+
+    fun init(value: T) {
+        self.value = value;
+        self.next = null;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+
+    pub fun set(value: T) {
+        self.value = value;
+    }
+
+    pub fun getNext() ListNode<T> {
+        return self.next;
+    }
+
+    pub fun setNext(next: ListNode<T>) {
+        self.next = next;
+    }
+
+    pub fun clearNext() {
+        self.next = null;
+    }
+}
+
+pub class List<T> {
+    priv head: ListNode<T>;
+    priv tail: ListNode<T>;
+    priv size: Int;
+
+    fun init() {
+        self.head = null;
+        self.tail = null;
+        self.size = 0;
+    }
+
+    pub fun len() Int {
+        return self.size;
+    }
+
+    pub fun isEmpty() Bool {
+        return self.size == 0;
+    }
+
+    pub fun clear() {
+        self.head = null;
+        self.tail = null;
+        self.size = 0;
+    }
+
+    fun nodeAt(index: Int) ListNode<T> {
+        var current: ListNode<T> = self.head;
+        var i: Int = 0;
+        while i < index {
+            current = current.getNext();
+            i = i + 1;
+        }
+        return current;
+    }
+
+    pub fun pushFront(value: T) {
+        var node: ListNode<T> = new ListNode<T>(value);
+        node.setNext(self.head);
+        self.head = node;
+        if self.tail == null {
+            self.tail = node;
+        }
+        self.size = self.size + 1;
+    }
+
+    pub fun push(value: T) {
+        var node: ListNode<T> = new ListNode<T>(value);
+        if self.tail == null {
+            self.head = node;
+            self.tail = node;
+        } else {
+            self.tail.setNext(node);
+            self.tail = node;
+        }
+        self.size = self.size + 1;
+    }
+
+    pub fun insert(index: Int, value: T) {
+        if index < 0 || index > self.size {
+            fail("List.insert() index out of range");
+        }
+
+        if index == 0 {
+            self.pushFront(value);
+            return;
+        }
+
+        if index == self.size {
+            self.push(value);
+            return;
+        }
+
+        var prev: ListNode<T> = self.nodeAt(index - 1);
+        var node: ListNode<T> = new ListNode<T>(value);
+        node.setNext(prev.getNext());
+        prev.setNext(node);
+        self.size = self.size + 1;
+    }
+
+    pub fun front() T {
+        if self.head == null {
+            fail("List.front() on empty list");
+        }
+        return self.head.get();
+    }
+
+    pub fun back() T {
+        if self.tail == null {
+            fail("List.back() on empty list");
+        }
+        return self.tail.get();
+    }
+
+    pub fun popFront() T {
+        if self.head == null {
+            fail("List.popFront() on empty list");
+        }
+
+        var node: ListNode<T> = self.head;
+        var value: T = node.get();
+        self.head = node.getNext();
+        if self.head == null {
+            self.tail = null;
+        }
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun popBack() T {
+        if self.tail == null {
+            fail("List.popBack() on empty list");
+        }
+
+        if self.size == 1 {
+            return self.popFront();
+        }
+
+        var prev: ListNode<T> = self.nodeAt(self.size - 2);
+        var value: T = self.tail.get();
+        prev.clearNext();
+        self.tail = prev;
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun removeAt(index: Int) T {
+        if index < 0 || index >= self.size {
+            fail("List.removeAt() index out of range");
+        }
+
+        if index == 0 {
+            return self.popFront();
+        }
+
+        var prev: ListNode<T> = self.nodeAt(index - 1);
+        var node: ListNode<T> = prev.getNext();
+        var value: T = node.get();
+        prev.setNext(node.getNext());
+        if node == self.tail {
+            self.tail = prev;
+        }
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun at(index: Int) T {
+        if index < 0 || index >= self.size {
+            fail("List.at() index out of range");
+        }
+
+        return self.nodeAt(index).get();
+    }
+
+    pub fun set(index: Int, value: T) {
+        if index < 0 || index >= self.size {
+            fail("List.set() index out of range");
+        }
+
+        self.nodeAt(index).set(value);
+    }
+}

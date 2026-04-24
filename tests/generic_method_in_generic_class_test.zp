@@ -1,0 +1,29 @@
+class Box<T> {
+    priv value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+
+    pub fun pick<U>(other: U) U {
+        return other;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+}
+
+fun main() Int {
+    var box: Box<Int> = new Box<Int>(9);
+    if box.get() != 9 {
+        return 1;
+    }
+    if box.pick<Bool>(true) != true {
+        return 2;
+    }
+    if box.pick(11) != 11 {
+        return 3;
+    }
+    return 0;
+}

@@ -33,6 +33,7 @@ public:
   void visit(ConstInt &node) override;
   void visit(ConstBool &node) override;
   void visit(IfNode &node) override;
+  void visit(IfTypeNode &node) override;
   void visit(WhileNode &node) override;
   void visit(MemberAccessNode &node) override;
   void visit(IndexAccessNode &node) override;
@@ -84,10 +85,37 @@ private:
     ModuleInfo *info = nullptr;
     std::shared_ptr<SymbolTable> scope;
     std::shared_ptr<ModuleSymbol> symbol;
+    bool valuesPredeclared = false;
+    bool finalImportsApplied = false;
+    bool valuesPreparationInProgress = false;
   };
   std::map<std::string, ModuleState> modules_;
   std::unordered_map<const Node *, std::shared_ptr<FunctionSymbol>>
       declaredFunctionSymbols_;
+  std::unordered_map<const TypeSymbol *, const RecordDecl *>
+      recordTypeDeclarationNodes_;
+  std::unordered_map<const TypeSymbol *, const StructDeclarationNode *>
+      structTypeDeclarationNodes_;
+  std::unordered_map<const TypeSymbol *, const ClassDecl *>
+      classTypeDeclarationNodes_;
+  std::unordered_map<const TypeSymbol *, std::string> typeDeclarationModuleIds_;
+  std::unordered_map<const FunctionSymbol *, const FunDecl *>
+      functionDeclarationNodes_;
+  std::unordered_map<const FunctionSymbol *, std::string>
+      functionDeclarationModuleIds_;
+  std::unordered_map<const FunctionSymbol *, std::vector<std::string>>
+      functionGenericParamNames_;
+  std::unordered_map<std::string, std::shared_ptr<FunctionSymbol>>
+      genericFunctionInstantiations_;
+  std::unordered_map<std::string, std::shared_ptr<TypeSymbol>>
+      genericTypeInstantiations_;
+  std::unordered_map<const FunctionSymbol *, std::string>
+      genericFunctionDeclarationKeys_;
+  std::unordered_map<const FunctionSymbol *, bool>
+      genericInstantiationEmitted_;
+  std::vector<std::unordered_map<std::string, std::shared_ptr<zir::Type>>>
+      activeGenericBindingsStack_;
+  std::vector<std::string> genericInstantiationInProgress_;
   struct ClassInfo {
     std::shared_ptr<TypeSymbol> typeSymbol;
     std::shared_ptr<zir::ClassType> classType;
@@ -102,6 +130,12 @@ private:
   std::vector<std::string> currentClassStack_;
 
   std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
+  std::shared_ptr<zir::Type>
+  mapTypeWithGenericBindings(
+      const TypeNode &typeNode,
+      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          &genericBindings);
+  bool isGenericTypeParameterName(std::string_view name) const;
   std::shared_ptr<Symbol>
   resolveQualifiedSymbol(const std::vector<std::string> &parts, SourceSpan span,
                          SymbolKind expectedKind = SymbolKind::Variable,
@@ -126,6 +160,29 @@ private:
   std::shared_ptr<FunctionSymbol>
   findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
                           const FunctionSymbol &prototype) const;
+  std::shared_ptr<FunctionSymbol>
+  ensureGenericFunctionInstantiation(
+      const std::shared_ptr<FunctionSymbol> &baseFunction,
+      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          &genericBindings,
+      SourceSpan callSpan);
+  std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+  buildGenericBindings(
+      const FunctionSymbol &function,
+      const std::vector<std::unique_ptr<BoundExpression>> &arguments,
+      const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
+      SourceSpan callSpan,
+      std::string *failureReason = nullptr);
+  std::shared_ptr<zir::Type> substituteGenericType(
+      std::shared_ptr<zir::Type> type,
+      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          &genericBindings) const;
+  bool validateGenericConstraints(
+      const std::vector<GenericConstraint> &constraints,
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>> &bindings,
+      std::string *failureReason = nullptr);
+  std::shared_ptr<TypeSymbol> instantiateGenericTypeSymbol(
+      const std::shared_ptr<TypeSymbol> &baseSymbol, const TypeNode &typeNode);
   std::unique_ptr<BoundExpression>
   bindExpressionWithExpected(ExpressionNode *expr,
                              std::shared_ptr<zir::Type> expectedType);
@@ -144,6 +201,7 @@ private:
   void predeclareModuleAliases(ModuleState &module);
   void predeclareModuleValues(ModuleState &module);
   void applyImports(ModuleState &module, bool allowIncomplete = false);
+  void ensureModuleValuesReady(ModuleState &module);
   std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
 
   bool isNumeric(std::shared_ptr<zir::Type> type) const;

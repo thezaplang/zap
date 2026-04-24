@@ -1,4 +1,5 @@
 #pragma once
+#include "type_node.hpp"
 #include "visitor.hpp"
 
 struct Argument {
@@ -16,6 +17,7 @@ struct Argument {
 class FunCall : public ExpressionNode, public StatementNode {
 public:
   std::unique_ptr<ExpressionNode> callee_;
+  std::vector<std::unique_ptr<TypeNode>> genericArgs_;
   std::vector<std::unique_ptr<Argument>> params_;
 
   void accept(Visitor &v) override { v.visit(*this); }

@@ -1,0 +1,28 @@
+class Counter {
+    priv value: Int;
+
+    fun init(value: Int) {
+        self.value = value;
+    }
+
+    pub fun inc(delta: Int) Counter {
+        self.value = self.value + delta;
+        return self;
+    }
+
+    pub fun current() Int {
+        return self.value;
+    }
+}
+
+fun makeCounter(start: Int) Counter {
+    return new Counter(start);
+}
+
+fun main() Int {
+    if makeCounter(1).inc(2).inc(3).current() != 6 {
+        return 1;
+    }
+
+    return 0;
+}

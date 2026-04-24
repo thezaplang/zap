@@ -1,5 +1,6 @@
 #pragma once
 #include "body_node.hpp"
+#include "generic_constraint.hpp"
 #include "node.hpp"
 #include "parameter_node.hpp"
 #include "top_level.hpp"
@@ -13,6 +14,7 @@ class FunDecl : public TopLevel {
 public:
   std::string name_;
   std::vector<std::unique_ptr<TypeNode>> genericParams_;
+  std::vector<GenericConstraint> genericConstraints_;
   std::vector<std::unique_ptr<ParameterNode>> params_;
   std::unique_ptr<TypeNode> returnType_;
   std::unique_ptr<BodyNode> body_;

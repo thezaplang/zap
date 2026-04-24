@@ -1,0 +1,75 @@
+import "std/collection";
+
+fun main() Int {
+    var xs: collection.List<Int> = new collection.List<Int>();
+    if !xs.isEmpty() {
+        return 1;
+    }
+
+    xs.push(10);
+    xs.push(20);
+    xs.pushFront(5);
+
+    if xs.len() != 3 {
+        return 2;
+    }
+    if xs.front() != 5 {
+        return 3;
+    }
+    if xs.back() != 20 {
+        return 4;
+    }
+    if xs.at(1) != 10 {
+        return 5;
+    }
+
+    xs.set(1, 11);
+    if xs.at(1) != 11 {
+        return 6;
+    }
+
+    xs.insert(2, 15);
+    if xs.len() != 4 {
+        return 7;
+    }
+    if xs.at(2) != 15 {
+        return 8;
+    }
+
+    if xs.removeAt(1) != 11 {
+        return 9;
+    }
+    if xs.len() != 3 {
+        return 10;
+    }
+    if xs.at(1) != 15 {
+        return 11;
+    }
+
+    if xs.popFront() != 5 {
+        return 12;
+    }
+    if xs.len() != 2 {
+        return 13;
+    }
+    if xs.front() != 15 {
+        return 14;
+    }
+
+    if xs.popBack() != 20 {
+        return 15;
+    }
+    if xs.len() != 1 {
+        return 16;
+    }
+    if xs.back() != 15 {
+        return 17;
+    }
+
+    xs.clear();
+    if !xs.isEmpty() {
+        return 18;
+    }
+
+    return 0;
+}

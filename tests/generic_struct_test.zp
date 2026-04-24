@@ -1,0 +1,30 @@
+struct Box<T> {
+    value: T
+}
+
+record Pair<T> {
+    left: T,
+    right: T
+}
+
+fun unwrap<T>(box: Box<T>) T {
+    return box.value;
+}
+
+fun main() Int {
+    var box: Box<Int> = Box<Int>{ value: 41 };
+    var value: Int = unwrap(box);
+    if value != 41 {
+        return 1;
+    }
+
+    var pair: Pair<Bool> = Pair<Bool>{ left: true, right: false };
+    if !pair.left {
+        return 2;
+    }
+    if pair.right {
+        return 3;
+    }
+
+    return 0;
+}

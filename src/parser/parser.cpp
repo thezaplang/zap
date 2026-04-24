@@ -171,6 +171,9 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
   auto funDecl = _builder.makeFunDecl(funNameToken.value);
   funDecl->isUnsafe_ = isUnsafe;
   funDecl->isStatic_ = isStatic;
+  if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
+    funDecl->genericParams_ = parseGenericParameterList();
+  }
 
   eat(TokenType::LPAREN);
 
@@ -188,6 +191,8 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
   } else {
     funDecl->returnType_.reset();
   }
+
+  funDecl->genericConstraints_ = parseWhereClauses();
 
   eat(TokenType::LBRACE);
 
@@ -259,6 +264,12 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           eat(TokenType::SEMICOLON);
         }
         body->addStatement(std::move(ifNode));
+      } else if (peek().type == TokenType::IFTYPE) {
+        auto ifTypeNode = parseIfType();
+        if (peek().type == TokenType::SEMICOLON) {
+          eat(TokenType::SEMICOLON);
+        }
+        body->addStatement(std::move(ifTypeNode));
       } else if (peek().type == TokenType::WHILE) {
         auto whileNode = parseWhile();
         if (peek().type == TokenType::SEMICOLON) {
@@ -378,6 +389,175 @@ std::unique_ptr<AssignNode> Parser::parseAssign() {
   return node;
 }
 
+std::vector<std::unique_ptr<TypeNode>> Parser::parseGenericTypeArguments() {
+  std::vector<std::unique_ptr<TypeNode>> args;
+  eat(TokenType::LESS);
+  if (peek().type != TokenType::GREATER) {
+    do {
+      args.push_back(parseType());
+    } while (peek().type == TokenType::COMMA &&
+             eat(TokenType::COMMA).type == TokenType::COMMA);
+  }
+  eat(TokenType::GREATER);
+  return args;
+}
+
+std::vector<std::unique_ptr<TypeNode>> Parser::parseGenericParameterList() {
+  std::vector<std::unique_ptr<TypeNode>> params;
+  eat(TokenType::LESS);
+  if (peek().type != TokenType::GREATER) {
+    do {
+      auto param = parseType();
+      if (peek().type == TokenType::ASSIGN) {
+        eat(TokenType::ASSIGN);
+        param->defaultType = parseType();
+        _builder.setSpan(
+            param.get(),
+            SourceSpan::merge(param->span, param->defaultType->span));
+      }
+      params.push_back(std::move(param));
+    } while (peek().type == TokenType::COMMA &&
+             eat(TokenType::COMMA).type == TokenType::COMMA);
+  }
+  eat(TokenType::GREATER);
+  return params;
+}
+
+std::vector<GenericConstraint> Parser::parseWhereClauses() {
+  std::vector<GenericConstraint> constraints;
+  while (peek().type == TokenType::WHERE) {
+    eat(TokenType::WHERE);
+    Token paramToken = eat(TokenType::ID);
+    eat(TokenType::COLON);
+    auto boundType = parseType();
+    constraints.push_back(
+        {paramToken.value, std::move(boundType)});
+  }
+  return constraints;
+}
+
+bool Parser::isTypeStartToken(TokenType type) const {
+  return type == TokenType::ID || type == TokenType::MULTIPLY ||
+         type == TokenType::ELLIPSIS || type == TokenType::SQUARE_LBRACE ||
+         type == TokenType::WEAK;
+}
+
+bool Parser::isGenericCallStart() const {
+  if (peek().type != TokenType::LESS || !isTypeStartToken(peek(1).type)) {
+    return false;
+  }
+
+  size_t i = 1;
+  int depth = 0;
+  bool sawTypeToken = false;
+
+  while (!isAtEnd()) {
+    TokenType t = peek(i).type;
+
+    if (t == TokenType::LESS && isTypeStartToken(peek(i + 1).type)) {
+      ++depth;
+      sawTypeToken = true;
+      ++i;
+      continue;
+    }
+
+    if (t == TokenType::GREATER) {
+      if (depth == 0) {
+        if (!sawTypeToken) {
+          return false;
+        }
+        return peek(i + 1).type == TokenType::LPAREN;
+      }
+      --depth;
+      ++i;
+      continue;
+    }
+
+    if (t == TokenType::COMMA || t == TokenType::DOT || t == TokenType::ID ||
+        t == TokenType::MULTIPLY || t == TokenType::ELLIPSIS ||
+        t == TokenType::SQUARE_LBRACE || t == TokenType::SQUARE_RBRACE ||
+        t == TokenType::INTEGER || t == TokenType::WEAK) {
+      sawTypeToken = true;
+      ++i;
+      continue;
+    }
+
+    return false;
+  }
+
+  return false;
+}
+
+bool Parser::isGenericStructLiteralStart() const {
+  if (peek().type != TokenType::LESS || !isTypeStartToken(peek(1).type)) {
+    return false;
+  }
+
+  size_t i = 1;
+  int depth = 0;
+  bool sawTypeToken = false;
+
+  while (!isAtEnd()) {
+    TokenType t = peek(i).type;
+
+    if (t == TokenType::LESS && isTypeStartToken(peek(i + 1).type)) {
+      ++depth;
+      sawTypeToken = true;
+      ++i;
+      continue;
+    }
+
+    if (t == TokenType::GREATER) {
+      if (depth == 0) {
+        if (!sawTypeToken) {
+          return false;
+        }
+        return peek(i + 1).type == TokenType::LBRACE;
+      }
+      --depth;
+      ++i;
+      continue;
+    }
+
+    if (t == TokenType::COMMA || t == TokenType::DOT || t == TokenType::ID ||
+        t == TokenType::MULTIPLY || t == TokenType::ELLIPSIS ||
+        t == TokenType::SQUARE_LBRACE || t == TokenType::SQUARE_RBRACE ||
+        t == TokenType::INTEGER || t == TokenType::WEAK) {
+      sawTypeToken = true;
+      ++i;
+      continue;
+    }
+
+    return false;
+  }
+
+  return false;
+}
+
+std::unique_ptr<TypeNode>
+Parser::typeNodeFromQualifiedExpression(const ExpressionNode *expr) {
+  auto qualified = qualifiedNameFromExpression(expr);
+  if (qualified.empty()) {
+    return nullptr;
+  }
+
+  auto typeNode = _builder.makeType("");
+  size_t start = 0;
+  while (true) {
+    size_t dot = qualified.find('.', start);
+    auto part = qualified.substr(start, dot == std::string::npos
+                                            ? std::string::npos
+                                            : dot - start);
+    if (dot == std::string::npos) {
+      typeNode->typeName = part;
+      break;
+    }
+    typeNode->qualifiers.push_back(part);
+    start = dot + 1;
+  }
+  return typeNode;
+}
+
 std::unique_ptr<TypeNode> Parser::parseType() {
   if (peek().type == TokenType::WEAK) {
     Token weakToken = eat(TokenType::WEAK);
@@ -441,6 +621,9 @@ std::unique_ptr<TypeNode> Parser::parseType() {
   auto typeNode = _builder.makeType(identifiers.back());
   identifiers.pop_back();
   typeNode->qualifiers = std::move(identifiers);
+  if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
+    typeNode->genericArgs = parseGenericTypeArguments();
+  }
   _builder.setSpan(typeNode.get(),
                    SourceSpan::merge(startToken.span, _tokens[_pos - 1].span));
   return typeNode;
@@ -510,6 +693,44 @@ std::unique_ptr<IfNode> Parser::parseIf() {
 
   _builder.setSpan(ifNode.get(), SourceSpan::merge(ifKeyword.span, endSpan));
   return ifNode;
+}
+
+std::unique_ptr<IfTypeNode> Parser::parseIfType() {
+  Token iftypeKeyword = eat(TokenType::IFTYPE);
+  Token paramToken = eat(TokenType::ID);
+  eat(TokenType::EQUAL);
+  auto matchType = parseType();
+
+  eat(TokenType::LBRACE);
+  auto thenBody = parseBody();
+  eat(TokenType::RBRACE);
+
+  std::unique_ptr<BodyNode> elseBody = nullptr;
+  SourceSpan endSpan = _tokens[_pos - 1].span;
+
+  if (peek().type == TokenType::ELSE) {
+    eat(TokenType::ELSE);
+    if (peek().type == TokenType::IFTYPE) {
+      auto nestedIfType = parseIfType();
+      elseBody = _builder.makeBody();
+      SourceSpan nestedSpan = nestedIfType->span;
+      elseBody->addStatement(std::move(nestedIfType));
+      _builder.setSpan(elseBody.get(), nestedSpan);
+      endSpan = nestedSpan;
+    } else {
+      eat(TokenType::LBRACE);
+      elseBody = parseBody();
+      Token rbrace = eat(TokenType::RBRACE);
+      endSpan = rbrace.span;
+    }
+  }
+
+  auto ifTypeNode = _builder.makeIfType(paramToken.value, std::move(matchType),
+                                        std::move(thenBody),
+                                        std::move(elseBody));
+  _builder.setSpan(ifTypeNode.get(),
+                   SourceSpan::merge(iftypeKeyword.span, endSpan));
+  return ifTypeNode;
 }
 
 std::unique_ptr<WhileNode> Parser::parseWhile() {
@@ -696,6 +917,51 @@ std::unique_ptr<ExpressionNode> Parser::parsePostfixExpression() {
       SourceSpan leftSpan = left->span;
       left = _builder.makeIndexAccess(std::move(left), std::move(index));
       _builder.setSpan(left.get(), SourceSpan::merge(leftSpan, rbracket.span));
+    } else if (_allowStructLiteral && opToken.type == TokenType::LESS &&
+               isGenericStructLiteralStart()) {
+      auto typeNode = typeNodeFromQualifiedExpression(left.get());
+      if (!typeNode) {
+        break;
+      }
+      typeNode->genericArgs = parseGenericTypeArguments();
+      auto structLiteral = parseStructLiteral(std::move(typeNode));
+      left = std::move(structLiteral);
+    } else if (opToken.type == TokenType::LESS && isGenericCallStart()) {
+      auto genericCall = _builder.makeFunCall(std::move(left));
+      SourceSpan leftSpan = genericCall->callee_->span;
+      genericCall->genericArgs_ = parseGenericTypeArguments();
+
+      eat(TokenType::LPAREN);
+
+      if (peek().type != TokenType::RPAREN) {
+        do {
+          std::string argName = "";
+          bool argIsRef = false;
+          bool argIsSpread = false;
+          if (peek().type == TokenType::ID &&
+              peek(1).type == TokenType::ASSIGN) {
+            argName = eat(TokenType::ID).value;
+            eat(TokenType::ASSIGN);
+          }
+          if (peek().type == TokenType::ELLIPSIS) {
+            eat(TokenType::ELLIPSIS);
+            argIsSpread = true;
+          }
+          if (peek().type == TokenType::REF) {
+            eat(TokenType::REF);
+            argIsRef = true;
+          }
+          auto argValue = parseExpression();
+          genericCall->params_.push_back(std::make_unique<Argument>(
+              argName, std::move(argValue), argIsRef, argIsSpread));
+        } while (peek().type == TokenType::COMMA &&
+                 eat(TokenType::COMMA).type == TokenType::COMMA);
+      }
+
+      Token rparenToken = eat(TokenType::RPAREN);
+      _builder.setSpan(genericCall.get(),
+                       SourceSpan::merge(leftSpan, rparenToken.span));
+      left = std::move(genericCall);
     } else if (opToken.type == TokenType::LPAREN) {
       SourceSpan leftSpan = left->span;
       auto funCall = _builder.makeFunCall(std::move(left));
@@ -811,8 +1077,15 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
     return constNull;
   } else if (current.type == TokenType::ID) {
     Token idToken = eat(TokenType::ID);
-    if (_allowStructLiteral && peek().type == TokenType::LBRACE) {
-      return parseStructLiteral(idToken.value);
+    if (_allowStructLiteral && peek().type == TokenType::LESS &&
+        isGenericStructLiteralStart()) {
+      auto typeNode = _builder.makeType(idToken.value);
+      typeNode->genericArgs = parseGenericTypeArguments();
+      return parseStructLiteral(std::move(typeNode));
+    } else if (_allowStructLiteral && peek().type == TokenType::LBRACE) {
+      auto typeNode = _builder.makeType(idToken.value);
+      _builder.setSpan(typeNode.get(), idToken.span);
+      return parseStructLiteral(std::move(typeNode));
     } else {
       auto constId = _builder.makeConstId(idToken.value);
       _builder.setSpan(constId.get(), idToken.span);
@@ -990,6 +1263,11 @@ std::unique_ptr<TypeAliasDecl> Parser::parseTypeAliasDecl() {
 std::unique_ptr<RecordDecl> Parser::parseRecordDecl() {
   Token recordKeyword = eat(TokenType::RECORD);
   Token recordNameToken = eat(TokenType::ID);
+  std::vector<std::unique_ptr<TypeNode>> genericParams;
+  if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
+    genericParams = parseGenericParameterList();
+  }
+  auto genericConstraints = parseWhereClauses();
 
   std::vector<std::unique_ptr<ParameterNode>> fields;
   eat(TokenType::LBRACE);
@@ -1005,7 +1283,9 @@ std::unique_ptr<RecordDecl> Parser::parseRecordDecl() {
   Token rbraceToken = eat(TokenType::RBRACE);
 
   auto recordDecl =
-      _builder.makeRecordDecl(recordNameToken.value, std::move(fields));
+      _builder.makeRecordDecl(recordNameToken.value, std::move(genericParams),
+                              std::move(fields));
+  recordDecl->genericConstraints_ = std::move(genericConstraints);
   _builder.setSpan(recordDecl.get(),
                    SourceSpan::merge(recordKeyword.span, rbraceToken.span));
   return recordDecl;
@@ -1016,10 +1296,14 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
   Token classNameToken = eat(TokenType::ID);
 
   auto classDecl = _builder.makeClassDecl(classNameToken.value);
+  if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
+    classDecl->genericParams_ = parseGenericParameterList();
+  }
   if (peek().type == TokenType::COLON) {
     eat(TokenType::COLON);
     classDecl->baseType_ = parseType();
   }
+  classDecl->genericConstraints_ = parseWhereClauses();
 
   eat(TokenType::LBRACE);
 
@@ -1060,6 +1344,11 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
 std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl(bool isUnsafe) {
   Token structKeyword = eat(TokenType::STRUCT);
   Token structNameToken = eat(TokenType::ID);
+  std::vector<std::unique_ptr<TypeNode>> genericParams;
+  if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
+    genericParams = parseGenericParameterList();
+  }
+  auto genericConstraints = parseWhereClauses();
 
   std::vector<std::unique_ptr<ParameterNode>> fields;
   eat(TokenType::LBRACE);
@@ -1078,12 +1367,34 @@ std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl(bool isUnsafe) {
   }
 
   eat(TokenType::RBRACE);
-  return std::make_unique<StructDeclarationNode>(structNameToken.value,
-                                                 std::move(fields), isUnsafe);
+  auto decl = std::make_unique<StructDeclarationNode>(
+      structNameToken.value, std::move(genericParams), std::move(fields),
+      isUnsafe);
+  decl->genericConstraints_ = std::move(genericConstraints);
+  return decl;
 }
 
 std::unique_ptr<StructLiteralNode>
 Parser::parseStructLiteral(const std::string &type_name) {
+  auto typeNode = _builder.makeType("");
+  size_t start = 0;
+  while (true) {
+    size_t dot = type_name.find('.', start);
+    auto part = type_name.substr(start, dot == std::string::npos
+                                            ? std::string::npos
+                                            : dot - start);
+    if (dot == std::string::npos) {
+      typeNode->typeName = part;
+      break;
+    }
+    typeNode->qualifiers.push_back(part);
+    start = dot + 1;
+  }
+  return parseStructLiteral(std::move(typeNode));
+}
+
+std::unique_ptr<StructLiteralNode>
+Parser::parseStructLiteral(std::unique_ptr<TypeNode> type) {
   eat(TokenType::LBRACE);
   std::vector<StructFieldInit> fields;
 
@@ -1104,7 +1415,7 @@ Parser::parseStructLiteral(const std::string &type_name) {
   }
 
   eat(TokenType::RBRACE);
-  return std::make_unique<StructLiteralNode>(type_name, std::move(fields));
+  return std::make_unique<StructLiteralNode>(std::move(type), std::move(fields));
 }
 
 } // namespace zap

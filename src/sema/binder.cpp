@@ -4,7 +4,10 @@
 #include "../ast/record_decl.hpp"
 #include <algorithm>
 #include <cctype>
+#include <functional>
 #include <sstream>
+#include <string_view>
+#include <unordered_map>
 
 namespace sema {
 namespace {
@@ -26,6 +29,34 @@ std::string sanitizeTypeName(const std::string &value) {
     }
   }
   return out;
+}
+
+std::string renderGenericTypeName(
+    const std::string &baseName,
+    const std::vector<std::shared_ptr<zir::Type>> &arguments) {
+  std::string name = baseName + "<";
+  for (size_t i = 0; i < arguments.size(); ++i) {
+    if (i != 0) {
+      name += ", ";
+    }
+    name += arguments[i] ? arguments[i]->toString() : "<?>";
+  }
+  name += ">";
+  return name;
+}
+
+std::string renderGenericCodegenName(
+    const std::string &baseName,
+    const std::vector<std::shared_ptr<zir::Type>> &arguments) {
+  std::string suffix;
+  for (size_t i = 0; i < arguments.size(); ++i) {
+    if (i != 0) {
+      suffix += "$";
+    }
+    suffix += sanitizeTypeName(arguments[i] ? arguments[i]->toString()
+                                            : std::string("<?>"));
+  }
+  return baseName + "$g$" + suffix;
 }
 
 std::shared_ptr<zir::RecordType>
@@ -131,6 +162,18 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
   currentFunction_.reset();
   currentModuleId_.clear();
   declaredFunctionSymbols_.clear();
+  recordTypeDeclarationNodes_.clear();
+  structTypeDeclarationNodes_.clear();
+  classTypeDeclarationNodes_.clear();
+  typeDeclarationModuleIds_.clear();
+  functionDeclarationNodes_.clear();
+  functionGenericParamNames_.clear();
+  genericFunctionInstantiations_.clear();
+  genericTypeInstantiations_.clear();
+  genericFunctionDeclarationKeys_.clear();
+  genericInstantiationEmitted_.clear();
+  genericInstantiationInProgress_.clear();
+  activeGenericBindingsStack_.clear();
   unsafeDepth_ = 0;
   unsafeTypeContextDepth_ = 0;
   externTypeContextDepth_ = 0;
@@ -163,11 +206,7 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
   }
 
   for (auto &[_, module] : modules_) {
-    predeclareModuleValues(module);
-  }
-
-  for (auto &[_, module] : modules_) {
-    applyImports(module, false);
+    ensureModuleValuesReady(module);
   }
 
   for (auto &[_, module] : modules_) {
@@ -280,7 +319,28 @@ std::string Binder::functionSignatureKey(const FunctionSymbol &function) const {
 
 std::string
 Binder::renderFunctionSignature(const FunctionSymbol &function) const {
-  std::string rendered = function.name + "(";
+  std::string rendered = function.name;
+  auto genericParamNamesIt = functionGenericParamNames_.find(&function);
+  const auto *genericParamNames =
+      genericParamNamesIt != functionGenericParamNames_.end()
+          ? &genericParamNamesIt->second
+          : &function.genericParameterNames;
+  if (genericParamNames && !genericParamNames->empty()) {
+    rendered += "<";
+    for (size_t i = 0; i < genericParamNames->size(); ++i) {
+      if (i != 0) {
+        rendered += ", ";
+      }
+      const auto &name = (*genericParamNames)[i];
+      auto argIt = function.genericArguments.find(name);
+      rendered += (argIt != function.genericArguments.end() && argIt->second)
+                      ? argIt->second->toString()
+                      : name;
+    }
+    rendered += ">";
+  }
+
+  rendered += "(";
   for (size_t i = 0; i < function.parameters.size(); ++i) {
     if (i != 0) {
       rendered += ", ";
@@ -324,6 +384,992 @@ Binder::findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
     }
   }
   return nullptr;
+}
+
+std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
+    const std::shared_ptr<FunctionSymbol> &baseFunction,
+    const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+        &genericBindings,
+    SourceSpan callSpan) {
+  if (!baseFunction) {
+    return nullptr;
+  }
+
+  if (baseFunction->genericParameterNames.empty()) {
+    return baseFunction;
+  }
+
+  std::vector<std::string> missing;
+  for (const auto &name : baseFunction->genericParameterNames) {
+    if (genericBindings.find(name) == genericBindings.end()) {
+      missing.push_back(name);
+    }
+  }
+  if (!missing.empty()) {
+    std::string msg = "Missing generic type arguments for function '" +
+                      baseFunction->name + "': ";
+    for (size_t i = 0; i < missing.size(); ++i) {
+      if (i != 0) {
+        msg += ", ";
+      }
+      msg += missing[i];
+    }
+    error(callSpan, msg);
+    return nullptr;
+  }
+
+  std::string cacheKey = baseFunction->linkName + "<";
+  for (size_t i = 0; i < baseFunction->genericParameterNames.size(); ++i) {
+    if (i != 0) {
+      cacheKey += ",";
+    }
+    const auto &name = baseFunction->genericParameterNames[i];
+    auto it = genericBindings.find(name);
+    cacheKey += name + "=" + (it != genericBindings.end() && it->second
+                                  ? it->second->toString()
+                                  : std::string("<?>"));
+  }
+  cacheKey += ">";
+
+  auto cachedIt = genericFunctionInstantiations_.find(cacheKey);
+  if (cachedIt != genericFunctionInstantiations_.end()) {
+    return cachedIt->second;
+  }
+
+  auto declIt = functionDeclarationNodes_.find(baseFunction.get());
+  if (declIt == functionDeclarationNodes_.end() || !declIt->second) {
+    error(callSpan, "Internal error: missing declaration for generic function '" +
+                        baseFunction->name + "'.");
+    return nullptr;
+  }
+
+  auto moduleIdIt = functionDeclarationModuleIds_.find(baseFunction.get());
+  auto moduleId =
+      moduleIdIt == functionDeclarationModuleIds_.end() ? currentModuleId_
+                                                        : moduleIdIt->second;
+  auto moduleIt = modules_.find(moduleId);
+  if (moduleIt == modules_.end() || !moduleIt->second.info) {
+    error(callSpan, "Internal error: current module not found for generic instantiation.");
+    return nullptr;
+  }
+
+  std::vector<std::shared_ptr<VariableSymbol>> instantiatedParams;
+  instantiatedParams.reserve(baseFunction->parameters.size());
+  for (const auto &param : baseFunction->parameters) {
+    auto instType = substituteGenericType(param->type, genericBindings);
+    auto instParam = std::make_shared<VariableSymbol>(
+        param->name, instType, param->is_const, param->is_ref, param->linkName,
+        param->moduleName, param->visibility);
+    instParam->is_variadic_pack = param->is_variadic_pack;
+    instParam->variadic_element_type =
+        substituteGenericType(param->variadic_element_type, genericBindings);
+    instantiatedParams.push_back(std::move(instParam));
+  }
+
+  auto instantiatedReturn =
+      substituteGenericType(baseFunction->returnType, genericBindings);
+
+  auto instantiated = std::make_shared<FunctionSymbol>(
+      baseFunction->name, std::move(instantiatedParams), instantiatedReturn, "",
+      baseFunction->moduleName, baseFunction->visibility, baseFunction->isUnsafe,
+      baseFunction->isCVariadic);
+  instantiated->isMethod = baseFunction->isMethod;
+  instantiated->isStatic = baseFunction->isStatic;
+  instantiated->isConstructor = baseFunction->isConstructor;
+  instantiated->isDestructor = baseFunction->isDestructor;
+  instantiated->vtableSlot = baseFunction->vtableSlot;
+  instantiated->ownerTypeName = baseFunction->ownerTypeName;
+  instantiated->isGenericInstantiation = true;
+  instantiated->genericArguments = {
+      genericBindings.begin(), genericBindings.end()};
+
+  std::string genericSuffix;
+  for (size_t i = 0; i < baseFunction->genericParameterNames.size(); ++i) {
+    if (i != 0) {
+      genericSuffix += "$";
+    }
+    const auto &name = baseFunction->genericParameterNames[i];
+    const auto &ty = genericBindings.at(name);
+    genericSuffix += sanitizeTypeName(name + "_" + ty->toString());
+  }
+  instantiated->linkName = baseFunction->linkName + "$g$" + genericSuffix;
+
+  genericFunctionInstantiations_[cacheKey] = instantiated;
+  functionGenericParamNames_[instantiated.get()] = {};
+  functionDeclarationNodes_[instantiated.get()] = declIt->second;
+  functionDeclarationModuleIds_[instantiated.get()] = moduleId;
+
+  auto inProgressIt = std::find(genericInstantiationInProgress_.begin(),
+                                genericInstantiationInProgress_.end(), cacheKey);
+  if (inProgressIt != genericInstantiationInProgress_.end()) {
+    return instantiated;
+  }
+
+  auto emittedIt = genericInstantiationEmitted_.find(instantiated.get());
+  if (emittedIt != genericInstantiationEmitted_.end() && emittedIt->second) {
+    return instantiated;
+  }
+
+  genericInstantiationInProgress_.push_back(cacheKey);
+
+  auto oldScope = currentScope_;
+  auto oldFunction = currentFunction_;
+  auto oldModuleId = currentModuleId_;
+  int oldUnsafeDepth = unsafeDepth_;
+
+  currentModuleId_ = moduleIt->second.info->moduleId;
+  currentScope_ = moduleIt->second.scope;
+  currentFunction_ = instantiated;
+  if (instantiated->isUnsafe) {
+    ++unsafeDepth_;
+  }
+
+  pushScope();
+  for (const auto &param : instantiated->parameters) {
+    if (!currentScope_->declare(param->name, param)) {
+      error(callSpan, "Parameter '" + param->name +
+                          "' already declared in generic instantiation.");
+    }
+  }
+
+  activeGenericBindingsStack_.push_back(
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>>(
+          genericBindings.begin(), genericBindings.end()));
+  auto boundBody = bindBody(declIt->second->body_.get(), false);
+  activeGenericBindingsStack_.pop_back();
+
+  popScope();
+
+  currentScope_ = oldScope;
+  currentFunction_ = oldFunction;
+  currentModuleId_ = oldModuleId;
+  unsafeDepth_ = oldUnsafeDepth;
+
+  bool hasReturn = false;
+  if (boundBody) {
+    if (boundBody->result) {
+      hasReturn = true;
+    }
+    for (const auto &stmt : boundBody->statements) {
+      if (dynamic_cast<BoundReturnStatement *>(stmt.get())) {
+        hasReturn = true;
+        break;
+      }
+    }
+  }
+
+  if (!hasReturn && instantiated->linkName == "main" &&
+      instantiated->returnType->isInteger()) {
+    auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+    auto lit = std::make_unique<BoundLiteral>("0", intType);
+    boundBody->statements.push_back(
+        std::make_unique<BoundReturnStatement>(std::move(lit)));
+    hasReturn = true;
+  }
+
+  if (!hasReturn && instantiated->returnType->getKind() != zir::TypeKind::Void) {
+    auto kind = instantiated->returnType->getKind();
+    if (instantiated->returnType->isInteger() || kind == zir::TypeKind::Float ||
+        kind == zir::TypeKind::Bool) {
+      std::string litVal = "0";
+      if (kind == zir::TypeKind::Float)
+        litVal = "0.0";
+      else if (kind == zir::TypeKind::Bool)
+        litVal = "false";
+      auto lit = std::make_unique<BoundLiteral>(litVal, instantiated->returnType);
+      boundBody->statements.push_back(
+          std::make_unique<BoundReturnStatement>(std::move(lit)));
+    }
+
+    _diag.report(callSpan, zap::DiagnosticLevel::Warning,
+                 "Generic function '" + instantiated->name +
+                     "' has non-void return type but no return on some paths.");
+  }
+
+  boundRoot_->functions.push_back(std::make_unique<BoundFunctionDeclaration>(
+      instantiated, std::move(boundBody)));
+  genericInstantiationEmitted_[instantiated.get()] = true;
+
+  genericInstantiationInProgress_.pop_back();
+  return instantiated;
+}
+
+bool Binder::isGenericTypeParameterName(std::string_view name) const {
+  if (activeGenericBindingsStack_.empty()) {
+    return false;
+  }
+  const auto &bindings = activeGenericBindingsStack_.back();
+  return bindings.find(std::string(name)) != bindings.end();
+}
+
+std::shared_ptr<zir::Type> Binder::substituteGenericType(
+    std::shared_ptr<zir::Type> type,
+    const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+        &genericBindings) const {
+  if (!type) {
+    return nullptr;
+  }
+
+  if (type->getKind() == zir::TypeKind::Record) {
+    auto record = std::static_pointer_cast<zir::RecordType>(type);
+    auto it = genericBindings.find(record->getName());
+    if (it != genericBindings.end()) {
+      return it->second;
+    }
+    if (record->isGenericInstance()) {
+      std::vector<std::shared_ptr<zir::Type>> substitutedArgs;
+      substitutedArgs.reserve(record->getGenericArguments().size());
+      for (const auto &arg : record->getGenericArguments()) {
+        substitutedArgs.push_back(substituteGenericType(arg, genericBindings));
+      }
+
+      auto substituted = std::make_shared<zir::RecordType>(
+          renderGenericTypeName(record->getGenericBaseName(), substitutedArgs),
+          renderGenericCodegenName(record->getGenericCodegenBaseName(),
+                                   substitutedArgs));
+      substituted->setGenericInstance(record->getGenericBaseName(),
+                                      record->getGenericCodegenBaseName(),
+                                      substitutedArgs);
+      for (const auto &field : record->getFields()) {
+        substituted->addField(field.name,
+                              substituteGenericType(field.type, genericBindings),
+                              field.visibility);
+      }
+      return substituted;
+    }
+    return type;
+  }
+
+  if (type->getKind() == zir::TypeKind::Class) {
+    auto classType = std::static_pointer_cast<zir::ClassType>(type);
+    auto it = genericBindings.find(classType->getName());
+    if (it != genericBindings.end()) {
+      return it->second;
+    }
+    if (classType->isGenericInstance()) {
+      std::vector<std::shared_ptr<zir::Type>> substitutedArgs;
+      substitutedArgs.reserve(classType->getGenericArguments().size());
+      for (const auto &arg : classType->getGenericArguments()) {
+        substitutedArgs.push_back(substituteGenericType(arg, genericBindings));
+      }
+
+      auto substituted = std::make_shared<zir::ClassType>(
+          renderGenericTypeName(classType->getGenericBaseName(),
+                                substitutedArgs),
+          renderGenericCodegenName(classType->getGenericCodegenBaseName(),
+                                   substitutedArgs));
+      substituted->setGenericInstance(classType->getGenericBaseName(),
+                                      classType->getGenericCodegenBaseName(),
+                                      substitutedArgs);
+      substituted->setWeak(classType->isWeak());
+      if (auto base = classType->getBase()) {
+        auto substitutedBase = substituteGenericType(base, genericBindings);
+        if (substitutedBase &&
+            substitutedBase->getKind() == zir::TypeKind::Class) {
+          substituted->setBase(
+              std::static_pointer_cast<zir::ClassType>(substitutedBase));
+        }
+      }
+      for (const auto &field : classType->getFields()) {
+        substituted->addField(field.name,
+                              substituteGenericType(field.type, genericBindings),
+                              field.visibility);
+      }
+      return substituted;
+    }
+    return type;
+  }
+
+  if (type->getKind() == zir::TypeKind::Pointer) {
+    auto ptr = std::static_pointer_cast<zir::PointerType>(type);
+    auto base = substituteGenericType(ptr->getBaseType(), genericBindings);
+    return std::make_shared<zir::PointerType>(base);
+  }
+
+  if (type->getKind() == zir::TypeKind::Array) {
+    auto arr = std::static_pointer_cast<zir::ArrayType>(type);
+    auto base = substituteGenericType(arr->getBaseType(), genericBindings);
+    return std::make_shared<zir::ArrayType>(base, arr->getSize());
+  }
+
+  return type;
+}
+
+bool Binder::validateGenericConstraints(
+    const std::vector<GenericConstraint> &constraints,
+    std::unordered_map<std::string, std::shared_ptr<zir::Type>> &bindings,
+    std::string *failureReason) {
+  for (const auto &constraint : constraints) {
+    auto boundIt = bindings.find(constraint.parameterName);
+    if (boundIt == bindings.end() || !boundIt->second) {
+      if (failureReason) {
+        *failureReason = "missing binding for constrained type parameter '" +
+                         constraint.parameterName + "'";
+      }
+      return false;
+    }
+    if (!constraint.boundType) {
+      continue;
+    }
+
+    activeGenericBindingsStack_.push_back(bindings);
+    auto requiredType = mapType(*constraint.boundType);
+    activeGenericBindingsStack_.pop_back();
+    if (!requiredType) {
+      if (failureReason) {
+        *failureReason = "unknown constraint type for '" +
+                         constraint.parameterName + "'";
+      }
+      return false;
+    }
+    if (!canConvert(boundIt->second, requiredType)) {
+      if (failureReason) {
+        *failureReason = "type parameter '" + constraint.parameterName +
+                         "' with type '" + boundIt->second->toString() +
+                         "' does not satisfy constraint '" +
+                         constraint.parameterName + ": " +
+                         requiredType->toString() + "'";
+      }
+      return false;
+    }
+  }
+  return true;
+}
+
+std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
+    const std::shared_ptr<TypeSymbol> &baseSymbol, const TypeNode &typeNode) {
+  if (!baseSymbol || baseSymbol->genericParameterNames.empty()) {
+    return baseSymbol;
+  }
+
+  std::string cacheKey = baseSymbol->linkName + "<";
+  std::shared_ptr<zir::RecordType> instantiatedType;
+  const RecordDecl *recordDecl = nullptr;
+  const StructDeclarationNode *structDecl = nullptr;
+  const ClassDecl *classDecl = nullptr;
+  if (auto recordDeclIt = recordTypeDeclarationNodes_.find(baseSymbol.get());
+      recordDeclIt != recordTypeDeclarationNodes_.end()) {
+    recordDecl = recordDeclIt->second;
+  } else if (auto structDeclIt = structTypeDeclarationNodes_.find(baseSymbol.get());
+             structDeclIt != structTypeDeclarationNodes_.end()) {
+    structDecl = structDeclIt->second;
+  } else if (auto classDeclIt = classTypeDeclarationNodes_.find(baseSymbol.get());
+             classDeclIt != classTypeDeclarationNodes_.end()) {
+    classDecl = classDeclIt->second;
+  } else {
+    error(typeNode.span, "Generic type '" + typeNode.qualifiedName() +
+                             "' is not instantiable yet.");
+    return nullptr;
+  }
+
+  const std::vector<std::unique_ptr<TypeNode>> *declGenericParams =
+      recordDecl ? &recordDecl->genericParams_
+                 : (structDecl ? &structDecl->genericParams_
+                               : &classDecl->genericParams_);
+  const std::vector<GenericConstraint> *declGenericConstraints =
+      recordDecl ? &recordDecl->genericConstraints_
+                 : (structDecl ? &structDecl->genericConstraints_
+                               : &classDecl->genericConstraints_);
+
+  if (typeNode.genericArgs.size() > baseSymbol->genericParameterNames.size()) {
+    error(typeNode.span, "Generic argument count mismatch for type '" +
+                             typeNode.qualifiedName() + "'.");
+    return nullptr;
+  }
+
+  std::vector<std::shared_ptr<zir::Type>> genericArgs;
+  genericArgs.reserve(baseSymbol->genericParameterNames.size());
+  std::unordered_map<std::string, std::shared_ptr<zir::Type>> genericBindings;
+  for (size_t i = 0; i < baseSymbol->genericParameterNames.size(); ++i) {
+    std::shared_ptr<zir::Type> mapped;
+    if (i < typeNode.genericArgs.size()) {
+      mapped = mapType(*typeNode.genericArgs[i]);
+      if (!mapped) {
+        error(typeNode.genericArgs[i]->span,
+              "Unknown generic type argument in type '" +
+                  typeNode.qualifiedName() + "'.");
+        return nullptr;
+      }
+    } else {
+      const auto &declParam = (*declGenericParams)[i];
+      if (!declParam || !declParam->defaultType) {
+        error(typeNode.span, "Missing generic type arguments for type '" +
+                                 typeNode.qualifiedName() + "'.");
+        return nullptr;
+      }
+      activeGenericBindingsStack_.push_back(genericBindings);
+      mapped = mapType(*declParam->defaultType);
+      activeGenericBindingsStack_.pop_back();
+      if (!mapped) {
+        error(declParam->defaultType->span,
+              "Unknown default generic type argument in type '" +
+                  typeNode.qualifiedName() + "'.");
+        return nullptr;
+      }
+    }
+    genericArgs.push_back(mapped);
+    genericBindings[baseSymbol->genericParameterNames[i]] = mapped;
+  }
+
+  std::string constraintFailure;
+  if (declGenericConstraints &&
+      !validateGenericConstraints(*declGenericConstraints, genericBindings,
+                                  &constraintFailure)) {
+    error(typeNode.span, "Generic constraints not satisfied for type '" +
+                             typeNode.qualifiedName() + "': " +
+                             constraintFailure);
+    return nullptr;
+  }
+
+  for (size_t i = 0; i < genericArgs.size(); ++i) {
+    if (i != 0) {
+      cacheKey += ",";
+    }
+    cacheKey += genericArgs[i] ? genericArgs[i]->toString() : "<?>";
+  }
+  cacheKey += ">";
+
+  auto cachedIt = genericTypeInstantiations_.find(cacheKey);
+  if (cachedIt != genericTypeInstantiations_.end()) {
+    return cachedIt->second;
+  }
+
+  auto moduleIdIt = typeDeclarationModuleIds_.find(baseSymbol.get());
+  if (moduleIdIt == typeDeclarationModuleIds_.end()) {
+    error(typeNode.span,
+          "Internal error: missing module information for generic type '" +
+              baseSymbol->name + "'.");
+    return nullptr;
+  }
+
+  auto moduleIt = modules_.find(moduleIdIt->second);
+  if (moduleIt == modules_.end() || !moduleIt->second.info) {
+    error(typeNode.span,
+          "Internal error: missing declaration module for generic type '" +
+              baseSymbol->name + "'.");
+    return nullptr;
+  }
+
+  auto baseRecordType = std::static_pointer_cast<zir::RecordType>(baseSymbol->type);
+  auto displayName =
+      renderGenericTypeName(baseRecordType->getName(), genericArgs);
+  auto codegenName =
+      renderGenericCodegenName(baseRecordType->getCodegenName(), genericArgs);
+  if (classDecl) {
+    instantiatedType = std::make_shared<zir::ClassType>(displayName, codegenName);
+  } else {
+    instantiatedType = std::make_shared<zir::RecordType>(displayName, codegenName);
+  }
+  instantiatedType->setGenericInstance(baseRecordType->getName(),
+                                       baseRecordType->getCodegenName(),
+                                       genericArgs);
+
+  auto instantiatedSymbol = std::make_shared<TypeSymbol>(
+      baseSymbol->name, instantiatedType, codegenName, baseSymbol->moduleName,
+      baseSymbol->visibility, baseSymbol->isUnsafe, classDecl != nullptr);
+  instantiatedSymbol->isGenericInstantiation = true;
+  instantiatedSymbol->genericArguments = {
+      genericBindings.begin(), genericBindings.end()};
+  genericTypeInstantiations_[cacheKey] = instantiatedSymbol;
+
+  if (classDecl) {
+    auto instantiatedClassType =
+        std::static_pointer_cast<zir::ClassType>(instantiatedType);
+    ClassInfo classInfo;
+    classInfo.typeSymbol = instantiatedSymbol;
+    classInfo.classType = instantiatedClassType;
+    classInfo.ownerQualifiedName = instantiatedClassType->getName();
+    classInfos_[instantiatedClassType->getName()] = classInfo;
+  }
+
+  int oldUnsafeTypeContextDepth = unsafeTypeContextDepth_;
+  int oldExternTypeContextDepth = externTypeContextDepth_;
+  auto oldScope = currentScope_;
+  auto oldModuleId = currentModuleId_;
+  if (structDecl && structDecl->isUnsafe_) {
+    ++unsafeTypeContextDepth_;
+  }
+  if (structDecl) {
+    ++externTypeContextDepth_;
+  }
+
+  currentScope_ = moduleIt->second.scope;
+  currentModuleId_ = moduleIt->second.info->moduleId;
+
+  activeGenericBindingsStack_.push_back(genericBindings);
+  if (classDecl && classDecl->baseType_) {
+    bool hasOwnCtor = false;
+    bool hasOwnDtor = false;
+    for (const auto &methodDecl : classDecl->methods_) {
+      hasOwnCtor = hasOwnCtor || methodDecl->name_ == "init";
+      hasOwnDtor = hasOwnDtor || methodDecl->name_ == "deinit";
+    }
+    auto baseType = mapType(*classDecl->baseType_);
+    if (baseType && baseType->getKind() == zir::TypeKind::Class) {
+      auto instantiatedClassType =
+          std::static_pointer_cast<zir::ClassType>(instantiatedType);
+      auto baseClass = std::static_pointer_cast<zir::ClassType>(baseType);
+      instantiatedClassType->setBase(baseClass);
+      auto &classInfo = classInfos_[instantiatedClassType->getName()];
+      auto baseIt = classInfos_.find(baseClass->getName());
+      if (baseIt != classInfos_.end()) {
+        if (!hasOwnCtor) {
+          classInfo.constructor = baseIt->second.constructor;
+        }
+        if (!hasOwnDtor) {
+          classInfo.destructor = baseIt->second.destructor;
+        }
+        classInfo.fields = baseIt->second.fields;
+        classInfo.methods.insert(baseIt->second.methods.begin(),
+                                 baseIt->second.methods.end());
+        classInfo.nextVirtualSlot = baseIt->second.nextVirtualSlot;
+      }
+      for (const auto &field : baseClass->getFields()) {
+        instantiatedClassType->addField(field.name, field.type, field.visibility);
+      }
+    } else if (baseType) {
+      error(classDecl->baseType_->span, "Base type of class '" + classDecl->name_ +
+                                            "' must be a class.");
+    }
+  }
+
+  const auto &fields =
+      recordDecl ? recordDecl->fields_
+                 : (structDecl ? structDecl->fields_ : classDecl->fields_);
+  for (const auto &field : fields) {
+    auto fieldType = mapType(*field->type);
+    if (!fieldType) {
+      error(field->span, "Unknown type: " + field->type->qualifiedName());
+      fieldType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+    }
+    instantiatedType->addField(field->name, fieldType,
+                               static_cast<int>(field->visibility_));
+    if (classDecl) {
+      auto instantiatedClassType =
+          std::static_pointer_cast<zir::ClassType>(instantiatedType);
+      auto &classInfo = classInfos_[instantiatedClassType->getName()];
+      classInfo.fields[field->name] = std::make_shared<VariableSymbol>(
+          field->name, fieldType, false, false, field->name,
+          moduleIt->second.info->moduleName, field->visibility_);
+    }
+  }
+
+  activeGenericBindingsStack_.pop_back();
+
+  unsafeTypeContextDepth_ = oldUnsafeTypeContextDepth;
+  externTypeContextDepth_ = oldExternTypeContextDepth;
+  currentScope_ = oldScope;
+  currentModuleId_ = oldModuleId;
+
+  if (classDecl) {
+    auto instantiatedClassType =
+        std::static_pointer_cast<zir::ClassType>(instantiatedType);
+    auto &classInfo = classInfos_[instantiatedClassType->getName()];
+    auto oldScope = currentScope_;
+    auto oldModuleId = currentModuleId_;
+    currentScope_ = moduleIt->second.scope;
+    currentModuleId_ = moduleIt->second.info->moduleId;
+
+    for (const auto &methodDecl : classDecl->methods_) {
+      if (methodDecl->isUnsafe_) {
+        requireUnsafeEnabled(methodDecl->span, "'unsafe fun'");
+        ++unsafeTypeContextDepth_;
+      }
+
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          methodGenericBindings;
+      for (const auto &genericParam : methodDecl->genericParams_) {
+        if (genericParam) {
+          auto placeholder = std::make_shared<zir::RecordType>(
+              genericParam->typeName, genericParam->typeName);
+          methodGenericBindings[genericParam->typeName] = placeholder;
+        }
+      }
+
+      std::vector<std::shared_ptr<VariableSymbol>> params;
+      if (!methodDecl->isStatic_) {
+        params.push_back(std::make_shared<VariableSymbol>(
+            "self", instantiatedClassType, false, false, "self",
+            moduleIt->second.info->moduleName, Visibility::Private));
+      }
+
+      activeGenericBindingsStack_.push_back(genericBindings);
+      if (!methodGenericBindings.empty()) {
+        activeGenericBindingsStack_.push_back(methodGenericBindings);
+      }
+      for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
+        const auto &p = methodDecl->params_[i];
+        auto mappedType = mapType(*p->type);
+        if (!mappedType) {
+          error(p->span, "Unknown type: " + p->type->qualifiedName());
+          mappedType =
+              std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+        }
+        params.push_back(std::make_shared<VariableSymbol>(
+            p->name, mappedType, false, p->isRef, p->name,
+            moduleIt->second.info->moduleName, Visibility::Private));
+      }
+
+      std::shared_ptr<zir::Type> retType;
+      bool isCtor = methodDecl->name_ == "init";
+      bool isDtor = methodDecl->name_ == "deinit";
+      if (isDtor && (!methodDecl->params_.empty() || methodDecl->returnType_)) {
+        error(methodDecl->span,
+              "Destructor 'deinit' cannot have parameters or a return type.");
+      }
+      if (isCtor || isDtor) {
+        retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      } else if (methodDecl->returnType_) {
+        retType = mapType(*methodDecl->returnType_);
+      } else {
+        retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      }
+      if (!methodGenericBindings.empty()) {
+        activeGenericBindingsStack_.pop_back();
+      }
+      activeGenericBindingsStack_.pop_back();
+
+      if (!retType) {
+        retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      }
+
+      if (methodDecl->isUnsafe_) {
+        --unsafeTypeContextDepth_;
+      }
+
+      auto methodSymbol = std::make_shared<FunctionSymbol>(
+          methodDecl->name_, std::move(params), std::move(retType), "",
+          moduleIt->second.info->moduleName, methodDecl->visibility_,
+          methodDecl->isUnsafe_);
+      for (const auto &genericParam : methodDecl->genericParams_) {
+        if (genericParam) {
+          methodSymbol->genericParameterNames.push_back(genericParam->typeName);
+        }
+      }
+      methodSymbol->isMethod = !methodDecl->isStatic_;
+      methodSymbol->isStatic = methodDecl->isStatic_;
+      methodSymbol->isConstructor = isCtor;
+      methodSymbol->isDestructor = isDtor;
+      methodSymbol->ownerTypeName = instantiatedClassType->getName();
+      if (methodSymbol->isMethod && !methodSymbol->isStatic &&
+          !methodSymbol->isConstructor && !methodSymbol->isDestructor) {
+        auto existingIt = classInfo.methods.find(methodDecl->name_);
+        if (existingIt != classInfo.methods.end()) {
+          auto existingMethod =
+              std::dynamic_pointer_cast<FunctionSymbol>(existingIt->second);
+          if (existingMethod && existingMethod->vtableSlot >= 0) {
+            methodSymbol->vtableSlot = existingMethod->vtableSlot;
+          }
+        }
+        if (methodSymbol->vtableSlot < 0) {
+          methodSymbol->vtableSlot = classInfo.nextVirtualSlot++;
+        }
+      }
+      methodSymbol->linkName =
+          mangleName(moduleIt->second.info->linkPath.empty()
+                         ? moduleIt->second.info->moduleId
+                         : moduleIt->second.info->linkPath,
+                     instantiatedClassType->getCodegenName() + "$" +
+                         methodDecl->name_ + "$" +
+                         sanitizeTypeName(functionSignatureKey(*methodSymbol)));
+      functionDeclarationNodes_[methodSymbol.get()] = methodDecl.get();
+      functionDeclarationModuleIds_[methodSymbol.get()] =
+          moduleIt->second.info->moduleId;
+      functionGenericParamNames_[methodSymbol.get()] =
+          methodSymbol->genericParameterNames;
+      classInfo.methods[methodDecl->name_] = methodSymbol;
+      if (isCtor) {
+        classInfo.constructor = methodSymbol;
+      } else if (isDtor) {
+        classInfo.destructor = methodSymbol;
+      }
+
+      if (!methodSymbol->genericParameterNames.empty() &&
+          !methodSymbol->isGenericInstantiation) {
+        continue;
+      }
+
+      auto oldScope = currentScope_;
+      auto oldFunction = currentFunction_;
+      auto oldModuleId = currentModuleId_;
+      auto oldClassStack = currentClassStack_;
+      int oldUnsafeDepth = unsafeDepth_;
+
+      currentModuleId_ = moduleIt->second.info->moduleId;
+      currentScope_ = moduleIt->second.scope;
+      currentFunction_ = methodSymbol;
+      currentClassStack_.push_back(instantiatedClassType->getName());
+      if (methodSymbol->isUnsafe) {
+        ++unsafeDepth_;
+      }
+
+      pushScope();
+      for (const auto &param : methodSymbol->parameters) {
+        if (!currentScope_->declare(param->name, param)) {
+          error(methodDecl->span,
+                "Parameter '" + param->name + "' already declared.");
+        }
+      }
+
+      activeGenericBindingsStack_.push_back(genericBindings);
+      auto boundBody = bindBody(methodDecl->body_.get(), false);
+      activeGenericBindingsStack_.pop_back();
+      popScope();
+
+      currentScope_ = oldScope;
+      currentFunction_ = oldFunction;
+      currentModuleId_ = oldModuleId;
+      currentClassStack_ = oldClassStack;
+      unsafeDepth_ = oldUnsafeDepth;
+
+      bool hasReturn = false;
+      if (boundBody) {
+        if (boundBody->result)
+          hasReturn = true;
+        for (const auto &stmt : boundBody->statements) {
+          if (dynamic_cast<BoundReturnStatement *>(stmt.get())) {
+            hasReturn = true;
+            break;
+          }
+        }
+      }
+
+      if (!hasReturn &&
+          methodSymbol->returnType->getKind() != zir::TypeKind::Void) {
+        auto kind = methodSymbol->returnType->getKind();
+        if (methodSymbol->returnType->isInteger() ||
+            kind == zir::TypeKind::Float || kind == zir::TypeKind::Bool) {
+          std::string litVal = "0";
+          if (kind == zir::TypeKind::Float)
+            litVal = "0.0";
+          else if (kind == zir::TypeKind::Bool)
+            litVal = "false";
+          auto lit =
+              std::make_unique<BoundLiteral>(litVal, methodSymbol->returnType);
+          boundBody->statements.push_back(
+              std::make_unique<BoundReturnStatement>(std::move(lit)));
+        }
+
+        _diag.report(methodDecl->span, zap::DiagnosticLevel::Warning,
+                     "Function '" + methodDecl->name_ +
+                         "' has non-void return type but no return on some "
+                         "paths.");
+      }
+
+      boundRoot_->functions.push_back(
+          std::make_unique<BoundFunctionDeclaration>(methodSymbol,
+                                                     std::move(boundBody)));
+    }
+
+    currentScope_ = oldScope;
+    currentModuleId_ = oldModuleId;
+
+    auto boundRecord = std::make_unique<BoundRecordDeclaration>();
+    boundRecord->type = instantiatedClassType;
+    boundRoot_->records.push_back(std::move(boundRecord));
+  }
+
+  return instantiatedSymbol;
+}
+
+std::shared_ptr<zir::Type> Binder::mapTypeWithGenericBindings(
+    const TypeNode &typeNode,
+    const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+        &genericBindings) {
+  auto mapped = mapType(typeNode);
+  return substituteGenericType(std::move(mapped), genericBindings);
+}
+
+std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+Binder::buildGenericBindings(
+    const FunctionSymbol &function,
+    const std::vector<std::unique_ptr<BoundExpression>> &arguments,
+    const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
+    SourceSpan callSpan,
+    std::string *failureReason) {
+  (void)callSpan;
+  std::unordered_map<std::string, std::shared_ptr<zir::Type>> bindings;
+
+  if (function.genericParameterNames.empty()) {
+    return bindings;
+  }
+
+  if (explicitTypeArgs.size() > function.genericParameterNames.size()) {
+    if (failureReason) {
+      *failureReason = "explicit generic argument count mismatch";
+    }
+    return {};
+  }
+
+  for (size_t i = 0; i < explicitTypeArgs.size(); ++i) {
+    if (!explicitTypeArgs[i]) {
+      continue;
+    }
+    auto mapped = mapType(*explicitTypeArgs[i]);
+    if (!mapped) {
+      if (failureReason) {
+        *failureReason = "unknown generic type argument";
+      }
+      return {};
+    }
+    bindings[function.genericParameterNames[i]] = mapped;
+  }
+
+  auto declIt = functionDeclarationNodes_.find(&function);
+  const auto *decl = declIt == functionDeclarationNodes_.end() ? nullptr
+                                                               : declIt->second;
+
+  std::function<bool(const std::shared_ptr<zir::Type> &,
+                     const std::shared_ptr<zir::Type> &)>
+      inferFrom =
+          [&](const std::shared_ptr<zir::Type> &paramType,
+              const std::shared_ptr<zir::Type> &argType) -> bool {
+    if (!paramType || !argType) {
+      return true;
+    }
+
+    if (paramType->getKind() == zir::TypeKind::Record) {
+      auto rec = std::static_pointer_cast<zir::RecordType>(paramType);
+      if (rec->isGenericInstance() && argType->getKind() == zir::TypeKind::Record) {
+        auto argRecord = std::static_pointer_cast<zir::RecordType>(argType);
+        if (!argRecord->isGenericInstance() ||
+            rec->getGenericBaseName() != argRecord->getGenericBaseName() ||
+            rec->getGenericArguments().size() !=
+                argRecord->getGenericArguments().size()) {
+          return false;
+        }
+        for (size_t i = 0; i < rec->getGenericArguments().size(); ++i) {
+          if (!inferFrom(rec->getGenericArguments()[i],
+                         argRecord->getGenericArguments()[i])) {
+            return false;
+          }
+        }
+        return true;
+      }
+      auto paramName = rec->getName();
+      auto isGenericName = std::find(function.genericParameterNames.begin(),
+                                     function.genericParameterNames.end(),
+                                     paramName) !=
+                           function.genericParameterNames.end();
+      if (isGenericName) {
+        auto it = bindings.find(paramName);
+        if (it == bindings.end()) {
+          bindings[paramName] = argType;
+          return true;
+        }
+        return it->second->toString() == argType->toString();
+      }
+      return true;
+    }
+
+    if (paramType->getKind() == zir::TypeKind::Class) {
+      auto cls = std::static_pointer_cast<zir::ClassType>(paramType);
+      if (cls->isGenericInstance() && argType->getKind() == zir::TypeKind::Class) {
+        auto argClass = std::static_pointer_cast<zir::ClassType>(argType);
+        std::shared_ptr<zir::ClassType> matchingArgClass = argClass;
+        while (matchingArgClass &&
+               (!matchingArgClass->isGenericInstance() ||
+                cls->getGenericBaseName() !=
+                    matchingArgClass->getGenericBaseName())) {
+          matchingArgClass = matchingArgClass->getBase();
+        }
+        if (!matchingArgClass ||
+            matchingArgClass->getGenericArguments().size() !=
+                cls->getGenericArguments().size()) {
+          return false;
+        }
+        for (size_t i = 0; i < cls->getGenericArguments().size(); ++i) {
+          if (!inferFrom(cls->getGenericArguments()[i],
+                         matchingArgClass->getGenericArguments()[i])) {
+            return false;
+          }
+        }
+        return true;
+      }
+      auto paramName = cls->getName();
+      auto isGenericName = std::find(function.genericParameterNames.begin(),
+                                     function.genericParameterNames.end(),
+                                     paramName) !=
+                           function.genericParameterNames.end();
+      if (isGenericName) {
+        auto it = bindings.find(paramName);
+        if (it == bindings.end()) {
+          bindings[paramName] = argType;
+          return true;
+        }
+        return it->second->toString() == argType->toString();
+      }
+      return true;
+    }
+
+    if (paramType->getKind() == zir::TypeKind::Pointer &&
+        argType->getKind() == zir::TypeKind::Pointer) {
+      auto pp = std::static_pointer_cast<zir::PointerType>(paramType);
+      auto ap = std::static_pointer_cast<zir::PointerType>(argType);
+      return inferFrom(pp->getBaseType(), ap->getBaseType());
+    }
+
+    if (paramType->getKind() == zir::TypeKind::Array &&
+        argType->getKind() == zir::TypeKind::Array) {
+      auto pa = std::static_pointer_cast<zir::ArrayType>(paramType);
+      auto aa = std::static_pointer_cast<zir::ArrayType>(argType);
+      if (pa->getSize() != aa->getSize()) {
+        return false;
+      }
+      return inferFrom(pa->getBaseType(), aa->getBaseType());
+    }
+
+    return true;
+          };
+
+  size_t fixedCount = function.fixedParameterCount();
+  for (size_t i = 0; i < arguments.size() && i < fixedCount; ++i) {
+    if (!inferFrom(function.parameters[i]->type, arguments[i]->type)) {
+      if (failureReason) {
+        *failureReason = "conflicting generic type inference";
+      }
+      return {};
+    }
+  }
+
+  for (const auto &name : function.genericParameterNames) {
+    if (bindings.find(name) == bindings.end()) {
+      bool filledFromDefault = false;
+      if (decl) {
+        auto paramIndex = static_cast<size_t>(
+            std::distance(function.genericParameterNames.begin(),
+                          std::find(function.genericParameterNames.begin(),
+                                    function.genericParameterNames.end(),
+                                    name)));
+        if (paramIndex < decl->genericParams_.size() &&
+            decl->genericParams_[paramIndex] &&
+            decl->genericParams_[paramIndex]->defaultType) {
+          activeGenericBindingsStack_.push_back(bindings);
+          auto mapped = mapType(*decl->genericParams_[paramIndex]->defaultType);
+          activeGenericBindingsStack_.pop_back();
+          if (mapped) {
+            bindings[name] = mapped;
+            filledFromDefault = true;
+          }
+        }
+      }
+      if (!filledFromDefault) {
+        if (failureReason) {
+          *failureReason = "cannot infer generic type parameter '" + name + "'";
+        }
+        return {};
+      }
+    }
+  }
+
+  if (decl) {
+    if (!validateGenericConstraints(decl->genericConstraints_, bindings,
+                                    failureReason)) {
+      return {};
+    }
+  }
+
+  return bindings;
 }
 
 std::unique_ptr<BoundExpression>
@@ -518,6 +1564,13 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
                                                    : module.info->linkPath,
                      recordDecl->name_),
           module.info->moduleName, recordDecl->visibility_, false);
+      for (const auto &genericParam : recordDecl->genericParams_) {
+        if (genericParam) {
+          symbol->genericParameterNames.push_back(genericParam->typeName);
+        }
+      }
+      recordTypeDeclarationNodes_[symbol.get()] = recordDecl;
+      typeDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
       if (!module.scope->declare(recordDecl->name_, symbol)) {
         error(recordDecl->span,
               "Type '" + recordDecl->name_ + "' already declared.");
@@ -538,6 +1591,13 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
                                                    : module.info->linkPath,
                      classDecl->name_),
           module.info->moduleName, classDecl->visibility_, false, true);
+      for (const auto &genericParam : classDecl->genericParams_) {
+        if (genericParam) {
+          symbol->genericParameterNames.push_back(genericParam->typeName);
+        }
+      }
+      classTypeDeclarationNodes_[symbol.get()] = classDecl;
+      typeDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
       if (!module.scope->declare(classDecl->name_, symbol)) {
         error(classDecl->span,
               "Type '" + classDecl->name_ + "' already declared.");
@@ -547,11 +1607,13 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         module.symbol->exports[classDecl->name_] = symbol;
       }
 
-      ClassInfo info;
-      info.typeSymbol = symbol;
-      info.classType = type;
-      info.ownerQualifiedName = type->getName();
-      classInfos_[type->getName()] = info;
+      if (symbol->genericParameterNames.empty()) {
+        ClassInfo info;
+        info.typeSymbol = symbol;
+        info.classType = type;
+        info.ownerQualifiedName = type->getName();
+        classInfos_[type->getName()] = info;
+      }
     } else if (auto structDecl =
                    dynamic_cast<StructDeclarationNode *>(child.get())) {
       auto type = std::make_shared<zir::RecordType>(
@@ -566,6 +1628,13 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
                      structDecl->name_),
           module.info->moduleName, structDecl->visibility_,
           structDecl->isUnsafe_);
+      for (const auto &genericParam : structDecl->genericParams_) {
+        if (genericParam) {
+          symbol->genericParameterNames.push_back(genericParam->typeName);
+        }
+      }
+      structTypeDeclarationNodes_[symbol.get()] = structDecl;
+      typeDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
       if (!module.scope->declare(structDecl->name_, symbol)) {
         error(structDecl->span,
               "Type '" + structDecl->name_ + "' already declared.");
@@ -727,6 +1796,38 @@ void Binder::applyImports(ModuleState &module, bool allowIncomplete) {
   }
 }
 
+void Binder::ensureModuleValuesReady(ModuleState &module) {
+  if (module.finalImportsApplied) {
+    return;
+  }
+  if (module.valuesPreparationInProgress) {
+    return;
+  }
+
+  module.valuesPreparationInProgress = true;
+
+  for (const auto &import : module.info->imports) {
+    for (const auto &targetId : import.targetModuleIds) {
+      auto targetIt = modules_.find(targetId);
+      if (targetIt != modules_.end()) {
+        ensureModuleValuesReady(targetIt->second);
+      }
+    }
+  }
+
+  if (!module.valuesPredeclared) {
+    predeclareModuleValues(module);
+    module.valuesPredeclared = true;
+  }
+
+  if (!module.finalImportsApplied) {
+    applyImports(module, false);
+    module.finalImportsApplied = true;
+  }
+
+  module.valuesPreparationInProgress = false;
+}
+
 void Binder::predeclareModuleValues(ModuleState &module) {
   currentModuleId_ = module.info->moduleId;
   currentScope_ = module.scope;
@@ -736,6 +1837,20 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       if (funDecl->isUnsafe_) {
         requireUnsafeEnabled(funDecl->span, "'unsafe fun'");
         ++unsafeTypeContextDepth_;
+      }
+
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>> genericBindings;
+      for (const auto &genericParam : funDecl->genericParams_) {
+        if (!genericParam) {
+          continue;
+        }
+        auto placeholder = std::make_shared<zir::RecordType>(
+            genericParam->typeName, genericParam->typeName);
+        genericBindings[genericParam->typeName] = placeholder;
+      }
+
+      if (!genericBindings.empty()) {
+        activeGenericBindingsStack_.push_back(genericBindings);
       }
 
       std::vector<std::shared_ptr<VariableSymbol>> params;
@@ -773,6 +1888,10 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       }
 
+      if (!genericBindings.empty()) {
+        activeGenericBindingsStack_.pop_back();
+      }
+
       if (!retType) {
         error(funDecl->span,
               "Unknown return type in function '" + funDecl->name_ + "'.");
@@ -789,6 +1908,14 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       auto symbol = std::make_shared<FunctionSymbol>(
           funDecl->name_, std::move(params), std::move(retType), "",
           module.info->moduleName, funDecl->visibility_, funDecl->isUnsafe_);
+      for (const auto &genericParam : funDecl->genericParams_) {
+        if (genericParam) {
+          symbol->genericParameterNames.push_back(genericParam->typeName);
+        }
+      }
+      functionGenericParamNames_[symbol.get()] = symbol->genericParameterNames;
+      functionDeclarationNodes_[symbol.get()] = funDecl;
+      functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
       if (linkName != "main") {
         symbol->linkName = mangleFunctionName(module.info->linkPath.empty()
                                                   ? module.info->moduleId
@@ -833,7 +1960,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
     } else if (auto classDecl = dynamic_cast<ClassDecl *>(child.get())) {
       auto classSymbol = std::dynamic_pointer_cast<TypeSymbol>(
           module.scope->lookup(classDecl->name_));
-      if (!classSymbol || !classSymbol->isClass) {
+      if (!classSymbol || !classSymbol->isClass ||
+          !classSymbol->genericParameterNames.empty()) {
         continue;
       }
       auto classType =
@@ -841,11 +1969,23 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       auto &classInfo = classInfos_[classType->getName()];
 
       if (classDecl->baseType_) {
+        bool hasOwnCtor = false;
+        bool hasOwnDtor = false;
+        for (const auto &methodDecl : classDecl->methods_) {
+          hasOwnCtor = hasOwnCtor || methodDecl->name_ == "init";
+          hasOwnDtor = hasOwnDtor || methodDecl->name_ == "deinit";
+        }
         auto baseType = mapType(*classDecl->baseType_);
         if (baseType && baseType->getKind() == zir::TypeKind::Class) {
           auto baseClass = std::static_pointer_cast<zir::ClassType>(baseType);
           auto baseIt = classInfos_.find(baseClass->getName());
           if (baseIt != classInfos_.end()) {
+            if (!hasOwnCtor) {
+              classInfo.constructor = baseIt->second.constructor;
+            }
+            if (!hasOwnDtor) {
+              classInfo.destructor = baseIt->second.destructor;
+            }
             classInfo.methods.insert(baseIt->second.methods.begin(),
                                      baseIt->second.methods.end());
             classInfo.nextVirtualSlot = baseIt->second.nextVirtualSlot;
@@ -857,6 +1997,19 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         if (methodDecl->isUnsafe_) {
           requireUnsafeEnabled(methodDecl->span, "'unsafe fun'");
           ++unsafeTypeContextDepth_;
+        }
+
+        std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+            methodGenericBindings;
+        for (const auto &genericParam : methodDecl->genericParams_) {
+          if (genericParam) {
+            auto placeholder = std::make_shared<zir::RecordType>(
+                genericParam->typeName, genericParam->typeName);
+            methodGenericBindings[genericParam->typeName] = placeholder;
+          }
+        }
+        if (!methodGenericBindings.empty()) {
+          activeGenericBindingsStack_.push_back(methodGenericBindings);
         }
 
         std::vector<std::shared_ptr<VariableSymbol>> params;
@@ -896,6 +2049,9 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         } else {
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
+        if (!methodGenericBindings.empty()) {
+          activeGenericBindingsStack_.pop_back();
+        }
         if (!retType) {
           retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
@@ -908,6 +2064,11 @@ void Binder::predeclareModuleValues(ModuleState &module) {
             methodDecl->name_, std::move(params), std::move(retType), "",
             module.info->moduleName, methodDecl->visibility_,
             methodDecl->isUnsafe_);
+        for (const auto &genericParam : methodDecl->genericParams_) {
+          if (genericParam) {
+            symbol->genericParameterNames.push_back(genericParam->typeName);
+          }
+        }
         symbol->isMethod = !methodDecl->isStatic_;
         symbol->isStatic = methodDecl->isStatic_;
         symbol->isConstructor = isCtor;
@@ -933,6 +2094,9 @@ void Binder::predeclareModuleValues(ModuleState &module) {
                        classDecl->name_ + "$" + methodDecl->name_ + "$" +
                            sanitizeTypeName(functionSignatureKey(*symbol)));
         declaredFunctionSymbols_[methodDecl.get()] = symbol;
+        functionDeclarationNodes_[symbol.get()] = methodDecl.get();
+        functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
+        functionGenericParamNames_[symbol.get()] = symbol->genericParameterNames;
         classInfo.methods[methodDecl->name_] = symbol;
         if (isCtor) {
           classInfo.constructor = symbol;
@@ -1159,7 +2323,7 @@ void Binder::visit(ImportNode &node) { (void)node; }
 void Binder::visit(ClassDecl &node) {
   auto symbol =
       std::dynamic_pointer_cast<TypeSymbol>(currentScope_->lookup(node.name_));
-  if (!symbol || !symbol->isClass) {
+  if (!symbol || !symbol->isClass || !symbol->genericParameterNames.empty()) {
     return;
   }
 
@@ -1168,6 +2332,12 @@ void Binder::visit(ClassDecl &node) {
   currentClassStack_.push_back(classType->getName());
 
   if (node.baseType_) {
+    bool hasOwnCtor = false;
+    bool hasOwnDtor = false;
+    for (const auto &method : node.methods_) {
+      hasOwnCtor = hasOwnCtor || method->name_ == "init";
+      hasOwnDtor = hasOwnDtor || method->name_ == "deinit";
+    }
     auto baseType = mapType(*node.baseType_);
     if (!baseType || baseType->getKind() != zir::TypeKind::Class) {
       error(node.baseType_->span, "Base type must be a class.");
@@ -1176,6 +2346,12 @@ void Binder::visit(ClassDecl &node) {
       classType->setBase(baseClass);
       auto baseIt = classInfos_.find(baseClass->getName());
       if (baseIt != classInfos_.end()) {
+        if (!hasOwnCtor) {
+          classInfo.constructor = baseIt->second.constructor;
+        }
+        if (!hasOwnDtor) {
+          classInfo.destructor = baseIt->second.destructor;
+        }
         classInfo.fields = baseIt->second.fields;
         classInfo.methods.insert(baseIt->second.methods.begin(),
                                  baseIt->second.methods.end());
@@ -1215,6 +2391,10 @@ void Binder::visit(FunDecl &node) {
   auto symbol =
       symbolIt == declaredFunctionSymbols_.end() ? nullptr : symbolIt->second;
   if (!symbol) {
+    return;
+  }
+
+  if (!symbol->genericParameterNames.empty() && !symbol->isGenericInstantiation) {
     return;
   }
 
@@ -2014,6 +3194,49 @@ void Binder::visit(FunCall &node) {
         requireUnsafeContext(node.span, "unsafe function calls");
       }
 
+      std::vector<std::unique_ptr<BoundExpression>> rawArgs;
+      rawArgs.reserve(node.params_.size());
+      for (size_t i = 0; i < node.params_.size(); ++i) {
+        auto arg = bindExpressionWithExpected(node.params_[i]->value.get(), nullptr);
+        if (!arg) {
+          return;
+        }
+        rawArgs.push_back(std::move(arg));
+      }
+
+      if (!funcSymbol->genericParameterNames.empty()) {
+        std::vector<std::unique_ptr<BoundExpression>> inferenceArgs;
+        if (funcSymbol->isMethod) {
+          inferenceArgs.push_back(selfExpr->clone());
+        }
+        for (const auto &rawArg : rawArgs) {
+          inferenceArgs.push_back(rawArg->clone());
+        }
+        std::string genericBindingFailure;
+        auto genericBindings = buildGenericBindings(
+            *funcSymbol, inferenceArgs, node.genericArgs_, node.span,
+            &genericBindingFailure);
+        if (genericBindings.empty()) {
+          error(node.span, "No matching overload for method '" + member->member_ +
+                               "'. " +
+                               (genericBindingFailure.empty()
+                                    ? std::string("Generic type binding failed.")
+                                    : genericBindingFailure));
+          return;
+        }
+        funcSymbol = ensureGenericFunctionInstantiation(funcSymbol, genericBindings,
+                                                        node.span);
+        if (!funcSymbol) {
+          error(node.span, "Failed to instantiate generic method '" +
+                               member->member_ + "'.");
+          return;
+        }
+      } else if (!node.genericArgs_.empty()) {
+        error(node.span, "Method '" + member->member_ +
+                             "' does not accept generic arguments.");
+        return;
+      }
+
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
       if (funcSymbol->isMethod) {
@@ -2029,12 +3252,7 @@ void Binder::visit(FunCall &node) {
       }
 
       for (size_t i = 0; i < node.params_.size(); ++i) {
-        auto arg = bindExpressionWithExpected(
-            node.params_[i]->value.get(),
-            funcSymbol->parameters[i + paramOffset]->type);
-        if (!arg) {
-          return;
-        }
+        auto arg = rawArgs[i]->clone();
         auto expectedType = funcSymbol->parameters[i + paramOffset]->type;
         if (!canConvert(arg->type, expectedType)) {
           error(node.params_[i]->value->span,
@@ -2137,6 +3355,17 @@ void Binder::visit(FunCall &node) {
     }
 
     size_t fixedParamCount = funcSymbol->fixedParameterCount();
+    bool hasExplicitTypeArgs = !node.genericArgs_.empty();
+    if (hasExplicitTypeArgs &&
+        node.genericArgs_.size() > funcSymbol->genericParameterNames.size()) {
+      rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
+                               "': explicit generic argument count mismatch");
+      continue;
+    }
+
+    if (!hasExplicitTypeArgs && !funcSymbol->genericParameterNames.empty()) {
+      // inference is allowed; no early rejection
+    }
     if (!funcSymbol->acceptsExtraArguments() &&
         node.params_.size() != funcSymbol->parameters.size()) {
       rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
@@ -2154,6 +3383,17 @@ void Binder::visit(FunCall &node) {
     match.symbol = funcSymbol;
     match.arguments.resize(fixedParamCount);
     match.argumentIsRef.resize(fixedParamCount, false);
+    std::string genericBindingFailure;
+    auto genericBindings = buildGenericBindings(
+        *funcSymbol, rawArgs, node.genericArgs_, node.span,
+        &genericBindingFailure);
+    if (!funcSymbol->genericParameterNames.empty() && genericBindings.empty()) {
+      rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
+                               "': " + (genericBindingFailure.empty()
+                                            ? "generic type binding failed"
+                                            : genericBindingFailure));
+      continue;
+    }
     bool failed = false;
     std::string failureReason;
     auto variadicParam = funcSymbol->variadicParameter();
@@ -2275,6 +3515,9 @@ void Binder::visit(FunCall &node) {
       if (parameterIndex >= 0 &&
           parameterIndex < static_cast<int>(fixedParamCount)) {
         auto expectedType = funcSymbol->parameters[parameterIndex]->type;
+        if (!genericBindings.empty()) {
+          expectedType = substituteGenericType(expectedType, genericBindings);
+        }
         const auto &parameter = funcSymbol->parameters[parameterIndex];
         if (argIsRef != parameter->is_ref) {
           failed = true;
@@ -2326,6 +3569,9 @@ void Binder::visit(FunCall &node) {
           break;
         }
         auto expectedType = variadicParam->variadic_element_type;
+        if (!genericBindings.empty()) {
+          expectedType = substituteGenericType(expectedType, genericBindings);
+        }
         if (!canConvert(arg->type, expectedType)) {
           failed = true;
           failureReason = "variadic argument is not convertible from '" +
@@ -2393,9 +3639,43 @@ void Binder::visit(FunCall &node) {
       }
     }
 
-    if (funcSymbol->isUnsafe && !isUnsafeActive()) {
-      blockedUnsafeMatch = funcSymbol;
-      rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
+    std::shared_ptr<FunctionSymbol> resolvedSymbol = funcSymbol;
+    if (!funcSymbol->genericParameterNames.empty()) {
+      resolvedSymbol =
+          ensureGenericFunctionInstantiation(funcSymbol, genericBindings, node.span);
+      if (!resolvedSymbol) {
+        rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
+                                 "': failed to instantiate generic function");
+        continue;
+      }
+
+      std::vector<std::unique_ptr<BoundExpression>> remappedArgs;
+      std::vector<bool> remappedRef;
+      remappedArgs.reserve(match.arguments.size());
+      remappedRef.reserve(match.argumentIsRef.size());
+
+      for (size_t i = 0; i < match.arguments.size(); ++i) {
+        auto argClone = match.arguments[i] ? match.arguments[i]->clone() : nullptr;
+        if (i < resolvedSymbol->parameters.size() && argClone) {
+          auto expected = resolvedSymbol->parameters[i]->type;
+          if (!resolvedSymbol->parameters[i]->is_ref) {
+            argClone = wrapInCast(std::move(argClone), expected);
+          }
+        }
+        remappedArgs.push_back(std::move(argClone));
+        remappedRef.push_back(i < match.argumentIsRef.size()
+                                  ? match.argumentIsRef[i]
+                                  : false);
+      }
+
+      match.arguments = std::move(remappedArgs);
+      match.argumentIsRef = std::move(remappedRef);
+      match.symbol = resolvedSymbol;
+    }
+
+    if (resolvedSymbol->isUnsafe && !isUnsafeActive()) {
+      blockedUnsafeMatch = resolvedSymbol;
+      rejectionNotes.push_back("'" + renderFunctionSignature(*resolvedSymbol) +
                                "': requires unsafe context");
       continue;
     }
@@ -2613,6 +3893,47 @@ void Binder::visit(IfNode &node) {
       std::move(cond), std::move(thenBody), std::move(elseBody)));
 }
 
+void Binder::visit(IfTypeNode &node) {
+  if (activeGenericBindingsStack_.empty()) {
+    error(node.span, "'iftype' can only be used inside a generic instantiation.");
+    return;
+  }
+
+  std::shared_ptr<zir::Type> actualType = nullptr;
+  for (auto it = activeGenericBindingsStack_.rbegin();
+       it != activeGenericBindingsStack_.rend(); ++it) {
+    auto bindingIt = it->find(node.parameterName_);
+    if (bindingIt != it->end()) {
+      actualType = bindingIt->second;
+      break;
+    }
+  }
+  if (!actualType) {
+    error(node.span, "'iftype' expects an active generic type parameter, got '" +
+                         node.parameterName_ + "'.");
+    return;
+  }
+
+  auto matchType = mapType(*node.matchType_);
+  if (!matchType) {
+    error(node.matchType_->span,
+          "Unknown type: " + node.matchType_->qualifiedName());
+    return;
+  }
+
+  bool matched = actualType->toString() == matchType->toString();
+  std::unique_ptr<BoundBlock> selectedBody = nullptr;
+  if (matched) {
+    selectedBody = bindBody(node.thenBody_.get(), true);
+  } else if (node.elseBody_) {
+    selectedBody = bindBody(node.elseBody_.get(), true);
+  } else {
+    selectedBody = std::make_unique<BoundBlock>();
+  }
+
+  statementStack_.push(std::move(selectedBody));
+}
+
 void Binder::visit(WhileNode &node) {
   node.condition_->accept(*this);
   if (expressionStack_.empty())
@@ -2709,6 +4030,26 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
     return mapType(*typeNode.baseType);
   }
 
+  if (!activeGenericBindingsStack_.empty() && typeNode.qualifiers.empty() &&
+      typeNode.genericArgs.empty()) {
+    const auto &bindings = activeGenericBindingsStack_.back();
+    auto it = bindings.find(typeNode.typeName);
+    if (it != bindings.end()) {
+      auto mapped = it->second;
+      if (typeNode.isWeak) {
+        if (!mapped || mapped->getKind() != zir::TypeKind::Class) {
+          error(typeNode.span, "'weak' can only be used with class types.");
+          return nullptr;
+        }
+        auto weakType = std::make_shared<zir::ClassType>(
+            *std::static_pointer_cast<zir::ClassType>(mapped));
+        weakType->setWeak(true);
+        return weakType;
+      }
+      return mapped;
+    }
+  }
+
   if (typeNode.isArray) {
     if (!typeNode.baseType)
       return nullptr;
@@ -2746,22 +4087,32 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
   auto symbol = resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type);
   if (symbol && symbol->getKind() == SymbolKind::Type) {
     auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
+    if (!typeSymbol->genericParameterNames.empty()) {
+      typeSymbol = instantiateGenericTypeSymbol(typeSymbol, typeNode);
+      if (!typeSymbol) {
+        return nullptr;
+      }
+    } else if (!typeNode.genericArgs.empty()) {
+      error(typeNode.span, "Type '" + typeNode.qualifiedName() +
+                               "' is not generic.");
+      return nullptr;
+    }
     if (typeSymbol->isUnsafe) {
       requireUnsafeEnabled(typeNode.span, "unsafe struct types");
       requireUnsafeContext(typeNode.span, "unsafe struct types");
     }
     if (typeNode.isWeak) {
       if (!typeSymbol->isClass ||
-          symbol->type->getKind() != zir::TypeKind::Class) {
+          typeSymbol->type->getKind() != zir::TypeKind::Class) {
         error(typeNode.span, "'weak' can only be used with class types.");
         return nullptr;
       }
       auto weakType = std::make_shared<zir::ClassType>(
-          *std::static_pointer_cast<zir::ClassType>(symbol->type));
+          *std::static_pointer_cast<zir::ClassType>(typeSymbol->type));
       weakType->setWeak(true);
       return weakType;
     }
-    return symbol->type;
+    return typeSymbol->type;
   }
 
   return nullptr;
@@ -2859,6 +4210,9 @@ void Binder::visit(TypeAliasDecl &node) { (void)node; }
 void Binder::visit(RecordDecl &node) {
   auto symbol =
       std::dynamic_pointer_cast<TypeSymbol>(currentScope_->lookup(node.name_));
+  if (!symbol || !symbol->genericParameterNames.empty()) {
+    return;
+  }
   auto recordType = std::static_pointer_cast<zir::RecordType>(symbol->type);
 
   for (const auto &field : node.fields_) {
@@ -2878,6 +4232,9 @@ void Binder::visit(RecordDecl &node) {
 void Binder::visit(StructDeclarationNode &node) {
   auto symbol =
       std::dynamic_pointer_cast<TypeSymbol>(currentScope_->lookup(node.name_));
+  if (!symbol || !symbol->genericParameterNames.empty()) {
+    return;
+  }
   auto recordType = std::static_pointer_cast<zir::RecordType>(symbol->type);
   int oldUnsafeTypeContextDepth = unsafeTypeContextDepth_;
   int oldExternTypeContextDepth = externTypeContextDepth_;
@@ -2905,16 +4262,22 @@ void Binder::visit(StructDeclarationNode &node) {
 }
 
 void Binder::visit(StructLiteralNode &node) {
-  auto parts = splitQualified(node.type_name_);
+  if (!node.type_) {
+    error(node.span, "Missing struct literal type.");
+    return;
+  }
+
+  auto parts = splitQualified(node.type_->qualifiedName());
   auto symbol = resolveQualifiedSymbol(parts, node.span, SymbolKind::Type);
   if (!symbol || symbol->getKind() != SymbolKind::Type) {
-    error(node.span, "Unknown type: " + node.type_name_);
+    error(node.span, "Unknown type: " + node.type_->qualifiedName());
     return;
   }
 
   auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
-  if (typeSymbol->type->getKind() != zir::TypeKind::Record) {
-    error(node.span, "'" + node.type_name_ + "' is not a struct.");
+  auto mappedType = mapType(*node.type_);
+  if (!mappedType || mappedType->getKind() != zir::TypeKind::Record) {
+    error(node.span, "'" + node.type_->qualifiedName() + "' is not a struct.");
     return;
   }
 
@@ -2923,7 +4286,7 @@ void Binder::visit(StructLiteralNode &node) {
     requireUnsafeContext(node.span, "unsafe struct literals");
   }
 
-  auto recordType = std::static_pointer_cast<zir::RecordType>(typeSymbol->type);
+  auto recordType = std::static_pointer_cast<zir::RecordType>(mappedType);
   std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>>
       boundFields;
 
@@ -2949,7 +4312,7 @@ void Binder::visit(StructLiteralNode &node) {
 
     if (!found) {
       error(node.span, "Field '" + fieldInit.name + "' not found in struct '" +
-                           node.type_name_ + "'");
+                           node.type_->qualifiedName() + "'");
     }
 
     boundFields.push_back({fieldInit.name, std::move(boundVal)});
@@ -2964,8 +4327,9 @@ void Binder::visit(StructLiteralNode &node) {
       }
     }
     if (!initialized) {
-      error(node.span, "Field '" + f.name + "' of struct '" + node.type_name_ +
-                           "' is not initialized.");
+      error(node.span,
+            "Field '" + f.name + "' of struct '" + node.type_->qualifiedName() +
+                "' is not initialized.");
     }
   }
 

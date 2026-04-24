@@ -1,0 +1,29 @@
+class Box<T> {
+    priv value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+}
+
+fun unwrap<T>(box: Box<T>) T {
+    return box.get();
+}
+
+fun main() Int {
+    var intBox: Box<Int> = new Box<Int>(42);
+    if intBox.get() != 42 {
+        return 1;
+    }
+
+    var boolBox: Box<Bool> = new Box<Bool>(true);
+    if unwrap(boolBox) != true {
+        return 2;
+    }
+
+    return 0;
+}

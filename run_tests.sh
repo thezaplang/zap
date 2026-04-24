@@ -38,10 +38,10 @@ run_test() {
 
     ((TOTAL++))
     echo -n "Running $description ($file)... "
-    
+
     $ZAPC "$file" > /dev/null 2>&1
     local exit_code=$?
-    
+
     if [ $exit_code -eq $expected_exit_code ]; then
         echo -e "${GREEN}PASS${NC}"
         ((PASSED++))
@@ -371,6 +371,7 @@ run_runtime_test "tests/class_weak_test.zp" 0 "ARC supports weak references and 
 run_runtime_test "tests/class_weak_lock_test.zp" 0 "Weak references support alive() and lock()"
 run_runtime_test "tests/class_weak_nullable_test.zp" 0 "lock() results can be checked against null safely"
 run_runtime_test "tests/class_cycle_detect_test.zp" 0 "Cycle collector reclaims strong-reference cycles"
+run_runtime_test "tests/method_chaining_test.zp" 0 "Method chaining on call results"
 run_test "tests/class_weak_access_error.zp" 1 "Weak references cannot be dereferenced directly"
 run_runtime_test "tests/function_overload_test.zp" 0 "Function overloading prefers exact matches"
 run_runtime_test "tests/function_overload_named_args_test.zp" 0 "Function overloading supports named arguments"
@@ -386,8 +387,24 @@ run_runtime_test "tests/ref_test.zp" 0 "Reference type test"
 run_runtime_test "tests/varargs_syntax_test.zp" 0 "Variadic syntax (... and ...T)"
 run_runtime_test "tests/varargs_array_view_test.zp" 0 "Variadic array view (.len and index)"
 run_runtime_test "tests/varargs_forwarding_test.zp" 0 "Variadic forwarding"
+run_runtime_test "tests/class_constructor_inheritance_test.zp" 0 "Class constructor inheritance"
+run_runtime_test "tests/generic_function_test.zp" 0 "Generic functions (explicit and inferred type arguments)"
+run_test "tests/generic_function_error.zp" 1 "Generic function diagnostics (arity mismatch and inference failure)"
+run_runtime_test "tests/generic_default_args_test.zp" 0 "Generic default type arguments"
+run_runtime_test "tests/generic_where_test.zp" 0 "Generic where constraints"
+run_test "tests/generic_where_error.zp" 1 "Generic where diagnostics"
+run_runtime_test "tests/generic_iftype_test.zp" 0 "Generic compile-time iftype"
+run_test "tests/generic_iftype_error.zp" 1 "Generic iftype diagnostics"
+run_runtime_test "tests/generic_method_test.zp" 0 "Generic methods"
+run_runtime_test "tests/generic_method_in_generic_class_test.zp" 0 "Generic methods inside generic classes"
+run_runtime_test "tests/generic_struct_test.zp" 0 "Generic structs and records"
+run_test "tests/generic_struct_error.zp" 1 "Generic type diagnostics"
+run_runtime_test "tests/generic_class_test.zp" 0 "Generic classes"
+run_runtime_test "tests/generic_class_inheritance_test.zp" 0 "Generic class inheritance"
+run_test "tests/generic_class_error.zp" 1 "Generic class diagnostics"
 run_runtime_compile_args_test "tests/ext_c_varargs_test.zp" 0 "ext C varargs" --allow-unsafe
 run_runtime_test "tests/std_io_printf_test.zp" 0 "std/io printf wrappers"
+run_runtime_test "tests/list_std_test.zp" 0 "std/collection List"
 run_runtime_test "tests/import_public/main.zp" 0 "Importing a public function through file namespace"
 run_runtime_test "tests/import_flat/main.zp" 0 "Selective flat import with braces"
 run_runtime_test "tests/import_alias/main.zp" 0 "Selective import alias with as"
@@ -402,6 +419,7 @@ run_test "tests/import_cycle/main.zp" 1 "Cyclic imports are rejected"
 run_runtime_test "tests/import_type/main.zp" 0 "Using imported public struct types"
 run_runtime_test "tests/import_std_io/main.zp" 0 "Importing the builtin std/io module"
 run_runtime_test "tests/import_std_string/main.zp" 0 "Importing the builtin std/string module"
+run_runtime_test "tests/import_std_collection/main.zp" 0 "Importing the builtin std/collection module"
 run_runtime_test "tests/import_overload/main.zp" 0 "Importing overloaded functions through module namespace"
 run_test "tests/import_private_fail/main.zp" 1 "Private module member access is rejected"
 

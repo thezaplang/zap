@@ -1,0 +1,63 @@
+fun id<T>(value: T) T {
+    return value;
+}
+
+fun pickFirst<T>(a: T, b: T) T {
+    return a;
+}
+
+fun typeTag<T>(value: T) Int {
+    return 123;
+}
+
+fun main() Int {
+    // Explicit generic argument
+    var a: Int = id<Int>(42);
+    if a != 42 {
+        return 1;
+    }
+
+    // Inferred generic argument (Int)
+    var b: Int = id(7);
+    if b != 7 {
+        return 2;
+    }
+
+    // Explicit generic argument with Bool
+    var c: Bool = id<Bool>(true);
+    if c != true {
+        return 3;
+    }
+
+    // Inferred generic argument with Bool
+    var d: Bool = id(false);
+    if d != false {
+        return 4;
+    }
+
+    // Multiple parameters share inferred generic type
+    var e: Int = pickFirst(10, 20);
+    if e != 10 {
+        return 5;
+    }
+
+    // Multiple parameters with explicit generic argument
+    var f: Int = pickFirst<Int>(30, 40);
+    if f != 30 {
+        return 6;
+    }
+
+    // Generic function returning non-generic type
+    var g: Int = typeTag<Int>(2);
+    if g != 123 {
+        return 7;
+    }
+
+    // Same with inferred generic argument
+    var h: Int = typeTag(true);
+    if h != 123 {
+        return 8;
+    }
+
+    return 0;
+}

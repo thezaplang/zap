@@ -1,0 +1,8 @@
+import "std/collection";
+
+fun main() Int {
+  var xs: collection.List<Int> = new collection.List<Int>();
+  xs.push(3);
+  xs.push(4);
+  return xs.at(0) + xs.at(1) - 7;
+}

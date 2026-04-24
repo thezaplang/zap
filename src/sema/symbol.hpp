@@ -49,6 +49,9 @@ class FunctionSymbol : public Symbol {
 public:
   std::vector<std::shared_ptr<VariableSymbol>> parameters;
   std::shared_ptr<zir::Type> returnType;
+  std::vector<std::string> genericParameterNames;
+  bool isGenericInstantiation = false;
+  std::map<std::string, std::shared_ptr<zir::Type>> genericArguments;
   bool isUnsafe = false;
   bool isCVariadic = false;
   bool isMethod = false;
@@ -107,6 +110,9 @@ public:
 
 class TypeSymbol : public Symbol {
 public:
+  std::vector<std::string> genericParameterNames;
+  bool isGenericInstantiation = false;
+  std::map<std::string, std::shared_ptr<zir::Type>> genericArguments;
   bool isUnsafe = false;
   bool isClass = false;
   TypeSymbol(std::string n, std::shared_ptr<zir::Type> t, std::string link = "",

@@ -328,6 +328,10 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::REF;
       else if (identStr == "as")
         type = TokenType::AS;
+      else if (identStr == "where")
+        type = TokenType::WHERE;
+      else if (identStr == "iftype")
+        type = TokenType::IFTYPE;
       else if (identStr == "class")
         type = TokenType::CLASS;
       else if (identStr == "prot")

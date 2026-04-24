@@ -12,6 +12,7 @@ class VarDecl;
 class ConstDecl;
 class ReturnNode;
 class IfNode;
+class IfTypeNode;
 class WhileNode;
 class BreakNode;
 class ContinueNode;
@@ -62,6 +63,7 @@ struct Visitor
   virtual void visit(ConstDecl &) {}
   virtual void visit(ReturnNode &) {}
   virtual void visit(IfNode &) {}
+  virtual void visit(IfTypeNode &) {}
   virtual void visit(WhileNode &) {}
   virtual void visit(MemberAccessNode &) {}
   virtual void visit(BreakNode &) {}

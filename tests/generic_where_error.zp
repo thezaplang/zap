@@ -1,0 +1,22 @@
+class Animal {
+    pub fun sound() Int {
+        return 1;
+    }
+}
+
+class Cage<T> where T: Animal {
+    priv pet: T;
+
+    fun init(pet: T) {
+        self.pet = pet;
+    }
+}
+
+fun speak<T>(value: T) Int where T: Animal {
+    return value.sound();
+}
+
+fun main() Int {
+    var cage: Cage<Int> = new Cage<Int>(1);
+    return speak<Int>(1);
+}

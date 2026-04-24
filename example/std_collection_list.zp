@@ -1,0 +1,33 @@
+import "std/io" { printfln };
+import "std/collection";
+
+fun sum(values: collection.List<Int>) Int {
+    var total: Int = 0;
+    var i: Int = 0;
+
+    while i < values.len() {
+        total = total + values.at(i);
+        i = i + 1;
+    }
+
+    return total;
+}
+
+fun main() Int {
+    var numbers: collection.List<Int> = new collection.List<Int>();
+    numbers.push(10);
+    numbers.push(20);
+    numbers.pushFront(5);
+    numbers.insert(1, 7);
+
+    printfln("front=%d", numbers.front());
+    printfln("back=%d", numbers.back());
+    printfln("sum=%d", sum(numbers));
+
+    printfln("removed middle=%d", numbers.removeAt(1));
+    printfln("popped back=%d", numbers.popBack());
+    numbers.popFront();
+    printfln("after pop sum=%d", sum(numbers));
+
+    return 0;
+}

@@ -10,6 +10,8 @@ class TypeNode : public Node {
 public:
   std::string typeName;
   std::vector<std::string> qualifiers;
+  std::vector<std::unique_ptr<TypeNode>> genericArgs;
+  std::unique_ptr<TypeNode> defaultType;
   bool isReference = false;
   bool isPointer = false;
   bool isArray = false;

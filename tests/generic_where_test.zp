@@ -1,0 +1,48 @@
+class Animal {
+    pub fun sound() Int {
+        return 1;
+    }
+}
+
+class Dog : Animal {
+    pub fun sound() Int {
+        return 2;
+    }
+}
+
+class Cage<T> where T: Animal {
+    priv pet: T;
+
+    fun init(pet: T) {
+        self.pet = pet;
+    }
+
+    pub fun speak() Int {
+        return self.pet.sound();
+    }
+
+    pub fun inspect<U>(other: U) Int where U: Animal {
+        return other.sound();
+    }
+}
+
+fun speak<T>(value: T) Int where T: Animal {
+    return value.sound();
+}
+
+fun main() Int {
+    var dog: Dog = new Dog();
+    var cage: Cage<Dog> = new Cage<Dog>(dog);
+
+    if speak(dog) != 2 {
+        return 1;
+    }
+    if cage.speak() != 2 {
+        return 2;
+    }
+    if cage.inspect(dog) != 2 {
+        return 3;
+    }
+
+    return 0;
+}

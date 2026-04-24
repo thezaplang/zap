@@ -1,0 +1,6 @@
+fun bad() Int {
+    iftype T == Int {
+        return 1;
+    }
+    return 0;
+}

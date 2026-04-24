@@ -19,6 +19,7 @@
 #include "../ast/fun_call.hpp"
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
+#include "../ast/if_type_node.hpp"
 #include "../ast/import_node.hpp"
 #include "../ast/index_access.hpp"
 #include "../ast/class_decl.hpp"
@@ -86,6 +87,16 @@ public:
                                  std::unique_ptr<BodyNode> elseBody) {
     return std::make_unique<IfNode>(std::move(condition), std::move(thenBody),
                                     std::move(elseBody));
+  }
+
+  std::unique_ptr<IfTypeNode>
+  makeIfType(const std::string &parameterName,
+             std::unique_ptr<TypeNode> matchType,
+             std::unique_ptr<BodyNode> thenBody,
+             std::unique_ptr<BodyNode> elseBody) {
+    return std::make_unique<IfTypeNode>(parameterName, std::move(matchType),
+                                        std::move(thenBody),
+                                        std::move(elseBody));
   }
 
   std::unique_ptr<WhileNode>
@@ -195,8 +206,10 @@ public:
 
   std::unique_ptr<RecordDecl>
   makeRecordDecl(const std::string &name,
+                 std::vector<std::unique_ptr<TypeNode>> genericParams,
                  std::vector<std::unique_ptr<ParameterNode>> fields) {
-    return std::make_unique<RecordDecl>(name, std::move(fields));
+    return std::make_unique<RecordDecl>(name, std::move(genericParams),
+                                        std::move(fields));
   }
 
   std::unique_ptr<ClassDecl> makeClassDecl(const std::string &name) {

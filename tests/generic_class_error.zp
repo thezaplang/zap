@@ -1,0 +1,13 @@
+class Box<T> {
+    priv value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+}
+
+fun main() Int {
+    var a: Box = new Box(1);
+    var b: Box<Int, Bool> = new Box<Int, Bool>(2);
+    return 0;
+}

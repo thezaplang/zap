@@ -1,0 +1,41 @@
+class Base<T> {
+    prot value: T;
+
+    fun init(value: T) {
+        self.value = value;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+}
+
+class Derived<T> : Base<T> {
+    pub fun same() T {
+        return self.value;
+    }
+}
+
+fun unwrapBase<T>(base: Base<T>) T {
+    return base.get();
+}
+
+fun main() Int {
+    var derived: Derived<Int> = new Derived<Int>(42);
+    var base: Base<Int> = derived;
+
+    if derived.get() != 42 {
+        return 1;
+    }
+    if derived.same() != 42 {
+        return 2;
+    }
+    if base.get() != 42 {
+        return 3;
+    }
+    if unwrapBase(derived) != 42 {
+        return 4;
+    }
+
+    return 0;
+}

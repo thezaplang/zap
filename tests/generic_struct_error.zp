@@ -1,0 +1,9 @@
+struct Box<T> {
+    value: T
+}
+
+fun main() Int {
+    var a: Box = Box{ value: 1 };
+    var b: Box<Int, Bool> = Box<Int, Bool>{ value: 2 };
+    return 0;
+}

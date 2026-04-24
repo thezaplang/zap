@@ -1,4 +1,5 @@
 #pragma once
+#include "generic_constraint.hpp"
 #include "fun_decl.hpp"
 #include "parameter_node.hpp"
 #include "top_level.hpp"
@@ -9,6 +10,8 @@
 class ClassDecl : public TopLevel {
 public:
   std::string name_;
+  std::vector<std::unique_ptr<TypeNode>> genericParams_;
+  std::vector<GenericConstraint> genericConstraints_;
   std::unique_ptr<TypeNode> baseType_;
   std::vector<std::unique_ptr<ParameterNode>> fields_;
   std::vector<std::unique_ptr<FunDecl>> methods_;

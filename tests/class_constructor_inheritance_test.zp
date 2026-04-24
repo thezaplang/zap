@@ -1,0 +1,28 @@
+class Base {
+    prot value: Int;
+
+    fun init(value: Int) {
+        self.value = value;
+    }
+
+    pub fun get() Int {
+        return self.value;
+    }
+}
+
+class Derived : Base {
+}
+
+fun main() Int {
+    var derived: Derived = new Derived(42);
+    var base: Base = derived;
+
+    if derived.get() != 42 {
+        return 1;
+    }
+    if base.get() != 42 {
+        return 2;
+    }
+
+    return 0;
+}
