@@ -1,4 +1,4 @@
-option(ZAP_BUILD_REFERENCE "Build ZAP Doxygen Reference" OFF)
+option(ZAP_BUILD_REFERENCE "Build ZAP Doxygen Reference" ON)
 
 if(ZAP_BUILD_REFERENCE)
     find_package(Doxygen)
