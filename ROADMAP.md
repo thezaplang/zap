@@ -1,6 +1,6 @@
 ## Zap v0.2.0
 - [x] using pointers outside of unsafe{} (only dereferencing is unsafe)
-- [ ] generics (syntax like in C#)
+- [x] generics (syntax like in C#)
 - [ ] Cycle detection via reference count subtraction(the one we have now is just MVP which we need to replacd)
 - [ ] proper error handling via failable function
 - [ ] bit shifts
@@ -10,6 +10,6 @@
     - [ ] std/json
     - [ ] std/toml
     - [ ] more functions in std/fs
-    - [ ] std/map (HashMap)
+    - [x] std/map (HashMap)
     - [ ] std/crypto (SHA256, Blake-3, random)
     - [ ] std/random (generating random values)
