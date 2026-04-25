@@ -1,4 +1,4 @@
-import "std/prelude" { println, printInt, printBool, printFloat };
+import "std/io" { println, printInt, printBool, printFloat };
 
 struct Person {
     name: String,

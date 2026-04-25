@@ -26,7 +26,8 @@ bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
                               std::ostream &ofoutput);
 std::unique_ptr<zir::Module> generateZIRModule(sema::BoundRootNode &node);
 bool compileObjectFromZIR(sema::BoundRootNode &node,
-                          const std::string &output_path);
+                          const std::string &output_path,
+                          int optimization_level);
 namespace {
 
 bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
@@ -370,7 +371,8 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
       }
     }
 
-    if (compileObjectFromZIR(*boundAst, out_path.string())) {
+    if (compileObjectFromZIR(*boundAst, out_path.string(),
+                             drv.optimization_level)) {
       return true;
     }
 
@@ -404,6 +406,7 @@ bool driver::parseArgs(int argc, char **argv) {
   allow_unsafe = false;
   emit_llvm_text = false;
   emit_zir_text = false;
+  optimization_level = 0;
 
   for (size_t i = 0; i < args.size(); ++i) {
     auto arg = args[i];
@@ -421,7 +424,9 @@ bool driver::parseArgs(int argc, char **argv) {
           << "  -S              Compile only no assembling or linking\n"
           << "  -emit-llvm      Emit LLVM IR instead of final output\n"
           << "  -emit-zir       Emit ZIR instead of final output\n"
-          << "  --allow-unsafe  Enable unsafe blocks, unsafe functions, and raw pointers\n";
+          << "  --allow-unsafe  Enable unsafe blocks, unsafe functions, and raw pointers\n"
+          << "  -O, -O0..-O3    Set optimization level (default: -O0)\n"
+          << "  -O00..-O03      Alias for -O0..-O3\n";
       return false;
     } else if (arg == "--version") {
       out() << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
@@ -449,6 +454,18 @@ bool driver::parseArgs(int argc, char **argv) {
       emit_zir = true;
     } else if (arg == "--allow-unsafe") {
       allow_unsafe = true;
+    } else if (arg == "-O") {
+      optimization_level = 2;
+    } else if (arg.size() == 3 && arg.substr(0, 2) == "-O" &&
+               arg[2] >= '0' && arg[2] <= '3') {
+      optimization_level = static_cast<int>(arg[2] - '0');
+    } else if (arg.size() == 4 && arg.substr(0, 2) == "-O" &&
+               arg[2] == '0' && arg[3] >= '0' && arg[3] <= '3') {
+      optimization_level = static_cast<int>(arg[3] - '0');
+    } else if (arg.substr(0, 2) == "-O") {
+      reportError("invalid optimization level: ", arg,
+                  " (expected -O, -O0..-O3, or -O00..-O03)");
+      return false;
     } else if (arg.substr(0, 1) == "-") {
       reportError("unknown argument: ", arg);
       return false;
@@ -587,7 +604,8 @@ bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
 }
 
 bool compileObjectFromZIR(sema::BoundRootNode &node,
-                          const std::string &output_path) {
+                          const std::string &output_path,
+                          int optimization_level) {
   auto mod = generateZIRModule(node);
   if (!mod) {
     driver::reportError("failed to generate ZIR");
@@ -596,7 +614,7 @@ bool compileObjectFromZIR(sema::BoundRootNode &node,
 
   codegen::LLVMCodeGen llvmGen;
   llvmGen.generate(*mod);
-  if (!llvmGen.emitObjectFile(output_path)) {
+  if (!llvmGen.emitObjectFile(output_path, optimization_level)) {
     driver::reportError("object file emission failed");
     return true;
   }
@@ -647,7 +665,8 @@ bool driver::compileSourceFile(const std::string &source,
       }
     }
 
-    if (compileObjectFromZIR(*boundAst, out_path.string())) {
+    if (compileObjectFromZIR(*boundAst, out_path.string(),
+                             optimization_level)) {
       return true;
     }
 

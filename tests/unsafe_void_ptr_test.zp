@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 ext fun malloc(size: Int) *Void;
 ext fun free(ptr: *Void);

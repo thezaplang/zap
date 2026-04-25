@@ -1,4 +1,4 @@
-import "std/prelude" { printInt };
+import "std/io" { printInt };
 
 fun main() {
     var a: Int8 = 1;

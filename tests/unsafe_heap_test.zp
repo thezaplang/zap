@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 import "std/mem";
 
 unsafe fun sum_heap(ptr: *Int, count: Int) Int {

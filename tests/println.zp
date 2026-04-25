@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 fun main() Int {
     println("Hello, world!");

@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 fun main() Int {
     println("Line1\nLine2\tTabbed\\Backslash");

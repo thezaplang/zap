@@ -1,4 +1,4 @@
-import "std/prelude" { printInt };
+import "std/io" { printInt };
 
 struct Point {
     x: Int,

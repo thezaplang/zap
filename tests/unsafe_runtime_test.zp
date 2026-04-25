@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 unsafe fun write(ptr: *Int, value: Int) {
     *ptr = value;

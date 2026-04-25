@@ -13,6 +13,7 @@
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/Target/TargetOptions.h>
 #include <llvm/TargetParser/Host.h>
+#include <optional>
 #include <stdexcept>
 
 namespace codegen {
@@ -147,7 +148,8 @@ void LLVMCodeGen::printIR(llvm::raw_ostream &os) const {
     module_->print(os, nullptr);
 }
 
-bool LLVMCodeGen::emitObjectFile(const std::string &path) {
+bool LLVMCodeGen::emitObjectFile(const std::string &path,
+                                 int optimization_level) {
   auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
   llvm::Triple triple(targetTripleStr);
   module_->setTargetTriple(triple);
@@ -159,9 +161,25 @@ bool LLVMCodeGen::emitObjectFile(const std::string &path) {
     return false;
   }
 
+  if (optimization_level < 0) {
+    optimization_level = 0;
+  } else if (optimization_level > 3) {
+    optimization_level = 3;
+  }
+
+  llvm::CodeGenOptLevel codegenOptLevel = llvm::CodeGenOptLevel::None;
+  if (optimization_level == 1) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Less;
+  } else if (optimization_level == 2) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Default;
+  } else if (optimization_level == 3) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Aggressive;
+  }
+
   llvm::TargetOptions opts;
   auto *tm = target->createTargetMachine(triple, "generic", "", opts,
-                                         llvm::Reloc::PIC_);
+                                         llvm::Reloc::PIC_, std::nullopt,
+                                         codegenOptLevel);
   module_->setDataLayout(tm->createDataLayout());
 
   std::error_code ec;
@@ -894,7 +912,49 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
   case OpCode::Call: {
     const auto &callInst = static_cast<const CallInst &>(inst);
     std::vector<llvm::Value *> args;
-    auto *callee = functionMap_.at(callInst.getFunctionName());
+    auto calleeIt = functionMap_.find(callInst.getFunctionName());
+    if (calleeIt == functionMap_.end()) {
+      auto zirDeclIt = zirFunctionMap_.find(callInst.getFunctionName());
+      if (zirDeclIt != zirFunctionMap_.end()) {
+        declareZIRFunction(*zirDeclIt->second, true);
+        calleeIt = functionMap_.find(callInst.getFunctionName());
+      }
+    }
+    if (calleeIt == functionMap_.end()) {
+      auto *existing = module_->getFunction(callInst.getFunctionName());
+      if (!existing) {
+        std::vector<llvm::Type *> inferredParamTypes;
+        inferredParamTypes.reserve(callInst.getArguments().size());
+        for (size_t i = 0; i < callInst.getArguments().size(); ++i) {
+          bool isRef =
+              i < callInst.getArgumentIsRef().size() &&
+              callInst.getArgumentIsRef()[i];
+          auto *argTy = isRef ? lowerZIRValue(callInst.getArguments()[i])->getType()
+                              : lowerZIRRValue(callInst.getArguments()[i])->getType();
+          inferredParamTypes.push_back(argTy);
+        }
+
+        llvm::Type *retTy = llvm::Type::getVoidTy(ctx_);
+        if (callInst.getResult()) {
+          retTy = toLLVMType(*callInst.getResult()->getType());
+        }
+
+        auto *fnTy =
+            llvm::FunctionType::get(retTy, inferredParamTypes, false);
+        existing = llvm::Function::Create(
+            fnTy, llvm::Function::ExternalLinkage, callInst.getFunctionName(),
+            *module_);
+
+      }
+
+      functionMap_[callInst.getFunctionName()] = existing;
+      calleeIt = functionMap_.find(callInst.getFunctionName());
+    }
+    if (calleeIt == functionMap_.end()) {
+      throw std::runtime_error("missing callee in LLVM function map: " +
+                               callInst.getFunctionName());
+    }
+    auto *callee = calleeIt->second;
     auto *calleeTy = callee->getFunctionType();
     auto zirIt = zirFunctionMap_.find(callInst.getFunctionName());
     size_t fixedParamCount = callInst.getArguments().size();
@@ -1157,8 +1217,11 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
                                        *phiInst.getResult()).getRawName());
     bool phiOwnsClassValue = isClassType(phiInst.getResult()->getType());
     for (const auto &incoming : phiInst.getIncoming()) {
-      phi->addIncoming(lowerZIRValue(incoming.second),
-                       zirBlockMap_.at(incoming.first));
+      auto blockIt = zirBlockExitMap_.find(incoming.first);
+      auto *incomingBlock =
+          blockIt != zirBlockExitMap_.end() ? blockIt->second
+                                            : zirBlockMap_.at(incoming.first);
+      phi->addIncoming(lowerZIRValue(incoming.second), incomingBlock);
       if (phiOwnsClassValue &&
           zirOwnedClassValues_.count(incoming.second.get()) == 0) {
         phiOwnsClassValue = false;
@@ -1317,6 +1380,7 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
   zirPendingClassParamInitAllocas_.clear();
   zirFunctionClassLocals_.clear();
   zirParamSpillIndex_ = 0;
+  zirBlockExitMap_.clear();
 
   auto llvmArgIt = currentFn_->arg_begin();
   if (fn.name == "main") {
@@ -1393,6 +1457,13 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
         break;
       }
     }
+
+    auto *endBlock = builder_.GetInsertBlock();
+    if (endBlock && endBlock->getTerminator()) {
+      zirBlockExitMap_[block->label] = endBlock;
+    } else {
+      zirBlockExitMap_[block->label] = zirBlockMap_.at(block->label);
+    }
   }
 
   currentFn_ = nullptr;
@@ -1400,6 +1471,7 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
   zirBlockMap_.clear();
   zirValueMap_.clear();
   zirOwnedClassValues_.clear();
+  zirBlockExitMap_.clear();
   zirClassParamAllocas_.clear();
   zirPendingClassParamInitAllocas_.clear();
   zirFunctionClassLocals_.clear();

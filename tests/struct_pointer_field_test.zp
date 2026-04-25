@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 struct Box {
     ptr: *Int

@@ -25,7 +25,7 @@ public:
 
   void printIR(llvm::raw_ostream &) const;
 
-  bool emitObjectFile(const std::string &path);
+  bool emitObjectFile(const std::string &path, int optimization_level = 0);
 
   void visit(sema::BoundRootNode &node) override;
   void visit(sema::BoundFunctionDeclaration &node) override;
@@ -83,6 +83,7 @@ private:
   std::unique_ptr<ClassArcEmitter> arcEmitter_;
   std::unordered_map<const zir::Value *, llvm::Value *> zirValueMap_;
   std::unordered_map<std::string, llvm::BasicBlock *> zirBlockMap_;
+  std::unordered_map<std::string, llvm::BasicBlock *> zirBlockExitMap_;
   std::unordered_set<const zir::Value *> zirOwnedClassValues_;
   std::unordered_set<const zir::Value *> zirClassParamAllocas_;
   std::unordered_set<const zir::Value *> zirPendingClassParamInitAllocas_;

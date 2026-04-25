@@ -196,6 +196,7 @@ private:
   bool allow_unsafe = false;     ///< Allow unsafe language features.
   bool emit_llvm_text = false;   ///< Emit textual LLVM IR.
   bool emit_zir_text = false;    ///< Emit textual ZIR.
+  int optimization_level = 0;    ///< Optimization level (0-3).
   std::filesystem::path executable_path; ///< Path to the running executable.
 
   /// @brief Used internally by the compile() function.

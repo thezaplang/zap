@@ -388,7 +388,7 @@ Binder::findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
 
 std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
     const std::shared_ptr<FunctionSymbol> &baseFunction,
-    const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+    const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
         &genericBindings,
     SourceSpan callSpan) {
   if (!baseFunction) {
@@ -401,7 +401,10 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
 
   std::vector<std::string> missing;
   for (const auto &name : baseFunction->genericParameterNames) {
-    if (genericBindings.find(name) == genericBindings.end()) {
+    auto it = std::find_if(
+        genericBindings.begin(), genericBindings.end(),
+        [&](const auto &entry) { return entry.first == name; });
+    if (it == genericBindings.end()) {
       missing.push_back(name);
     }
   }
@@ -424,7 +427,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       cacheKey += ",";
     }
     const auto &name = baseFunction->genericParameterNames[i];
-    auto it = genericBindings.find(name);
+    auto it = std::find_if(
+        genericBindings.begin(), genericBindings.end(),
+        [&](const auto &entry) { return entry.first == name; });
     cacheKey += name + "=" + (it != genericBindings.end() && it->second
                                   ? it->second->toString()
                                   : std::string("<?>"));
@@ -453,21 +458,27 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
     return nullptr;
   }
 
+  std::unordered_map<std::string, std::shared_ptr<zir::Type>> genericBindingMap;
+  genericBindingMap.reserve(genericBindings.size());
+  for (const auto &[name, type] : genericBindings) {
+    genericBindingMap[name] = type;
+  }
+
   std::vector<std::shared_ptr<VariableSymbol>> instantiatedParams;
   instantiatedParams.reserve(baseFunction->parameters.size());
   for (const auto &param : baseFunction->parameters) {
-    auto instType = substituteGenericType(param->type, genericBindings);
+    auto instType = substituteGenericType(param->type, genericBindingMap);
     auto instParam = std::make_shared<VariableSymbol>(
         param->name, instType, param->is_const, param->is_ref, param->linkName,
         param->moduleName, param->visibility);
     instParam->is_variadic_pack = param->is_variadic_pack;
     instParam->variadic_element_type =
-        substituteGenericType(param->variadic_element_type, genericBindings);
+        substituteGenericType(param->variadic_element_type, genericBindingMap);
     instantiatedParams.push_back(std::move(instParam));
   }
 
   auto instantiatedReturn =
-      substituteGenericType(baseFunction->returnType, genericBindings);
+      substituteGenericType(baseFunction->returnType, genericBindingMap);
 
   auto instantiated = std::make_shared<FunctionSymbol>(
       baseFunction->name, std::move(instantiatedParams), instantiatedReturn, "",
@@ -477,11 +488,13 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
   instantiated->isStatic = baseFunction->isStatic;
   instantiated->isConstructor = baseFunction->isConstructor;
   instantiated->isDestructor = baseFunction->isDestructor;
-  instantiated->vtableSlot = baseFunction->vtableSlot;
+  instantiated->vtableSlot = -1;
   instantiated->ownerTypeName = baseFunction->ownerTypeName;
   instantiated->isGenericInstantiation = true;
-  instantiated->genericArguments = {
-      genericBindings.begin(), genericBindings.end()};
+  instantiated->genericArguments.clear();
+  for (const auto &[name, type] : genericBindings) {
+    instantiated->genericArguments[name] = type;
+  }
 
   std::string genericSuffix;
   for (size_t i = 0; i < baseFunction->genericParameterNames.size(); ++i) {
@@ -489,8 +502,14 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       genericSuffix += "$";
     }
     const auto &name = baseFunction->genericParameterNames[i];
-    const auto &ty = genericBindings.at(name);
-    genericSuffix += sanitizeTypeName(name + "_" + ty->toString());
+    auto it = std::find_if(
+        genericBindings.begin(), genericBindings.end(),
+        [&](const auto &entry) { return entry.first == name; });
+    if (it == genericBindings.end() || !it->second) {
+      error(callSpan, "Missing binding for generic parameter '" + name + "'.");
+      return nullptr;
+    }
+    genericSuffix += sanitizeTypeName(name + "_" + it->second->toString());
   }
   instantiated->linkName = baseFunction->linkName + "$g$" + genericSuffix;
 
@@ -734,6 +753,22 @@ bool Binder::validateGenericConstraints(
     }
   }
   return true;
+}
+
+std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
+Binder::orderedGenericBindings(
+    const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+        &genericBindings) const {
+  std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>> ordered;
+  ordered.reserve(genericBindings.size());
+  for (const auto &[name, type] : genericBindings) {
+    ordered.emplace_back(name, type);
+  }
+  std::sort(ordered.begin(), ordered.end(),
+            [](const auto &lhs, const auto &rhs) {
+              return lhs.first < rhs.first;
+            });
+  return ordered;
 }
 
 std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
@@ -3338,8 +3373,8 @@ void Binder::visit(FunCall &node) {
                                     : genericBindingFailure));
           return;
         }
-        funcSymbol = ensureGenericFunctionInstantiation(funcSymbol, genericBindings,
-                                                        node.span);
+        funcSymbol = ensureGenericFunctionInstantiation(
+            funcSymbol, orderedGenericBindings(genericBindings), node.span);
         if (!funcSymbol) {
           error(node.span, "Failed to instantiate generic method '" +
                                member->member_ + "'.");
@@ -3755,8 +3790,8 @@ void Binder::visit(FunCall &node) {
 
     std::shared_ptr<FunctionSymbol> resolvedSymbol = funcSymbol;
     if (!funcSymbol->genericParameterNames.empty()) {
-      resolvedSymbol =
-          ensureGenericFunctionInstantiation(funcSymbol, genericBindings, node.span);
+      resolvedSymbol = ensureGenericFunctionInstantiation(
+          funcSymbol, orderedGenericBindings(genericBindings), node.span);
       if (!resolvedSymbol) {
         rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
                                  "': failed to instantiate generic function");

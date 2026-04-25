@@ -11,6 +11,7 @@
 #include <stack>
 #include <string_view>
 #include <unordered_map>
+#include <vector>
 
 namespace sema {
 
@@ -164,7 +165,7 @@ private:
   std::shared_ptr<FunctionSymbol>
   ensureGenericFunctionInstantiation(
       const std::shared_ptr<FunctionSymbol> &baseFunction,
-      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+      const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
           &genericBindings,
       SourceSpan callSpan);
   std::unordered_map<std::string, std::shared_ptr<zir::Type>>
@@ -174,6 +175,10 @@ private:
       const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
       SourceSpan callSpan,
       std::string *failureReason = nullptr);
+  std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
+  orderedGenericBindings(
+      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          &genericBindings) const;
   std::shared_ptr<zir::Type> substituteGenericType(
       std::shared_ptr<zir::Type> type,
       const std::unordered_map<std::string, std::shared_ptr<zir::Type>>

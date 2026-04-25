@@ -1,4 +1,4 @@
-import "std/prelude" { println };
+import "std/io" { println };
 
 fun increment(ref x: Int) {
     x = x + 1;

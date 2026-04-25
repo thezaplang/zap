@@ -1,4 +1,4 @@
-import "std/prelude" { printChar };
+import "std/io" { printChar };
 
 fun main() Int {
     var greeting: String = "hello";
