@@ -1,0 +1,117 @@
+import "std/io";
+import "std/random";
+import "std/convert";
+import "std/string";
+
+const BIG_U64: UInt64 = 15726070495360670683;
+const PCG_MULT: UInt64 = 6364136223846793005;
+
+fun main() Int {
+    // Regression: UInt64 literals above Int64::MAX must parse/bind/codegen.
+    var big: UInt64 = BIG_U64;
+    if big != 15726070495360670683 {
+        return 1;
+    }
+
+    var mult: UInt64 = PCG_MULT;
+    if mult != 6364136223846793005 {
+        return 2;
+    }
+
+    // std/random should expose Rng as the flat primary name.
+    var rng: random.Rng = new random.Rng(42, 54);
+
+    var first: UInt = rng.nextUInt32();
+    var second: UInt = rng.nextUInt32();
+
+    // Determinism check: same seed/stream => same sequence.
+    var again: random.Rng = new random.Rng(42, 54);
+    if first != again.nextUInt32() {
+        return 3;
+    }
+    if second != again.nextUInt32() {
+        return 4;
+    }
+
+    // Aliases should remain usable.
+    var pcg: random.Pcg32 = new random.Pcg32(42, 54);
+    var rnd: random.Random = new random.Random(42, 54);
+    if pcg.nextUInt32() != rnd.nextUInt32() {
+        return 5;
+    }
+
+    // Range helpers stay inside bounds.
+    var i: Int = 0;
+    while i < 64 {
+        var x: Int = rng.nextRange(10, 20);
+        if x < 10 || x >= 20 {
+            return 6;
+        }
+
+        var y: Int = rng.nextRangeInclusive(1, 6);
+        if y < 1 || y > 6 {
+            return 7;
+        }
+
+        var u: UInt = rng.nextUIntBounded(100);
+        if u >= 100 {
+            return 8;
+        }
+
+        i = i + 1;
+    }
+
+    // chance() edges.
+    if rng.chance(0.0) {
+        return 9;
+    }
+    if !rng.chance(1.0) {
+        return 10;
+    }
+
+    // Float should be in [0, 1).
+    var f: Float64 = rng.nextFloat64();
+    if f < 0.0 || f >= 1.0 {
+        return 11;
+    }
+
+    // Free helper functions should accept Rng.
+    var helper: Int = random.randomRange(rng, 100, 110);
+    if helper < 100 || helper >= 110 {
+        return 12;
+    }
+
+    // C vararg promotion coverage:
+    // - UInt8/Int8/Bool/Char must be promoted to int-compatible values.
+    // - Float must be promoted to double for %f.
+    var smallU: UInt8 = 7;
+    var smallI: Int8 = -3;
+    var flag: Bool = true;
+    var ch: Char = 'A';
+    var flt: Float = 1.25;
+
+    if io.printf("%d", smallU) != 1 {
+        return 13;
+    }
+    if io.printf("%d", smallI) != 2 {
+        return 14;
+    }
+    if io.printf("%d", flag) != 1 {
+        return 15;
+    }
+    if io.printf("%c", ch) != 1 {
+        return 16;
+    }
+
+    // "1.250000" is 8 chars.
+    if io.printf("%f", flt) != 8 {
+        return 17;
+    }
+
+    // Avoid optimizer treating previous values as unused in weak builds.
+    if string.eq(convert.toString(helper), "") {
+        return 18;
+    }
+
+    return 0;
+}

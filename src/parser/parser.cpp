@@ -1047,7 +1047,6 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
   } else if (current.type == TokenType::INTEGER) {
     eat(TokenType::INTEGER);
 
-    int64_t val = 0;
     try {
       int base = 10;
       std::string parseValue = current.value;
@@ -1062,14 +1061,15 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
           parseValue = current.value.substr(2);
         }
       }
-      val = std::stoll(parseValue, nullptr, base);
+
+      (void)std::stoull(parseValue, nullptr, base);
     } catch (const std::exception &) {
       _diag.report(current.span, DiagnosticLevel::Error,
                    "Invalid integer literal: " + current.value);
       throw ParseError();
     }
 
-    auto constInt = _builder.makeConstInt(val);
+    auto constInt = _builder.makeConstInt(current.value);
     _builder.setSpan(constInt.get(), current.span);
     return constInt;
   } else if (current.type == TokenType::FLOAT) {

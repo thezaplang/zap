@@ -1,0 +1,48 @@
+import "std/io" { println, printInt, printBool, printFloat64, printfln };
+import "std/random";
+
+fun main() Int {
+    // Rng is the primary API in std/random
+    var rng: random.Rng = new random.Rng(123456789, 987654321);
+
+    println("== std/random (PCG32, Rng-first) ==");
+
+    // Basic values
+    var a: UInt = rng.nextUInt32();
+    var b: Int = rng.nextInt();
+    var c: Bool = rng.nextBool();
+    var d: Float64 = rng.nextFloat64();
+
+    printfln("nextUInt32: %d", a);
+    printfln("nextInt:    %d", b);
+    printfln("nextBool:   %d", c);
+    printfln("nextFloat64:%f", d);
+
+    // Ranges
+    var r1: Int = rng.nextRange(10, 20);          // [10, 20)
+    var r2: Int = rng.nextRangeInclusive(1, 6);   // [1, 6]
+    printfln("range [10,20): %d", r1);
+    printfln("dice [1,6]:    %d", r2);
+
+    // Chance helper
+    var hit: Bool = rng.chance(0.30);
+    println("chance(0.30) ->");
+    printBool(hit);
+
+    // Sequence sample (shuffle helper omitted for now)
+    var values: [8]Int = {1, 2, 3, 4, 5, 6, 7, 8};
+
+    println("sample values:");
+    var i: Int = 0;
+    while i < 8 {
+        var offset: Int = rng.nextRange(0, 100);
+        printInt(values[i] + offset);
+        i = i + 1;
+    }
+
+    // Free-function helpers also work with Rng
+    var x: Int = random.randomRange(rng, 100, 110);
+    printfln("helper randomRange [100,110): %d", x);
+
+    return 0;
+}

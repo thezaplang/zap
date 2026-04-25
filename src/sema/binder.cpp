@@ -2960,6 +2960,13 @@ void Binder::visit(BinExpr &node) {
     } else if (isNullType(rightType) &&
                leftType->getKind() == zir::TypeKind::Class) {
       right = wrapInCast(std::move(right), leftType);
+    } else if ((leftType->isInteger() && rightType->isInteger()) ||
+               (leftType->isFloatingPoint() && rightType->isFloatingPoint()) ||
+               (leftType->isInteger() && rightType->isFloatingPoint()) ||
+               (leftType->isFloatingPoint() && rightType->isInteger())) {
+      auto promotedType = getPromotedType(leftType, rightType);
+      left = wrapInCast(std::move(left), promotedType);
+      right = wrapInCast(std::move(right), promotedType);
     }
     resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
   } else if (node.op_ == "&&" || node.op_ == "||") {
@@ -3019,7 +3026,7 @@ void Binder::visit(TernaryExpr &node) {
 
 void Binder::visit(ConstInt &node) {
   expressionStack_.push(std::make_unique<BoundLiteral>(
-      std::to_string(node.value_),
+      node.value_,
       std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
 }
 

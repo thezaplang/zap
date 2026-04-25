@@ -345,6 +345,7 @@ run_runtime_test "tests/fs_extra_test.zp" 0 "Filesystem extra helpers"
 run_runtime_test "tests/path_test.zp" 0 "Path helpers"
 run_runtime_test "tests/math_test.zp" 0 "Math stdlib helpers"
 run_runtime_test "tests/std_network_test.zp" 0 "std/network low-level TCP primitives"
+run_runtime_test "tests/std_random_test.zp" 0 "std/random PCG32 helpers"
 run_compile_args_test "tests/valid.zp" "/tmp/zap-valid.ll" "Emit LLVM IR for a valid program" -S -emit-llvm
 run_compile_args_test "tests/logical_ops.zp" "/tmp/zap-logical.ll" "Emit LLVM IR for logical operators" -S -emit-llvm
 run_compile_args_test "tests/function_call_test.zp" "/tmp/zap-calls.ll" "Emit LLVM IR for function calls" -S -emit-llvm

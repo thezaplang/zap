@@ -12,4 +12,4 @@
     - [x] more functions in std/fs
     - [x] std/map (HashMap)
     - [ ] std/crypto (SHA256, Blake-3, random)
-    - [ ] std/random (generating random values)
+    - [x] std/random (generating random values)

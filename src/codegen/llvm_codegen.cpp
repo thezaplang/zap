@@ -18,6 +18,21 @@
 
 namespace codegen {
 namespace {
+uint64_t parseIntegerLiteral(const std::string &literal) {
+  if (literal.size() > 2 && literal[0] == '0') {
+    if (literal[1] == 'x' || literal[1] == 'X') {
+      return std::stoull(literal, nullptr, 16);
+    }
+    if (literal[1] == 'b' || literal[1] == 'B') {
+      return std::stoull(literal.substr(2), nullptr, 2);
+    }
+    if (literal[1] == 'o' || literal[1] == 'O') {
+      return std::stoull(literal.substr(2), nullptr, 8);
+    }
+  }
+  return std::stoull(literal, nullptr, 10);
+}
+
 bool isStringType(const std::shared_ptr<zir::Type> &type) {
   return type && type->getKind() == zir::TypeKind::Record &&
          static_cast<zir::RecordType *>(type.get())->getName() == "String";
@@ -451,10 +466,12 @@ llvm::Constant *LLVMCodeGen::lowerZIRConstant(const zir::Constant &constant) {
     if (literal == "null") {
       return llvm::ConstantInt::get(ty, 0, false);
     }
+    uint64_t unsignedValue = parseIntegerLiteral(literal);
     if (constant.getType()->isUnsigned()) {
-      return llvm::ConstantInt::get(ty, std::stoull(literal), false);
+      return llvm::ConstantInt::get(ty, unsignedValue, false);
     }
-    return llvm::ConstantInt::get(ty, std::stoll(literal), true);
+
+    return llvm::ConstantInt::get(ty, unsignedValue, true);
   }
   if (ty->isFloatTy()) {
     return llvm::ConstantFP::get(ty, std::stof(literal));
@@ -603,8 +620,12 @@ llvm::Value *LLVMCodeGen::lowerZIRCast(
     unsigned srcBits = srcTy->getIntegerBitWidth();
     unsigned destBits = destTy->getIntegerBitWidth();
     if (destBits > srcBits) {
-      return sourceType->isUnsigned() ? builder_.CreateZExt(src, destTy)
-                                      : builder_.CreateSExt(src, destTy);
+      bool shouldZeroExtend =
+          sourceType->isUnsigned() ||
+          sourceType->getKind() == zir::TypeKind::Bool ||
+          sourceType->getKind() == zir::TypeKind::Char;
+      return shouldZeroExtend ? builder_.CreateZExt(src, destTy)
+                              : builder_.CreateSExt(src, destTy);
     }
     if (destBits < srcBits) {
       return builder_.CreateTrunc(src, destTy);
@@ -1110,6 +1131,31 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
         auto *argPtrTy = llvm::dyn_cast<llvm::PointerType>(arg->getType());
         if (argPtrTy && !paramTy->isPointerTy()) {
           arg = builder_.CreateLoad(paramTy, arg, "zir.call.arg");
+        }
+      } else if (isCVariadic && i >= fixedParamCount) {
+        // C varargs default argument promotions:
+        // - integer types narrower than int -> int
+        // - float -> double
+        // (already-typed varargs keep their value category)
+        auto *argTy = arg->getType();
+        if (argTy->isIntegerTy()) {
+          unsigned bits = argTy->getIntegerBitWidth();
+          if (bits < 32) {
+            auto argType = callInst.getArguments()[i]
+                               ? callInst.getArguments()[i]->getType()
+                               : nullptr;
+            bool isUnsignedArg =
+                argType &&
+                (argType->isUnsigned() ||
+                 argType->getKind() == zir::TypeKind::Bool ||
+                 argType->getKind() == zir::TypeKind::Char);
+            auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
+            arg = isUnsignedArg ? builder_.CreateZExt(arg, i32Ty, "cvararg.zext")
+                                : builder_.CreateSExt(arg, i32Ty, "cvararg.sext");
+          }
+        } else if (argTy->isFloatTy()) {
+          auto *f64Ty = llvm::Type::getDoubleTy(ctx_);
+          arg = builder_.CreateFPExt(arg, f64Ty, "cvararg.fpext");
         }
       }
       bool isBorrowedSelfArg =
@@ -2041,12 +2087,13 @@ void LLVMCodeGen::visit(sema::BoundLiteral &node) {
     }
     lastValue_ = llvm::ConstantInt::get(ty, code, /*isSigned=*/false);
   } else if (ty->isIntegerTy()) {
+    uint64_t unsignedValue = parseIntegerLiteral(node.value);
     if (node.type->isUnsigned()) {
-      lastValue_ = llvm::ConstantInt::get(ty, std::stoull(node.value),
+      lastValue_ = llvm::ConstantInt::get(ty, unsignedValue,
                                           /*isSigned=*/false);
     } else {
       lastValue_ =
-          llvm::ConstantInt::get(ty, std::stoll(node.value), /*isSigned=*/true);
+          llvm::ConstantInt::get(ty, unsignedValue, /*isSigned=*/true);
     }
   } else if (ty->isFloatTy()) {
     lastValue_ = llvm::ConstantFP::get(ty, std::stof(node.value));

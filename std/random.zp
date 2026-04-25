@@ -1,0 +1,158 @@
+ * no very large decimal UInt64 literals in consts
+
+import "std/convert" as convert;
+
+const PCG32_MULT: UInt64 = 6364136223846793005;
+
+pub class Rng {
+  priv state: UInt64;
+  priv inc: UInt64;
+
+  // Default deterministic constructor
+  pub fun init() {
+    self.state = 0;
+    self.inc = 0;
+    // Small decimal defaults to avoid literal parser issues.
+    self.seed(42, 54);
+  }
+
+  // Seeded constructor
+  pub fun init(seed: UInt64, stream: UInt64) {
+    self.state = 0;
+    self.inc = 0;
+    self.seed(seed, stream);
+  }
+
+  // Re-seed generator.
+  // Increment must be odd for PCG.
+  pub fun seed(seed: UInt64, stream: UInt64) {
+    self.state = 0;
+    self.inc = (stream << 1) | 1;
+    self.nextUInt32();
+    self.state = self.state + seed;
+    self.nextUInt32();
+  }
+
+  // Core PCG32 output (XSH-RR 64/32)
+  pub fun nextUInt32() UInt {
+    var oldState: UInt64 = self.state;
+    self.state = oldState * PCG32_MULT + self.inc;
+
+    var xorshifted64: UInt64 = ((oldState >> 18) ^ oldState) >> 27;
+    var xorshifted: UInt = xorshifted64 & 0xFFFF_FFFF;
+
+    var rot64: UInt64 = oldState >> 59;
+    var rot: UInt = rot64 & 31;
+
+    var right: UInt = xorshifted >> rot;
+    var leftShift: UInt = (32 - rot) & 31;
+    var left: UInt = (xorshifted << leftShift) & 0xFFFF_FFFF;
+
+    return (right | left) & 0xFFFF_FFFF;
+  }
+
+  // Random Int in positive 31-bit range
+  pub fun nextInt() Int {
+    var v: UInt = self.nextUInt32();
+    return v >> 1;
+  }
+
+  pub fun nextBool() Bool {
+    return (self.nextUInt32() & 1) == 1;
+  }
+
+  // Uniform [0, 1)
+  pub fun nextFloat64() Float64 {
+    return convert.toFloat64(self.nextUInt32()) / 4294967296.0;
+  }
+
+  // Uniform [0, 1)
+  pub fun nextFloat() Float {
+    return self.nextFloat64();
+  }
+
+  // Uniform [0, upperExclusive), unbiased via rejection sampling
+  pub fun nextUIntBounded(upperExclusive: UInt) UInt {
+    if upperExclusive == 0 {
+      return 0;
+    }
+
+    var threshold: UInt = (0 - upperExclusive) % upperExclusive;
+
+    while true {
+      var r: UInt = self.nextUInt32();
+      if r >= threshold {
+        return r % upperExclusive;
+      }
+    }
+
+    return 0;
+  }
+
+  // Uniform [minInclusive, maxExclusive)
+  pub fun nextRange(minInclusive: Int, maxExclusive: Int) Int {
+    if maxExclusive <= minInclusive {
+      return minInclusive;
+    }
+
+    var span: Int = maxExclusive - minInclusive;
+    var spanU: UInt = span;
+    var off: UInt = self.nextUIntBounded(spanU);
+    return minInclusive + off;
+  }
+
+  // Uniform [minInclusive, maxInclusive]
+  pub fun nextRangeInclusive(minInclusive: Int, maxInclusive: Int) Int {
+    if maxInclusive < minInclusive {
+      return minInclusive;
+    }
+
+    var span: Int = (maxInclusive - minInclusive) + 1;
+    var spanU: UInt = span;
+    var off: UInt = self.nextUIntBounded(spanU);
+    return minInclusive + off;
+  }
+
+  pub fun chance(probability: Float64) Bool {
+    if probability <= 0.0 {
+      return false;
+    }
+    if probability >= 1.0 {
+      return true;
+    }
+    return self.nextFloat64() < probability;
+  }
+}
+
+// Compatibility aliases
+pub alias Pcg32 = Rng;
+pub alias Random = Rng;
+
+// Helper free functions
+pub fun randomUInt32(rng: Rng) UInt {
+  return rng.nextUInt32();
+}
+
+pub fun randomInt(rng: Rng) Int {
+  return rng.nextInt();
+}
+
+pub fun randomBool(rng: Rng) Bool {
+  return rng.nextBool();
+}
+
+pub fun randomFloat64(rng: Rng) Float64 {
+  return rng.nextFloat64();
+}
+
+pub fun randomFloat(rng: Rng) Float {
+  return rng.nextFloat();
+}
+
+pub fun randomRange(rng: Rng, minInclusive: Int, maxExclusive: Int) Int {
+  return rng.nextRange(minInclusive, maxExclusive);
+}
+
+pub fun randomRangeInclusive(rng: Rng, minInclusive: Int, maxInclusive: Int) Int {
+  return rng.nextRangeInclusive(minInclusive, maxInclusive);
+}

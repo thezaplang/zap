@@ -23,6 +23,7 @@
 #include "../ast/import_node.hpp"
 #include "../ast/index_access.hpp"
 #include "../ast/class_decl.hpp"
+#include "../ast/member_access.hpp"
 #include "../ast/new_expr.hpp"
 #include "../ast/parameter_node.hpp"
 #include "../ast/record_decl.hpp"
@@ -154,6 +155,10 @@ public:
 
   std::unique_ptr<ConstInt> makeConstInt(int64_t value) {
     return std::make_unique<ConstInt>(value);
+  }
+
+  std::unique_ptr<ConstInt> makeConstInt(const std::string &rawLiteralText) {
+    return std::make_unique<ConstInt>(rawLiteralText);
   }
 
   std::unique_ptr<ConstFloat> makeConstFloat(double value) {

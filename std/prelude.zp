@@ -15,3 +15,11 @@ pub import "std/network" {
   send, recv, resolve,
   lastErrorCode, makeError, lastError, fail
 };
+pub import "std/random" {
+  Rng, Random, Pcg32,
+  randomUInt32, randomInt, randomBool,
+  randomFloat64, randomFloat,
+  randomRange, randomRangeInclusive
+};
+pub alias Random = Rng;
+pub alias Pcg32 = Rng;
