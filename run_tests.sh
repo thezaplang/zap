@@ -480,6 +480,9 @@ run_runtime_test "tests/import_std_string/main.zp" 0 "Importing the builtin std/
 run_runtime_test "tests/import_std_collection/main.zp" 0 "Importing the builtin std/collection module"
 run_runtime_test "tests/import_overload/main.zp" 0 "Importing overloaded functions through module namespace"
 run_test "tests/import_private_fail/main.zp" 1 "Private module member access is rejected"
+run_runtime_test "tests/reexport_pub_import/main.zp" 0 "Public re-export chain exposes nested symbols through top-level module"
+run_runtime_test "tests/reexport_pub_import/main_direct.zp" 0 "Direct import from intermediate module sees deep public re-export"
+run_runtime_test "tests/reexport_pub_import/main_nested.zp" 0 "Deeply nested public re-export chain remains accessible"
 
 # Advanced diagnostics regression tests (codes + help notes + cascade behavior)
 run_diagnostic_code_test "tests/diagnostics/01_caret_alignment.zp" 1 "Diagnostics: caret alignment and semantic codes" S2002 S2003 S2009 N1000

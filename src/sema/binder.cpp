@@ -1848,6 +1848,9 @@ void Binder::applyImports(ModuleState &module, bool allowIncomplete) {
       if (import.bindings.empty()) {
         if (import.visibility == Visibility::Public) {
           module.symbol->exports[alias] = target.symbol;
+          for (const auto &exported : target.symbol->exports) {
+            module.symbol->exports[exported.first] = exported.second;
+          }
         }
         continue;
       }

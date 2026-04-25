@@ -1,0 +1,13 @@
+import "std/io" { printInt };
+import "a/cos.zp";
+
+fun main() Int {
+  var value: Int = cos.gleboko();
+  printInt(value);
+
+  if value != 73 {
+    return 1;
+  }
+
+  return 0;
+}
