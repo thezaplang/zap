@@ -76,17 +76,18 @@ var NAVTREEINDEX =
 "annotated.html",
 "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html#a876dd381f6fa2736733bd2f23e90454f",
 "d2/d9e/classsema_1_1BoundEnumDeclaration.html",
-"d3/d28/classzap_1_1DiagnosticEngine.html#ab4485f2bc0035ea2a478e78867ad7dd0",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a87fe59ef12c3d13dc2a4d14c9b16c1f9",
-"d6/d6f/classsema_1_1BoundUnaryExpression.html#af9a9bcc75d118fa84d8857f3d84194f0",
-"d8/d6d/classzir_1_1LoadInst.html#acd7332beac910ca938410446fa753ff7",
-"d9/d59/classNewExpr.html#a3e684643deab3600e0727bc91d1ac430",
-"da/de1/classzir_1_1RecordType.html#ae6314d160618f733727b7c2bc9825cf5",
-"db/d85/classsema_1_1BoundLiteral.html#a710689e4530cf77b77c53412a1ba553b",
-"dc/d2c/classsema_1_1Binder.html#a1b5988ad8a5654ac23fd7d10675da16b",
-"dc/d90/classzir_1_1Function.html#aa04f7194612768e9ab808bff3c89ae9d",
-"de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff",
-"df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a"
+"d3/d28/classzap_1_1DiagnosticEngine.html#a9d9cf1310f3abb8bbe62d054bb9df182",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4dc014d38d8f5ea326043e8491cfb6a3",
+"d5/df9/const__id_8hpp_source.html",
+"d8/d65/classTopLevel.html#a8ecfad20602b6b8fc4d93d0e9d1ae36a",
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#aa4ea5606e1c5268c7c1c1346bc105147",
+"da/de1/classzir_1_1RecordType.html#a23eb1992007fb74d2ef4b503eacb762e",
+"db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5",
+"dc/d2c/classsema_1_1Binder.html#a06f5a71b5e991386e82ed23d3585da1c",
+"dc/d46/classsema_1_1BoundVariableExpression.html#afe4522f259f71d5ebaf8ba2634965693",
+"de/d14/classsema_1_1OverloadSetSymbol.html#aa2611f6651e32e6fae0c5b919b728b8b",
+"df/d31/classzir_1_1CallInst.html#a7f237bd48a868b5b3c6bc3dde54bf82b",
+"functions_vars_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

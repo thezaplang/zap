@@ -65,6 +65,9 @@ $(function(){initNavTree('d1/d49/diagnostics_8hpp.html','../../',''); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d4/d44/token_8hpp_source.html">../token/token.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;ostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -82,6 +85,7 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:zap" id="r_zap"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html">zap</a></td></tr>
+<tr class="memitem:zap_3A_3Adetail" id="r_zap_3A_3Adetail"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html">zap::detail</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -93,6 +97,25 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">zap::Error</a>
 <br />
  }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a29f591a0552384688b0bef1fa58f5200" id="r_a29f591a0552384688b0bef1fa58f5200"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a29f591a0552384688b0bef1fa58f5200">zap::detail::tabWidth</a> ()</td></tr>
+<tr class="memitem:a2b967ef21a91d7d8c6024ff6cb09759a" id="r_a2b967ef21a91d7d8c6024ff6cb09759a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a2b967ef21a91d7d8c6024ff6cb09759a">zap::detail::isUtf8ContinuationByte</a> (unsigned char c)</td></tr>
+<tr class="memitem:abc46d5e2263a7c5fb10d5e23ab9cd55d" id="r_abc46d5e2263a7c5fb10d5e23ab9cd55d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#abc46d5e2263a7c5fb10d5e23ab9cd55d">zap::detail::utf8CodePointLength</a> (unsigned char lead)</td></tr>
+<tr class="memitem:a5a7229df2b4d21553fa6b3be7a7bfc2c" id="r_a5a7229df2b4d21553fa6b3be7a7bfc2c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a5a7229df2b4d21553fa6b3be7a7bfc2c">zap::detail::decodeUtf8At</a> (const std::string &amp;s, size_t i, size_t *lenOut)</td></tr>
+<tr class="memitem:ad08c88644a0ec68ccee0cec0aa76825c" id="r_ad08c88644a0ec68ccee0cec0aa76825c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#ad08c88644a0ec68ccee0cec0aa76825c">zap::detail::isCombining</a> (uint32_t cp)</td></tr>
+<tr class="memitem:aaa5bfdc749950e973e748a4865f981d5" id="r_aaa5bfdc749950e973e748a4865f981d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#aaa5bfdc749950e973e748a4865f981d5">zap::detail::isWide</a> (uint32_t cp)</td></tr>
+<tr class="memitem:a2288dee88cd509d0df785742ce1d46fb" id="r_a2288dee88cd509d0df785742ce1d46fb"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a2288dee88cd509d0df785742ce1d46fb">zap::detail::displayWidthOfCodePoint</a> (uint32_t cp, size_t currentColumn)</td></tr>
+<tr class="memitem:aa72f3526d59960e9117f067d1422d28e" id="r_aa72f3526d59960e9117f067d1422d28e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#aa72f3526d59960e9117f067d1422d28e">zap::detail::findLineStartByOffset</a> (const std::string &amp;source, size_t offset)</td></tr>
+<tr class="memitem:ab0eba498e7c31e10c2ef00b72aa2994f" id="r_ab0eba498e7c31e10c2ef00b72aa2994f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#ab0eba498e7c31e10c2ef00b72aa2994f">zap::detail::findLineStartByLine</a> (const std::string &amp;source, size_t line1)</td></tr>
+<tr class="memitem:afce630a1d3ea819c96bde7379b8b5c6c" id="r_afce630a1d3ea819c96bde7379b8b5c6c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#afce630a1d3ea819c96bde7379b8b5c6c">zap::detail::findLineEnd</a> (const std::string &amp;source, size_t lineStart)</td></tr>
+<tr class="memitem:a535173ceece1e84b3918c35066d86d58" id="r_a535173ceece1e84b3918c35066d86d58"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a535173ceece1e84b3918c35066d86d58">zap::detail::clampToCodePointBoundary</a> (const std::string &amp;s, size_t pos)</td></tr>
+<tr class="memitem:a8b213037ba196e2f908fb2e015e5d08b" id="r_a8b213037ba196e2f908fb2e015e5d08b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a8b213037ba196e2f908fb2e015e5d08b">zap::detail::visualColumnsForBytes</a> (const std::string &amp;line, size_t bytesUpto)</td></tr>
+<tr class="memitem:a5531f950675545147f4bbc8aa5ec5c57" id="r_a5531f950675545147f4bbc8aa5ec5c57"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a5531f950675545147f4bbc8aa5ec5c57">zap::detail::expandTabsForDisplay</a> (const std::string &amp;line)</td></tr>
+<tr class="memitem:a8ef9daef2101239d359d560fab8ed0ab" id="r_a8ef9daef2101239d359d560fab8ed0ab"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#a8ef9daef2101239d359d560fab8ed0ab">zap::detail::computeUnderlineColumns</a> (const <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;span, const std::string &amp;lineContent, size_t lineStartOffset)</td></tr>
+<tr class="memitem:af571caafb9aa20dfcc3c56f65d4218bc" id="r_af571caafb9aa20dfcc3c56f65d4218bc"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#af571caafb9aa20dfcc3c56f65d4218bc">zap::detail::levelToText</a> (<a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level)</td></tr>
+<tr class="memitem:ad80aee2dfa3b59367575dd9973d717c8" id="r_ad80aee2dfa3b59367575dd9973d717c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68e">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/namespacezap_1_1detail.html#ad80aee2dfa3b59367575dd9973d717c8">zap::detail::levelToColor</a> (<a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

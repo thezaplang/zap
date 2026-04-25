@@ -44,6 +44,7 @@ var classsema_1_1Binder =
     [ "predeclareModuleValues", "dc/d2c/classsema_1_1Binder.html#a045752f8b71b813ade10a7e0e89c653b", null ],
     [ "pushScope", "dc/d2c/classsema_1_1Binder.html#a01b4915c8ce786bdbb0276ac007c0d11", null ],
     [ "renderFunctionSignature", "dc/d2c/classsema_1_1Binder.html#aef0145b7965fe5773e759e79f2df0325", null ],
+    [ "renderTypeForUser", "dc/d2c/classsema_1_1Binder.html#a44cfd49bf53378610dd5ed7da1fd47a1", null ],
     [ "requireUnsafeContext", "dc/d2c/classsema_1_1Binder.html#a4e58d2ba78ed963f9021ad4a34abc526", null ],
     [ "requireUnsafeEnabled", "dc/d2c/classsema_1_1Binder.html#a64ddb362113bbcfb70b5512b10b5417a", null ],
     [ "resolveModuleMember", "dc/d2c/classsema_1_1Binder.html#a1a2507a662eead217f5ba1e64b84e015", null ],

@@ -16,6 +16,24 @@ var namespacezap =
     [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
       [ "qualifiedNameFromExpression", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html#a05f2998a2f843ce15a663ecb08b93391", null ]
     ] ],
+    [ "detail", "d5/d59/namespacezap_1_1detail.html", [
+      [ "clampToCodePointBoundary", "d5/d59/namespacezap_1_1detail.html#a535173ceece1e84b3918c35066d86d58", null ],
+      [ "computeUnderlineColumns", "d5/d59/namespacezap_1_1detail.html#a8ef9daef2101239d359d560fab8ed0ab", null ],
+      [ "decodeUtf8At", "d5/d59/namespacezap_1_1detail.html#a5a7229df2b4d21553fa6b3be7a7bfc2c", null ],
+      [ "displayWidthOfCodePoint", "d5/d59/namespacezap_1_1detail.html#a2288dee88cd509d0df785742ce1d46fb", null ],
+      [ "expandTabsForDisplay", "d5/d59/namespacezap_1_1detail.html#a5531f950675545147f4bbc8aa5ec5c57", null ],
+      [ "findLineEnd", "d5/d59/namespacezap_1_1detail.html#afce630a1d3ea819c96bde7379b8b5c6c", null ],
+      [ "findLineStartByLine", "d5/d59/namespacezap_1_1detail.html#ab0eba498e7c31e10c2ef00b72aa2994f", null ],
+      [ "findLineStartByOffset", "d5/d59/namespacezap_1_1detail.html#aa72f3526d59960e9117f067d1422d28e", null ],
+      [ "isCombining", "d5/d59/namespacezap_1_1detail.html#ad08c88644a0ec68ccee0cec0aa76825c", null ],
+      [ "isUtf8ContinuationByte", "d5/d59/namespacezap_1_1detail.html#a2b967ef21a91d7d8c6024ff6cb09759a", null ],
+      [ "isWide", "d5/d59/namespacezap_1_1detail.html#aaa5bfdc749950e973e748a4865f981d5", null ],
+      [ "levelToColor", "d5/d59/namespacezap_1_1detail.html#ad80aee2dfa3b59367575dd9973d717c8", null ],
+      [ "levelToText", "d5/d59/namespacezap_1_1detail.html#af571caafb9aa20dfcc3c56f65d4218bc", null ],
+      [ "tabWidth", "d5/d59/namespacezap_1_1detail.html#a29f591a0552384688b0bef1fa58f5200", null ],
+      [ "utf8CodePointLength", "d5/d59/namespacezap_1_1detail.html#abc46d5e2263a7c5fb10d5e23ab9cd55d", null ],
+      [ "visualColumnsForBytes", "d5/d59/namespacezap_1_1detail.html#a8b213037ba196e2f908fb2e015e5d08b", null ]
+    ] ],
     [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
     [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],
     [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ],

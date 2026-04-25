@@ -1,5 +1,6 @@
 var structzap_1_1Diagnostic =
 [
+    [ "code", "df/d01/structzap_1_1Diagnostic.html#ad245f2920d5ed045eaba6b1400170a63", null ],
     [ "fileName", "df/d01/structzap_1_1Diagnostic.html#a23d0092171ab41228cb07a1632609ac5", null ],
     [ "level", "df/d01/structzap_1_1Diagnostic.html#a9f647e2578b03f5cdf8af46435444cf1", null ],
     [ "message", "df/d01/structzap_1_1Diagnostic.html#ad3496ee5e4773cf5634fe5b7ba7ec849", null ],

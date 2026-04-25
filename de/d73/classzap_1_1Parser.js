@@ -1,6 +1,10 @@
 var classzap_1_1Parser =
 [
     [ "ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", "da/d27/classzap_1_1Parser_1_1ParseError" ],
+    [ "SyncContext", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738", [
+      [ "TopLevel", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738adaa4ad87b52566898a9a6df85657c082", null ],
+      [ "Block", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738ae1e4c8c9ccd9fc39c391da4bcd093fb2", null ]
+    ] ],
     [ "Parser", "de/d73/classzap_1_1Parser.html#a85c1fb8b8217496350e1954e645c125b", null ],
     [ "~Parser", "de/d73/classzap_1_1Parser.html#aa7900c527039704ee27c1d70b5ca1d56", null ],
     [ "eat", "de/d73/classzap_1_1Parser.html#aaea717b0e4f1121665e4e032f2d1729e", null ],
@@ -47,7 +51,7 @@ var classzap_1_1Parser =
     [ "parseWhile", "de/d73/classzap_1_1Parser.html#a72a65896a7bb3a3e559c72710fc72e11", null ],
     [ "peek", "de/d73/classzap_1_1Parser.html#af7c39bd6c0b177459239660fe41c9508", null ],
     [ "pointAfter", "de/d73/classzap_1_1Parser.html#a57e77e0f2aca3e2d5b05b0a87b5f97f7", null ],
-    [ "synchronize", "de/d73/classzap_1_1Parser.html#a3f5d4a920af34d98ba504788802fd49b", null ],
+    [ "synchronize", "de/d73/classzap_1_1Parser.html#a8b8ae4d3a7ae9a382ffb4a414f0d4e16", null ],
     [ "typeNodeFromQualifiedExpression", "de/d73/classzap_1_1Parser.html#a9c28de7f6f99698bea80383a60118066", null ],
     [ "_allowStructLiteral", "de/d73/classzap_1_1Parser.html#a1fa665efdd44c7efc59f0fca9ce85cf7", null ],
     [ "_builder", "de/d73/classzap_1_1Parser.html#aec42d55fba5a979324980392c8532518", null ],
