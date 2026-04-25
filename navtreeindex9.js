@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"db/d34/ir__generator_8cpp_source.html":[3,0,0,3,3],
+"db/d37/classsema_1_1BoundFunctionDeclaration.html":[1,0,3,28],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html":[2,0,2,27],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#a0b00118e83f28e11740994d9bdc71689":[1,0,3,28,3],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#a0b00118e83f28e11740994d9bdc71689":[2,0,2,27,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "dc/d13/structVisitor.html#aff18e89f74ba4a3159fee80a2e2fa2cf":[2,0,55,31],
 "dc/d2c/classsema_1_1Binder.html":[1,0,3,1],
 "dc/d2c/classsema_1_1Binder.html":[2,0,2,0],
-"dc/d2c/classsema_1_1Binder.html#a01a71150e0e5f616f82745c38d6092b8":[1,0,3,1,78],
-"dc/d2c/classsema_1_1Binder.html#a01a71150e0e5f616f82745c38d6092b8":[2,0,2,0,78],
-"dc/d2c/classsema_1_1Binder.html#a01b4915c8ce786bdbb0276ac007c0d11":[1,0,3,1,43]
+"dc/d2c/classsema_1_1Binder.html#a01a71150e0e5f616f82745c38d6092b8":[1,0,3,1,78]
 };
