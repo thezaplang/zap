@@ -2387,29 +2387,35 @@ Binder::resolveQualifiedSymbol(const std::vector<std::string> &parts,
     return nullptr;
   }
 
-  if (parts.size() == 1) {
-    auto symbol = lookupVisibleSymbol(parts.front());
-    if (!symbol) {
-      error(span, "Undefined identifier: " + parts.front());
-      return nullptr;
-    }
-    if (!allowAnyKind && symbol->getKind() != expectedKind &&
-        !(expectedKind == SymbolKind::Function &&
-          symbol->getKind() == SymbolKind::OverloadSet)) {
-      return nullptr;
-    }
-    return symbol;
-  }
-
-  if (parts.size() != 2) {
-    error(span, "Only single-level module qualification is supported.");
-    return nullptr;
-  }
-
-  auto symbol = resolveModuleMember(parts[0], parts[1], span);
+  auto symbol = lookupVisibleSymbol(parts.front());
   if (!symbol) {
+    error(span, "Undefined identifier: " + parts.front());
     return nullptr;
   }
+
+  for (size_t i = 1; i < parts.size(); ++i) {
+    auto moduleSym = std::dynamic_pointer_cast<ModuleSymbol>(symbol);
+    if (!moduleSym) {
+      error(span, "'" + parts[i - 1] + "' is not a module.");
+      return nullptr;
+    }
+
+    auto memberIt = moduleSym->exports.find(parts[i]);
+    if (memberIt == moduleSym->exports.end()) {
+      auto privateIt = moduleSym->members.find(parts[i]);
+      if (privateIt != moduleSym->members.end()) {
+        error(span, "Member '" + parts[i] + "' of module '" +
+                        moduleSym->name + "' is private.");
+      } else {
+        error(span, "Module '" + moduleSym->name + "' has no member '" +
+                        parts[i] + "'.");
+      }
+      return nullptr;
+    }
+
+    symbol = memberIt->second;
+  }
+
   if (!allowAnyKind && symbol->getKind() != expectedKind &&
       !(expectedKind == SymbolKind::Function &&
         symbol->getKind() == SymbolKind::OverloadSet)) {
@@ -3220,15 +3226,16 @@ void Binder::visit(MemberAccessNode &node) {
   expressionStack_.pop();
 
   if (auto moduleRef = dynamic_cast<BoundModuleReference *>(left.get())) {
-    auto memberIt = moduleRef->symbol->members.find(node.member_);
-    if (memberIt == moduleRef->symbol->members.end()) {
-      error(node.span, "Module '" + moduleRef->symbol->name +
-                           "' has no member '" + node.member_ + "'");
-      return;
-    }
-    if (memberIt->second->visibility != Visibility::Public) {
-      error(node.span, "Member '" + node.member_ + "' of module '" +
-                           moduleRef->symbol->name + "' is private.");
+    auto memberIt = moduleRef->symbol->exports.find(node.member_);
+    if (memberIt == moduleRef->symbol->exports.end()) {
+      auto privateIt = moduleRef->symbol->members.find(node.member_);
+      if (privateIt != moduleRef->symbol->members.end()) {
+        error(node.span, "Member '" + node.member_ + "' of module '" +
+                             moduleRef->symbol->name + "' is private.");
+      } else {
+        error(node.span, "Module '" + moduleRef->symbol->name +
+                             "' has no member '" + node.member_ + "'");
+      }
       return;
     }
 
