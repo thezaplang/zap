@@ -197,6 +197,7 @@ private:
   bool emit_llvm_text = false;   ///< Emit textual LLVM IR.
   bool emit_zir_text = false;    ///< Emit textual ZIR.
   int optimization_level = 0;    ///< Optimization level (0-3).
+  std::vector<std::string> linker_args; ///< Extra linker arguments (e.g. -lSDL2, -L/path).
   std::filesystem::path executable_path; ///< Path to the running executable.
 
   /// @brief Used internally by the compile() function.

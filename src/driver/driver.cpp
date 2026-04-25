@@ -395,6 +395,7 @@ bool driver::parseArgs(int argc, char **argv) {
   for (int i = 1; i < argc; ++i) {
     args.emplace_back(argv[i]);
   }
+  linker_args.clear();
 
   bool emit_llvm = false;
   bool emit_zir = false;
@@ -425,6 +426,10 @@ bool driver::parseArgs(int argc, char **argv) {
           << "  -emit-llvm      Emit LLVM IR instead of final output\n"
           << "  -emit-zir       Emit ZIR instead of final output\n"
           << "  --allow-unsafe  Enable unsafe blocks, unsafe functions, and raw pointers\n"
+          << "  -l<name>        Link with library <name> (forwarded to system linker)\n"
+          << "  -L<dir>         Add <dir> to library search path (forwarded to linker)\n"
+          << "  -l <name>       Same as -l<name>\n"
+          << "  -L <dir>        Same as -L<dir>\n"
           << "  -O, -O0..-O3    Set optimization level (default: -O0)\n"
           << "  -O00..-O03      Alias for -O0..-O3\n";
       return false;
@@ -466,6 +471,18 @@ bool driver::parseArgs(int argc, char **argv) {
       reportError("invalid optimization level: ", arg,
                   " (expected -O, -O0..-O3, or -O00..-O03)");
       return false;
+    } else if (arg == "-l" || arg == "-L") {
+      if (i + 1 < args.size()) {
+        linker_args.emplace_back(std::string(arg));
+        linker_args.emplace_back(std::string(args[++i]));
+      } else {
+        reportError("argument to '", arg, "' is missing");
+        return false;
+      }
+    } else if (arg.size() > 2 && arg.substr(0, 2) == "-l") {
+      linker_args.emplace_back(std::string(arg));
+    } else if (arg.size() > 2 && arg.substr(0, 2) == "-L") {
+      linker_args.emplace_back(std::string(arg));
     } else if (arg.substr(0, 1) == "-") {
       reportError("unknown argument: ", arg);
       return false;
@@ -709,6 +726,10 @@ bool driver::link() {
 
   for (const auto &obj : objects) {
     cmd += obj.string() + " ";
+  }
+
+  for (const auto &arg : linker_args) {
+    cmd += arg + " ";
   }
 
   cmd += "-lm ";
