@@ -12,6 +12,7 @@ var classAstBuilder =
     [ "makeConstDecl", "de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f", null ],
     [ "makeConstFloat", "de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850", null ],
     [ "makeConstId", "de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e", null ],
+    [ "makeConstInt", "de/d56/classAstBuilder.html#a53421c33d6e9727c21286f26f03b82ee", null ],
     [ "makeConstInt", "de/d56/classAstBuilder.html#abff2047bcc19919f5ae546ee79246fab", null ],
     [ "makeConstNull", "de/d56/classAstBuilder.html#a97c1e5a8af9ab231edc200cec1978812", null ],
     [ "makeConstString", "de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f", null ],

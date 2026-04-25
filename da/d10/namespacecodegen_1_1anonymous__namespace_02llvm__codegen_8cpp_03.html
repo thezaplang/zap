@@ -66,6 +66,7 @@ $(function(){initNavTree('da/d10/namespacecodegen_1_1anonymous__namespace_02llvm
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a4a4a0b9545b7b947169091a94a0df575" id="r_a4a4a0b9545b7b947169091a94a0df575"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a4a0b9545b7b947169091a94a0df575">parseIntegerLiteral</a> (const std::string &amp;literal)</td></tr>
 <tr class="memitem:a380165df1f48789b28989b860e9b71ac" id="r_a380165df1f48789b28989b860e9b71ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a380165df1f48789b28989b860e9b71ac">isStringType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 <tr class="memitem:acdaa0f68d652dee32c037ada65aeddb1" id="r_acdaa0f68d652dee32c037ada65aeddb1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdaa0f68d652dee32c037ada65aeddb1">isVariadicViewType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 </table>
@@ -85,18 +86,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>                                                      {</div>
-<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">   23</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())-&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>() == <span class="stringliteral">&quot;String&quot;</span>;</div>
-<div class="line"><span class="lineno">   24</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00036">36</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>                                                      {</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">   38</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())-&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>() == <span class="stringliteral">&quot;String&quot;</span>;</div>
+<div class="line"><span class="lineno">   39</span>}</div>
 <div class="ttc" id="aclasszir_1_1RecordType_html"><div class="ttname"><a href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00123">type.hpp:123</a></div></div>
 <div class="ttc" id="aclasszir_1_1RecordType_html_a0bbbb00719716290a60850a809054510"><div class="ttname"><a href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">zir::RecordType::getName</a></div><div class="ttdeci">const std::string &amp; getName() const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00156">type.hpp:156</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00027">type.hpp:27</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">zir::RecordType::getName()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">isStringType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">zir::RecordType::getName()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00036">isStringType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">isStringType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00036">isStringType()</a>.</p>
 
 </div>
 </div>
@@ -115,17 +116,54 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>                                                            {</div>
-<div class="line"><span class="lineno">   27</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">   28</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())</div>
-<div class="line"><span class="lineno">   29</span>                 -&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>()</div>
-<div class="line"><span class="lineno">   30</span>                 .rfind(<span class="stringliteral">&quot;__zap_varargs_&quot;</span>, 0) == 0;</div>
-<div class="line"><span class="lineno">   31</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00041">41</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>                                                            {</div>
+<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">   43</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())</div>
+<div class="line"><span class="lineno">   44</span>                 -&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>()</div>
+<div class="line"><span class="lineno">   45</span>                 .rfind(<span class="stringliteral">&quot;__zap_varargs_&quot;</span>, 0) == 0;</div>
+<div class="line"><span class="lineno">   46</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">zir::RecordType::getName()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">isVariadicViewType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00156">zir::RecordType::getName()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00041">isVariadicViewType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::Record</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">isVariadicViewType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00041">isVariadicViewType()</a>.</p>
+
+</div>
+</div>
+<a id="a4a4a0b9545b7b947169091a94a0df575" name="a4a4a0b9545b7b947169091a94a0df575"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4a0b9545b7b947169091a94a0df575">&#9670;&#160;</a></span>parseIntegerLiteral()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t codegen::anonymous_namespace{llvm_codegen.cpp}::parseIntegerLiteral </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>literal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>                                                       {</div>
+<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">if</span> (literal.size() &gt; 2 &amp;&amp; literal[0] == <span class="charliteral">&#39;0&#39;</span>) {</div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span> (literal[1] == <span class="charliteral">&#39;x&#39;</span> || literal[1] == <span class="charliteral">&#39;X&#39;</span>) {</div>
+<div class="line"><span class="lineno">   24</span>      <span class="keywordflow">return</span> std::stoull(literal, <span class="keyword">nullptr</span>, 16);</div>
+<div class="line"><span class="lineno">   25</span>    }</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">if</span> (literal[1] == <span class="charliteral">&#39;b&#39;</span> || literal[1] == <span class="charliteral">&#39;B&#39;</span>) {</div>
+<div class="line"><span class="lineno">   27</span>      <span class="keywordflow">return</span> std::stoull(literal.substr(2), <span class="keyword">nullptr</span>, 2);</div>
+<div class="line"><span class="lineno">   28</span>    }</div>
+<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">if</span> (literal[1] == <span class="charliteral">&#39;o&#39;</span> || literal[1] == <span class="charliteral">&#39;O&#39;</span>) {</div>
+<div class="line"><span class="lineno">   30</span>      <span class="keywordflow">return</span> std::stoull(literal.substr(2), <span class="keyword">nullptr</span>, 8);</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="line"><span class="lineno">   32</span>  }</div>
+<div class="line"><span class="lineno">   33</span>  <span class="keywordflow">return</span> std::stoull(literal, <span class="keyword">nullptr</span>, 10);</div>
+<div class="line"><span class="lineno">   34</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">parseIntegerLiteral()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00021">parseIntegerLiteral()</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,9 @@
 var NAVTREEINDEX5 =
 {
+"d5/df1/var__decl_8hpp.html":[3,0,0,0,37],
+"d5/df1/var__decl_8hpp_source.html":[3,0,0,0,37],
+"d5/df4/new__expr_8hpp.html":[3,0,0,0,21],
+"d5/df4/new__expr_8hpp_source.html":[3,0,0,0,21],
 "d5/df9/const__id_8hpp.html":[3,0,0,0,0,3],
 "d5/df9/const__id_8hpp_source.html":[3,0,0,0,0,3],
 "d5/dff/classUnsafeBlockNode.html":[2,0,53],
@@ -245,9 +249,5 @@ var NAVTREEINDEX5 =
 "d8/d4b/classsema_1_1BoundStructLiteral.html#a6a1911f9bd3d33a2fec0d55c5d15469f":[1,0,3,33,0],
 "d8/d4b/classsema_1_1BoundStructLiteral.html#a6a1911f9bd3d33a2fec0d55c5d15469f":[2,0,2,32,0],
 "d8/d4b/classsema_1_1BoundStructLiteral.html#a8e628c799d688bea36ad8b3dd934d7fb":[1,0,3,33,2],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#a8e628c799d688bea36ad8b3dd934d7fb":[2,0,2,32,2],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ab3d0622e130ce501355d768d9463ac42":[1,0,3,33,1],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ab3d0622e130ce501355d768d9463ac42":[2,0,2,32,1],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800":[1,0,3,33,3],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800":[2,0,2,32,3]
+"d8/d4b/classsema_1_1BoundStructLiteral.html#a8e628c799d688bea36ad8b3dd934d7fb":[2,0,2,32,2]
 };
