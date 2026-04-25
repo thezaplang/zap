@@ -137,6 +137,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a79a53752b0ce05542c38b6c22081ea7a" id="r_a79a53752b0ce05542c38b6c22081ea7a"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79a53752b0ce05542c38b6c22081ea7a">isFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
 <tr class="memitem:add0c4e5bcf70e64f979559a2f0840414" id="r_add0c4e5bcf70e64f979559a2f0840414"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add0c4e5bcf70e64f979559a2f0840414">isDir</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
 <tr class="memitem:a3f33e88f5e22588aa7ceac746049bf06" id="r_a3f33e88f5e22588aa7ceac746049bf06"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f33e88f5e22588aa7ceac746049bf06">zap_fs_mkdir</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a02a3d9bb1019d243dedf2a11d8e0d963" id="r_a02a3d9bb1019d243dedf2a11d8e0d963"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02a3d9bb1019d243dedf2a11d8e0d963">zap_fs_remove</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
+<tr class="memitem:a3250f3959022e05749acfde61d2e6427" id="r_a3250f3959022e05749acfde61d2e6427"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3250f3959022e05749acfde61d2e6427">zap_fs_rename</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> from, <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> to)</td></tr>
 <tr class="memitem:a24aabb9a7a72cec1b5b68eef67665cdd" id="r_a24aabb9a7a72cec1b5b68eef67665cdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24aabb9a7a72cec1b5b68eef67665cdd">readFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path)</td></tr>
 <tr class="memitem:a1385884eb69bec52509538ca561e37d2" id="r_a1385884eb69bec52509538ca561e37d2"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1385884eb69bec52509538ca561e37d2">writeFile</a> (<a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> path, <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a> content)</td></tr>
 <tr class="memitem:ae0c5685dec040535258039d52f208307" id="r_ae0c5685dec040535258039d52f208307"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a> (const char *start, size_t <a class="el" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>)</td></tr>
@@ -603,7 +605,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00053">zap::detail::decodeUtf8At()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00193">zap::detail::expandTabsForDisplay()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00375">getLn()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00229">printStringPtrLen()</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00098">SourceSpan::SourceSpan()</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00006">Lexer::tokenize()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00171">zap::detail::visualColumnsForBytes()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00671">zap_copy_string_range()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00257">zap_string_to_cstr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00053">zap::detail::decodeUtf8At()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00193">zap::detail::expandTabsForDisplay()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00375">getLn()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00229">printStringPtrLen()</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00098">SourceSpan::SourceSpan()</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00006">Lexer::tokenize()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00171">zap::detail::visualColumnsForBytes()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">zap_copy_string_range()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00257">zap_string_to_cstr()</a>.</p>
 
 </div>
 </div>
@@ -622,22 +624,22 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00841">841</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  841</span>                                {</div>
-<div class="line"><span class="lineno">  842</span>  <span class="keywordflow">if</span> (listenerFd &lt; 0) {</div>
-<div class="line"><span class="lineno">  843</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  844</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  845</span>  }</div>
-<div class="line"><span class="lineno">  846</span> </div>
-<div class="line"><span class="lineno">  847</span>  <span class="keywordtype">int</span> fd = accept((<span class="keywordtype">int</span>)listenerFd, NULL, NULL);</div>
-<div class="line"><span class="lineno">  848</span>  <span class="keywordflow">if</span> (fd &lt; 0) {</div>
-<div class="line"><span class="lineno">  849</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
-<div class="line"><span class="lineno">  850</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  851</span>  }</div>
-<div class="line"><span class="lineno">  852</span> </div>
-<div class="line"><span class="lineno">  853</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
-<div class="line"><span class="lineno">  854</span>  <span class="keywordflow">return</span> fd;</div>
-<div class="line"><span class="lineno">  855</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00880">880</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  880</span>                                {</div>
+<div class="line"><span class="lineno">  881</span>  <span class="keywordflow">if</span> (listenerFd &lt; 0) {</div>
+<div class="line"><span class="lineno">  882</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  883</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  884</span>  }</div>
+<div class="line"><span class="lineno">  885</span> </div>
+<div class="line"><span class="lineno">  886</span>  <span class="keywordtype">int</span> fd = accept((<span class="keywordtype">int</span>)listenerFd, NULL, NULL);</div>
+<div class="line"><span class="lineno">  887</span>  <span class="keywordflow">if</span> (fd &lt; 0) {</div>
+<div class="line"><span class="lineno">  888</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
+<div class="line"><span class="lineno">  889</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  890</span>  }</div>
+<div class="line"><span class="lineno">  891</span> </div>
+<div class="line"><span class="lineno">  892</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
+<div class="line"><span class="lineno">  893</span>  <span class="keywordflow">return</span> fd;</div>
+<div class="line"><span class="lineno">  894</span>}</div>
 <div class="ttc" id="astdlib_8c_html_a99e86328bbbbf2de33d1b505100c3838"><div class="ttname"><a href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a></div><div class="ttdeci">static int zap_net_last_error</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00036">stdlib.c:36</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
@@ -659,21 +661,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00857">857</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  857</span>                       {</div>
-<div class="line"><span class="lineno">  858</span>  <span class="keywordflow">if</span> (fd &lt; 0) {</div>
-<div class="line"><span class="lineno">  859</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  860</span>    <span class="keywordflow">return</span> EINVAL;</div>
-<div class="line"><span class="lineno">  861</span>  }</div>
-<div class="line"><span class="lineno">  862</span> </div>
-<div class="line"><span class="lineno">  863</span>  <span class="keywordflow">if</span> (close((<span class="keywordtype">int</span>)fd) != 0) {</div>
-<div class="line"><span class="lineno">  864</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
-<div class="line"><span class="lineno">  865</span>    <span class="keywordflow">return</span> errno;</div>
-<div class="line"><span class="lineno">  866</span>  }</div>
-<div class="line"><span class="lineno">  867</span> </div>
-<div class="line"><span class="lineno">  868</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
-<div class="line"><span class="lineno">  869</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  870</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00896">896</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  896</span>                       {</div>
+<div class="line"><span class="lineno">  897</span>  <span class="keywordflow">if</span> (fd &lt; 0) {</div>
+<div class="line"><span class="lineno">  898</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  899</span>    <span class="keywordflow">return</span> EINVAL;</div>
+<div class="line"><span class="lineno">  900</span>  }</div>
+<div class="line"><span class="lineno">  901</span> </div>
+<div class="line"><span class="lineno">  902</span>  <span class="keywordflow">if</span> (close((<span class="keywordtype">int</span>)fd) != 0) {</div>
+<div class="line"><span class="lineno">  903</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
+<div class="line"><span class="lineno">  904</span>    <span class="keywordflow">return</span> errno;</div>
+<div class="line"><span class="lineno">  905</span>  }</div>
+<div class="line"><span class="lineno">  906</span> </div>
+<div class="line"><span class="lineno">  907</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
+<div class="line"><span class="lineno">  908</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  909</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
@@ -698,50 +700,50 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00739">739</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  739</span>                                              {</div>
-<div class="line"><span class="lineno">  740</span>  <span class="keywordflow">if</span> (!host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || port &lt;= 0 || port &gt; 65535) {</div>
-<div class="line"><span class="lineno">  741</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  742</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  743</span>  }</div>
-<div class="line"><span class="lineno">  744</span> </div>
-<div class="line"><span class="lineno">  745</span>  <span class="keywordtype">char</span> *host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
-<div class="line"><span class="lineno">  746</span>  <span class="keywordflow">if</span> (!host_buf) {</div>
-<div class="line"><span class="lineno">  747</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
-<div class="line"><span class="lineno">  748</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  749</span>  }</div>
-<div class="line"><span class="lineno">  750</span> </div>
-<div class="line"><span class="lineno">  751</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
-<div class="line"><span class="lineno">  752</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#ab9233f0d166b2d17263dd24fbe56c9fd">zap_net_bind_addrinfo</a>(host_buf, port, SOCK_STREAM, 0, &amp;res) != 0) {</div>
-<div class="line"><span class="lineno">  753</span>    free(host_buf);</div>
-<div class="line"><span class="lineno">  754</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  755</span>  }</div>
-<div class="line"><span class="lineno">  756</span> </div>
-<div class="line"><span class="lineno">  757</span>  <span class="keywordtype">long</span> out_fd = -1;</div>
-<div class="line"><span class="lineno">  758</span>  <span class="keywordtype">int</span> last_err = ECONNREFUSED;</div>
-<div class="line"><span class="lineno">  759</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
-<div class="line"><span class="lineno">  760</span>    <span class="keywordtype">int</span> fd = socket(it-&gt;ai_family, it-&gt;ai_socktype, it-&gt;ai_protocol);</div>
-<div class="line"><span class="lineno">  761</span>    <span class="keywordflow">if</span> (fd &lt; 0) {</div>
-<div class="line"><span class="lineno">  762</span>      last_err = errno;</div>
-<div class="line"><span class="lineno">  763</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  764</span>    }</div>
-<div class="line"><span class="lineno">  765</span> </div>
-<div class="line"><span class="lineno">  766</span>    <span class="keywordflow">if</span> (connect(fd, it-&gt;ai_addr, it-&gt;ai_addrlen) == 0) {</div>
-<div class="line"><span class="lineno">  767</span>      out_fd = fd;</div>
-<div class="line"><span class="lineno">  768</span>      last_err = 0;</div>
-<div class="line"><span class="lineno">  769</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  770</span>    }</div>
-<div class="line"><span class="lineno">  771</span> </div>
-<div class="line"><span class="lineno">  772</span>    last_err = errno;</div>
-<div class="line"><span class="lineno">  773</span>    close(fd);</div>
-<div class="line"><span class="lineno">  774</span>  }</div>
-<div class="line"><span class="lineno">  775</span> </div>
-<div class="line"><span class="lineno">  776</span>  freeaddrinfo(res);</div>
-<div class="line"><span class="lineno">  777</span>  free(host_buf);</div>
-<div class="line"><span class="lineno">  778</span> </div>
-<div class="line"><span class="lineno">  779</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = last_err;</div>
-<div class="line"><span class="lineno">  780</span>  <span class="keywordflow">return</span> out_fd;</div>
-<div class="line"><span class="lineno">  781</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00778">778</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  778</span>                                              {</div>
+<div class="line"><span class="lineno">  779</span>  <span class="keywordflow">if</span> (!host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || port &lt;= 0 || port &gt; 65535) {</div>
+<div class="line"><span class="lineno">  780</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  781</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  782</span>  }</div>
+<div class="line"><span class="lineno">  783</span> </div>
+<div class="line"><span class="lineno">  784</span>  <span class="keywordtype">char</span> *host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
+<div class="line"><span class="lineno">  785</span>  <span class="keywordflow">if</span> (!host_buf) {</div>
+<div class="line"><span class="lineno">  786</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
+<div class="line"><span class="lineno">  787</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  788</span>  }</div>
+<div class="line"><span class="lineno">  789</span> </div>
+<div class="line"><span class="lineno">  790</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
+<div class="line"><span class="lineno">  791</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#ab9233f0d166b2d17263dd24fbe56c9fd">zap_net_bind_addrinfo</a>(host_buf, port, SOCK_STREAM, 0, &amp;res) != 0) {</div>
+<div class="line"><span class="lineno">  792</span>    free(host_buf);</div>
+<div class="line"><span class="lineno">  793</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  794</span>  }</div>
+<div class="line"><span class="lineno">  795</span> </div>
+<div class="line"><span class="lineno">  796</span>  <span class="keywordtype">long</span> out_fd = -1;</div>
+<div class="line"><span class="lineno">  797</span>  <span class="keywordtype">int</span> last_err = ECONNREFUSED;</div>
+<div class="line"><span class="lineno">  798</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
+<div class="line"><span class="lineno">  799</span>    <span class="keywordtype">int</span> fd = socket(it-&gt;ai_family, it-&gt;ai_socktype, it-&gt;ai_protocol);</div>
+<div class="line"><span class="lineno">  800</span>    <span class="keywordflow">if</span> (fd &lt; 0) {</div>
+<div class="line"><span class="lineno">  801</span>      last_err = errno;</div>
+<div class="line"><span class="lineno">  802</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  803</span>    }</div>
+<div class="line"><span class="lineno">  804</span> </div>
+<div class="line"><span class="lineno">  805</span>    <span class="keywordflow">if</span> (connect(fd, it-&gt;ai_addr, it-&gt;ai_addrlen) == 0) {</div>
+<div class="line"><span class="lineno">  806</span>      out_fd = fd;</div>
+<div class="line"><span class="lineno">  807</span>      last_err = 0;</div>
+<div class="line"><span class="lineno">  808</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  809</span>    }</div>
+<div class="line"><span class="lineno">  810</span> </div>
+<div class="line"><span class="lineno">  811</span>    last_err = errno;</div>
+<div class="line"><span class="lineno">  812</span>    close(fd);</div>
+<div class="line"><span class="lineno">  813</span>  }</div>
+<div class="line"><span class="lineno">  814</span> </div>
+<div class="line"><span class="lineno">  815</span>  freeaddrinfo(res);</div>
+<div class="line"><span class="lineno">  816</span>  free(host_buf);</div>
+<div class="line"><span class="lineno">  817</span> </div>
+<div class="line"><span class="lineno">  818</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = last_err;</div>
+<div class="line"><span class="lineno">  819</span>  <span class="keywordflow">return</span> out_fd;</div>
+<div class="line"><span class="lineno">  820</span>}</div>
 <div class="ttc" id="astdlib_8c_html_ab9233f0d166b2d17263dd24fbe56c9fd"><div class="ttname"><a href="#ab9233f0d166b2d17263dd24fbe56c9fd">zap_net_bind_addrinfo</a></div><div class="ttdeci">static int zap_net_bind_addrinfo(const char *host, long port, int socktype, int flags, struct addrinfo **out)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00526">stdlib.c:526</a></div></div>
 <div class="ttc" id="astdlib_8c_html_ae9123704f1b7c7d41e2854f51ee55174"><div class="ttname"><a href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a></div><div class="ttdeci">static char * zap_copy_path(zap_string_t path)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00511">stdlib.c:511</a></div></div>
 </div><!-- fragment -->
@@ -764,8 +766,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00981">981</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  981</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l01020">1020</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1020</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
@@ -790,64 +792,64 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00783">783</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  783</span>                                             {</div>
-<div class="line"><span class="lineno">  784</span>  <span class="keywordflow">if</span> (port &lt;= 0 || port &gt; 65535) {</div>
-<div class="line"><span class="lineno">  785</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  786</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  787</span>  }</div>
-<div class="line"><span class="lineno">  788</span> </div>
-<div class="line"><span class="lineno">  789</span>  <span class="keywordtype">char</span> *host_buf = NULL;</div>
-<div class="line"><span class="lineno">  790</span>  <span class="keywordflow">if</span> (host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>) {</div>
-<div class="line"><span class="lineno">  791</span>    host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
-<div class="line"><span class="lineno">  792</span>    <span class="keywordflow">if</span> (!host_buf) {</div>
-<div class="line"><span class="lineno">  793</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
-<div class="line"><span class="lineno">  794</span>      <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  795</span>    }</div>
-<div class="line"><span class="lineno">  796</span>  }</div>
-<div class="line"><span class="lineno">  797</span> </div>
-<div class="line"><span class="lineno">  798</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
-<div class="line"><span class="lineno">  799</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#ab9233f0d166b2d17263dd24fbe56c9fd">zap_net_bind_addrinfo</a>(host_buf ? host_buf : <span class="stringliteral">&quot;&quot;</span>, port, SOCK_STREAM,</div>
-<div class="line"><span class="lineno">  800</span>                            AI_PASSIVE, &amp;res) != 0) {</div>
-<div class="line"><span class="lineno">  801</span>    free(host_buf);</div>
-<div class="line"><span class="lineno">  802</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  803</span>  }</div>
-<div class="line"><span class="lineno">  804</span> </div>
-<div class="line"><span class="lineno">  805</span>  <span class="keywordtype">long</span> out_fd = -1;</div>
-<div class="line"><span class="lineno">  806</span>  <span class="keywordtype">int</span> last_err = EADDRNOTAVAIL;</div>
-<div class="line"><span class="lineno">  807</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
-<div class="line"><span class="lineno">  808</span>    <span class="keywordtype">int</span> fd = socket(it-&gt;ai_family, it-&gt;ai_socktype, it-&gt;ai_protocol);</div>
-<div class="line"><span class="lineno">  809</span>    <span class="keywordflow">if</span> (fd &lt; 0) {</div>
-<div class="line"><span class="lineno">  810</span>      last_err = errno;</div>
-<div class="line"><span class="lineno">  811</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  812</span>    }</div>
-<div class="line"><span class="lineno">  813</span> </div>
-<div class="line"><span class="lineno">  814</span>    <span class="keywordtype">int</span> one = 1;</div>
-<div class="line"><span class="lineno">  815</span>    setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &amp;one, <span class="keyword">sizeof</span>(one));</div>
-<div class="line"><span class="lineno">  816</span> </div>
-<div class="line"><span class="lineno">  817</span>    <span class="keywordflow">if</span> (bind(fd, it-&gt;ai_addr, it-&gt;ai_addrlen) != 0) {</div>
-<div class="line"><span class="lineno">  818</span>      last_err = errno;</div>
-<div class="line"><span class="lineno">  819</span>      close(fd);</div>
-<div class="line"><span class="lineno">  820</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  821</span>    }</div>
-<div class="line"><span class="lineno">  822</span> </div>
-<div class="line"><span class="lineno">  823</span>    <span class="keywordflow">if</span> (listen(fd, 128) != 0) {</div>
-<div class="line"><span class="lineno">  824</span>      last_err = errno;</div>
-<div class="line"><span class="lineno">  825</span>      close(fd);</div>
-<div class="line"><span class="lineno">  826</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  827</span>    }</div>
-<div class="line"><span class="lineno">  828</span> </div>
-<div class="line"><span class="lineno">  829</span>    out_fd = fd;</div>
-<div class="line"><span class="lineno">  830</span>    last_err = 0;</div>
-<div class="line"><span class="lineno">  831</span>    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  832</span>  }</div>
-<div class="line"><span class="lineno">  833</span> </div>
-<div class="line"><span class="lineno">  834</span>  freeaddrinfo(res);</div>
-<div class="line"><span class="lineno">  835</span>  free(host_buf);</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00822">822</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  822</span>                                             {</div>
+<div class="line"><span class="lineno">  823</span>  <span class="keywordflow">if</span> (port &lt;= 0 || port &gt; 65535) {</div>
+<div class="line"><span class="lineno">  824</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  825</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  826</span>  }</div>
+<div class="line"><span class="lineno">  827</span> </div>
+<div class="line"><span class="lineno">  828</span>  <span class="keywordtype">char</span> *host_buf = NULL;</div>
+<div class="line"><span class="lineno">  829</span>  <span class="keywordflow">if</span> (host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>) {</div>
+<div class="line"><span class="lineno">  830</span>    host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
+<div class="line"><span class="lineno">  831</span>    <span class="keywordflow">if</span> (!host_buf) {</div>
+<div class="line"><span class="lineno">  832</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
+<div class="line"><span class="lineno">  833</span>      <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  834</span>    }</div>
+<div class="line"><span class="lineno">  835</span>  }</div>
 <div class="line"><span class="lineno">  836</span> </div>
-<div class="line"><span class="lineno">  837</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = last_err;</div>
-<div class="line"><span class="lineno">  838</span>  <span class="keywordflow">return</span> out_fd;</div>
-<div class="line"><span class="lineno">  839</span>}</div>
+<div class="line"><span class="lineno">  837</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
+<div class="line"><span class="lineno">  838</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#ab9233f0d166b2d17263dd24fbe56c9fd">zap_net_bind_addrinfo</a>(host_buf ? host_buf : <span class="stringliteral">&quot;&quot;</span>, port, SOCK_STREAM,</div>
+<div class="line"><span class="lineno">  839</span>                            AI_PASSIVE, &amp;res) != 0) {</div>
+<div class="line"><span class="lineno">  840</span>    free(host_buf);</div>
+<div class="line"><span class="lineno">  841</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  842</span>  }</div>
+<div class="line"><span class="lineno">  843</span> </div>
+<div class="line"><span class="lineno">  844</span>  <span class="keywordtype">long</span> out_fd = -1;</div>
+<div class="line"><span class="lineno">  845</span>  <span class="keywordtype">int</span> last_err = EADDRNOTAVAIL;</div>
+<div class="line"><span class="lineno">  846</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
+<div class="line"><span class="lineno">  847</span>    <span class="keywordtype">int</span> fd = socket(it-&gt;ai_family, it-&gt;ai_socktype, it-&gt;ai_protocol);</div>
+<div class="line"><span class="lineno">  848</span>    <span class="keywordflow">if</span> (fd &lt; 0) {</div>
+<div class="line"><span class="lineno">  849</span>      last_err = errno;</div>
+<div class="line"><span class="lineno">  850</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  851</span>    }</div>
+<div class="line"><span class="lineno">  852</span> </div>
+<div class="line"><span class="lineno">  853</span>    <span class="keywordtype">int</span> one = 1;</div>
+<div class="line"><span class="lineno">  854</span>    setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &amp;one, <span class="keyword">sizeof</span>(one));</div>
+<div class="line"><span class="lineno">  855</span> </div>
+<div class="line"><span class="lineno">  856</span>    <span class="keywordflow">if</span> (bind(fd, it-&gt;ai_addr, it-&gt;ai_addrlen) != 0) {</div>
+<div class="line"><span class="lineno">  857</span>      last_err = errno;</div>
+<div class="line"><span class="lineno">  858</span>      close(fd);</div>
+<div class="line"><span class="lineno">  859</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  860</span>    }</div>
+<div class="line"><span class="lineno">  861</span> </div>
+<div class="line"><span class="lineno">  862</span>    <span class="keywordflow">if</span> (listen(fd, 128) != 0) {</div>
+<div class="line"><span class="lineno">  863</span>      last_err = errno;</div>
+<div class="line"><span class="lineno">  864</span>      close(fd);</div>
+<div class="line"><span class="lineno">  865</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  866</span>    }</div>
+<div class="line"><span class="lineno">  867</span> </div>
+<div class="line"><span class="lineno">  868</span>    out_fd = fd;</div>
+<div class="line"><span class="lineno">  869</span>    last_err = 0;</div>
+<div class="line"><span class="lineno">  870</span>    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  871</span>  }</div>
+<div class="line"><span class="lineno">  872</span> </div>
+<div class="line"><span class="lineno">  873</span>  freeaddrinfo(res);</div>
+<div class="line"><span class="lineno">  874</span>  free(host_buf);</div>
+<div class="line"><span class="lineno">  875</span> </div>
+<div class="line"><span class="lineno">  876</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = last_err;</div>
+<div class="line"><span class="lineno">  877</span>  <span class="keywordflow">return</span> out_fd;</div>
+<div class="line"><span class="lineno">  878</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00526">zap_net_bind_addrinfo()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
@@ -872,31 +874,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00897">897</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  897</span>                                           {</div>
-<div class="line"><span class="lineno">  898</span>  <span class="keywordflow">if</span> (fd &lt; 0 || maxLen &lt;= 0) {</div>
-<div class="line"><span class="lineno">  899</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  900</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  901</span>  }</div>
-<div class="line"><span class="lineno">  902</span> </div>
-<div class="line"><span class="lineno">  903</span>  <span class="keywordtype">size_t</span> cap = (size_t)maxLen;</div>
-<div class="line"><span class="lineno">  904</span>  <span class="keywordtype">char</span> *buf = (<span class="keywordtype">char</span> *)malloc(cap + 1);</div>
-<div class="line"><span class="lineno">  905</span>  <span class="keywordflow">if</span> (!buf) {</div>
-<div class="line"><span class="lineno">  906</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
-<div class="line"><span class="lineno">  907</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  908</span>  }</div>
-<div class="line"><span class="lineno">  909</span> </div>
-<div class="line"><span class="lineno">  910</span>  ssize_t n = recv((<span class="keywordtype">int</span>)fd, buf, cap, 0);</div>
-<div class="line"><span class="lineno">  911</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">  912</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
-<div class="line"><span class="lineno">  913</span>    free(buf);</div>
-<div class="line"><span class="lineno">  914</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  915</span>  }</div>
-<div class="line"><span class="lineno">  916</span> </div>
-<div class="line"><span class="lineno">  917</span>  buf[n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">  918</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
-<div class="line"><span class="lineno">  919</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = buf, .len = (long)n};</div>
-<div class="line"><span class="lineno">  920</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00936">936</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  936</span>                                           {</div>
+<div class="line"><span class="lineno">  937</span>  <span class="keywordflow">if</span> (fd &lt; 0 || maxLen &lt;= 0) {</div>
+<div class="line"><span class="lineno">  938</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  939</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  940</span>  }</div>
+<div class="line"><span class="lineno">  941</span> </div>
+<div class="line"><span class="lineno">  942</span>  <span class="keywordtype">size_t</span> cap = (size_t)maxLen;</div>
+<div class="line"><span class="lineno">  943</span>  <span class="keywordtype">char</span> *buf = (<span class="keywordtype">char</span> *)malloc(cap + 1);</div>
+<div class="line"><span class="lineno">  944</span>  <span class="keywordflow">if</span> (!buf) {</div>
+<div class="line"><span class="lineno">  945</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
+<div class="line"><span class="lineno">  946</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  947</span>  }</div>
+<div class="line"><span class="lineno">  948</span> </div>
+<div class="line"><span class="lineno">  949</span>  ssize_t n = recv((<span class="keywordtype">int</span>)fd, buf, cap, 0);</div>
+<div class="line"><span class="lineno">  950</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
+<div class="line"><span class="lineno">  951</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
+<div class="line"><span class="lineno">  952</span>    free(buf);</div>
+<div class="line"><span class="lineno">  953</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  954</span>  }</div>
+<div class="line"><span class="lineno">  955</span> </div>
+<div class="line"><span class="lineno">  956</span>  buf[n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  957</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
+<div class="line"><span class="lineno">  958</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = buf, .len = (long)n};</div>
+<div class="line"><span class="lineno">  959</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
@@ -917,68 +919,68 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00922">922</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  922</span>                                           {</div>
-<div class="line"><span class="lineno">  923</span>  <span class="keywordflow">if</span> (!host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
-<div class="line"><span class="lineno">  924</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  925</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  926</span>  }</div>
-<div class="line"><span class="lineno">  927</span> </div>
-<div class="line"><span class="lineno">  928</span>  <span class="keywordtype">char</span> *host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
-<div class="line"><span class="lineno">  929</span>  <span class="keywordflow">if</span> (!host_buf) {</div>
-<div class="line"><span class="lineno">  930</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
-<div class="line"><span class="lineno">  931</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  932</span>  }</div>
-<div class="line"><span class="lineno">  933</span> </div>
-<div class="line"><span class="lineno">  934</span>  <span class="keyword">struct </span>addrinfo hints;</div>
-<div class="line"><span class="lineno">  935</span>  memset(&amp;hints, 0, <span class="keyword">sizeof</span>(hints));</div>
-<div class="line"><span class="lineno">  936</span>  hints.ai_family = AF_UNSPEC;</div>
-<div class="line"><span class="lineno">  937</span>  hints.ai_socktype = SOCK_STREAM;</div>
-<div class="line"><span class="lineno">  938</span> </div>
-<div class="line"><span class="lineno">  939</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
-<div class="line"><span class="lineno">  940</span>  <span class="keywordtype">int</span> rc = getaddrinfo(host_buf, NULL, &amp;hints, &amp;res);</div>
-<div class="line"><span class="lineno">  941</span>  free(host_buf);</div>
-<div class="line"><span class="lineno">  942</span>  <span class="keywordflow">if</span> (rc != 0) {</div>
-<div class="line"><span class="lineno">  943</span>    <span class="keywordflow">if</span> (rc == EAI_SYSTEM) {</div>
-<div class="line"><span class="lineno">  944</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
-<div class="line"><span class="lineno">  945</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  946</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  947</span>    }</div>
-<div class="line"><span class="lineno">  948</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  949</span>  }</div>
-<div class="line"><span class="lineno">  950</span> </div>
-<div class="line"><span class="lineno">  951</span>  <span class="keywordtype">char</span> ipbuf[INET6_ADDRSTRLEN];</div>
-<div class="line"><span class="lineno">  952</span>  memset(ipbuf, 0, <span class="keyword">sizeof</span>(ipbuf));</div>
-<div class="line"><span class="lineno">  953</span> </div>
-<div class="line"><span class="lineno">  954</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
-<div class="line"><span class="lineno">  955</span>    <span class="keywordtype">void</span> *addr_ptr = NULL;</div>
-<div class="line"><span class="lineno">  956</span>    <span class="keywordflow">if</span> (it-&gt;ai_family == AF_INET) {</div>
-<div class="line"><span class="lineno">  957</span>      <span class="keyword">struct </span>sockaddr_in *sa = (<span class="keyword">struct </span>sockaddr_in *)it-&gt;ai_addr;</div>
-<div class="line"><span class="lineno">  958</span>      addr_ptr = &amp;(sa-&gt;sin_addr);</div>
-<div class="line"><span class="lineno">  959</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (it-&gt;ai_family == AF_INET6) {</div>
-<div class="line"><span class="lineno">  960</span>      <span class="keyword">struct </span>sockaddr_in6 *sa6 = (<span class="keyword">struct </span>sockaddr_in6 *)it-&gt;ai_addr;</div>
-<div class="line"><span class="lineno">  961</span>      addr_ptr = &amp;(sa6-&gt;sin6_addr);</div>
-<div class="line"><span class="lineno">  962</span>    }</div>
-<div class="line"><span class="lineno">  963</span> </div>
-<div class="line"><span class="lineno">  964</span>    <span class="keywordflow">if</span> (addr_ptr &amp;&amp;</div>
-<div class="line"><span class="lineno">  965</span>        inet_ntop(it-&gt;ai_family, addr_ptr, ipbuf, <span class="keyword">sizeof</span>(ipbuf)) != NULL) {</div>
-<div class="line"><span class="lineno">  966</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  967</span>    }</div>
-<div class="line"><span class="lineno">  968</span>  }</div>
-<div class="line"><span class="lineno">  969</span> </div>
-<div class="line"><span class="lineno">  970</span>  freeaddrinfo(res);</div>
-<div class="line"><span class="lineno">  971</span> </div>
-<div class="line"><span class="lineno">  972</span>  <span class="keywordflow">if</span> (ipbuf[0] == <span class="charliteral">&#39;\0&#39;</span>) {</div>
-<div class="line"><span class="lineno">  973</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EADDRNOTAVAIL;</div>
-<div class="line"><span class="lineno">  974</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  975</span>  }</div>
-<div class="line"><span class="lineno">  976</span> </div>
-<div class="line"><span class="lineno">  977</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
-<div class="line"><span class="lineno">  978</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(ipbuf, strlen(ipbuf));</div>
-<div class="line"><span class="lineno">  979</span>}</div>
-<div class="ttc" id="astdlib_8c_html_ae0c5685dec040535258039d52f208307"><div class="ttname"><a href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a></div><div class="ttdeci">static zap_string_t zap_copy_string_range(const char *start, size_t len)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00671">stdlib.c:671</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00961">961</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  961</span>                                           {</div>
+<div class="line"><span class="lineno">  962</span>  <span class="keywordflow">if</span> (!host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || host.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
+<div class="line"><span class="lineno">  963</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  964</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  965</span>  }</div>
+<div class="line"><span class="lineno">  966</span> </div>
+<div class="line"><span class="lineno">  967</span>  <span class="keywordtype">char</span> *host_buf = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(host);</div>
+<div class="line"><span class="lineno">  968</span>  <span class="keywordflow">if</span> (!host_buf) {</div>
+<div class="line"><span class="lineno">  969</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = ENOMEM;</div>
+<div class="line"><span class="lineno">  970</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  971</span>  }</div>
+<div class="line"><span class="lineno">  972</span> </div>
+<div class="line"><span class="lineno">  973</span>  <span class="keyword">struct </span>addrinfo hints;</div>
+<div class="line"><span class="lineno">  974</span>  memset(&amp;hints, 0, <span class="keyword">sizeof</span>(hints));</div>
+<div class="line"><span class="lineno">  975</span>  hints.ai_family = AF_UNSPEC;</div>
+<div class="line"><span class="lineno">  976</span>  hints.ai_socktype = SOCK_STREAM;</div>
+<div class="line"><span class="lineno">  977</span> </div>
+<div class="line"><span class="lineno">  978</span>  <span class="keyword">struct </span>addrinfo *res = NULL;</div>
+<div class="line"><span class="lineno">  979</span>  <span class="keywordtype">int</span> rc = getaddrinfo(host_buf, NULL, &amp;hints, &amp;res);</div>
+<div class="line"><span class="lineno">  980</span>  free(host_buf);</div>
+<div class="line"><span class="lineno">  981</span>  <span class="keywordflow">if</span> (rc != 0) {</div>
+<div class="line"><span class="lineno">  982</span>    <span class="keywordflow">if</span> (rc == EAI_SYSTEM) {</div>
+<div class="line"><span class="lineno">  983</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
+<div class="line"><span class="lineno">  984</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  985</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  986</span>    }</div>
+<div class="line"><span class="lineno">  987</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  988</span>  }</div>
+<div class="line"><span class="lineno">  989</span> </div>
+<div class="line"><span class="lineno">  990</span>  <span class="keywordtype">char</span> ipbuf[INET6_ADDRSTRLEN];</div>
+<div class="line"><span class="lineno">  991</span>  memset(ipbuf, 0, <span class="keyword">sizeof</span>(ipbuf));</div>
+<div class="line"><span class="lineno">  992</span> </div>
+<div class="line"><span class="lineno">  993</span>  <span class="keywordflow">for</span> (<span class="keyword">struct</span> addrinfo *it = res; it; it = it-&gt;ai_next) {</div>
+<div class="line"><span class="lineno">  994</span>    <span class="keywordtype">void</span> *addr_ptr = NULL;</div>
+<div class="line"><span class="lineno">  995</span>    <span class="keywordflow">if</span> (it-&gt;ai_family == AF_INET) {</div>
+<div class="line"><span class="lineno">  996</span>      <span class="keyword">struct </span>sockaddr_in *sa = (<span class="keyword">struct </span>sockaddr_in *)it-&gt;ai_addr;</div>
+<div class="line"><span class="lineno">  997</span>      addr_ptr = &amp;(sa-&gt;sin_addr);</div>
+<div class="line"><span class="lineno">  998</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (it-&gt;ai_family == AF_INET6) {</div>
+<div class="line"><span class="lineno">  999</span>      <span class="keyword">struct </span>sockaddr_in6 *sa6 = (<span class="keyword">struct </span>sockaddr_in6 *)it-&gt;ai_addr;</div>
+<div class="line"><span class="lineno"> 1000</span>      addr_ptr = &amp;(sa6-&gt;sin6_addr);</div>
+<div class="line"><span class="lineno"> 1001</span>    }</div>
+<div class="line"><span class="lineno"> 1002</span> </div>
+<div class="line"><span class="lineno"> 1003</span>    <span class="keywordflow">if</span> (addr_ptr &amp;&amp;</div>
+<div class="line"><span class="lineno"> 1004</span>        inet_ntop(it-&gt;ai_family, addr_ptr, ipbuf, <span class="keyword">sizeof</span>(ipbuf)) != NULL) {</div>
+<div class="line"><span class="lineno"> 1005</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno"> 1006</span>    }</div>
+<div class="line"><span class="lineno"> 1007</span>  }</div>
+<div class="line"><span class="lineno"> 1008</span> </div>
+<div class="line"><span class="lineno"> 1009</span>  freeaddrinfo(res);</div>
+<div class="line"><span class="lineno"> 1010</span> </div>
+<div class="line"><span class="lineno"> 1011</span>  <span class="keywordflow">if</span> (ipbuf[0] == <span class="charliteral">&#39;\0&#39;</span>) {</div>
+<div class="line"><span class="lineno"> 1012</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EADDRNOTAVAIL;</div>
+<div class="line"><span class="lineno"> 1013</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno"> 1014</span>  }</div>
+<div class="line"><span class="lineno"> 1015</span> </div>
+<div class="line"><span class="lineno"> 1016</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
+<div class="line"><span class="lineno"> 1017</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(ipbuf, strlen(ipbuf));</div>
+<div class="line"><span class="lineno"> 1018</span>}</div>
+<div class="ttc" id="astdlib_8c_html_ae0c5685dec040535258039d52f208307"><div class="ttname"><a href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a></div><div class="ttdeci">static zap_string_t zap_copy_string_range(const char *start, size_t len)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00710">stdlib.c:710</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00671">zap_copy_string_range()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">zap_copy_string_range()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
 </div>
 </div>
@@ -1001,31 +1003,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00872">872</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  872</span>                                         {</div>
-<div class="line"><span class="lineno">  873</span>  <span class="keywordflow">if</span> (fd &lt; 0 || !data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>) {</div>
-<div class="line"><span class="lineno">  874</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
-<div class="line"><span class="lineno">  875</span>    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  876</span>  }</div>
-<div class="line"><span class="lineno">  877</span> </div>
-<div class="line"><span class="lineno">  878</span>  <span class="keywordtype">size_t</span> total = 0;</div>
-<div class="line"><span class="lineno">  879</span>  <span class="keywordtype">size_t</span> target = data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> &gt; 0 ? (size_t)data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> : 0;</div>
-<div class="line"><span class="lineno">  880</span> </div>
-<div class="line"><span class="lineno">  881</span>  <span class="keywordflow">while</span> (total &lt; target) {</div>
-<div class="line"><span class="lineno">  882</span>    ssize_t n = send((<span class="keywordtype">int</span>)fd, data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + total, target - total, 0);</div>
-<div class="line"><span class="lineno">  883</span>    <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">  884</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
-<div class="line"><span class="lineno">  885</span>      <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">  886</span>    }</div>
-<div class="line"><span class="lineno">  887</span>    <span class="keywordflow">if</span> (n == 0) {</div>
-<div class="line"><span class="lineno">  888</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  889</span>    }</div>
-<div class="line"><span class="lineno">  890</span>    total += (size_t)n;</div>
-<div class="line"><span class="lineno">  891</span>  }</div>
-<div class="line"><span class="lineno">  892</span> </div>
-<div class="line"><span class="lineno">  893</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
-<div class="line"><span class="lineno">  894</span>  <span class="keywordflow">return</span> (<span class="keywordtype">long</span>)total;</div>
-<div class="line"><span class="lineno">  895</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00911">911</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  911</span>                                         {</div>
+<div class="line"><span class="lineno">  912</span>  <span class="keywordflow">if</span> (fd &lt; 0 || !data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>) {</div>
+<div class="line"><span class="lineno">  913</span>    <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = EINVAL;</div>
+<div class="line"><span class="lineno">  914</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  915</span>  }</div>
+<div class="line"><span class="lineno">  916</span> </div>
+<div class="line"><span class="lineno">  917</span>  <span class="keywordtype">size_t</span> total = 0;</div>
+<div class="line"><span class="lineno">  918</span>  <span class="keywordtype">size_t</span> target = data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> &gt; 0 ? (size_t)data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> : 0;</div>
+<div class="line"><span class="lineno">  919</span> </div>
+<div class="line"><span class="lineno">  920</span>  <span class="keywordflow">while</span> (total &lt; target) {</div>
+<div class="line"><span class="lineno">  921</span>    ssize_t n = send((<span class="keywordtype">int</span>)fd, data.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + total, target - total, 0);</div>
+<div class="line"><span class="lineno">  922</span>    <span class="keywordflow">if</span> (n &lt; 0) {</div>
+<div class="line"><span class="lineno">  923</span>      <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = errno;</div>
+<div class="line"><span class="lineno">  924</span>      <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">  925</span>    }</div>
+<div class="line"><span class="lineno">  926</span>    <span class="keywordflow">if</span> (n == 0) {</div>
+<div class="line"><span class="lineno">  927</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  928</span>    }</div>
+<div class="line"><span class="lineno">  929</span>    total += (size_t)n;</div>
+<div class="line"><span class="lineno">  930</span>  }</div>
+<div class="line"><span class="lineno">  931</span> </div>
+<div class="line"><span class="lineno">  932</span>  <a class="code hl_variable" href="#a99e86328bbbbf2de33d1b505100c3838">zap_net_last_error</a> = 0;</div>
+<div class="line"><span class="lineno">  933</span>  <span class="keywordflow">return</span> (<span class="keywordtype">long</span>)total;</div>
+<div class="line"><span class="lineno">  934</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
@@ -1046,34 +1048,34 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00684">684</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  684</span>                                       {</div>
-<div class="line"><span class="lineno">  685</span>  <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
-<div class="line"><span class="lineno">  686</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
-<div class="line"><span class="lineno">  687</span>  }</div>
-<div class="line"><span class="lineno">  688</span> </div>
-<div class="line"><span class="lineno">  689</span>  <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
-<div class="line"><span class="lineno">  690</span>  <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><span class="lineno">  691</span>    --end;</div>
-<div class="line"><span class="lineno">  692</span>  }</div>
-<div class="line"><span class="lineno">  693</span> </div>
-<div class="line"><span class="lineno">  694</span>  <span class="keywordtype">long</span> slash = end - 1;</div>
-<div class="line"><span class="lineno">  695</span>  <span class="keywordflow">while</span> (slash &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[slash] != <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><span class="lineno">  696</span>    --slash;</div>
-<div class="line"><span class="lineno">  697</span>  }</div>
-<div class="line"><span class="lineno">  698</span> </div>
-<div class="line"><span class="lineno">  699</span>  <span class="keywordflow">if</span> (slash &lt; 0) {</div>
-<div class="line"><span class="lineno">  700</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
-<div class="line"><span class="lineno">  701</span>  }</div>
-<div class="line"><span class="lineno">  702</span> </div>
-<div class="line"><span class="lineno">  703</span>  <span class="keywordflow">if</span> (slash == 0) {</div>
-<div class="line"><span class="lineno">  704</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
-<div class="line"><span class="lineno">  705</span>  }</div>
-<div class="line"><span class="lineno">  706</span> </div>
-<div class="line"><span class="lineno">  707</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)slash);</div>
-<div class="line"><span class="lineno">  708</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00723">723</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  723</span>                                       {</div>
+<div class="line"><span class="lineno">  724</span>  <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
+<div class="line"><span class="lineno">  725</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  726</span>  }</div>
+<div class="line"><span class="lineno">  727</span> </div>
+<div class="line"><span class="lineno">  728</span>  <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
+<div class="line"><span class="lineno">  729</span>  <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><span class="lineno">  730</span>    --end;</div>
+<div class="line"><span class="lineno">  731</span>  }</div>
+<div class="line"><span class="lineno">  732</span> </div>
+<div class="line"><span class="lineno">  733</span>  <span class="keywordtype">long</span> slash = end - 1;</div>
+<div class="line"><span class="lineno">  734</span>  <span class="keywordflow">while</span> (slash &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[slash] != <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><span class="lineno">  735</span>    --slash;</div>
+<div class="line"><span class="lineno">  736</span>  }</div>
+<div class="line"><span class="lineno">  737</span> </div>
+<div class="line"><span class="lineno">  738</span>  <span class="keywordflow">if</span> (slash &lt; 0) {</div>
+<div class="line"><span class="lineno">  739</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  740</span>  }</div>
+<div class="line"><span class="lineno">  741</span> </div>
+<div class="line"><span class="lineno">  742</span>  <span class="keywordflow">if</span> (slash == 0) {</div>
+<div class="line"><span class="lineno">  743</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  744</span>  }</div>
+<div class="line"><span class="lineno">  745</span> </div>
+<div class="line"><span class="lineno">  746</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, (<span class="keywordtype">size_t</span>)slash);</div>
+<div class="line"><span class="lineno">  747</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00671">zap_copy_string_range()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">zap_copy_string_range()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d0/d5e/symbol__table_8hpp_source.html#l00012">sema::SymbolTable::SymbolTable()</a>.</p>
 
@@ -1281,51 +1283,51 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00602">602</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  602</span>                                         {</div>
-<div class="line"><span class="lineno">  603</span>  <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
-<div class="line"><span class="lineno">  604</span>  <span class="keywordflow">if</span> (!buffer) {</div>
-<div class="line"><span class="lineno">  605</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  606</span>  }</div>
-<div class="line"><span class="lineno">  607</span> </div>
-<div class="line"><span class="lineno">  608</span>  FILE *file = fopen(buffer, <span class="stringliteral">&quot;rb&quot;</span>);</div>
-<div class="line"><span class="lineno">  609</span>  free(buffer);</div>
-<div class="line"><span class="lineno">  610</span>  <span class="keywordflow">if</span> (!file) {</div>
-<div class="line"><span class="lineno">  611</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  612</span>  }</div>
-<div class="line"><span class="lineno">  613</span> </div>
-<div class="line"><span class="lineno">  614</span>  <span class="keywordflow">if</span> (fseek(file, 0, SEEK_END) != 0) {</div>
-<div class="line"><span class="lineno">  615</span>    fclose(file);</div>
-<div class="line"><span class="lineno">  616</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  617</span>  }</div>
-<div class="line"><span class="lineno">  618</span> </div>
-<div class="line"><span class="lineno">  619</span>  <span class="keywordtype">long</span> size = ftell(file);</div>
-<div class="line"><span class="lineno">  620</span>  <span class="keywordflow">if</span> (size &lt; 0) {</div>
-<div class="line"><span class="lineno">  621</span>    fclose(file);</div>
-<div class="line"><span class="lineno">  622</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  623</span>  }</div>
-<div class="line"><span class="lineno">  624</span> </div>
-<div class="line"><span class="lineno">  625</span>  <span class="keywordflow">if</span> (fseek(file, 0, SEEK_SET) != 0) {</div>
-<div class="line"><span class="lineno">  626</span>    fclose(file);</div>
-<div class="line"><span class="lineno">  627</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  628</span>  }</div>
-<div class="line"><span class="lineno">  629</span> </div>
-<div class="line"><span class="lineno">  630</span>  <span class="keywordtype">char</span> *content = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)size + 1);</div>
-<div class="line"><span class="lineno">  631</span>  <span class="keywordflow">if</span> (!content) {</div>
-<div class="line"><span class="lineno">  632</span>    fclose(file);</div>
-<div class="line"><span class="lineno">  633</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  634</span>  }</div>
-<div class="line"><span class="lineno">  635</span> </div>
-<div class="line"><span class="lineno">  636</span>  <span class="keywordtype">size_t</span> read = fread(content, 1, (<span class="keywordtype">size_t</span>)size, file);</div>
-<div class="line"><span class="lineno">  637</span>  fclose(file);</div>
-<div class="line"><span class="lineno">  638</span>  <span class="keywordflow">if</span> (read != (<span class="keywordtype">size_t</span>)size) {</div>
-<div class="line"><span class="lineno">  639</span>    free(content);</div>
-<div class="line"><span class="lineno">  640</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  641</span>  }</div>
-<div class="line"><span class="lineno">  642</span> </div>
-<div class="line"><span class="lineno">  643</span>  content[size] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">  644</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = content, .len = size};</div>
-<div class="line"><span class="lineno">  645</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00641">641</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  641</span>                                         {</div>
+<div class="line"><span class="lineno">  642</span>  <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  643</span>  <span class="keywordflow">if</span> (!buffer) {</div>
+<div class="line"><span class="lineno">  644</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  645</span>  }</div>
+<div class="line"><span class="lineno">  646</span> </div>
+<div class="line"><span class="lineno">  647</span>  FILE *file = fopen(buffer, <span class="stringliteral">&quot;rb&quot;</span>);</div>
+<div class="line"><span class="lineno">  648</span>  free(buffer);</div>
+<div class="line"><span class="lineno">  649</span>  <span class="keywordflow">if</span> (!file) {</div>
+<div class="line"><span class="lineno">  650</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  651</span>  }</div>
+<div class="line"><span class="lineno">  652</span> </div>
+<div class="line"><span class="lineno">  653</span>  <span class="keywordflow">if</span> (fseek(file, 0, SEEK_END) != 0) {</div>
+<div class="line"><span class="lineno">  654</span>    fclose(file);</div>
+<div class="line"><span class="lineno">  655</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  656</span>  }</div>
+<div class="line"><span class="lineno">  657</span> </div>
+<div class="line"><span class="lineno">  658</span>  <span class="keywordtype">long</span> size = ftell(file);</div>
+<div class="line"><span class="lineno">  659</span>  <span class="keywordflow">if</span> (size &lt; 0) {</div>
+<div class="line"><span class="lineno">  660</span>    fclose(file);</div>
+<div class="line"><span class="lineno">  661</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  662</span>  }</div>
+<div class="line"><span class="lineno">  663</span> </div>
+<div class="line"><span class="lineno">  664</span>  <span class="keywordflow">if</span> (fseek(file, 0, SEEK_SET) != 0) {</div>
+<div class="line"><span class="lineno">  665</span>    fclose(file);</div>
+<div class="line"><span class="lineno">  666</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  667</span>  }</div>
+<div class="line"><span class="lineno">  668</span> </div>
+<div class="line"><span class="lineno">  669</span>  <span class="keywordtype">char</span> *content = (<span class="keywordtype">char</span> *)malloc((<span class="keywordtype">size_t</span>)size + 1);</div>
+<div class="line"><span class="lineno">  670</span>  <span class="keywordflow">if</span> (!content) {</div>
+<div class="line"><span class="lineno">  671</span>    fclose(file);</div>
+<div class="line"><span class="lineno">  672</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  673</span>  }</div>
+<div class="line"><span class="lineno">  674</span> </div>
+<div class="line"><span class="lineno">  675</span>  <span class="keywordtype">size_t</span> read = fread(content, 1, (<span class="keywordtype">size_t</span>)size, file);</div>
+<div class="line"><span class="lineno">  676</span>  fclose(file);</div>
+<div class="line"><span class="lineno">  677</span>  <span class="keywordflow">if</span> (read != (<span class="keywordtype">size_t</span>)size) {</div>
+<div class="line"><span class="lineno">  678</span>    free(content);</div>
+<div class="line"><span class="lineno">  679</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  680</span>  }</div>
+<div class="line"><span class="lineno">  681</span> </div>
+<div class="line"><span class="lineno">  682</span>  content[size] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  683</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = content, .len = size};</div>
+<div class="line"><span class="lineno">  684</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>.</p>
 
@@ -1454,30 +1456,30 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00647">647</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  647</span>                                                        {</div>
-<div class="line"><span class="lineno">  648</span>  <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
-<div class="line"><span class="lineno">  649</span>  <span class="keywordflow">if</span> (!buffer) {</div>
-<div class="line"><span class="lineno">  650</span>    <span class="keywordflow">return</span> ENOMEM;</div>
-<div class="line"><span class="lineno">  651</span>  }</div>
-<div class="line"><span class="lineno">  652</span> </div>
-<div class="line"><span class="lineno">  653</span>  FILE *file = fopen(buffer, <span class="stringliteral">&quot;wb&quot;</span>);</div>
-<div class="line"><span class="lineno">  654</span>  free(buffer);</div>
-<div class="line"><span class="lineno">  655</span>  <span class="keywordflow">if</span> (!file) {</div>
-<div class="line"><span class="lineno">  656</span>    <span class="keywordflow">return</span> errno;</div>
-<div class="line"><span class="lineno">  657</span>  }</div>
-<div class="line"><span class="lineno">  658</span> </div>
-<div class="line"><span class="lineno">  659</span>  <span class="keywordtype">size_t</span> written = fwrite(content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, 1, (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>, file);</div>
-<div class="line"><span class="lineno">  660</span>  <span class="keywordflow">if</span> (fclose(file) != 0) {</div>
-<div class="line"><span class="lineno">  661</span>    <span class="keywordflow">return</span> errno;</div>
-<div class="line"><span class="lineno">  662</span>  }</div>
-<div class="line"><span class="lineno">  663</span> </div>
-<div class="line"><span class="lineno">  664</span>  <span class="keywordflow">if</span> (written != (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>) {</div>
-<div class="line"><span class="lineno">  665</span>    <span class="keywordflow">return</span> EIO;</div>
-<div class="line"><span class="lineno">  666</span>  }</div>
-<div class="line"><span class="lineno">  667</span> </div>
-<div class="line"><span class="lineno">  668</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  669</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00686">686</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  686</span>                                                        {</div>
+<div class="line"><span class="lineno">  687</span>  <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  688</span>  <span class="keywordflow">if</span> (!buffer) {</div>
+<div class="line"><span class="lineno">  689</span>    <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  690</span>  }</div>
+<div class="line"><span class="lineno">  691</span> </div>
+<div class="line"><span class="lineno">  692</span>  FILE *file = fopen(buffer, <span class="stringliteral">&quot;wb&quot;</span>);</div>
+<div class="line"><span class="lineno">  693</span>  free(buffer);</div>
+<div class="line"><span class="lineno">  694</span>  <span class="keywordflow">if</span> (!file) {</div>
+<div class="line"><span class="lineno">  695</span>    <span class="keywordflow">return</span> errno;</div>
+<div class="line"><span class="lineno">  696</span>  }</div>
+<div class="line"><span class="lineno">  697</span> </div>
+<div class="line"><span class="lineno">  698</span>  <span class="keywordtype">size_t</span> written = fwrite(content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>, 1, (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>, file);</div>
+<div class="line"><span class="lineno">  699</span>  <span class="keywordflow">if</span> (fclose(file) != 0) {</div>
+<div class="line"><span class="lineno">  700</span>    <span class="keywordflow">return</span> errno;</div>
+<div class="line"><span class="lineno">  701</span>  }</div>
+<div class="line"><span class="lineno">  702</span> </div>
+<div class="line"><span class="lineno">  703</span>  <span class="keywordflow">if</span> (written != (<span class="keywordtype">size_t</span>)content.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>) {</div>
+<div class="line"><span class="lineno">  704</span>    <span class="keywordflow">return</span> EIO;</div>
+<div class="line"><span class="lineno">  705</span>  }</div>
+<div class="line"><span class="lineno">  706</span> </div>
+<div class="line"><span class="lineno">  707</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  708</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>.</p>
 
@@ -1864,7 +1866,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00739">netConnect()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00783">netListen()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00922">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00602">readFile()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00647">writeFile()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00585">zap_fs_mkdir()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00778">netConnect()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00822">netListen()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00961">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00641">readFile()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00686">writeFile()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00585">zap_fs_mkdir()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00601">zap_fs_remove()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00617">zap_fs_rename()</a>.</p>
 
 </div>
 </div>
@@ -1895,23 +1897,23 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00671">671</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  671</span>                                                                         {</div>
-<div class="line"><span class="lineno">  672</span>  <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc(<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> + 1);</div>
-<div class="line"><span class="lineno">  673</span>  <span class="keywordflow">if</span> (!out) {</div>
-<div class="line"><span class="lineno">  674</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
-<div class="line"><span class="lineno">  675</span>  }</div>
-<div class="line"><span class="lineno">  676</span> </div>
-<div class="line"><span class="lineno">  677</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> &gt; 0) {</div>
-<div class="line"><span class="lineno">  678</span>    memcpy(out, start, <a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>);</div>
-<div class="line"><span class="lineno">  679</span>  }</div>
-<div class="line"><span class="lineno">  680</span>  <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">  681</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>, .len = (long)<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>};</div>
-<div class="line"><span class="lineno">  682</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">710</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  710</span>                                                                         {</div>
+<div class="line"><span class="lineno">  711</span>  <span class="keywordtype">char</span> *<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = (<span class="keywordtype">char</span> *)malloc(<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> + 1);</div>
+<div class="line"><span class="lineno">  712</span>  <span class="keywordflow">if</span> (!out) {</div>
+<div class="line"><span class="lineno">  713</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;&quot;</span>, .len = 0};</div>
+<div class="line"><span class="lineno">  714</span>  }</div>
+<div class="line"><span class="lineno">  715</span> </div>
+<div class="line"><span class="lineno">  716</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a> &gt; 0) {</div>
+<div class="line"><span class="lineno">  717</span>    memcpy(out, start, <a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>);</div>
+<div class="line"><span class="lineno">  718</span>  }</div>
+<div class="line"><span class="lineno">  719</span>  <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>[<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  720</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>, .len = (long)<a class="code hl_function" href="#a3fd3ae63aaaf61592ee119e0eed1b2c2">len</a>};</div>
+<div class="line"><span class="lineno">  721</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00403">len()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00922">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00684">parent()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">zap_path_basename()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00961">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00723">parent()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00749">zap_path_basename()</a>.</p>
 
 </div>
 </div>
@@ -1938,16 +1940,99 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  589</span>  }</div>
 <div class="line"><span class="lineno">  590</span> </div>
 <div class="line"><span class="lineno">  591</span>  <span class="keywordflow">if</span> (mkdir(buffer, 0777) == 0) {</div>
-<div class="line"><span class="lineno">  592</span>    chmod(buffer, 0777);</div>
-<div class="line"><span class="lineno">  593</span>    free(buffer);</div>
-<div class="line"><span class="lineno">  594</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  595</span>  }</div>
-<div class="line"><span class="lineno">  596</span> </div>
-<div class="line"><span class="lineno">  597</span>  <span class="keywordtype">int</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a> = errno;</div>
-<div class="line"><span class="lineno">  598</span>  free(buffer);</div>
-<div class="line"><span class="lineno">  599</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>;</div>
-<div class="line"><span class="lineno">  600</span>}</div>
+<div class="line"><span class="lineno">  592</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  593</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  594</span>  }</div>
+<div class="line"><span class="lineno">  595</span> </div>
+<div class="line"><span class="lineno">  596</span>  <span class="keywordtype">int</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a> = errno;</div>
+<div class="line"><span class="lineno">  597</span>  free(buffer);</div>
+<div class="line"><span class="lineno">  598</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>;</div>
+<div class="line"><span class="lineno">  599</span>}</div>
 <div class="ttc" id="anamespacezap_html_a674956178a1a7ce6606f78a8839a2e18"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">zap::err</a></div><div class="ttdeci">Stream &amp; err()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00105">stream.cpp:105</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>.</p>
+
+</div>
+</div>
+<a id="a02a3d9bb1019d243dedf2a11d8e0d963" name="a02a3d9bb1019d243dedf2a11d8e0d963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02a3d9bb1019d243dedf2a11d8e0d963">&#9670;&#160;</a></span>zap_fs_remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long zap_fs_remove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00601">601</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  601</span>                                      {</div>
+<div class="line"><span class="lineno">  602</span>  <span class="keywordtype">char</span> *buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(path);</div>
+<div class="line"><span class="lineno">  603</span>  <span class="keywordflow">if</span> (!buffer) {</div>
+<div class="line"><span class="lineno">  604</span>    <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  605</span>  }</div>
+<div class="line"><span class="lineno">  606</span> </div>
+<div class="line"><span class="lineno">  607</span>  <span class="keywordflow">if</span> (remove(buffer) == 0) {</div>
+<div class="line"><span class="lineno">  608</span>    free(buffer);</div>
+<div class="line"><span class="lineno">  609</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  610</span>  }</div>
+<div class="line"><span class="lineno">  611</span> </div>
+<div class="line"><span class="lineno">  612</span>  <span class="keywordtype">int</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a> = errno;</div>
+<div class="line"><span class="lineno">  613</span>  free(buffer);</div>
+<div class="line"><span class="lineno">  614</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>;</div>
+<div class="line"><span class="lineno">  615</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>.</p>
+
+</div>
+</div>
+<a id="a3250f3959022e05749acfde61d2e6427" name="a3250f3959022e05749acfde61d2e6427"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3250f3959022e05749acfde61d2e6427">&#9670;&#160;</a></span>zap_fs_rename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long zap_fs_rename </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a></td>          <td class="paramname"><span class="paramname"><em>to</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00617">617</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  617</span>                                                       {</div>
+<div class="line"><span class="lineno">  618</span>  <span class="keywordtype">char</span> *from_buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(from);</div>
+<div class="line"><span class="lineno">  619</span>  <span class="keywordflow">if</span> (!from_buffer) {</div>
+<div class="line"><span class="lineno">  620</span>    <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  621</span>  }</div>
+<div class="line"><span class="lineno">  622</span> </div>
+<div class="line"><span class="lineno">  623</span>  <span class="keywordtype">char</span> *to_buffer = <a class="code hl_function" href="#ae9123704f1b7c7d41e2854f51ee55174">zap_copy_path</a>(to);</div>
+<div class="line"><span class="lineno">  624</span>  <span class="keywordflow">if</span> (!to_buffer) {</div>
+<div class="line"><span class="lineno">  625</span>    free(from_buffer);</div>
+<div class="line"><span class="lineno">  626</span>    <span class="keywordflow">return</span> ENOMEM;</div>
+<div class="line"><span class="lineno">  627</span>  }</div>
+<div class="line"><span class="lineno">  628</span> </div>
+<div class="line"><span class="lineno">  629</span>  <span class="keywordflow">if</span> (rename(from_buffer, to_buffer) == 0) {</div>
+<div class="line"><span class="lineno">  630</span>    free(from_buffer);</div>
+<div class="line"><span class="lineno">  631</span>    free(to_buffer);</div>
+<div class="line"><span class="lineno">  632</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  633</span>  }</div>
+<div class="line"><span class="lineno">  634</span> </div>
+<div class="line"><span class="lineno">  635</span>  <span class="keywordtype">int</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a> = errno;</div>
+<div class="line"><span class="lineno">  636</span>  free(from_buffer);</div>
+<div class="line"><span class="lineno">  637</span>  free(to_buffer);</div>
+<div class="line"><span class="lineno">  638</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>;</div>
+<div class="line"><span class="lineno">  639</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00511">zap_copy_path()</a>.</p>
 
@@ -2032,7 +2117,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">zap_net_last_error</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00739">netConnect()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00783">netListen()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00778">netConnect()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00822">netListen()</a>.</p>
 
 </div>
 </div>
@@ -2051,31 +2136,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">710</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  710</span>                                                  {</div>
-<div class="line"><span class="lineno">  711</span>  <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
-<div class="line"><span class="lineno">  712</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
-<div class="line"><span class="lineno">  713</span>  }</div>
-<div class="line"><span class="lineno">  714</span> </div>
-<div class="line"><span class="lineno">  715</span>  <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
-<div class="line"><span class="lineno">  716</span>  <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><span class="lineno">  717</span>    --end;</div>
-<div class="line"><span class="lineno">  718</span>  }</div>
-<div class="line"><span class="lineno">  719</span> </div>
-<div class="line"><span class="lineno">  720</span>  <span class="keywordflow">if</span> (end == 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[0] == <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><span class="lineno">  721</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
-<div class="line"><span class="lineno">  722</span>  }</div>
-<div class="line"><span class="lineno">  723</span> </div>
-<div class="line"><span class="lineno">  724</span>  <span class="keywordtype">long</span> start = end - 1;</div>
-<div class="line"><span class="lineno">  725</span>  <span class="keywordflow">while</span> (start &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[start] != <span class="charliteral">&#39;/&#39;</span>) {</div>
-<div class="line"><span class="lineno">  726</span>    --start;</div>
-<div class="line"><span class="lineno">  727</span>  }</div>
-<div class="line"><span class="lineno">  728</span>  ++start;</div>
-<div class="line"><span class="lineno">  729</span> </div>
-<div class="line"><span class="lineno">  730</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + start, (<span class="keywordtype">size_t</span>)(end - start));</div>
-<div class="line"><span class="lineno">  731</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00749">749</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  749</span>                                                  {</div>
+<div class="line"><span class="lineno">  750</span>  <span class="keywordflow">if</span> (!path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> || path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a> == 0) {</div>
+<div class="line"><span class="lineno">  751</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;.&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  752</span>  }</div>
+<div class="line"><span class="lineno">  753</span> </div>
+<div class="line"><span class="lineno">  754</span>  <span class="keywordtype">long</span> end = path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e">len</a>;</div>
+<div class="line"><span class="lineno">  755</span>  <span class="keywordflow">while</span> (end &gt; 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[end - 1] == <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><span class="lineno">  756</span>    --end;</div>
+<div class="line"><span class="lineno">  757</span>  }</div>
+<div class="line"><span class="lineno">  758</span> </div>
+<div class="line"><span class="lineno">  759</span>  <span class="keywordflow">if</span> (end == 1 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[0] == <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><span class="lineno">  760</span>    <span class="keywordflow">return</span> (<a class="code hl_struct" href="../../dd/d2a/structzap__string__t.html">zap_string_t</a>){.ptr = <span class="stringliteral">&quot;/&quot;</span>, .len = 1};</div>
+<div class="line"><span class="lineno">  761</span>  }</div>
+<div class="line"><span class="lineno">  762</span> </div>
+<div class="line"><span class="lineno">  763</span>  <span class="keywordtype">long</span> start = end - 1;</div>
+<div class="line"><span class="lineno">  764</span>  <span class="keywordflow">while</span> (start &gt;= 0 &amp;&amp; path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a>[start] != <span class="charliteral">&#39;/&#39;</span>) {</div>
+<div class="line"><span class="lineno">  765</span>    --start;</div>
+<div class="line"><span class="lineno">  766</span>  }</div>
+<div class="line"><span class="lineno">  767</span>  ++start;</div>
+<div class="line"><span class="lineno">  768</span> </div>
+<div class="line"><span class="lineno">  769</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae0c5685dec040535258039d52f208307">zap_copy_string_range</a>(path.<a class="code hl_variable" href="../../dd/d2a/structzap__string__t.html#a68e87933396be35b70f51381f01a95df">ptr</a> + start, (<span class="keywordtype">size_t</span>)(end - start));</div>
+<div class="line"><span class="lineno">  770</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00671">zap_copy_string_range()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00254">zap_string_t::len</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00253">zap_string_t::ptr</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00710">zap_copy_string_range()</a>.</p>
 
 </div>
 </div>
@@ -2509,8 +2594,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00737">737</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  737</span>{ <span class="keywordflow">return</span> ceil(x); }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00776">776</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  776</span>{ <span class="keywordflow">return</span> ceil(x); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2529,8 +2614,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00735">735</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  735</span>{ <span class="keywordflow">return</span> floor(x); }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00774">774</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  774</span>{ <span class="keywordflow">return</span> floor(x); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2549,8 +2634,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00733">733</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  733</span>{ <span class="keywordflow">return</span> sqrt(x); }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00772">772</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  772</span>{ <span class="keywordflow">return</span> sqrt(x); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2681,7 +2766,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00036">36</a> of file <a class="el" href="../../db/dfa/stdlib_8c_source.html">stdlib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00841">netAccept()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00857">netClose()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00739">netConnect()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00981">netLastError()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00783">netListen()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00897">netRecv()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00922">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00872">netSend()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00526">zap_net_bind_addrinfo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00880">netAccept()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00896">netClose()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00778">netConnect()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l01020">netLastError()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00822">netListen()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00936">netRecv()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00961">netResolve()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00911">netSend()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00526">zap_net_bind_addrinfo()</a>.</p>
 
 </div>
 </div>

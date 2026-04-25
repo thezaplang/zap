@@ -48,6 +48,8 @@ var stdlib_8c =
     [ "zap_copy_path", "db/dfa/stdlib_8c.html#ae9123704f1b7c7d41e2854f51ee55174", null ],
     [ "zap_copy_string_range", "db/dfa/stdlib_8c.html#ae0c5685dec040535258039d52f208307", null ],
     [ "zap_fs_mkdir", "db/dfa/stdlib_8c.html#a3f33e88f5e22588aa7ceac746049bf06", null ],
+    [ "zap_fs_remove", "db/dfa/stdlib_8c.html#a02a3d9bb1019d243dedf2a11d8e0d963", null ],
+    [ "zap_fs_rename", "db/dfa/stdlib_8c.html#a3250f3959022e05749acfde61d2e6427", null ],
     [ "zap_net_bind_addrinfo", "db/dfa/stdlib_8c.html#ab9233f0d166b2d17263dd24fbe56c9fd", null ],
     [ "zap_path_basename", "db/dfa/stdlib_8c.html#affbff8151771a213943b986cdd9ce941", null ],
     [ "zap_printf", "db/dfa/stdlib_8c.html#ae09780e4e405138117f821e664a247ba", null ],
