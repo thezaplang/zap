@@ -2248,6 +2248,10 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           module.info->sourceName.find("/std/path.zp") != std::string::npos;
       if (isStdFsModule && extDecl->name_ == "mkdir") {
         linkName = "zap_fs_mkdir";
+      } else if (isStdFsModule && extDecl->name_ == "remove") {
+        linkName = "zap_fs_remove";
+      } else if (isStdFsModule && extDecl->name_ == "rename") {
+        linkName = "zap_fs_rename";
       } else if (isStdIoModule && extDecl->name_ == "printf") {
         linkName = "zap_printf";
       } else if (isStdIoModule && extDecl->name_ == "printfln") {

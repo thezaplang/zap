@@ -1,0 +1,147 @@
+import "std/fs";
+import "std/path";
+import "std/process";
+import "std/string";
+import "std/collection";
+
+fun main() Int {
+    var root: String = path.join("/tmp", "zap_fs_extra");
+    var nestedDir: String = path.join(root, "a/b/c");
+    var srcFile: String = path.join(root, "source.txt");
+    var copiedFile: String = path.join(root, "copies/copied.txt");
+    var movedFile: String = path.join(root, "moved/moved.txt");
+    var touchFile: String = path.join(root, "touched/empty.txt");
+    var missingFile: String = path.join(root, "missing.txt");
+    var linesFile: String = path.join(root, "lines/data.txt");
+
+    process.exec("rm -rf \"" + root + "\"");
+
+    if fs.exists(root) {
+        return 1;
+    }
+
+    if fs.ensureDir(nestedDir) != 0 {
+        return 2;
+    }
+
+    if !fs.isDir(nestedDir) {
+        return 3;
+    }
+
+    if fs.ensureDir(nestedDir) != 0 {
+        return 4;
+    }
+
+    if fs.writeFileSafe(srcFile, "alpha") != 0 {
+        return 5;
+    }
+
+    if !fs.isFile(srcFile) {
+        return 6;
+    }
+
+    if !string.eq(fs.readFile(srcFile), "alpha") {
+        return 7;
+    }
+
+    if fs.copyFile(srcFile, copiedFile) != 0 {
+        return 8;
+    }
+
+    if !fs.isFile(copiedFile) {
+        return 9;
+    }
+
+    if !string.eq(fs.readFile(copiedFile), "alpha") {
+        return 10;
+    }
+
+    if fs.move(copiedFile, movedFile) != 0 {
+        return 11;
+    }
+
+    if fs.exists(copiedFile) {
+        return 12;
+    }
+
+    if !fs.isFile(movedFile) {
+        return 13;
+    }
+
+    if fs.replaceFile(movedFile, "beta") != 0 {
+        return 14;
+    }
+
+    if !string.eq(fs.readFile(movedFile), "beta") {
+        return 15;
+    }
+
+    if fs.touch(touchFile) != 0 {
+        return 16;
+    }
+
+    if !fs.isFile(touchFile) {
+        return 17;
+    }
+
+    if !string.eq(fs.readFile(touchFile), "") {
+        return 18;
+    }
+
+    if fs.touch(touchFile) != 0 {
+        return 19;
+    }
+
+    if fs.removeIfExists(missingFile) != 0 {
+        return 20;
+    }
+
+    if fs.removeIfExists(movedFile) != 0 {
+        return 21;
+    }
+
+    if fs.exists(movedFile) {
+        return 22;
+    }
+
+    if fs.removeIfExists(touchFile) != 0 {
+        return 23;
+    }
+
+    if fs.exists(touchFile) {
+        return 24;
+    }
+
+    var lines: collection.List<String> = new collection.List<String>();
+    lines.push("first");
+    lines.push("second");
+    lines.push("third");
+
+    if fs.writeLines(linesFile, lines) != 0 {
+        return 25;
+    }
+
+    if !fs.isFile(linesFile) {
+        return 26;
+    }
+
+    var readBack: collection.List<String> = fs.readLines(linesFile);
+    if readBack.len() != 3 {
+        return 27;
+    }
+
+    if !string.eq(readBack.at(0), "first") {
+        return 28;
+    }
+
+    if !string.eq(readBack.at(1), "second") {
+        return 29;
+    }
+
+    if !string.eq(readBack.at(2), "third") {
+        return 30;
+    }
+
+    process.exec("rm -rf \"" + root + "\"");
+    return 0;
+}

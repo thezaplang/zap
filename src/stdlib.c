@@ -589,13 +589,52 @@ long zap_fs_mkdir(zap_string_t path) {
   }
 
   if (mkdir(buffer, 0777) == 0) {
-    chmod(buffer, 0777);
     free(buffer);
     return 0;
   }
 
   int err = errno;
   free(buffer);
+  return err;
+}
+
+long zap_fs_remove(zap_string_t path) {
+  char *buffer = zap_copy_path(path);
+  if (!buffer) {
+    return ENOMEM;
+  }
+
+  if (remove(buffer) == 0) {
+    free(buffer);
+    return 0;
+  }
+
+  int err = errno;
+  free(buffer);
+  return err;
+}
+
+long zap_fs_rename(zap_string_t from, zap_string_t to) {
+  char *from_buffer = zap_copy_path(from);
+  if (!from_buffer) {
+    return ENOMEM;
+  }
+
+  char *to_buffer = zap_copy_path(to);
+  if (!to_buffer) {
+    free(from_buffer);
+    return ENOMEM;
+  }
+
+  if (rename(from_buffer, to_buffer) == 0) {
+    free(from_buffer);
+    free(to_buffer);
+    return 0;
+  }
+
+  int err = errno;
+  free(from_buffer);
+  free(to_buffer);
   return err;
 }
 

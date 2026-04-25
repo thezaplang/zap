@@ -1,5 +1,6 @@
 import "std/path";
 import "std/string";
+import "std/collection";
 
 pub ext fun exists(path: String) Bool;
 pub ext fun isFile(path: String) Bool;
@@ -7,6 +8,8 @@ pub ext fun isDir(path: String) Bool;
 pub ext fun mkdir(path: String) Int;
 pub ext fun readFile(path: String) String;
 pub ext fun writeFile(path: String, content: String) Int;
+pub ext fun remove(path: String) Int;
+pub ext fun rename(from: String, to: String) Int;
 
 pub fun mkdirAll(target: String) Int {
   if string.len(target) == 0 {
@@ -30,4 +33,170 @@ pub fun mkdirAll(target: String) Int {
     return 0;
   }
   return err;
+}
+
+pub fun ensureDir(target: String) Int {
+  if string.len(target) == 0 {
+    return 22;
+  }
+
+  if isDir(target) {
+    return 0;
+  }
+
+  if exists(target) {
+    return 17;
+  }
+
+  return mkdirAll(target);
+}
+
+pub fun writeFileSafe(filePath: String, content: String) Int {
+  if string.len(filePath) == 0 {
+    return 22;
+  }
+
+  var parentDir: String = path.parent(filePath);
+  if !string.eq(parentDir, ".") {
+    var mkErr: Int = ensureDir(parentDir);
+    if mkErr != 0 {
+      return mkErr;
+    }
+  }
+
+  return writeFile(filePath, content);
+}
+
+pub fun touch(filePath: String) Int {
+  if string.len(filePath) == 0 {
+    return 22;
+  }
+
+  if isDir(filePath) {
+    return 21;
+  }
+
+  if isFile(filePath) {
+    return 0;
+  }
+
+  return writeFileSafe(filePath, "");
+}
+
+pub fun removeIfExists(target: String) Int {
+  if string.len(target) == 0 {
+    return 22;
+  }
+
+  if !exists(target) {
+    return 0;
+  }
+
+  return remove(target);
+}
+
+pub fun replaceFile(pathToWrite: String, content: String) Int {
+  return writeFileSafe(pathToWrite, content);
+}
+
+pub fun move(from: String, to: String) Int {
+  if string.len(from) == 0 || string.len(to) == 0 {
+    return 22;
+  }
+
+  var parentDir: String = path.parent(to);
+  if !string.eq(parentDir, ".") {
+    var mkErr: Int = ensureDir(parentDir);
+    if mkErr != 0 {
+      return mkErr;
+    }
+  }
+
+  return rename(from, to);
+}
+
+pub fun copyFile(from: String, to: String) Int {
+  if string.len(from) == 0 || string.len(to) == 0 {
+    return 22;
+  }
+
+  if !isFile(from) {
+    return 2;
+  }
+
+  var parentDir: String = path.parent(to);
+  if !string.eq(parentDir, ".") {
+    var mkErr: Int = ensureDir(parentDir);
+    if mkErr != 0 {
+      return mkErr;
+    }
+  }
+
+  return writeFile(to, readFile(from));
+}
+
+pub fun readLines(filePath: String) collection.List<String> {
+  var out: collection.List<String> = new collection.List<String>();
+
+  if string.len(filePath) == 0 {
+    return out;
+  }
+
+  if !isFile(filePath) {
+    return out;
+  }
+
+  var content: String = readFile(filePath);
+  var n: Int = string.len(content);
+
+  if n == 0 {
+    return out;
+  }
+
+  var start: Int = 0;
+  var i: Int = 0;
+  while i < n {
+    if string.at(content, i) == '\n' {
+      var lineLen: Int = i - start;
+      if lineLen > 0 && string.at(content, i - 1) == '\r' {
+        lineLen = lineLen - 1;
+      }
+      out.push(string.slice(content, start, lineLen));
+      start = i + 1;
+    }
+    i = i + 1;
+  }
+
+  if start < n {
+    out.push(string.slice(content, start, n - start));
+  }
+
+  return out;
+}
+
+pub fun writeLines(filePath: String, lines: collection.List<String>) Int {
+  if string.len(filePath) == 0 {
+    return 22;
+  }
+
+  var parentDir: String = path.parent(filePath);
+  if !string.eq(parentDir, ".") {
+    var mkErr: Int = ensureDir(parentDir);
+    if mkErr != 0 {
+      return mkErr;
+    }
+  }
+
+  var content: String = "";
+  var n: Int = lines.len();
+  var i: Int = 0;
+  while i < n {
+    content = content + lines.at(i);
+    if i + 1 < n {
+      content = content + "\n";
+    }
+    i = i + 1;
+  }
+
+  return writeFile(filePath, content);
 }

@@ -341,6 +341,7 @@ run_runtime_test "tests/process_cwd_test.zp" 0 "Current working directory access
 run_runtime_test "tests/fs_test.zp" 0 "Filesystem path checks"
 run_runtime_test "tests/fs_mkdir_test.zp" 0 "Filesystem directory creation"
 run_runtime_test "tests/fs_file_io_test.zp" 0 "Filesystem text file IO"
+run_runtime_test "tests/fs_extra_test.zp" 0 "Filesystem extra helpers"
 run_runtime_test "tests/path_test.zp" 0 "Path helpers"
 run_runtime_test "tests/math_test.zp" 0 "Math stdlib helpers"
 run_runtime_test "tests/std_network_test.zp" 0 "std/network low-level TCP primitives"
