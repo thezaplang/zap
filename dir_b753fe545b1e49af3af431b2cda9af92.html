@@ -104,6 +104,32 @@ Install the Extension</h1>
 <li>Select the generated <span class="tt">.vsix</span></li>
 </ol>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+Color Customization (Function vs Generics)</h1>
+<p>If your theme makes function names and generic parameters look too similar, add token color overrides in your VS Code settings:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;editor.tokenColorCustomizations&quot;: {</div>
+<div class="line">    &quot;textMateRules&quot;: [</div>
+<div class="line">      {</div>
+<div class="line">        &quot;scope&quot;: &quot;entity.name.function.zap&quot;,</div>
+<div class="line">        &quot;settings&quot;: { &quot;foreground&quot;: &quot;#82AAFF&quot;, &quot;fontStyle&quot;: &quot;bold&quot; }</div>
+<div class="line">      },</div>
+<div class="line">      {</div>
+<div class="line">        &quot;scope&quot;: &quot;entity.name.type.parameter.zap&quot;,</div>
+<div class="line">        &quot;settings&quot;: { &quot;foreground&quot;: &quot;#FFCB6B&quot;, &quot;fontStyle&quot;: &quot;italic&quot; }</div>
+<div class="line">      },</div>
+<div class="line">      {</div>
+<div class="line">        &quot;scope&quot;: [</div>
+<div class="line">          &quot;punctuation.definition.generic.begin.zap&quot;,</div>
+<div class="line">          &quot;punctuation.definition.generic.end.zap&quot;,</div>
+<div class="line">          &quot;punctuation.separator.generic.zap&quot;</div>
+<div class="line">        ],</div>
+<div class="line">        &quot;settings&quot;: { &quot;foreground&quot;: &quot;#C792EA&quot; }</div>
+<div class="line">      }</div>
+<div class="line">    ]</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>After updating settings, run <b>Developer: Reload Window</b>.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Notes</h1>
 <ul>
 <li>The server currently provides diagnostics.</li>

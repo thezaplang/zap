@@ -244,7 +244,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00409">logMessage()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00428">processMessage()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00411">logMessage()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00430">processMessage()</a>.</p>
 
 </div>
 </div>
@@ -268,19 +268,19 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00409">409</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  409</span>                                                                {</div>
-<div class="line"><span class="lineno">  410</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> params;</div>
-<div class="line"><span class="lineno">  411</span>  params.emplace(<span class="stringliteral">&quot;type&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2cff3d4d2bbfb8a22cd29af7f1ece176">JsonObject::Integer</a><span class="keyword">&gt;</span>(type)));</div>
-<div class="line"><span class="lineno">  412</span>  params.emplace(<span class="stringliteral">&quot;message&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(message));</div>
-<div class="line"><span class="lineno">  413</span> </div>
-<div class="line"><span class="lineno">  414</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> rpc;</div>
-<div class="line"><span class="lineno">  415</span>  rpc.emplace(<span class="stringliteral">&quot;jsonrpc&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="stringliteral">&quot;2.0&quot;</span>));</div>
-<div class="line"><span class="lineno">  416</span>  rpc.emplace(<span class="stringliteral">&quot;method&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="stringliteral">&quot;window/logMessage&quot;</span>));</div>
-<div class="line"><span class="lineno">  417</span>  rpc.emplace(<span class="stringliteral">&quot;params&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(std::move(params)));</div>
-<div class="line"><span class="lineno">  418</span> </div>
-<div class="line"><span class="lineno">  419</span>  <a class="code hl_function" href="#a59004e3bbbacf6a65ea32ff0e9bab309">sendMessage</a>(<a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(std::move(rpc)));</div>
-<div class="line"><span class="lineno">  420</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00411">411</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  411</span>                                                                {</div>
+<div class="line"><span class="lineno">  412</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> params;</div>
+<div class="line"><span class="lineno">  413</span>  params.emplace(<span class="stringliteral">&quot;type&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2cff3d4d2bbfb8a22cd29af7f1ece176">JsonObject::Integer</a><span class="keyword">&gt;</span>(type)));</div>
+<div class="line"><span class="lineno">  414</span>  params.emplace(<span class="stringliteral">&quot;message&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(message));</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  416</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> rpc;</div>
+<div class="line"><span class="lineno">  417</span>  rpc.emplace(<span class="stringliteral">&quot;jsonrpc&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="stringliteral">&quot;2.0&quot;</span>));</div>
+<div class="line"><span class="lineno">  418</span>  rpc.emplace(<span class="stringliteral">&quot;method&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="stringliteral">&quot;window/logMessage&quot;</span>));</div>
+<div class="line"><span class="lineno">  419</span>  rpc.emplace(<span class="stringliteral">&quot;params&quot;</span>, <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(std::move(params)));</div>
+<div class="line"><span class="lineno">  420</span> </div>
+<div class="line"><span class="lineno">  421</span>  <a class="code hl_function" href="#a59004e3bbbacf6a65ea32ff0e9bab309">sendMessage</a>(<a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(std::move(rpc)));</div>
+<div class="line"><span class="lineno">  422</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonObject_html_a2cff3d4d2bbfb8a22cd29af7f1ece176"><div class="ttname"><a href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#a2cff3d4d2bbfb8a22cd29af7f1ece176">zap::lsp::JsonObject::Integer</a></div><div class="ttdeci">int64_t Integer</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00017">lsp.hpp:17</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonObject_html_acf9c109974725c92c94959ea8acd623c"><div class="ttname"><a href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">zap::lsp::JsonObject::Object</a></div><div class="ttdeci">std::unordered_map&lt; std::string, JsonObject &gt; Object</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00015">lsp.hpp:15</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Server_html_a59004e3bbbacf6a65ea32ff0e9bab309"><div class="ttname"><a href="#a59004e3bbbacf6a65ea32ff0e9bab309">zap::lsp::Server::sendMessage</a></div><div class="ttdeci">void sendMessage(JsonRPC &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00114">lsp.hpp:114</a></div></div>
@@ -361,36 +361,65 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00428">428</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  428</span>                                                {</div>
-<div class="line"><span class="lineno">  429</span>  <span class="keywordtype">unsigned</span> contentLength = 0;</div>
-<div class="line"><span class="lineno">  430</span> </div>
-<div class="line"><span class="lineno">  431</span>  <span class="keywordflow">while</span> (std::getline(std::cin, line)) {</div>
-<div class="line"><span class="lineno">  432</span>    <span class="keywordflow">if</span> (line.empty() || line == <span class="stringliteral">&quot;\r&quot;</span>) {</div>
-<div class="line"><span class="lineno">  433</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  434</span>    }</div>
-<div class="line"><span class="lineno">  435</span>    <span class="keywordflow">if</span> (line.rfind(<a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>, 0) == 0) {</div>
-<div class="line"><span class="lineno">  436</span>      std::from_chars(line.data() + <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>.size(),</div>
-<div class="line"><span class="lineno">  437</span>                      line.data() + line.size(), contentLength);</div>
-<div class="line"><span class="lineno">  438</span>    }</div>
-<div class="line"><span class="lineno">  439</span>  }</div>
-<div class="line"><span class="lineno">  440</span> </div>
-<div class="line"><span class="lineno">  441</span>  <span class="keywordflow">if</span> (!std::cin || contentLength == 0) {</div>
-<div class="line"><span class="lineno">  442</span>    <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">  443</span>  }</div>
-<div class="line"><span class="lineno">  444</span> </div>
-<div class="line"><span class="lineno">  445</span>  std::string message(contentLength, <span class="charliteral">&#39;\0&#39;</span>);</div>
-<div class="line"><span class="lineno">  446</span>  std::cin.read(message.data(), <span class="keyword">static_cast&lt;</span>std::streamsize<span class="keyword">&gt;</span>(contentLength));</div>
-<div class="line"><span class="lineno">  447</span>  <span class="keywordflow">if</span> (!std::cin) {</div>
-<div class="line"><span class="lineno">  448</span>    <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">  449</span>  }</div>
-<div class="line"><span class="lineno">  450</span>  <span class="keywordflow">return</span> message;</div>
-<div class="line"><span class="lineno">  451</span>}</div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_a3bdf989e09b16dcd5ef0ef15627db32c"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">zap::lsp::prefix</a></div><div class="ttdeci">constexpr std::string_view prefix</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00393">lsp.cpp:393</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00430">430</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  430</span>                                                {</div>
+<div class="line"><span class="lineno">  431</span>  <span class="keywordtype">size_t</span> contentLength = 0;</div>
+<div class="line"><span class="lineno">  432</span>  <span class="keywordtype">bool</span> hasContentLength = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>  <span class="keywordflow">while</span> (std::getline(std::cin, line)) {</div>
+<div class="line"><span class="lineno">  435</span>    <span class="keywordflow">if</span> (line.empty() || line == <span class="stringliteral">&quot;\r&quot;</span>) {</div>
+<div class="line"><span class="lineno">  436</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  437</span>    }</div>
+<div class="line"><span class="lineno">  438</span> </div>
+<div class="line"><span class="lineno">  439</span>    <span class="keywordflow">if</span> (line.rfind(<a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>, 0) == 0) {</div>
+<div class="line"><span class="lineno">  440</span>      std::string_view value(line.data() + <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>.size(),</div>
+<div class="line"><span class="lineno">  441</span>                             line.size() - <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>.size());</div>
+<div class="line"><span class="lineno">  442</span>      <span class="keywordflow">if</span> (!value.empty() &amp;&amp; value.back() == <span class="charliteral">&#39;\r&#39;</span>) {</div>
+<div class="line"><span class="lineno">  443</span>        value.remove_suffix(1);</div>
+<div class="line"><span class="lineno">  444</span>      }</div>
+<div class="line"><span class="lineno">  445</span> </div>
+<div class="line"><span class="lineno">  446</span>      <span class="keywordflow">while</span> (!value.empty() &amp;&amp;</div>
+<div class="line"><span class="lineno">  447</span>             std::isspace(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(value.front()))) {</div>
+<div class="line"><span class="lineno">  448</span>        value.remove_prefix(1);</div>
+<div class="line"><span class="lineno">  449</span>      }</div>
+<div class="line"><span class="lineno">  450</span> </div>
+<div class="line"><span class="lineno">  451</span>      <span class="keywordflow">if</span> (value.empty()) {</div>
+<div class="line"><span class="lineno">  452</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  453</span>      }</div>
+<div class="line"><span class="lineno">  454</span> </div>
+<div class="line"><span class="lineno">  455</span>      <span class="keywordtype">size_t</span> parsed = 0;</div>
+<div class="line"><span class="lineno">  456</span>      <span class="keyword">auto</span> res = std::from_chars(value.data(), value.data() + value.size(), parsed);</div>
+<div class="line"><span class="lineno">  457</span>      <span class="keywordflow">if</span> (res.ec != std::errc() || res.ptr != value.data() + value.size()) {</div>
+<div class="line"><span class="lineno">  458</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  459</span>      }</div>
+<div class="line"><span class="lineno">  460</span> </div>
+<div class="line"><span class="lineno">  461</span>      <span class="keywordflow">if</span> (parsed == 0 || parsed &gt; <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a02bfdc64c1e76140fb109a50c9882186">kMaxLspMessageBytes</a>) {</div>
+<div class="line"><span class="lineno">  462</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  463</span>      }</div>
+<div class="line"><span class="lineno">  464</span> </div>
+<div class="line"><span class="lineno">  465</span>      contentLength = parsed;</div>
+<div class="line"><span class="lineno">  466</span>      hasContentLength = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  467</span>    }</div>
+<div class="line"><span class="lineno">  468</span>  }</div>
+<div class="line"><span class="lineno">  469</span> </div>
+<div class="line"><span class="lineno">  470</span>  <span class="keywordflow">if</span> (!std::cin || !hasContentLength || contentLength == 0) {</div>
+<div class="line"><span class="lineno">  471</span>    <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  472</span>  }</div>
+<div class="line"><span class="lineno">  473</span> </div>
+<div class="line"><span class="lineno">  474</span>  std::string message(contentLength, <span class="charliteral">&#39;\0&#39;</span>);</div>
+<div class="line"><span class="lineno">  475</span>  std::cin.read(message.data(), <span class="keyword">static_cast&lt;</span>std::streamsize<span class="keyword">&gt;</span>(contentLength));</div>
+<div class="line"><span class="lineno">  476</span>  <span class="keywordflow">if</span> (!std::cin) {</div>
+<div class="line"><span class="lineno">  477</span>    <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  478</span>  }</div>
+<div class="line"><span class="lineno">  479</span> </div>
+<div class="line"><span class="lineno">  480</span>  <span class="keywordflow">return</span> message;</div>
+<div class="line"><span class="lineno">  481</span>}</div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a02bfdc64c1e76140fb109a50c9882186"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a02bfdc64c1e76140fb109a50c9882186">zap::lsp::kMaxLspMessageBytes</a></div><div class="ttdeci">constexpr size_t kMaxLspMessageBytes</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00395">lsp.cpp:395</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a3bdf989e09b16dcd5ef0ef15627db32c"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">zap::lsp::prefix</a></div><div class="ttdeci">constexpr std::string_view prefix</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00394">lsp.cpp:394</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00393">zap::lsp::prefix</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">zap::lsp::kMaxLspMessageBytes</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00394">zap::lsp::prefix</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01981">main()</a>, and <a class="el" href="#a55fc9ed751162c9e77e83b7685aa22c3">~Server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02124">main()</a>, and <a class="el" href="#a55fc9ed751162c9e77e83b7685aa22c3">~Server()</a>.</p>
 
 </div>
 </div>
@@ -426,7 +455,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">buffer</a>, and <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00109">send()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01981">main()</a>, and <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00109">send()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02124">main()</a>, and <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00109">send()</a>.</p>
 
 </div>
 </div>
@@ -445,16 +474,16 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00422">422</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  422</span>                                                  {</div>
-<div class="line"><span class="lineno">  423</span>  std::string serialized;</div>
-<div class="line"><span class="lineno">  424</span>  <a class="code hl_function" href="../../d3/dfe/classzap_1_1lsp_1_1JsonParser.html#a593e3b60369deaad2b4310f9f99072c7">JsonParser::toString</a>(serialized, message);</div>
-<div class="line"><span class="lineno">  425</span>  <a class="code hl_function" href="#aefd8611365c2b26608c38ef5e382aa6c">sendMessageRaw</a>(serialized);</div>
-<div class="line"><span class="lineno">  426</span>}</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1JsonParser_html_a593e3b60369deaad2b4310f9f99072c7"><div class="ttname"><a href="../../d3/dfe/classzap_1_1lsp_1_1JsonParser.html#a593e3b60369deaad2b4310f9f99072c7">zap::lsp::JsonParser::toString</a></div><div class="ttdeci">static void toString(std::string &amp;dest, const JsonObject &amp;json)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00377">lsp.cpp:377</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1Server_html_aefd8611365c2b26608c38ef5e382aa6c"><div class="ttname"><a href="#aefd8611365c2b26608c38ef5e382aa6c">zap::lsp::Server::sendMessageRaw</a></div><div class="ttdeci">void sendMessageRaw(std::string_view message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00395">lsp.cpp:395</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00424">424</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  424</span>                                                  {</div>
+<div class="line"><span class="lineno">  425</span>  std::string serialized;</div>
+<div class="line"><span class="lineno">  426</span>  <a class="code hl_function" href="../../d3/dfe/classzap_1_1lsp_1_1JsonParser.html#a593e3b60369deaad2b4310f9f99072c7">JsonParser::toString</a>(serialized, message);</div>
+<div class="line"><span class="lineno">  427</span>  <a class="code hl_function" href="#aefd8611365c2b26608c38ef5e382aa6c">sendMessageRaw</a>(serialized);</div>
+<div class="line"><span class="lineno">  428</span>}</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1JsonParser_html_a593e3b60369deaad2b4310f9f99072c7"><div class="ttname"><a href="../../d3/dfe/classzap_1_1lsp_1_1JsonParser.html#a593e3b60369deaad2b4310f9f99072c7">zap::lsp::JsonParser::toString</a></div><div class="ttdeci">static void toString(std::string &amp;dest, const JsonObject &amp;json)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00378">lsp.cpp:378</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1Server_html_aefd8611365c2b26608c38ef5e382aa6c"><div class="ttname"><a href="#aefd8611365c2b26608c38ef5e382aa6c">zap::lsp::Server::sendMessageRaw</a></div><div class="ttdeci">void sendMessageRaw(std::string_view message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00397">lsp.cpp:397</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">sendMessageRaw()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00377">zap::lsp::JsonParser::toString()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00397">sendMessageRaw()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00378">zap::lsp::JsonParser::toString()</a>.</p>
 
 </div>
 </div>
@@ -484,9 +513,9 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00114">114</a> of file <a class="el" href="../../d8/ddd/lsp_8hpp_source.html">lsp.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  114</span>{ <a class="code hl_function" href="#aefd8611365c2b26608c38ef5e382aa6c">sendMessageRaw</a>(message.getStr()); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00386">zap::lsp::JsonRPC::getStr()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">sendMessageRaw()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00387">zap::lsp::JsonRPC::getStr()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00397">sendMessageRaw()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00409">logMessage()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01981">main()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01973">anonymous_namespace{lsp-main.cpp}::publishAnalysis()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00411">logMessage()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02124">main()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02116">anonymous_namespace{lsp-main.cpp}::publishAnalysis()</a>.</p>
 
 </div>
 </div>
@@ -516,7 +545,7 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00116">116</a> of file <a class="el" href="../../d8/ddd/lsp_8hpp_source.html">lsp.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  116</span>{ <a class="code hl_function" href="#aefd8611365c2b26608c38ef5e382aa6c">sendMessageRaw</a>(rawJson); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">sendMessageRaw()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00397">sendMessageRaw()</a>.</p>
 
 </div>
 </div>
@@ -543,24 +572,24 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">395</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  395</span>                                                  {</div>
-<div class="line"><span class="lineno">  396</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a> += <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>;</div>
-<div class="line"><span class="lineno">  397</span> </div>
-<div class="line"><span class="lineno">  398</span>  <span class="keywordtype">char</span> chars[std::numeric_limits&lt;unsigned&gt;::digits10 + 0x20];</div>
-<div class="line"><span class="lineno">  399</span>  <span class="keyword">auto</span> result = std::to_chars(chars, chars + <span class="keyword">sizeof</span>(chars), message.length());</div>
-<div class="line"><span class="lineno">  400</span> </div>
-<div class="line"><span class="lineno">  401</span>  <span class="keyword">constexpr</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *crlf = <span class="stringliteral">&quot;\r\n\r\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  402</span>  std::copy(crlf, crlf + 4, result.ptr);</div>
-<div class="line"><span class="lineno">  403</span>  result.ptr += 4;</div>
-<div class="line"><span class="lineno">  404</span> </div>
-<div class="line"><span class="lineno">  405</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a>.append(chars, <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(result.ptr - chars));</div>
-<div class="line"><span class="lineno">  406</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a> += message;</div>
-<div class="line"><span class="lineno">  407</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00397">397</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  397</span>                                                  {</div>
+<div class="line"><span class="lineno">  398</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a> += <a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c">prefix</a>;</div>
+<div class="line"><span class="lineno">  399</span> </div>
+<div class="line"><span class="lineno">  400</span>  <span class="keywordtype">char</span> chars[std::numeric_limits&lt;unsigned&gt;::digits10 + 0x20];</div>
+<div class="line"><span class="lineno">  401</span>  <span class="keyword">auto</span> result = std::to_chars(chars, chars + <span class="keyword">sizeof</span>(chars), message.length());</div>
+<div class="line"><span class="lineno">  402</span> </div>
+<div class="line"><span class="lineno">  403</span>  <span class="keyword">constexpr</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *crlf = <span class="stringliteral">&quot;\r\n\r\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  404</span>  std::copy(crlf, crlf + 4, result.ptr);</div>
+<div class="line"><span class="lineno">  405</span>  result.ptr += 4;</div>
+<div class="line"><span class="lineno">  406</span> </div>
+<div class="line"><span class="lineno">  407</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a>.append(chars, <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(result.ptr - chars));</div>
+<div class="line"><span class="lineno">  408</span>  <a class="code hl_variable" href="#a7692aeb86cec60f104f68ebab774977a">buffer</a> += message;</div>
+<div class="line"><span class="lineno">  409</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">buffer</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00393">zap::lsp::prefix</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">buffer</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00394">zap::lsp::prefix</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00422">sendMessage()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00114">sendMessage()</a>, and <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00116">sendMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00424">sendMessage()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00114">sendMessage()</a>, and <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00116">sendMessage()</a>.</p>
 
 </div>
 </div>
@@ -587,7 +616,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">92</a> of file <a class="el" href="../../d8/ddd/lsp_8hpp_source.html">lsp.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00109">send()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00395">sendMessageRaw()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00109">send()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00397">sendMessageRaw()</a>.</p>
 
 </div>
 </div>

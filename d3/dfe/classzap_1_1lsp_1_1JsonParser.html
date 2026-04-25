@@ -98,19 +98,19 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00367">367</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  367</span>                                                {</div>
-<div class="line"><span class="lineno">  368</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *it = view.data();</div>
-<div class="line"><span class="lineno">  369</span>  <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a> result = <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#aa5c16909960b0097d8b4f095cbf70365">parseJson</a>(it, view.data() + view.size());</div>
-<div class="line"><span class="lineno">  370</span>  <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abe41ce9d3dc7bbd87fad4c00d29bf3aa">jsonSkipWhitespace</a>(it, view.data() + view.size());</div>
-<div class="line"><span class="lineno">  371</span>  <span class="keywordflow">if</span> (it != view.data() + view.size()) {</div>
-<div class="line"><span class="lineno">  372</span>    <span class="keywordflow">return</span> <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  373</span>  }</div>
-<div class="line"><span class="lineno">  374</span>  <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  375</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00368">368</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  368</span>                                                {</div>
+<div class="line"><span class="lineno">  369</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *it = view.data();</div>
+<div class="line"><span class="lineno">  370</span>  <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a> result = <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#aa5c16909960b0097d8b4f095cbf70365">parseJson</a>(it, view.data() + view.size());</div>
+<div class="line"><span class="lineno">  371</span>  <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abe41ce9d3dc7bbd87fad4c00d29bf3aa">jsonSkipWhitespace</a>(it, view.data() + view.size());</div>
+<div class="line"><span class="lineno">  372</span>  <span class="keywordflow">if</span> (it != view.data() + view.size()) {</div>
+<div class="line"><span class="lineno">  373</span>    <span class="keywordflow">return</span> <a class="code hl_typedef" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">JsonObject</a>(<span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">  374</span>  }</div>
+<div class="line"><span class="lineno">  375</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  376</span>}</div>
 <div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_ac94c61717761f148f0bc34010cdf5f99"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac94c61717761f148f0bc34010cdf5f99">anonymous_namespace{lsp-main.cpp}::JsonObject</a></div><div class="ttdeci">zap::lsp::JsonObject JsonObject</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00023">lsp-main.cpp:23</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_aa5c16909960b0097d8b4f095cbf70365"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#aa5c16909960b0097d8b4f095cbf70365">zap::lsp::anonymous_namespace{lsp.cpp}::parseJson</a></div><div class="ttdeci">JsonObject parseJson(const char *&amp;it, const char *end)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00231">lsp.cpp:231</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_abe41ce9d3dc7bbd87fad4c00d29bf3aa"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abe41ce9d3dc7bbd87fad4c00d29bf3aa">zap::lsp::anonymous_namespace{lsp.cpp}::jsonSkipWhitespace</a></div><div class="ttdeci">void jsonSkipWhitespace(const char *&amp;it, const char *end)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00014">lsp.cpp:14</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_aa5c16909960b0097d8b4f095cbf70365"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#aa5c16909960b0097d8b4f095cbf70365">zap::lsp::anonymous_namespace{lsp.cpp}::parseJson</a></div><div class="ttdeci">JsonObject parseJson(const char *&amp;it, const char *end)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00232">lsp.cpp:232</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_abe41ce9d3dc7bbd87fad4c00d29bf3aa"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abe41ce9d3dc7bbd87fad4c00d29bf3aa">zap::lsp::anonymous_namespace{lsp.cpp}::jsonSkipWhitespace</a></div><div class="ttdeci">void jsonSkipWhitespace(const char *&amp;it, const char *end)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00015">lsp.cpp:15</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -141,13 +141,13 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00377">377</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  377</span>                                                                 {</div>
-<div class="line"><span class="lineno">  378</span>  <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a3ae014ecbd6b263971050157d3f50fa0">stringifyJson</a>(dest, json);</div>
-<div class="line"><span class="lineno">  379</span>}</div>
-<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_a3ae014ecbd6b263971050157d3f50fa0"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a3ae014ecbd6b263971050157d3f50fa0">zap::lsp::anonymous_namespace{lsp.cpp}::stringifyJson</a></div><div class="ttdeci">void stringifyJson(std::string &amp;out, const JsonObject &amp;json)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00296">lsp.cpp:296</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00378">378</a> of file <a class="el" href="../../d1/d74/lsp_8cpp_source.html">lsp.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  378</span>                                                                 {</div>
+<div class="line"><span class="lineno">  379</span>  <a class="code hl_function" href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a3ae014ecbd6b263971050157d3f50fa0">stringifyJson</a>(dest, json);</div>
+<div class="line"><span class="lineno">  380</span>}</div>
+<div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03_html_a3ae014ecbd6b263971050157d3f50fa0"><div class="ttname"><a href="../../d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a3ae014ecbd6b263971050157d3f50fa0">zap::lsp::anonymous_namespace{lsp.cpp}::stringifyJson</a></div><div class="ttdeci">void stringifyJson(std::string &amp;out, const JsonObject &amp;json)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d74/lsp_8cpp_source.html#l00297">lsp.cpp:297</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00386">zap::lsp::JsonRPC::getStr()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00422">zap::lsp::Server::sendMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00387">zap::lsp::JsonRPC::getStr()</a>, and <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00424">zap::lsp::Server::sendMessage()</a>.</p>
 
 </div>
 </div>

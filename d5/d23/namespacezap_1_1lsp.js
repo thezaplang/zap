@@ -17,5 +17,6 @@ var namespacezap_1_1lsp =
     [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
     [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],
     [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ],
+    [ "kMaxLspMessageBytes", "d5/d23/namespacezap_1_1lsp.html#a02bfdc64c1e76140fb109a50c9882186", null ],
     [ "prefix", "d5/d23/namespacezap_1_1lsp.html#a3bdf989e09b16dcd5ef0ef15627db32c", null ]
 ];

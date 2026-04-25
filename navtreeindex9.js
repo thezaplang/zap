@@ -1,5 +1,6 @@
 var NAVTREEINDEX9 =
 {
+"db/d37/classsema_1_1BoundFunctionDeclaration.html#a1f845a2e0735ae76cdc6ba9d076df324":[2,0,2,27,1],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5":[1,0,3,28,0],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5":[2,0,2,27,0],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e":[1,0,3,28,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX9 =
 "dc/d2c/classsema_1_1Binder.html#a04a3d0fe75b08d4dcf2ef9773e0cd3ca":[2,0,2,0,68],
 "dc/d2c/classsema_1_1Binder.html#a05731070bbde13d7cd8effe30682331f":[1,0,3,1,106],
 "dc/d2c/classsema_1_1Binder.html#a05731070bbde13d7cd8effe30682331f":[2,0,2,0,106],
-"dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2":[1,0,3,1,8],
-"dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2":[2,0,2,0,8]
+"dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2":[1,0,3,1,8]
 };

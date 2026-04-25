@@ -73,6 +73,7 @@ zap.nvim</h1>
 <li>diagnostics</li>
 <li>completion through LSP</li>
 <li><span class="tt">gd</span> go to definition</li>
+<li>up-to-date keyword highlighting including <span class="tt">iftype</span>, <span class="tt">where</span>, and <span class="tt">weak</span></li>
 </ul>
 <p>This runtime works on Neovim <span class="tt">0.11+</span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
@@ -138,7 +139,11 @@ Quick checks</h1>
 <li><span class="tt">filetype=<a class="el" href="d7/d1a/namespacezap.html">zap</a></span></li>
 <li><span class="tt"><a class="el" href="db/dfa/stdlib_8c.html#a74317ec5ef52657637e2f8537d48a687">exists</a>(':ZapNvimInfo')</span> returns <span class="tt">2</span></li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+<p>You can also quickly verify modern keyword highlighting by opening a <span class="tt">.zp</span> file containing:</p>
+<div class="fragment"><div class="line">iftype T == Int { }</div>
+<div class="line">class Box&lt;T&gt; where T: Animal { }</div>
+<div class="line">var node: weak Node;</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 Notes</h1>
 <ul>
 <li>No <span class="tt">nvim-lspconfig</span> is required on Neovim <span class="tt">0.11+</span>.</li>

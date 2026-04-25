@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2":[2,0,2,0,8],
 "dc/d2c/classsema_1_1Binder.html#a06f5a71b5e991386e82ed23d3585da1c":[1,0,3,1,58],
 "dc/d2c/classsema_1_1Binder.html#a06f5a71b5e991386e82ed23d3585da1c":[2,0,2,0,58],
 "dc/d2c/classsema_1_1Binder.html#a07203fb71629273509a05bb9b21bc3f9":[1,0,3,1,111],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "dc/d46/classsema_1_1BoundVariableExpression.html#a96eaeaaeb5f0bc7a1642f36a94ea07c8":[2,0,2,9,0],
 "dc/d46/classsema_1_1BoundVariableExpression.html#aaa2c9b3d656def8a58d37923b96bb000":[1,0,3,10,3],
 "dc/d46/classsema_1_1BoundVariableExpression.html#aaa2c9b3d656def8a58d37923b96bb000":[2,0,2,9,3],
-"dc/d46/classsema_1_1BoundVariableExpression.html#abb2eb652135bff507d5c8b9e9d2109df":[1,0,3,10,2],
-"dc/d46/classsema_1_1BoundVariableExpression.html#abb2eb652135bff507d5c8b9e9d2109df":[2,0,2,9,2]
+"dc/d46/classsema_1_1BoundVariableExpression.html#abb2eb652135bff507d5c8b9e9d2109df":[1,0,3,10,2]
 };
