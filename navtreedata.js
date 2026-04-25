@@ -79,15 +79,15 @@ var NAVTREEINDEX =
 "d3/d28/classzap_1_1DiagnosticEngine.html#a9d9cf1310f3abb8bbe62d054bb9df182",
 "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4dc014d38d8f5ea326043e8491cfb6a3",
 "d5/df9/const__id_8hpp.html",
-"d8/d65/classTopLevel.html",
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a97abc7b3744ccc2d58bd56edbe234f3d",
-"da/de1/classzir_1_1RecordType.html#a0bbf365ab48d7faae5a2c06bdba4622c",
-"db/d34/ir__generator_8cpp_source.html",
-"dc/d2c/classsema_1_1Binder.html",
-"dc/d2e/classzir_1_1StoreInst.html#a55cdd8b2061515c6bcc86b9f2243781f",
-"dd/d9c/classsema_1_1BoundArrayLiteral.html#a7e354da52f3651b4b6c9279d72d7a04a",
-"df/d0a/classzir_1_1BinaryInst.html#af9c53f8f5f6acd322f8a07f73ec2f4c2",
-"functions_l.html"
+"d8/d5e/classAssignNode.html",
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a6113c9252d1aa29f316e98f03eb7ae3b",
+"da/de1/classzir_1_1RecordType.html",
+"db/d06/classsema_1_1BoundExpression.html#a293605df0a39737e2c9809a424644b17",
+"dc/d13/structVisitor.html#ac8cf6a8dfcbe7c3fcbc8eba6e89bc306",
+"dc/d2c/classsema_1_1Binder.html#afc0ea927c024a812691148244b9d7239",
+"dd/d97/classUnaryExpr.html#a056b3a61523c6ce1823c9cd635de616c",
+"df/d01/structzap_1_1Diagnostic.html#ad3496ee5e4773cf5634fe5b7ba7ec849",
+"functions_func_d.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

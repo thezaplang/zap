@@ -212,6 +212,12 @@ var NAVTREEINDEX5 =
 "d7/de6/structImportBinding.html":[2,0,31],
 "d7/de6/structImportBinding.html#ac6f72be4ffc512b024e7695272808e35":[2,0,31,1],
 "d7/de6/structImportBinding.html#ae3f94d5794122143159ceb668692c92b":[2,0,31,0],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html":[1,0,5,32,0],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html":[2,0,4,32,0],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html#ab95c31434441e1a9ae5d6a0523e3a52e":[1,0,5,32,0,0],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html#ab95c31434441e1a9ae5d6a0523e3a52e":[2,0,4,32,0,0],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html#ad50ea991baa255060526223d779ebc60":[1,0,5,32,0,1],
+"d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html#ad50ea991baa255060526223d779ebc60":[2,0,4,32,0,1],
 "d8/d0b/struct__decl_8hpp.html":[3,0,0,0,29],
 "d8/d0b/struct__decl_8hpp_source.html":[3,0,0,0,29],
 "d8/d42/classzir_1_1CastInst.html":[1,0,5,17],
@@ -243,11 +249,5 @@ var NAVTREEINDEX5 =
 "d8/d4b/classsema_1_1BoundStructLiteral.html#ab3d0622e130ce501355d768d9463ac42":[1,0,3,33,1],
 "d8/d4b/classsema_1_1BoundStructLiteral.html#ab3d0622e130ce501355d768d9463ac42":[2,0,2,32,1],
 "d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800":[1,0,3,33,3],
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800":[2,0,2,32,3],
-"d8/d5e/classAssignNode.html":[2,0,7],
-"d8/d5e/classAssignNode.html#a3297c5b975e2651df75475fb04f02438":[2,0,7,4],
-"d8/d5e/classAssignNode.html#a62dd35945f4a714bba26f3f8e4f9ef63":[2,0,7,0],
-"d8/d5e/classAssignNode.html#a7a1e3df83836f0a2ca6368381cbb7ac9":[2,0,7,3],
-"d8/d5e/classAssignNode.html#a897aed991c15c72a36509010a03e7bb3":[2,0,7,1],
-"d8/d5e/classAssignNode.html#a8eda2f8ab8a8316637703ccf87fddfcb":[2,0,7,2]
+"d8/d4b/classsema_1_1BoundStructLiteral.html#ac77518974d217b6130d5a25e2481c800":[2,0,2,32,3]
 };

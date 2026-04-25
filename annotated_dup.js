@@ -114,6 +114,7 @@ var annotated_dup =
       [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
       [ "Register", "da/d1e/classzir_1_1Register.html", "da/d1e/classzir_1_1Register" ],
       [ "Constant", "da/d2d/classzir_1_1Constant.html", "da/d2d/classzir_1_1Constant" ],
+      [ "AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", "dd/de3/classzir_1_1AggregateConstant" ],
       [ "Argument", "d3/d57/classzir_1_1Argument.html", "d3/d57/classzir_1_1Argument" ],
       [ "Global", "d0/d8c/classzir_1_1Global.html", "d0/d8c/classzir_1_1Global" ]
     ] ],

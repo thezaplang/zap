@@ -27,6 +27,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "initializeModule", "da/de9/classcodegen_1_1LLVMCodeGen.html#a8c1bce76bfeed3c288cab4886e2997a2", null ],
     [ "isClassType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a087d90dde701c5f67a15e1c39ed7284f", null ],
     [ "isWeakClassType", "da/de9/classcodegen_1_1LLVMCodeGen.html#aea40a6c5f785fb226f6940b6d1f66c2e", null ],
+    [ "lowerZIRAggregateConstant", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3d7ae8234685ecf142610d531d8eee35", null ],
     [ "lowerZIRCast", "da/de9/classcodegen_1_1LLVMCodeGen.html#a8790bb73812f29f115bce58c670e9fe2", null ],
     [ "lowerZIRConstant", "da/de9/classcodegen_1_1LLVMCodeGen.html#a9c43c2cdab04db1ac5b4377e0e8d7ff8", null ],
     [ "lowerZIRRValue", "da/de9/classcodegen_1_1LLVMCodeGen.html#afaca4118cf5f3527b29c3e6f241d78a6", null ],

@@ -76,7 +76,8 @@ Requirements</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Default Behavior</h1>
 <p>The packaged <span class="tt">.vsix</span> bundles <span class="tt">zap-lsp</span>.</p>
-<p>For imports like <span class="tt">std/io</span>, set <span class="tt">zap-lsp.stdlibPath</span> to your local <span class="tt">std/</span> directory.</p>
+<p>The packaged extension ships with a bundled <span class="tt">stdlib/</span> and uses it by default for imports like <span class="tt">std/io</span>.</p>
+<p>You usually do not need to set <span class="tt">zap-lsp.stdlibPath</span> unless you want to override the bundled stdlib with your own.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Optional Server Override</h1>
 <p>If you want to use a different server binary, set <span class="tt">zap-lsp.path</span>.</p>
@@ -84,7 +85,7 @@ Optional Server Override</h1>
 <div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;zap-lsp.path&quot;: &quot;/custom/path/to/zap-lsp&quot;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Example stdlib setting:</p>
+</div><!-- fragment --><p>Example stdlib override setting (optional):</p>
 <div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;zap-lsp.stdlibPath&quot;: &quot;/path/to/zap/std&quot;</div>
 <div class="line">}</div>

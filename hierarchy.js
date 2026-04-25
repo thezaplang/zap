@@ -56,6 +56,7 @@ var hierarchy =
     [ "anonymous_namespace{lsp-main.cpp}::DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", null ],
     [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
+    [ "zir::AggregateConstant::FieldValue", "d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
     [ "GenericConstraint", "d2/d6f/structGenericConstraint.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
@@ -175,6 +176,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
+      [ "zir::AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", null ],
       [ "zir::Argument", "d3/d57/classzir_1_1Argument.html", null ],
       [ "zir::Constant", "da/d2d/classzir_1_1Constant.html", null ],
       [ "zir::Global", "d0/d8c/classzir_1_1Global.html", null ],

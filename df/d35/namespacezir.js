@@ -32,6 +32,7 @@ var namespacezir =
     [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
     [ "Register", "da/d1e/classzir_1_1Register.html", "da/d1e/classzir_1_1Register" ],
     [ "Constant", "da/d2d/classzir_1_1Constant.html", "da/d2d/classzir_1_1Constant" ],
+    [ "AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", "dd/de3/classzir_1_1AggregateConstant" ],
     [ "Argument", "d3/d57/classzir_1_1Argument.html", "d3/d57/classzir_1_1Argument" ],
     [ "Global", "d0/d8c/classzir_1_1Global.html", "d0/d8c/classzir_1_1Global" ],
     [ "OpCode", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847a", [
@@ -92,6 +93,7 @@ var namespacezir =
     [ "ValueKind", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609", [
       [ "Register", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4", null ],
       [ "Constant", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255", null ],
+      [ "AggregateConstant", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488", null ],
       [ "Argument", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb", null ],
       [ "Global", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8", null ]
     ] ]
