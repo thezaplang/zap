@@ -42,6 +42,7 @@ var classzap_1_1driver =
     [ "inc_stdlib", "d9/d00/classzap_1_1driver.html#a21d41cfb87773126f37c71bffa87bd84", null ],
     [ "inputs", "d9/d00/classzap_1_1driver.html#ae829fa98e7b4fc2e30ab53c8a645a879", null ],
     [ "objects", "d9/d00/classzap_1_1driver.html#a7ccbc03112e80c027c644a2e85689b98", null ],
+    [ "optimization_level", "d9/d00/classzap_1_1driver.html#a99ddf469f62069bde7ac6211280f9e4b", null ],
     [ "out_type", "d9/d00/classzap_1_1driver.html#a7900fe7e6fc25a568ce93377e59430f9", null ],
     [ "output", "d9/d00/classzap_1_1driver.html#afa0fe7a29ff3ae0bcfe74cf085039bd6", null ],
     [ "sources", "d9/d00/classzap_1_1driver.html#af13fc15b0f42d73fc66eb382cf8026a5", null ]

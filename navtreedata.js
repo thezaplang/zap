@@ -80,14 +80,14 @@ var NAVTREEINDEX =
 "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4dc014d38d8f5ea326043e8491cfb6a3",
 "d5/df9/const__id_8hpp.html",
 "d8/d65/classTopLevel.html",
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#aa1daed1a1ea0c64d2c4ed06ee10aa675",
-"da/de1/classzir_1_1RecordType.html#a23eb1992007fb74d2ef4b503eacb762e",
-"db/d37/classsema_1_1BoundFunctionDeclaration.html#a1f845a2e0735ae76cdc6ba9d076df324",
-"dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2",
-"dc/d46/classsema_1_1BoundVariableExpression.html#abb2eb652135bff507d5c8b9e9d2109df",
-"de/d14/classsema_1_1OverloadSetSymbol.html#aa2611f6651e32e6fae0c5b919b728b8b",
-"df/d31/classzir_1_1CallInst.html#a72c399d92cd89d4465c1cbca0a12d2f9",
-"functions_vars_f.html"
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a9f8e5cb20d22d0e25710724027ae05e5",
+"da/de1/classzir_1_1RecordType.html#a0dc8496f8af04506f91c57f0649a260c",
+"db/d37/classsema_1_1BoundFunctionDeclaration.html",
+"dc/d2c/classsema_1_1Binder.html#a04a3d0fe75b08d4dcf2ef9773e0cd3ca",
+"dc/d46/classsema_1_1BoundVariableExpression.html",
+"de/d14/classsema_1_1OverloadSetSymbol.html",
+"df/d31/classzir_1_1CallInst.html#a20c5512e19420e5b7e7f57a84a029b05",
+"functions_vars.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

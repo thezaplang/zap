@@ -1,7 +1,7 @@
 var driver_8cpp =
 [
     [ "zap::compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
-    [ "zap::compileObjectFromZIR", "d7/d1a/namespacezap.html#a49a535ddcd33f51bd094f8aa9d517e80", null ],
+    [ "zap::compileObjectFromZIR", "d7/d1a/namespacezap.html#aa45f8059fbd9d638fea35ed88ebb1e31", null ],
     [ "zap::compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9", null ],
     [ "zap::compileSourceZIR", "d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595", null ],
     [ "zap::anonymous_namespace{driver.cpp}::computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
