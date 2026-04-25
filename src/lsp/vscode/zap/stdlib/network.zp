@@ -1,0 +1,308 @@
+import "std/io" { eprintln };
+import "std/process";
+import "std/string";
+
+pub ext fun netConnect(host: String, port: Int) Int;
+pub ext fun netListen(host: String, port: Int) Int;
+pub ext fun netAccept(listenerFd: Int) Int;
+pub ext fun netClose(fd: Int) Int;
+pub ext fun netSend(fd: Int, data: String) Int;
+pub ext fun netRecv(fd: Int, maxLen: Int) String;
+pub ext fun netResolve(host: String) String;
+pub ext fun netLastError() Int;
+
+pub struct NetError {
+  code: Int,
+  message: String,
+}
+
+pub struct Endpoint {
+  host: String,
+  port: Int,
+}
+
+pub class Stream {
+  priv fd: Int;
+  priv readBuf: String;
+
+  fun init(fd: Int) {
+    self.fd = fd;
+    self.readBuf = "";
+  }
+
+  pub fun fdValue() Int {
+    return self.fd;
+  }
+
+  pub fun isOpen() Bool {
+    return self.fd >= 0;
+  }
+
+  pub fun close() Int {
+    if self.fd < 0 {
+      return 0;
+    }
+
+    var err: Int = netClose(self.fd);
+    if err == 0 {
+      self.fd = -1;
+    }
+    return err;
+  }
+
+  pub fun send(data: String) Int {
+    if self.fd < 0 {
+      return -1;
+    }
+    return netSend(self.fd, data);
+  }
+
+  pub fun recv(maxLen: Int) String {
+    if self.fd < 0 {
+      return "";
+    }
+    return netRecv(self.fd, maxLen);
+  }
+
+  pub fun recvExact(bytes: Int) String {
+    if self.fd < 0 || bytes <= 0 {
+      return "";
+    }
+
+    var out: String = "";
+    var left: Int = bytes;
+
+    if string.len(self.readBuf) > 0 {
+      var take: Int = left;
+      if string.len(self.readBuf) < take {
+        take = string.len(self.readBuf);
+      }
+
+      out = out + string.slice(self.readBuf, 0, take);
+      left = left - take;
+
+      if take < string.len(self.readBuf) {
+        self.readBuf = string.slice(self.readBuf, take, string.len(self.readBuf) - take);
+      } else {
+        self.readBuf = "";
+      }
+    }
+
+    while left > 0 {
+      var chunk: String = netRecv(self.fd, left);
+      var got: Int = string.len(chunk);
+      if got <= 0 {
+        break;
+      }
+      out = out + chunk;
+      left = left - got;
+    }
+
+    return out;
+  }
+
+  pub fun sendAll(data: String) Int {
+    if self.fd < 0 {
+      return -1;
+    }
+
+    var total: Int = 0;
+    var n: Int = string.len(data);
+
+    if n == 0 {
+      return 0;
+    }
+
+    while total < n {
+      var part: String = string.slice(data, total, n - total);
+      var sent: Int = netSend(self.fd, part);
+      if sent <= 0 {
+        if total == 0 {
+          return sent;
+        }
+        return total;
+      }
+      total = total + sent;
+    }
+
+    return total;
+  }
+
+  pub fun sendLine(line: String) Int {
+    return self.sendAll(line + "\n");
+  }
+
+  pub fun recvUntil(delimiter: Char, maxLen: Int) String {
+    if self.fd < 0 || maxLen <= 0 {
+      return "";
+    }
+
+    var out: String = "";
+    var used: Int = 0;
+
+    while used < maxLen {
+      if string.len(self.readBuf) == 0 {
+        var chunk: String = netRecv(self.fd, 1024);
+        if string.len(chunk) == 0 {
+          break;
+        }
+        self.readBuf = chunk;
+      }
+
+      var i: Int = 0;
+      var bufLen: Int = string.len(self.readBuf);
+      while i < bufLen {
+        var ch: Char = string.at(self.readBuf, i);
+        out = out + ch;
+        used = used + 1;
+        if ch == delimiter || used >= maxLen {
+          if i + 1 < bufLen {
+            self.readBuf = string.slice(self.readBuf, i + 1, bufLen - (i + 1));
+          } else {
+            self.readBuf = "";
+          }
+          return out;
+        }
+        i = i + 1;
+      }
+
+      self.readBuf = "";
+    }
+
+    return out;
+  }
+
+  pub fun recvLine(maxLen: Int) String {
+    return self.recvUntil('\n', maxLen);
+  }
+
+  pub fun readBufferedBytes() Int {
+    return string.len(self.readBuf);
+  }
+
+  pub fun clearBuffer() {
+    self.readBuf = "";
+  }
+}
+
+pub class Listener {
+  priv fd: Int;
+
+  fun init(fd: Int) {
+    self.fd = fd;
+  }
+
+  pub fun fdValue() Int {
+    return self.fd;
+  }
+
+  pub fun isOpen() Bool {
+    return self.fd >= 0;
+  }
+
+  pub fun accept() Stream {
+    return new Stream(netAccept(self.fd));
+  }
+
+  pub fun close() Int {
+    if self.fd < 0 {
+      return 0;
+    }
+
+    var err: Int = netClose(self.fd);
+    if err == 0 {
+      self.fd = -1;
+    }
+    return err;
+  }
+}
+
+pub fun okCode() Int {
+  return 0;
+}
+
+pub fun invalidFd() Int {
+  return -1;
+}
+
+pub fun isValidFd(fd: Int) Bool {
+  return fd >= 0;
+}
+
+pub fun closeIfOpen(fd: Int) Int {
+  if fd >= 0 {
+    return netClose(fd);
+  }
+  return 0;
+}
+
+pub fun endpoint(host: String, port: Int) Endpoint {
+  var e: Endpoint;
+  e.host = host;
+  e.port = port;
+  return e;
+}
+
+pub fun connect(host: String, port: Int) Int {
+  return netConnect(host, port);
+}
+
+pub fun connectEndpoint(ep: Endpoint) Int {
+  return netConnect(ep.host, ep.port);
+}
+
+pub fun dial(host: String, port: Int) Stream {
+  return new Stream(netConnect(host, port));
+}
+
+pub fun dialEndpoint(ep: Endpoint) Stream {
+  return new Stream(netConnect(ep.host, ep.port));
+}
+
+pub fun listen(host: String, port: Int) Int {
+  return netListen(host, port);
+}
+
+pub fun bind(host: String, port: Int) Listener {
+  return new Listener(netListen(host, port));
+}
+
+pub fun bindEndpoint(ep: Endpoint) Listener {
+  return new Listener(netListen(ep.host, ep.port));
+}
+
+pub fun accept(listenerFd: Int) Int {
+  return netAccept(listenerFd);
+}
+
+pub fun send(fd: Int, data: String) Int {
+  return netSend(fd, data);
+}
+
+pub fun recv(fd: Int, maxLen: Int) String {
+  return netRecv(fd, maxLen);
+}
+
+pub fun resolve(host: String) String {
+  return netResolve(host);
+}
+
+pub fun lastErrorCode() Int {
+  return netLastError();
+}
+
+pub fun makeError(code: Int, message: String) NetError {
+  var err: NetError;
+  err.code = code;
+  err.message = message;
+  return err;
+}
+
+pub fun lastError(message: String) NetError {
+  return makeError(netLastError(), message);
+}
+
+pub fun fail(message: String) Void {
+  eprintln("network error: " + message);
+  process.exit(1);
+}

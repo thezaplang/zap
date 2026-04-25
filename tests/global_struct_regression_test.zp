@@ -1,0 +1,65 @@
+import "std/io";
+
+struct Stats {
+    hits: Int,
+    misses: Int
+}
+
+struct Wrapper {
+    score: Int,
+    stats: Stats
+}
+
+global var gStats: Stats = Stats{
+    hits: 1,
+    misses: 2
+};
+
+global var gWrap: Wrapper = Wrapper{
+    score: 10,
+    stats: Stats{
+        hits: 3,
+        misses: 4
+    }
+};
+
+fun main() Int {
+    if gStats.hits != 1 {
+        return 1;
+    }
+    if gStats.misses != 2 {
+        return 2;
+    }
+
+    if gWrap.score != 10 {
+        return 3;
+    }
+    if gWrap.stats.hits != 3 {
+        return 4;
+    }
+    if gWrap.stats.misses != 4 {
+        return 5;
+    }
+
+    gStats.hits = 7;
+    gStats.misses = 8;
+
+    gWrap.score = 20;
+    gWrap.stats.hits = 30;
+    gWrap.stats.misses = 40;
+
+    if gStats.hits != 7 || gStats.misses != 8 {
+        return 6;
+    }
+    if gWrap.score != 20 {
+        return 7;
+    }
+    if gWrap.stats.hits != 30 || gWrap.stats.misses != 40 {
+        return 8;
+    }
+
+    io.printfln("gStats=(%d,%d) gWrap=(%d,%d,%d)",
+                gStats.hits, gStats.misses,
+                gWrap.score, gWrap.stats.hits, gWrap.stats.misses);
+    return 0;
+}

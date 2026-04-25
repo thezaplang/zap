@@ -1,0 +1,2 @@
+global var b: Int32 = 7;
+fun main() Int { return 0; }

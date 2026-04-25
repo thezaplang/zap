@@ -406,6 +406,9 @@ run_test "tests/bitwise_ops_type_error.zp" 1 "Bitwise operators require integer 
 run_runtime_test "tests/bitwise_not_test.zp" 0 "Unary bitwise-not operator (~) on integers"
 run_test "tests/bitwise_not_type_error.zp" 1 "Unary bitwise-not operator requires integer operand"
 run_test "tests/array_const_size.zp" 1 "Array size as a constant is currently rejected"
+run_runtime_test "tests/global_const_uint32_print_repro.zp" 0 "Global UInt32 const/global values compile and run"
+run_runtime_test "tests/global_primitive_types_regression_test.zp" 0 "Global primitive const/var regression across numeric/bool/char types"
+run_runtime_test "tests/global_struct_regression_test.zp" 0 "Global struct initialization and nested field mutation regression"
 
 # Struct tests
 run_runtime_test "tests/struct_test.zp" 0 "Basic struct member access"

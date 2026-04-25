@@ -2,10 +2,11 @@
 #include "type.hpp"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace zir {
 
-enum class ValueKind { Register, Constant, Argument, Global };
+enum class ValueKind { Register, Constant, AggregateConstant, Argument, Global };
 
 class Value {
 public:
@@ -40,6 +41,28 @@ public:
   std::string getName() const override { return value; }
   std::shared_ptr<Type> getType() const override { return type; }
   const std::string &getLiteral() const { return value; }
+};
+
+class AggregateConstant : public Value {
+public:
+  struct FieldValue {
+    std::string name;
+    std::shared_ptr<Value> value;
+  };
+
+private:
+  std::shared_ptr<Type> type;
+  std::vector<FieldValue> fields;
+
+public:
+  AggregateConstant(std::shared_ptr<Type> t, std::vector<FieldValue> f)
+      : type(std::move(t)), fields(std::move(f)) {}
+
+  ValueKind getKind() const override { return ValueKind::AggregateConstant; }
+  std::string getName() const override { return "<aggregate>"; }
+  std::shared_ptr<Type> getType() const override { return type; }
+
+  const std::vector<FieldValue> &getFields() const { return fields; }
 };
 
 class Argument : public Value {

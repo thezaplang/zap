@@ -1,0 +1,77 @@
+import "std/io";
+
+const c_i32: Int32 = -123456;
+const c_u32: UInt32 = 123456;
+const c_i: Int = -42;
+const c_u: UInt = 42;
+const c_f: Float = 1.5;
+const c_f64: Float64 = 2.5;
+const c_b: Bool = true;
+const c_ch: Char = 'A';
+
+global var g_i32: Int32 = -3;
+global var g_u32: UInt32 = 3;
+global var g_i: Int = -5;
+global var g_u: UInt = 5;
+global var g_f: Float = 3.25;
+global var g_f64: Float64 = 6.5;
+global var g_b: Bool = false;
+global var g_ch: Char = 'Z';
+
+fun main() Int {
+    io.println("global primitive const/var smoke start");
+
+    io.printfln("const i32=%d", c_i32);
+    io.printfln("const u32=%u", c_u32);
+    io.printfln("const i=%d", c_i);
+    io.printfln("const u=%u", c_u);
+    io.printfln("const f=%f", c_f);
+    io.printfln("const f64=%f", c_f64);
+
+    var c_b_num: Int = 0;
+    if c_b {
+        c_b_num = 1;
+    }
+    io.printfln("const b=%d", c_b_num);
+    io.printfln("const ch=%c", c_ch);
+
+    io.printfln("global i32(before)=%d", g_i32);
+    io.printfln("global u32(before)=%u", g_u32);
+    io.printfln("global i(before)=%d", g_i);
+    io.printfln("global u(before)=%u", g_u);
+    io.printfln("global f(before)=%f", g_f);
+    io.printfln("global f64(before)=%f", g_f64);
+
+    var g_b_num_before: Int = 0;
+    if g_b {
+        g_b_num_before = 1;
+    }
+    io.printfln("global b(before)=%d", g_b_num_before);
+    io.printfln("global ch(before)=%c", g_ch);
+
+    g_i32 = -30;
+    g_u32 = 30;
+    g_i = -50;
+    g_u = 50;
+    g_f = 4.25;
+    g_f64 = 7.5;
+    g_b = true;
+    g_ch = 'K';
+
+    io.printfln("global i32(after)=%d", g_i32);
+    io.printfln("global u32(after)=%u", g_u32);
+    io.printfln("global i(after)=%d", g_i);
+    io.printfln("global u(after)=%u", g_u);
+    io.printfln("global f(after)=%f", g_f);
+    io.printfln("global f64(after)=%f", g_f64);
+
+    var g_b_num_after: Int = 0;
+    if g_b {
+        g_b_num_after = 1;
+    }
+    io.printfln("global b(after)=%d", g_b_num_after);
+    io.printfln("global ch(after)=%c", g_ch);
+
+    io.println("global primitive const/var smoke done");
+    return 0;
+}

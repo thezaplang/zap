@@ -7,3 +7,11 @@ pub import "std/error" { Error, ErrorKind, Err, Kind };
 pub import "std/math" { abs, min, max, sqrt, floor, ceil };
 pub import "std/convert" { toString, toInt, toFloat, toFloat64, toBool, toChar };
 pub import "std/collection" { List, HashMap };
+pub import "std/network" {
+  NetError, Endpoint, Stream, Listener,
+  okCode, invalidFd, isValidFd, closeIfOpen,
+  endpoint, connect, connectEndpoint, dial, dialEndpoint,
+  listen, bind, bindEndpoint, accept,
+  send, recv, resolve,
+  lastErrorCode, makeError, lastError, fail
+};

@@ -1,0 +1,15 @@
+const cu: UInt = 42;
+global var gu: UInt = 7;
+fun main() Int {
+    if cu != 42 {
+        return 1;
+    }
+    if gu != 7 {
+        return 2;
+    }
+    gu = 9;
+    if gu != 9 {
+        return 3;
+    }
+    return 0;
+}

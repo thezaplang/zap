@@ -11,7 +11,9 @@ Syntax highlighting and LSP support for Zap.
 
 The packaged `.vsix` bundles `zap-lsp`.
 
-For imports like `std/io`, set `zap-lsp.stdlibPath` to your local `std/` directory.
+The packaged extension ships with a bundled `stdlib/` and uses it by default for imports like `std/io`.
+
+You usually do not need to set `zap-lsp.stdlibPath` unless you want to override the bundled stdlib with your own.
 
 ## Optional Server Override
 
@@ -25,7 +27,7 @@ Example:
 }
 ```
 
-Example stdlib setting:
+Example stdlib override setting (optional):
 
 ```json
 {

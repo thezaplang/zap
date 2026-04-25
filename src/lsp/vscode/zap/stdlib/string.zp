@@ -8,9 +8,9 @@ pub fun stringLen(s: String) Int {
 }
 
 pub fun fromChar(c: Char) String {
-  return "" ~ c;
+  return "" + c;
 }
 
 pub fun pushChar(s: String, c: Char) String {
-  return s ~ c;
+  return s + c;
 }

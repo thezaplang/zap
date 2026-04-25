@@ -1,0 +1,2 @@
+global var b: UInt = 7;
+fun main() Int { return 0; }

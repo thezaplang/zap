@@ -1,0 +1,13 @@
+import "std/io";
+
+const a: UInt32 = 5;
+global var b: UInt32 = 7;
+
+fun main() Int {
+    io.println("hello from global uint32 repro");
+    io.printfln("a=%d", a);
+    io.printfln("b=%d", b);
+    b = 9;
+    io.printfln("b_after=%d", b);
+    return 0;
+}

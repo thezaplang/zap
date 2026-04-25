@@ -1,87 +1,89 @@
 {
-  "name": "zap",
-  "displayName": "Zap",
-  "publisher": "zap-lang",
-  "description": "Provides LSP for the Zap programming language",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.97.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zap-language/zap"
-  },
-  "main": "./out/extension.js",
-  "files": [
-    "out/**",
-    "bin/**",
-    "node_modules/**",
-    "src/**",
-    "syntaxes/**",
-    "language-configuration.json",
-    "README.md",
-    "CHANGELOG.md",
-    "package.json"
-  ],
-  "activationEvents": [
-    "onLanguage:zap"
-  ],
-  "categories": [
-    "Programming Languages"
-  ],
-  "contributes": {
-    "configuration": {
-      "type": "object",
-      "title": "Zap LSP Configuration",
-      "properties": {
-        "zap-lsp.path": {
-          "type": "string",
-          "default": "",
-          "description": "Optional override path to the Zap LSP executable. By default the bundled server is used."
-        },
-        "zap-lsp.stdlibPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path to the Zap stdlib directory used for imports like std/io."
-        }
-      }
+    "name": "zap",
+    "displayName": "Zap",
+    "publisher": "zap-lang",
+    "description": "Provides LSP for the Zap programming language",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.97.0"
     },
-    "languages": [
-      {
-        "id": "zap",
-        "aliases": [
-          "Zap",
-          "zap"
-        ],
-        "extensions": [
-          ".zp",
-          ".zap"
-        ],
-        "configuration": "./language-configuration.json"
-      }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zap-language/zap"
+    },
+    "main": "./out/extension.js",
+    "files": [
+        "out/**",
+        "bin/**",
+        "node_modules/**",
+        "src/**",
+        "stdlib/**",
+        "syntaxes/**",
+        "language-configuration.json",
+        "README.md",
+        "CHANGELOG.md",
+        "LICENSE",
+        "package.json"
     ],
-    "grammars": [
-      {
-        "language": "zap",
-        "scopeName": "source.zap",
-        "path": "./syntaxes/zap.tmLanguage.json"
-      }
-    ]
-  },
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "@types/vscode": "^1.97.0",
-    "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.7.1",
-    "typescript": "^5.9.3",
-    "vsce": "^2.15.0"
-  },
-  "dependencies": {
-    "vscode-languageclient": "^9.0.1"
-  },
-  "scripts": {
-    "compile": "tsc -p .",
-    "vscode:prepublish": "npm run compile",
-    "package": "node ./scripts/package-vsix.js"
-  }
+    "activationEvents": [
+        "onLanguage:zap"
+    ],
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Zap LSP Configuration",
+            "properties": {
+                "zap-lsp.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional override path to the Zap LSP executable. By default the bundled server is used."
+                },
+                "zap-lsp.stdlibPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path to the Zap stdlib directory used for imports like std/io."
+                }
+            }
+        },
+        "languages": [
+            {
+                "id": "zap",
+                "aliases": [
+                    "Zap",
+                    "zap"
+                ],
+                "extensions": [
+                    ".zp",
+                    ".zap"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "zap",
+                "scopeName": "source.zap",
+                "path": "./syntaxes/zap.tmLanguage.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@types/node": "^25.5.0",
+        "@types/vscode": "^1.97.0",
+        "@vscode/test-electron": "^2.5.2",
+        "@vscode/vsce": "^3.7.1",
+        "typescript": "^5.9.3",
+        "vsce": "^2.15.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
+    },
+    "scripts": {
+        "compile": "tsc -p .",
+        "vscode:prepublish": "npm run compile",
+        "package": "node ./scripts/package-vsix.js"
+    }
 }

@@ -1,0 +1,13 @@
+import "std/io";
+const cu: UInt = 42;
+global var gu: UInt = 7;
+fun main() Int {
+    io.printfln("cu=0", cu);
+    io.printfln("gu_before=0", gu);
+    gu = 9;
+    io.printfln("gu_after=0", gu);
+    if gu == 9 {
+        return 0;
+    }
+    return 1;
+}

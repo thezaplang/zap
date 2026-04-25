@@ -1,4 +1,5 @@
 #include "ir_generator.hpp"
+#include <cstdint>
 #include <iostream>
 
 namespace zir {
@@ -496,6 +497,76 @@ void BoundIRGenerator::visit(sema::BoundUnaryExpression &node) {
   auto expr = valueStack_.top();
   valueStack_.pop();
 
+  // Global initializers are lowered as constants only. Fold unary operators on
+  // constants instead of emitting runtime IR outside functions.
+  if (!currentFunction_ || !currentBlock_) {
+    if (auto c = std::dynamic_pointer_cast<Constant>(expr)) {
+      const auto &lit = c->getLiteral();
+
+      if (node.op == "+") {
+        valueStack_.push(c);
+        return;
+      }
+
+      if (node.op == "-") {
+        if (!lit.empty() && lit != "true" && lit != "false" &&
+            lit != "null" && lit[0] != '\'' && lit[0] != '\\') {
+          try {
+            if (c->getType() && c->getType()->isFloatingPoint()) {
+              auto v = std::stod(lit);
+              valueStack_.push(std::make_shared<Constant>(
+                  std::to_string(-v), node.type));
+              return;
+            }
+            if (c->getType() && c->getType()->isInteger()) {
+              if (c->getType()->isUnsigned()) {
+                auto v = std::stoull(lit);
+                auto out = static_cast<int64_t>(-(static_cast<int64_t>(v)));
+                valueStack_.push(std::make_shared<Constant>(
+                    std::to_string(out), node.type));
+              } else {
+                auto v = std::stoll(lit);
+                valueStack_.push(std::make_shared<Constant>(
+                    std::to_string(-v), node.type));
+              }
+              return;
+            }
+          } catch (...) {
+          }
+        }
+      }
+
+      if (node.op == "!") {
+        if (lit == "true") {
+          valueStack_.push(
+              std::make_shared<Constant>("false", node.type));
+          return;
+        }
+        if (lit == "false") {
+          valueStack_.push(
+              std::make_shared<Constant>("true", node.type));
+          return;
+        }
+      }
+
+      if (node.op == "~") {
+        if (!lit.empty() && lit != "true" && lit != "false" &&
+            lit != "null" && lit[0] != '\'' && lit[0] != '\\') {
+          try {
+            auto v = std::stoll(lit);
+            valueStack_.push(std::make_shared<Constant>(
+                std::to_string(~v), node.type));
+            return;
+          } catch (...) {
+          }
+        }
+      }
+    }
+
+    valueStack_.push(expr);
+    return;
+  }
+
   if (node.op == "+") {
     valueStack_.push(expr);
     return;
@@ -715,6 +786,24 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
 
 void BoundIRGenerator::visit(sema::BoundStructLiteral &node) {
   auto recordType = std::static_pointer_cast<zir::RecordType>(node.type);
+
+  // Global initializers are lowered as constants only.
+  if (!currentFunction_ || !currentBlock_) {
+    std::vector<AggregateConstant::FieldValue> aggregateFields;
+    aggregateFields.reserve(node.fields.size());
+
+    for (const auto &fieldInit : node.fields) {
+      fieldInit.second->accept(*this);
+      auto val = std::move(valueStack_.top());
+      valueStack_.pop();
+      aggregateFields.push_back({fieldInit.first, val});
+    }
+
+    valueStack_.push(
+        std::make_shared<AggregateConstant>(node.type, std::move(aggregateFields)));
+    return;
+  }
+
   auto allocaReg = createRegister(std::make_shared<PointerType>(recordType));
   currentBlock_->addInstruction(
       std::make_unique<AllocaInst>(allocaReg, recordType));
@@ -978,6 +1067,71 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
   node.expression->accept(*this);
   auto src = valueStack_.top();
   valueStack_.pop();
+
+  // Global initializers are lowered as constants only. Fold casted constants
+  // immediately to the target type so LLVM sees a correctly-typed initializer.
+  if (!currentFunction_ || !currentBlock_) {
+    if (auto c = std::dynamic_pointer_cast<Constant>(src)) {
+      auto folded = c->getLiteral();
+      auto srcTy = c->getType();
+      auto dstTy = node.type;
+
+      if (srcTy && dstTy && srcTy->isInteger() && dstTy->isInteger()) {
+        try {
+          if (dstTy->isUnsigned()) {
+            auto v = static_cast<uint64_t>(std::stoull(folded));
+            folded = std::to_string(v);
+          } else {
+            auto v = static_cast<int64_t>(std::stoll(folded));
+            folded = std::to_string(v);
+          }
+        } catch (...) {
+          // Keep original literal when parsing fails.
+        }
+      } else if (srcTy && dstTy && srcTy->isFloatingPoint() &&
+                 dstTy->isFloatingPoint()) {
+        try {
+          auto v = std::stod(folded);
+          folded = std::to_string(v);
+        } catch (...) {
+          // Keep original literal when parsing fails.
+        }
+      } else if (srcTy && dstTy && srcTy->isInteger() &&
+                 dstTy->isFloatingPoint()) {
+        try {
+          if (srcTy->isUnsigned()) {
+            auto v = static_cast<double>(std::stoull(folded));
+            folded = std::to_string(v);
+          } else {
+            auto v = static_cast<double>(std::stoll(folded));
+            folded = std::to_string(v);
+          }
+        } catch (...) {
+          // Keep original literal when parsing fails.
+        }
+      } else if (srcTy && dstTy && srcTy->isFloatingPoint() &&
+                 dstTy->isInteger()) {
+        try {
+          double v = std::stod(folded);
+          if (dstTy->isUnsigned()) {
+            auto out = static_cast<uint64_t>(v);
+            folded = std::to_string(out);
+          } else {
+            auto out = static_cast<int64_t>(v);
+            folded = std::to_string(out);
+          }
+        } catch (...) {
+          // Keep original literal when parsing fails.
+        }
+      }
+
+      valueStack_.push(std::make_shared<Constant>(folded, node.type));
+      return;
+    }
+
+    valueStack_.push(src);
+    return;
+  }
 
   auto res = createRegister(node.type);
   currentBlock_->addInstruction(

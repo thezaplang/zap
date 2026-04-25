@@ -16,23 +16,50 @@ const path = require("path");
 const vscode_1 = require("vscode");
 const node_1 = require("vscode-languageclient/node");
 let client;
-function detectStdlibPath() {
+function detectWorkspaceStdlibPath() {
     for (const folder of vscode_1.workspace.workspaceFolders || []) {
-        const candidate = path.join(folder.uri.fsPath, 'std');
-        if (fs.existsSync(candidate)) {
-            return candidate;
+        const candidate = path.join(folder.uri.fsPath, "std");
+        if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+            return fs.realpathSync(candidate);
         }
     }
-    return '';
+    return "";
+}
+function detectBundledStdlibPath(context) {
+    const candidate = context.asAbsolutePath("stdlib");
+    if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+        return fs.realpathSync(candidate);
+    }
+    return "";
+}
+function resolveStdlibPath(context) {
+    const config = vscode_1.workspace.getConfiguration("zap-lsp");
+    const configuredStdlibPath = (config.get("stdlibPath") || "").trim();
+    if (configuredStdlibPath) {
+        try {
+            const resolved = fs.realpathSync(configuredStdlibPath);
+            if (fs.existsSync(resolved) &&
+                fs.statSync(resolved).isDirectory()) {
+                return resolved;
+            }
+        }
+        catch (_a) {
+            // ignore invalid configured path and continue with fallbacks
+        }
+    }
+    const bundledStdlib = detectBundledStdlibPath(context);
+    if (bundledStdlib) {
+        return bundledStdlib;
+    }
+    return detectWorkspaceStdlibPath();
 }
 function activate(context) {
     return __awaiter(this, void 0, void 0, function* () {
-        const config = vscode_1.workspace.getConfiguration('zap-lsp');
-        const configuredPath = (config.get('path') || '').trim();
-        const configuredStdlibPath = (config.get('stdlibPath') || '').trim();
-        const bundledServerPath = context.asAbsolutePath(path.join('bin', 'zap-lsp'));
+        const config = vscode_1.workspace.getConfiguration("zap-lsp");
+        const configuredPath = (config.get("path") || "").trim();
+        const bundledServerPath = context.asAbsolutePath(path.join("bin", "zap-lsp"));
         const lspPath = configuredPath || bundledServerPath;
-        const stdlibPath = configuredStdlibPath || detectStdlibPath();
+        const stdlibPath = resolveStdlibPath(context);
         const env = Object.assign({}, process.env);
         if (!configuredPath && fs.existsSync(bundledServerPath)) {
             fs.chmodSync(bundledServerPath, 0o755);
@@ -40,24 +67,24 @@ function activate(context) {
         if (stdlibPath) {
             env.ZAPC_STDLIB_DIR = stdlibPath;
         }
-        const outputChannel = vscode_1.window.createOutputChannel('Zap LSP');
+        const outputChannel = vscode_1.window.createOutputChannel("Zap LSP");
         const serverOptions = {
             run: {
                 command: lspPath,
                 transport: node_1.TransportKind.stdio,
-                options: { env }
+                options: { env },
             },
             debug: {
                 command: lspPath,
                 transport: node_1.TransportKind.stdio,
-                options: { env }
-            }
+                options: { env },
+            },
         };
         const clientOptions = {
-            documentSelector: [{ scheme: 'file', language: 'zap' }],
+            documentSelector: [{ scheme: "file", language: "zap" }],
             outputChannel,
         };
-        client = new node_1.LanguageClient('zap-lsp', 'Zap LSP', serverOptions, clientOptions);
+        client = new node_1.LanguageClient("zap-lsp", "Zap LSP", serverOptions, clientOptions);
         try {
             yield client.start();
         }

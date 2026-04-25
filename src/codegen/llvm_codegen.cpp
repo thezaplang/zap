@@ -102,13 +102,20 @@ void LLVMCodeGen::generate(const zir::Module &module) {
 
   for (const auto &global : module.getGlobals()) {
     llvm::Constant *initializer = nullptr;
-    if (global->getInitializer() &&
-        global->getInitializer()->getKind() == zir::ValueKind::Constant) {
-      initializer = lowerZIRConstant(
-          static_cast<const zir::Constant &>(*global->getInitializer()));
+    if (global->getInitializer()) {
+      if (global->getInitializer()->getKind() == zir::ValueKind::Constant) {
+        initializer = lowerZIRConstant(
+            static_cast<const zir::Constant &>(*global->getInitializer()));
+      } else if (global->getInitializer()->getKind() ==
+                 zir::ValueKind::AggregateConstant) {
+        initializer = lowerZIRAggregateConstant(
+            static_cast<const zir::AggregateConstant &>(
+                *global->getInitializer()));
+      }
     }
     if (!initializer) {
-      initializer = llvm::Constant::getNullValue(toLLVMType(*global->getValueType()));
+      initializer =
+          llvm::Constant::getNullValue(toLLVMType(*global->getValueType()));
     }
 
     auto *gv = new llvm::GlobalVariable(
@@ -462,6 +469,65 @@ llvm::Constant *LLVMCodeGen::lowerZIRConstant(const zir::Constant &constant) {
   return llvm::Constant::getNullValue(ty);
 }
 
+llvm::Constant *
+LLVMCodeGen::lowerZIRAggregateConstant(const zir::AggregateConstant &constant) {
+  auto *ty = toLLVMType(*constant.getType());
+
+  auto *structTy = llvm::dyn_cast<llvm::StructType>(ty);
+  if (!structTy) {
+    return llvm::Constant::getNullValue(ty);
+  }
+
+  const auto *recordTy =
+      dynamic_cast<const zir::RecordType *>(constant.getType().get());
+  if (!recordTy) {
+    return llvm::Constant::getNullValue(ty);
+  }
+
+  const auto &recordFields = recordTy->getFields();
+  std::vector<llvm::Constant *> elems(recordFields.size(), nullptr);
+
+  for (const auto &fieldInit : constant.getFields()) {
+    int fieldIndex = -1;
+    for (size_t i = 0; i < recordFields.size(); ++i) {
+      if (recordFields[i].name == fieldInit.name) {
+        fieldIndex = static_cast<int>(i);
+        break;
+      }
+    }
+
+    if (fieldIndex < 0 || fieldInit.value == nullptr) {
+      continue;
+    }
+
+    llvm::Constant *fieldConst = nullptr;
+    if (fieldInit.value->getKind() == zir::ValueKind::Constant) {
+      fieldConst = lowerZIRConstant(
+          static_cast<const zir::Constant &>(*fieldInit.value));
+    } else if (fieldInit.value->getKind() == zir::ValueKind::AggregateConstant) {
+      fieldConst = lowerZIRAggregateConstant(
+          static_cast<const zir::AggregateConstant &>(*fieldInit.value));
+    }
+
+    if (fieldConst) {
+      auto *expectedFieldTy = toLLVMType(*recordFields[static_cast<size_t>(fieldIndex)].type);
+      if (fieldConst->getType() != expectedFieldTy) {
+        fieldConst = llvm::dyn_cast<llvm::Constant>(
+            llvm::ConstantExpr::getBitCast(fieldConst, expectedFieldTy));
+      }
+      elems[static_cast<size_t>(fieldIndex)] = fieldConst;
+    }
+  }
+
+  for (size_t i = 0; i < elems.size(); ++i) {
+    if (!elems[i]) {
+      elems[i] = llvm::Constant::getNullValue(toLLVMType(*recordFields[i].type));
+    }
+  }
+
+  return llvm::ConstantStruct::get(structTy, elems);
+}
+
 llvm::Value *LLVMCodeGen::lowerZIRValue(
     const std::shared_ptr<zir::Value> &value) {
   if (!value) {
@@ -470,6 +536,10 @@ llvm::Value *LLVMCodeGen::lowerZIRValue(
   if (value->getKind() == zir::ValueKind::Constant) {
     return lowerZIRConstant(
         static_cast<const zir::Constant &>(*value));
+  }
+  if (value->getKind() == zir::ValueKind::AggregateConstant) {
+    return lowerZIRAggregateConstant(
+        static_cast<const zir::AggregateConstant &>(*value));
   }
   if (value->getKind() == zir::ValueKind::Global) {
     return globalValues_.at(
@@ -816,7 +886,56 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
     auto *lhsTy = lhs->getType();
     auto *rhsTy = rhs->getType();
     if (lhsTy != rhsTy) {
-      throw std::runtime_error("ZIR cmp operand type mismatch: " +
+      if (lhsTy->isIntegerTy() && rhsTy->isIntegerTy()) {
+        unsigned lhsBits = lhsTy->getIntegerBitWidth();
+        unsigned rhsBits = rhsTy->getIntegerBitWidth();
+        if (lhsBits < rhsBits) {
+          bool lhsUnsigned =
+              cmpInst.getLhs() && cmpInst.getLhs()->getType()
+                  ? cmpInst.getLhs()->getType()->isUnsigned()
+                  : false;
+          lhs = lhsUnsigned ? builder_.CreateZExt(lhs, rhsTy)
+                            : builder_.CreateSExt(lhs, rhsTy);
+          lhsTy = lhs->getType();
+        } else if (rhsBits < lhsBits) {
+          bool rhsUnsigned =
+              cmpInst.getRhs() && cmpInst.getRhs()->getType()
+                  ? cmpInst.getRhs()->getType()->isUnsigned()
+                  : false;
+          rhs = rhsUnsigned ? builder_.CreateZExt(rhs, lhsTy)
+                            : builder_.CreateSExt(rhs, lhsTy);
+          rhsTy = rhs->getType();
+        }
+      } else if (lhsTy->isFloatingPointTy() && rhsTy->isFloatingPointTy()) {
+        unsigned lhsBits = lhsTy->getPrimitiveSizeInBits();
+        unsigned rhsBits = rhsTy->getPrimitiveSizeInBits();
+        if (lhsBits < rhsBits) {
+          lhs = builder_.CreateFPExt(lhs, rhsTy);
+          lhsTy = lhs->getType();
+        } else if (rhsBits < lhsBits) {
+          rhs = builder_.CreateFPExt(rhs, lhsTy);
+          rhsTy = rhs->getType();
+        }
+      } else if (lhsTy->isIntegerTy() && rhsTy->isFloatingPointTy()) {
+        bool lhsUnsigned =
+            cmpInst.getLhs() && cmpInst.getLhs()->getType()
+                ? cmpInst.getLhs()->getType()->isUnsigned()
+                : false;
+        lhs = lhsUnsigned ? builder_.CreateUIToFP(lhs, rhsTy)
+                          : builder_.CreateSIToFP(lhs, rhsTy);
+        lhsTy = lhs->getType();
+      } else if (lhsTy->isFloatingPointTy() && rhsTy->isIntegerTy()) {
+        bool rhsUnsigned =
+            cmpInst.getRhs() && cmpInst.getRhs()->getType()
+                ? cmpInst.getRhs()->getType()->isUnsigned()
+                : false;
+        rhs = rhsUnsigned ? builder_.CreateUIToFP(rhs, lhsTy)
+                          : builder_.CreateSIToFP(rhs, lhsTy);
+        rhsTy = rhs->getType();
+      }
+    }
+    if (lhsTy != rhsTy) {
+      throw std::runtime_error("ZIR cmp operand type mismatch after coercion: " +
                                cmpInst.getLhs()->getTypeName() + " vs " +
                                cmpInst.getRhs()->getTypeName());
     }

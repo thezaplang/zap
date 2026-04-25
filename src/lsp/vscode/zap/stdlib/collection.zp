@@ -1,0 +1,430 @@
+import "std/io" { eprintln };
+import "std/string" as string;
+import "std/convert" as convert;
+
+ext fun exit(code: Int) Void;
+
+fun fail(message: String) Void {
+    eprintln(message);
+    exit(1);
+}
+
+class ListNode<T> {
+    priv value: T;
+    priv next: ListNode<T>;
+
+    fun init(value: T) {
+        self.value = value;
+        self.next = null;
+    }
+
+    pub fun get() T {
+        return self.value;
+    }
+
+    pub fun set(value: T) {
+        self.value = value;
+    }
+
+    pub fun getNext() ListNode<T> {
+        return self.next;
+    }
+
+    pub fun setNext(next: ListNode<T>) {
+        self.next = next;
+    }
+
+    pub fun clearNext() {
+        self.next = null;
+    }
+}
+
+pub class List<T> {
+    priv head: ListNode<T>;
+    priv tail: ListNode<T>;
+    priv size: Int;
+
+    fun init() {
+        self.head = null;
+        self.tail = null;
+        self.size = 0;
+    }
+
+    pub fun len() Int {
+        return self.size;
+    }
+
+    pub fun isEmpty() Bool {
+        return self.size == 0;
+    }
+
+    pub fun clear() {
+        self.head = null;
+        self.tail = null;
+        self.size = 0;
+    }
+
+    fun nodeAt(index: Int) ListNode<T> {
+        var current: ListNode<T> = self.head;
+        var i: Int = 0;
+        while i < index {
+            current = current.getNext();
+            i = i + 1;
+        }
+        return current;
+    }
+
+    pub fun pushFront(value: T) {
+        var node: ListNode<T> = new ListNode<T>(value);
+        node.setNext(self.head);
+        self.head = node;
+        if self.tail == null {
+            self.tail = node;
+        }
+        self.size = self.size + 1;
+    }
+
+    pub fun push(value: T) {
+        var node: ListNode<T> = new ListNode<T>(value);
+        if self.tail == null {
+            self.head = node;
+            self.tail = node;
+        } else {
+            self.tail.setNext(node);
+            self.tail = node;
+        }
+        self.size = self.size + 1;
+    }
+
+    pub fun insert(index: Int, value: T) {
+        if index < 0 || index > self.size {
+            fail("List.insert() index out of range");
+        }
+
+        if index == 0 {
+            self.pushFront(value);
+            return;
+        }
+
+        if index == self.size {
+            self.push(value);
+            return;
+        }
+
+        var prev: ListNode<T> = self.nodeAt(index - 1);
+        var node: ListNode<T> = new ListNode<T>(value);
+        node.setNext(prev.getNext());
+        prev.setNext(node);
+        self.size = self.size + 1;
+    }
+
+    pub fun front() T {
+        if self.head == null {
+            fail("List.front() on empty list");
+        }
+        return self.head.get();
+    }
+
+    pub fun back() T {
+        if self.tail == null {
+            fail("List.back() on empty list");
+        }
+        return self.tail.get();
+    }
+
+    pub fun popFront() T {
+        if self.head == null {
+            fail("List.popFront() on empty list");
+        }
+
+        var node: ListNode<T> = self.head;
+        var value: T = node.get();
+        self.head = node.getNext();
+        if self.head == null {
+            self.tail = null;
+        }
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun popBack() T {
+        if self.tail == null {
+            fail("List.popBack() on empty list");
+        }
+
+        if self.size == 1 {
+            return self.popFront();
+        }
+
+        var prev: ListNode<T> = self.nodeAt(self.size - 2);
+        var value: T = self.tail.get();
+        prev.clearNext();
+        self.tail = prev;
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun removeAt(index: Int) T {
+        if index < 0 || index >= self.size {
+            fail("List.removeAt() index out of range");
+        }
+
+        if index == 0 {
+            return self.popFront();
+        }
+
+        var prev: ListNode<T> = self.nodeAt(index - 1);
+        var node: ListNode<T> = prev.getNext();
+        var value: T = node.get();
+        prev.setNext(node.getNext());
+        if node == self.tail {
+            self.tail = prev;
+        }
+        self.size = self.size - 1;
+        return value;
+    }
+
+    pub fun at(index: Int) T {
+        if index < 0 || index >= self.size {
+            fail("List.at() index out of range");
+        }
+
+        return self.nodeAt(index).get();
+    }
+
+    pub fun set(index: Int, value: T) {
+        if index < 0 || index >= self.size {
+            fail("List.set() index out of range");
+        }
+
+        self.nodeAt(index).set(value);
+    }
+}
+
+class HashMapNode<V> {
+    priv key: String;
+    priv value: V;
+    priv next: HashMapNode<V>;
+
+    fun init(key: String, value: V) {
+        self.key = key;
+        self.value = value;
+        self.next = null;
+    }
+
+    pub fun getKey() String {
+        return self.key;
+    }
+
+    pub fun getValue() V {
+        return self.value;
+    }
+
+    pub fun setValue(value: V) {
+        self.value = value;
+    }
+
+    pub fun getNext() HashMapNode<V> {
+        return self.next;
+    }
+
+    pub fun setNext(next: HashMapNode<V>) {
+        self.next = next;
+    }
+}
+
+pub class HashMap<V> {
+    priv bucketCount: Int;
+    priv buckets: [1024]HashMapNode<V>;
+    priv size: Int;
+
+    fun init() {
+        self.bucketCount = 64;
+        self.size = 0;
+
+        var i: Int = 0;
+        while i < 1024 {
+            self.buckets[i] = null;
+            i = i + 1;
+        }
+    }
+
+    fun hash(key: String) Int {
+        var h: Int = 2166136261;
+        var i: Int = 0;
+        var n: Int = string.len(key);
+
+        while i < n {
+            h = h + convert.toInt(string.at(key, i));
+            h = h * 16777619;
+            i = i + 1;
+        }
+
+        if h < 0 {
+            h = -h;
+        }
+        return h;
+    }
+
+    fun bucketIndexForCount(key: String, count: Int) Int {
+        return self.hash(key) % count;
+    }
+
+    fun bucketIndex(key: String) Int {
+        return self.bucketIndexForCount(key, self.bucketCount);
+    }
+
+    fun findNode(key: String) HashMapNode<V> {
+        var idx: Int = self.bucketIndex(key);
+        var node: HashMapNode<V> = self.buckets[idx];
+
+        while node != null {
+            if string.eq(node.getKey(), key) {
+                return node;
+            }
+            node = node.getNext();
+        }
+
+        return null;
+    }
+
+    fun shouldGrow(nextSize: Int) Bool {
+        // grow at load factor > 0.75
+        return nextSize * 4 > self.bucketCount * 3;
+    }
+
+    fun rehash(newBucketCount: Int) {
+        if newBucketCount <= self.bucketCount {
+            return;
+        }
+
+        if newBucketCount > 1024 {
+            return;
+        }
+
+        var oldCount: Int = self.bucketCount;
+        var oldBuckets: [1024]HashMapNode<V>;
+        var i: Int = 0;
+        while i < oldCount {
+            oldBuckets[i] = self.buckets[i];
+            self.buckets[i] = null;
+            i = i + 1;
+        }
+
+        self.bucketCount = newBucketCount;
+
+        var b: Int = 0;
+        while b < oldCount {
+            var node: HashMapNode<V> = oldBuckets[b];
+
+            while node != null {
+                var nextNode: HashMapNode<V> = node.getNext();
+                var newIndex: Int = self.bucketIndexForCount(node.getKey(), self.bucketCount);
+                node.setNext(self.buckets[newIndex]);
+                self.buckets[newIndex] = node;
+                node = nextNode;
+            }
+
+            b = b + 1;
+        }
+    }
+
+    fun ensureCapacityForInsert() {
+        var nextSize: Int = self.size + 1;
+        if self.shouldGrow(nextSize) {
+            var target: Int = self.bucketCount * 2;
+            if target <= 0 {
+                target = self.bucketCount;
+            }
+            if target > 1024 {
+                target = 1024;
+            }
+            self.rehash(target);
+        }
+    }
+
+    pub fun len() Int {
+        return self.size;
+    }
+
+    pub fun isEmpty() Bool {
+        return self.size == 0;
+    }
+
+    pub fun clear() {
+        var i: Int = 0;
+        while i < 1024 {
+            self.buckets[i] = null;
+            i = i + 1;
+        }
+        self.bucketCount = 64;
+        self.size = 0;
+    }
+
+    pub fun contains(key: String) Bool {
+        return self.findNode(key) != null;
+    }
+
+    pub fun put(key: String, value: V) {
+        var idx: Int = self.bucketIndex(key);
+        var node: HashMapNode<V> = self.buckets[idx];
+
+        while node != null {
+            if string.eq(node.getKey(), key) {
+                node.setValue(value);
+                return;
+            }
+            node = node.getNext();
+        }
+
+        self.ensureCapacityForInsert();
+
+        idx = self.bucketIndex(key);
+        var newNode: HashMapNode<V> = new HashMapNode<V>(key, value);
+        newNode.setNext(self.buckets[idx]);
+        self.buckets[idx] = newNode;
+        self.size = self.size + 1;
+    }
+
+    pub fun get(key: String) V {
+        var node: HashMapNode<V> = self.findNode(key);
+        if node == null {
+            fail("HashMap.get() missing key: " + key);
+        }
+        return node.getValue();
+    }
+
+    pub fun getOr(key: String, fallback: V) V {
+        var node: HashMapNode<V> = self.findNode(key);
+        if node == null {
+            return fallback;
+        }
+        return node.getValue();
+    }
+
+    pub fun remove(key: String) Bool {
+        var idx: Int = self.bucketIndex(key);
+        var prev: HashMapNode<V> = null;
+        var node: HashMapNode<V> = self.buckets[idx];
+
+        while node != null {
+            if string.eq(node.getKey(), key) {
+                if prev == null {
+                    self.buckets[idx] = node.getNext();
+                } else {
+                    prev.setNext(node.getNext());
+                }
+                self.size = self.size - 1;
+                return true;
+            }
+            prev = node;
+            node = node.getNext();
+        }
+
+        return false;
+    }
+
+    pub fun bucketCapacity() Int {
+        return self.bucketCount;
+    }
+}
