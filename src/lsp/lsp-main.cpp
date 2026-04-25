@@ -509,26 +509,79 @@ std::string renderType(const TypeNode *type) {
     return "*" + renderType(type->baseType.get());
   }
   if (type->isArray && type->baseType) {
-    return "[" + renderType(type->baseType.get()) + "]";
+    std::string size = type->arraySize ? "?" : "?";
+    return "[" + size + "]" + renderType(type->baseType.get());
   }
-  return type->qualifiedName();
+
+  std::string qualified = type->qualifiedName();
+  if (!type->genericArgs.empty()) {
+    qualified += "<";
+    for (size_t i = 0; i < type->genericArgs.size(); ++i) {
+      if (i != 0) {
+        qualified += ", ";
+      }
+      qualified += renderType(type->genericArgs[i].get());
+    }
+    qualified += ">";
+  }
+
+  if (type->isWeak) {
+    return "weak " + qualified;
+  }
+  return qualified;
 }
 
 std::string renderParameter(const ParameterNode *param) {
   if (!param) {
     return "";
   }
-  return std::string(param->isRef ? "ref " : "") + param->name + ": " +
-         renderType(param->type.get());
+  std::string prefix = param->isRef ? "ref " : "";
+  if (param->isVariadic) {
+    return prefix + param->name + ": ..." + renderType(param->type.get());
+  }
+  return prefix + param->name + ": " + renderType(param->type.get());
 }
 
 std::optional<LspSignature> signatureForNode(const Node *node) {
+  auto renderGenericParams = [](const std::vector<std::unique_ptr<TypeNode>> &genericParams) {
+    if (genericParams.empty()) {
+      return std::string();
+    }
+    std::string out = "<";
+    for (size_t i = 0; i < genericParams.size(); ++i) {
+      if (i != 0) {
+        out += ", ";
+      }
+      out += genericParams[i] ? genericParams[i]->qualifiedName() : "?";
+    }
+    out += ">";
+    return out;
+  };
+
+  auto renderConstraints =
+      [](const std::vector<GenericConstraint> &constraints) {
+        if (constraints.empty()) {
+          return std::string();
+        }
+        std::string out = " where ";
+        for (size_t i = 0; i < constraints.size(); ++i) {
+          if (i != 0) {
+            out += ", ";
+          }
+          out += constraints[i].parameterName + ": ";
+          out += constraints[i].boundType
+                     ? renderType(constraints[i].boundType.get())
+                     : std::string("?");
+        }
+        return out;
+      };
+
   if (auto fun = dynamic_cast<const FunDecl *>(node)) {
     std::vector<std::string> params;
     for (const auto &param : fun->params_) {
       params.push_back(renderParameter(param.get()));
     }
-    std::string label = fun->name_ + "(";
+    std::string label = fun->name_ + renderGenericParams(fun->genericParams_) + "(";
     for (size_t i = 0; i < params.size(); ++i) {
       if (i != 0) {
         label += ", ";
@@ -536,6 +589,7 @@ std::optional<LspSignature> signatureForNode(const Node *node) {
       label += params[i];
     }
     label += ") " + renderType(fun->returnType_.get());
+    label += renderConstraints(fun->genericConstraints_);
     return LspSignature{std::move(label), std::move(params)};
   }
   if (auto ext = dynamic_cast<const ExtDecl *>(node)) {
@@ -1135,15 +1189,89 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
                                 renderType(cnst->type_.get())};
   }
   if (auto record = dynamic_cast<const RecordDecl *>(node)) {
-    return HoverInfo{"zap", "record " + record->name_};
+    std::string hover = "record " + record->name_;
+    if (!record->genericParams_.empty()) {
+      hover += "<";
+      for (size_t i = 0; i < record->genericParams_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += record->genericParams_[i]
+                     ? record->genericParams_[i]->qualifiedName()
+                     : std::string("?");
+      }
+      hover += ">";
+    }
+    if (!record->genericConstraints_.empty()) {
+      hover += " where ";
+      for (size_t i = 0; i < record->genericConstraints_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += record->genericConstraints_[i].parameterName + ": ";
+        hover += record->genericConstraints_[i].boundType
+                     ? renderType(record->genericConstraints_[i].boundType.get())
+                     : std::string("?");
+      }
+    }
+    return HoverInfo{"zap", hover};
   }
   if (auto strukt = dynamic_cast<const StructDeclarationNode *>(node)) {
-    return HoverInfo{"zap", "struct " + strukt->name_};
+    std::string hover = "struct " + strukt->name_;
+    if (!strukt->genericParams_.empty()) {
+      hover += "<";
+      for (size_t i = 0; i < strukt->genericParams_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += strukt->genericParams_[i]
+                     ? strukt->genericParams_[i]->qualifiedName()
+                     : std::string("?");
+      }
+      hover += ">";
+    }
+    if (!strukt->genericConstraints_.empty()) {
+      hover += " where ";
+      for (size_t i = 0; i < strukt->genericConstraints_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += strukt->genericConstraints_[i].parameterName + ": ";
+        hover += strukt->genericConstraints_[i].boundType
+                     ? renderType(strukt->genericConstraints_[i].boundType.get())
+                     : std::string("?");
+      }
+    }
+    return HoverInfo{"zap", hover};
   }
   if (auto cls = dynamic_cast<const ClassDecl *>(node)) {
     std::string hover = "class " + cls->name_;
+    if (!cls->genericParams_.empty()) {
+      hover += "<";
+      for (size_t i = 0; i < cls->genericParams_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += cls->genericParams_[i]
+                     ? cls->genericParams_[i]->qualifiedName()
+                     : std::string("?");
+      }
+      hover += ">";
+    }
     if (cls->baseType_) {
       hover += " : " + renderType(cls->baseType_.get());
+    }
+    if (!cls->genericConstraints_.empty()) {
+      hover += " where ";
+      for (size_t i = 0; i < cls->genericConstraints_.size(); ++i) {
+        if (i != 0) {
+          hover += ", ";
+        }
+        hover += cls->genericConstraints_[i].parameterName + ": ";
+        hover += cls->genericConstraints_[i].boundType
+                     ? renderType(cls->genericConstraints_[i].boundType.get())
+                     : std::string("?");
+      }
     }
     return HoverInfo{"zap", hover};
   }
@@ -1613,7 +1741,16 @@ public:
             std::string text, int64_t version) {
     std::filesystem::path canonicalPath =
         std::filesystem::weakly_canonical(path);
-    uriByCanonicalPath_[canonicalPath.string()] = uri;
+    std::string canonicalKey = canonicalPath.string();
+
+    auto existingUriIt = uriByCanonicalPath_.find(canonicalKey);
+    if (existingUriIt != uriByCanonicalPath_.end() && existingUriIt->second != uri) {
+      documentsByUri_.erase(existingUriIt->second);
+      existingUriIt->second = uri;
+    } else {
+      uriByCanonicalPath_[canonicalKey] = uri;
+    }
+
     documentsByUri_[uri] =
         DocumentState{uri, std::move(canonicalPath), std::move(text), version};
   }
@@ -1632,7 +1769,13 @@ public:
     if (it == documentsByUri_.end()) {
       return;
     }
-    uriByCanonicalPath_.erase(it->second.path.string());
+
+    std::string canonicalKey = it->second.path.string();
+    auto pathIt = uriByCanonicalPath_.find(canonicalKey);
+    if (pathIt != uriByCanonicalPath_.end() && pathIt->second == uri) {
+      uriByCanonicalPath_.erase(pathIt);
+    }
+
     documentsByUri_.erase(it);
   }
 
@@ -2193,10 +2336,11 @@ int main() {
                   collectCompletionSymbols(*uri, *project, offset);
               std::set<std::string> seen;
               static constexpr const char *keywords[] = {
-                  "fun",    "return",   "if",   "else",  "while", "var",
-                  "const",  "import",   "pub",  "priv",  "prot",  "struct",
-                  "record", "class",    "enum", "alias", "ext",   "global",
-                  "break",  "continue", "ref",  "as",    "new",   "self"};
+                  "fun",    "return",   "if",      "else",   "iftype", "while",
+                  "var",    "const",    "import",  "pub",    "priv",   "prot",
+                  "struct", "record",   "class",   "enum",   "alias",  "ext",
+                  "global", "break",    "continue","ref",    "as",     "new",
+                  "self",   "where",    "unsafe",  "weak"};
               for (const char *keyword : keywords) {
                 if (seen.insert(keyword).second) {
                   items.push_back(makeCompletionItem(

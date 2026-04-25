@@ -7,6 +7,7 @@ Neovim support for Zap:
 - diagnostics
 - completion through LSP
 - `gd` go to definition
+- up-to-date keyword highlighting including `iftype`, `where`, and `weak`
 
 This runtime works on Neovim `0.11+`.
 
@@ -104,6 +105,14 @@ Expected:
 
 - `filetype=zap`
 - `exists(':ZapNvimInfo')` returns `2`
+
+You can also quickly verify modern keyword highlighting by opening a `.zp` file containing:
+
+```zap
+iftype T == Int { }
+class Box<T> where T: Animal { }
+var node: weak Node;
+```
 
 ## Notes
 

@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <limits>
 #include <stdexcept>
+#include <string_view>
 
 namespace zap::lsp {
 
@@ -391,6 +392,7 @@ std::string_view JsonRPC::getStr() {
 }
 
 constexpr std::string_view prefix = "Content-Length: ";
+constexpr size_t kMaxLspMessageBytes = 8 * 1024 * 1024; // 8 MiB hard cap
 
 void Server::sendMessageRaw(std::string_view message) {
   buffer += prefix;
@@ -426,19 +428,46 @@ void Server::sendMessage(const JsonObject &message) {
 }
 
 std::string Server::processMessage(std::string &line) {
-  unsigned contentLength = 0;
+  size_t contentLength = 0;
+  bool hasContentLength = false;
 
   while (std::getline(std::cin, line)) {
     if (line.empty() || line == "\r") {
       break;
     }
+
     if (line.rfind(prefix, 0) == 0) {
-      std::from_chars(line.data() + prefix.size(),
-                      line.data() + line.size(), contentLength);
+      std::string_view value(line.data() + prefix.size(),
+                             line.size() - prefix.size());
+      if (!value.empty() && value.back() == '\r') {
+        value.remove_suffix(1);
+      }
+
+      while (!value.empty() &&
+             std::isspace(static_cast<unsigned char>(value.front()))) {
+        value.remove_prefix(1);
+      }
+
+      if (value.empty()) {
+        return {};
+      }
+
+      size_t parsed = 0;
+      auto res = std::from_chars(value.data(), value.data() + value.size(), parsed);
+      if (res.ec != std::errc() || res.ptr != value.data() + value.size()) {
+        return {};
+      }
+
+      if (parsed == 0 || parsed > kMaxLspMessageBytes) {
+        return {};
+      }
+
+      contentLength = parsed;
+      hasContentLength = true;
     }
   }
 
-  if (!std::cin || contentLength == 0) {
+  if (!std::cin || !hasContentLength || contentLength == 0) {
     return {};
   }
 
@@ -447,6 +476,7 @@ std::string Server::processMessage(std::string &line) {
   if (!std::cin) {
     return {};
   }
+
   return message;
 }
 

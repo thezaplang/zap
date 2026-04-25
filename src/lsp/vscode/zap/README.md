@@ -53,6 +53,37 @@ In VS Code:
 3. Choose `Install from VSIX...`
 4. Select the generated `.vsix`
 
+## Color Customization (Function vs Generics)
+
+If your theme makes function names and generic parameters look too similar, add token color overrides in your VS Code settings:
+
+```json
+{
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "entity.name.function.zap",
+        "settings": { "foreground": "#82AAFF", "fontStyle": "bold" }
+      },
+      {
+        "scope": "entity.name.type.parameter.zap",
+        "settings": { "foreground": "#FFCB6B", "fontStyle": "italic" }
+      },
+      {
+        "scope": [
+          "punctuation.definition.generic.begin.zap",
+          "punctuation.definition.generic.end.zap",
+          "punctuation.separator.generic.zap"
+        ],
+        "settings": { "foreground": "#C792EA" }
+      }
+    ]
+  }
+}
+```
+
+After updating settings, run **Developer: Reload Window**.
+
 ## Notes
 
 - The server currently provides diagnostics.
