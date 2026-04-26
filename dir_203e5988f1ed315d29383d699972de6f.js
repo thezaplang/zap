@@ -14,6 +14,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "enum_decl.hpp", "df/d1c/enum__decl_8hpp.html", "df/d1c/enum__decl_8hpp" ],
     [ "expr_node.hpp", "d0/df1/expr__node_8hpp.html", "d0/df1/expr__node_8hpp" ],
     [ "ext_decl.hpp", "d9/d67/ext__decl_8hpp.html", "d9/d67/ext__decl_8hpp" ],
+    [ "failable_nodes.hpp", "d7/d2b/failable__nodes_8hpp.html", "d7/d2b/failable__nodes_8hpp" ],
     [ "fun_call.hpp", "d0/d32/fun__call_8hpp.html", "d0/d32/fun__call_8hpp" ],
     [ "fun_decl.hpp", "d9/d84/fun__decl_8hpp.html", "d9/d84/fun__decl_8hpp" ],
     [ "generic_constraint.hpp", "d4/dbb/generic__constraint_8hpp.html", "d4/dbb/generic__constraint_8hpp" ],

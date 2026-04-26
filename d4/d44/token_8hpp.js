@@ -79,7 +79,8 @@ var token_8hpp =
       [ "NEW", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aec34b0b90541576a22697631105dc847", null ],
       [ "WEAK", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afe4722ca9de2cfd88591a69de2430c0a", null ],
       [ "WHERE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a0116b78582fbf1fd6e069fde8dd308c4", null ],
-      [ "IFTYPE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a2571f230a967d9d250465039c30ecd45", null ]
+      [ "IFTYPE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a2571f230a967d9d250465039c30ecd45", null ],
+      [ "FAIL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a936c4a5547a9360243178f726f6b2715", null ]
     ] ],
     [ "tokenTypeToString", "d4/d44/token_8hpp.html#adcf4232d1b543f396684ab4b9d3d4bc5", null ]
 ];
