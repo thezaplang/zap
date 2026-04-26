@@ -27,6 +27,7 @@ var stdlib_8c =
     [ "netResolve", "db/dfa/stdlib_8c.html#a7544b7ef17c3e369219afd4a7497df40", null ],
     [ "netSend", "db/dfa/stdlib_8c.html#aa37fe3dc138dcd7e1ebdabfd01163bb0", null ],
     [ "parent", "db/dfa/stdlib_8c.html#a0f99b2c8a24adf4ea26017903a46b1ea", null ],
+    [ "print", "db/dfa/stdlib_8c.html#a2475bc2a8646c8eeee45a8b6347b8828", null ],
     [ "printBool", "db/dfa/stdlib_8c.html#af9781c34b5472cee6c7a4df1259aa581", null ],
     [ "printChar", "db/dfa/stdlib_8c.html#a079ee199d48ff94b19306b7532e57216", null ],
     [ "printFloat", "db/dfa/stdlib_8c.html#a5b1768275f42ee708cdc1a545df497b7", null ],
