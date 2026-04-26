@@ -4,6 +4,8 @@ var hierarchy =
     [ "anonymous_namespace{lsp-main.cpp}::AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", null ],
     [ "Argument", "dc/d8f/structArgument.html", null ],
     [ "AstBuilder", "de/d56/classAstBuilder.html", null ],
+    [ "AttributeArgument", "dc/dc4/structAttributeArgument.html", null ],
+    [ "AttributeNode", "d7/da3/structAttributeNode.html", null ],
     [ "zir::BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", null ],
     [ "sema::ResolvedImport::Binding", "dc/d93/structsema_1_1ResolvedImport_1_1Binding.html", null ],
     [ "sema::BoundNode", "d0/db2/classsema_1_1BoundNode.html", [

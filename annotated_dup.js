@@ -122,6 +122,8 @@ var annotated_dup =
     [ "ArrayLiteralNode", "d0/d85/classArrayLiteralNode.html", "d0/d85/classArrayLiteralNode" ],
     [ "AssignNode", "d8/d5e/classAssignNode.html", "d8/d5e/classAssignNode" ],
     [ "AstBuilder", "de/d56/classAstBuilder.html", "de/d56/classAstBuilder" ],
+    [ "AttributeArgument", "dc/dc4/structAttributeArgument.html", "dc/dc4/structAttributeArgument" ],
+    [ "AttributeNode", "d7/da3/structAttributeNode.html", "d7/da3/structAttributeNode" ],
     [ "BinExpr", "da/d53/classBinExpr.html", "da/d53/classBinExpr" ],
     [ "BodyNode", "de/df0/classBodyNode.html", "de/df0/classBodyNode" ],
     [ "BreakNode", "d7/db8/classBreakNode.html", "d7/db8/classBreakNode" ],

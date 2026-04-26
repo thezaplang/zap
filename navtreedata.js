@@ -74,20 +74,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html#a876dd381f6fa2736733bd2f23e90454f",
-"d2/d9e/classsema_1_1BoundEnumDeclaration.html",
-"d3/d28/classzap_1_1DiagnosticEngine.html#a9d9cf1310f3abb8bbe62d054bb9df182",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4dc014d38d8f5ea326043e8491cfb6a3",
-"d5/df1/var__decl_8hpp.html",
-"d8/d4b/classsema_1_1BoundStructLiteral.html#ab3d0622e130ce501355d768d9463ac42",
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html",
-"da/db6/classzir_1_1RetainInst.html#a7f97a4f74df8b1b1b840269c0b3f2b2d",
-"db/d06/classsema_1_1BoundExpression.html",
-"dc/d13/structVisitor.html#aa8ba50365901e661f3ddf0864bad91e1",
-"dc/d2c/classsema_1_1Binder.html#af759d22fdae533693804e2a700109154",
-"dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html",
-"df/d01/structzap_1_1Diagnostic.html#a23d0092171ab41228cb07a1632609ac5",
-"functions_eval.html"
+"d0/df9/classsema_1_1BoundVisitor.html#ae6ff71d51343bf6846594601e9531923",
+"d2/d78/classsema_1_1BoundWeakAliveExpression.html#a444e2a711e9511693cbd5ff6ce322f49",
+"d3/d28/classzap_1_1DiagnosticEngine.html#a10802d1824c25a52ba3cda352bbfd355",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a252802eda493fb6b4a279c4452acb547",
+"d5/d7f/bin__expr_8hpp.html",
+"d8/d42/classzir_1_1CastInst.html#a14c95107ac2c4ecc4700b641fdec19b7",
+"d9/d0d/classzap_1_1lsp_1_1Server.html#a66f0383600d382ba0483a20a8d9433b5a4059b0251f66a18cb56f544728796875",
+"da/d74/classsema_1_1SymbolTable.html#a8ddf0e7dbfd000be10b2cfaedf057aa7",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#af3bfbf6e95588304a6a3bfeeac2c24df",
+"dc/d13/structVisitor.html#a2be25fe3a68c63c5fef32c03fff24c1d",
+"dc/d2c/classsema_1_1Binder.html#adbb6e6a9cd76e780bcd9a058d068ced8",
+"dd/d2a/structzap__string__t.html#a1020b249f346d5bd1a052b9d9142a80e",
+"de/d73/classzap_1_1Parser.html#adadfa3d4a34709ea11ad89da011d6497",
+"df/dd7/classzir_1_1EnumType.html#aea6d8c9ebc167de29af145bb67b18023"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

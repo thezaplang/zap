@@ -97,7 +97,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00004">4</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa00ef9492d65809020617bdd956fbf13" name="aa00ef9492d65809020617bdd956fbf13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa00ef9492d65809020617bdd956fbf13">&#9670;&#160;</a></span>ConstString() <span class="overload">[1/2]</span></h2>
@@ -122,7 +122,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00008">ConstString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00015">ConstString()</a>.</p>
 
 </div>
 </div>
@@ -144,16 +144,16 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    8</span>: <a class="code hl_variable" href="#a932331bbaa4538c485859370d631a9fc">value_</a>(value) {}</div>
-<div class="ttc" id="aclassConstString_html_a932331bbaa4538c485859370d631a9fc"><div class="ttname"><a href="#a932331bbaa4538c485859370d631a9fc">ConstString::value_</a></div><div class="ttdeci">std::string value_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/dc5/const__string_8hpp_source.html#l00006">const_string.hpp:6</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>: <a class="code hl_variable" href="#a932331bbaa4538c485859370d631a9fc">value_</a>(std::move(value)) {}</div>
+<div class="ttc" id="aclassConstString_html_a932331bbaa4538c485859370d631a9fc"><div class="ttname"><a href="#a932331bbaa4538c485859370d631a9fc">ConstString::value_</a></div><div class="ttdeci">std::string value_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/dc5/const__string_8hpp_source.html#l00010">const_string.hpp:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="#aa00ef9492d65809020617bdd956fbf13">ConstString()</a>, and <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00006">value_</a>.</p>
+<p class="reference">References <a class="el" href="#aa00ef9492d65809020617bdd956fbf13">ConstString()</a>, and <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00010">value_</a>.</p>
 
 </div>
 </div>
@@ -183,8 +183,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   17</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00055">visitor.hpp:55</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00055">Visitor::visit()</a>.</p>
@@ -204,9 +204,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00006">6</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d9/dc5/const__string_8hpp_source.html">const_string.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00008">ConstString()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03114">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/dc5/const__string_8hpp_source.html#l00015">ConstString()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02590">sema::Binder::validateAndApplyFunctionAttributes()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02523">sema::Binder::validateAndApplyTypeAttributes()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03268">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
