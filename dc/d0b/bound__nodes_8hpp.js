@@ -28,6 +28,7 @@ var bound__nodes_8hpp =
     [ "sema::BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", "d1/d29/classsema_1_1BoundAssignment" ],
     [ "sema::BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", "d0/dec/classsema_1_1BoundIfStatement" ],
     [ "sema::BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
+    [ "sema::BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
     [ "sema::BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
     [ "sema::BoundContinueStatement", "d3/dc3/classsema_1_1BoundContinueStatement.html", "d3/dc3/classsema_1_1BoundContinueStatement" ],
     [ "sema::BoundFunctionDeclaration", "db/d37/classsema_1_1BoundFunctionDeclaration.html", "db/d37/classsema_1_1BoundFunctionDeclaration" ],

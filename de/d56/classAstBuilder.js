@@ -21,6 +21,8 @@ var classAstBuilder =
     [ "makeFail", "de/d56/classAstBuilder.html#aba2f4079de73ac6b54f597f9923fbd98", null ],
     [ "makeFailableHandleExpr", "de/d56/classAstBuilder.html#ad598821f3c815f62e41b5798dd27cd7d", null ],
     [ "makeFallbackExpr", "de/d56/classAstBuilder.html#af8353e63ce2040284732d86655c14de3", null ],
+    [ "makeFor", "de/d56/classAstBuilder.html#a2275511bc429bb7f8b6458dd80da6764", null ],
+    [ "makeForIn", "de/d56/classAstBuilder.html#a9d7d0302d2e1a40ac90d9c9a37a9f823", null ],
     [ "makeFunCall", "de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191", null ],
     [ "makeFunDecl", "de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0", null ],
     [ "makeIf", "de/d56/classAstBuilder.html#ab9eb852498da6f2991e63aaeac1674b0", null ],

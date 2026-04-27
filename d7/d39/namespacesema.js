@@ -49,6 +49,7 @@ var namespacesema =
     [ "BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", "d1/d29/classsema_1_1BoundAssignment" ],
     [ "BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", "d0/dec/classsema_1_1BoundIfStatement" ],
     [ "BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
+    [ "BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
     [ "BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
     [ "BoundContinueStatement", "d3/dc3/classsema_1_1BoundContinueStatement.html", "d3/dc3/classsema_1_1BoundContinueStatement" ],
     [ "BoundFunctionDeclaration", "db/d37/classsema_1_1BoundFunctionDeclaration.html", "db/d37/classsema_1_1BoundFunctionDeclaration" ],
