@@ -104,7 +104,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6268ef36a2a8bb42fc0e6816f210423a" id="r_a6268ef36a2a8bb42fc0e6816f210423a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6268ef36a2a8bb42fc0e6816f210423a">makeParam</a> (const std::string &amp;name, std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; type, bool isRef=false, bool isVariadic=false)</td></tr>
 <tr class="memitem:ab11f1dc58c8deae55be12b57e11e4a17" id="r_ab11f1dc58c8deae55be12b57e11e4a17"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab11f1dc58c8deae55be12b57e11e4a17">makeType</a> (const std::string &amp;name)</td></tr>
 <tr class="memitem:afcfb4fe4e1ff5ae0a73020ce10d8d403" id="r_afcfb4fe4e1ff5ae0a73020ce10d8d403"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/d3f/classImportNode.html">ImportNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcfb4fe4e1ff5ae0a73020ce10d8d403">makeImport</a> (std::string path, std::string moduleAlias=&quot;&quot;, std::vector&lt; <a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a> &gt; bindings={})</td></tr>
-<tr class="memitem:a5582d45c5eea72bdef7af5ac5e6096f7" id="r_a5582d45c5eea72bdef7af5ac5e6096f7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d0/d96/classEnumDecl.html">EnumDecl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5582d45c5eea72bdef7af5ac5e6096f7">makeEnumDecl</a> (const std::string &amp;name, std::vector&lt; std::string &gt; entries)</td></tr>
+<tr class="memitem:aeac048fd0f7cb8665f51f5a7c90ed4ea" id="r_aeac048fd0f7cb8665f51f5a7c90ed4ea"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d0/d96/classEnumDecl.html">EnumDecl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeac048fd0f7cb8665f51f5a7c90ed4ea">makeEnumDecl</a> (const std::string &amp;name, std::vector&lt; <a class="el" href="../../d9/de9/structEnumDecl_1_1Entry.html">EnumDecl::Entry</a> &gt; entries)</td></tr>
 <tr class="memitem:a614feeea7ad7dbe353ca8e2516dfbd28" id="r_a614feeea7ad7dbe353ca8e2516dfbd28"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/d3d/classRecordDecl.html">RecordDecl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a614feeea7ad7dbe353ca8e2516dfbd28">makeRecordDecl</a> (const std::string &amp;name, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; &gt; genericParams, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt; fields)</td></tr>
 <tr class="memitem:a2ced994c8d502ecf6becbf2185ea34cc" id="r_a2ced994c8d502ecf6becbf2185ea34cc"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d6/d7b/classClassDecl.html">ClassDecl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ced994c8d502ecf6becbf2185ea34cc">makeClassDecl</a> (const std::string &amp;name)</td></tr>
 <tr class="memitem:a000f04b771c2f0dc67605906f71c124f" id="r_a000f04b771c2f0dc67605906f71c124f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/d59/classNewExpr.html">NewExpr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a000f04b771c2f0dc67605906f71c124f">makeNewExpr</a> (std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; type)</td></tr>
@@ -646,8 +646,8 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a5582d45c5eea72bdef7af5ac5e6096f7" name="a5582d45c5eea72bdef7af5ac5e6096f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5582d45c5eea72bdef7af5ac5e6096f7">&#9670;&#160;</a></span>makeEnumDecl()</h2>
+<a id="aeac048fd0f7cb8665f51f5a7c90ed4ea" name="aeac048fd0f7cb8665f51f5a7c90ed4ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeac048fd0f7cb8665f51f5a7c90ed4ea">&#9670;&#160;</a></span>makeEnumDecl()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -663,7 +663,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>entries</em></span>&#160;)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="../../d9/de9/structEnumDecl_1_1Entry.html">EnumDecl::Entry</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>entries</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -674,7 +674,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00233">233</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  234</span>                                                                       {</div>
+<div class="fragment"><div class="line"><span class="lineno">  234</span>                                                                           {</div>
 <div class="line"><span class="lineno">  235</span>    <span class="keywordflow">return</span> std::make_unique&lt;EnumDecl&gt;(name, std::move(entries));</div>
 <div class="line"><span class="lineno">  236</span>  }</div>
 </div><!-- fragment -->

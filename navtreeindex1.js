@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"d0/df9/classsema_1_1BoundVisitor.html#a81ce17662aa044532e84ac5ae11bceed":[2,0,2,1,17],
 "d0/df9/classsema_1_1BoundVisitor.html#a8976340af100418f49311bfe969d3315":[1,0,3,2,13],
 "d0/df9/classsema_1_1BoundVisitor.html#a8976340af100418f49311bfe969d3315":[2,0,2,1,13],
 "d0/df9/classsema_1_1BoundVisitor.html#a8fc2aeb4b30e2f57d6561e152dd8e255":[1,0,3,2,21],
@@ -123,6 +124,12 @@ var NAVTREEINDEX1 =
 "d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#abf255234f8145f4a18d6e0878a154376":[1,0,4,1,0,7],
 "d1/d74/lsp_8cpp.html":[3,0,0,5,3],
 "d1/d74/lsp_8cpp_source.html":[3,0,0,5,3],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html":[1,0,5,27,0],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html":[2,0,4,27,0],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html#ac724e2671dc81000e53ab75fb0a9a896":[1,0,5,27,0,0],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html#ac724e2671dc81000e53ab75fb0a9a896":[2,0,4,27,0,0],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html#acf5c1b053b7c8239e82ef3f51df35d11":[1,0,5,27,0,1],
+"d1/d76/structzir_1_1EnumType_1_1Variant.html#acf5c1b053b7c8239e82ef3f51df35d11":[2,0,4,27,0,1],
 "d1/d8b/classsema_1_1BoundRecordDeclaration.html":[1,0,3,34],
 "d1/d8b/classsema_1_1BoundRecordDeclaration.html":[2,0,2,33],
 "d1/d8b/classsema_1_1BoundRecordDeclaration.html#ade80221fe0a4b314f40b7e2afb1abbfe":[1,0,3,34,1],
@@ -242,12 +249,5 @@ var NAVTREEINDEX1 =
 "d2/d4b/classzir_1_1AllocaInst.html#a2577ad266a0a7acc9203f19cba937fce":[2,0,4,6,5],
 "d2/d4b/classzir_1_1AllocaInst.html#a2cb54f418431efc144909fdfe49d6664":[1,0,5,6,6],
 "d2/d4b/classzir_1_1AllocaInst.html#a2cb54f418431efc144909fdfe49d6664":[2,0,4,6,6],
-"d2/d4b/classzir_1_1AllocaInst.html#a4b969188ff4bd2a19433c84431c20378":[1,0,5,6,3],
-"d2/d4b/classzir_1_1AllocaInst.html#a4b969188ff4bd2a19433c84431c20378":[2,0,4,6,3],
-"d2/d4b/classzir_1_1AllocaInst.html#ab50df2d5f0d70148f4c7f999e96da7dd":[1,0,5,6,4],
-"d2/d4b/classzir_1_1AllocaInst.html#ab50df2d5f0d70148f4c7f999e96da7dd":[2,0,4,6,4],
-"d2/d4b/classzir_1_1AllocaInst.html#ac396d3b551e87ef9f08650b89f293d96":[1,0,5,6,0],
-"d2/d4b/classzir_1_1AllocaInst.html#ac396d3b551e87ef9f08650b89f293d96":[2,0,4,6,0],
-"d2/d4b/classzir_1_1AllocaInst.html#ac4b62160d384c89fd5f86a136926ae95":[1,0,5,6,1],
-"d2/d4b/classzir_1_1AllocaInst.html#ac4b62160d384c89fd5f86a136926ae95":[2,0,4,6,1]
+"d2/d4b/classzir_1_1AllocaInst.html#a4b969188ff4bd2a19433c84431c20378":[1,0,5,6,3]
 };

@@ -7,6 +7,7 @@ var type_8hpp =
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", "d3/dc7/structzir_1_1RecordType_1_1Field" ],
     [ "zir::ClassType", "dc/dae/classzir_1_1ClassType.html", "dc/dae/classzir_1_1ClassType" ],
     [ "zir::EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
+    [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", "d1/d76/structzir_1_1EnumType_1_1Variant" ],
     [ "zir::ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
     [ "zir::TypeKind", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959", [
       [ "zir::TypeKind::Void", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d", null ],

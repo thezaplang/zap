@@ -61,6 +61,7 @@ var hierarchy =
     [ "zap::DiagnosticTextFormatter", "d8/dbe/classzap_1_1DiagnosticTextFormatter.html", null ],
     [ "anonymous_namespace{lsp-main.cpp}::DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", null ],
     [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
+    [ "EnumDecl::Entry", "d9/de9/structEnumDecl_1_1Entry.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::AggregateConstant::FieldValue", "d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
@@ -192,6 +193,7 @@ var hierarchy =
       [ "zir::Global", "d0/d8c/classzir_1_1Global.html", null ],
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]
     ] ],
+    [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", null ],
     [ "Visitor", "dc/d13/structVisitor.html", [
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
     ] ],

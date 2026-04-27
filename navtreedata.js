@@ -74,21 +74,21 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/df9/classsema_1_1BoundVisitor.html#a8976340af100418f49311bfe969d3315",
-"d2/d4b/classzir_1_1AllocaInst.html#ac74c5b3ced58e4ed8c61950a978d973c",
-"d3/d09/classzap_1_1Stream.html#a94cd51dc30272241d2dee103577a93d5",
-"d3/dfe/classzap_1_1lsp_1_1JsonParser.html#ab7a3eefb2e0da5bef75d636183b034eb",
-"d4/da0/classzir_1_1BoundIRGenerator.html#aee571488fae0ed47913a3278f1b3158f",
-"d7/d6e/classzir_1_1BasicBlock.html#a11edc41825b215024d4d2814750e440a",
-"d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735",
-"d9/dd2/classzir_1_1Type.html#acc302fa582a1a797c427d35a66193f2f",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a4ff38f0f5aaab8db69236c616ffa6309",
-"db/db1/classsema_1_1FunctionSymbol.html#add39495c133555bb93e923cb237d30d6",
-"dc/d2c/classsema_1_1Binder.html#a315e73c6859b03173b8e39d780b8c029",
-"dc/d93/structsema_1_1ResolvedImport_1_1Binding.html#a95d2c41eb1164a7692ebda54bb69653b",
-"de/d45/classFailableHandleExpr.html#a307ec327bf9ff6350c53ec377e160f00",
-"df/d31/classzir_1_1CallInst.html#a8176ee8ddac1a38da5e1c05477b2aaef",
-"functions_vars_h.html"
+"d0/df9/classsema_1_1BoundVisitor.html#a81ce17662aa044532e84ac5ae11bceed",
+"d2/d4b/classzir_1_1AllocaInst.html#a4b969188ff4bd2a19433c84431c20378",
+"d3/d09/classzap_1_1Stream.html#a8246f2fd49ffa373e0f3f67200ee9af4",
+"d3/dfd/classzap_1_1__version__base.html#aec7a7e79b1d8c8064e605ff8896b5173",
+"d4/da0/classzir_1_1BoundIRGenerator.html#ae620f21a0c6f866a20f623a3bdd48608",
+"d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9",
+"d9/d00/classzap_1_1driver.html",
+"d9/dd2/classzir_1_1Type.html#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a3bd4773dddb8a16d30bac5a889c0007b",
+"db/db1/classsema_1_1FunctionSymbol.html#a5f823706fb69ed6db2114641d46ceaa5",
+"dc/d2c/classsema_1_1Binder.html#a257667b2ab492554ecb7d2d66cf430d2",
+"dc/d90/classzir_1_1Function.html#aa19f032ffb31e5a3e3ef06f2346deefb",
+"de/d35/classStructDeclarationNode.html",
+"df/d31/classzir_1_1CallInst.html#a082464cfff8703334860bed0c8462b7b",
+"functions_n.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
