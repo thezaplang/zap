@@ -13,6 +13,7 @@ syntax match zapFunHeader "\<fun\>\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapUnsafeFunHeader "\<unsafe\>\s\+\<fun\>\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapExtFunHeader "\<ext\>\s\+\<fun\>\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax keyword zapStructure record struct class enum alias
+syntax match zapEnumDiscriminant "\<\h\w*\>\s*\zs=\s*-\?\%(0x[0-9A-Fa-f_]\+\|0b[01_]\+\|0o[0-7_]\+\|[0-9_]\+\)\ze\%(\s*,\|\s*}\)"
 
 " Literals and comments
 syntax region zapString start=+"+ skip=+\\.+ end=+"+ oneline contains=zapEscape

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -193,26 +194,61 @@ public:
 };
 
 class EnumType : public Type {
+public:
+  struct Variant {
+    std::string name;
+    int64_t discriminant = 0;
+  };
+
+private:
   std::string name;
   std::string codegenName;
-  std::vector<std::string> variants;
+  std::vector<Variant> variants;
 
 public:
-  EnumType(std::string n, std::vector<std::string> v, std::string codegen = "")
+  EnumType(std::string n, std::vector<Variant> v, std::string codegen = "")
       : name(std::move(n)),
         codegenName(codegen.empty() ? name : std::move(codegen)),
         variants(std::move(v)) {}
+
+  EnumType(std::string n, std::vector<std::string> v, std::string codegen = "")
+      : name(std::move(n)),
+        codegenName(codegen.empty() ? name : std::move(codegen)) {
+    variants.reserve(v.size());
+    for (size_t i = 0; i < v.size(); ++i) {
+      variants.push_back(Variant{std::move(v[i]), static_cast<int64_t>(i)});
+    }
+  }
+
   TypeKind getKind() const override { return TypeKind::Enum; }
   std::string toString() const override { return "enum " + name; }
   bool isReferenceType() const override { return false; }
 
-  const std::vector<std::string> &getVariants() const { return variants; }
+  const std::vector<Variant> &getVariants() const { return variants; }
+  std::vector<std::string> getVariantNames() const {
+    std::vector<std::string> names;
+    names.reserve(variants.size());
+    for (const auto &variant : variants) {
+      names.push_back(variant.name);
+    }
+    return names;
+  }
+
   const std::string &getName() const { return name; }
   const std::string &getCodegenName() const { return codegenName; }
 
+  int64_t getVariantDiscriminant(const std::string &variantName) const {
+    for (const auto &variant : variants) {
+      if (variant.name == variantName) {
+        return variant.discriminant;
+      }
+    }
+    return -1;
+  }
+
   int getVariantIndex(const std::string &variantName) const {
     for (size_t i = 0; i < variants.size(); ++i) {
-      if (variants[i] == variantName) {
+      if (variants[i].name == variantName) {
         return static_cast<int>(i);
       }
     }

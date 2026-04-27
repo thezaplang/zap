@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include <functional>
+#include <limits>
 #include <sstream>
 #include <string_view>
 #include <unordered_map>
@@ -1939,9 +1940,43 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         module.symbol->exports[structDecl->name_] = symbol;
       }
     } else if (auto enumDecl = dynamic_cast<EnumDecl *>(child.get())) {
+      std::vector<zir::EnumType::Variant> variants;
+      variants.reserve(enumDecl->entries_.size());
+
+      int64_t nextImplicitValue = 0;
+      bool overflowed = false;
+
+      for (const auto &entry : enumDecl->entries_) {
+        int64_t resolvedValue = 0;
+
+        if (entry.hasExplicitValue_) {
+          resolvedValue = entry.value_;
+          if (resolvedValue == std::numeric_limits<int64_t>::max()) {
+            overflowed = true;
+          } else {
+            nextImplicitValue = resolvedValue + 1;
+          }
+        } else {
+          if (overflowed) {
+            error(enumDecl->span,
+                  "Enum '" + enumDecl->name_ +
+                      "' has implicit value after maximum explicit discriminant.");
+            break;
+          }
+          resolvedValue = nextImplicitValue;
+          if (nextImplicitValue == std::numeric_limits<int64_t>::max()) {
+            overflowed = true;
+          } else {
+            ++nextImplicitValue;
+          }
+        }
+
+        variants.push_back({entry.name_, resolvedValue});
+      }
+
       auto type = std::make_shared<zir::EnumType>(
           displayTypeName(module.info->moduleName, enumDecl->name_),
-          enumDecl->entries_,
+          std::move(variants),
           mangleName(module.info->linkPath.empty() ? module.info->moduleId
                                                    : module.info->linkPath,
                      enumDecl->name_));
@@ -3771,7 +3806,7 @@ void Binder::visit(MemberAccessNode &node) {
 
   if (left->type->getKind() == zir::TypeKind::Enum) {
     auto enumType = std::static_pointer_cast<zir::EnumType>(left->type);
-    int value = enumType->getVariantIndex(node.member_);
+    int64_t value = enumType->getVariantDiscriminant(node.member_);
     if (value != -1) {
       expressionStack_.push(
           std::make_unique<BoundLiteral>(std::to_string(value), enumType));

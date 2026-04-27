@@ -1,0 +1,31 @@
+enum Status {
+    Init = 5,
+    Running,
+    Failed = 10,
+    Done,
+    Reset = 2,
+    AfterReset,
+}
+
+fun main() Int {
+    // explicit -> implicit
+    if (Status.Init == Status.Running) {
+        return 1;
+    }
+
+    if (Status.Failed == Status.Done) {
+        return 2;
+    }
+
+    // explicit reset should affect following implicit value
+    if (Status.Reset == Status.AfterReset) {
+        return 3;
+    }
+
+    // sanity: different explicit groups should remain different
+    if (Status.Running == Status.AfterReset) {
+        return 4;
+    }
+
+    return 0;
+}

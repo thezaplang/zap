@@ -231,7 +231,7 @@ public:
   }
 
   std::unique_ptr<EnumDecl> makeEnumDecl(const std::string &name,
-                                         std::vector<std::string> entries) {
+                                         std::vector<EnumDecl::Entry> entries) {
     return std::make_unique<EnumDecl>(name, std::move(entries));
   }
 

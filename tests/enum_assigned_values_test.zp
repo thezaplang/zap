@@ -1,0 +1,49 @@
+enum Status {
+    Unknown,
+    Ok = 5,
+    Warning,
+    Error = 10,
+    Fatal,
+    Negative = -3,
+    AfterNegative,
+    AliasOk = 5,
+    AliasNeg = -3,
+    AliasWarn = 6,
+}
+
+fun main() Int {
+    // Explicit-value aliases should compare equal.
+    if (Status.Ok != Status.AliasOk) {
+        return 1;
+    }
+    if (Status.Negative != Status.AliasNeg) {
+        return 2;
+    }
+    if (Status.Warning != Status.AliasWarn) {
+        return 3;
+    }
+
+    // Different discriminants should remain distinct.
+    if (Status.Unknown == Status.Ok) {
+        return 4;
+    }
+    if (Status.Warning == Status.Error) {
+        return 5;
+    }
+    if (Status.Fatal == Status.Negative) {
+        return 6;
+    }
+    if (Status.AfterNegative == Status.Unknown) {
+        return 7;
+    }
+
+    // Implicit sequencing around explicit reset points.
+    if (Status.Warning != Status.AliasWarn) {
+        return 8;
+    }
+    if (Status.AfterNegative == Status.Negative) {
+        return 9;
+    }
+
+    return 0;
+}

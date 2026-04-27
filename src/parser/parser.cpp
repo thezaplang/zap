@@ -1,7 +1,9 @@
 #include "parser.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
+#include <string>
 
 namespace zap {
 namespace {
@@ -1479,12 +1481,80 @@ std::unique_ptr<EnumDecl> Parser::parseEnumDecl() {
   Token enumKeyword = eat(TokenType::ENUM);
   Token enumNameToken = eat(TokenType::ID);
 
-  std::vector<std::string> entries;
+  std::vector<EnumDecl::Entry> entries;
   eat(TokenType::LBRACE);
 
   while (peek().type != TokenType::RBRACE) {
     Token entryToken = eat(TokenType::ID);
-    entries.push_back(entryToken.value);
+
+    if (peek().type == TokenType::ASSIGN) {
+      Token assignToken = eat(TokenType::ASSIGN);
+
+      bool isNegative = false;
+      if (peek().type == TokenType::MINUS) {
+        eat(TokenType::MINUS);
+        isNegative = true;
+      }
+
+      Token valueToken = eat(TokenType::INTEGER);
+
+      int base = 10;
+      std::string parseValue = valueToken.value;
+      if (valueToken.value.size() > 2 && valueToken.value[0] == '0') {
+        if (valueToken.value[1] == 'x' || valueToken.value[1] == 'X') {
+          base = 16;
+        } else if (valueToken.value[1] == 'b' || valueToken.value[1] == 'B') {
+          base = 2;
+          parseValue = valueToken.value.substr(2);
+        } else if (valueToken.value[1] == 'o' || valueToken.value[1] == 'O') {
+          base = 8;
+          parseValue = valueToken.value.substr(2);
+        }
+      }
+
+      try {
+        uint64_t unsignedValue = std::stoull(parseValue, nullptr, base);
+        int64_t signedValue = 0;
+
+        if (isNegative) {
+          const uint64_t minAbs =
+              static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) + 1ULL;
+          if (unsignedValue > minAbs) {
+            _diag.report(valueToken.span, DiagnosticLevel::Error,
+                         "Enum value out of range for signed 64-bit integer: -" +
+                             valueToken.value);
+            throw ParseError();
+          }
+
+          if (unsignedValue == minAbs) {
+            signedValue = std::numeric_limits<int64_t>::min();
+          } else {
+            signedValue = -static_cast<int64_t>(unsignedValue);
+          }
+        } else {
+          if (unsignedValue >
+              static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+            _diag.report(valueToken.span, DiagnosticLevel::Error,
+                         "Enum value out of range for signed 64-bit integer: " +
+                             valueToken.value);
+            throw ParseError();
+          }
+          signedValue = static_cast<int64_t>(unsignedValue);
+        }
+
+        entries.emplace_back(entryToken.value, signedValue);
+      } catch (const ParseError &) {
+        throw;
+      } catch (const std::exception &) {
+        _diag.report(
+            SourceSpan::merge(assignToken.span, valueToken.span),
+            DiagnosticLevel::Error,
+            "Invalid enum value, expected integer literal after '='.");
+        throw ParseError();
+      }
+    } else {
+      entries.emplace_back(entryToken.value);
+    }
 
     if (peek().type != TokenType::COMMA) {
       break;

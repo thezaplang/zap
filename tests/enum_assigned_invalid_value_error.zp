@@ -1,0 +1,5 @@
+enum Bad {
+    A = foo,
+}
+
+fun main() Int { return 0; }

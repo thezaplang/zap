@@ -92,7 +92,9 @@ namespace zir
           const auto &variants = et->getVariants();
           for (size_t i = 0; i < variants.size(); ++i)
           {
-            res += variants[i] + (i < variants.size() - 1 ? ", " : "");
+            res += variants[i].name + " = " +
+                   std::to_string(variants[i].discriminant) +
+                   (i < variants.size() - 1 ? ", " : "");
           }
           res += " }\n";
         }

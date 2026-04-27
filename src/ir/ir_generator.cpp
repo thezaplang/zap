@@ -751,7 +751,7 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
     valueStack_.pop();
 
     auto enumType = std::static_pointer_cast<zir::EnumType>(left->getType());
-    int value = enumType->getVariantIndex(node.member);
+    int64_t value = enumType->getVariantDiscriminant(node.member);
     if (value != -1) {
       valueStack_.push(std::make_shared<Constant>(
           std::to_string(value),
