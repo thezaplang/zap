@@ -1,0 +1,5 @@
+fun main() Int {
+    for var i: Int = 0; i; i = i + 1 {
+    }
+    return 0;
+}

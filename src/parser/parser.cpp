@@ -348,6 +348,29 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           eat(TokenType::SEMICOLON);
         }
         body->addStatement(std::move(whileNode));
+      } else if (peek().type == TokenType::FOR) {
+        bool isForIn = false;
+        if (peek(1).type == TokenType::ID && peek(2).type == TokenType::ID &&
+            peek(2).value == "in") {
+          isForIn = true;
+        } else if (peek(1).type == TokenType::LPAREN &&
+                   peek(2).type == TokenType::ID &&
+                   peek(3).type == TokenType::ID && peek(3).value == "in") {
+          isForIn = true;
+        }
+        if (isForIn) {
+          auto forInNode = parseForIn();
+          if (peek().type == TokenType::SEMICOLON) {
+            eat(TokenType::SEMICOLON);
+          }
+          body->addStatement(std::move(forInNode));
+        } else {
+          auto forNode = parseFor();
+          if (peek().type == TokenType::SEMICOLON) {
+            eat(TokenType::SEMICOLON);
+          }
+          body->addStatement(std::move(forNode));
+        }
       } else if (peek().type == TokenType::BREAK) {
         body->addStatement(parseBreak());
       } else if (peek().type == TokenType::CONTINUE) {
@@ -884,6 +907,112 @@ std::unique_ptr<WhileNode> Parser::parseWhile() {
   _builder.setSpan(whileNode.get(),
                    SourceSpan::merge(whileKeyword.span, rbraceToken.span));
   return whileNode;
+}
+
+std::unique_ptr<VarDecl> Parser::parseForInitVarDecl() {
+  Token varKeyword = eat(TokenType::VAR);
+  Token varNameToken = eat(TokenType::ID);
+  eat(TokenType::COLON);
+
+  auto typeNode = parseType();
+
+  std::unique_ptr<ExpressionNode> initializer = nullptr;
+  SourceSpan endSpan = typeNode ? typeNode->span : varNameToken.span;
+  if (peek().type == TokenType::ASSIGN) {
+    eat(TokenType::ASSIGN);
+    initializer = parseExpression();
+    endSpan = initializer->span;
+  }
+
+  auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
+                                      std::move(initializer));
+  _builder.setSpan(varDecl.get(), SourceSpan::merge(varKeyword.span, endSpan));
+  return varDecl;
+}
+
+std::unique_ptr<AssignNode> Parser::parseForIncrementAssign() {
+  auto target = parseExpression();
+  eat(TokenType::ASSIGN);
+  auto expr = parseExpression();
+  auto assign = _builder.makeAssign(std::move(target), std::move(expr));
+  _builder.setSpan(assign.get(),
+                   SourceSpan::merge(assign->target_->span, assign->expr_->span));
+  return assign;
+}
+
+std::unique_ptr<ForNode> Parser::parseFor() {
+  Token forKeyword = eat(TokenType::FOR);
+  bool hasParen = false;
+  if (peek().type == TokenType::LPAREN) {
+    eat(TokenType::LPAREN);
+    hasParen = true;
+  }
+
+  if (peek().type != TokenType::VAR) {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "For initializer must be a variable declaration.");
+    throw ParseError();
+  }
+  auto initializer = parseForInitVarDecl();
+  eat(TokenType::SEMICOLON);
+
+  bool oldAllow = _allowStructLiteral;
+  _allowStructLiteral = false;
+  auto condition = parseExpression();
+  _allowStructLiteral = oldAllow;
+
+  eat(TokenType::SEMICOLON);
+  auto increment = parseForIncrementAssign();
+
+  if (hasParen) {
+    eat(TokenType::RPAREN);
+  }
+
+  eat(TokenType::LBRACE);
+  auto body = parseBody();
+  Token rbraceToken = eat(TokenType::RBRACE);
+
+  auto forNode = _builder.makeFor(std::move(initializer), std::move(condition),
+                                  std::move(increment), std::move(body));
+  _builder.setSpan(forNode.get(),
+                   SourceSpan::merge(forKeyword.span, rbraceToken.span));
+  return forNode;
+}
+
+std::unique_ptr<ForInNode> Parser::parseForIn() {
+  Token forKeyword = eat(TokenType::FOR);
+  bool hasParen = false;
+  if (peek().type == TokenType::LPAREN) {
+    eat(TokenType::LPAREN);
+    hasParen = true;
+  }
+
+  Token itemToken = eat(TokenType::ID);
+  if (peek().type != TokenType::ID || peek().value != "in") {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Expected 'in' in for-in loop.");
+    throw ParseError();
+  }
+  eat(TokenType::ID); // "in"
+
+  bool oldAllow = _allowStructLiteral;
+  _allowStructLiteral = false;
+  auto iterable = parseExpression();
+  _allowStructLiteral = oldAllow;
+
+  if (hasParen) {
+    eat(TokenType::RPAREN);
+  }
+
+  eat(TokenType::LBRACE);
+  auto body = parseBody();
+  Token rbraceToken = eat(TokenType::RBRACE);
+
+  auto forInNode =
+      _builder.makeForIn(itemToken.value, std::move(iterable), std::move(body));
+  _builder.setSpan(forInNode.get(),
+                   SourceSpan::merge(forKeyword.span, rbraceToken.span));
+  return forInNode;
 }
 
 std::unique_ptr<ReturnNode> Parser::parseReturnStmt() {
@@ -1450,6 +1579,7 @@ void Parser::synchronize(SyncContext context) {
     case TokenType::VAR:
     case TokenType::IF:
     case TokenType::WHILE:
+    case TokenType::FOR:
     case TokenType::RETURN:
     case TokenType::UNSAFE:
       if (context == SyncContext::TopLevel) {

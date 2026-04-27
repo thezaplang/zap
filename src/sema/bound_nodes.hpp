@@ -31,6 +31,7 @@ class BoundStructLiteral;
 class BoundModuleReference;
 class BoundIfStatement;
 class BoundWhileStatement;
+class BoundForStatement;
 class BoundBreakStatement;
 class BoundContinueStatement;
 class BoundCast;
@@ -68,6 +69,7 @@ public:
   virtual void visit(BoundModuleReference &node) = 0;
   virtual void visit(BoundIfStatement &node) = 0;
   virtual void visit(BoundWhileStatement &node) = 0;
+  virtual void visit(BoundForStatement &node) = 0;
   virtual void visit(BoundBreakStatement &node) = 0;
   virtual void visit(BoundContinueStatement &node) = 0;
   virtual void visit(BoundCast &node) = 0;
@@ -490,6 +492,29 @@ public:
   std::unique_ptr<BoundStatement> cloneStatement() const override {
     return std::make_unique<BoundWhileStatement>(condition->clone(),
                                                  body->cloneBlock());
+  }
+};
+
+class BoundForStatement : public BoundStatement {
+public:
+  std::unique_ptr<BoundStatement> initializer;
+  std::unique_ptr<BoundExpression> condition;
+  std::unique_ptr<BoundStatement> increment;
+  std::unique_ptr<BoundBlock> body;
+
+  BoundForStatement(std::unique_ptr<BoundStatement> init,
+                    std::unique_ptr<BoundExpression> cond,
+                    std::unique_ptr<BoundStatement> inc,
+                    std::unique_ptr<BoundBlock> loopBody)
+      : initializer(std::move(init)), condition(std::move(cond)),
+        increment(std::move(inc)), body(std::move(loopBody)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+  std::unique_ptr<BoundStatement> cloneStatement() const override {
+    return std::make_unique<BoundForStatement>(
+        initializer ? initializer->cloneStatement() : nullptr,
+        condition ? condition->clone() : nullptr,
+        increment ? increment->cloneStatement() : nullptr,
+        body ? body->cloneBlock() : nullptr);
   }
 };
 

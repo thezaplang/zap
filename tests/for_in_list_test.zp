@@ -1,0 +1,19 @@
+import "std/collection" as collection;
+
+fun main() Int {
+    var values: collection.List<Int> = new collection.List<Int>();
+    values.push(2);
+    values.push(4);
+    values.push(6);
+
+    var sum: Int = 0;
+    for value in values {
+        sum = sum + value;
+    }
+
+    if sum != 12 {
+        return 1;
+    }
+
+    return 0;
+}

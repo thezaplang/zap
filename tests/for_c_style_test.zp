@@ -1,0 +1,16 @@
+fun main() Int {
+    var sum: Int = 0;
+
+    for var i: Int = 0; i < 6; i = i + 1 {
+        if i == 2 {
+            continue;
+        }
+        sum = sum + i;
+    }
+
+    if sum != 13 {
+        return 1;
+    }
+
+    return 0;
+}

@@ -1,0 +1,6 @@
+fun main() Int {
+    var j: Int = 0;
+    for var i: Int = 0; i < 3; j = j + 1 {
+    }
+    return 0;
+}

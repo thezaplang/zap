@@ -40,6 +40,8 @@
 #include "../ast/while_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/continue_node.hpp"
+#include "../ast/for_in_node.hpp"
+#include "../ast/for_node.hpp"
 
 class AstBuilder {
 public:
@@ -105,6 +107,23 @@ public:
   makeWhile(std::unique_ptr<ExpressionNode> condition,
             std::unique_ptr<BodyNode> body) {
     return std::make_unique<WhileNode>(std::move(condition), std::move(body));
+  }
+
+  std::unique_ptr<ForNode>
+  makeFor(std::unique_ptr<VarDecl> initializer,
+          std::unique_ptr<ExpressionNode> condition,
+          std::unique_ptr<AssignNode> increment,
+          std::unique_ptr<BodyNode> body) {
+    return std::make_unique<ForNode>(std::move(initializer),
+                                     std::move(condition),
+                                     std::move(increment), std::move(body));
+  }
+
+  std::unique_ptr<ForInNode>
+  makeForIn(const std::string &itemName, std::unique_ptr<ExpressionNode> iterable,
+            std::unique_ptr<BodyNode> body) {
+    return std::make_unique<ForInNode>(itemName, std::move(iterable),
+                                       std::move(body));
   }
 
   std::unique_ptr<VarDecl> makeVarDecl(const std::string &name,

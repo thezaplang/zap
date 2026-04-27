@@ -12,6 +12,8 @@
 #include "const/const_null.hpp"
 #include "const/const_string.hpp"
 #include "continue_node.hpp"
+#include "for_in_node.hpp"
+#include "for_node.hpp"
 #include "expr_node.hpp"
 #include "ext_decl.hpp"
 #include "failable_nodes.hpp"

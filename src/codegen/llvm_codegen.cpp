@@ -2944,6 +2944,60 @@ void LLVMCodeGen::visit(sema::BoundWhileStatement &node) {
   builder_.SetInsertPoint(endBB);
 }
 
+void LLVMCodeGen::visit(sema::BoundForStatement &node) {
+  if (!currentFn_)
+    throw std::runtime_error("currentFn_ is null in visit(BoundForStatement)");
+
+  if (node.initializer) {
+    if (auto *initBlock = dynamic_cast<sema::BoundBlock *>(node.initializer.get())) {
+      for (const auto &stmt : initBlock->statements) {
+        if (stmt) {
+          stmt->accept(*this);
+        }
+      }
+    } else {
+      node.initializer->accept(*this);
+    }
+  }
+
+  auto *condBB = llvm::BasicBlock::Create(ctx_, "for.cond", currentFn_);
+  auto *bodyBB = llvm::BasicBlock::Create(ctx_, "for.body", currentFn_);
+  auto *stepBB = llvm::BasicBlock::Create(ctx_, "for.step", currentFn_);
+  auto *endBB = llvm::BasicBlock::Create(ctx_, "for.end", currentFn_);
+
+  builder_.CreateBr(condBB);
+
+  builder_.SetInsertPoint(condBB);
+  if (!node.condition)
+    throw std::runtime_error("condition is null in BoundForStatement");
+  node.condition->accept(*this);
+  auto *cond = lastValue_;
+  if (!cond)
+    throw std::runtime_error(
+        "lastValue_ is null after condition in BoundForStatement");
+  builder_.CreateCondBr(cond, bodyBB, endBB);
+
+  builder_.SetInsertPoint(bodyBB);
+  loopBBStack_.push_back({stepBB, endBB});
+  if (node.body) {
+    node.body->accept(*this);
+  }
+  loopBBStack_.pop_back();
+  if (!builder_.GetInsertBlock()->getTerminator()) {
+    builder_.CreateBr(stepBB);
+  }
+
+  builder_.SetInsertPoint(stepBB);
+  if (node.increment) {
+    node.increment->accept(*this);
+  }
+  if (!builder_.GetInsertBlock()->getTerminator()) {
+    builder_.CreateBr(condBB);
+  }
+
+  builder_.SetInsertPoint(endBB);
+}
+
 void LLVMCodeGen::visit(sema::BoundBreakStatement &node) {
   if (loopBBStack_.empty())
     return; // binder should have diagnosed

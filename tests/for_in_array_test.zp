@@ -1,0 +1,14 @@
+fun main() Int {
+    var values: [4]Int = {1, 2, 3, 4};
+    var sum: Int = 0;
+
+    for v in values {
+        sum = sum + v;
+    }
+
+    if sum != 10 {
+        return 1;
+    }
+
+    return 0;
+}

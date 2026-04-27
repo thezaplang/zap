@@ -11,6 +11,8 @@
 #include "../ast/ext_decl.hpp"
 #include "../ast/failable_nodes.hpp"
 #include "../ast/fun_decl.hpp"
+#include "../ast/for_in_node.hpp"
+#include "../ast/for_node.hpp"
 #include "../ast/if_node.hpp"
 #include "../ast/import_node.hpp"
 #include "../ast/record_decl.hpp"
@@ -87,6 +89,10 @@ namespace zap
     std::unique_ptr<IfNode> parseIf();
     std::unique_ptr<IfTypeNode> parseIfType();
     std::unique_ptr<WhileNode> parseWhile();
+    std::unique_ptr<ForNode> parseFor();
+    std::unique_ptr<ForInNode> parseForIn();
+    std::unique_ptr<VarDecl> parseForInitVarDecl();
+    std::unique_ptr<AssignNode> parseForIncrementAssign();
     std::unique_ptr<ReturnNode> parseReturnStmt();
     std::unique_ptr<ExpressionNode> parseExpression();
     std::unique_ptr<ExpressionNode> parseFailableExpression();

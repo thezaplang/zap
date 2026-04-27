@@ -50,6 +50,7 @@ public:
   void visit(sema::BoundModuleReference &node) override;
   void visit(sema::BoundIfStatement &node) override;
   void visit(sema::BoundWhileStatement &node) override;
+  void visit(sema::BoundForStatement &node) override;
   void visit(sema::BoundBreakStatement &node) override;
   void visit(sema::BoundContinueStatement &node) override;
   void visit(sema::BoundCast &node) override;

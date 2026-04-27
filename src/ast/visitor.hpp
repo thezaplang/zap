@@ -14,6 +14,8 @@ class ReturnNode;
 class IfNode;
 class IfTypeNode;
 class WhileNode;
+class ForNode;
+class ForInNode;
 class BreakNode;
 class ContinueNode;
 class MemberAccessNode;
@@ -69,6 +71,8 @@ struct Visitor
   virtual void visit(IfNode &) {}
   virtual void visit(IfTypeNode &) {}
   virtual void visit(WhileNode &) {}
+  virtual void visit(ForNode &) {}
+  virtual void visit(ForInNode &) {}
   virtual void visit(MemberAccessNode &) {}
   virtual void visit(BreakNode &) {}
   virtual void visit(ContinueNode &) {}

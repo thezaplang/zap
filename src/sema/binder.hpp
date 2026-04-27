@@ -36,6 +36,8 @@ public:
   void visit(IfNode &node) override;
   void visit(IfTypeNode &node) override;
   void visit(WhileNode &node) override;
+  void visit(ForNode &node) override;
+  void visit(ForInNode &node) override;
   void visit(MemberAccessNode &node) override;
   void visit(IndexAccessNode &node) override;
   void visit(BreakNode &node) override;
@@ -75,6 +77,7 @@ private:
   std::vector<std::shared_ptr<zir::Type>> expectedExpressionTypes_;
 
   int loopDepth_ = 0;
+  size_t syntheticLoopCounter_ = 0;
   int unsafeDepth_ = 0;
   int unsafeTypeContextDepth_ = 0;
   int externTypeContextDepth_ = 0;
@@ -149,6 +152,7 @@ private:
                                               const std::string &memberName,
                                               SourceSpan span);
   std::optional<int64_t> evaluateConstantInt(const BoundExpression *expr);
+  std::string makeSyntheticLoopName(std::string_view prefix);
   std::unique_ptr<BoundExpression>
   wrapInCast(std::unique_ptr<BoundExpression> expr,
              std::shared_ptr<zir::Type> targetType);

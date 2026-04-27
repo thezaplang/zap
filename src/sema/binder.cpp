@@ -297,6 +297,7 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
   genericInstantiationEmitted_.clear();
   genericInstantiationInProgress_.clear();
   activeGenericBindingsStack_.clear();
+  syntheticLoopCounter_ = 0;
   unsafeDepth_ = 0;
   unsafeTypeContextDepth_ = 0;
   externTypeContextDepth_ = 0;
@@ -4682,6 +4683,197 @@ void Binder::visit(WhileNode &node) {
       std::make_unique<BoundWhileStatement>(std::move(cond), std::move(body)));
 }
 
+void Binder::visit(ForNode &node) {
+  pushScope();
+
+  node.initializer_->accept(*this);
+  std::unique_ptr<BoundStatement> initializer = nullptr;
+  if (!statementStack_.empty()) {
+    initializer = std::move(statementStack_.top());
+    statementStack_.pop();
+  }
+
+  node.condition_->accept(*this);
+  if (expressionStack_.empty()) {
+    popScope();
+    return;
+  }
+
+  auto condition = std::move(expressionStack_.top());
+  expressionStack_.pop();
+  if (condition->type->getKind() != zir::TypeKind::Bool) {
+    error(node.condition_->span,
+          "For condition must be Bool, got '" +
+              renderTypeForUser(condition->type) + "'");
+  }
+
+  auto incrementTargetId = dynamic_cast<ConstId *>(node.increment_->target_.get());
+  if (!incrementTargetId || incrementTargetId->value_ != node.initializer_->name_) {
+    error(node.increment_->target_->span,
+          "For increment must assign to loop variable '" +
+              node.initializer_->name_ + "'.");
+  }
+
+  node.increment_->accept(*this);
+  std::unique_ptr<BoundStatement> increment = nullptr;
+  if (!statementStack_.empty()) {
+    increment = std::move(statementStack_.top());
+    statementStack_.pop();
+  }
+
+  ++loopDepth_;
+  auto body = bindBody(node.body_.get(), true);
+  --loopDepth_;
+
+  popScope();
+  statementStack_.push(std::make_unique<BoundForStatement>(
+      std::move(initializer), std::move(condition), std::move(increment),
+      std::move(body)));
+}
+
+void Binder::visit(ForInNode &node) {
+  const std::string moduleName =
+      (modules_.count(currentModuleId_) && modules_[currentModuleId_].info)
+          ? modules_[currentModuleId_].info->moduleName
+          : "";
+
+  pushScope();
+
+  node.iterable_->accept(*this);
+  if (expressionStack_.empty()) {
+    popScope();
+    return;
+  }
+
+  auto iterableValue = std::move(expressionStack_.top());
+  expressionStack_.pop();
+
+  auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+
+  auto iterableName = makeSyntheticLoopName("iter");
+  auto iterableSymbol = std::make_shared<VariableSymbol>(
+      iterableName, iterableValue->type, false, false, iterableName, moduleName,
+      Visibility::Private);
+  currentScope_->declare(iterableName, iterableSymbol);
+
+  auto indexName = makeSyntheticLoopName("idx");
+  auto indexSymbol = std::make_shared<VariableSymbol>(
+      indexName, intType, false, false, indexName, moduleName,
+      Visibility::Private);
+  currentScope_->declare(indexName, indexSymbol);
+
+  auto initBlock = std::make_unique<BoundBlock>();
+  initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+      iterableSymbol, std::move(iterableValue)));
+  initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+      indexSymbol, std::make_unique<BoundLiteral>("0", intType)));
+
+  auto makeIdExpr = [](const std::string &name) {
+    return std::make_unique<ConstId>(name);
+  };
+
+  std::unique_ptr<ExpressionNode> conditionAst = nullptr;
+  std::unique_ptr<ExpressionNode> elementAst = nullptr;
+  auto iterableType = iterableSymbol->type;
+  std::string accessName = iterableName;
+
+  if (iterableType->getKind() == zir::TypeKind::Array) {
+    auto arr = std::static_pointer_cast<zir::ArrayType>(iterableType);
+    auto sliceName = makeSyntheticLoopName("slice");
+    auto sliceType = makeVariadicViewType(arr->getBaseType());
+    auto sliceSymbol = std::make_shared<VariableSymbol>(
+        sliceName, sliceType, false, false, sliceName, moduleName,
+        Visibility::Private);
+    currentScope_->declare(sliceName, sliceSymbol);
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+        sliceSymbol, std::make_unique<BoundCast>(
+                         std::make_unique<BoundVariableExpression>(iterableSymbol),
+                         sliceType)));
+    accessName = sliceName;
+    conditionAst = std::make_unique<BinExpr>(
+        makeIdExpr(indexName), "<",
+        std::make_unique<MemberAccessNode>(makeIdExpr(accessName), "len"));
+    elementAst = std::make_unique<IndexAccessNode>(makeIdExpr(accessName),
+                                                   makeIdExpr(indexName));
+  } else if (isVariadicViewType(iterableType)) {
+    conditionAst = std::make_unique<BinExpr>(
+        makeIdExpr(indexName), "<",
+        std::make_unique<MemberAccessNode>(makeIdExpr(accessName), "len"));
+    elementAst = std::make_unique<IndexAccessNode>(makeIdExpr(accessName),
+                                                   makeIdExpr(indexName));
+  } else if (iterableType->getKind() == zir::TypeKind::Class) {
+    auto lenCall = std::make_unique<FunCall>();
+    lenCall->callee_ =
+        std::make_unique<MemberAccessNode>(makeIdExpr(accessName), "len");
+
+    conditionAst = std::make_unique<BinExpr>(makeIdExpr(indexName), "<",
+                                             std::move(lenCall));
+
+    auto atCall = std::make_unique<FunCall>();
+    atCall->callee_ =
+        std::make_unique<MemberAccessNode>(makeIdExpr(accessName), "at");
+    atCall->params_.push_back(
+        std::make_unique<Argument>("", makeIdExpr(indexName), false, false));
+    elementAst = std::move(atCall);
+  } else {
+    error(node.iterable_->span,
+          "Type '" + renderTypeForUser(iterableType) +
+              "' is not iterable in for-in. Expected array, slice, or class "
+              "with 'len()' and 'at(Int)'.");
+    popScope();
+    return;
+  }
+
+  conditionAst->accept(*this);
+  if (expressionStack_.empty()) {
+    popScope();
+    return;
+  }
+  auto condition = std::move(expressionStack_.top());
+  expressionStack_.pop();
+  if (condition->type->getKind() != zir::TypeKind::Bool) {
+    error(node.span, "For-in condition must be Bool, got '" +
+                         renderTypeForUser(condition->type) + "'");
+  }
+
+  elementAst->accept(*this);
+  if (expressionStack_.empty()) {
+    popScope();
+    return;
+  }
+  auto elementValue = std::move(expressionStack_.top());
+  expressionStack_.pop();
+
+  auto increment = std::make_unique<BoundAssignment>(
+      std::make_unique<BoundVariableExpression>(indexSymbol),
+      std::make_unique<BoundBinaryExpression>(
+          std::make_unique<BoundVariableExpression>(indexSymbol), "+",
+          std::make_unique<BoundLiteral>("1", intType), intType));
+
+  pushScope();
+  auto itemSymbol = std::make_shared<VariableSymbol>(
+      node.itemName_, elementValue->type, false, false, node.itemName_,
+      moduleName, Visibility::Private);
+  if (!currentScope_->declare(node.itemName_, itemSymbol)) {
+    error(node.span, "Variable '" + node.itemName_ + "' already declared.");
+  }
+
+  ++loopDepth_;
+  auto body = bindBody(node.body_.get(), false);
+  --loopDepth_;
+
+  body->statements.insert(
+      body->statements.begin(),
+      std::make_unique<BoundVariableDeclaration>(itemSymbol,
+                                                 std::move(elementValue)));
+  popScope();
+
+  popScope();
+  statementStack_.push(std::make_unique<BoundForStatement>(
+      std::move(initBlock), std::move(condition), std::move(increment),
+      std::move(body)));
+}
+
 void Binder::visit(BreakNode &node) {
   if (loopDepth_ <= 0) {
     error(node.span, "'break' can only be used inside loops.");
@@ -4696,6 +4888,16 @@ void Binder::visit(ContinueNode &node) {
     return;
   }
   statementStack_.push(std::make_unique<BoundContinueStatement>());
+}
+
+std::string Binder::makeSyntheticLoopName(std::string_view prefix) {
+  while (true) {
+    std::string candidate = "__for_" + std::string(prefix) + "_" +
+                            std::to_string(syntheticLoopCounter_++);
+    if (!currentScope_ || !currentScope_->lookupLocal(candidate)) {
+      return candidate;
+    }
+  }
 }
 
 void Binder::pushScope() {

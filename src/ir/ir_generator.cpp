@@ -1238,6 +1238,69 @@ void BoundIRGenerator::visit(sema::BoundWhileStatement &node) {
   currentBlock_ = endBlockPtr;
 }
 
+void BoundIRGenerator::visit(sema::BoundForStatement &node) {
+  if (node.initializer) {
+    if (auto *initBlock = dynamic_cast<sema::BoundBlock *>(node.initializer.get())) {
+      for (const auto &stmt : initBlock->statements) {
+        if (stmt) {
+          stmt->accept(*this);
+        }
+      }
+    } else {
+      node.initializer->accept(*this);
+    }
+  }
+
+  auto condLabel = createBlockLabel("for.cond");
+  auto bodyLabel = createBlockLabel("for.body");
+  auto stepLabel = createBlockLabel("for.step");
+  auto endLabel = createBlockLabel("for.end");
+
+  currentBlock_->addInstruction(std::make_unique<BranchInst>(condLabel));
+
+  auto condBlock = std::make_unique<BasicBlock>(condLabel);
+  auto *condBlockPtr = condBlock.get();
+  currentFunction_->addBlock(std::move(condBlock));
+  currentBlock_ = condBlockPtr;
+
+  node.condition->accept(*this);
+  auto cond = valueStack_.top();
+  valueStack_.pop();
+  currentBlock_->addInstruction(
+      std::make_unique<CondBranchInst>(cond, bodyLabel, endLabel));
+
+  auto bodyBlock = std::make_unique<BasicBlock>(bodyLabel);
+  auto *bodyBlockPtr = bodyBlock.get();
+  currentFunction_->addBlock(std::move(bodyBlock));
+  currentBlock_ = bodyBlockPtr;
+  loopLabelStack_.push_back({stepLabel, endLabel});
+  if (node.body) {
+    node.body->accept(*this);
+  }
+  loopLabelStack_.pop_back();
+  if (currentBlock_->instructions.empty() ||
+      currentBlock_->instructions.back()->getOpCode() != OpCode::Ret) {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(stepLabel));
+  }
+
+  auto stepBlock = std::make_unique<BasicBlock>(stepLabel);
+  auto *stepBlockPtr = stepBlock.get();
+  currentFunction_->addBlock(std::move(stepBlock));
+  currentBlock_ = stepBlockPtr;
+  if (node.increment) {
+    node.increment->accept(*this);
+  }
+  if (currentBlock_->instructions.empty() ||
+      currentBlock_->instructions.back()->getOpCode() != OpCode::Ret) {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(condLabel));
+  }
+
+  auto endBlock = std::make_unique<BasicBlock>(endLabel);
+  auto *endBlockPtr = endBlock.get();
+  currentFunction_->addBlock(std::move(endBlock));
+  currentBlock_ = endBlockPtr;
+}
+
 void BoundIRGenerator::visit(sema::BoundBreakStatement &node) {
   if (loopLabelStack_.empty()) {
     // Should have been diagnosed earlier in binder, but guard anyway
