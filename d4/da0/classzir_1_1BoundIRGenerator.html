@@ -1024,10 +1024,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1507</span>      <span class="keywordflow">if</span> (srcTy &amp;&amp; dstTy &amp;&amp; srcTy-&gt;isInteger() &amp;&amp; dstTy-&gt;isInteger()) {</div>
 <div class="line"><span class="lineno"> 1508</span>        <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno"> 1509</span>          <span class="keywordflow">if</span> (dstTy-&gt;isUnsigned()) {</div>
-<div class="line"><span class="lineno"> 1510</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(std::stoull(folded));</div>
+<div class="line"><span class="lineno"> 1510</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(std::stoull(folded, <span class="keyword">nullptr</span>, 0));</div>
 <div class="line"><span class="lineno"> 1511</span>            folded = std::to_string(v);</div>
 <div class="line"><span class="lineno"> 1512</span>          } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1513</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(std::stoll(folded));</div>
+<div class="line"><span class="lineno"> 1513</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(std::stoll(folded, <span class="keyword">nullptr</span>, 0));</div>
 <div class="line"><span class="lineno"> 1514</span>            folded = std::to_string(v);</div>
 <div class="line"><span class="lineno"> 1515</span>          }</div>
 <div class="line"><span class="lineno"> 1516</span>        } <span class="keywordflow">catch</span> (...) {</div>
@@ -1045,10 +1045,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1528</span>                 dstTy-&gt;isFloatingPoint()) {</div>
 <div class="line"><span class="lineno"> 1529</span>        <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno"> 1530</span>          <span class="keywordflow">if</span> (srcTy-&gt;isUnsigned()) {</div>
-<div class="line"><span class="lineno"> 1531</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::stoull(folded));</div>
+<div class="line"><span class="lineno"> 1531</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::stoull(folded, <span class="keyword">nullptr</span>, 0));</div>
 <div class="line"><span class="lineno"> 1532</span>            folded = std::to_string(v);</div>
 <div class="line"><span class="lineno"> 1533</span>          } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1534</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::stoll(folded));</div>
+<div class="line"><span class="lineno"> 1534</span>            <span class="keyword">auto</span> v = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::stoll(folded, <span class="keyword">nullptr</span>, 0));</div>
 <div class="line"><span class="lineno"> 1535</span>            folded = std::to_string(v);</div>
 <div class="line"><span class="lineno"> 1536</span>          }</div>
 <div class="line"><span class="lineno"> 1537</span>        } <span class="keywordflow">catch</span> (...) {</div>
