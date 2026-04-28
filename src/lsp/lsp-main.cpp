@@ -1814,16 +1814,20 @@ public:
 
   AnalysisResult analyze(const std::string &uri) const {
     AnalysisResult result;
-    auto project = loadProject(uri);
-    if (!project) {
-      return result;
-    }
-    result = project->analysis;
-
     auto docIt = documentsByUri_.find(uri);
     if (docIt == documentsByUri_.end()) {
       return result;
     }
+
+    std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
+    std::set<std::string> visiting;
+    if (!loadModuleGraph(docIt->second.path, moduleMap, visiting, result, uri, false)) {
+      if (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {
+        result.diagnosticsByUri[uri] = {};
+      }
+      return result;
+    }
+
     std::string entryId =
         std::filesystem::weakly_canonical(docIt->second.path).string();
     auto entrySource = sourceForPath(docIt->second.path);
@@ -1832,8 +1836,8 @@ public:
       return result;
     }
 
-    auto entryModuleIt = project->moduleMap.find(entryId);
-    if (entryModuleIt == project->moduleMap.end()) {
+    auto entryModuleIt = moduleMap.find(entryId);
+    if (entryModuleIt == moduleMap.end()) {
       return result;
     }
 
@@ -1842,9 +1846,9 @@ public:
     zap::DiagnosticEngine diagnostics(*entrySource,
                                       docIt->second.path.string());
     std::vector<sema::ModuleInfo> modules;
-    modules.reserve(project->moduleMap.size());
-    for (auto &[_, module] : project->moduleMap) {
-      modules.push_back(std::move(*module));
+    modules.reserve(moduleMap.size());
+    for (auto &[_, modulePtr] : moduleMap) {
+      modules.push_back(std::move(*modulePtr));
     }
 
     auto flags = findAndReadFlags(docIt->second.path);
@@ -2340,7 +2344,8 @@ int main() {
                   "var",    "const",    "import",  "pub",    "priv",   "prot",
                   "struct", "record",   "class",   "enum",   "alias",  "ext",
                   "global", "break",    "continue","ref",    "as",     "new",
-                  "self",   "where",    "unsafe",  "weak"};
+                  "self",   "where",    "unsafe",  "weak",   "fail",   "or",
+                  "for",    "match",    "module",  "impl",   "static"};
               for (const char *keyword : keywords) {
                 if (seen.insert(keyword).second) {
                   items.push_back(makeCompletionItem(

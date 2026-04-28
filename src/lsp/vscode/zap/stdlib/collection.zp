@@ -4,7 +4,7 @@ import "std/convert" as convert;
 
 ext fun exit(code: Int) Void;
 
-fun fail(message: String) Void {
+fun panic(message: String) Void {
     eprintln(message);
     exit(1);
 }
@@ -98,7 +98,7 @@ pub class List<T> {
 
     pub fun insert(index: Int, value: T) {
         if index < 0 || index > self.size {
-            fail("List.insert() index out of range");
+            panic("List.insert() index out of range");
         }
 
         if index == 0 {
@@ -120,21 +120,21 @@ pub class List<T> {
 
     pub fun front() T {
         if self.head == null {
-            fail("List.front() on empty list");
+            panic("List.front() on empty list");
         }
         return self.head.get();
     }
 
     pub fun back() T {
         if self.tail == null {
-            fail("List.back() on empty list");
+            panic("List.back() on empty list");
         }
         return self.tail.get();
     }
 
     pub fun popFront() T {
         if self.head == null {
-            fail("List.popFront() on empty list");
+            panic("List.popFront() on empty list");
         }
 
         var node: ListNode<T> = self.head;
@@ -149,7 +149,7 @@ pub class List<T> {
 
     pub fun popBack() T {
         if self.tail == null {
-            fail("List.popBack() on empty list");
+            panic("List.popBack() on empty list");
         }
 
         if self.size == 1 {
@@ -166,7 +166,7 @@ pub class List<T> {
 
     pub fun removeAt(index: Int) T {
         if index < 0 || index >= self.size {
-            fail("List.removeAt() index out of range");
+            panic("List.removeAt() index out of range");
         }
 
         if index == 0 {
@@ -186,7 +186,7 @@ pub class List<T> {
 
     pub fun at(index: Int) T {
         if index < 0 || index >= self.size {
-            fail("List.at() index out of range");
+            panic("List.at() index out of range");
         }
 
         return self.nodeAt(index).get();
@@ -194,7 +194,7 @@ pub class List<T> {
 
     pub fun set(index: Int, value: T) {
         if index < 0 || index >= self.size {
-            fail("List.set() index out of range");
+            panic("List.set() index out of range");
         }
 
         self.nodeAt(index).set(value);
@@ -389,7 +389,7 @@ pub class HashMap<V> {
     pub fun get(key: String) V {
         var node: HashMapNode<V> = self.findNode(key);
         if node == null {
-            fail("HashMap.get() missing key: " + key);
+            panic("HashMap.get() missing key: " + key);
         }
         return node.getValue();
     }

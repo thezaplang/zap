@@ -1,8 +1,8 @@
 import "std/convert" as convert;
 
 const PCG32_MULT: UInt64 = 6364136223846793005;
-const PCG32_DEFAULT_SEED: UInt64 = 9600629759793949339;
-const PCG32_DEFAULT_STREAM: UInt64 = 15726070495360670683;
+const PCG32_DEFAULT_SEED: UInt64 = 0x853C49E6748FEA9B;
+const PCG32_DEFAULT_STREAM: UInt64 = 0xDA3E39CB94B95BDB;
 const UINT32_MASK: UInt = 0xFFFF_FFFF;
 
 pub class Rng {
@@ -33,8 +33,7 @@ pub class Rng {
     var oldState: UInt64 = self.state;
     self.state = oldState * PCG32_MULT + self.inc;
 
-    var xorshifted64: UInt64 = ((oldState >> 18) ^ oldState) >> 27;
-    var xorshifted: UInt = xorshifted64 & UINT32_MASK;
+    var xorshifted: UInt = (((oldState >> 18) ^ oldState) >> 27) & UINT32_MASK;
     var rot: UInt = (oldState >> 59) & 31;
 
     var right: UInt = xorshifted >> rot;
@@ -64,7 +63,8 @@ pub class Rng {
       return 0;
     }
 
-    // Non-blocking bounded generation: avoids rejection-loop stalls.
+    // Non-blocking bounded generation.
+    // This avoids potential infinite rejection loops in some runtimes.
     return self.nextUInt32() % upperExclusive;
   }
 
@@ -73,8 +73,16 @@ pub class Rng {
       return minInclusive;
     }
 
-    var span: UInt = maxExclusive - minInclusive;
-    return minInclusive + self.nextUIntBounded(span);
+    var min64: Int64 = minInclusive;
+    var max64: Int64 = maxExclusive;
+    var span64: Int64 = max64 - min64;
+    if span64 <= 0 {
+      return minInclusive;
+    }
+
+    var span: UInt = span64;
+    var offset: UInt = self.nextUIntBounded(span);
+    return minInclusive + offset;
   }
 
   pub fun range(minInclusive: Int, maxExclusive: Int) Int {
@@ -86,8 +94,16 @@ pub class Rng {
       return minInclusive;
     }
 
-    var span: UInt = (maxInclusive - minInclusive) + 1;
-    return minInclusive + self.nextUIntBounded(span);
+    var min64: Int64 = minInclusive;
+    var max64: Int64 = maxInclusive;
+    var span64: Int64 = (max64 - min64) + 1;
+    if span64 <= 0 {
+      return minInclusive;
+    }
+
+    var span: UInt = span64;
+    var offset: UInt = self.nextUIntBounded(span);
+    return minInclusive + offset;
   }
 
   pub fun chance(probability: Float64) Bool {
@@ -97,17 +113,25 @@ pub class Rng {
     if probability >= 1.0 {
       return true;
     }
+
     return self.nextFloat64() < probability;
   }
 
   pub fun shuffleInt(values: []Int) {
+    if values.len <= 1 {
+      return;
+    }
+
     var i: Int = values.len - 1;
 
     while i > 0 {
-      var j: Int = self.nextRangeInclusive(0, i);
+      var bound: UInt = i + 1;
+      var j: Int = self.nextUIntBounded(bound);
+
       var tmp: Int = values[i];
       values[i] = values[j];
       values[j] = tmp;
+
       i = i - 1;
     }
   }

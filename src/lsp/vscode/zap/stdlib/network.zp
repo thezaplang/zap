@@ -302,7 +302,7 @@ pub fun lastError(message: String) NetError {
   return makeError(netLastError(), message);
 }
 
-pub fun fail(message: String) Void {
+pub fun panic(message: String) Void {
   eprintln("network error: " + message);
   process.exit(1);
 }

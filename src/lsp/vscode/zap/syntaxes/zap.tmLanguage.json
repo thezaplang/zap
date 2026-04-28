@@ -53,8 +53,24 @@
         "numbers": {
             "patterns": [
                 {
-                    "name": "constant.numeric.zap",
-                    "match": "\\b\\d+(\\.\\d+)?\\b"
+                    "name": "constant.numeric.hex.zap",
+                    "match": "\\b0[xX][0-9a-fA-F_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.binary.zap",
+                    "match": "\\b0[bB][01_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.octal.zap",
+                    "match": "\\b0[oO][0-7_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.float.zap",
+                    "match": "\\b\\d[\\d_]*\\.\\d[\\d_]*\\b"
+                },
+                {
+                    "name": "constant.numeric.decimal.zap",
+                    "match": "\\b\\d[\\d_]*\\b"
                 }
             ]
         },
@@ -62,7 +78,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.zap",
-                    "match": "\\b(if|else|iftype|while|for|return|fun|import|var|ext|pub|priv|prot|record|enum|struct|class|break|continue|global|const|alias|ref|as|match|module|impl|static|unsafe|new|self|where|weak)\\b"
+                    "match": "\\b(if|else|iftype|while|for|return|fun|import|var|ext|pub|priv|prot|record|enum|struct|class|break|continue|global|const|alias|ref|as|match|module|impl|static|unsafe|new|self|where|weak|fail|or)\\b"
                 }
             ]
         },
@@ -266,8 +282,16 @@
                     "match": "="
                 },
                 {
+                    "name": "keyword.operator.bitwise.zap",
+                    "match": "<<|>>|\\|"
+                },
+                {
                     "name": "keyword.operator.arithmetic.zap",
                     "match": "\\+|-|/|%|\\^|~"
+                },
+                {
+                    "name": "keyword.operator.ternary.zap",
+                    "match": "\\?|:"
                 },
                 {
                     "name": "keyword.operator.unary.zap",

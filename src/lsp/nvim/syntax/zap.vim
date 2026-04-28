@@ -7,7 +7,7 @@ syntax case match
 " Core language keywords
 syntax keyword zapConditional if else iftype match
 syntax keyword zapRepeat while for
-syntax keyword zapStatement return break continue import as unsafe new self where weak
+syntax keyword zapStatement return break continue import as unsafe new self where weak fail or
 syntax keyword zapStorageClass fun ext pub priv prot global const var ref module impl static
 syntax match zapFunHeader "\<fun\>\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
 syntax match zapUnsafeFunHeader "\<unsafe\>\s\+\<fun\>\s\+\zs[A-Za-z_][A-Za-z0-9_]*\>"
@@ -22,6 +22,9 @@ syntax match zapEscape +\\x[0-9a-fA-F]\{2}+ contained
 syntax match zapEscape +\\u[0-9a-fA-F]\{4}+ contained
 syntax match zapEscape +\\U[0-9a-fA-F]\{8}+ contained
 syntax region zapChar start=+'+ skip=+\\.+ end=+'+ oneline contains=zapEscape
+syntax match zapNumber "\<0[xX][0-9a-fA-F_]\+\>"
+syntax match zapNumber "\<0[bB][01_]\+\>"
+syntax match zapNumber "\<0[oO][0-7_]\+\>"
 syntax match zapNumber "\<[0-9]\+\(\.[0-9]\+\)\?\>"
 syntax keyword zapBoolean true false null
 syntax region zapLineComment start="//" end="$" contains=@Spell keepend
@@ -75,6 +78,8 @@ syntax match zapIftypeMatchType "\<iftype\>\s\+[A-Za-z_][A-Za-z0-9_]*\s*==\s*\zs
 " Operators
 syntax match zapLogicalOperator "&&\|||"
 syntax match zapComparisonOperator "==\|!=\|>=\|<=\|>\|<\ze\%([^A-Za-z_]\|$\)"
+syntax match zapBitwiseOperator "<<\|>>"
+syntax match zapTernaryOperator "?\|:"
 syntax match zapAssignmentOperator "="
 " Exclude // from arithmetic operator highlighting so line comments win.
 syntax match zapArithmeticOperator "\%(//\)\@![+\-/%^~]"
@@ -121,6 +126,8 @@ highlight default link zapIftypeMatchType Type
 
 highlight default link zapLogicalOperator Operator
 highlight default link zapComparisonOperator Operator
+highlight default link zapBitwiseOperator Operator
+highlight default link zapTernaryOperator Operator
 highlight default link zapAssignmentOperator Operator
 highlight default link zapArithmeticOperator Operator
 highlight default link zapUnaryOperator Operator
