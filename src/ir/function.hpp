@@ -57,7 +57,10 @@ public:
       if (i < arguments.size() - 1)
         res += ", ";
     }
-    res += ") " + returnType->toString() + " {\n";
+    res += ") " + returnType->toString();
+    if (returnsRef)
+      res += "*";
+    res += " {\n";
     for (const auto &block : blocks) {
       res += block->toString();
     }

@@ -583,12 +583,24 @@ void BoundIRGenerator::visit(sema::BoundFunctionCall &node) {
     valueStack_.pop();
   }
 
-  auto reg = createRegister(node.type);
+  // ref-returning functions return a pointer in LLVM IR
+  auto resultType = node.symbol->returnsRef
+      ? std::static_pointer_cast<zir::Type>(std::make_shared<PointerType>(node.type))
+      : node.type;
+  auto reg = createRegister(resultType);
   currentBlock_->addInstruction(
       std::make_unique<CallInst>(reg, node.symbol->linkName, args,
                                  node.argumentIsRef, variadicPack,
                                  node.symbol->returnsRef));
-  valueStack_.push(reg);
+  
+  // If ref-returning function is used as value (not address), load it
+  if (node.symbol->returnsRef && !evaluateAsAddress_) {
+    auto loadReg = createRegister(node.type);
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(loadReg, reg));
+    valueStack_.push(loadReg);
+  } else {
+    valueStack_.push(reg);
+  }
 }
 
 void BoundIRGenerator::visit(sema::BoundFunctionReference &node) {
