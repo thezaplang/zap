@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"d3/ddb/type__node_8hpp.html":[3,0,0,0,38],
+"d3/ddb/type__node_8hpp_source.html":[3,0,0,0,38],
 "d3/df9/classExtDecl.html":[2,0,27],
 "d3/df9/classExtDecl.html#a00377fa71513e5c0d916a1d73cabc541":[2,0,27,6],
 "d3/df9/classExtDecl.html#a0b2f4950cd5e4bd0244afd981d2dcbfa":[2,0,27,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "d4/da0/classzir_1_1BoundIRGenerator.html#a939c9891330bc492a4a89151031cbfe9":[2,0,4,20,17],
 "d4/da0/classzir_1_1BoundIRGenerator.html#a99eaf4ca868225d835e9286a13ce1b4f":[1,0,5,20,2],
 "d4/da0/classzir_1_1BoundIRGenerator.html#a99eaf4ca868225d835e9286a13ce1b4f":[2,0,4,20,2],
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa02ad01aea6cd608911fcac3a902cb30":[1,0,5,20,28],
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa02ad01aea6cd608911fcac3a902cb30":[2,0,4,20,28],
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa1063895d70a00713a8fdf64cdcea32b":[1,0,5,20,16]
+"d4/da0/classzir_1_1BoundIRGenerator.html#aa02ad01aea6cd608911fcac3a902cb30":[1,0,5,20,28]
 };

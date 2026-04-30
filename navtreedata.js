@@ -74,21 +74,21 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/df9/classsema_1_1BoundVisitor.html#a4a9487156c524abc8a0834a0ce4605cb",
-"d2/d0f/classsema_1_1BoundCast.html",
-"d3/d09/classzap_1_1Stream.html#a0a00e5832186d81f304125d1b46f3da6",
-"d3/df9/classExtDecl.html",
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa1063895d70a00713a8fdf64cdcea32b",
-"d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68ea1b3e1ee9bff86431dea6b181365ba65f",
-"d8/d9e/body__node_8hpp_source.html",
-"d9/d68/classzir_1_1Module.html#a5b73b04c7ba5ea69727c6e5959359370",
-"da/de1/classzir_1_1RecordType.html#a6007ff97516fc2b6d85ecfab290dea4b",
-"db/d12/classConstChar.html#ac00c6395ef572714421b87a83eadebf8",
-"dc/d13/structVisitor.html#a65c1349a8ee57d454d3f5e45b4ec0385",
-"dc/d2c/classsema_1_1Binder.html#acd0dbb29a108cef175b932356527a8a6",
-"dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html",
-"de/d73/classzap_1_1Parser.html#a72a65896a7bb3a3e559c72710fc72e11",
-"df/da0/classsema_1_1BoundFunctionCall.html#acefadcf2a9f6aaedbf7b67e4540bbb6d"
+"d0/df9/classsema_1_1BoundVisitor.html#a46756e333fc346e628bd92018ccad1aa",
+"d2/d0b/parameter__node_8hpp_source.html",
+"d3/d09/classzap_1_1Stream.html#a098c8da4e552c96912ac900fbd9426af",
+"d3/ddb/type__node_8hpp.html",
+"d4/da0/classzir_1_1BoundIRGenerator.html#aa02ad01aea6cd608911fcac3a902cb30",
+"d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045",
+"d8/d9a/classsema_1_1VariableSymbol.html#ade1edc3a6a721c02f7f0c5c0059ac8d9",
+"d9/d68/classzir_1_1Module.html#a556f3b7e5ee8aef9729fb7a91cc79a3f",
+"da/de1/classzir_1_1RecordType.html#a5ea346eb95df6f260a1d50322d45a582",
+"db/d12/classConstChar.html#a7d6777b330682747076430d020838ffc",
+"dc/d13/structVisitor.html#a528a7a628127d086c0aeb39bb279bae6",
+"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f",
+"dd/d10/classsema_1_1BoundStatement.html#a37c54d698c51805f1fdb4ef871fbb9ac",
+"de/d73/classzap_1_1Parser.html#a711159bf4d7559afebf605bad1cd691d",
+"df/da0/classsema_1_1BoundFunctionCall.html#ac7d92434c392b192bbeb725607a21286"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

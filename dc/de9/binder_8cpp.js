@@ -1,5 +1,6 @@
 var binder_8cpp =
 [
+    [ "sema::anonymous_namespace{binder.cpp}::blockAlwaysReturns", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ae18231f4457f1f238a576ef88ca3407a", null ],
     [ "sema::anonymous_namespace{binder.cpp}::collectOverloads", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a4a9fa0d08cfc6480388b295673336108", null ],
     [ "sema::anonymous_namespace{binder.cpp}::extractQualifiedPath", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ad1b399bc505845ab3aa9428f3c9d41cf", null ],
     [ "sema::anonymous_namespace{binder.cpp}::failableErrorType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a701d5e294e94cad568f0e34488f584de", null ],
@@ -17,5 +18,6 @@ var binder_8cpp =
     [ "sema::anonymous_namespace{binder.cpp}::sameFunctionSignature", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a7b3b4eee5a59eb1d603ef56f9fd3c66a", null ],
     [ "sema::anonymous_namespace{binder.cpp}::sanitizeTypeName", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ac66bfac4869c52fd33f43c64eea7f16c", null ],
     [ "sema::anonymous_namespace{binder.cpp}::splitQualified", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a83ab1716b289fa2170d5cd37bd82536f", null ],
+    [ "sema::anonymous_namespace{binder.cpp}::stmtAlwaysReturns", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a975b1c79d2b014266ea40e6fdf5f2b1f", null ],
     [ "sema::anonymous_namespace{binder.cpp}::kFailablePrefix", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a1eb2da77355b17293800e1851eaab329", null ]
 ];
