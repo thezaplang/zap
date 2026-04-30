@@ -264,6 +264,29 @@ bool sameFunctionSignature(const FunctionSymbol &lhs,
   }
   return true;
 }
+
+static bool stmtAlwaysReturns(const BoundStatement *stmt);
+
+static bool blockAlwaysReturns(const BoundBlock *block) {
+  if (!block) return false;
+  if (block->result) return true;
+  for (const auto &s : block->statements) {
+    if (stmtAlwaysReturns(s.get())) return true;
+  }
+  return false;
+}
+
+static bool stmtAlwaysReturns(const BoundStatement *stmt) {
+  if (!stmt) return false;
+  if (dynamic_cast<const BoundReturnStatement *>(stmt)) return true;
+  if (auto *blk = dynamic_cast<const BoundBlock *>(stmt))
+    return blockAlwaysReturns(blk);
+  if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(stmt))
+    return ifStmt->elseBody &&
+           blockAlwaysReturns(ifStmt->thenBody.get()) &&
+           blockAlwaysReturns(ifStmt->elseBody.get());
+  return false;
+}
 } // namespace
 
 Binder::Binder(zap::DiagnosticEngine &diag, bool allowUnsafe)
@@ -688,18 +711,7 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
   currentModuleId_ = oldModuleId;
   unsafeDepth_ = oldUnsafeDepth;
 
-  bool hasReturn = false;
-  if (boundBody) {
-    if (boundBody->result) {
-      hasReturn = true;
-    }
-    for (const auto &stmt : boundBody->statements) {
-      if (dynamic_cast<BoundReturnStatement *>(stmt.get())) {
-        hasReturn = true;
-        break;
-      }
-    }
-  }
+  bool hasReturn = blockAlwaysReturns(boundBody.get());
 
   if (!hasReturn && instantiated->linkName == "main" &&
       instantiated->returnType->isInteger()) {
@@ -1307,17 +1319,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
       currentClassStack_ = oldClassStack;
       unsafeDepth_ = oldUnsafeDepth;
 
-      bool hasReturn = false;
-      if (boundBody) {
-        if (boundBody->result)
-          hasReturn = true;
-        for (const auto &stmt : boundBody->statements) {
-          if (dynamic_cast<BoundReturnStatement *>(stmt.get())) {
-            hasReturn = true;
-            break;
-          }
-        }
-      }
+      bool hasReturn = blockAlwaysReturns(boundBody.get());
 
       if (!hasReturn &&
           methodSymbol->returnType->getKind() != zir::TypeKind::Void) {
@@ -2935,17 +2937,7 @@ void Binder::visit(FunDecl &node) {
   currentFunction_ = oldFunction;
   unsafeDepth_ = oldUnsafeDepth;
 
-  bool hasReturn = false;
-  if (boundBody) {
-    if (boundBody->result)
-      hasReturn = true;
-    for (const auto &stmt : boundBody->statements) {
-      if (dynamic_cast<BoundReturnStatement *>(stmt.get())) {
-        hasReturn = true;
-        break;
-      }
-    }
-  }
+  bool hasReturn = blockAlwaysReturns(boundBody.get());
 
   if (!hasReturn && symbol->linkName == "main" &&
       symbol->returnType->isInteger()) {

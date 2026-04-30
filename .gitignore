@@ -78,3 +78,6 @@ AGENTS.md
 .claude
 src/lsp/vscode/zap/bin/zap-lsp
 src/lsp/vscode/zap/zap-0.0.1.vsix
+
+#tmps
+*.tmp
