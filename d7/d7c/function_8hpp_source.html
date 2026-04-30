@@ -134,18 +134,21 @@ $(function(){initNavTree('d7/d7c/function_8hpp_source.html','../../',''); });
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      <span class="keywordflow">if</span> (i &lt; <a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#a4667d384d5aa8dfbff89a9ef20f25ce0">arguments</a>.size() - 1)</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        res += <span class="stringliteral">&quot;, &quot;</span>;</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    res += <span class="stringliteral">&quot;) &quot;</span> + <a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#a1838ae08bfdbf4fb65ac86319e8a7545">returnType</a>-&gt;toString() + <span class="stringliteral">&quot; {\n&quot;</span>;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;block : <a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#a043cfa928fb042682c0c5b1bb51cf201">blocks</a>) {</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      res += block-&gt;toString();</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    res += <span class="stringliteral">&quot;}\n&quot;</span>;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    res += <span class="stringliteral">&quot;) &quot;</span> + <a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#a1838ae08bfdbf4fb65ac86319e8a7545">returnType</a>-&gt;toString();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#ac2ebee588317d9386522efe8be4c1123">returnsRef</a>)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      res += <span class="stringliteral">&quot;*&quot;</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    res += <span class="stringliteral">&quot; {\n&quot;</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;block : <a class="code hl_variable" href="../../dc/d90/classzir_1_1Function.html#a043cfa928fb042682c0c5b1bb51cf201">blocks</a>) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      res += block-&gt;toString();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    res += <span class="stringliteral">&quot;}\n&quot;</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  }</div>
 </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>};</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
 </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>} <span class="comment">// namespace zir</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>} <span class="comment">// namespace zir</span></div>
 <div class="ttc" id="abasic__block_8hpp_html"><div class="ttname"><a href="../../df/dab/basic__block_8hpp.html">basic_block.hpp</a></div></div>
 <div class="ttc" id="aclasszir_1_1BasicBlock_html"><div class="ttname"><a href="../../d7/d6e/classzir_1_1BasicBlock.html">zir::BasicBlock</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/dab/basic__block_8hpp_source.html#l00009">basic_block.hpp:9</a></div></div>
 <div class="ttc" id="aclasszir_1_1Function_html_a043cfa928fb042682c0c5b1bb51cf201"><div class="ttname"><a href="../../dc/d90/classzir_1_1Function.html#a043cfa928fb042682c0c5b1bb51cf201">zir::Function::blocks</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BasicBlock &gt; &gt; blocks</div><div class="ttdef"><b>Definition</b> <a href="#l00020">function.hpp:20</a></div></div>
