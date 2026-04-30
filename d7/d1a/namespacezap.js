@@ -84,7 +84,7 @@ var namespacezap =
     [ "generateZIRModule", "d7/d1a/namespacezap.html#ac3b3cc5f8cb33ef1c1ae96b60e68125e", null ],
     [ "out", "d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66", null ],
     [ "verifyFile", "d7/d1a/namespacezap.html#a2a6e0e7719e15570ecf3fccf40924d36", null ],
-    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#acbcdf2e98ce8607163e935ee2f4cb7b8", null ],
+    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#a8c90e6cde85bb444e903439d6a561841", null ],
     [ "color_override", "d7/d1a/namespacezap.html#a198c6023d35b57a9a1a4300238c786de", null ],
     [ "standard_stream_colors", "d7/d1a/namespacezap.html#ac630b2e88f5129f86e9a7dfc5b886e52", null ],
     [ "ZAP_NAME", "d7/d1a/namespacezap.html#ad54b7028c501ec2dfda0eae88719a62b", null ]
