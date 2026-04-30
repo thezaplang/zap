@@ -72,9 +72,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adf57b2c806a6e4254ff76d2a50691a40" id="r_adf57b2c806a6e4254ff76d2a50691a40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf57b2c806a6e4254ff76d2a50691a40">addType</a> (std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; type)</td></tr>
 <tr class="memitem:a8fbc8e5d660f5efe8aab99315699e814" id="r_a8fbc8e5d660f5efe8aab99315699e814"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fbc8e5d660f5efe8aab99315699e814">addFunction</a> (std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; func)</td></tr>
 <tr class="memitem:a81182c1be50af84d2c4440c58db785be" id="r_a81182c1be50af84d2c4440c58db785be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81182c1be50af84d2c4440c58db785be">addGlobal</a> (std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; global)</td></tr>
+<tr class="memitem:a69d792db6014f21df6e45350adcd65eb" id="r_a69d792db6014f21df6e45350adcd65eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69d792db6014f21df6e45350adcd65eb">addExternalGlobal</a> (std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; global)</td></tr>
 <tr class="memitem:abb6694f0e3208339c5c5d0c6c7d9ed60" id="r_abb6694f0e3208339c5c5d0c6c7d9ed60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb6694f0e3208339c5c5d0c6c7d9ed60">addExternalFunction</a> (std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; func)</td></tr>
 <tr class="memitem:a3f3957a0706a5521330e3e4180cee082" id="r_a3f3957a0706a5521330e3e4180cee082"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f3957a0706a5521330e3e4180cee082">getTypes</a> () const</td></tr>
 <tr class="memitem:a6afa2d24339b678b56f5a08adb97288c" id="r_a6afa2d24339b678b56f5a08adb97288c"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6afa2d24339b678b56f5a08adb97288c">getGlobals</a> () const</td></tr>
+<tr class="memitem:a4c3f516a09fd669dabe1256b3f192ba4" id="r_a4c3f516a09fd669dabe1256b3f192ba4"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c3f516a09fd669dabe1256b3f192ba4">getExternalGlobals</a> () const</td></tr>
 <tr class="memitem:aeea93ebed8bdab412f9d897ba8b337f5" id="r_aeea93ebed8bdab412f9d897ba8b337f5"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeea93ebed8bdab412f9d897ba8b337f5">getFunctions</a> () const</td></tr>
 <tr class="memitem:a7505d191d57e97583fd2b483b8036d9b" id="r_a7505d191d57e97583fd2b483b8036d9b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7505d191d57e97583fd2b483b8036d9b">getExternalFunctions</a> () const</td></tr>
 <tr class="memitem:af5d91dcb0ba4e536e117bcc24ac52f69" id="r_af5d91dcb0ba4e536e117bcc24ac52f69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5d91dcb0ba4e536e117bcc24ac52f69">findFunction</a> (const std::string &amp;functionName) const</td></tr>
@@ -85,6 +87,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6b4485eba3de8bc44e3d3cefe6043fbf" id="r_a6b4485eba3de8bc44e3d3cefe6043fbf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a></td></tr>
 <tr class="memitem:a5b73b04c7ba5ea69727c6e5959359370" id="r_a5b73b04c7ba5ea69727c6e5959359370"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a></td></tr>
 <tr class="memitem:ac71196f8d7e25da0b1f2721f00e9beee" id="r_ac71196f8d7e25da0b1f2721f00e9beee"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a></td></tr>
+<tr class="memitem:a556f3b7e5ee8aef9729fb7a91cc79a3f" id="r_a556f3b7e5ee8aef9729fb7a91cc79a3f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a556f3b7e5ee8aef9729fb7a91cc79a3f">externalGlobals</a></td></tr>
 <tr class="memitem:a68448e89a31ac6ba1fd104d9a55df155" id="r_a68448e89a31ac6ba1fd104d9a55df155"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a></td></tr>
 <tr class="memitem:ad57e9c2b15ecdb8051eeae58ee0621b7" id="r_ad57e9c2b15ecdb8051eeae58ee0621b7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a></td></tr>
 </table>
@@ -115,8 +118,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>: <a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a>(std::move(<a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a>)) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>: <a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a>(std::move(<a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a>)) {}</div>
 <div class="ttc" id="aclasszir_1_1Module_html_a6b4485eba3de8bc44e3d3cefe6043fbf"><div class="ttname"><a href="#a6b4485eba3de8bc44e3d3cefe6043fbf">zir::Module::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00013">module.hpp:13</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00013">name</a>.</p>
@@ -147,13 +150,46 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00033">33</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>    {</div>
-<div class="line"><span class="lineno">   35</span>      <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>.push_back(std::move(func));</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
-<div class="ttc" id="aclasszir_1_1Module_html_ad57e9c2b15ecdb8051eeae58ee0621b7"><div class="ttname"><a href="#ad57e9c2b15ecdb8051eeae58ee0621b7">zir::Module::externalFunctions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Function &gt; &gt; externalFunctions</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00017">module.hpp:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00039">39</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>      <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>.push_back(std::move(func));</div>
+<div class="line"><span class="lineno">   42</span>    }</div>
+<div class="ttc" id="aclasszir_1_1Module_html_ad57e9c2b15ecdb8051eeae58ee0621b7"><div class="ttname"><a href="#ad57e9c2b15ecdb8051eeae58ee0621b7">zir::Module::externalFunctions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Function &gt; &gt; externalFunctions</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00018">module.hpp:18</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00017">externalFunctions</a>.</p>
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00018">externalFunctions</a>.</p>
+
+</div>
+</div>
+<a id="a69d792db6014f21df6e45350adcd65eb" name="a69d792db6014f21df6e45350adcd65eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69d792db6014f21df6e45350adcd65eb">&#9670;&#160;</a></span>addExternalGlobal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::Module::addExternalGlobal </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>global</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>    {</div>
+<div class="line"><span class="lineno">   36</span>      <a class="code hl_variable" href="#a556f3b7e5ee8aef9729fb7a91cc79a3f">externalGlobals</a>.push_back(std::move(global));</div>
+<div class="line"><span class="lineno">   37</span>    }</div>
+<div class="ttc" id="aclasszir_1_1Module_html_a556f3b7e5ee8aef9729fb7a91cc79a3f"><div class="ttname"><a href="#a556f3b7e5ee8aef9729fb7a91cc79a3f">zir::Module::externalGlobals</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; Global &gt; &gt; externalGlobals</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00016">module.hpp:16</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00016">externalGlobals</a>.</p>
 
 </div>
 </div>
@@ -180,13 +216,13 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>    {</div>
-<div class="line"><span class="lineno">   25</span>      <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>.push_back(std::move(func));</div>
-<div class="line"><span class="lineno">   26</span>    }</div>
-<div class="ttc" id="aclasszir_1_1Module_html_a68448e89a31ac6ba1fd104d9a55df155"><div class="ttname"><a href="#a68448e89a31ac6ba1fd104d9a55df155">zir::Module::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Function &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00016">module.hpp:16</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>    {</div>
+<div class="line"><span class="lineno">   26</span>      <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>.push_back(std::move(func));</div>
+<div class="line"><span class="lineno">   27</span>    }</div>
+<div class="ttc" id="aclasszir_1_1Module_html_a68448e89a31ac6ba1fd104d9a55df155"><div class="ttname"><a href="#a68448e89a31ac6ba1fd104d9a55df155">zir::Module::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Function &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00017">module.hpp:17</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00016">functions</a>.</p>
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00017">functions</a>.</p>
 
 </div>
 </div>
@@ -213,10 +249,10 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00028">28</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>    {</div>
-<div class="line"><span class="lineno">   30</span>      <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.push_back(std::move(global));</div>
-<div class="line"><span class="lineno">   31</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00029">29</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>    {</div>
+<div class="line"><span class="lineno">   31</span>      <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.push_back(std::move(global));</div>
+<div class="line"><span class="lineno">   32</span>    }</div>
 <div class="ttc" id="aclasszir_1_1Module_html_ac71196f8d7e25da0b1f2721f00e9beee"><div class="ttname"><a href="#ac71196f8d7e25da0b1f2721f00e9beee">zir::Module::globals</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; Global &gt; &gt; globals</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00015">module.hpp:15</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00015">globals</a>.</p>
@@ -246,8 +282,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{ <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>.push_back(std::move(type)); }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>.push_back(std::move(type)); }</div>
 <div class="ttc" id="aclasszir_1_1Module_html_a5b73b04c7ba5ea69727c6e5959359370"><div class="ttname"><a href="#a5b73b04c7ba5ea69727c6e5959359370">zir::Module::types</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; Type &gt; &gt; types</div><div class="ttdef"><b>Definition</b> <a href="../../de/def/module_8hpp_source.html#l00014">module.hpp:14</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00014">types</a>.</p>
@@ -277,26 +313,26 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>    {</div>
-<div class="line"><span class="lineno">   54</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>)</div>
-<div class="line"><span class="lineno">   55</span>      {</div>
-<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">if</span> (func-&gt;name == functionName)</div>
-<div class="line"><span class="lineno">   57</span>        {</div>
-<div class="line"><span class="lineno">   58</span>          <span class="keywordflow">return</span> func.get();</div>
-<div class="line"><span class="lineno">   59</span>        }</div>
-<div class="line"><span class="lineno">   60</span>      }</div>
-<div class="line"><span class="lineno">   61</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>)</div>
-<div class="line"><span class="lineno">   62</span>      {</div>
-<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">if</span> (func-&gt;name == functionName)</div>
-<div class="line"><span class="lineno">   64</span>        {</div>
-<div class="line"><span class="lineno">   65</span>          <span class="keywordflow">return</span> func.get();</div>
-<div class="line"><span class="lineno">   66</span>        }</div>
-<div class="line"><span class="lineno">   67</span>      }</div>
-<div class="line"><span class="lineno">   68</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00062">62</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>    {</div>
+<div class="line"><span class="lineno">   64</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>)</div>
+<div class="line"><span class="lineno">   65</span>      {</div>
+<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">if</span> (func-&gt;name == functionName)</div>
+<div class="line"><span class="lineno">   67</span>        {</div>
+<div class="line"><span class="lineno">   68</span>          <span class="keywordflow">return</span> func.get();</div>
+<div class="line"><span class="lineno">   69</span>        }</div>
+<div class="line"><span class="lineno">   70</span>      }</div>
+<div class="line"><span class="lineno">   71</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>)</div>
+<div class="line"><span class="lineno">   72</span>      {</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">if</span> (func-&gt;name == functionName)</div>
+<div class="line"><span class="lineno">   74</span>        {</div>
+<div class="line"><span class="lineno">   75</span>          <span class="keywordflow">return</span> func.get();</div>
+<div class="line"><span class="lineno">   76</span>        }</div>
+<div class="line"><span class="lineno">   77</span>      }</div>
+<div class="line"><span class="lineno">   78</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   79</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00017">externalFunctions</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00016">functions</a>.</p>
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00018">externalFunctions</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00017">functions</a>.</p>
 
 </div>
 </div>
@@ -323,12 +359,46 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>                                                                           {</div>
-<div class="line"><span class="lineno">   49</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>;</div>
-<div class="line"><span class="lineno">   50</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00058">58</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                                           {</div>
+<div class="line"><span class="lineno">   59</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>;</div>
+<div class="line"><span class="lineno">   60</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00017">externalFunctions</a>.</p>
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00018">externalFunctions</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00102">codegen::LLVMCodeGen::generate()</a>.</p>
+
+</div>
+</div>
+<a id="a4c3f516a09fd669dabe1256b3f192ba4" name="a4c3f516a09fd669dabe1256b3f192ba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c3f516a09fd669dabe1256b3f192ba4">&#9670;&#160;</a></span>getExternalGlobals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a> &gt; &gt; &amp; zir::Module::getExternalGlobals </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>                                                                       {</div>
+<div class="line"><span class="lineno">   51</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#a556f3b7e5ee8aef9729fb7a91cc79a3f">externalGlobals</a>;</div>
+<div class="line"><span class="lineno">   52</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00016">externalGlobals</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00102">codegen::LLVMCodeGen::generate()</a>.</p>
 
@@ -357,12 +427,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>                                                                   {</div>
-<div class="line"><span class="lineno">   45</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>;</div>
-<div class="line"><span class="lineno">   46</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00054">54</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>                                                                   {</div>
+<div class="line"><span class="lineno">   55</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>;</div>
+<div class="line"><span class="lineno">   56</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00016">functions</a>.</p>
+<p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00017">functions</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00102">codegen::LLVMCodeGen::generate()</a>.</p>
 
@@ -391,10 +461,10 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00040">40</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>                                                               {</div>
-<div class="line"><span class="lineno">   41</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>;</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                                                               {</div>
+<div class="line"><span class="lineno">   47</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>;</div>
+<div class="line"><span class="lineno">   48</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00015">globals</a>.</p>
 
@@ -425,8 +495,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00038">38</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../de/def/module_8hpp_source.html#l00014">types</a>.</p>
 
@@ -457,69 +527,69 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00071">71</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>    {</div>
-<div class="line"><span class="lineno">   73</span>      std::string res = <span class="stringliteral">&quot;; Module: &quot;</span> + <a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a> + <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   74</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;type : <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>)</div>
-<div class="line"><span class="lineno">   75</span>      {</div>
-<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>)</div>
-<div class="line"><span class="lineno">   77</span>        {</div>
-<div class="line"><span class="lineno">   78</span>          <span class="keyword">auto</span> rt = std::static_pointer_cast&lt;RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">   79</span>          res += rt-&gt;toString() + <span class="stringliteral">&quot; = type { &quot;</span>;</div>
-<div class="line"><span class="lineno">   80</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;fields = rt-&gt;getFields();</div>
-<div class="line"><span class="lineno">   81</span>          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; fields.size(); ++i)</div>
-<div class="line"><span class="lineno">   82</span>          {</div>
-<div class="line"><span class="lineno">   83</span>            res +=</div>
-<div class="line"><span class="lineno">   84</span>                fields[i].type-&gt;toString() + (i &lt; fields.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">   85</span>          }</div>
-<div class="line"><span class="lineno">   86</span>          res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   87</span>        }</div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>)</div>
-<div class="line"><span class="lineno">   89</span>        {</div>
-<div class="line"><span class="lineno">   90</span>          <span class="keyword">auto</span> et = std::static_pointer_cast&lt;EnumType&gt;(type);</div>
-<div class="line"><span class="lineno">   91</span>          res += et-&gt;toString() + <span class="stringliteral">&quot; { &quot;</span>;</div>
-<div class="line"><span class="lineno">   92</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;variants = et-&gt;getVariants();</div>
-<div class="line"><span class="lineno">   93</span>          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; variants.size(); ++i)</div>
-<div class="line"><span class="lineno">   94</span>          {</div>
-<div class="line"><span class="lineno">   95</span>            res += variants[i].name + <span class="stringliteral">&quot; = &quot;</span> +</div>
-<div class="line"><span class="lineno">   96</span>                   std::to_string(variants[i].discriminant) +</div>
-<div class="line"><span class="lineno">   97</span>                   (i &lt; variants.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">   98</span>          }</div>
-<div class="line"><span class="lineno">   99</span>          res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  100</span>        }</div>
-<div class="line"><span class="lineno">  101</span>      }</div>
-<div class="line"><span class="lineno">  102</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  103</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.empty())</div>
-<div class="line"><span class="lineno">  104</span>      {</div>
-<div class="line"><span class="lineno">  105</span>        res += <span class="stringliteral">&quot;; Globals\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>)</div>
-<div class="line"><span class="lineno">  107</span>        {</div>
-<div class="line"><span class="lineno">  108</span>          res += global-&gt;getName() + <span class="stringliteral">&quot; = global &quot;</span> +</div>
-<div class="line"><span class="lineno">  109</span>                 global-&gt;getValueType()-&gt;toString();</div>
-<div class="line"><span class="lineno">  110</span>          <span class="keywordflow">if</span> (global-&gt;getInitializer())</div>
-<div class="line"><span class="lineno">  111</span>          {</div>
-<div class="line"><span class="lineno">  112</span>            res += <span class="stringliteral">&quot; &quot;</span> + global-&gt;getInitializer()-&gt;getName();</div>
-<div class="line"><span class="lineno">  113</span>          }</div>
-<div class="line"><span class="lineno">  114</span>          res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
-<div class="line"><span class="lineno">  116</span>        res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  117</span>      }</div>
-<div class="line"><span class="lineno">  118</span>      res += <span class="stringliteral">&quot;; External Functions\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  119</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>)</div>
-<div class="line"><span class="lineno">  120</span>      {</div>
-<div class="line"><span class="lineno">  121</span>        res += <span class="stringliteral">&quot;extern &quot;</span> + func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  122</span>      }</div>
-<div class="line"><span class="lineno">  123</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>)</div>
-<div class="line"><span class="lineno">  125</span>      {</div>
-<div class="line"><span class="lineno">  126</span>        res += func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00081">81</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>    {</div>
+<div class="line"><span class="lineno">   83</span>      std::string res = <span class="stringliteral">&quot;; Module: &quot;</span> + <a class="code hl_variable" href="#a6b4485eba3de8bc44e3d3cefe6043fbf">name</a> + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   84</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;type : <a class="code hl_variable" href="#a5b73b04c7ba5ea69727c6e5959359370">types</a>)</div>
+<div class="line"><span class="lineno">   85</span>      {</div>
+<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>)</div>
+<div class="line"><span class="lineno">   87</span>        {</div>
+<div class="line"><span class="lineno">   88</span>          <span class="keyword">auto</span> rt = std::static_pointer_cast&lt;RecordType&gt;(type);</div>
+<div class="line"><span class="lineno">   89</span>          res += rt-&gt;toString() + <span class="stringliteral">&quot; = type { &quot;</span>;</div>
+<div class="line"><span class="lineno">   90</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;fields = rt-&gt;getFields();</div>
+<div class="line"><span class="lineno">   91</span>          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; fields.size(); ++i)</div>
+<div class="line"><span class="lineno">   92</span>          {</div>
+<div class="line"><span class="lineno">   93</span>            res +=</div>
+<div class="line"><span class="lineno">   94</span>                fields[i].type-&gt;toString() + (i &lt; fields.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   95</span>          }</div>
+<div class="line"><span class="lineno">   96</span>          res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   97</span>        }</div>
+<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>)</div>
+<div class="line"><span class="lineno">   99</span>        {</div>
+<div class="line"><span class="lineno">  100</span>          <span class="keyword">auto</span> et = std::static_pointer_cast&lt;EnumType&gt;(type);</div>
+<div class="line"><span class="lineno">  101</span>          res += et-&gt;toString() + <span class="stringliteral">&quot; { &quot;</span>;</div>
+<div class="line"><span class="lineno">  102</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;variants = et-&gt;getVariants();</div>
+<div class="line"><span class="lineno">  103</span>          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; variants.size(); ++i)</div>
+<div class="line"><span class="lineno">  104</span>          {</div>
+<div class="line"><span class="lineno">  105</span>            res += variants[i].name + <span class="stringliteral">&quot; = &quot;</span> +</div>
+<div class="line"><span class="lineno">  106</span>                   std::to_string(variants[i].discriminant) +</div>
+<div class="line"><span class="lineno">  107</span>                   (i &lt; variants.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">  108</span>          }</div>
+<div class="line"><span class="lineno">  109</span>          res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  110</span>        }</div>
+<div class="line"><span class="lineno">  111</span>      }</div>
+<div class="line"><span class="lineno">  112</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  113</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.empty())</div>
+<div class="line"><span class="lineno">  114</span>      {</div>
+<div class="line"><span class="lineno">  115</span>        res += <span class="stringliteral">&quot;; Globals\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  116</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>)</div>
+<div class="line"><span class="lineno">  117</span>        {</div>
+<div class="line"><span class="lineno">  118</span>          res += global-&gt;getName() + <span class="stringliteral">&quot; = global &quot;</span> +</div>
+<div class="line"><span class="lineno">  119</span>                 global-&gt;getValueType()-&gt;toString();</div>
+<div class="line"><span class="lineno">  120</span>          <span class="keywordflow">if</span> (global-&gt;getInitializer())</div>
+<div class="line"><span class="lineno">  121</span>          {</div>
+<div class="line"><span class="lineno">  122</span>            res += <span class="stringliteral">&quot; &quot;</span> + global-&gt;getInitializer()-&gt;getName();</div>
+<div class="line"><span class="lineno">  123</span>          }</div>
+<div class="line"><span class="lineno">  124</span>          res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  125</span>        }</div>
+<div class="line"><span class="lineno">  126</span>        res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><span class="lineno">  127</span>      }</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">  129</span>    }</div>
+<div class="line"><span class="lineno">  128</span>      res += <span class="stringliteral">&quot;; External Functions\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  129</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>)</div>
+<div class="line"><span class="lineno">  130</span>      {</div>
+<div class="line"><span class="lineno">  131</span>        res += <span class="stringliteral">&quot;extern &quot;</span> + func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  132</span>      }</div>
+<div class="line"><span class="lineno">  133</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  134</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>)</div>
+<div class="line"><span class="lineno">  135</span>      {</div>
+<div class="line"><span class="lineno">  136</span>        res += func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  137</span>      }</div>
+<div class="line"><span class="lineno">  138</span>      <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">  139</span>    }</div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00028">type.hpp:28</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00031">type.hpp:31</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00017">externalFunctions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00016">functions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00015">globals</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00013">name</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00014">types</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00018">externalFunctions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00017">functions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00015">globals</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00013">name</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00014">types</a>.</p>
 
 </div>
 </div>
@@ -536,9 +606,27 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00033">addExternalFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00052">findFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00048">getExternalFunctions()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00071">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00039">addExternalFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00062">findFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00058">getExternalFunctions()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00081">toString()</a>.</p>
+
+</div>
+</div>
+<a id="a556f3b7e5ee8aef9729fb7a91cc79a3f" name="a556f3b7e5ee8aef9729fb7a91cc79a3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556f3b7e5ee8aef9729fb7a91cc79a3f">&#9670;&#160;</a></span>externalGlobals</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::shared_ptr&lt;<a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a>&gt; &gt; zir::Module::externalGlobals</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00034">addExternalGlobal()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00050">getExternalGlobals()</a>.</p>
 
 </div>
 </div>
@@ -554,9 +642,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00023">addFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00052">findFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00044">getFunctions()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00071">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00024">addFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00062">findFunction()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00054">getFunctions()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>
@@ -574,7 +662,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00028">addGlobal()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00040">getGlobals()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00071">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00029">addGlobal()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00046">getGlobals()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>
@@ -592,7 +680,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00019">Module()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00071">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00020">Module()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>
@@ -610,7 +698,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/def/module_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../de/def/module_8hpp_source.html">module.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00021">addType()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00038">getTypes()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00071">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/def/module_8hpp_source.html#l00022">addType()</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00044">getTypes()</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00081">toString()</a>.</p>
 
 </div>
 </div>

@@ -13,6 +13,7 @@ var classzir_1_1EnumType =
     [ "isReferenceType", "df/dd7/classzir_1_1EnumType.html#aea6d8c9ebc167de29af145bb67b18023", null ],
     [ "toString", "df/dd7/classzir_1_1EnumType.html#a93d6d821756f947d3c5f3a15f6a6581d", null ],
     [ "codegenName", "df/dd7/classzir_1_1EnumType.html#ae146978da549c2ec6b6670f761ebff6c", null ],
+    [ "hasReprC", "df/dd7/classzir_1_1EnumType.html#ad1bccb77206ed490828ceb355546ba7d", null ],
     [ "name", "df/dd7/classzir_1_1EnumType.html#adbcddedf3b5cc4592d70f39229e5505f", null ],
     [ "variants", "df/dd7/classzir_1_1EnumType.html#a9f3778332b8a2816e469f8a0cbee3087", null ]
 ];

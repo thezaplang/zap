@@ -17,6 +17,7 @@ var classsema_1_1FunctionSymbol =
     [ "isUnsafe", "db/db1/classsema_1_1FunctionSymbol.html#a98403044a9a29aa20527a65abcd40337", null ],
     [ "ownerTypeName", "db/db1/classsema_1_1FunctionSymbol.html#aad15020409a4437de2ebae3ee9586f3d", null ],
     [ "parameters", "db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25", null ],
+    [ "returnsRef", "db/db1/classsema_1_1FunctionSymbol.html#a645852dcbef00dfc9f58fd058fb56e48", null ],
     [ "returnType", "db/db1/classsema_1_1FunctionSymbol.html#a54bed29808f52f496eb8aa57b8f0e99c", null ],
     [ "vtableSlot", "db/db1/classsema_1_1FunctionSymbol.html#a1b7010b59e716a69cf27a315322b036c", null ]
 ];

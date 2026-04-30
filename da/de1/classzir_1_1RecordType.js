@@ -20,5 +20,6 @@ var classzir_1_1RecordType =
     [ "genericArguments", "da/de1/classzir_1_1RecordType.html#a7dfea1a79b08bac40a3041229f8d9f94", null ],
     [ "genericBaseName", "da/de1/classzir_1_1RecordType.html#a9717d9730840503f756ed69880c6532e", null ],
     [ "genericCodegenBaseName", "da/de1/classzir_1_1RecordType.html#a0bbf365ab48d7faae5a2c06bdba4622c", null ],
+    [ "hasReprC", "da/de1/classzir_1_1RecordType.html#a5c8fc401eb7d52b4f4d243251f3e0872", null ],
     [ "name", "da/de1/classzir_1_1RecordType.html#a936f8a075123ef83e837a8f5abe7248d", null ]
 ];

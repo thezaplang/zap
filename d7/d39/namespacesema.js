@@ -35,6 +35,8 @@ var namespacesema =
     [ "BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", "db/d94/classsema_1_1BoundTernaryExpression" ],
     [ "BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],
     [ "BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", "df/da0/classsema_1_1BoundFunctionCall" ],
+    [ "BoundIndirectCall", "de/d3e/classsema_1_1BoundIndirectCall.html", "de/d3e/classsema_1_1BoundIndirectCall" ],
+    [ "BoundFunctionReference", "da/d6b/classsema_1_1BoundFunctionReference.html", "da/d6b/classsema_1_1BoundFunctionReference" ],
     [ "BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", "dd/d9c/classsema_1_1BoundArrayLiteral" ],
     [ "BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", "db/d54/classsema_1_1BoundNewExpression" ],
     [ "BoundWeakLockExpression", "d8/df0/classsema_1_1BoundWeakLockExpression.html", "d8/df0/classsema_1_1BoundWeakLockExpression" ],

@@ -98,7 +98,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00273">273</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00308">308</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abbea4e29a57a84ed34265c3ff568cbac" name="abbea4e29a57a84ed34265c3ff568cbac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abbea4e29a57a84ed34265c3ff568cbac">&#9670;&#160;</a></span>BoundNewExpression()</h2>
@@ -137,19 +137,19 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00280">280</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  283</span>                                               {})</div>
-<div class="line"><span class="lineno">  284</span>      : <a class="code hl_function" href="../../db/d06/classsema_1_1BoundExpression.html#a03cab6b468c4468a2e9bcc456cadfa52">BoundExpression</a>(<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>), <a class="code hl_variable" href="#ad4fa405e49545a7405a29a9d88a3a923">classType</a>(std::move(<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>)),</div>
-<div class="line"><span class="lineno">  285</span>        <a class="code hl_variable" href="#af8c563c7612d32f05583a820a7e2c66d">constructor</a>(std::move(ctor)), <a class="code hl_variable" href="#a4132d8799eb526fe045f2a7e6eb4f1a8">arguments</a>(std::move(args)),</div>
-<div class="line"><span class="lineno">  286</span>        <a class="code hl_variable" href="#aaf2959b0f4b6f60c3dd8f366b84c900b">argumentIsRef</a>(std::move(argRefs)) {}</div>
-<div class="ttc" id="aclasssema_1_1BoundExpression_html_a0351a430992b2fd812ba4a8dfb3cfec6"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">sema::BoundExpression::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00093">bound_nodes.hpp:93</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundExpression_html_a03cab6b468c4468a2e9bcc456cadfa52"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a03cab6b468c4468a2e9bcc456cadfa52">sema::BoundExpression::BoundExpression</a></div><div class="ttdeci">BoundExpression(std::shared_ptr&lt; zir::Type &gt; t)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00094">bound_nodes.hpp:94</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_a4132d8799eb526fe045f2a7e6eb4f1a8"><div class="ttname"><a href="#a4132d8799eb526fe045f2a7e6eb4f1a8">sema::BoundNewExpression::arguments</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExpression &gt; &gt; arguments</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00277">bound_nodes.hpp:277</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_aaf2959b0f4b6f60c3dd8f366b84c900b"><div class="ttname"><a href="#aaf2959b0f4b6f60c3dd8f366b84c900b">sema::BoundNewExpression::argumentIsRef</a></div><div class="ttdeci">std::vector&lt; bool &gt; argumentIsRef</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00278">bound_nodes.hpp:278</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_ad4fa405e49545a7405a29a9d88a3a923"><div class="ttname"><a href="#ad4fa405e49545a7405a29a9d88a3a923">sema::BoundNewExpression::classType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::ClassType &gt; classType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00275">bound_nodes.hpp:275</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_af8c563c7612d32f05583a820a7e2c66d"><div class="ttname"><a href="#af8c563c7612d32f05583a820a7e2c66d">sema::BoundNewExpression::constructor</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; constructor</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00276">bound_nodes.hpp:276</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00315">315</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  318</span>                                               {})</div>
+<div class="line"><span class="lineno">  319</span>      : <a class="code hl_function" href="../../db/d06/classsema_1_1BoundExpression.html#a03cab6b468c4468a2e9bcc456cadfa52">BoundExpression</a>(<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>), <a class="code hl_variable" href="#ad4fa405e49545a7405a29a9d88a3a923">classType</a>(std::move(<a class="code hl_variable" href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">type</a>)),</div>
+<div class="line"><span class="lineno">  320</span>        <a class="code hl_variable" href="#af8c563c7612d32f05583a820a7e2c66d">constructor</a>(std::move(ctor)), <a class="code hl_variable" href="#a4132d8799eb526fe045f2a7e6eb4f1a8">arguments</a>(std::move(args)),</div>
+<div class="line"><span class="lineno">  321</span>        <a class="code hl_variable" href="#aaf2959b0f4b6f60c3dd8f366b84c900b">argumentIsRef</a>(std::move(argRefs)) {}</div>
+<div class="ttc" id="aclasssema_1_1BoundExpression_html_a0351a430992b2fd812ba4a8dfb3cfec6"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6">sema::BoundExpression::type</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00097">bound_nodes.hpp:97</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundExpression_html_a03cab6b468c4468a2e9bcc456cadfa52"><div class="ttname"><a href="../../db/d06/classsema_1_1BoundExpression.html#a03cab6b468c4468a2e9bcc456cadfa52">sema::BoundExpression::BoundExpression</a></div><div class="ttdeci">BoundExpression(std::shared_ptr&lt; zir::Type &gt; t)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00098">bound_nodes.hpp:98</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_a4132d8799eb526fe045f2a7e6eb4f1a8"><div class="ttname"><a href="#a4132d8799eb526fe045f2a7e6eb4f1a8">sema::BoundNewExpression::arguments</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundExpression &gt; &gt; arguments</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00312">bound_nodes.hpp:312</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_aaf2959b0f4b6f60c3dd8f366b84c900b"><div class="ttname"><a href="#aaf2959b0f4b6f60c3dd8f366b84c900b">sema::BoundNewExpression::argumentIsRef</a></div><div class="ttdeci">std::vector&lt; bool &gt; argumentIsRef</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00313">bound_nodes.hpp:313</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_ad4fa405e49545a7405a29a9d88a3a923"><div class="ttname"><a href="#ad4fa405e49545a7405a29a9d88a3a923">sema::BoundNewExpression::classType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::ClassType &gt; classType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00310">bound_nodes.hpp:310</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundNewExpression_html_af8c563c7612d32f05583a820a7e2c66d"><div class="ttname"><a href="#af8c563c7612d32f05583a820a7e2c66d">sema::BoundNewExpression::constructor</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; constructor</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00311">bound_nodes.hpp:311</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00093">sema::BoundExpression::type</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00097">sema::BoundExpression::type</a>.</p>
 
 </div>
 </div>
@@ -179,8 +179,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/db2/classsema_1_1BoundNode.html#a1bcdc57213e5c1decea0b6808c6e675b">sema::BoundNode</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00287">287</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  287</span>{ v.visit(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00322">322</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  322</span>{ v.visit(*<span class="keyword">this</span>); }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#ab824f5330370d4da04917875cd337ed9">sema::BoundVisitor::visit()</a>.</p>
 
@@ -211,16 +211,16 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html#a293605df0a39737e2c9809a424644b17">sema::BoundExpression</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00288">288</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  288</span>                                                        {</div>
-<div class="line"><span class="lineno">  289</span>    std::vector&lt;std::unique_ptr&lt;BoundExpression&gt;&gt; clonedArgs;</div>
-<div class="line"><span class="lineno">  290</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;arg : <a class="code hl_variable" href="#a4132d8799eb526fe045f2a7e6eb4f1a8">arguments</a>)</div>
-<div class="line"><span class="lineno">  291</span>      clonedArgs.push_back(arg-&gt;clone());</div>
-<div class="line"><span class="lineno">  292</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundNewExpression&gt;(</div>
-<div class="line"><span class="lineno">  293</span>        <a class="code hl_variable" href="#ad4fa405e49545a7405a29a9d88a3a923">classType</a>, <a class="code hl_variable" href="#af8c563c7612d32f05583a820a7e2c66d">constructor</a>, std::move(clonedArgs), <a class="code hl_variable" href="#aaf2959b0f4b6f60c3dd8f366b84c900b">argumentIsRef</a>);</div>
-<div class="line"><span class="lineno">  294</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">323</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  323</span>                                                        {</div>
+<div class="line"><span class="lineno">  324</span>    std::vector&lt;std::unique_ptr&lt;BoundExpression&gt;&gt; clonedArgs;</div>
+<div class="line"><span class="lineno">  325</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;arg : <a class="code hl_variable" href="#a4132d8799eb526fe045f2a7e6eb4f1a8">arguments</a>)</div>
+<div class="line"><span class="lineno">  326</span>      clonedArgs.push_back(arg-&gt;clone());</div>
+<div class="line"><span class="lineno">  327</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundNewExpression&gt;(</div>
+<div class="line"><span class="lineno">  328</span>        <a class="code hl_variable" href="#ad4fa405e49545a7405a29a9d88a3a923">classType</a>, <a class="code hl_variable" href="#af8c563c7612d32f05583a820a7e2c66d">constructor</a>, std::move(clonedArgs), <a class="code hl_variable" href="#aaf2959b0f4b6f60c3dd8f366b84c900b">argumentIsRef</a>);</div>
+<div class="line"><span class="lineno">  329</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00278">argumentIsRef</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00277">arguments</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00275">classType</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00276">constructor</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00313">argumentIsRef</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00312">arguments</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00310">classType</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00311">constructor</a>.</p>
 
 </div>
 </div>
@@ -237,9 +237,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00278">278</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00313">313</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00288">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02736">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01570">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02837">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01610">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>
@@ -255,9 +255,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00277">277</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00312">312</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00288">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02736">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01570">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02837">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01610">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>
@@ -273,9 +273,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00275">275</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00310">310</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00288">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02736">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01570">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02837">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01610">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>
@@ -291,9 +291,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00276">276</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00311">311</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00288">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02736">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01570">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00323">clone()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02837">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01610">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>

@@ -13,6 +13,7 @@ var classzir_1_1Function =
     [ "isDestructor", "dc/d90/classzir_1_1Function.html#abc2608208d72bd4e73ba7e31f8226cf3", null ],
     [ "name", "dc/d90/classzir_1_1Function.html#ab070dae2297e8915a88d7d31031c5555", null ],
     [ "ownerTypeName", "dc/d90/classzir_1_1Function.html#a3b137bd70d674f0e406a5f7448ad730e", null ],
+    [ "returnsRef", "dc/d90/classzir_1_1Function.html#ac2ebee588317d9386522efe8be4c1123", null ],
     [ "returnType", "dc/d90/classzir_1_1Function.html#a1838ae08bfdbf4fb65ac86319e8a7545", null ],
     [ "vtableSlot", "dc/d90/classzir_1_1Function.html#ad979e7722e3df26574d89fc273db6d90", null ]
 ];

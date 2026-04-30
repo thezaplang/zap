@@ -100,6 +100,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a1ae49eb2c973ce953ed54147527abe31" id="r_a1ae49eb2c973ce953ed54147527abe31"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ae49eb2c973ce953ed54147527abe31">isExtern_</a> = false</td></tr>
 <tr class="memitem:a83e0d910a55a3b4535942de6263e49c5" id="r_a83e0d910a55a3b4535942de6263e49c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83e0d910a55a3b4535942de6263e49c5">isStatic_</a> = false</td></tr>
 <tr class="memitem:a9af708c31333e95af1da6da3e7b29c88" id="r_a9af708c31333e95af1da6da3e7b29c88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9af708c31333e95af1da6da3e7b29c88">isUnsafe_</a> = false</td></tr>
+<tr class="memitem:af774b737fc9ee999bd5c0771e1cb0cfa" id="r_af774b737fc9ee999bd5c0771e1cb0cfa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af774b737fc9ee999bd5c0771e1cb0cfa">returnsRef_</a> = false</td></tr>
 <tr class="inherit_header pub_attribs_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
 <tr class="memitem:aa6ff8b85c21ab2c17c18348011c6cae8 inherit pub_attribs_classTopLevel" id="r_aa6ff8b85c21ab2c17c18348011c6cae8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162">Visibility</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/classTopLevel.html#aa6ff8b85c21ab2c17c18348011c6cae8">visibility_</a> = <a class="el" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a></td></tr>
 <tr class="memitem:a6967f846e63a4aaa191aa983c8cba99c inherit pub_attribs_classTopLevel" id="r_a6967f846e63a4aaa191aa983c8cba99c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/da3/structAttributeNode.html">AttributeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d65/classTopLevel.html#a6967f846e63a4aaa191aa983c8cba99c">attributes_</a></td></tr>
@@ -133,7 +134,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>
@@ -199,11 +200,11 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">28</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>      : <a class="code hl_variable" href="#a041b8becfda7f812aff1163213d43e23">name_</a>(name), <a class="code hl_variable" href="#a56c1ad7bd2ae097432d51c1e9f553d3f">genericParams_</a>(std::move(genericParams)),</div>
-<div class="line"><span class="lineno">   35</span>        <a class="code hl_variable" href="#a84659177bd6b088eebdff616455f9f06">params_</a>(std::move(params)), <a class="code hl_variable" href="#a777c0074e8898d862871a36dfe7296c2">returnType_</a>(std::move(returnType)),</div>
-<div class="line"><span class="lineno">   36</span>        <a class="code hl_variable" href="#a3ddfafdd4b202763daf9429187d0ad12">body_</a>(std::move(body)), <a class="code hl_variable" href="#a1c3b039d4e5110aec21fd90f3fa46987">lambdaExpr_</a>(std::move(lambdaExpr)),</div>
-<div class="line"><span class="lineno">   37</span>        <a class="code hl_variable" href="#a1ae49eb2c973ce953ed54147527abe31">isExtern_</a>(isExtern), <a class="code hl_variable" href="#a83e0d910a55a3b4535942de6263e49c5">isStatic_</a>(isStatic), <a class="code hl_variable" href="#a9af708c31333e95af1da6da3e7b29c88">isUnsafe_</a>(isUnsafe) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">29</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>      : <a class="code hl_variable" href="#a041b8becfda7f812aff1163213d43e23">name_</a>(name), <a class="code hl_variable" href="#a56c1ad7bd2ae097432d51c1e9f553d3f">genericParams_</a>(std::move(genericParams)),</div>
+<div class="line"><span class="lineno">   36</span>        <a class="code hl_variable" href="#a84659177bd6b088eebdff616455f9f06">params_</a>(std::move(params)), <a class="code hl_variable" href="#a777c0074e8898d862871a36dfe7296c2">returnType_</a>(std::move(returnType)),</div>
+<div class="line"><span class="lineno">   37</span>        <a class="code hl_variable" href="#a3ddfafdd4b202763daf9429187d0ad12">body_</a>(std::move(body)), <a class="code hl_variable" href="#a1c3b039d4e5110aec21fd90f3fa46987">lambdaExpr_</a>(std::move(lambdaExpr)),</div>
+<div class="line"><span class="lineno">   38</span>        <a class="code hl_variable" href="#a1ae49eb2c973ce953ed54147527abe31">isExtern_</a>(isExtern), <a class="code hl_variable" href="#a83e0d910a55a3b4535942de6263e49c5">isStatic_</a>(isStatic), <a class="code hl_variable" href="#a9af708c31333e95af1da6da3e7b29c88">isUnsafe_</a>(isUnsafe) {}</div>
 <div class="ttc" id="aclassFunDecl_html_a041b8becfda7f812aff1163213d43e23"><div class="ttname"><a href="#a041b8becfda7f812aff1163213d43e23">FunDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d84/fun__decl_8hpp_source.html#l00015">fun_decl.hpp:15</a></div></div>
 <div class="ttc" id="aclassFunDecl_html_a1ae49eb2c973ce953ed54147527abe31"><div class="ttname"><a href="#a1ae49eb2c973ce953ed54147527abe31">FunDecl::isExtern_</a></div><div class="ttdeci">bool isExtern_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d84/fun__decl_8hpp_source.html#l00022">fun_decl.hpp:22</a></div></div>
 <div class="ttc" id="aclassFunDecl_html_a1c3b039d4e5110aec21fd90f3fa46987"><div class="ttname"><a href="#a1c3b039d4e5110aec21fd90f3fa46987">FunDecl::lambdaExpr_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; lambdaExpr_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d84/fun__decl_8hpp_source.html#l00021">fun_decl.hpp:21</a></div></div>
@@ -244,8 +245,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00039">39</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   39</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00040">40</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00061">visitor.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00061">Visitor::visit()</a>.</p>
@@ -267,7 +268,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02888">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02906">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +302,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>
@@ -319,7 +320,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>
@@ -337,7 +338,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>
@@ -355,7 +356,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02888">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02906">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -373,7 +374,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>
@@ -391,7 +392,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02888">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l02906">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -409,7 +410,23 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
+
+</div>
+</div>
+<a id="af774b737fc9ee999bd5c0771e1cb0cfa" name="af774b737fc9ee999bd5c0771e1cb0cfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af774b737fc9ee999bd5c0771e1cb0cfa">&#9670;&#160;</a></span>returnsRef_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FunDecl::returnsRef_ = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
 </div>
 </div>
@@ -427,7 +444,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html">fun_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00028">FunDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d84/fun__decl_8hpp_source.html#l00029">FunDecl()</a>.</p>
 
 </div>
 </div>

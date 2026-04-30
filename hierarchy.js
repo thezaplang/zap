@@ -17,7 +17,9 @@ var hierarchy =
         [ "sema::BoundFailableHandleExpression", "d5/d43/classsema_1_1BoundFailableHandleExpression.html", null ],
         [ "sema::BoundFallbackExpression", "d9/d37/classsema_1_1BoundFallbackExpression.html", null ],
         [ "sema::BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", null ],
+        [ "sema::BoundFunctionReference", "da/d6b/classsema_1_1BoundFunctionReference.html", null ],
         [ "sema::BoundIndexAccess", "d6/d5e/classsema_1_1BoundIndexAccess.html", null ],
+        [ "sema::BoundIndirectCall", "de/d3e/classsema_1_1BoundIndirectCall.html", null ],
         [ "sema::BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", null ],
         [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", null ],
         [ "sema::BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", null ],
@@ -183,6 +185,7 @@ var hierarchy =
     [ "zir::Type", "d9/dd2/classzir_1_1Type.html", [
       [ "zir::ArrayType", "d8/d68/classzir_1_1ArrayType.html", null ],
       [ "zir::EnumType", "df/dd7/classzir_1_1EnumType.html", null ],
+      [ "zir::FunctionPointerType", "d0/d48/classzir_1_1FunctionPointerType.html", null ],
       [ "zir::PointerType", "d4/d67/classzir_1_1PointerType.html", null ],
       [ "zir::PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", null ],
       [ "zir::RecordType", "da/de1/classzir_1_1RecordType.html", [

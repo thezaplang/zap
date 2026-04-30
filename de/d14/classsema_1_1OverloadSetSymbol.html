@@ -107,7 +107,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00103">103</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00105">105</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a57c2fae15a82773db1a1173a50d4ecfd" name="a57c2fae15a82773db1a1173a50d4ecfd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57c2fae15a82773db1a1173a50d4ecfd">&#9670;&#160;</a></span>OverloadSetSymbol()</h2>
@@ -141,8 +141,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00107">107</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), <span class="keyword">nullptr</span>, <span class="stringliteral">&quot;&quot;</span>, std::move(module), vis) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00109">109</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>      : <a class="code hl_function" href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">Symbol</a>(std::move(n), <span class="keyword">nullptr</span>, <span class="stringliteral">&quot;&quot;</span>, std::move(module), vis) {}</div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_ad418fedc0924f4c66d40b9c2d245aa34"><div class="ttname"><a href="../../d1/df6/classsema_1_1Symbol.html#ad418fedc0924f4c66d40b9c2d245aa34">sema::Symbol::Symbol</a></div><div class="ttdeci">Symbol(std::string n, std::shared_ptr&lt; zir::Type &gt; t, std::string link=&quot;&quot;, std::string module=&quot;&quot;, Visibility vis=Visibility::Private)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00037">symbol.hpp:37</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/d21/visibility_8hpp_source.html#l00004">Private</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">sema::Symbol::Symbol()</a>.</p>
@@ -173,17 +173,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00113">113</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>                                                           {</div>
-<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">if</span> (!function) {</div>
-<div class="line"><span class="lineno">  115</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  116</span>    }</div>
-<div class="line"><span class="lineno">  117</span>    <a class="code hl_variable" href="#a5de90a9b27dca56fcf937533815990bb">overloads</a>.push_back(std::move(function));</div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  119</span>  }</div>
-<div class="ttc" id="aclasssema_1_1OverloadSetSymbol_html_a5de90a9b27dca56fcf937533815990bb"><div class="ttname"><a href="#a5de90a9b27dca56fcf937533815990bb">sema::OverloadSetSymbol::overloads</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; FunctionSymbol &gt; &gt; overloads</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00105">symbol.hpp:105</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00115">115</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                                                           {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span> (!function) {</div>
+<div class="line"><span class="lineno">  117</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  118</span>    }</div>
+<div class="line"><span class="lineno">  119</span>    <a class="code hl_variable" href="#a5de90a9b27dca56fcf937533815990bb">overloads</a>.push_back(std::move(function));</div>
+<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  121</span>  }</div>
+<div class="ttc" id="aclasssema_1_1OverloadSetSymbol_html_a5de90a9b27dca56fcf937533815990bb"><div class="ttname"><a href="#a5de90a9b27dca56fcf937533815990bb">sema::OverloadSetSymbol::overloads</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; FunctionSymbol &gt; &gt; overloads</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00107">symbol.hpp:107</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00105">overloads</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00107">overloads</a>.</p>
 
 </div>
 </div>
@@ -212,8 +212,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/df6/classsema_1_1Symbol.html#a37b5470260ed0c5d4dab3b05df8286f1">sema::Symbol</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00111">111</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  111</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">SymbolKind::OverloadSet</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00113">113</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">SymbolKind::OverloadSet</a>; }</div>
 <div class="ttc" id="anamespacesema_html_afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05"><div class="ttname"><a href="../../d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aeba108778099b2bd11a368d407171e05">sema::SymbolKind::OverloadSet</a></div><div class="ttdeci">@ OverloadSet</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00012">symbol.hpp:12</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00012">sema::OverloadSet</a>.</p>
@@ -233,9 +233,9 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00105">105</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00107">107</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00113">addOverload()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00115">addOverload()</a>.</p>
 
 </div>
 </div>

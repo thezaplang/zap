@@ -12,5 +12,6 @@ var classFunDecl =
     [ "lambdaExpr_", "d3/d94/classFunDecl.html#a1c3b039d4e5110aec21fd90f3fa46987", null ],
     [ "name_", "d3/d94/classFunDecl.html#a041b8becfda7f812aff1163213d43e23", null ],
     [ "params_", "d3/d94/classFunDecl.html#a84659177bd6b088eebdff616455f9f06", null ],
+    [ "returnsRef_", "d3/d94/classFunDecl.html#af774b737fc9ee999bd5c0771e1cb0cfa", null ],
     [ "returnType_", "d3/d94/classFunDecl.html#a777c0074e8898d862871a36dfe7296c2", null ]
 ];

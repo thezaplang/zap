@@ -14,6 +14,8 @@ var bound__nodes_8hpp =
     [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", "db/d94/classsema_1_1BoundTernaryExpression" ],
     [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", "d6/d6f/classsema_1_1BoundUnaryExpression" ],
     [ "sema::BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", "df/da0/classsema_1_1BoundFunctionCall" ],
+    [ "sema::BoundIndirectCall", "de/d3e/classsema_1_1BoundIndirectCall.html", "de/d3e/classsema_1_1BoundIndirectCall" ],
+    [ "sema::BoundFunctionReference", "da/d6b/classsema_1_1BoundFunctionReference.html", "da/d6b/classsema_1_1BoundFunctionReference" ],
     [ "sema::BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", "dd/d9c/classsema_1_1BoundArrayLiteral" ],
     [ "sema::BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", "db/d54/classsema_1_1BoundNewExpression" ],
     [ "sema::BoundWeakLockExpression", "d8/df0/classsema_1_1BoundWeakLockExpression.html", "d8/df0/classsema_1_1BoundWeakLockExpression" ],
