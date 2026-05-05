@@ -56,7 +56,9 @@ public:
 
   /// @brief Returns the unsplit input files vector.
   /// @return Const reference to the input files vector.
-  const std::vector<std::string> &get_inputs() const noexcept { return inputs; }
+  const std::vector<std::string_view> &get_inputs() const noexcept {
+    return inputs;
+  }
 
   /// @brief Returns the paths to the source files.
   /// @return Const reference to the source files vector.
@@ -105,16 +107,7 @@ public:
   /// This should change as the compiler evolves, ideally all of the below
   /// should be true.
   bool format_supported() const noexcept {
-    switch (out_type) {
-    case output_type::EXEC:
-    case output_type::OBJECT:
-    case output_type::ASM:
-    case output_type::TEXT_LLVM:
-    case output_type::LLVM:
-    case output_type::ZIR:
-      return true;
-    }
-    return false;
+    return true; // Condition is always true.
   }
 
   /// @brief Returns a file extension based on the file format given.
@@ -183,21 +176,22 @@ private:
   friend bool compileLoadedModules(driver &drv,
                                    const std::filesystem::path &entryPath);
 
-  std::vector<std::string> inputs;            ///< A vector of input files.
+  std::vector<std::string_view> inputs;       ///< A vector of input files.
   std::vector<std::filesystem::path> sources; ///< A vector of .zp files.
   std::vector<std::filesystem::path> objects; ///< A vector of .o files.
   std::vector<std::filesystem::path>
       cleanups;                 ///< A vector of files that need to be deleted.
   std::filesystem::path output; ///< Output file.
   output_type out_type =
-      driver::output_type::EXEC; ///< Output type, default executable.
-  bool implicit_output;          ///< Was the output implicit or explicit.
-  bool inc_stdlib;               ///< Include the zap stdlib.o or not.
-  bool allow_unsafe = false;     ///< Allow unsafe language features.
-  bool emit_llvm_text = false;   ///< Emit textual LLVM IR.
-  bool emit_zir_text = false;    ///< Emit textual ZIR.
-  int optimization_level = 0;    ///< Optimization level (0-3).
-  std::vector<std::string> linker_args; ///< Extra linker arguments (e.g. -lSDL2, -L/path).
+      driver::output_type::EXEC;  ///< Output type, default executable.
+  bool implicit_output;           ///< Was the output implicit or explicit.
+  bool inc_stdlib;                ///< Include the zap stdlib.o or not.
+  bool allow_unsafe = false;      ///< Allow unsafe language features.
+  bool emit_llvm_text = false;    ///< Emit textual LLVM IR.
+  bool emit_zir_text = false;     ///< Emit textual ZIR.
+  uint8_t optimization_level = 0; ///< Optimization level (0-3).
+  std::vector<std::string>
+      linker_args; ///< Extra linker arguments (e.g. -lSDL2, -L/path).
   std::filesystem::path executable_path; ///< Path to the running executable.
 
   /// @brief Used internally by the compile() function.

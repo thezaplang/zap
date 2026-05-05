@@ -1,7 +1,7 @@
 #include "utils/stream.hpp"
 #include <algorithm>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
 
 #if defined(__unix__) || defined(__APPLE__)
 #include <unistd.h>
@@ -110,6 +110,17 @@ Stream &err() {
 Stream &out() {
   static StdoutStream stdoutStream(stdout, false);
   return stdoutStream;
+}
+
+Stream &Stream::indent(unsigned n) {
+  constexpr const char space_buffer[0x10] = {' ', ' ', ' ', ' ', ' ', ' ',
+                                             ' ', ' ', ' ', ' ', ' ', ' ',
+                                             ' ', ' ', ' ', ' '};
+  while (n > sizeof(space_buffer)) {
+    write(space_buffer, sizeof(space_buffer));
+    n -= sizeof(space_buffer);
+  }
+  return write(space_buffer, n);
 }
 
 /// This is where it is platform dependent.
