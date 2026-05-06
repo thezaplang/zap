@@ -142,6 +142,8 @@ public:
     return *this;
   }
 
+  Stream &indent(unsigned n);
+
   Stream &changeColor(Color col, bool bold = false, bool bg = false) {
     if (hasColors()) {
       int code = int(col);
