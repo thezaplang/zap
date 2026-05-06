@@ -77,18 +77,19 @@ var NAVTREEINDEX =
 "d0/df9/classsema_1_1BoundVisitor.html#a46756e333fc346e628bd92018ccad1aa",
 "d2/d0b/parameter__node_8hpp_source.html",
 "d3/d09/classzap_1_1Stream.html#a098c8da4e552c96912ac900fbd9426af",
-"d3/ddb/type__node_8hpp.html",
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa02ad01aea6cd608911fcac3a902cb30",
-"d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68ea01fd5046e2769cae7b662d3dfbb64045",
-"d8/d9a/classsema_1_1VariableSymbol.html#ade1edc3a6a721c02f7f0c5c0059ac8d9",
-"d9/d68/classzir_1_1Module.html#a556f3b7e5ee8aef9729fb7a91cc79a3f",
-"da/de1/classzir_1_1RecordType.html#a5ea346eb95df6f260a1d50322d45a582",
-"db/d12/classConstChar.html#a7d6777b330682747076430d020838ffc",
-"dc/d13/structVisitor.html#a528a7a628127d086c0aeb39bb279bae6",
-"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f",
-"dd/d10/classsema_1_1BoundStatement.html#a37c54d698c51805f1fdb4ef871fbb9ac",
-"de/d73/classzap_1_1Parser.html#a711159bf4d7559afebf605bad1cd691d",
-"df/da0/classsema_1_1BoundFunctionCall.html#ac7d92434c392b192bbeb725607a21286"
+"d3/dc7/structzir_1_1RecordType_1_1Field.html#af836dc85b3b378624e68dafbd4d5fc19",
+"d4/da0/classzir_1_1BoundIRGenerator.html#a99eaf4ca868225d835e9286a13ce1b4f",
+"d6/da5/classzap_1_1StderrStream.html#ac2a3396aa40a6d8a061252848d8c1631",
+"d8/d68/classzir_1_1ArrayType.html#ae9bb7d4a334cfff417dad21225bafa04",
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2",
+"da/d72/type_8hpp.html",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#abdee2366b7331e75315ec3166d535859",
+"db/dfa/stdlib_8c.html#a6cf5a350156f8e69a412d96c6939e56d",
+"dc/d2c/classsema_1_1Binder.html#a7dfcb0d79a500be0abe52b473b26fab8",
+"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a16e131ec45a905c268d6cfb4813e3e26",
+"de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281",
+"df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204",
+"functions_vars_w.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

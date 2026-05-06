@@ -9,6 +9,7 @@ var classzap_1_1Stream =
     [ "flush", "d3/d09/classzap_1_1Stream.html#a0a00e5832186d81f304125d1b46f3da6", null ],
     [ "getBufferSize", "d3/d09/classzap_1_1Stream.html#a8246f2fd49ffa373e0f3f67200ee9af4", null ],
     [ "hasColors", "d3/d09/classzap_1_1Stream.html#af9a9373bd62a219d4a9588c9f7e96d7a", null ],
+    [ "indent", "d3/d09/classzap_1_1Stream.html#ae242d246350782740afc03ae08c2893d", null ],
     [ "internalFlush", "d3/d09/classzap_1_1Stream.html#a3572685e772befedde1b784c75f0ec72", null ],
     [ "internalWrite", "d3/d09/classzap_1_1Stream.html#a7452503fe7a8add0dec151c50ea0aa3c", null ],
     [ "onTTY", "d3/d09/classzap_1_1Stream.html#a24063f292467b27d191a6c19171223b0", null ],

@@ -116,6 +116,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab6eb8a85c33f1ed5077796edd113210f inherit pub_methods_classzap_1_1Stream" id="r_ab6eb8a85c33f1ed5077796edd113210f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#ab6eb8a85c33f1ed5077796edd113210f">resetColor</a> ()</td></tr>
 <tr class="memitem:a0caaea495b5277e857e2ea97d6e0730d inherit pub_methods_classzap_1_1Stream" id="r_a0caaea495b5277e857e2ea97d6e0730d"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a0caaea495b5277e857e2ea97d6e0730d inherit pub_methods_classzap_1_1Stream template"><td class="memItemLeft" align="right" valign="top">std::enable_if_t&lt; std::is_arithmetic_v&lt; T &gt;, <a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0caaea495b5277e857e2ea97d6e0730d">operator&lt;&lt;</a> (T val)</td></tr>
+<tr class="memitem:ae242d246350782740afc03ae08c2893d inherit pub_methods_classzap_1_1Stream" id="r_ae242d246350782740afc03ae08c2893d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#ae242d246350782740afc03ae08c2893d">indent</a> (unsigned n)</td></tr>
 <tr class="memitem:aa3cc77f0ed049481e793d2b54d30ad13 inherit pub_methods_classzap_1_1Stream" id="r_aa3cc77f0ed049481e793d2b54d30ad13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#aa3cc77f0ed049481e793d2b54d30ad13">changeColor</a> (<a class="el" href="../../d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68e">Color</a> col, bool bold=false, bool bg=false)</td></tr>
 <tr class="memitem:a5990eeaeb8650525c34f319a9da84fe1 inherit pub_methods_classzap_1_1Stream" id="r_a5990eeaeb8650525c34f319a9da84fe1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d09/classzap_1_1Stream.html#a5990eeaeb8650525c34f319a9da84fe1">operator&lt;&lt;</a> (<a class="el" href="../../d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68e">Color</a> col)</td></tr>
 </table><table class="memberdecls">
@@ -142,7 +143,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Standard FILE* stream. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00165">165</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00167">167</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac2a3396aa40a6d8a061252848d8c1631" name="ac2a3396aa40a6d8a061252848d8c1631"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2a3396aa40a6d8a061252848d8c1631">&#9670;&#160;</a></span>SFStream()</h2>
@@ -186,13 +187,13 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00184">184</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  185</span>      : <a class="code hl_function" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a>(bufferSize), <a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>(f), <a class="code hl_variable" href="#a3c8f841d153104375af553a29a459cd9">close</a>(closeFile) {}</div>
-<div class="ttc" id="aclasszap_1_1SFStream_html_a3c8f841d153104375af553a29a459cd9"><div class="ttname"><a href="#a3c8f841d153104375af553a29a459cd9">zap::SFStream::close</a></div><div class="ttdeci">bool close</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00167">stream.hpp:167</a></div></div>
-<div class="ttc" id="aclasszap_1_1SFStream_html_a810f2ba4c9cc551762276cdcc68aac24"><div class="ttname"><a href="#a810f2ba4c9cc551762276cdcc68aac24">zap::SFStream::file</a></div><div class="ttdeci">FILE * file</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00166">stream.hpp:166</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00186">186</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  187</span>      : <a class="code hl_function" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a>(bufferSize), <a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>(f), <a class="code hl_variable" href="#a3c8f841d153104375af553a29a459cd9">close</a>(closeFile) {}</div>
+<div class="ttc" id="aclasszap_1_1SFStream_html_a3c8f841d153104375af553a29a459cd9"><div class="ttname"><a href="#a3c8f841d153104375af553a29a459cd9">zap::SFStream::close</a></div><div class="ttdeci">bool close</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00169">stream.hpp:169</a></div></div>
+<div class="ttc" id="aclasszap_1_1SFStream_html_a810f2ba4c9cc551762276cdcc68aac24"><div class="ttname"><a href="#a810f2ba4c9cc551762276cdcc68aac24">zap::SFStream::file</a></div><div class="ttdeci">FILE * file</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00168">stream.hpp:168</a></div></div>
 <div class="ttc" id="aclasszap_1_1Stream_html_a0460244ca46dfc40b11907c22dbbd6d3"><div class="ttname"><a href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">zap::Stream::Stream</a></div><div class="ttdeci">Stream(const Stream &amp;)=delete</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00167">close</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00166">file</a>, and <a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">zap::Stream::Stream()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00169">close</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00168">file</a>, and <a class="el" href="../../d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3">zap::Stream::Stream()</a>.</p>
 
 </div>
 </div>
@@ -219,15 +220,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00187">187</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  187</span>                       {</div>
-<div class="line"><span class="lineno">  188</span>    <a class="code hl_function" href="../../d3/d09/classzap_1_1Stream.html#ab912b88fa1fd18addff4d19c8a87fd9b">setNoBuffer</a>();</div>
-<div class="line"><span class="lineno">  189</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a3c8f841d153104375af553a29a459cd9">close</a>)</div>
-<div class="line"><span class="lineno">  190</span>      fclose(<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
-<div class="line"><span class="lineno">  191</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00189">189</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  189</span>                       {</div>
+<div class="line"><span class="lineno">  190</span>    <a class="code hl_function" href="../../d3/d09/classzap_1_1Stream.html#ab912b88fa1fd18addff4d19c8a87fd9b">setNoBuffer</a>();</div>
+<div class="line"><span class="lineno">  191</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a3c8f841d153104375af553a29a459cd9">close</a>)</div>
+<div class="line"><span class="lineno">  192</span>      fclose(<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
+<div class="line"><span class="lineno">  193</span>  }</div>
 <div class="ttc" id="aclasszap_1_1Stream_html_ab912b88fa1fd18addff4d19c8a87fd9b"><div class="ttname"><a href="../../d3/d09/classzap_1_1Stream.html#ab912b88fa1fd18addff4d19c8a87fd9b">zap::Stream::setNoBuffer</a></div><div class="ttdeci">void setNoBuffer() noexcept</div><div class="ttdoc">Makes the stream unbuffered.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00072">stream.hpp:72</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00167">close</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00166">file</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00072">zap::Stream::setNoBuffer()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00169">close</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00168">file</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00072">zap::Stream::setNoBuffer()</a>.</p>
 
 </div>
 </div>
@@ -257,13 +258,13 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d3/d09/classzap_1_1Stream.html#a3572685e772befedde1b784c75f0ec72">zap::Stream</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00174">174</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  174</span>                                {</div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>)</div>
-<div class="line"><span class="lineno">  176</span>      fflush(<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
-<div class="line"><span class="lineno">  177</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00176">176</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>                                {</div>
+<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>)</div>
+<div class="line"><span class="lineno">  178</span>      fflush(<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
+<div class="line"><span class="lineno">  179</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00166">file</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00168">file</a>.</p>
 
 </div>
 </div>
@@ -298,13 +299,13 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d3/d09/classzap_1_1Stream.html#a7452503fe7a8add0dec151c50ea0aa3c">zap::Stream</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00169">169</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  169</span>                                                                  {</div>
-<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>)</div>
-<div class="line"><span class="lineno">  171</span>      fwrite(ptr, 1, size, <a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
-<div class="line"><span class="lineno">  172</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00171">171</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  171</span>                                                                  {</div>
+<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>)</div>
+<div class="line"><span class="lineno">  173</span>      fwrite(ptr, 1, size, <a class="code hl_variable" href="#a810f2ba4c9cc551762276cdcc68aac24">file</a>);</div>
+<div class="line"><span class="lineno">  174</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00166">file</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00168">file</a>.</p>
 
 </div>
 </div>
@@ -329,9 +330,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00167">167</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00169">169</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00184">SFStream()</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00187">~SFStream()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00186">SFStream()</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00189">~SFStream()</a>.</p>
 
 </div>
 </div>
@@ -355,9 +356,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00166">166</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00168">168</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00174">internalFlush()</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00169">internalWrite()</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00184">SFStream()</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00187">~SFStream()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00176">internalFlush()</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00171">internalWrite()</a>, <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00186">SFStream()</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00189">~SFStream()</a>.</p>
 
 </div>
 </div>
