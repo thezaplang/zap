@@ -559,7 +559,7 @@ bool driver::parseArgs(int argc, char **argv) {
     return false;
   }
 
-  implicit_output = args.has(ArgTypes::Output);
+  implicit_output = !args.has(ArgTypes::Output);
   inc_stdlib = !args.has(ArgTypes::NoStdlib);
   allow_unsafe = args.has(ArgTypes::AllowUnsafe);
 
