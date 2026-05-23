@@ -69,7 +69,7 @@ pub class Stream {
       return "";
     }
 
-    var out: String = "";
+    var out: string.TextBuf = new string.TextBuf();
     var left: Int = bytes;
 
     if string.len(self.readBuf) > 0 {
@@ -78,7 +78,7 @@ pub class Stream {
         take = string.len(self.readBuf);
       }
 
-      out = out + string.slice(self.readBuf, 0, take);
+      out.push(string.slice(string.view(self.readBuf), 0, take));
       left = left - take;
 
       if take < string.len(self.readBuf) {
@@ -94,11 +94,11 @@ pub class Stream {
       if got <= 0 {
         break;
       }
-      out = out + chunk;
+      out.push(string.view(chunk));
       left = left - got;
     }
 
-    return out;
+    return out.build();
   }
 
   pub fun sendAll(data: String) Int {
@@ -137,7 +137,7 @@ pub class Stream {
       return "";
     }
 
-    var out: String = "";
+    var out: string.TextBuf = new string.TextBuf();
     var used: Int = 0;
 
     while used < maxLen {
@@ -153,7 +153,7 @@ pub class Stream {
       var bufLen: Int = string.len(self.readBuf);
       while i < bufLen {
         var ch: Char = string.at(self.readBuf, i);
-        out = out + ch;
+        out.pushChar(ch);
         used = used + 1;
         if ch == delimiter || used >= maxLen {
           if i + 1 < bufLen {
@@ -161,7 +161,7 @@ pub class Stream {
           } else {
             self.readBuf = "";
           }
-          return out;
+          return out.build();
         }
         i = i + 1;
       }
@@ -169,7 +169,7 @@ pub class Stream {
       self.readBuf = "";
     }
 
-    return out;
+    return out.build();
   }
 
   pub fun recvLine(maxLen: Int) String {

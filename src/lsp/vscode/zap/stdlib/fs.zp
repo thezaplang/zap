@@ -187,16 +187,16 @@ pub fun writeLines(filePath: String, lines: collection.List<String>) Int {
     }
   }
 
-  var content: String = "";
+  var buf: string.TextBuf = new string.TextBuf();
   var n: Int = lines.len();
   var i: Int = 0;
   while i < n {
-    content = content + lines.at(i);
+    buf.push(string.view(lines.at(i)));
     if i + 1 < n {
-      content = content + "\n";
+      buf.push("\n");
     }
     i = i + 1;
   }
 
-  return writeFile(filePath, content);
+  return writeFile(filePath, buf.build());
 }

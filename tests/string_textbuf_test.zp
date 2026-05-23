@@ -1,0 +1,29 @@
+import "std/string";
+
+fun main() Int {
+  var b: string.TextBuf = new string.TextBuf();
+
+  if !b.isEmpty() {
+    return 1;
+  }
+
+  b.push("Hello");
+  b.pushChar(' ');
+  b.push("Zap");
+
+  if b.len() != 9 {
+    return 2;
+  }
+
+  var out: String = b.build();
+  if !string.eq(string.view(out), "Hello Zap") {
+    return 3;
+  }
+
+  b.clear();
+  if !b.isEmpty() {
+    return 4;
+  }
+
+  return 0;
+}

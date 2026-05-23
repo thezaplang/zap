@@ -27,3 +27,41 @@ pub fun view(s: String) StringView {
 pub fun owned(v: StringView) String {
   return v as String;
 }
+
+pub class TextBuf {
+  priv data: String;
+
+  fun init() {
+    self.data = "";
+  }
+
+  pub fun clear() {
+    self.data = "";
+  }
+
+  pub fun len() Int {
+    return stringLen(self.data);
+  }
+
+  pub fun isEmpty() Bool {
+    return self.len() == 0;
+  }
+
+  pub fun push(text: StringView) TextBuf {
+    self.data = self.data + owned(text);
+    return self;
+  }
+
+  pub fun pushChar(c: Char) TextBuf {
+    self.data = self.data + c;
+    return self;
+  }
+
+  pub fun build() String {
+    return self.data;
+  }
+
+  pub fun view() StringView {
+    return view(self.data);
+  }
+}
