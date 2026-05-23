@@ -1,12 +1,22 @@
 import "std/io";
 
 fun main() Int {
+    var label: String = "sum";
+
     if io.printf("sum=%d", 10) != 6 {
         return 1;
     }
 
     if io.printfln("sum=%d", 10) != 7 {
         return 2;
+    }
+
+    if io.printf("%s", label) != 3 {
+        return 3;
+    }
+
+    if io.printfln("%s", label) != 4 {
+        return 4;
     }
 
     return 0;
