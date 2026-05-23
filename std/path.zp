@@ -1,7 +1,56 @@
 import "std/string";
 
-pub ext fun parent(path: String) String;
-pub ext fun basename(path: String) String;
+pub fun parent(path: String) String {
+  var v: string.StringView = string.view(path);
+  var n: Int = string.len(v);
+  if n == 0 {
+    return ".";
+  }
+
+  var end: Int = n;
+  while end > 1 && string.at(v, end - 1) == '/' {
+    end = end - 1;
+  }
+
+  var slash: Int = end - 1;
+  while slash >= 0 && string.at(v, slash) != '/' {
+    slash = slash - 1;
+  }
+
+  if slash < 0 {
+    return ".";
+  }
+  if slash == 0 {
+    return "/";
+  }
+
+  return string.owned(string.slice(v, 0, slash));
+}
+
+pub fun basename(path: String) String {
+  var v: string.StringView = string.view(path);
+  var n: Int = string.len(v);
+  if n == 0 {
+    return ".";
+  }
+
+  var end: Int = n;
+  while end > 1 && string.at(v, end - 1) == '/' {
+    end = end - 1;
+  }
+
+  if end == 1 && string.at(v, 0) == '/' {
+    return "/";
+  }
+
+  var start: Int = end - 1;
+  while start >= 0 && string.at(v, start) != '/' {
+    start = start - 1;
+  }
+  start = start + 1;
+
+  return string.owned(string.slice(v, start, end - start));
+}
 
 pub fun join(a: String, b: String) String {
   if string.len(a) == 0 {

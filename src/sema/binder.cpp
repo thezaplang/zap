@@ -2532,9 +2532,6 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       bool isStdIoModule =
           module.info->moduleName == "io" &&
           module.info->sourceName.find("/std/io.zp") != std::string::npos;
-      bool isStdPathModule =
-          module.info->moduleName == "path" &&
-          module.info->sourceName.find("/std/path.zp") != std::string::npos;
       if (isStdFsModule && extDecl->name_ == "mkdir") {
         linkName = "zap_fs_mkdir";
       } else if (isStdFsModule && extDecl->name_ == "remove") {
@@ -2545,8 +2542,6 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         linkName = "zap_printf";
       } else if (isStdIoModule && extDecl->name_ == "printfln") {
         linkName = "zap_printfln";
-      } else if (isStdPathModule && extDecl->name_ == "basename") {
-        linkName = "zap_path_basename";
       }
 
       auto symbol = std::make_shared<FunctionSymbol>(

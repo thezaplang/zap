@@ -727,55 +727,6 @@ static zap_string_t zap_copy_string_range(const char *start, size_t len) {
   return (zap_string_t){.ptr = out, .len = (long)len};
 }
 
-zap_string_t parent(zap_string_t path) {
-  if (!path.ptr || path.len == 0) {
-    return (zap_string_t){.ptr = ".", .len = 1};
-  }
-
-  long end = path.len;
-  while (end > 1 && path.ptr[end - 1] == '/') {
-    --end;
-  }
-
-  long slash = end - 1;
-  while (slash >= 0 && path.ptr[slash] != '/') {
-    --slash;
-  }
-
-  if (slash < 0) {
-    return (zap_string_t){.ptr = ".", .len = 1};
-  }
-
-  if (slash == 0) {
-    return (zap_string_t){.ptr = "/", .len = 1};
-  }
-
-  return zap_copy_string_range(path.ptr, (size_t)slash);
-}
-
-zap_string_t zap_path_basename(zap_string_t path) {
-  if (!path.ptr || path.len == 0) {
-    return (zap_string_t){.ptr = ".", .len = 1};
-  }
-
-  long end = path.len;
-  while (end > 1 && path.ptr[end - 1] == '/') {
-    --end;
-  }
-
-  if (end == 1 && path.ptr[0] == '/') {
-    return (zap_string_t){.ptr = "/", .len = 1};
-  }
-
-  long start = end - 1;
-  while (start >= 0 && path.ptr[start] != '/') {
-    --start;
-  }
-  ++start;
-
-  return zap_copy_string_range(path.ptr + start, (size_t)(end - start));
-}
-
 double zapMathSqrt(double x) { return sqrt(x); }
 
 double zapMathFloor(double x) { return floor(x); }
