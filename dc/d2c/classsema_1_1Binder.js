@@ -2,7 +2,7 @@ var classsema_1_1Binder =
 [
     [ "ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
-    [ "Binder", "dc/d2c/classsema_1_1Binder.html#a41d63a0de523c8dfcbe39878db11b198", null ],
+    [ "Binder", "dc/d2c/classsema_1_1Binder.html#ab880f37a39fda84d0eefda8715fc61e2", null ],
     [ "applyImports", "dc/d2c/classsema_1_1Binder.html#ad3a73e9f896f9a3810d9ddb120abc07c", null ],
     [ "bind", "dc/d2c/classsema_1_1Binder.html#abc5b4a2693ba0038ae47e2b431bc9e6a", null ],
     [ "bind", "dc/d2c/classsema_1_1Binder.html#a76d9bd7742c313afadf5bef110d8ee7c", null ],
