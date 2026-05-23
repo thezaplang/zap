@@ -17,10 +17,22 @@ std::string sanitizeTypeName(const std::string &value);
 constexpr const char *kFailablePrefix = "__zap_failable_";
 
 bool isStringType(const std::shared_ptr<zir::Type> &type) {
-  return type &&
-         (type->getKind() == zir::TypeKind::Record ||
-          type->getKind() == zir::TypeKind::Class) &&
-         static_cast<zir::RecordType *>(type.get())->getName() == "String";
+  if (!type) {
+    return false;
+  }
+
+  std::string full;
+  if (type->getKind() == zir::TypeKind::Record) {
+    full = static_cast<zir::RecordType *>(type.get())->getName();
+  } else if (type->getKind() == zir::TypeKind::Class) {
+    full = static_cast<zir::ClassType *>(type.get())->getName();
+  } else {
+    return false;
+  }
+
+  auto dot = full.find_last_of('.');
+  auto base = dot == std::string::npos ? full : full.substr(dot + 1);
+  return base == "String" || base == "StringView";
 }
 
 bool isFailableType(const std::shared_ptr<zir::Type> &type) {
@@ -1709,6 +1721,12 @@ int Binder::conversionCost(std::shared_ptr<zir::Type> from,
   }
   if (!canConvert(from, to)) {
     return 1000;
+  }
+  if (isStringType(from) && isStringType(to)) {
+    const auto &name = static_cast<zir::RecordType *>(to.get())->getName();
+    auto dot = name.find_last_of('.');
+    auto base = dot == std::string::npos ? name : name.substr(dot + 1);
+    return base == "StringView" ? 0 : 1;
   }
 
   if (from->isFloatingPoint() && to->isFloatingPoint()) {
@@ -3476,7 +3494,8 @@ void Binder::visit(ConstFloat &node) {
 
 void Binder::visit(ConstString &node) {
   expressionStack_.push(std::make_unique<BoundLiteral>(
-      node.value_, std::make_shared<zir::RecordType>("String", "String")));
+      node.value_,
+      std::make_shared<zir::RecordType>("StringView", "StringView")));
 }
 
 void Binder::visit(ConstChar &node) {
@@ -3516,6 +3535,8 @@ void Binder::visit(CastExpr &node) {
            isPointerType(targetType))
     castAllowed = true;
   else if (isStringType(expr->type) && isPointerType(targetType))
+    castAllowed = true;
+  else if (isStringType(expr->type) && isStringType(targetType))
     castAllowed = true;
   else if (isPointerType(expr->type) && targetType->isInteger())
     castAllowed = true;
@@ -5553,6 +5574,8 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
     return true;
   if (isNullType(from) &&
       (isPointerType(to) || to->getKind() == zir::TypeKind::Class))
+    return true;
+  if (isStringType(from) && isStringType(to))
     return true;
   if (from->getKind() == zir::TypeKind::Class &&
       to->getKind() == zir::TypeKind::Class) {

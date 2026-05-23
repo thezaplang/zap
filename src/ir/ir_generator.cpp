@@ -811,8 +811,10 @@ void BoundIRGenerator::visit(sema::BoundEnumDeclaration &node) {
 void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
   auto isStringRecord = [](const std::shared_ptr<zir::Type> &type) {
     return type && type->getKind() == zir::TypeKind::Record &&
-           std::static_pointer_cast<zir::RecordType>(type)->getName() ==
-               "String";
+           (std::static_pointer_cast<zir::RecordType>(type)->getName() ==
+                "String" ||
+            std::static_pointer_cast<zir::RecordType>(type)->getName() ==
+                "StringView");
   };
 
   if (node.left->type->getKind() == zir::TypeKind::Enum) {
@@ -1412,7 +1414,8 @@ void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
   if (node.left->type->getKind() == zir::TypeKind::Record) {
     auto recordType =
         std::static_pointer_cast<zir::RecordType>(node.left->type);
-    if (recordType->getName() == "String") {
+    if (recordType->getName() == "String" ||
+        recordType->getName() == "StringView") {
       if (evaluateAsAddress_) {
         throw std::runtime_error("String index access is not assignable.");
       }

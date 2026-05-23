@@ -1,7 +1,12 @@
-pub ext fun len(s: String) Int;
-pub ext fun at(s: String, i: Int) Char;
-pub ext fun slice(s: String, start: Int, len: Int) String;
-pub ext fun eq(a: String, b: String) Bool;
+pub struct StringView {
+  ptr: *Char,
+  len: Int,
+}
+
+pub ext fun len(s: StringView) Int;
+pub ext fun at(s: StringView, i: Int) Char;
+pub ext fun slice(s: StringView, start: Int, len: Int) StringView;
+pub ext fun eq(a: StringView, b: StringView) Bool;
 
 pub fun stringLen(s: String) Int {
   return len(s);
@@ -13,4 +18,12 @@ pub fun fromChar(c: Char) String {
 
 pub fun pushChar(s: String, c: Char) String {
   return s + c;
+}
+
+pub fun view(s: String) StringView {
+  return s as StringView;
+}
+
+pub fun owned(v: StringView) String {
+  return v as String;
 }

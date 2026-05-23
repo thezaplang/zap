@@ -34,8 +34,36 @@ uint64_t parseIntegerLiteral(const std::string &literal) {
 }
 
 bool isStringType(const std::shared_ptr<zir::Type> &type) {
-  return type && type->getKind() == zir::TypeKind::Record &&
-         static_cast<zir::RecordType *>(type.get())->getName() == "String";
+  if (!type) {
+    return false;
+  }
+
+  std::string full;
+  if (type->getKind() == zir::TypeKind::Record) {
+    full = static_cast<zir::RecordType *>(type.get())->getName();
+  } else if (type->getKind() == zir::TypeKind::Class) {
+    full = static_cast<zir::ClassType *>(type.get())->getName();
+  } else {
+    return false;
+  }
+
+  auto dot = full.find_last_of('.');
+  auto base = dot == std::string::npos ? full : full.substr(dot + 1);
+  return base == "String" || base == "StringView";
+}
+
+bool isStringRecordName(const std::string &full) {
+  auto dot = full.find_last_of('.');
+  auto base = dot == std::string::npos ? full : full.substr(dot + 1);
+  return base == "String" || base == "StringView";
+}
+
+bool isStringLLVMStructType(llvm::Type *ty) {
+  auto *st = llvm::dyn_cast_or_null<llvm::StructType>(ty);
+  if (!st || !st->hasName()) {
+    return false;
+  }
+  return isStringRecordName(st->getName().str());
 }
 
 bool isVariadicViewType(const std::shared_ptr<zir::Type> &type) {
@@ -340,7 +368,7 @@ llvm::Type *LLVMCodeGen::toLLVMType(const zir::Type &ty) {
     if (it != structCache_.end())
       return it->second;
 
-    if (rt.getName() == "String") {
+    if (isStringRecordName(rt.getName())) {
       auto *structTy = llvm::StructType::create(ctx_, rt.getCodegenName());
       structCache_[rt.getCodegenName()] = structTy;
       std::vector<llvm::Type *> fieldTypes;
@@ -490,7 +518,7 @@ llvm::Constant *LLVMCodeGen::lowerZIRConstant(const zir::Constant &constant) {
   if (constant.getType()->getKind() == zir::TypeKind::Record) {
     const auto &rt =
         static_cast<const zir::RecordType &>(*constant.getType());
-    if (rt.getName() == "String") {
+    if (isStringRecordName(rt.getName())) {
       std::string gname;
       auto *ptrConst = getOrCreateGlobalString(constant.getLiteral(), gname);
       auto *lenConst = llvm::ConstantInt::get(
@@ -608,10 +636,26 @@ LLVMCodeGen::lowerZIRAggregateConstant(const zir::AggregateConstant &constant) {
     }
 
     if (fieldConst) {
-      auto *expectedFieldTy = toLLVMType(*recordFields[static_cast<size_t>(fieldIndex)].type);
+      auto *expectedFieldTy =
+          toLLVMType(*recordFields[static_cast<size_t>(fieldIndex)].type);
       if (fieldConst->getType() != expectedFieldTy) {
-        fieldConst = llvm::dyn_cast<llvm::Constant>(
-            llvm::ConstantExpr::getBitCast(fieldConst, expectedFieldTy));
+        auto sourceFieldType = fieldInit.value->getType();
+        auto targetFieldType =
+            recordFields[static_cast<size_t>(fieldIndex)].type;
+        if (isStringType(sourceFieldType) && isStringType(targetFieldType)) {
+          if (auto *srcStruct =
+                  llvm::dyn_cast<llvm::ConstantStruct>(fieldConst)) {
+            auto *ptr = srcStruct->getAggregateElement((unsigned)0);
+            auto *len = srcStruct->getAggregateElement((unsigned)1);
+            auto *dstStructTy = llvm::dyn_cast<llvm::StructType>(expectedFieldTy);
+            if (ptr && len && dstStructTy) {
+              fieldConst = llvm::ConstantStruct::get(dstStructTy, {ptr, len});
+            }
+          }
+        } else {
+          fieldConst = llvm::dyn_cast<llvm::Constant>(
+              llvm::ConstantExpr::getBitCast(fieldConst, expectedFieldTy));
+        }
       }
       elems[static_cast<size_t>(fieldIndex)] = fieldConst;
     }
@@ -689,6 +733,18 @@ llvm::Value *LLVMCodeGen::lowerZIRCast(
     const std::shared_ptr<zir::Type> &targetType) {
   auto *srcTy = src->getType();
   auto *destTy = toLLVMType(*targetType);
+
+  if (isStringType(sourceType) && isStringType(targetType)) {
+    if (srcTy == destTy) {
+      return src;
+    }
+    auto *ptr = builder_.CreateExtractValue(src, {0}, "zir.cast.str.ptr");
+    auto *len = builder_.CreateExtractValue(src, {1}, "zir.cast.str.len");
+    llvm::Value *result = llvm::UndefValue::get(destTy);
+    result = builder_.CreateInsertValue(result, ptr, {0}, "zir.cast.str.ptr.i");
+    result = builder_.CreateInsertValue(result, len, {1}, "zir.cast.str.len.i");
+    return result;
+  }
 
   if (isStringType(sourceType) && destTy->isPointerTy()) {
     auto *ptr = builder_.CreateExtractValue(src, {0}, "zir.cast.str.ptr");
@@ -1240,6 +1296,17 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
         paramTy = calleeTy->getParamType(static_cast<unsigned>(i));
       }
       if (paramTy && arg->getType() != paramTy) {
+        if (isStringLLVMStructType(arg->getType()) &&
+            isStringLLVMStructType(paramTy)) {
+          auto *ptr = builder_.CreateExtractValue(arg, {0}, "zir.call.str.ptr");
+          auto *len = builder_.CreateExtractValue(arg, {1}, "zir.call.str.len");
+          llvm::Value *converted = llvm::UndefValue::get(paramTy);
+          converted = builder_.CreateInsertValue(converted, ptr, {0},
+                                                 "zir.call.str.ptr.i");
+          converted = builder_.CreateInsertValue(converted, len, {1},
+                                                 "zir.call.str.len.i");
+          arg = converted;
+        }
         auto *argPtrTy = llvm::dyn_cast<llvm::PointerType>(arg->getType());
         if (argPtrTy && !paramTy->isPointerTy()) {
           arg = builder_.CreateLoad(paramTy, arg, "zir.call.arg");
@@ -2071,6 +2138,20 @@ void LLVMCodeGen::visit(sema::BoundCast &node) {
   auto *srcTy = src->getType();
   auto *destTy = toLLVMType(*node.type);
 
+  if (isStringType(node.expression->type) && isStringType(node.type)) {
+    if (srcTy == destTy) {
+      lastValue_ = src;
+      return;
+    }
+    auto *ptr = builder_.CreateExtractValue(src, {0}, "str.cast.ptr");
+    auto *len = builder_.CreateExtractValue(src, {1}, "str.cast.len");
+    llvm::Value *result = llvm::UndefValue::get(destTy);
+    result = builder_.CreateInsertValue(result, ptr, {0}, "str.cast.ptr.i");
+    result = builder_.CreateInsertValue(result, len, {1}, "str.cast.len.i");
+    lastValue_ = result;
+    return;
+  }
+
   if (isStringType(node.expression->type) && destTy->isPointerTy()) {
     auto *ptr = builder_.CreateExtractValue(src, {0}, "str.ptr");
     if (ptr->getType() == destTy) {
@@ -2177,7 +2258,7 @@ void LLVMCodeGen::visit(sema::BoundExpressionStatement &node) {
 void LLVMCodeGen::visit(sema::BoundLiteral &node) {
   if (node.type->getKind() == zir::TypeKind::Record) {
     const auto &rt = static_cast<const zir::RecordType &>(*node.type);
-    if (rt.getName() == "String") {
+    if (isStringRecordName(rt.getName())) {
       std::string gname;
       auto *ptrConst = getOrCreateGlobalString(node.value, gname);
       auto *lenConst =

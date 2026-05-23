@@ -387,6 +387,7 @@ run_runtime_test "tests/concat.zp" 0 "Concat literal strings"
 run_runtime_test "tests/concat_char.zp" 0 "Concat String and Char"
 run_runtime_test "tests/string_index_test.zp" 0 "String indexing"
 run_runtime_test "tests/string_stdlib_test.zp" 0 "String stdlib helpers"
+run_runtime_test "tests/string_view_stdlib_test.zp" 0 "StringView stdlib helpers"
 run_runtime_test "tests/std_convert_test.zp" 0 "Std conversions via overloaded functions"
 run_test "tests/string_index_assign_error.zp" 1 "String indexing is read-only"
 

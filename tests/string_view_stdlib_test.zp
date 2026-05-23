@@ -1,0 +1,33 @@
+import "std/string";
+
+fun main() Int {
+    var text: string.StringView = string.view("zaplang");
+
+    if string.len(text) != 7 {
+        return 1;
+    }
+
+    if string.at(text, 3) != 'l' {
+        return 2;
+    }
+
+    var mid: string.StringView = string.slice(text, 1, 3);
+    if string.len(mid) != 3 {
+        return 3;
+    }
+    if !string.eq(mid, string.view("apl")) {
+        return 4;
+    }
+
+    var ownedMid: String = string.owned(mid);
+    if !string.eq(ownedMid, "apl") {
+        return 5;
+    }
+
+    var v2: string.StringView = string.view("ok");
+    if !string.eq(v2, string.view("ok")) {
+        return 6;
+    }
+
+    return 0;
+}
