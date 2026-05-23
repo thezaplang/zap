@@ -54,13 +54,13 @@ fun main() Int {
 
     var i: Int = 0;
     while i < 49 {
-        grow.put("k" ~ convert.toString(i), i);
+        grow.put("k" + convert.toString(i), i);
         i = i + 1;
     }
     printfln("cap(49)=%d", grow.bucketCapacity());
 
     while i < 97 {
-        grow.put("k" ~ convert.toString(i), i);
+        grow.put("k" + convert.toString(i), i);
         i = i + 1;
     }
     printfln("cap(97)=%d", grow.bucketCapacity());

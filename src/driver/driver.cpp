@@ -28,6 +28,9 @@ std::unique_ptr<zir::Module> generateZIRModule(sema::BoundRootNode &node);
 bool compileObjectFromZIR(sema::BoundRootNode &node,
                           const std::string &output_path,
                           int optimization_level);
+bool compileAssemblyFromZIR(sema::BoundRootNode &node,
+                            const std::string &output_path,
+                            int optimization_level);
 namespace {
 
 bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
@@ -383,6 +386,15 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     }
 
     drv.objects.emplace_back(std::move(out_path));
+  } else if (drv.get_output_type() == driver::output_type::ASM) {
+    std::filesystem::path out_path =
+        drv.is_implicit_output() ? entryPath : drv.get_output();
+    out_path.replace_extension(
+        driver::format_fileextension(driver::output_type::ASM));
+    if (compileAssemblyFromZIR(*boundAst, out_path.string(),
+                               drv.optimization_level)) {
+      return true;
+    }
   } else if (drv.emits_text_output()) {
     std::filesystem::path out_path =
         drv.is_implicit_output() ? entryPath : drv.get_output();
@@ -751,6 +763,24 @@ bool compileObjectFromZIR(sema::BoundRootNode &node,
   return false;
 }
 
+bool compileAssemblyFromZIR(sema::BoundRootNode &node,
+                            const std::string &output_path,
+                            int optimization_level) {
+  auto mod = generateZIRModule(node);
+  if (!mod) {
+    driver::reportError("failed to generate ZIR");
+    return true;
+  }
+
+  codegen::LLVMCodeGen llvmGen;
+  llvmGen.generate(*mod);
+  if (!llvmGen.emitAssemblyFile(output_path, optimization_level)) {
+    driver::reportError("assembly file emission failed");
+    return true;
+  }
+  return false;
+}
+
 bool driver::compileSourceFile(const std::string &source,
                                const std::string &source_name) {
   zap::DiagnosticEngine diagnostics(source, source_name);
@@ -801,14 +831,21 @@ bool driver::compileSourceFile(const std::string &source,
     }
 
     objects.emplace_back(std::move(out_path));
+  } else if (out_type == output_type::ASM) {
+    std::filesystem::path out_path =
+        implicit_output ? std::filesystem::path(source_name) : output;
+    out_path.replace_extension(
+        driver::format_fileextension(driver::output_type::ASM));
+    if (compileAssemblyFromZIR(*boundAst, out_path.string(),
+                               optimization_level)) {
+      return true;
+    }
   } else if (emits_text_output()) {
     std::filesystem::path out_path =
         implicit_output ? std::filesystem::path(source_name) : output;
     if (emitRequestedTextOutputs(*this, *boundAst, out_path)) {
       return true;
     }
-  } else if (out_type == output_type::ASM) {
-    return true; // TODO: Implement assembly emission.
   } else {
     return true;
   }

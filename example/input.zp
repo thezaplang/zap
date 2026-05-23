@@ -4,5 +4,5 @@ fun main(){
     var name: String;
     println("what's your name:");
     name = getLn();
-    println("nice to meet you " ~ name);
+    println("nice to meet you " + name);
 }
