@@ -34,6 +34,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "lowerZIRRValue", "da/de9/classcodegen_1_1LLVMCodeGen.html#afaca4118cf5f3527b29c3e6f241d78a6", null ],
     [ "lowerZIRValue", "da/de9/classcodegen_1_1LLVMCodeGen.html#abdee2366b7331e75315ec3166d535859", null ],
     [ "printIR", "da/de9/classcodegen_1_1LLVMCodeGen.html#ac2ebe10d30c2e968fce18fa4618c5fe9", null ],
+    [ "toLLVMAggregateFieldType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a21cc657dd662391cf43c9ebe8fdd7ee0", null ],
     [ "toLLVMType", "da/de9/classcodegen_1_1LLVMCodeGen.html#ae3bb55455dffa72a700f6175eb2f942c", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#af59d6d6a1b35ecbad6efa1df4b7afb1a", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b", null ],
