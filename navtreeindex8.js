@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#acb4d18a4b872f8f6ea0dd7e61d870562":[1,0,1,2,7],
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#acb4d18a4b872f8f6ea0dd7e61d870562":[2,0,1,0,7],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2":[1,0,1,2,13],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2":[2,0,1,0,13],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ad46873ec53ec2bdf77d589bbd79dc25a":[1,0,1,2,8],
@@ -247,7 +249,5 @@ var NAVTREEINDEX8 =
 "da/d6b/classsema_1_1BoundFunctionReference.html":[2,0,2,16],
 "da/d6b/classsema_1_1BoundFunctionReference.html#a3a6ef26480742576ddf9e4c5faee43a2":[1,0,3,17,1],
 "da/d6b/classsema_1_1BoundFunctionReference.html#a3a6ef26480742576ddf9e4c5faee43a2":[2,0,2,16,1],
-"da/d6b/classsema_1_1BoundFunctionReference.html#a64a225b877b95fccd0ecacd68d0cdf50":[1,0,3,17,3],
-"da/d6b/classsema_1_1BoundFunctionReference.html#a64a225b877b95fccd0ecacd68d0cdf50":[2,0,2,16,3],
-"da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8":[1,0,3,17,0]
+"da/d6b/classsema_1_1BoundFunctionReference.html#a64a225b877b95fccd0ecacd68d0cdf50":[1,0,3,17,3]
 };

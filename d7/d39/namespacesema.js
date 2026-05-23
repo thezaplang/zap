@@ -3,6 +3,8 @@ var namespacesema =
     [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
       [ "blockAlwaysReturns", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ae18231f4457f1f238a576ef88ca3407a", null ],
       [ "collectOverloads", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a4a9fa0d08cfc6480388b295673336108", null ],
+      [ "deriveValueExpressionFromBlock", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ae0d270ed6e4e0470354e12fc63952784", null ],
+      [ "deriveValueExpressionFromIf", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#aa126ed3455adb4b66f62c6ce5e6453d0", null ],
       [ "extractQualifiedPath", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#ad1b399bc505845ab3aa9428f3c9d41cf", null ],
       [ "failableErrorType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a701d5e294e94cad568f0e34488f584de", null ],
       [ "failableValueType", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a02e3b345b7fcd1bfbc3ec9cb9921fffd", null ],
