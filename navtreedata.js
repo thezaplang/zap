@@ -84,12 +84,12 @@ var NAVTREEINDEX =
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2",
 "da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8",
 "da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b",
-"db/dfa/stdlib_8c.html#a5b1768275f42ee708cdc1a545df497b7",
-"dc/d2c/classsema_1_1Binder.html#a7635a388d118bbf7ff2dfad8ecad533b",
-"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html",
-"de/d56/classAstBuilder.html#aba2f4079de73ac6b54f597f9923fbd98",
-"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4",
-"functions_vars_p.html"
+"db/dfa/stdlib_8c.html#a60a1c6cb28e760af5270080e88f56134",
+"dc/d2c/classsema_1_1Binder.html#a76d9bd7742c313afadf5bef110d8ee7c",
+"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a0216e2b119b744f0cc68120138918493",
+"de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b",
+"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8",
+"functions_vars_r.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
