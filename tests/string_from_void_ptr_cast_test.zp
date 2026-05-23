@@ -1,0 +1,20 @@
+import "std/string";
+
+fun main() Int {
+  var raw: *Void = ("hello" as *Char) as *Void;
+  var s: String = raw as String;
+  if !(s == "hello") {
+    return 1;
+  }
+
+  var nullPtr: *Void = null;
+  var empty: String = nullPtr as String;
+  if string.len(empty) != 0 {
+    return 2;
+  }
+  if !(empty == "") {
+    return 3;
+  }
+
+  return 0;
+}

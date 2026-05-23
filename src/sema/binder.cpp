@@ -3543,6 +3543,12 @@ void Binder::visit(CastExpr &node) {
     castAllowed = true;
   else if (isStringType(expr->type) && isStringType(targetType))
     castAllowed = true;
+  else if (isPointerType(expr->type) && isStringType(targetType)) {
+    auto ptrType = std::static_pointer_cast<zir::PointerType>(expr->type);
+    auto baseKind = ptrType->getBaseType()->getKind();
+    castAllowed = baseKind == zir::TypeKind::Void ||
+                  baseKind == zir::TypeKind::Char;
+  }
   else if (isPointerType(expr->type) && targetType->isInteger())
     castAllowed = true;
   else if (expr->type->isInteger() && isPointerType(targetType))

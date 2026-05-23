@@ -279,6 +279,22 @@ static zap_string_t zap_string_from_owned(char *owned) {
   return (zap_string_t){.ptr = owned, .len = (long)strlen(owned)};
 }
 
+zap_string_t zap_string_from_cstr(const char *cstr) {
+  if (!cstr) {
+    return (zap_string_t){.ptr = "", .len = 0};
+  }
+  size_t len = strlen(cstr);
+  char *out = (char *)malloc(len + 1);
+  if (!out) {
+    return (zap_string_t){.ptr = NULL, .len = 0};
+  }
+  if (len > 0) {
+    memcpy(out, cstr, len);
+  }
+  out[len] = '\0';
+  return (zap_string_t){.ptr = out, .len = (long)len};
+}
+
 static zap_string_t zap_string_from_format(const char *format, ...) {
   va_list args;
   va_start(args, format);

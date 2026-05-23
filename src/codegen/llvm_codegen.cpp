@@ -750,6 +750,18 @@ llvm::Value *LLVMCodeGen::lowerZIRCast(
     auto *ptr = builder_.CreateExtractValue(src, {0}, "zir.cast.str.ptr");
     return ptr->getType() == destTy ? ptr : builder_.CreateBitCast(ptr, destTy);
   }
+  if (srcTy->isPointerTy() && isStringType(targetType)) {
+    auto *i8PtrTy =
+        llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
+    auto *cstrPtr = srcTy == i8PtrTy ? src : builder_.CreateBitCast(src, i8PtrTy);
+    std::vector<llvm::Type *> fromCStrParams = {i8PtrTy};
+    auto *fromCStrTy =
+        llvm::FunctionType::get(destTy, fromCStrParams, false);
+    auto fromCStrCallee =
+        module_->getOrInsertFunction("zap_string_from_cstr", fromCStrTy);
+    return builder_.CreateCall(fromCStrTy, fromCStrCallee.getCallee(), {cstrPtr},
+                               "zir.cast.cstr.to.string");
+  }
   if (srcTy == destTy) {
     return src;
   }
@@ -2171,6 +2183,20 @@ void LLVMCodeGen::visit(sema::BoundCast &node) {
     } else {
       lastValue_ = builder_.CreateBitCast(ptr, destTy);
     }
+    return;
+  }
+
+  if (srcTy->isPointerTy() && isStringType(node.type)) {
+    auto *i8PtrTy =
+        llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
+    auto *cstrPtr = srcTy == i8PtrTy ? src : builder_.CreateBitCast(src, i8PtrTy);
+    std::vector<llvm::Type *> fromCStrParams = {i8PtrTy};
+    auto *fromCStrTy =
+        llvm::FunctionType::get(destTy, fromCStrParams, false);
+    auto fromCStrCallee =
+        module_->getOrInsertFunction("zap_string_from_cstr", fromCStrTy);
+    lastValue_ = builder_.CreateCall(fromCStrTy, fromCStrCallee.getCallee(),
+                                     {cstrPtr}, "str.from.cstr");
     return;
   }
 
