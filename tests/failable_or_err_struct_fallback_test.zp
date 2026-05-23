@@ -1,0 +1,50 @@
+@error
+enum ParseError {
+  MissingField,
+  BadAmount,
+}
+
+struct Expense {
+  category: String,
+  amountCents: Int,
+}
+
+fun parseLine(line: String) Expense!ParseError {
+  if line == "missing" {
+    fail ParseError.MissingField;
+    return Expense { category: "", amountCents: 0 };
+  }
+  if line == "bad" {
+    fail ParseError.BadAmount;
+    return Expense { category: "", amountCents: 0 };
+  }
+  return Expense { category: "ok", amountCents: 1 };
+}
+
+fun main() Int {
+  var a: Expense = parseLine("missing") or err {
+    if err == ParseError.BadAmount {
+      Expense { category: "bad_amount", amountCents: 0 }
+    } else {
+      Expense { category: "missing_field", amountCents: 0 }
+    }
+  };
+
+  if a.category != "missing_field" {
+    return 1;
+  }
+
+  var b: Expense = parseLine("bad") or err {
+    if err == ParseError.BadAmount {
+      Expense { category: "bad_amount", amountCents: 0 }
+    } else {
+      Expense { category: "missing_field", amountCents: 0 }
+    }
+  };
+
+  if b.category != "bad_amount" {
+    return 2;
+  }
+
+  return 0;
+}

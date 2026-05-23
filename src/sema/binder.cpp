@@ -299,6 +299,60 @@ static bool stmtAlwaysReturns(const BoundStatement *stmt) {
            blockAlwaysReturns(ifStmt->elseBody.get());
   return false;
 }
+
+std::unique_ptr<BoundExpression>
+deriveValueExpressionFromBlock(const BoundBlock &block);
+
+std::unique_ptr<BoundExpression>
+deriveValueExpressionFromIf(const BoundIfStatement &stmt) {
+  if (!stmt.thenBody || !stmt.elseBody) {
+    return nullptr;
+  }
+
+  auto thenExpr = deriveValueExpressionFromBlock(*stmt.thenBody);
+  auto elseExpr = deriveValueExpressionFromBlock(*stmt.elseBody);
+  if (!thenExpr || !elseExpr || !thenExpr->type || !elseExpr->type) {
+    return nullptr;
+  }
+
+  if (thenExpr->type->toString() != elseExpr->type->toString()) {
+    return nullptr;
+  }
+  auto resultType = thenExpr->type;
+
+  return std::make_unique<BoundTernaryExpression>(
+      stmt.condition->clone(), std::move(thenExpr), std::move(elseExpr),
+      resultType);
+}
+
+std::unique_ptr<BoundExpression>
+deriveValueExpressionFromBlock(const BoundBlock &block) {
+  if (block.result && block.statements.empty()) {
+    return block.result->clone();
+  }
+
+  if (block.result) {
+    return nullptr;
+  }
+
+  if (block.statements.empty()) {
+    return nullptr;
+  }
+
+  const auto *tail = block.statements.back().get();
+
+  if (auto *exprStmt =
+          dynamic_cast<const BoundExpressionStatement *>(tail)) {
+    return exprStmt->expression ? exprStmt->expression->clone() : nullptr;
+  }
+
+  if (auto *ifStmt =
+          dynamic_cast<const BoundIfStatement *>(tail)) {
+    return deriveValueExpressionFromIf(*ifStmt);
+  }
+
+  return nullptr;
+}
 } // namespace
 
 Binder::Binder(zap::DiagnosticEngine &diag, bool allowUnsafe)
@@ -3669,6 +3723,10 @@ void Binder::visit(FailableHandleExpr &node) {
   auto handler = bindBody(node.handler_.get(), false);
   popScope();
 
+  if (handler && !handler->result) {
+    handler->result = deriveValueExpressionFromBlock(*handler);
+  }
+
   std::shared_ptr<zir::Type> handlerResultType = valueType;
   if (handler && handler->result) {
     if (!canConvert(handler->result->type, valueType)) {
@@ -3680,6 +3738,12 @@ void Binder::visit(FailableHandleExpr &node) {
     }
     handler->result = wrapInCast(std::move(handler->result), valueType);
     handlerResultType = valueType;
+  } else if (valueType && valueType->getKind() != zir::TypeKind::Void &&
+             (!handler || !blockAlwaysReturns(handler.get()))) {
+    error(node.span, "Handler block for 'or " + node.errorName_ +
+                         " { ... }' must produce a fallback value of type '" +
+                         renderTypeForUser(valueType) + "'.");
+    return;
   }
 
   expressionStack_.push(std::make_unique<BoundFailableHandleExpression>(
