@@ -54,6 +54,7 @@ var stdlib_8c =
     [ "zap_printf", "db/dfa/stdlib_8c.html#ae09780e4e405138117f821e664a247ba", null ],
     [ "zap_printfln", "db/dfa/stdlib_8c.html#ab75d0e1259678af5b21021b10635ca34", null ],
     [ "zap_stat_path", "db/dfa/stdlib_8c.html#a32842691873b173b0c656e21a37f3d17", null ],
+    [ "zap_string_from_cstr", "db/dfa/stdlib_8c.html#ada4d5a80e0939f0313eee122fed40c15", null ],
     [ "zap_string_from_format", "db/dfa/stdlib_8c.html#abdcbfff0437adaec3d008639148d067f", null ],
     [ "zap_string_from_owned", "db/dfa/stdlib_8c.html#a447ff7a765bfe2a2ed885d6e098dc403", null ],
     [ "zap_string_to_cstr", "db/dfa/stdlib_8c.html#ad22ad59a5e808b3d2827e1e2f9139dd9", null ],
