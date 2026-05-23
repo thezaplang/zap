@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8":[2,0,2,16,0],
+"da/d6b/classsema_1_1BoundFunctionReference.html#aec3268cf60c91bb7cd80e454eb7b5687":[1,0,3,17,2],
 "da/d6b/classsema_1_1BoundFunctionReference.html#aec3268cf60c91bb7cd80e454eb7b5687":[2,0,2,16,2],
 "da/d72/type_8hpp.html":[3,0,0,3,6],
 "da/d72/type_8hpp_source.html":[3,0,0,3,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "da/de9/classcodegen_1_1LLVMCodeGen.html#ab39729d13a7cc278128c190a4770ab71":[2,0,1,1,13],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#ab7a5f42c65db099916c644d81c0bb424":[1,0,1,3,91],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#ab7a5f42c65db099916c644d81c0bb424":[2,0,1,1,91],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b":[1,0,1,3,36],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b":[2,0,1,1,36],
-"da/de9/classcodegen_1_1LLVMCodeGen.html#ab93bd134a171d808f77eff1e327b184a":[1,0,1,3,84]
+"da/de9/classcodegen_1_1LLVMCodeGen.html#ab8c52cdb68317e7f2da81d2d2038e55b":[1,0,1,3,36]
 };

@@ -12,6 +12,8 @@ var namespacecodegen =
       [ "kWeakCountIndex", "dd/d65/namespacecodegen_1_1anonymous__namespace_02class__arc__emitter_8cpp_03.html#a004ba3def25ff1cca282449620819988", null ]
     ] ],
     [ "anonymous_namespace{llvm_codegen.cpp}", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html", [
+      [ "isStringLLVMStructType", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a62a7ff0a3d5b30d7058b991833126429", null ],
+      [ "isStringRecordName", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a12fd8eccc942fb96e9825f1e37390762", null ],
       [ "isStringType", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac", null ],
       [ "isVariadicViewType", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#acdaa0f68d652dee32c037ada65aeddb1", null ],
       [ "parseIntegerLiteral", "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a4a4a0b9545b7b947169091a94a0df575", null ]
