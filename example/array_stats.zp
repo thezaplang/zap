@@ -15,6 +15,6 @@ fun main() Int {
   var total: Int = sum(values);
 
   printInt(total);
-  println("items: " ~ string.fromChar('4'));
+  println("items: " + string.fromChar('4'));
   return 0;
 }

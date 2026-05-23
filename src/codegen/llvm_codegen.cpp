@@ -236,6 +236,63 @@ bool LLVMCodeGen::emitObjectFile(const std::string &path,
   return !is_broken;
 }
 
+bool LLVMCodeGen::emitAssemblyFile(const std::string &path,
+                                   int optimization_level) {
+  auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
+  llvm::Triple triple(targetTripleStr);
+  module_->setTargetTriple(triple);
+  std::string error;
+  const auto *target =
+      llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
+  if (!target) {
+    llvm::errs() << "Target lookup failed: " << error << "\n";
+    return false;
+  }
+
+  if (optimization_level < 0) {
+    optimization_level = 0;
+  } else if (optimization_level > 3) {
+    optimization_level = 3;
+  }
+
+  llvm::CodeGenOptLevel codegenOptLevel = llvm::CodeGenOptLevel::None;
+  if (optimization_level == 1) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Less;
+  } else if (optimization_level == 2) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Default;
+  } else if (optimization_level == 3) {
+    codegenOptLevel = llvm::CodeGenOptLevel::Aggressive;
+  }
+
+  llvm::TargetOptions opts;
+  auto *tm = target->createTargetMachine(triple, "generic", "", opts,
+                                         llvm::Reloc::PIC_, std::nullopt,
+                                         codegenOptLevel);
+  module_->setDataLayout(tm->createDataLayout());
+
+  std::error_code ec;
+  llvm::raw_fd_ostream dest(path, ec, llvm::sys::fs::OF_None);
+  if (ec) {
+    llvm::errs() << "Cannot open output file: " << ec.message() << "\n";
+    return false;
+  }
+
+  llvm::legacy::PassManager pm;
+  if (tm->addPassesToEmitFile(pm, dest, nullptr,
+                              llvm::CodeGenFileType::AssemblyFile)) {
+    llvm::errs() << "TargetMachine cannot emit assembly file\n";
+    return false;
+  }
+
+  bool is_broken = llvm::verifyModule(*module_, &llvm::errs());
+  if (!is_broken) {
+    pm.run(*module_);
+  }
+  dest.flush();
+  delete tm;
+  return !is_broken;
+}
+
 llvm::Type *LLVMCodeGen::toLLVMType(const zir::Type &ty) {
   switch (ty.getKind()) {
   case zir::TypeKind::Void:

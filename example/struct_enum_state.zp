@@ -9,12 +9,12 @@ struct Door {
 
 fun describe(door: Door) String {
   if door.state == DoorState.Open {
-    return door.label ~ ": open";
+    return door.label + ": open";
   }
   if door.state == DoorState.Locked {
-    return door.label ~ ": locked";
+    return door.label + ": locked";
   }
-  return door.label ~ ": closed";
+  return door.label + ": closed";
 }
 
 fun main() Int {

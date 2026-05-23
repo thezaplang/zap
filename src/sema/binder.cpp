@@ -324,6 +324,7 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
   unsafeDepth_ = 0;
   unsafeTypeContextDepth_ = 0;
   externTypeContextDepth_ = 0;
+  sawPrivacyError_ = false;
 
   initializeBuiltins();
 
@@ -339,21 +340,36 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
   for (auto &[_, module] : modules_) {
     predeclareModuleTypes(module);
   }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
+  }
 
   for (auto &[_, module] : modules_) {
     applyImports(module, true);
+  }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
   }
 
   for (auto &[_, module] : modules_) {
     predeclareModuleAliases(module);
   }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
+  }
 
   for (auto &[_, module] : modules_) {
     applyImports(module, true);
   }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
+  }
 
   for (auto &[_, module] : modules_) {
     ensureModuleValuesReady(module);
+  }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
   }
 
   for (auto &[_, module] : modules_) {
@@ -367,6 +383,9 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
         child->accept(*this);
       }
     }
+  }
+  if (hadError_ || _diag.hadErrors()) {
+    return nullptr;
   }
 
   for (auto &[_, module] : modules_) {
@@ -5439,7 +5458,8 @@ void Binder::visit(StructLiteralNode &node) {
     }
 
     if (!found) {
-      error(node.span, "Field '" + fieldInit.name + "' not found in struct '" +
+      error(fieldInit.value ? fieldInit.value->span : node.span,
+            "Field '" + fieldInit.name + "' not found in struct '" +
                            node.type_->qualifiedName() + "'");
     }
 
@@ -5455,9 +5475,15 @@ void Binder::visit(StructLiteralNode &node) {
       }
     }
     if (!initialized) {
-      error(node.span,
-            "Field '" + f.name + "' of struct '" + node.type_->qualifiedName() +
-                "' is not initialized.");
+      SourceSpan missingFieldSpan = node.span;
+      if (!node.fields_.empty() && node.fields_.front().value) {
+        missingFieldSpan = node.fields_.front().value->span;
+      } else if (node.type_) {
+        missingFieldSpan = node.type_->span;
+      }
+      error(missingFieldSpan, "Field '" + f.name + "' of struct '" +
+                                  node.type_->qualifiedName() +
+                                  "' is not initialized.");
     }
   }
 
@@ -5668,6 +5694,19 @@ Binder::wrapInCast(std::unique_ptr<BoundExpression> expr,
 }
 
 void Binder::error(SourceSpan span, const std::string &message) {
+  if (message.find(" is private.") != std::string::npos) {
+    sawPrivacyError_ = true;
+  }
+
+  if (sawPrivacyError_ &&
+      (message.find("Undefined identifier: ") != std::string::npos ||
+       message.find("Unknown type: ") != std::string::npos ||
+       message.find("Unknown return type in function ") != std::string::npos ||
+       message.find("Unknown generic type argument in type ") !=
+           std::string::npos)) {
+    return;
+  }
+
   hadError_ = true;
   _diag.report(span, zap::DiagnosticLevel::Error, message);
 }

@@ -81,3 +81,6 @@ src/lsp/vscode/zap/zap-0.0.1.vsix
 
 #tmps
 *.tmp
+
+# local exploratory workspace
+bugs/

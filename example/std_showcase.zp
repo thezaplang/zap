@@ -8,7 +8,7 @@ fun main() Int {
   var note: String = path.join(root, "note.txt");
 
   fs.mkdirAll(root);
-  fs.writeFile(note, "cwd: " ~ process.cwd());
+  fs.writeFile(note, "cwd: " + process.cwd());
 
   println(path.basename(note));
   println(path.parent(note));

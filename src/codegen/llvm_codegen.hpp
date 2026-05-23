@@ -26,6 +26,7 @@ public:
   void printIR(llvm::raw_ostream &) const;
 
   bool emitObjectFile(const std::string &path, int optimization_level = 0);
+  bool emitAssemblyFile(const std::string &path, int optimization_level = 0);
 
   void visit(sema::BoundRootNode &node) override;
   void visit(sema::BoundFunctionDeclaration &node) override;

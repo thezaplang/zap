@@ -154,6 +154,8 @@ fun read_first(ptr: *Int) Int {
 Notes:
 - Pointer types use `*Type` syntax.
 - Dereference (`*expr`) and address-of operations are unsafe features.
+- Cast syntax is `expr as Type` (for example `raw as *Int`).
+- C-style casts like `(*Int) raw` are not supported by the parser.
 - Unsafe usage is gated by compiler/runtime rules and context checks.
 
 ---

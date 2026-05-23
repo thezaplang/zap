@@ -241,6 +241,7 @@ private:
       bool isExternalDeclaration);
 
   bool hadError_ = false;
+  bool sawPrivacyError_ = false;
 };
 
 } // namespace sema
