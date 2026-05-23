@@ -478,6 +478,7 @@ run_runtime_test "tests/varargs_array_view_test.zp" 0 "Variadic array view (.len
 run_runtime_test "tests/varargs_forwarding_test.zp" 0 "Variadic forwarding"
 run_runtime_test "tests/class_constructor_inheritance_test.zp" 0 "Class constructor inheritance"
 run_runtime_test "tests/failable_flow_test.zp" 0 "Failable functions: fail, ?, or, and or err"
+run_runtime_test "tests/failable_or_err_struct_fallback_test.zp" 0 "Failable: or err supports struct fallback derived from handler if/else branches"
 run_runtime_test "tests/failable_generic_types_test.zp" 0 "Failable generic T!E supports arbitrary @error struct/class error types"
 run_runtime_test "tests/failable_non_int_success_test.zp" 0 "Failable: non-Int success type (String/struct) works with ?, or, and or err"
 run_test "tests/failable_error_class_compile_test.zp" 0 "Failable: @error class can be used as error type E in T!E"
