@@ -188,7 +188,7 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
 }
 
 struct LspFlags {
-  bool allowUnsafe = false;
+  bool allowUnsafe = true;
 };
 
 LspFlags readFlagsFromFile(const std::filesystem::path &path) {

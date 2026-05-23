@@ -186,7 +186,7 @@ private:
       driver::output_type::EXEC;  ///< Output type, default executable.
   bool implicit_output;           ///< Was the output implicit or explicit.
   bool inc_stdlib;                ///< Include the zap stdlib.o or not.
-  bool allow_unsafe = false;      ///< Allow unsafe language features.
+  bool allow_unsafe = true;       ///< Allow unsafe language features.
   bool emit_llvm_text = false;    ///< Emit textual LLVM IR.
   bool emit_zir_text = false;     ///< Emit textual ZIR.
   uint8_t optimization_level = 0; ///< Optimization level (0-3).

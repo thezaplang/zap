@@ -573,7 +573,9 @@ bool driver::parseArgs(int argc, char **argv) {
 
   implicit_output = !args.has(ArgTypes::Output);
   inc_stdlib = !args.has(ArgTypes::NoStdlib);
-  allow_unsafe = args.has(ArgTypes::AllowUnsafe);
+  // Unsafe features are enabled by default; keep the flag accepted for
+  // backwards compatibility.
+  allow_unsafe = true;
 
   bool emit_s = args.has(ArgTypes::CompileOnlyS);
   bool nolink = args.has(ArgTypes::CompileOnly);

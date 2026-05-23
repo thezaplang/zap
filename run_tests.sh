@@ -362,25 +362,25 @@ run_compile_args_test "tests/valid.zp" "/tmp/zap-valid.ll" "Emit LLVM IR for a v
 run_compile_args_test "tests/logical_ops.zp" "/tmp/zap-logical.ll" "Emit LLVM IR for logical operators" -S -emit-llvm
 run_compile_args_test "tests/function_call_test.zp" "/tmp/zap-calls.ll" "Emit LLVM IR for function calls" -S -emit-llvm
 run_compile_args_test "tests/struct_test.zp" "/tmp/zap-struct.ll" "Emit LLVM IR for struct member access" -S -emit-llvm
-run_runtime_compile_args_test "tests/unsafe_runtime_test.zp" 0 "Unsafe pointers" --allow-unsafe
-run_runtime_compile_args_test "tests/pointer_usage_scope_runtime_test.zp" 0 "Pointer usage outside unsafe scope" --allow-unsafe
-run_runtime_compile_args_test "tests/unsafe_heap_test.zp" 0 "Unsafe heap pointers" --allow-unsafe
-run_runtime_compile_args_test "tests/unsafe_void_ptr_test.zp" 0 "Unsafe void pointers" --allow-unsafe
-run_runtime_compile_args_test "tests/unsafe_struct_runtime_test.zp" 0 "Unsafe structs" --allow-unsafe
-run_runtime_compile_args_test "tests/unsafe_return_runtime_test.zp" 0 "Unsafe block early return" --allow-unsafe
-run_runtime_compile_args_test "tests/struct_pointer_field_test.zp" 0 "Struct pointer fields" --allow-unsafe
-run_runtime_compile_args_test "tests/ptr_deref_field_test.zp" 0 "Pointer dereference field access (*ptr).field" --allow-unsafe
-run_runtime_compile_args_test "tests/ptr_deref_nested_field_test.zp" 0 "Pointer dereference nested field access" --allow-unsafe
+run_runtime_test "tests/unsafe_runtime_test.zp" 0 "Unsafe pointers"
+run_runtime_test "tests/pointer_usage_scope_runtime_test.zp" 0 "Pointer usage outside unsafe scope"
+run_runtime_test "tests/unsafe_heap_test.zp" 0 "Unsafe heap pointers"
+run_runtime_test "tests/unsafe_void_ptr_test.zp" 0 "Unsafe void pointers"
+run_runtime_test "tests/unsafe_struct_runtime_test.zp" 0 "Unsafe structs"
+run_runtime_test "tests/unsafe_return_runtime_test.zp" 0 "Unsafe block early return"
+run_runtime_test "tests/struct_pointer_field_test.zp" 0 "Struct pointer fields"
+run_runtime_test "tests/ptr_deref_field_test.zp" 0 "Pointer dereference field access (*ptr).field"
+run_runtime_test "tests/ptr_deref_nested_field_test.zp" 0 "Pointer dereference nested field access"
 
 # Semantic errors (exit code 1)
 run_test "tests/ext_default_void_type_error.zp" 1 "External function without return type cannot be used as Int"
-run_test "tests/unsafe_requires_flag.zp" 1 "Unsafe blocks require --allow-unsafe"
-run_test_args "tests/unsafe_scope_error.zp" 1 "Unsafe-only operations are scoped to unsafe blocks" --allow-unsafe
-run_test_args "tests/unsafe_fun_call_scope_error.zp" 1 "Unsafe function calls are scoped" --allow-unsafe
-run_test_args "tests/class_unsafe_method_scope_error.zp" 1 "Unsafe class methods are scoped" --allow-unsafe
-run_test_args "tests/class_unsafe_static_method_scope_error.zp" 1 "Unsafe static class methods are scoped" --allow-unsafe
-run_test_args "tests/unsafe_struct_scope_error.zp" 1 "Unsafe struct usage is scoped" --allow-unsafe
-run_test_args "tests/class_pointer_field_private_error.zp" 1 "Private class pointer fields stay inaccessible" --allow-unsafe
+run_runtime_test "tests/unsafe_requires_flag.zp" 0 "Unsafe blocks compile without --allow-unsafe"
+run_test "tests/unsafe_scope_error.zp" 1 "Unsafe-only operations are scoped to unsafe blocks"
+run_test "tests/unsafe_fun_call_scope_error.zp" 1 "Unsafe function calls are scoped"
+run_test "tests/class_unsafe_method_scope_error.zp" 1 "Unsafe class methods are scoped"
+run_test "tests/class_unsafe_static_method_scope_error.zp" 1 "Unsafe static class methods are scoped"
+run_test "tests/unsafe_struct_scope_error.zp" 1 "Unsafe struct usage is scoped"
+run_test "tests/class_pointer_field_private_error.zp" 1 "Private class pointer fields stay inaccessible"
 
 # Concat tests
 run_runtime_test "tests/concat.zp" 0 "Concat literal strings"
@@ -438,10 +438,10 @@ run_runtime_test "tests/struct_array_test.zp" 0 "Arrays of structs"
 run_runtime_test "tests/struct_types_test.zp" 0 "Structs with diverse field types"
 run_runtime_test "tests/struct_default_init_test.zp" 0 "Struct literals default-initialize missing fields"
 run_runtime_test "tests/class_test.zp" 0 "Heap-only classes with methods and inheritance"
-run_runtime_compile_args_test "tests/class_pointer_field_test.zp" 0 "Class pointer fields" --allow-unsafe
-run_runtime_compile_args_test "tests/class_unsafe_method_test.zp" 0 "Unsafe class methods" --allow-unsafe
-run_runtime_compile_args_test "tests/class_unsafe_static_method_test.zp" 0 "Unsafe static class methods" --allow-unsafe
-run_runtime_compile_args_test "tests/class_unsafe_inheritance_test.zp" 0 "Unsafe class inheritance with pointer fields" --allow-unsafe
+run_runtime_test "tests/class_pointer_field_test.zp" 0 "Class pointer fields"
+run_runtime_test "tests/class_unsafe_method_test.zp" 0 "Unsafe class methods"
+run_runtime_test "tests/class_unsafe_static_method_test.zp" 0 "Unsafe static class methods"
+run_runtime_test "tests/class_unsafe_inheritance_test.zp" 0 "Unsafe class inheritance with pointer fields"
 run_runtime_test "tests/class_inheritance_test.zp" 0 "Class inheritance supports base-typed references"
 run_runtime_test "tests/class_polymorphism_test.zp" 0 "Class polymorphism dispatches derived overrides through base type"
 run_runtime_test "tests/class_arc_test.zp" 0 "ARC releases classes, fields, and value params"
@@ -499,10 +499,10 @@ run_test "tests/generic_struct_error.zp" 1 "Generic type diagnostics"
 run_runtime_test "tests/generic_class_test.zp" 0 "Generic classes"
 run_runtime_test "tests/generic_class_inheritance_test.zp" 0 "Generic class inheritance"
 run_test "tests/generic_class_error.zp" 1 "Generic class diagnostics"
-run_runtime_compile_args_test "tests/ext_c_varargs_test.zp" 0 "ext C varargs" --allow-unsafe
-run_runtime_compile_args_test "tests/ext_var_test.zp" 0 "ext var (external global variable)" --allow-unsafe
+run_runtime_test "tests/ext_c_varargs_test.zp" 0 "ext C varargs"
+run_runtime_test "tests/ext_var_test.zp" 0 "ext var (external global variable)"
 run_runtime_test "tests/fun_ptr_test.zp" 0 "Function pointer types (*fun(T) R) and indirect calls"
-run_runtime_compile_args_test "tests/ffi_integration_test.zp" 0 "FFI integration: qsort, @repr(C), ext var, ref return assignment" --allow-unsafe
+run_runtime_test "tests/ffi_integration_test.zp" 0 "FFI integration: qsort, @repr(C), ext var, ref return assignment"
 run_runtime_test "tests/ref_return_test.zp" 0 "Ref return type (fun() ref T)"
 run_runtime_test "tests/std_io_printf_test.zp" 0 "std/io printf wrappers"
 run_runtime_test "tests/list_std_test.zp" 0 "std/collection List"

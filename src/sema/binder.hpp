@@ -17,7 +17,7 @@ namespace sema {
 
 class Binder : public Visitor {
 public:
-  Binder(zap::DiagnosticEngine &diag, bool allowUnsafe = false);
+  Binder(zap::DiagnosticEngine &diag, bool allowUnsafe = true);
   std::unique_ptr<BoundRootNode> bind(RootNode &root);
   std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo> &modules);
 
@@ -81,7 +81,7 @@ private:
   int unsafeDepth_ = 0;
   int unsafeTypeContextDepth_ = 0;
   int externTypeContextDepth_ = 0;
-  bool allowUnsafe_ = false;
+  bool allowUnsafe_ = true;
 
   void pushScope();
   void popScope();
