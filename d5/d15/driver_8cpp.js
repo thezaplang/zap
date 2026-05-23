@@ -10,6 +10,7 @@ var driver_8cpp =
     [ "zap::ArgTypes", "d7/d1a/namespacezap.html#a501051f546a292d96ac4a7d27b0c9da4", [
       [ "zap::ArgTypes::ZAP_FLAG", "d7/d1a/namespacezap.html#a501051f546a292d96ac4a7d27b0c9da4a2b9b11318389042607f23e6900df34d3", null ]
     ] ],
+    [ "zap::compileAssemblyFromZIR", "d7/d1a/namespacezap.html#acf7f30878e001c3556d5b9c80bb25d8b", null ],
     [ "zap::compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
     [ "zap::compileObjectFromZIR", "d7/d1a/namespacezap.html#aa45f8059fbd9d638fea35ed88ebb1e31", null ],
     [ "zap::compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9", null ],

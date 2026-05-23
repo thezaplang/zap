@@ -130,6 +130,7 @@ var classsema_1_1Binder =
     [ "loopDepth_", "dc/d2c/classsema_1_1Binder.html#acbc88bac62b2734181fc19e13274dd08", null ],
     [ "modules_", "dc/d2c/classsema_1_1Binder.html#ae7a58bd4b321e7ced17d0797e7beed46", null ],
     [ "recordTypeDeclarationNodes_", "dc/d2c/classsema_1_1Binder.html#a97cd50b88390b372dc050e3a844a3aa9", null ],
+    [ "sawPrivacyError_", "dc/d2c/classsema_1_1Binder.html#a3d1ae1a88e4bea8a747045c21571c33b", null ],
     [ "statementStack_", "dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f", null ],
     [ "structTypeDeclarationNodes_", "dc/d2c/classsema_1_1Binder.html#a9bef916dda9cf9685bbab328412128e0", null ],
     [ "syntheticLoopCounter_", "dc/d2c/classsema_1_1Binder.html#ab57b88d05dce44e81b9fe9f9f6f0f105", null ],

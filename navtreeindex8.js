@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2":[1,0,1,2,13],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#accf1237a8d8f5985f87cef40ca6cdfd2":[2,0,1,0,13],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ad46873ec53ec2bdf77d589bbd79dc25a":[1,0,1,2,8],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ad46873ec53ec2bdf77d589bbd79dc25a":[2,0,1,0,8],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "da/d6b/classsema_1_1BoundFunctionReference.html#a64a225b877b95fccd0ecacd68d0cdf50":[2,0,2,16,3],
 "da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8":[1,0,3,17,0],
 "da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8":[2,0,2,16,0],
-"da/d6b/classsema_1_1BoundFunctionReference.html#aec3268cf60c91bb7cd80e454eb7b5687":[1,0,3,17,2],
-"da/d6b/classsema_1_1BoundFunctionReference.html#aec3268cf60c91bb7cd80e454eb7b5687":[2,0,2,16,2]
+"da/d6b/classsema_1_1BoundFunctionReference.html#aec3268cf60c91bb7cd80e454eb7b5687":[1,0,3,17,2]
 };

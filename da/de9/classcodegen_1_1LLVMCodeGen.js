@@ -6,6 +6,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "buildFunctionType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a6dbe37ad4efc6ebc161a27f371ba5cdf", null ],
     [ "createEntryAlloca", "da/de9/classcodegen_1_1LLVMCodeGen.html#a053e04a5dd91f4f9bbcaf0b7865137fa", null ],
     [ "declareZIRFunction", "da/de9/classcodegen_1_1LLVMCodeGen.html#af939182010e63530f31e66438d17fa2a", null ],
+    [ "emitAssemblyFile", "da/de9/classcodegen_1_1LLVMCodeGen.html#af29dd76d3395ee64588ba4c766a6d4eb", null ],
     [ "emitObjectFile", "da/de9/classcodegen_1_1LLVMCodeGen.html#a9a6c1df35715649406d05d211f339e20", null ],
     [ "emitReleaseIfNeeded", "da/de9/classcodegen_1_1LLVMCodeGen.html#aebf83b6ac7cd50f6cefc0fe10b85242e", null ],
     [ "emitReleaseWeakIfNeeded", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0ff2a208b229f24f1ef3a88ae9e50302", null ],

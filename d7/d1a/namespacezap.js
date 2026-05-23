@@ -82,6 +82,7 @@ var namespacezap =
       [ "Warning", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
       [ "Error", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd", null ]
     ] ],
+    [ "compileAssemblyFromZIR", "d7/d1a/namespacezap.html#acf7f30878e001c3556d5b9c80bb25d8b", null ],
     [ "compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
     [ "compileObjectFromZIR", "d7/d1a/namespacezap.html#aa45f8059fbd9d638fea35ed88ebb1e31", null ],
     [ "compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9", null ],

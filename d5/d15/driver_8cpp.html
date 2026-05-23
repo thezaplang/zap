@@ -117,6 +117,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a59eaa38dc4c00c6b9ffe0e78eec3f3c9" id="r_a59eaa38dc4c00c6b9ffe0e78eec3f3c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9">zap::compileSourceLLVMFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
 <tr class="memitem:ac3b3cc5f8cb33ef1c1ae96b60e68125e" id="r_ac3b3cc5f8cb33ef1c1ae96b60e68125e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/d68/classzir_1_1Module.html">zir::Module</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#ac3b3cc5f8cb33ef1c1ae96b60e68125e">zap::generateZIRModule</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node)</td></tr>
 <tr class="memitem:aa45f8059fbd9d638fea35ed88ebb1e31" id="r_aa45f8059fbd9d638fea35ed88ebb1e31"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#aa45f8059fbd9d638fea35ed88ebb1e31">zap::compileObjectFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, const std::string &amp;output_path, int optimization_level)</td></tr>
+<tr class="memitem:acf7f30878e001c3556d5b9c80bb25d8b" id="r_acf7f30878e001c3556d5b9c80bb25d8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html#acf7f30878e001c3556d5b9c80bb25d8b">zap::compileAssemblyFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, const std::string &amp;output_path, int optimization_level)</td></tr>
 <tr class="memitem:acfb14e0533098d3b50db6c54a7b5cfb3" id="r_acfb14e0533098d3b50db6c54a7b5cfb3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3">zap::anonymous_namespace{driver.cpp}::emitRequestedTextOutputs</a> (<a class="el" href="../../d9/d00/classzap_1_1driver.html">driver</a> &amp;drv, <a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, const std::filesystem::path &amp;base_output_path)</td></tr>
 <tr class="memitem:a1b46bdefb6c665374ef9f52c428c8df1" id="r_a1b46bdefb6c665374ef9f52c428c8df1"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1b46bdefb6c665374ef9f52c428c8df1">zap::anonymous_namespace{driver.cpp}::currentExecutablePath</a> (const std::filesystem::path &amp;argv0Hint)</td></tr>
 <tr class="memitem:a240275382280d14435c28bf270732618" id="r_a240275382280d14435c28bf270732618"><td class="memItemLeft" align="right" valign="top">std::filesystem::path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a240275382280d14435c28bf270732618">zap::anonymous_namespace{driver.cpp}::stdlibRootPath</a> (const std::filesystem::path &amp;argv0Hint)</td></tr>
@@ -183,7 +184,7 @@ Variables</h2></td></tr>
 <div class="line">    }                                                                          \</div>
 <div class="line">  }</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00414">414</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00426">426</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
 </div>
 </div>
@@ -222,7 +223,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  {STR, ArgConf(ArgConf::ArgKind::KIND, ArgTypes::ID)},</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00414">414</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00426">426</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
 </div>
 </div>
@@ -261,7 +262,7 @@ Variables</h2></td></tr>
 <div class="line">    out().indent(18 - ((<span class="keyword">sizeof</span>(STR) - 1) + 2)) &lt;&lt; MSG <span class="stringliteral">&quot;\n&quot;</span>;                    \</div>
 <div class="line">  }</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00414">414</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00426">426</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
 </div>
 </div>
@@ -286,7 +287,7 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_enumvalue" href="../../d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a001479a58fb44c39a29b20d565081a68">ID</a>,</div>
 <div class="ttc" id="atoken_8hpp_html_aa520fbf142ba1e7e659590c07da31921a001479a58fb44c39a29b20d565081a68"><div class="ttname"><a href="../../d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a001479a58fb44c39a29b20d565081a68">ID</a></div><div class="ttdeci">@ ID</div><div class="ttdoc">Identifier.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00057">token.hpp:57</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00414">414</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00426">426</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
 </div>
 </div>
