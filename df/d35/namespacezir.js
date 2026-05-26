@@ -1,5 +1,8 @@
 var namespacezir =
 [
+    [ "anonymous_namespace{ir_generator.cpp}", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html", [
+      [ "renderTypeForUser", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html#ad93ddfa64e7e1896d384a501109ee575", null ]
+    ] ],
     [ "BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", "d7/d6e/classzir_1_1BasicBlock" ],
     [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
     [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
