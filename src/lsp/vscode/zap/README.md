@@ -11,7 +11,7 @@ Syntax highlighting and LSP support for Zap.
 
 The packaged `.vsix` bundles `zap-lsp`.
 
-The packaged extension ships with a bundled `stdlib/` and uses it by default for imports like `std/io`.
+The packaged extension ships with a bundled `stdlib/` (staged from the repo root `std/` during packaging) and uses it by default for imports like `std/io`.
 
 You usually do not need to set `zap-lsp.stdlibPath` unless you want to override the bundled stdlib with your own.
 

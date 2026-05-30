@@ -81,6 +81,104 @@ pub fun owned(v: StringView) String {
   return zap_string_from_ptrlen(v.ptr, v.len);
 }
 
+fun isSpace(c: Char) Bool {
+  return c == ' ' || c == '\n' || c == '\r' || c == '\t';
+}
+
+pub fun startsWith(s: StringView, prefix: StringView) Bool {
+  var n: Int = len(s);
+  var m: Int = len(prefix);
+  if m > n {
+    return false;
+  }
+  var i: Int = 0;
+  while i < m {
+    if at(s, i) != at(prefix, i) {
+      return false;
+    }
+    i = i + 1;
+  }
+  return true;
+}
+
+pub fun indexOf(s: StringView, needle: StringView) Int {
+  var n: Int = len(s);
+  var m: Int = len(needle);
+  if m == 0 {
+    return 0;
+  }
+  if m > n {
+    return -1;
+  }
+
+  var i: Int = 0;
+  while i <= n - m {
+    var j: Int = 0;
+    var matched: Bool = true;
+    while j < m {
+      if at(s, i + j) != at(needle, j) {
+        matched = false;
+        j = m;
+      }
+      j = j + 1;
+    }
+    if matched {
+      return i;
+    }
+    i = i + 1;
+  }
+
+  return -1;
+}
+
+pub fun trim(s: StringView) String {
+  var n: Int = len(s);
+  if n == 0 {
+    return "";
+  }
+
+  var left: Int = 0;
+  while left < n && isSpace(at(s, left)) {
+    left = left + 1;
+  }
+  if left == n {
+    return "";
+  }
+
+  var right: Int = n - 1;
+  while right >= left && isSpace(at(s, right)) {
+    right = right - 1;
+  }
+
+  return owned(slice(s, left, right - left + 1));
+}
+
+pub struct SplitPair {
+  left: String,
+  right: String,
+  found: Bool,
+}
+
+pub fun splitOnce(s: StringView, delim: Char) SplitPair {
+  var n: Int = len(s);
+  var i: Int = 0;
+  while i < n {
+    if at(s, i) == delim {
+      return SplitPair{
+        left: owned(slice(s, 0, i)),
+        right: owned(slice(s, i + 1, n - (i + 1))),
+        found: true,
+      };
+    }
+    i = i + 1;
+  }
+  return SplitPair{
+    left: owned(s),
+    right: "",
+    found: false,
+  };
+}
+
 pub class TextBuf {
   priv data: String;
 

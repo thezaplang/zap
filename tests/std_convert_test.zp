@@ -1,4 +1,4 @@
-import "std/convert" { toString, toInt, toFloat, toFloat64, toBool, toChar };
+import "std/convert" { toString, toInt, toFloat, toFloat64, toBool, toChar, parseInt, parseIntOr, ParseIntError };
 import "std/string" { eq };
 
 fun main() Int {
@@ -41,6 +41,34 @@ fun main() Int {
 
     if toChar(66) != 'B' {
         return 12;
+    }
+
+    var parsed1: Int = parseInt("42") or 0;
+    if parsed1 != 42 {
+        return 13;
+    }
+    var parsed2: Int = parseInt("   -19  ") or 0;
+    if parsed2 != -19 {
+        return 14;
+    }
+    if parseIntOr("abc", 77) != 77 {
+        return 15;
+    }
+
+    var bad: Int = parseInt("12x") or -1;
+    if bad != -1 {
+        return 16;
+    }
+
+    var emptyErr: Int = parseInt("   ") or err {
+        if err == ParseIntError.Empty {
+            1
+        } else {
+            0
+        }
+    };
+    if emptyErr != 1 {
+        return 17;
     }
 
     return 0;

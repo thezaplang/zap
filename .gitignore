@@ -84,3 +84,4 @@ src/lsp/vscode/zap/zap-0.0.1.vsix
 
 # local exploratory workspace
 bugs/
+playground/

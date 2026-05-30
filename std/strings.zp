@@ -1,0 +1,72 @@
+import "std/string" as string;
+import "std/collection";
+
+pub fun split(s: string.StringView, delim: Char) collection.List<String> {
+  var out: collection.List<String> = new collection.List<String>();
+  var n: Int = string.len(s);
+  var start: Int = 0;
+  var i: Int = 0;
+
+  while i < n {
+    if string.at(s, i) == delim {
+      out.push(string.owned(string.slice(s, start, i - start)));
+      start = i + 1;
+    }
+    i = i + 1;
+  }
+
+  out.push(string.owned(string.slice(s, start, n - start)));
+  return out;
+}
+
+pub fun splitN(s: string.StringView, delim: Char, limit: Int) collection.List<String> {
+  if limit <= 0 {
+    return split(s, delim);
+  }
+
+  var out: collection.List<String> = new collection.List<String>();
+  var n: Int = string.len(s);
+  var start: Int = 0;
+  var i: Int = 0;
+  var cuts: Int = 0;
+
+  while i < n {
+    if string.at(s, i) == delim && cuts + 1 < limit {
+      out.push(string.owned(string.slice(s, start, i - start)));
+      start = i + 1;
+      cuts = cuts + 1;
+    }
+    i = i + 1;
+  }
+
+  out.push(string.owned(string.slice(s, start, n - start)));
+  return out;
+}
+
+pub fun join(parts: collection.List<String>, delim: String) String {
+  var out: string.TextBuf = new string.TextBuf();
+  var i: Int = 0;
+  var n: Int = parts.len();
+  while i < n {
+    out.push(parts.at(i));
+    if i + 1 < n {
+      out.push(delim);
+    }
+    i = i + 1;
+  }
+  return out.build();
+}
+
+pub fun splitTrimmed(s: string.StringView, delim: Char) collection.List<String> {
+  var raw: collection.List<String> = split(s, delim);
+  var out: collection.List<String> = new collection.List<String>();
+
+  var i: Int = 0;
+  var n: Int = raw.len();
+  while i < n {
+    out.push(string.trim(raw.at(i)));
+    i = i + 1;
+  }
+
+  return out;
+}

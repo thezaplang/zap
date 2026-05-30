@@ -1,0 +1,36 @@
+import "std/strings";
+import "std/string";
+import "std/collection";
+
+fun main() Int {
+  var a: collection.List<String> = strings.split("a,b,,c", ',');
+  if a.len() != 4 { return 1; }
+  if !string.eq(a.at(0), "a") { return 2; }
+  if !string.eq(a.at(1), "b") { return 3; }
+  if !string.eq(a.at(2), "") { return 4; }
+  if !string.eq(a.at(3), "c") { return 5; }
+
+  var b: collection.List<String> = strings.splitTrimmed("  x | y|  z  ", '|');
+  if b.len() != 3 { return 6; }
+  if !string.eq(b.at(0), "x") { return 7; }
+  if !string.eq(b.at(1), "y") { return 8; }
+  if !string.eq(b.at(2), "z") { return 9; }
+
+  var c: collection.List<String> = strings.split("", ',');
+  if c.len() != 1 { return 10; }
+  if !string.eq(c.at(0), "") { return 11; }
+
+  var d: collection.List<String> = strings.splitN("a,b,c,d", ',', 2);
+  if d.len() != 2 { return 12; }
+  if !string.eq(d.at(0), "a") { return 13; }
+  if !string.eq(d.at(1), "b,c,d") { return 14; }
+
+  var e: collection.List<String> = strings.splitN("a,b,c,d", ',', 1);
+  if e.len() != 1 { return 15; }
+  if !string.eq(e.at(0), "a,b,c,d") { return 16; }
+
+  if !string.eq(strings.join(a, "|"), "a|b||c") { return 17; }
+  if !string.eq(strings.join(c, ","), "") { return 18; }
+
+  return 0;
+}

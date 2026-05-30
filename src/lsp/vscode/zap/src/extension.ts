@@ -10,10 +10,20 @@ import {
 
 let client: LanguageClient | undefined;
 
+function isValidStdlibDir(candidate: string): boolean {
+    const prelude = path.join(candidate, "prelude.zp");
+    return (
+        fs.existsSync(candidate) &&
+        fs.statSync(candidate).isDirectory() &&
+        fs.existsSync(prelude) &&
+        fs.statSync(prelude).isFile()
+    );
+}
+
 function detectWorkspaceStdlibPath(): string {
     for (const folder of workspace.workspaceFolders || []) {
         const candidate = path.join(folder.uri.fsPath, "std");
-        if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+        if (isValidStdlibDir(candidate)) {
             return fs.realpathSync(candidate);
         }
     }
@@ -22,7 +32,7 @@ function detectWorkspaceStdlibPath(): string {
 
 function detectBundledStdlibPath(context: ExtensionContext): string {
     const candidate = context.asAbsolutePath("stdlib");
-    if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+    if (isValidStdlibDir(candidate)) {
         return fs.realpathSync(candidate);
     }
     return "";
@@ -36,10 +46,7 @@ function resolveStdlibPath(context: ExtensionContext): string {
     if (configuredStdlibPath) {
         try {
             const resolved = fs.realpathSync(configuredStdlibPath);
-            if (
-                fs.existsSync(resolved) &&
-                fs.statSync(resolved).isDirectory()
-            ) {
+            if (isValidStdlibDir(resolved)) {
                 return resolved;
             }
         } catch {

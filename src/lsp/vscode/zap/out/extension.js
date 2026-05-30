@@ -16,10 +16,17 @@ const path = require("path");
 const vscode_1 = require("vscode");
 const node_1 = require("vscode-languageclient/node");
 let client;
+function isValidStdlibDir(candidate) {
+    const prelude = path.join(candidate, "prelude.zp");
+    return (fs.existsSync(candidate) &&
+        fs.statSync(candidate).isDirectory() &&
+        fs.existsSync(prelude) &&
+        fs.statSync(prelude).isFile());
+}
 function detectWorkspaceStdlibPath() {
     for (const folder of vscode_1.workspace.workspaceFolders || []) {
         const candidate = path.join(folder.uri.fsPath, "std");
-        if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+        if (isValidStdlibDir(candidate)) {
             return fs.realpathSync(candidate);
         }
     }
@@ -27,7 +34,7 @@ function detectWorkspaceStdlibPath() {
 }
 function detectBundledStdlibPath(context) {
     const candidate = context.asAbsolutePath("stdlib");
-    if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+    if (isValidStdlibDir(candidate)) {
         return fs.realpathSync(candidate);
     }
     return "";
@@ -38,8 +45,7 @@ function resolveStdlibPath(context) {
     if (configuredStdlibPath) {
         try {
             const resolved = fs.realpathSync(configuredStdlibPath);
-            if (fs.existsSync(resolved) &&
-                fs.statSync(resolved).isDirectory()) {
+            if (isValidStdlibDir(resolved)) {
                 return resolved;
             }
         }

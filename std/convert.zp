@@ -6,6 +6,12 @@ ext fun zap_to_string_f64(x: Float64) String;
 ext fun zap_to_int_from_char(x: Char) Int;
 ext fun zap_to_char_from_int(x: Int) Char;
 
+@error
+pub enum ParseIntError {
+  Empty,
+  InvalidDigit,
+}
+
 pub fun toString(x: String) String {
   return x;
 }
@@ -110,4 +116,44 @@ pub fun toChar(x: Char) Char {
 }
 pub fun toChar(x: Int) Char {
   return zap_to_char_from_int(x);
+}
+
+pub fun parseInt(raw: String) Int!ParseIntError {
+  var s: String = string.trim(raw);
+  var n: Int = string.len(s);
+  if n == 0 {
+    fail ParseIntError.Empty;
+    return 0;
+  }
+
+  var sign: Int = 1;
+  var i: Int = 0;
+  if string.at(s, 0) == '-' {
+    sign = -1;
+    i = 1;
+  } else if string.at(s, 0) == '+' {
+    i = 1;
+  }
+
+  if i >= n {
+    fail ParseIntError.InvalidDigit;
+    return 0;
+  }
+
+  var out: Int = 0;
+  while i < n {
+    var c: Char = string.at(s, i);
+    if c < '0' || c > '9' {
+      fail ParseIntError.InvalidDigit;
+      return 0;
+    }
+    out = out * 10 + (toInt(c) - toInt('0'));
+    i = i + 1;
+  }
+
+  return out * sign;
+}
+
+pub fun parseIntOr(raw: String, fallback: Int) Int {
+  return parseInt(raw) or fallback;
 }

@@ -1,4 +1,0 @@
-pub ext fun malloc(size: Int) *Void;
-pub ext fun calloc(count: Int, size: Int) *Void;
-pub ext fun realloc(ptr: *Void, size: Int) *Void;
-pub ext fun free(ptr: *Void) Void;

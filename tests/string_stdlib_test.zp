@@ -43,5 +43,43 @@ fun main() Int {
         return 11;
     }
 
+    if string.indexOf("hello world", "world") != 6 {
+        return 12;
+    }
+    if string.indexOf("hello", "x") != -1 {
+        return 13;
+    }
+
+    if !string.startsWith("zaplang", "zap") {
+        return 14;
+    }
+    if string.startsWith("zaplang", "lang") {
+        return 15;
+    }
+
+    var trimmed: String = string.trim(" \t\nzap  \r");
+    if !string.eq(trimmed, "zap") {
+        return 16;
+    }
+
+    var p1: string.SplitPair = string.splitOnce("a,b,,c", ',');
+    if !p1.found {
+        return 17;
+    }
+    if !string.eq(p1.left, "a") {
+        return 18;
+    }
+    if !string.eq(p1.right, "b,,c") {
+        return 19;
+    }
+
+    var p2: string.SplitPair = string.splitOnce(p1.right, ',');
+    if !p2.found {
+        return 20;
+    }
+    if !string.eq(p2.left, "b") {
+        return 21;
+    }
+
     return 0;
 }
