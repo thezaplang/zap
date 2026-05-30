@@ -21,6 +21,24 @@ pub struct Endpoint {
   port: Int,
 }
 
+fun tailOwned(src: String, start: Int) String {
+  var n: Int = string.len(src);
+  if start <= 0 {
+    return src;
+  }
+  if start >= n {
+    return "";
+  }
+
+  var out: string.TextBuf = new string.TextBuf();
+  var i: Int = start;
+  while i < n {
+    out.pushChar(string.at(src, i));
+    i = i + 1;
+  }
+  return out.build();
+}
+
 pub class Stream {
   priv fd: Int;
   priv readBuf: String;
@@ -82,7 +100,7 @@ pub class Stream {
       left = left - take;
 
       if take < string.len(self.readBuf) {
-        self.readBuf = string.slice(self.readBuf, take, string.len(self.readBuf) - take);
+        self.readBuf = tailOwned(self.readBuf, take);
       } else {
         self.readBuf = "";
       }
@@ -157,7 +175,7 @@ pub class Stream {
         used = used + 1;
         if ch == delimiter || used >= maxLen {
           if i + 1 < bufLen {
-            self.readBuf = string.slice(self.readBuf, i + 1, bufLen - (i + 1));
+            self.readBuf = tailOwned(self.readBuf, i + 1);
           } else {
             self.readBuf = "";
           }

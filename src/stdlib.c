@@ -1114,7 +1114,10 @@ zap_string_t netRecv(long fd, long maxLen) {
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
-  ssize_t n = recv((int)fd, buf, cap, 0);
+  ssize_t n;
+  do {
+    n = recv((int)fd, buf, cap, 0);
+  } while (n < 0 && errno == EINTR);
   if (n < 0) {
     zap_net_last_error = errno;
     zap_string_release_ptr(buf);
