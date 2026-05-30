@@ -4,6 +4,8 @@ var namespacezap =
       [ "computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
       [ "currentExecutablePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1b46bdefb6c665374ef9f52c428c8df1", null ],
       [ "emitRequestedTextOutputs", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3", null ],
+      [ "hasPreludeImport", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1dfe06e90d85cbd45c5741aeacd89198", null ],
+      [ "injectImplicitPreludeImportIfNeeded", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aed22b37ca8ad9a85fb805eb4bb06173b", null ],
       [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a5133a75d670ba094d22e9aefdaef5c29", null ],
       [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
       [ "resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a55d5b8a988ea0ec485ebdbda73d289b4", null ],

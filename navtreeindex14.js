@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"de/d32/classStructLiteralNode.html#a13ef5eb5ad1ed7a0af7d8d53b8bc86a7":[2,0,53,0],
+"de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90":[2,0,53,2],
 "de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1":[2,0,53,3],
 "de/d32/classStructLiteralNode.html#ae244fcee9ff5276441a7ee880fb11b01":[2,0,53,1],
 "de/d35/classStructDeclarationNode.html":[2,0,51],
@@ -247,7 +249,5 @@ var NAVTREEINDEX14 =
 "df/d01/structzap_1_1Diagnostic.html#af6b3f3f08b7aeea38017f0b2c7d7f0d5":[2,0,3,9,5],
 "df/d0a/classzir_1_1BinaryInst.html":[1,0,5,4],
 "df/d0a/classzir_1_1BinaryInst.html":[2,0,4,3],
-"df/d0a/classzir_1_1BinaryInst.html#a090e35febe9040bfe62985fc0fd40ccb":[1,0,5,4,2],
-"df/d0a/classzir_1_1BinaryInst.html#a090e35febe9040bfe62985fc0fd40ccb":[2,0,4,3,2],
-"df/d0a/classzir_1_1BinaryInst.html#a13f4d646a7656080a95890a53f05f955":[1,0,5,4,0]
+"df/d0a/classzir_1_1BinaryInst.html#a090e35febe9040bfe62985fc0fd40ccb":[1,0,5,4,2]
 };
