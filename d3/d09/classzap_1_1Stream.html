@@ -104,7 +104,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a24063f292467b27d191a6c19171223b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether or not the stream is in a console/terminal.  <br /></td></tr>
 <tr class="memitem:af9a9373bd62a219d4a9588c9f7e96d7a" id="r_af9a9373bd62a219d4a9588c9f7e96d7a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9a9373bd62a219d4a9588c9f7e96d7a">hasColors</a> () const</td></tr>
 <tr class="memdesc:af9a9373bd62a219d4a9588c9f7e96d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether or not this stream supports colors.  <br /></td></tr>
-<tr class="memitem:a1bb771d935eb160ae93a075fe88528ed" id="r_a1bb771d935eb160ae93a075fe88528ed"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bb771d935eb160ae93a075fe88528ed">~Stream</a> () noexcept</td></tr>
+<tr class="memitem:a896bccd1e9c2e2497cbff88e7d081967" id="r_a896bccd1e9c2e2497cbff88e7d081967"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a896bccd1e9c2e2497cbff88e7d081967">~Stream</a> () noexcept=default</td></tr>
 <tr class="memitem:a955884a8e5a30e0eaa6a1bfce681f3cc" id="r_a955884a8e5a30e0eaa6a1bfce681f3cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a955884a8e5a30e0eaa6a1bfce681f3cc">operator&lt;&lt;</a> (std::nullptr_t)</td></tr>
 <tr class="memitem:a8d507b558e4617a6b9d586d64cf294ef" id="r_a8d507b558e4617a6b9d586d64cf294ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d507b558e4617a6b9d586d64cf294ef">operator&lt;&lt;</a> (char c)</td></tr>
 <tr class="memitem:a8780a0875c48bc0981b2e7aedbe6e99e" id="r_a8780a0875c48bc0981b2e7aedbe6e99e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a0460244ca46dfc40b11907c22dbbd6d3">Stream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8780a0875c48bc0981b2e7aedbe6e99e">operator&lt;&lt;</a> (unsigned char c)</td></tr>
@@ -245,8 +245,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1bb771d935eb160ae93a075fe88528ed" name="a1bb771d935eb160ae93a075fe88528ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bb771d935eb160ae93a075fe88528ed">&#9670;&#160;</a></span>~Stream()</h2>
+<a id="a896bccd1e9c2e2497cbff88e7d081967" name="a896bccd1e9c2e2497cbff88e7d081967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a896bccd1e9c2e2497cbff88e7d081967">&#9670;&#160;</a></span>~Stream()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,16 +263,10 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00088">88</a> of file <a class="el" href="../../d9/d0f/stream_8hpp_source.html">stream.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   88</span>{ <a class="code hl_function" href="#ab912b88fa1fd18addff4d19c8a87fd9b">setNoBuffer</a>(); }</div>
-<div class="ttc" id="aclasszap_1_1Stream_html_ab912b88fa1fd18addff4d19c8a87fd9b"><div class="ttname"><a href="#ab912b88fa1fd18addff4d19c8a87fd9b">zap::Stream::setNoBuffer</a></div><div class="ttdeci">void setNoBuffer() noexcept</div><div class="ttdoc">Makes the stream unbuffered.</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d0f/stream_8hpp_source.html#l00072">stream.hpp:72</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00072">setNoBuffer()</a>.</p>
 
 </div>
 </div>
@@ -1064,7 +1058,7 @@ template&lt;typename T&gt; </div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00022">setBufferSize()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00189">zap::SFStream::~SFStream()</a>, and <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00088">~Stream()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d0f/stream_8hpp_source.html#l00189">zap::SFStream::~SFStream()</a>.</p>
 
 </div>
 </div>

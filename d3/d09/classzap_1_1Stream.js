@@ -4,7 +4,7 @@ var classzap_1_1Stream =
     [ "BufferType", "d3/d09/classzap_1_1Stream.html#a4f6b051b499a65947ed89b510c768130", null ],
     [ "Stream", "d3/d09/classzap_1_1Stream.html#a0460244ca46dfc40b11907c22dbbd6d3", null ],
     [ "Stream", "d3/d09/classzap_1_1Stream.html#a7972c3c46057883306ec1787da7c3d9a", null ],
-    [ "~Stream", "d3/d09/classzap_1_1Stream.html#a1bb771d935eb160ae93a075fe88528ed", null ],
+    [ "~Stream", "d3/d09/classzap_1_1Stream.html#a896bccd1e9c2e2497cbff88e7d081967", null ],
     [ "changeColor", "d3/d09/classzap_1_1Stream.html#aa3cc77f0ed049481e793d2b54d30ad13", null ],
     [ "flush", "d3/d09/classzap_1_1Stream.html#a0a00e5832186d81f304125d1b46f3da6", null ],
     [ "getBufferSize", "d3/d09/classzap_1_1Stream.html#a8246f2fd49ffa373e0f3f67200ee9af4", null ],
