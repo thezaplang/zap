@@ -85,7 +85,7 @@ public:
   /// @brief Returns whether or not this stream supports colors.
   virtual bool hasColors() const { return false; }
 
-  virtual ~Stream() noexcept { setNoBuffer(); }
+  virtual ~Stream() noexcept = default;
 
   Stream &operator<<(std::nullptr_t) { return write("null", 4); }
 
