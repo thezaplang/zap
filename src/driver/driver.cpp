@@ -4,6 +4,7 @@
 #include "ir/ir_generator.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
+#include "ast/import_node.hpp"
 #include "sema/binder.hpp"
 #include "sema/bound_nodes.hpp"
 #include "sema/module_info.hpp"
@@ -193,6 +194,32 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
   return false;
 }
 
+bool hasPreludeImport(const RootNode &root) {
+  for (const auto &child : root.children) {
+    auto importNode = dynamic_cast<ImportNode *>(child.get());
+    if (!importNode) {
+      continue;
+    }
+    if (importNode->path == "std/prelude") {
+      return true;
+    }
+  }
+  return false;
+}
+
+void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module) {
+  // Keep stdlib modules self-contained; prelude is for userland ergonomics.
+  if (module.linkPath.rfind("std/", 0) == 0) {
+    return;
+  }
+  if (!module.root || hasPreludeImport(*module.root)) {
+    return;
+  }
+
+  auto import = std::make_unique<ImportNode>("std/prelude");
+  module.root->children.insert(module.root->children.begin(), std::move(import));
+}
+
 bool resolveImportTargets(const std::filesystem::path &modulePath,
                           const ImportNode &importNode,
                           std::vector<std::filesystem::path> &targets) {
@@ -281,6 +308,7 @@ bool loadModuleGraph(
   module->linkPath = computeLogicalModulePath(canonicalPath);
   module->sourceName = canonicalPath.string();
   module->root = std::move(ast);
+  injectImplicitPreludeImportIfNeeded(*module);
 
   for (const auto &child : module->root->children) {
     auto importNode = dynamic_cast<ImportNode *>(child.get());

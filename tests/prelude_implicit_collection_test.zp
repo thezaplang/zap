@@ -1,0 +1,27 @@
+fun main() Int {
+    var xs: List<Int> = new List<Int>();
+    xs.push(10);
+    xs.push(20);
+    if xs.len() != 2 {
+        return 1;
+    }
+    if xs.at(0) != 10 || xs.at(1) != 20 {
+        return 2;
+    }
+
+    var m: HashMap<Int> = new HashMap<Int>();
+    m.put("a", 7);
+    if !m.contains("a") {
+        return 3;
+    }
+    if m.get("a") != 7 {
+        return 4;
+    }
+
+    // also check implicit prelude string helper exposure
+    if indexOf("zap", "ap") != 1 {
+        return 5;
+    }
+
+    return 0;
+}

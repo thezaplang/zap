@@ -2254,6 +2254,16 @@ void Binder::applyImports(ModuleState &module, bool allowIncomplete) {
       }
 
       if (import.bindings.empty()) {
+        bool isImplicitPreludeImport =
+            import.rawPath == "std/prelude" && import.moduleAlias.empty();
+        if (isImplicitPreludeImport) {
+          for (const auto &exported : target.symbol->exports) {
+            if (!module.scope->lookupLocal(exported.first)) {
+              module.scope->declare(exported.first, exported.second);
+            }
+          }
+        }
+
         if (import.visibility == Visibility::Public) {
           module.symbol->exports[alias] = target.symbol;
           for (const auto &exported : target.symbol->exports) {

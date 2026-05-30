@@ -512,6 +512,7 @@ run_runtime_test "tests/ffi_generic_stress/main.zp" 0 "FFI generic stress: multi
 run_runtime_test "tests/ref_return_test.zp" 0 "Ref return type (fun() ref T)"
 run_runtime_test "tests/std_io_printf_test.zp" 0 "std/io printf wrappers"
 run_runtime_test "tests/list_std_test.zp" 0 "std/collection List"
+run_runtime_test "tests/prelude_implicit_collection_test.zp" 0 "Implicit prelude exposes List/HashMap without imports"
 run_runtime_test "tests/import_public/main.zp" 0 "Importing a public function through file namespace"
 run_runtime_test "tests/import_flat/main.zp" 0 "Selective flat import with braces"
 run_runtime_test "tests/import_alias/main.zp" 0 "Selective import alias with as"
