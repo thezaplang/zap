@@ -1,0 +1,25 @@
+import "std/convert";
+
+enum Bruh {
+    Cos = 5,
+    B = 2,
+}
+
+fun main() Int {
+    var a: Int = Bruh.Cos as Int;
+    if a != 5 {
+        return 1;
+    }
+
+    var b: Int = convert.toInt(Bruh.Cos);
+    if b != 5 {
+        return 2;
+    }
+
+    var c: Int = convert.toInt(Bruh.B);
+    if c != 2 {
+        return 3;
+    }
+
+    return 0;
+}

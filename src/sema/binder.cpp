@@ -1851,6 +1851,10 @@ int Binder::conversionCost(std::shared_ptr<zir::Type> from,
     return zap::text::isStringViewType(to) ? 0 : 1;
   }
 
+  if (from->getKind() == zir::TypeKind::Enum && to->isInteger()) {
+    return 1;
+  }
+
   if (from->isFloatingPoint() && to->isFloatingPoint()) {
     return typeBitWidth(to) >= typeBitWidth(from) ? 1 : 5;
   }
@@ -3672,6 +3676,9 @@ void Binder::visit(CastExpr &node) {
 
   bool castAllowed = false;
   if (isNumeric(expr->type) && isNumeric(targetType))
+    castAllowed = true;
+  else if (expr->type->getKind() == zir::TypeKind::Enum &&
+           targetType->getKind() == zir::TypeKind::Int)
     castAllowed = true;
   else if ((isPointerType(expr->type) || isNullType(expr->type)) &&
            isPointerType(targetType))
@@ -5812,6 +5819,9 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
   }
 
   if (isNumeric(from) && isNumeric(to))
+    return true;
+  if (from->getKind() == zir::TypeKind::Enum &&
+      to->getKind() == zir::TypeKind::Int)
     return true;
   return false;
 }
