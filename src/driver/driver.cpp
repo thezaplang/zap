@@ -1,10 +1,10 @@
 #include "driver/driver.hpp"
+#include "ast/import_node.hpp"
 #include "codegen/llvm_codegen.hpp"
 #include "driver/compiler.hpp"
 #include "ir/ir_generator.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
-#include "ast/import_node.hpp"
 #include "sema/binder.hpp"
 #include "sema/bound_nodes.hpp"
 #include "sema/module_info.hpp"
@@ -217,7 +217,8 @@ void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module) {
   }
 
   auto import = std::make_unique<ImportNode>("std/prelude");
-  module.root->children.insert(module.root->children.begin(), std::move(import));
+  module.root->children.insert(module.root->children.begin(),
+                               std::move(import));
 }
 
 bool resolveImportTargets(const std::filesystem::path &modulePath,

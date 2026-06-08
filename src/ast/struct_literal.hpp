@@ -9,8 +9,8 @@
 struct StructFieldInit {
   std::string name;
   std::unique_ptr<ExpressionNode> value;
-  
-  StructFieldInit(std::string n, std::unique_ptr<ExpressionNode> v) 
+
+  StructFieldInit(std::string n, std::unique_ptr<ExpressionNode> v)
       : name(std::move(n)), value(std::move(v)) {}
 };
 

@@ -2,8 +2,8 @@
 
 #include "../ir/type.hpp"
 #include "../visibility.hpp"
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -22,21 +22,20 @@ public:
   Visibility visibility = Visibility::Private;
 
   // Built-in attribute semantic flags (MVP).
-  bool isErrorType = false;      // @error on enum/struct
-  bool hasReprC = false;         // @repr("C") on enum/struct
-  bool hasExternC = false;       // @extern("C") on function
-  bool hasNoMangle = false;      // @noMangle on function
+  bool isErrorType = false; // @error on enum/struct
+  bool hasReprC = false;    // @repr("C") on enum/struct
+  bool hasExternC = false;  // @extern("C") on function
+  bool hasNoMangle = false; // @noMangle on function
 
-  std::string reprValue;         // e.g. "C"
-  std::string externAbi;         // e.g. "C"
+  std::string reprValue; // e.g. "C"
+  std::string externAbi; // e.g. "C"
 
   virtual ~Symbol() noexcept = default;
   virtual SymbolKind getKind() const noexcept = 0;
 
 protected:
-  Symbol(std::string n, std::shared_ptr<zir::Type> t,
-         std::string link = "", std::string module = "",
-         Visibility vis = Visibility::Private)
+  Symbol(std::string n, std::shared_ptr<zir::Type> t, std::string link = "",
+         std::string module = "", Visibility vis = Visibility::Private)
       : name(std::move(n)), linkName(link.empty() ? name : std::move(link)),
         moduleName(std::move(module)), type(std::move(t)), visibility(vis) {}
 };
@@ -49,10 +48,12 @@ public:
   bool is_external = false;
   std::shared_ptr<zir::Type> variadic_element_type = nullptr;
   std::shared_ptr<BoundExpression> constant_value = nullptr;
-  VariableSymbol(std::string n, std::shared_ptr<zir::Type> t, bool isConst = false,
-                 bool isRef = false, std::string link = "",
-                 std::string module = "", Visibility vis = Visibility::Private)
-      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module), vis),
+  VariableSymbol(std::string n, std::shared_ptr<zir::Type> t,
+                 bool isConst = false, bool isRef = false,
+                 std::string link = "", std::string module = "",
+                 Visibility vis = Visibility::Private)
+      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module),
+               vis),
         is_const(isConst), is_ref(isRef) {}
   SymbolKind getKind() const noexcept override { return SymbolKind::Variable; }
 };
@@ -110,7 +111,9 @@ public:
                              Visibility vis = Visibility::Private)
       : Symbol(std::move(n), nullptr, "", std::move(module), vis) {}
 
-  SymbolKind getKind() const noexcept override { return SymbolKind::OverloadSet; }
+  SymbolKind getKind() const noexcept override {
+    return SymbolKind::OverloadSet;
+  }
 
   bool addOverload(std::shared_ptr<FunctionSymbol> function) {
     if (!function) {
@@ -131,7 +134,8 @@ public:
   TypeSymbol(std::string n, std::shared_ptr<zir::Type> t, std::string link = "",
              std::string module = "", Visibility vis = Visibility::Private,
              bool unsafe = false, bool classType = false)
-      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module), vis),
+      : Symbol(std::move(n), std::move(t), std::move(link), std::move(module),
+               vis),
         isUnsafe(unsafe), isClass(classType) {}
   SymbolKind getKind() const noexcept override { return SymbolKind::Type; }
 };
@@ -142,7 +146,8 @@ public:
   std::map<std::string, std::shared_ptr<Symbol>> exports;
 
   explicit ModuleSymbol(std::string n, std::string module = "")
-      : Symbol(std::move(n), nullptr, "", std::move(module), Visibility::Public) {}
+      : Symbol(std::move(n), nullptr, "", std::move(module),
+               Visibility::Public) {}
 
   SymbolKind getKind() const noexcept override { return SymbolKind::Module; }
 };

@@ -1,8 +1,8 @@
 #pragma once
+#include "../visibility.hpp"
 #include "node.hpp"
 #include "type_node.hpp"
 #include "visitor.hpp"
-#include "../visibility.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -17,7 +17,8 @@ public:
 
   ParameterNode(const std::string &name, std::unique_ptr<TypeNode> type,
                 bool isRef = false, bool isVariadic = false)
-      : name(name), type(std::move(type)), isRef(isRef), isVariadic(isVariadic) {}
+      : name(name), type(std::move(type)), isRef(isRef),
+        isVariadic(isVariadic) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

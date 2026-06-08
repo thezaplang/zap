@@ -67,10 +67,9 @@ BoundIRGenerator::failableErrorType(const std::shared_ptr<Type> &type) const {
   return record->getFields()[2].type;
 }
 
-std::shared_ptr<Value>
-BoundIRGenerator::emitFailableFieldLoad(const std::shared_ptr<Value> &value,
-                                        int fieldIndex,
-                                        const std::shared_ptr<Type> &fieldType) {
+std::shared_ptr<Value> BoundIRGenerator::emitFailableFieldLoad(
+    const std::shared_ptr<Value> &value, int fieldIndex,
+    const std::shared_ptr<Type> &fieldType) {
   if (fieldType && fieldType->getKind() == TypeKind::Void) {
     return std::make_shared<Constant>("0", fieldType);
   }
@@ -84,8 +83,8 @@ BoundIRGenerator::emitFailableFieldLoad(const std::shared_ptr<Value> &value,
 
 std::shared_ptr<Value>
 BoundIRGenerator::emitFailableOk(const std::shared_ptr<Value> &value) {
-  return emitFailableFieldLoad(
-      value, 0, std::make_shared<PrimitiveType>(TypeKind::Bool));
+  return emitFailableFieldLoad(value, 0,
+                               std::make_shared<PrimitiveType>(TypeKind::Bool));
 }
 
 std::shared_ptr<Value>
@@ -125,11 +124,9 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
 
 void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
   auto symbol = node.symbol;
-  auto func = std::make_unique<Function>(symbol->linkName, symbol->returnType,
-                                         symbol->ownerTypeName,
-                                         symbol->isDestructor,
-                                         symbol->vtableSlot,
-                                         symbol->isCVariadic);
+  auto func = std::make_unique<Function>(
+      symbol->linkName, symbol->returnType, symbol->ownerTypeName,
+      symbol->isDestructor, symbol->vtableSlot, symbol->isCVariadic);
   func->returnsRef = symbol->returnsRef;
   currentFunction_ = func.get();
 
@@ -181,11 +178,9 @@ void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
 
 void BoundIRGenerator::visit(sema::BoundExternalFunctionDeclaration &node) {
   auto symbol = node.symbol;
-  auto func = std::make_unique<Function>(symbol->linkName, symbol->returnType,
-                                         symbol->ownerTypeName,
-                                         symbol->isDestructor,
-                                         symbol->vtableSlot,
-                                         symbol->isCVariadic);
+  auto func = std::make_unique<Function>(
+      symbol->linkName, symbol->returnType, symbol->ownerTypeName,
+      symbol->isDestructor, symbol->vtableSlot, symbol->isCVariadic);
   func->returnsRef = symbol->returnsRef;
 
   for (const auto &paramSymbol : symbol->parameters) {
@@ -242,9 +237,8 @@ void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node) {
 
   if (!currentFunction_) {
     if (node.symbol->is_external) {
-      auto global = std::make_shared<Global>(node.symbol->name,
-                                             node.symbol->linkName, type,
-                                             nullptr, false);
+      auto global = std::make_shared<Global>(
+          node.symbol->name, node.symbol->linkName, type, nullptr, false);
       module_->addExternalGlobal(global);
       globalSymbolMap_[node.symbol] = global;
       return;
@@ -255,9 +249,9 @@ void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node) {
       initializer = valueStack_.top();
       valueStack_.pop();
     }
-    auto global = std::make_shared<Global>(node.symbol->name,
-                                           node.symbol->linkName, type,
-                                           initializer, node.symbol->is_const);
+    auto global =
+        std::make_shared<Global>(node.symbol->name, node.symbol->linkName, type,
+                                 initializer, node.symbol->is_const);
     module_->addGlobal(global);
     globalSymbolMap_[node.symbol] = global;
     return;
@@ -267,7 +261,8 @@ void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node) {
     // Ref var: alloca a pointer slot, store the address of the initializer
     auto ptrType = std::make_shared<PointerType>(type);
     auto refReg = createRegister(std::make_shared<PointerType>(ptrType));
-    currentBlock_->addInstruction(std::make_unique<AllocaInst>(refReg, ptrType));
+    currentBlock_->addInstruction(
+        std::make_unique<AllocaInst>(refReg, ptrType));
     symbolMap_[node.symbol] = refReg;
     if (node.initializer) {
       bool old = evaluateAsAddress_;
@@ -326,27 +321,32 @@ void BoundIRGenerator::visit(sema::BoundFailStatement &node) {
   auto errorType = failableErrorType(failableType);
 
   auto allocaReg = createRegister(std::make_shared<PointerType>(failableType));
-  currentBlock_->addInstruction(std::make_unique<AllocaInst>(allocaReg, failableType));
+  currentBlock_->addInstruction(
+      std::make_unique<AllocaInst>(allocaReg, failableType));
 
   auto okAddr = createRegister(std::make_shared<PointerType>(
       std::make_shared<PrimitiveType>(TypeKind::Bool)));
-  currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(okAddr, allocaReg, 0));
+  currentBlock_->addInstruction(
+      std::make_unique<GetElementPtrInst>(okAddr, allocaReg, 0));
   currentBlock_->addInstruction(std::make_unique<StoreInst>(
-      std::make_shared<Constant>("false",
-                                 std::make_shared<PrimitiveType>(TypeKind::Bool)),
+      std::make_shared<Constant>(
+          "false", std::make_shared<PrimitiveType>(TypeKind::Bool)),
       okAddr));
 
   auto valueAddr = createRegister(std::make_shared<PointerType>(valueType));
-  currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(valueAddr, allocaReg, 1));
+  currentBlock_->addInstruction(
+      std::make_unique<GetElementPtrInst>(valueAddr, allocaReg, 1));
   if (valueType && valueType->getKind() != TypeKind::Void) {
     currentBlock_->addInstruction(std::make_unique<StoreInst>(
         std::make_shared<Constant>("0", valueType), valueAddr));
   }
 
   auto errAddr = createRegister(std::make_shared<PointerType>(errorType));
-  currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(errAddr, allocaReg, 2));
+  currentBlock_->addInstruction(
+      std::make_unique<GetElementPtrInst>(errAddr, allocaReg, 2));
   if (errValue) {
-    currentBlock_->addInstruction(std::make_unique<StoreInst>(errValue, errAddr));
+    currentBlock_->addInstruction(
+        std::make_unique<StoreInst>(errValue, errAddr));
   } else {
     currentBlock_->addInstruction(std::make_unique<StoreInst>(
         std::make_shared<Constant>("0", errorType), errAddr));
@@ -608,7 +608,8 @@ void BoundIRGenerator::visit(sema::BoundFunctionCall &node) {
   std::vector<std::shared_ptr<Value>> args;
   for (size_t i = 0; i < node.arguments.size(); ++i) {
     bool oldEvaluateAsAddress = evaluateAsAddress_;
-    evaluateAsAddress_ = (i < node.argumentIsRef.size() && node.argumentIsRef[i]);
+    evaluateAsAddress_ =
+        (i < node.argumentIsRef.size() && node.argumentIsRef[i]);
     node.arguments[i]->accept(*this);
     evaluateAsAddress_ = oldEvaluateAsAddress;
     args.push_back(valueStack_.top());
@@ -624,14 +625,14 @@ void BoundIRGenerator::visit(sema::BoundFunctionCall &node) {
 
   // ref-returning functions return a pointer in LLVM IR
   auto resultType = node.symbol->returnsRef
-      ? std::static_pointer_cast<zir::Type>(std::make_shared<PointerType>(node.type))
-      : node.type;
+                        ? std::static_pointer_cast<zir::Type>(
+                              std::make_shared<PointerType>(node.type))
+                        : node.type;
   auto reg = createRegister(resultType);
-  currentBlock_->addInstruction(
-      std::make_unique<CallInst>(reg, node.symbol->linkName, args,
-                                 node.argumentIsRef, variadicPack,
-                                 node.symbol->returnsRef));
-  
+  currentBlock_->addInstruction(std::make_unique<CallInst>(
+      reg, node.symbol->linkName, args, node.argumentIsRef, variadicPack,
+      node.symbol->returnsRef));
+
   // If ref-returning function is used as value (not address), load it
   if (node.symbol->returnsRef && !evaluateAsAddress_) {
     auto loadReg = createRegister(node.type);
@@ -644,9 +645,8 @@ void BoundIRGenerator::visit(sema::BoundFunctionCall &node) {
 
 void BoundIRGenerator::visit(sema::BoundFunctionReference &node) {
   // Represent as a Global value pointing to the function
-  auto fnGlobal = std::make_shared<Global>(node.symbol->linkName,
-                                           node.symbol->linkName,
-                                           node.type, nullptr, true);
+  auto fnGlobal = std::make_shared<Global>(
+      node.symbol->linkName, node.symbol->linkName, node.type, nullptr, true);
   valueStack_.push(fnGlobal);
 }
 
@@ -721,25 +721,25 @@ void BoundIRGenerator::visit(sema::BoundUnaryExpression &node) {
       }
 
       if (node.op == "-") {
-        if (!lit.empty() && lit != "true" && lit != "false" &&
-            lit != "null" && lit[0] != '\'' && lit[0] != '\\') {
+        if (!lit.empty() && lit != "true" && lit != "false" && lit != "null" &&
+            lit[0] != '\'' && lit[0] != '\\') {
           try {
             if (c->getType() && c->getType()->isFloatingPoint()) {
               auto v = std::stod(lit);
-              valueStack_.push(std::make_shared<Constant>(
-                  std::to_string(-v), node.type));
+              valueStack_.push(
+                  std::make_shared<Constant>(std::to_string(-v), node.type));
               return;
             }
             if (c->getType() && c->getType()->isInteger()) {
               if (c->getType()->isUnsigned()) {
                 auto v = std::stoull(lit);
                 auto out = static_cast<int64_t>(-(static_cast<int64_t>(v)));
-                valueStack_.push(std::make_shared<Constant>(
-                    std::to_string(out), node.type));
+                valueStack_.push(
+                    std::make_shared<Constant>(std::to_string(out), node.type));
               } else {
                 auto v = std::stoll(lit);
-                valueStack_.push(std::make_shared<Constant>(
-                    std::to_string(-v), node.type));
+                valueStack_.push(
+                    std::make_shared<Constant>(std::to_string(-v), node.type));
               }
               return;
             }
@@ -750,24 +750,22 @@ void BoundIRGenerator::visit(sema::BoundUnaryExpression &node) {
 
       if (node.op == "!") {
         if (lit == "true") {
-          valueStack_.push(
-              std::make_shared<Constant>("false", node.type));
+          valueStack_.push(std::make_shared<Constant>("false", node.type));
           return;
         }
         if (lit == "false") {
-          valueStack_.push(
-              std::make_shared<Constant>("true", node.type));
+          valueStack_.push(std::make_shared<Constant>("true", node.type));
           return;
         }
       }
 
       if (node.op == "~") {
-        if (!lit.empty() && lit != "true" && lit != "false" &&
-            lit != "null" && lit[0] != '\'' && lit[0] != '\\') {
+        if (!lit.empty() && lit != "true" && lit != "false" && lit != "null" &&
+            lit[0] != '\'' && lit[0] != '\\') {
           try {
             auto v = std::stoll(lit);
-            valueStack_.push(std::make_shared<Constant>(
-                std::to_string(~v), node.type));
+            valueStack_.push(
+                std::make_shared<Constant>(std::to_string(~v), node.type));
             return;
           } catch (...) {
           }
@@ -826,8 +824,8 @@ void BoundIRGenerator::visit(sema::BoundArrayLiteral &node) {
     auto value = std::move(valueStack_.top());
     valueStack_.pop();
 
-    auto elementAddr = createRegister(
-        std::make_shared<PointerType>(arrayType->getBaseType()));
+    auto elementAddr =
+        createRegister(std::make_shared<PointerType>(arrayType->getBaseType()));
     currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
         elementAddr, allocaReg, static_cast<int>(i)));
     currentBlock_->addInstruction(
@@ -864,9 +862,8 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
   }
 
   bool oldEvaluateAsAddress = evaluateAsAddress_;
-  evaluateAsAddress_ =
-      !(node.left->type->getKind() == zir::TypeKind::Class ||
-        node.left->type->getKind() == zir::TypeKind::Pointer);
+  evaluateAsAddress_ = !(node.left->type->getKind() == zir::TypeKind::Class ||
+                         node.left->type->getKind() == zir::TypeKind::Pointer);
   node.left->accept(*this);
   evaluateAsAddress_ = oldEvaluateAsAddress;
 
@@ -900,8 +897,8 @@ void BoundIRGenerator::visit(sema::BoundMemberAccess &node) {
       return;
     }
   } else if (left->getType()->getKind() == zir::TypeKind::Pointer) {
-    auto baseType =
-        std::static_pointer_cast<zir::PointerType>(left->getType())->getBaseType();
+    auto baseType = std::static_pointer_cast<zir::PointerType>(left->getType())
+                        ->getBaseType();
     if (baseType->getKind() == zir::TypeKind::Class) {
       auto classType = std::static_pointer_cast<zir::ClassType>(baseType);
       int fieldIndex = -1;
@@ -1004,8 +1001,8 @@ void BoundIRGenerator::visit(sema::BoundStructLiteral &node) {
       aggregateFields.push_back({fieldInit.first, val});
     }
 
-    valueStack_.push(
-        std::make_shared<AggregateConstant>(node.type, std::move(aggregateFields)));
+    valueStack_.push(std::make_shared<AggregateConstant>(
+        node.type, std::move(aggregateFields)));
     return;
   }
 
@@ -1030,11 +1027,12 @@ void BoundIRGenerator::visit(sema::BoundStructLiteral &node) {
 
     if (fields[fieldIndex].type &&
         fields[fieldIndex].type->getKind() != TypeKind::Void) {
-      auto fieldAddr =
-          createRegister(std::make_shared<PointerType>(fields[fieldIndex].type));
+      auto fieldAddr = createRegister(
+          std::make_shared<PointerType>(fields[fieldIndex].type));
+      currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+          fieldAddr, allocaReg, fieldIndex));
       currentBlock_->addInstruction(
-          std::make_unique<GetElementPtrInst>(fieldAddr, allocaReg, fieldIndex));
-      currentBlock_->addInstruction(std::make_unique<StoreInst>(val, fieldAddr));
+          std::make_unique<StoreInst>(val, fieldAddr));
     }
   }
 
@@ -1104,7 +1102,8 @@ void BoundIRGenerator::visit(sema::BoundTryExpression &node) {
         std::make_shared<Constant>("0", propagatedValueType), valueAddr));
   }
 
-  auto errAddr = createRegister(std::make_shared<PointerType>(propagatedErrorType));
+  auto errAddr =
+      createRegister(std::make_shared<PointerType>(propagatedErrorType));
   currentBlock_->addInstruction(
       std::make_unique<GetElementPtrInst>(errAddr, propagatedAlloca, 2));
   currentBlock_->addInstruction(std::make_unique<StoreInst>(failErr, errAddr));
@@ -1217,10 +1216,12 @@ void BoundIRGenerator::visit(sema::BoundFailableHandleExpression &node) {
 
   auto errValue = emitFailableError(failableValue);
   if (node.errorSymbol) {
-    auto errAlloca = createRegister(std::make_shared<PointerType>(node.errorSymbol->type));
+    auto errAlloca =
+        createRegister(std::make_shared<PointerType>(node.errorSymbol->type));
     currentBlock_->addInstruction(
         std::make_unique<AllocaInst>(errAlloca, node.errorSymbol->type));
-    currentBlock_->addInstruction(std::make_unique<StoreInst>(errValue, errAlloca));
+    currentBlock_->addInstruction(
+        std::make_unique<StoreInst>(errValue, errAlloca));
     symbolMap_[node.errorSymbol] = errAlloca;
   }
 
@@ -1366,7 +1367,8 @@ void BoundIRGenerator::visit(sema::BoundWhileStatement &node) {
 
 void BoundIRGenerator::visit(sema::BoundForStatement &node) {
   if (node.initializer) {
-    if (auto *initBlock = dynamic_cast<sema::BoundBlock *>(node.initializer.get())) {
+    if (auto *initBlock =
+            dynamic_cast<sema::BoundBlock *>(node.initializer.get())) {
       for (const auto &stmt : initBlock->statements) {
         if (stmt) {
           stmt->accept(*this);
@@ -1504,9 +1506,9 @@ void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
       auto indexValue = valueStack_.top();
       valueStack_.pop();
 
-      auto elemType =
-          std::static_pointer_cast<zir::PointerType>(recordType->getFields()[0].type)
-              ->getBaseType();
+      auto elemType = std::static_pointer_cast<zir::PointerType>(
+                          recordType->getFields()[0].type)
+                          ->getBaseType();
       auto dataAddr = createRegister(recordType->getFields()[0].type);
       currentBlock_->addInstruction(
           std::make_unique<GetElementPtrInst>(dataAddr, sliceAddr, 0));
@@ -1566,9 +1568,8 @@ void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
 void BoundIRGenerator::visit(sema::BoundCast &node) {
   auto isArrayViewType = [](const std::shared_ptr<Type> &type) {
     return type && type->getKind() == TypeKind::Record &&
-           std::static_pointer_cast<RecordType>(type)
-                   ->getName()
-                   .rfind("__zap_varargs_", 0) == 0;
+           std::static_pointer_cast<RecordType>(type)->getName().rfind(
+               "__zap_varargs_", 0) == 0;
   };
 
   if (node.expression->type &&
@@ -1585,8 +1586,8 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
     auto arrayAddr = valueStack_.top();
     valueStack_.pop();
 
-    auto data = createRegister(
-        std::make_shared<PointerType>(arrayType->getBaseType()));
+    auto data =
+        createRegister(std::make_shared<PointerType>(arrayType->getBaseType()));
     currentBlock_->addInstruction(
         std::make_unique<GetElementPtrInst>(data, arrayAddr, 0));
 
@@ -1602,8 +1603,7 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
         std::make_unique<StoreInst>(data, dataFieldAddr));
 
     auto lenType = viewType->getFields()[1].type;
-    auto lenFieldAddr =
-        createRegister(std::make_shared<PointerType>(lenType));
+    auto lenFieldAddr = createRegister(std::make_shared<PointerType>(lenType));
     currentBlock_->addInstruction(
         std::make_unique<GetElementPtrInst>(lenFieldAddr, viewAddr, 1));
     currentBlock_->addInstruction(std::make_unique<StoreInst>(
@@ -1612,8 +1612,7 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
         lenFieldAddr));
 
     auto result = createRegister(node.type);
-    currentBlock_->addInstruction(
-        std::make_unique<LoadInst>(result, viewAddr));
+    currentBlock_->addInstruction(std::make_unique<LoadInst>(result, viewAddr));
     valueStack_.push(result);
     return;
   }

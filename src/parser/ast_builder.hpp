@@ -7,7 +7,9 @@
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
+#include "../ast/break_node.hpp"
 #include "../ast/cast_expr.hpp"
+#include "../ast/class_decl.hpp"
 #include "../ast/const/const_bool.hpp"
 #include "../ast/const/const_char.hpp"
 #include "../ast/const/const_float.hpp"
@@ -15,33 +17,31 @@
 #include "../ast/const/const_int.hpp"
 #include "../ast/const/const_null.hpp"
 #include "../ast/const/const_string.hpp"
+#include "../ast/const_decl.hpp"
+#include "../ast/continue_node.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/failable_nodes.hpp"
+#include "../ast/for_in_node.hpp"
+#include "../ast/for_node.hpp"
 #include "../ast/fun_call.hpp"
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
 #include "../ast/if_type_node.hpp"
 #include "../ast/import_node.hpp"
 #include "../ast/index_access.hpp"
-#include "../ast/class_decl.hpp"
 #include "../ast/member_access.hpp"
 #include "../ast/new_expr.hpp"
 #include "../ast/parameter_node.hpp"
 #include "../ast/record_decl.hpp"
 #include "../ast/return_node.hpp"
-#include "../ast/type_alias_decl.hpp"
 #include "../ast/root_node.hpp"
 #include "../ast/ternary_expr.hpp"
+#include "../ast/type_alias_decl.hpp"
 #include "../ast/type_node.hpp"
 #include "../ast/unary_expr.hpp"
 #include "../ast/unsafe_block_node.hpp"
 #include "../ast/var_decl.hpp"
-#include "../ast/const_decl.hpp"
 #include "../ast/while_node.hpp"
-#include "../ast/break_node.hpp"
-#include "../ast/continue_node.hpp"
-#include "../ast/for_in_node.hpp"
-#include "../ast/for_node.hpp"
 
 class AstBuilder {
 public:
@@ -69,8 +69,9 @@ public:
     return f;
   }
 
-  std::unique_ptr<MemberAccessNode> makeMemberAccess(std::unique_ptr<ExpressionNode> left,
-                                                    const std::string &member) {
+  std::unique_ptr<MemberAccessNode>
+  makeMemberAccess(std::unique_ptr<ExpressionNode> left,
+                   const std::string &member) {
     return std::make_unique<MemberAccessNode>(std::move(left), member);
   }
 
@@ -93,11 +94,10 @@ public:
                                     std::move(elseBody));
   }
 
-  std::unique_ptr<IfTypeNode>
-  makeIfType(const std::string &parameterName,
-             std::unique_ptr<TypeNode> matchType,
-             std::unique_ptr<BodyNode> thenBody,
-             std::unique_ptr<BodyNode> elseBody) {
+  std::unique_ptr<IfTypeNode> makeIfType(const std::string &parameterName,
+                                         std::unique_ptr<TypeNode> matchType,
+                                         std::unique_ptr<BodyNode> thenBody,
+                                         std::unique_ptr<BodyNode> elseBody) {
     return std::make_unique<IfTypeNode>(parameterName, std::move(matchType),
                                         std::move(thenBody),
                                         std::move(elseBody));
@@ -109,19 +109,18 @@ public:
     return std::make_unique<WhileNode>(std::move(condition), std::move(body));
   }
 
-  std::unique_ptr<ForNode>
-  makeFor(std::unique_ptr<VarDecl> initializer,
-          std::unique_ptr<ExpressionNode> condition,
-          std::unique_ptr<AssignNode> increment,
-          std::unique_ptr<BodyNode> body) {
+  std::unique_ptr<ForNode> makeFor(std::unique_ptr<VarDecl> initializer,
+                                   std::unique_ptr<ExpressionNode> condition,
+                                   std::unique_ptr<AssignNode> increment,
+                                   std::unique_ptr<BodyNode> body) {
     return std::make_unique<ForNode>(std::move(initializer),
-                                     std::move(condition),
-                                     std::move(increment), std::move(body));
+                                     std::move(condition), std::move(increment),
+                                     std::move(body));
   }
 
-  std::unique_ptr<ForInNode>
-  makeForIn(const std::string &itemName, std::unique_ptr<ExpressionNode> iterable,
-            std::unique_ptr<BodyNode> body) {
+  std::unique_ptr<ForInNode> makeForIn(const std::string &itemName,
+                                       std::unique_ptr<ExpressionNode> iterable,
+                                       std::unique_ptr<BodyNode> body) {
     return std::make_unique<ForInNode>(itemName, std::move(iterable),
                                        std::move(body));
   }
@@ -132,9 +131,9 @@ public:
     return std::make_unique<VarDecl>(name, std::move(type), std::move(init));
   }
 
-  std::unique_ptr<ConstDecl> makeConstDecl(const std::string &name,
-                                         std::unique_ptr<TypeNode> type,
-                                         std::unique_ptr<ExpressionNode> init) {
+  std::unique_ptr<ConstDecl>
+  makeConstDecl(const std::string &name, std::unique_ptr<TypeNode> type,
+                std::unique_ptr<ExpressionNode> init) {
     return std::make_unique<ConstDecl>(name, std::move(type), std::move(init));
   }
 
@@ -148,18 +147,21 @@ public:
     return std::make_unique<FailNode>(std::move(errorValue));
   }
 
-  std::unique_ptr<BreakNode> makeBreak() { return std::make_unique<BreakNode>(); }
+  std::unique_ptr<BreakNode> makeBreak() {
+    return std::make_unique<BreakNode>();
+  }
 
-  std::unique_ptr<ContinueNode> makeContinue() { return std::make_unique<ContinueNode>(); }
+  std::unique_ptr<ContinueNode> makeContinue() {
+    return std::make_unique<ContinueNode>();
+  }
 
   std::unique_ptr<UnaryExpr>
   makeUnaryExpr(const std::string &op, std::unique_ptr<ExpressionNode> expr) {
     return std::make_unique<UnaryExpr>(op, std::move(expr));
   }
 
-  std::unique_ptr<CastExpr>
-  makeCastExpr(std::unique_ptr<ExpressionNode> expr,
-               std::unique_ptr<TypeNode> type) {
+  std::unique_ptr<CastExpr> makeCastExpr(std::unique_ptr<ExpressionNode> expr,
+                                         std::unique_ptr<TypeNode> type) {
     return std::make_unique<CastExpr>(std::move(expr), std::move(type));
   }
 
@@ -173,9 +175,8 @@ public:
   makeTernaryExpr(std::unique_ptr<ExpressionNode> condition,
                   std::unique_ptr<ExpressionNode> thenExpr,
                   std::unique_ptr<ExpressionNode> elseExpr) {
-    return std::make_unique<TernaryExpr>(std::move(condition),
-                                         std::move(thenExpr),
-                                         std::move(elseExpr));
+    return std::make_unique<TernaryExpr>(
+        std::move(condition), std::move(thenExpr), std::move(elseExpr));
   }
 
   std::unique_ptr<TryExpr>
@@ -194,8 +195,8 @@ public:
   makeFailableHandleExpr(std::unique_ptr<ExpressionNode> expression,
                          const std::string &errorName,
                          std::unique_ptr<BodyNode> handler) {
-    return std::make_unique<FailableHandleExpr>(
-        std::move(expression), errorName, std::move(handler));
+    return std::make_unique<FailableHandleExpr>(std::move(expression),
+                                                errorName, std::move(handler));
   }
 
   std::unique_ptr<ConstInt> makeConstInt(int64_t value) {
@@ -242,9 +243,9 @@ public:
     return std::make_unique<TypeNode>(name);
   }
 
-  std::unique_ptr<ImportNode> makeImport(std::string path,
-                                         std::string moduleAlias = "",
-                                         std::vector<ImportBinding> bindings = {}) {
+  std::unique_ptr<ImportNode>
+  makeImport(std::string path, std::string moduleAlias = "",
+             std::vector<ImportBinding> bindings = {}) {
     return std::make_unique<ImportNode>(std::move(path), std::move(moduleAlias),
                                         std::move(bindings));
   }

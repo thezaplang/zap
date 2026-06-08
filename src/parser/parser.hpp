@@ -1,126 +1,122 @@
 #pragma once
 #include "../ast/array_literal.hpp"
 #include "../ast/assign_node.hpp"
+#include "../ast/attribute.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
+#include "../ast/break_node.hpp"
+#include "../ast/cast_expr.hpp"
+#include "../ast/class_decl.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
-#include "../ast/cast_expr.hpp"
+#include "../ast/continue_node.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/expr_node.hpp"
 #include "../ast/ext_decl.hpp"
 #include "../ast/failable_nodes.hpp"
-#include "../ast/fun_decl.hpp"
 #include "../ast/for_in_node.hpp"
 #include "../ast/for_node.hpp"
+#include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
 #include "../ast/import_node.hpp"
+#include "../ast/member_access.hpp"
+#include "../ast/new_expr.hpp"
 #include "../ast/record_decl.hpp"
-#include "../ast/class_decl.hpp"
+#include "../ast/return_node.hpp"
+#include "../ast/root_node.hpp"
 #include "../ast/struct_decl.hpp"
 #include "../ast/struct_literal.hpp"
-#include "../ast/new_expr.hpp"
-#include "../ast/return_node.hpp"
 #include "../ast/unsafe_block_node.hpp"
-#include "../ast/break_node.hpp"
-#include "../ast/continue_node.hpp"
-#include "../ast/root_node.hpp"
 #include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
-#include "../ast/member_access.hpp"
-#include "../ast/attribute.hpp"
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
 #include "ast_builder.hpp"
 #include <memory>
 #include <vector>
 
-namespace zap
-{
+namespace zap {
 
-  class Parser
-  {
+class Parser {
+public:
+  class ParseError : public std::runtime_error {
   public:
-    class ParseError : public std::runtime_error
-    {
-    public:
-      ParseError() : std::runtime_error("Parse error") {}
-    };
-
-    Parser(const std::vector<Token> &toks, DiagnosticEngine &diag);
-    ~Parser();
-    std::unique_ptr<RootNode> parse(); // Returns the root of the AST
-
-  private:
-    DiagnosticEngine &_diag;
-    std::vector<Token> _tokens;
-    size_t _pos;
-    AstBuilder _builder;
-    bool _allowStructLiteral = true;
-
-    // Helper methods
-    const Token &peek(size_t offset = 0) const;
-    Token eat(TokenType expectedType);
-    bool isAtEnd() const;
-    enum class SyncContext {
-      TopLevel,
-      Block
-    };
-
-    void synchronize(SyncContext context = SyncContext::Block);
-    SourceSpan pointAfter(const SourceSpan &span) const;
-
-    // Parsing rules
-    std::vector<AttributeNode> parseAttributes();
-    AttributeNode parseSingleAttribute();
-    std::unique_ptr<FunDecl> parseFunDecl(bool isUnsafe = false);
-    std::unique_ptr<ExtDecl> parseExtDecl();
-    std::unique_ptr<ImportNode> parseImportDecl();
-    std::unique_ptr<BodyNode> parseBody();
-    std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
-    std::unique_ptr<VarDecl> parseVarDecl();
-    std::unique_ptr<ConstDecl> parseConstDecl();
-    std::unique_ptr<AssignNode> parseAssign();
-    std::unique_ptr<TypeNode> parseType();
-    std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
-    std::vector<std::unique_ptr<TypeNode>> parseGenericParameterList();
-    std::vector<GenericConstraint> parseWhereClauses();
-    std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
-    std::unique_ptr<IfNode> parseIf();
-    std::unique_ptr<IfTypeNode> parseIfType();
-    std::unique_ptr<WhileNode> parseWhile();
-    std::unique_ptr<ForNode> parseFor();
-    std::unique_ptr<ForInNode> parseForIn();
-    std::unique_ptr<VarDecl> parseForInitVarDecl();
-    std::unique_ptr<AssignNode> parseForIncrementAssign();
-    std::unique_ptr<ReturnNode> parseReturnStmt();
-    std::unique_ptr<ExpressionNode> parseExpression();
-    std::unique_ptr<ExpressionNode> parseFailableExpression();
-    std::unique_ptr<ExpressionNode> parseCastExpression();
-    std::unique_ptr<ExpressionNode> parseTernaryExpression();
-    std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
-    std::unique_ptr<ExpressionNode> parseUnaryExpression();
-    std::unique_ptr<ExpressionNode> parsePostfixExpression();
-    std::unique_ptr<ExpressionNode> parsePrimaryExpression();
-
-    int getPrecedence(TokenType type);
-    std::unique_ptr<ParameterNode> parseParameter();
-    std::unique_ptr<EnumDecl> parseEnumDecl();
-    std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
-    std::unique_ptr<RecordDecl> parseRecordDecl();
-    std::unique_ptr<ClassDecl> parseClassDecl();
-    std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
-    std::unique_ptr<StructLiteralNode> parseStructLiteral(const std::string& type_name);
-    std::unique_ptr<StructLiteralNode> parseStructLiteral(std::unique_ptr<TypeNode> type);
-    std::unique_ptr<BreakNode> parseBreak();
-    std::unique_ptr<ContinueNode> parseContinue();
-    std::unique_ptr<FailNode> parseFail();
-    std::vector<std::string> parseQualifiedIdentifier();
-    bool isTypeStartToken(TokenType type) const;
-    bool isTryPostfixContext(TokenType type) const;
-    bool isGenericCallStart() const;
-    bool isGenericStructLiteralStart() const;
-    std::unique_ptr<TypeNode>
-    typeNodeFromQualifiedExpression(const ExpressionNode *expr);
+    ParseError() : std::runtime_error("Parse error") {}
   };
+
+  Parser(const std::vector<Token> &toks, DiagnosticEngine &diag);
+  ~Parser();
+  std::unique_ptr<RootNode> parse(); // Returns the root of the AST
+
+private:
+  DiagnosticEngine &_diag;
+  std::vector<Token> _tokens;
+  size_t _pos;
+  AstBuilder _builder;
+  bool _allowStructLiteral = true;
+
+  // Helper methods
+  const Token &peek(size_t offset = 0) const;
+  Token eat(TokenType expectedType);
+  bool isAtEnd() const;
+  enum class SyncContext { TopLevel, Block };
+
+  void synchronize(SyncContext context = SyncContext::Block);
+  SourceSpan pointAfter(const SourceSpan &span) const;
+
+  // Parsing rules
+  std::vector<AttributeNode> parseAttributes();
+  AttributeNode parseSingleAttribute();
+  std::unique_ptr<FunDecl> parseFunDecl(bool isUnsafe = false);
+  std::unique_ptr<ExtDecl> parseExtDecl();
+  std::unique_ptr<ImportNode> parseImportDecl();
+  std::unique_ptr<BodyNode> parseBody();
+  std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
+  std::unique_ptr<VarDecl> parseVarDecl();
+  std::unique_ptr<ConstDecl> parseConstDecl();
+  std::unique_ptr<AssignNode> parseAssign();
+  std::unique_ptr<TypeNode> parseType();
+  std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
+  std::vector<std::unique_ptr<TypeNode>> parseGenericParameterList();
+  std::vector<GenericConstraint> parseWhereClauses();
+  std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
+  std::unique_ptr<IfNode> parseIf();
+  std::unique_ptr<IfTypeNode> parseIfType();
+  std::unique_ptr<WhileNode> parseWhile();
+  std::unique_ptr<ForNode> parseFor();
+  std::unique_ptr<ForInNode> parseForIn();
+  std::unique_ptr<VarDecl> parseForInitVarDecl();
+  std::unique_ptr<AssignNode> parseForIncrementAssign();
+  std::unique_ptr<ReturnNode> parseReturnStmt();
+  std::unique_ptr<ExpressionNode> parseExpression();
+  std::unique_ptr<ExpressionNode> parseFailableExpression();
+  std::unique_ptr<ExpressionNode> parseCastExpression();
+  std::unique_ptr<ExpressionNode> parseTernaryExpression();
+  std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
+  std::unique_ptr<ExpressionNode> parseUnaryExpression();
+  std::unique_ptr<ExpressionNode> parsePostfixExpression();
+  std::unique_ptr<ExpressionNode> parsePrimaryExpression();
+
+  int getPrecedence(TokenType type);
+  std::unique_ptr<ParameterNode> parseParameter();
+  std::unique_ptr<EnumDecl> parseEnumDecl();
+  std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
+  std::unique_ptr<RecordDecl> parseRecordDecl();
+  std::unique_ptr<ClassDecl> parseClassDecl();
+  std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
+  std::unique_ptr<StructLiteralNode>
+  parseStructLiteral(const std::string &type_name);
+  std::unique_ptr<StructLiteralNode>
+  parseStructLiteral(std::unique_ptr<TypeNode> type);
+  std::unique_ptr<BreakNode> parseBreak();
+  std::unique_ptr<ContinueNode> parseContinue();
+  std::unique_ptr<FailNode> parseFail();
+  std::vector<std::string> parseQualifiedIdentifier();
+  bool isTypeStartToken(TokenType type) const;
+  bool isTryPostfixContext(TokenType type) const;
+  bool isGenericCallStart() const;
+  bool isGenericStructLiteralStart() const;
+  std::unique_ptr<TypeNode>
+  typeNodeFromQualifiedExpression(const ExpressionNode *expr);
+};
 } // namespace zap

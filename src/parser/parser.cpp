@@ -103,13 +103,13 @@ std::unique_ptr<RootNode> Parser::parse() {
                          : Visibility::Private;
       }
 
-      auto applyMetadata = [&visibility](Node *node,
-                                         std::vector<AttributeNode> attrs = {}) {
-        if (auto topLevel = dynamic_cast<TopLevel *>(node)) {
-          topLevel->visibility_ = visibility;
-          topLevel->attributes_ = std::move(attrs);
-        }
-      };
+      auto applyMetadata =
+          [&visibility](Node *node, std::vector<AttributeNode> attrs = {}) {
+            if (auto topLevel = dynamic_cast<TopLevel *>(node)) {
+              topLevel->visibility_ = visibility;
+              topLevel->attributes_ = std::move(attrs);
+            }
+          };
 
       if (peek().type == TokenType::IMPORT) {
         auto importDecl = parseImportDecl();
@@ -133,10 +133,12 @@ std::unique_ptr<RootNode> Parser::parse() {
           eat(TokenType::COLON);
           auto typeNode = parseType();
           Token semiToken = eat(TokenType::SEMICOLON);
-          auto varDecl = _builder.makeVarDecl(nameToken.value, std::move(typeNode), nullptr);
+          auto varDecl = _builder.makeVarDecl(nameToken.value,
+                                              std::move(typeNode), nullptr);
           varDecl->isGlobal_ = true;
           varDecl->isExternal_ = true;
-          _builder.setSpan(varDecl.get(), SourceSpan::merge(externToken.span, semiToken.span));
+          _builder.setSpan(varDecl.get(),
+                           SourceSpan::merge(externToken.span, semiToken.span));
           applyMetadata(varDecl.get(), std::move(attributes));
           root->addChild(std::move(varDecl));
         } else {
@@ -240,8 +242,7 @@ std::unique_ptr<ImportNode> Parser::parseImportDecl() {
 
 std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
   bool isStatic = false;
-  while (peek().type == TokenType::STATIC ||
-         peek().type == TokenType::UNSAFE) {
+  while (peek().type == TokenType::STATIC || peek().type == TokenType::UNSAFE) {
     if (peek().type == TokenType::STATIC) {
       eat(TokenType::STATIC);
       isStatic = true;
@@ -545,8 +546,7 @@ std::vector<GenericConstraint> Parser::parseWhereClauses() {
     Token paramToken = eat(TokenType::ID);
     eat(TokenType::COLON);
     auto boundType = parseType();
-    constraints.push_back(
-        {paramToken.value, std::move(boundType)});
+    constraints.push_back({paramToken.value, std::move(boundType)});
   }
   return constraints;
 }
@@ -691,9 +691,8 @@ Parser::typeNodeFromQualifiedExpression(const ExpressionNode *expr) {
   size_t start = 0;
   while (true) {
     size_t dot = qualified.find('.', start);
-    auto part = qualified.substr(start, dot == std::string::npos
-                                            ? std::string::npos
-                                            : dot - start);
+    auto part = qualified.substr(
+        start, dot == std::string::npos ? std::string::npos : dot - start);
     if (dot == std::string::npos) {
       typeNode->typeName = part;
       break;
@@ -756,15 +755,18 @@ std::unique_ptr<TypeNode> Parser::parseType() {
                  eat(TokenType::COMMA).type == TokenType::COMMA);
       }
       Token rparenToken = eat(TokenType::RPAREN);
-      if (peek().type != TokenType::SEMICOLON && peek().type != TokenType::COMMA &&
-          peek().type != TokenType::RPAREN && peek().type != TokenType::ASSIGN &&
-          peek().type != TokenType::RBRACE && peek().type != TokenType::SQUARE_RBRACE) {
+      if (peek().type != TokenType::SEMICOLON &&
+          peek().type != TokenType::COMMA && peek().type != TokenType::RPAREN &&
+          peek().type != TokenType::ASSIGN &&
+          peek().type != TokenType::RBRACE &&
+          peek().type != TokenType::SQUARE_RBRACE) {
         funPtrType->funPtrReturn = parseType();
       } else {
         funPtrType->funPtrReturn = _builder.makeType("Void");
       }
-      _builder.setSpan(funPtrType.get(),
-                       SourceSpan::merge(starToken.span, funPtrType->funPtrReturn->span));
+      _builder.setSpan(
+          funPtrType.get(),
+          SourceSpan::merge(starToken.span, funPtrType->funPtrReturn->span));
       return funPtrType;
     }
 
@@ -927,9 +929,9 @@ std::unique_ptr<IfTypeNode> Parser::parseIfType() {
     }
   }
 
-  auto ifTypeNode = _builder.makeIfType(paramToken.value, std::move(matchType),
-                                        std::move(thenBody),
-                                        std::move(elseBody));
+  auto ifTypeNode =
+      _builder.makeIfType(paramToken.value, std::move(matchType),
+                          std::move(thenBody), std::move(elseBody));
   _builder.setSpan(ifTypeNode.get(),
                    SourceSpan::merge(iftypeKeyword.span, endSpan));
   return ifTypeNode;
@@ -991,8 +993,8 @@ std::unique_ptr<AssignNode> Parser::parseForIncrementAssign() {
   eat(TokenType::ASSIGN);
   auto expr = parseExpression();
   auto assign = _builder.makeAssign(std::move(target), std::move(expr));
-  _builder.setSpan(assign.get(),
-                   SourceSpan::merge(assign->target_->span, assign->expr_->span));
+  _builder.setSpan(assign.get(), SourceSpan::merge(assign->target_->span,
+                                                   assign->expr_->span));
   return assign;
 }
 
@@ -1160,8 +1162,7 @@ std::unique_ptr<ExpressionNode> Parser::parseFailableExpression() {
     SourceSpan endSpan = fallback->span;
     auto fallbackExpr =
         _builder.makeFallbackExpr(std::move(expr), std::move(fallback));
-    _builder.setSpan(fallbackExpr.get(),
-                     SourceSpan::merge(startSpan, endSpan));
+    _builder.setSpan(fallbackExpr.get(), SourceSpan::merge(startSpan, endSpan));
     expr = std::move(fallbackExpr);
   }
 
@@ -1372,7 +1373,8 @@ std::unique_ptr<ExpressionNode> Parser::parsePostfixExpression() {
       eat(TokenType::QUESTION);
       SourceSpan leftSpan = left->span;
       auto tryExpr = _builder.makeTryExpr(std::move(left));
-      _builder.setSpan(tryExpr.get(), SourceSpan::merge(leftSpan, opToken.span));
+      _builder.setSpan(tryExpr.get(),
+                       SourceSpan::merge(leftSpan, opToken.span));
       left = std::move(tryExpr);
     } else if (_allowStructLiteral && opToken.type == TokenType::LBRACE) {
       auto qualifiedTypeName = qualifiedNameFromExpression(left.get());
@@ -1712,9 +1714,10 @@ std::unique_ptr<EnumDecl> Parser::parseEnumDecl() {
           const uint64_t minAbs =
               static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) + 1ULL;
           if (unsignedValue > minAbs) {
-            _diag.report(valueToken.span, DiagnosticLevel::Error,
-                         "Enum value out of range for signed 64-bit integer: -" +
-                             valueToken.value);
+            _diag.report(
+                valueToken.span, DiagnosticLevel::Error,
+                "Enum value out of range for signed 64-bit integer: -" +
+                    valueToken.value);
             throw ParseError();
           }
 
@@ -1738,10 +1741,9 @@ std::unique_ptr<EnumDecl> Parser::parseEnumDecl() {
       } catch (const ParseError &) {
         throw;
       } catch (const std::exception &) {
-        _diag.report(
-            SourceSpan::merge(assignToken.span, valueToken.span),
-            DiagnosticLevel::Error,
-            "Invalid enum value, expected integer literal after '='.");
+        _diag.report(SourceSpan::merge(assignToken.span, valueToken.span),
+                     DiagnosticLevel::Error,
+                     "Invalid enum value, expected integer literal after '='.");
         throw ParseError();
       }
     } else {
@@ -1799,9 +1801,8 @@ std::unique_ptr<RecordDecl> Parser::parseRecordDecl() {
 
   Token rbraceToken = eat(TokenType::RBRACE);
 
-  auto recordDecl =
-      _builder.makeRecordDecl(recordNameToken.value, std::move(genericParams),
-                              std::move(fields));
+  auto recordDecl = _builder.makeRecordDecl(
+      recordNameToken.value, std::move(genericParams), std::move(fields));
   recordDecl->genericConstraints_ = std::move(genericConstraints);
   _builder.setSpan(recordDecl.get(),
                    SourceSpan::merge(recordKeyword.span, rbraceToken.span));
@@ -1897,9 +1898,8 @@ Parser::parseStructLiteral(const std::string &type_name) {
   size_t start = 0;
   while (true) {
     size_t dot = type_name.find('.', start);
-    auto part = type_name.substr(start, dot == std::string::npos
-                                            ? std::string::npos
-                                            : dot - start);
+    auto part = type_name.substr(
+        start, dot == std::string::npos ? std::string::npos : dot - start);
     if (dot == std::string::npos) {
       typeNode->typeName = part;
       break;
@@ -1938,7 +1938,8 @@ Parser::parseStructLiteral(std::unique_ptr<TypeNode> type) {
     _builder.setSpan(literal.get(),
                      SourceSpan::merge(literal->type_->span, rbrace.span));
   } else {
-    _builder.setSpan(literal.get(), SourceSpan::merge(lbrace.span, rbrace.span));
+    _builder.setSpan(literal.get(),
+                     SourceSpan::merge(lbrace.span, rbrace.span));
   }
   return literal;
 }

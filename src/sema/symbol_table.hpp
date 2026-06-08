@@ -20,11 +20,13 @@ public:
     return true;
   }
 
-  std::shared_ptr<OverloadSetSymbol> declareFunction(
-      const std::string &name, std::shared_ptr<FunctionSymbol> function) {
+  std::shared_ptr<OverloadSetSymbol>
+  declareFunction(const std::string &name,
+                  std::shared_ptr<FunctionSymbol> function) {
     auto it = symbols_.find(name);
     if (it == symbols_.end()) {
-      auto set = std::make_shared<OverloadSetSymbol>(name, function ? function->moduleName : "");
+      auto set = std::make_shared<OverloadSetSymbol>(
+          name, function ? function->moduleName : "");
       set->visibility = function ? function->visibility : Visibility::Private;
       if (function) {
         set->addOverload(function);

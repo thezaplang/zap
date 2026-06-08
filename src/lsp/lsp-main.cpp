@@ -13,8 +13,8 @@
 #include <optional>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <unistd.h>
+#include <unordered_map>
 
 using namespace zap::lsp;
 
@@ -257,7 +257,8 @@ void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module) {
   }
 
   auto import = std::make_unique<ImportNode>("std/prelude");
-  module.root->children.insert(module.root->children.begin(), std::move(import));
+  module.root->children.insert(module.root->children.begin(),
+                               std::move(import));
 }
 
 bool resolveImportTargets(const std::filesystem::path &modulePath,
@@ -578,20 +579,21 @@ std::string renderParameter(const ParameterNode *param) {
 }
 
 std::optional<LspSignature> signatureForNode(const Node *node) {
-  auto renderGenericParams = [](const std::vector<std::unique_ptr<TypeNode>> &genericParams) {
-    if (genericParams.empty()) {
-      return std::string();
-    }
-    std::string out = "<";
-    for (size_t i = 0; i < genericParams.size(); ++i) {
-      if (i != 0) {
-        out += ", ";
-      }
-      out += genericParams[i] ? genericParams[i]->qualifiedName() : "?";
-    }
-    out += ">";
-    return out;
-  };
+  auto renderGenericParams =
+      [](const std::vector<std::unique_ptr<TypeNode>> &genericParams) {
+        if (genericParams.empty()) {
+          return std::string();
+        }
+        std::string out = "<";
+        for (size_t i = 0; i < genericParams.size(); ++i) {
+          if (i != 0) {
+            out += ", ";
+          }
+          out += genericParams[i] ? genericParams[i]->qualifiedName() : "?";
+        }
+        out += ">";
+        return out;
+      };
 
   auto renderConstraints =
       [](const std::vector<GenericConstraint> &constraints) {
@@ -616,7 +618,8 @@ std::optional<LspSignature> signatureForNode(const Node *node) {
     for (const auto &param : fun->params_) {
       params.push_back(renderParameter(param.get()));
     }
-    std::string label = fun->name_ + renderGenericParams(fun->genericParams_) + "(";
+    std::string label =
+        fun->name_ + renderGenericParams(fun->genericParams_) + "(";
     for (size_t i = 0; i < params.size(); ++i) {
       if (i != 0) {
         label += ", ";
@@ -752,8 +755,7 @@ findImportedModuleByAlias(const ProjectState &project,
 
 const ClassDecl *resolveClassInModule(const ProjectState &project,
                                       const sema::ModuleInfo &module,
-                                      std::string_view name,
-                                      bool publicOnly,
+                                      std::string_view name, bool publicOnly,
                                       std::set<std::string> &visited) {
   std::string moduleId = module.moduleId;
   if (visited.count(moduleId)) {
@@ -772,7 +774,8 @@ const ClassDecl *resolveClassInModule(const ProjectState &project,
       for (const auto &targetId : import.targetModuleIds) {
         auto targetIt = project.moduleMap.find(targetId);
         if (targetIt != project.moduleMap.end()) {
-          if (auto cls = resolveClassInModule(project, *targetIt->second, name, true, visited)) {
+          if (auto cls = resolveClassInModule(project, *targetIt->second, name,
+                                              true, visited)) {
             return cls;
           }
         }
@@ -784,7 +787,9 @@ const ClassDecl *resolveClassInModule(const ProjectState &project,
         for (const auto &targetId : import.targetModuleIds) {
           auto targetIt = project.moduleMap.find(targetId);
           if (targetIt != project.moduleMap.end()) {
-            if (auto cls = resolveClassInModule(project, *targetIt->second, binding.sourceName, true, visited)) {
+            if (auto cls =
+                    resolveClassInModule(project, *targetIt->second,
+                                         binding.sourceName, true, visited)) {
               return cls;
             }
           }
@@ -816,14 +821,16 @@ const ClassDecl *resolveClassByTypeName(const ProjectState &project,
   }
   if (qualifier.empty()) {
     std::set<std::string> visited;
-    return resolveClassInModule(project, module, localName, publicOnly, visited);
+    return resolveClassInModule(project, module, localName, publicOnly,
+                                visited);
   }
   auto importedModule = findImportedModuleByAlias(project, module, qualifier);
   if (!importedModule) {
     return nullptr;
   }
   std::set<std::string> visited;
-  return resolveClassInModule(project, *importedModule, localName, publicOnly, visited);
+  return resolveClassInModule(project, *importedModule, localName, publicOnly,
+                              visited);
 }
 
 bool isClassTypeName(const ProjectState &project,
@@ -1181,8 +1188,7 @@ std::optional<CallContext> callContextNearOffset(const std::string &source,
 
 std::vector<LspSignature> resolveSignaturesInModuleRecursive(
     const ProjectState &project, const sema::ModuleInfo &module,
-    std::string_view name, bool publicOnly,
-    std::set<std::string> &visited) {
+    std::string_view name, bool publicOnly, std::set<std::string> &visited) {
   std::string moduleId = module.moduleId;
   if (visited.count(moduleId)) {
     return {};
@@ -1201,7 +1207,8 @@ std::vector<LspSignature> resolveSignaturesInModuleRecursive(
       for (const auto &targetId : import.targetModuleIds) {
         auto targetIt = project.moduleMap.find(targetId);
         if (targetIt != project.moduleMap.end()) {
-          auto signatures = resolveSignaturesInModuleRecursive(project, *targetIt->second, name, true, visited);
+          auto signatures = resolveSignaturesInModuleRecursive(
+              project, *targetIt->second, name, true, visited);
           if (!signatures.empty()) {
             return signatures;
           }
@@ -1214,7 +1221,8 @@ std::vector<LspSignature> resolveSignaturesInModuleRecursive(
         for (const auto &targetId : import.targetModuleIds) {
           auto targetIt = project.moduleMap.find(targetId);
           if (targetIt != project.moduleMap.end()) {
-            auto signatures = resolveSignaturesInModuleRecursive(project, *targetIt->second, binding.sourceName, true, visited);
+            auto signatures = resolveSignaturesInModuleRecursive(
+                project, *targetIt->second, binding.sourceName, true, visited);
             if (!signatures.empty()) {
               return signatures;
             }
@@ -1274,7 +1282,8 @@ std::vector<LspSignature> resolveSignatures(const std::string &source,
   }
 
   std::set<std::string> visited;
-  return resolveSignaturesInModuleRecursive(project, module, call->callee, false, visited);
+  return resolveSignaturesInModuleRecursive(project, module, call->callee,
+                                            false, visited);
 }
 
 std::optional<HoverInfo> hoverForNode(const Node *node) {
@@ -1317,9 +1326,10 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
           hover += ", ";
         }
         hover += record->genericConstraints_[i].parameterName + ": ";
-        hover += record->genericConstraints_[i].boundType
-                     ? renderType(record->genericConstraints_[i].boundType.get())
-                     : std::string("?");
+        hover +=
+            record->genericConstraints_[i].boundType
+                ? renderType(record->genericConstraints_[i].boundType.get())
+                : std::string("?");
       }
     }
     return HoverInfo{"zap", hover};
@@ -1345,9 +1355,10 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
           hover += ", ";
         }
         hover += strukt->genericConstraints_[i].parameterName + ": ";
-        hover += strukt->genericConstraints_[i].boundType
-                     ? renderType(strukt->genericConstraints_[i].boundType.get())
-                     : std::string("?");
+        hover +=
+            strukt->genericConstraints_[i].boundType
+                ? renderType(strukt->genericConstraints_[i].boundType.get())
+                : std::string("?");
       }
     }
     return HoverInfo{"zap", hover};
@@ -1426,8 +1437,7 @@ JsonObject makeHover(const HoverInfo &hover) {
 
 std::optional<HoverInfo> resolveHoverInModuleRecursive(
     const ProjectState &project, const sema::ModuleInfo &module,
-    std::string_view name, bool publicOnly,
-    std::set<std::string> &visited) {
+    std::string_view name, bool publicOnly, std::set<std::string> &visited) {
   std::string moduleId = module.moduleId;
   if (visited.count(moduleId)) {
     return std::nullopt;
@@ -1445,7 +1455,8 @@ std::optional<HoverInfo> resolveHoverInModuleRecursive(
       for (const auto &targetId : import.targetModuleIds) {
         auto targetIt = project.moduleMap.find(targetId);
         if (targetIt != project.moduleMap.end()) {
-          if (auto hover = resolveHoverInModuleRecursive(project, *targetIt->second, name, true, visited)) {
+          if (auto hover = resolveHoverInModuleRecursive(
+                  project, *targetIt->second, name, true, visited)) {
             return hover;
           }
         }
@@ -1457,7 +1468,9 @@ std::optional<HoverInfo> resolveHoverInModuleRecursive(
         for (const auto &targetId : import.targetModuleIds) {
           auto targetIt = project.moduleMap.find(targetId);
           if (targetIt != project.moduleMap.end()) {
-            if (auto hover = resolveHoverInModuleRecursive(project, *targetIt->second, binding.sourceName, true, visited)) {
+            if (auto hover = resolveHoverInModuleRecursive(
+                    project, *targetIt->second, binding.sourceName, true,
+                    visited)) {
               return hover;
             }
           }
@@ -1632,9 +1645,10 @@ std::vector<LspSymbol> collectTopLevelSymbols(const sema::ModuleInfo &module,
   return symbols;
 }
 
-std::vector<LspSymbol> collectExportedSymbolsRecursive(
-    const ProjectState &project, const sema::ModuleInfo &module,
-    std::set<std::string> &visited) {
+std::vector<LspSymbol>
+collectExportedSymbolsRecursive(const ProjectState &project,
+                                const sema::ModuleInfo &module,
+                                std::set<std::string> &visited) {
   std::string moduleId = module.moduleId;
   if (visited.count(moduleId)) {
     return {};
@@ -1646,7 +1660,8 @@ std::vector<LspSymbol> collectExportedSymbolsRecursive(
                               ? pathToUri(moduleId)
                               : targetUriIt->second;
 
-  std::vector<LspSymbol> symbols = collectTopLevelSymbols(module, targetUri, true);
+  std::vector<LspSymbol> symbols =
+      collectTopLevelSymbols(module, targetUri, true);
 
   for (const auto &import : module.imports) {
     if (import.visibility != Visibility::Public) {
@@ -1657,17 +1672,19 @@ std::vector<LspSymbol> collectExportedSymbolsRecursive(
       if (targetIt == project.moduleMap.end()) {
         continue;
       }
-      auto subExports = collectExportedSymbolsRecursive(project, *targetIt->second, visited);
+      auto subExports =
+          collectExportedSymbolsRecursive(project, *targetIt->second, visited);
       if (import.bindings.empty()) {
         for (const auto &sym : subExports) {
           symbols.push_back(sym);
         }
       } else {
         for (const auto &binding : import.bindings) {
-          auto exportIt = std::find_if(subExports.begin(), subExports.end(),
-                                       [&](const LspSymbol &symbol) {
-                                         return symbol.name == binding.sourceName;
-                                       });
+          auto exportIt =
+              std::find_if(subExports.begin(), subExports.end(),
+                           [&](const LspSymbol &symbol) {
+                             return symbol.name == binding.sourceName;
+                           });
           if (exportIt != subExports.end()) {
             LspSymbol local = *exportIt;
             local.name = binding.localName;
@@ -1818,7 +1835,8 @@ class Workspace {
     auto writeTime = std::filesystem::last_write_time(path, ec);
     if (!ec) {
       auto cacheIt = fileContentCache_.find(key);
-      if (cacheIt != fileContentCache_.end() && cacheIt->second.lastWriteTime == writeTime) {
+      if (cacheIt != fileContentCache_.end() &&
+          cacheIt->second.lastWriteTime == writeTime) {
         return cacheIt->second.content;
       }
     }
@@ -1945,7 +1963,8 @@ public:
     std::string canonicalKey = canonicalPath.string();
 
     auto existingUriIt = uriByCanonicalPath_.find(canonicalKey);
-    if (existingUriIt != uriByCanonicalPath_.end() && existingUriIt->second != uri) {
+    if (existingUriIt != uriByCanonicalPath_.end() &&
+        existingUriIt->second != uri) {
       documentsByUri_.erase(existingUriIt->second);
       existingUriIt->second = uri;
     } else {
@@ -2022,7 +2041,8 @@ public:
 
     std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
     std::set<std::string> visiting;
-    if (!loadModuleGraph(docIt->second.path, moduleMap, visiting, result, uri, false)) {
+    if (!loadModuleGraph(docIt->second.path, moduleMap, visiting, result, uri,
+                         false)) {
       if (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {
         result.diagnosticsByUri[uri] = {};
       }
@@ -2228,8 +2248,8 @@ std::optional<LspSymbol> resolveDefinition(const Workspace &workspace,
                                       ? pathToUri(targetId)
                                       : targetUriIt->second;
           std::set<std::string> visited;
-          auto exported =
-              collectExportedSymbolsRecursive(project, *targetIt->second, visited);
+          auto exported = collectExportedSymbolsRecursive(
+              project, *targetIt->second, visited);
           auto exportIt = std::find_if(exported.begin(), exported.end(),
                                        [&](const LspSymbol &symbol) {
                                          return symbol.name == memberName;
@@ -2552,12 +2572,12 @@ int main() {
                   collectCompletionSymbols(*uri, *project, offset);
               std::set<std::string> seen;
               static constexpr const char *keywords[] = {
-                  "fun",    "return",   "if",      "else",   "iftype", "while",
-                  "var",    "const",    "import",  "pub",    "priv",   "prot",
-                  "struct", "record",   "class",   "enum",   "alias",  "ext",
-                  "global", "break",    "continue","ref",    "as",     "new",
-                  "self",   "where",    "unsafe",  "weak",   "fail",   "or",
-                  "for",    "match",    "module",  "impl",   "static"};
+                  "fun",    "return", "if",       "else", "iftype", "while",
+                  "var",    "const",  "import",   "pub",  "priv",   "prot",
+                  "struct", "record", "class",    "enum", "alias",  "ext",
+                  "global", "break",  "continue", "ref",  "as",     "new",
+                  "self",   "where",  "unsafe",   "weak", "fail",   "or",
+                  "for",    "match",  "module",   "impl", "static"};
               for (const char *keyword : keywords) {
                 if (seen.insert(keyword).second) {
                   items.push_back(makeCompletionItem(

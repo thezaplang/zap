@@ -114,8 +114,7 @@ private:
   std::vector<std::pair<llvm::BasicBlock *, llvm::BasicBlock *>> loopBBStack_;
 
   llvm::Type *toLLVMType(const zir::Type &ty);
-  llvm::Type *
-  toLLVMAggregateFieldType(const std::shared_ptr<zir::Type> &type);
+  llvm::Type *toLLVMAggregateFieldType(const std::shared_ptr<zir::Type> &type);
   llvm::FunctionType *buildFunctionType(const sema::FunctionSymbol &sym,
                                         bool injectMainProcessArgs = false);
   llvm::FunctionType *buildFunctionType(const zir::Function &fn);
@@ -126,8 +125,8 @@ private:
   llvm::Value *lowerZIRValue(const std::shared_ptr<zir::Value> &value);
   llvm::Value *lowerZIRRValue(const std::shared_ptr<zir::Value> &value);
   llvm::Constant *lowerZIRConstant(const zir::Constant &constant);
-  llvm::Constant *lowerZIRAggregateConstant(
-      const zir::AggregateConstant &constant);
+  llvm::Constant *
+  lowerZIRAggregateConstant(const zir::AggregateConstant &constant);
   llvm::Value *lowerZIRCast(llvm::Value *src,
                             const std::shared_ptr<zir::Type> &sourceType,
                             const std::shared_ptr<zir::Type> &targetType);
@@ -147,8 +146,8 @@ private:
                           const std::shared_ptr<zir::Type> &type);
   void emitReleaseIfNeeded(llvm::Value *value,
                            const std::shared_ptr<zir::Type> &type);
-  llvm::Value *emitStringRetainIfNeeded(
-      llvm::Value *value, const std::shared_ptr<zir::Type> &type);
+  llvm::Value *emitStringRetainIfNeeded(llvm::Value *value,
+                                        const std::shared_ptr<zir::Type> &type);
   void emitStringReleaseIfNeeded(llvm::Value *value,
                                  const std::shared_ptr<zir::Type> &type);
   void emitRetainWeakIfNeeded(llvm::Value *value,

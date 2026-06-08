@@ -12,7 +12,8 @@ public:
   size_t _column;
   std::string _input;
 
-  Lexer(zap::DiagnosticEngine &diag) noexcept(std::is_nothrow_default_constructible<std::string>::value) 
+  Lexer(zap::DiagnosticEngine &diag) noexcept(
+      std::is_nothrow_default_constructible<std::string>::value)
       : _diag(diag) {}
   ~Lexer() noexcept {}
   std::vector<Token> tokenize(const std::string &input);

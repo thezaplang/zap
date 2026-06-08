@@ -9,7 +9,8 @@ public:
   std::unique_ptr<ExpressionNode> left_;
   std::string op_;
   std::unique_ptr<ExpressionNode> right_;
-  BinExpr() noexcept(std::is_nothrow_default_constructible<std::string>::value) = default;
+  BinExpr() noexcept(
+      std::is_nothrow_default_constructible<std::string>::value) = default;
   BinExpr(std::unique_ptr<ExpressionNode> left, std::string op,
           std::unique_ptr<ExpressionNode> right)
       : left_(std::move(left)), op_(op), right_(std::move(right)) {}

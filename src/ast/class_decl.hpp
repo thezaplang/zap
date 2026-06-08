@@ -1,6 +1,6 @@
 #pragma once
-#include "generic_constraint.hpp"
 #include "fun_decl.hpp"
+#include "generic_constraint.hpp"
 #include "parameter_node.hpp"
 #include "top_level.hpp"
 #include "type_node.hpp"

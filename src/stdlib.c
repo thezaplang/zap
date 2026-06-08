@@ -1,19 +1,19 @@
+#include "runtime/arc_layout.h"
+#include <arpa/inet.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <math.h>
-#include <stddef.h>
+#include <netdb.h>
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include "runtime/arc_layout.h"
 
 typedef struct zap_arc_metadata_t {
   uint32_t strong_field_count;
@@ -367,8 +367,8 @@ static zap_string_header_t *zap_string_header_from_ptr(const char *ptr) {
 }
 
 static char *zap_string_alloc_owned(size_t len) {
-  zap_string_header_t *header = (zap_string_header_t *)malloc(
-      sizeof(zap_string_header_t) + len + 1);
+  zap_string_header_t *header =
+      (zap_string_header_t *)malloc(sizeof(zap_string_header_t) + len + 1);
   if (!header) {
     return NULL;
   }
@@ -740,9 +740,8 @@ static char *zap_copy_path(zap_string_t path) {
   return buffer;
 }
 
-static int zap_net_bind_addrinfo(const char *host, long port,
-                                 int socktype, int flags,
-                                 struct addrinfo **out) {
+static int zap_net_bind_addrinfo(const char *host, long port, int socktype,
+                                 int flags, struct addrinfo **out) {
   if (!out) {
     zap_net_last_error = EINVAL;
     return -1;

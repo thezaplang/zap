@@ -287,7 +287,8 @@ public:
   std::string toString() const override {
     std::string s = "*fun(";
     for (size_t i = 0; i < params.size(); ++i) {
-      if (i) s += ", ";
+      if (i)
+        s += ", ";
       s += params[i]->toString();
     }
     return s + ") " + returnType->toString();

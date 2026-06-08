@@ -5,10 +5,7 @@
 #include <string>
 #include <vector>
 
-enum class AttributeArgumentKind {
-  Positional,
-  Named
-};
+enum class AttributeArgumentKind { Positional, Named };
 
 struct AttributeArgument {
   AttributeArgumentKind kind = AttributeArgumentKind::Positional;
