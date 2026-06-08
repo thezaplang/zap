@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Get list of staged C/C++ files (excluding deleted files)
+staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|hpp|c|h)$')
+
+if [ -n "$staged_files" ]; then
+    # Check if clang-format is available
+    if ! command -v clang-format &> /dev/null; then
+        echo "Warning: clang-format is not installed. Code was not formatted."
+        exit 0
+    fi
+
+    echo "Running clang-format on staged C/C++ files..."
+    echo "$staged_files" | xargs clang-format -i
+
+    # Re-stage the formatted files
+    echo "$staged_files" | xargs git add
+fi
