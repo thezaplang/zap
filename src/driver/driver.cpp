@@ -207,7 +207,11 @@ bool hasPreludeImport(const RootNode &root) {
   return false;
 }
 
-void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module) {
+void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
+                                         bool incStdlib) {
+  if (!incStdlib) {
+    return;
+  }
   // Keep stdlib modules self-contained; prelude is for userland ergonomics.
   if (module.linkPath.rfind("std/", 0) == 0) {
     return;
@@ -273,7 +277,7 @@ bool resolveImportTargets(const std::filesystem::path &modulePath,
 bool loadModuleGraph(
     const std::filesystem::path &entryPath,
     std::map<std::string, std::unique_ptr<sema::ModuleInfo>> &modules,
-    std::set<std::string> &visiting) {
+    std::set<std::string> &visiting, bool incStdlib) {
   auto canonicalPath = std::filesystem::weakly_canonical(entryPath);
   auto moduleId = canonicalPath.string();
 
@@ -309,7 +313,7 @@ bool loadModuleGraph(
   module->linkPath = computeLogicalModulePath(canonicalPath);
   module->sourceName = canonicalPath.string();
   module->root = std::move(ast);
-  injectImplicitPreludeImportIfNeeded(*module);
+  injectImplicitPreludeImportIfNeeded(*module, incStdlib);
 
   for (const auto &child : module->root->children) {
     auto importNode = dynamic_cast<ImportNode *>(child.get());
@@ -340,7 +344,7 @@ bool loadModuleGraph(
 
   for (const auto &import : module->imports) {
     for (const auto &targetId : import.targetModuleIds) {
-      if (loadModuleGraph(targetId, modules, visiting)) {
+      if (loadModuleGraph(targetId, modules, visiting, incStdlib)) {
         return true;
       }
     }
@@ -363,7 +367,7 @@ void driver::setExecutablePath(std::filesystem::path path) {
 bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
   std::set<std::string> visiting;
-  if (loadModuleGraph(entryPath, moduleMap, visiting)) {
+  if (loadModuleGraph(entryPath, moduleMap, visiting, drv.inc_stdlib)) {
     return true;
   }
 
