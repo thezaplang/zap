@@ -16,6 +16,88 @@ TOTAL=0
 PASSED=0
 SKIPPED=0
 
+CORES=$(nproc)
+JOBS=$(( CORES > 1 ? CORES - 1 : 1 ))
+
+declare -A job_files
+
+wait_one_job() {
+    local finished=0
+    while [ $finished -eq 0 ]; do
+        for pid in "${!job_files[@]}"; do
+            if ! kill -0 "$pid" 2>/dev/null; then
+                wait "$pid"
+                local exit_code=$?
+                local outfile="${job_files[$pid]}"
+                cat "$outfile"
+                if grep -q "SKIP" "$outfile"; then
+                    ((SKIPPED++))
+                elif grep -q "PASS" "$outfile"; then
+                    ((PASSED++))
+                    ((TOTAL++))
+                else
+                    ((TOTAL++))
+                fi
+                rm -f "$outfile"
+                unset "job_files[$pid]"
+                finished=1
+                break
+            fi
+        done
+        if [ $finished -eq 0 ]; then
+            sleep 0.01
+        fi
+    done
+}
+
+run_job() {
+    while [ ${#job_files[@]} -ge $JOBS ]; do
+        wait_one_job
+    done
+    local tmpfile
+    tmpfile=$(mktemp)
+    ( "$@" ) > "$tmpfile" 2>&1 &
+    local pid=$!
+    job_files[$pid]="$tmpfile"
+}
+
+wait_all_jobs() {
+    while [ ${#job_files[@]} -gt 0 ]; do
+        wait_one_job
+    done
+}
+
+run_test() {
+    run_job real_run_test "$@"
+}
+run_test_with_args() {
+    run_job real_run_test_with_args "$@"
+}
+run_diagnostic_code_test() {
+    run_job real_run_diagnostic_code_test "$@"
+}
+run_warning_pattern_test() {
+    run_job real_run_warning_pattern_test "$@"
+}
+run_warning_test() {
+    run_job real_run_warning_test "$@"
+}
+run_runtime_test() {
+    run_job real_run_runtime_test "$@"
+}
+run_runtime_args_test() {
+    run_job real_run_runtime_args_test "$@"
+}
+run_compile_args_test() {
+    run_job real_run_compile_args_test "$@"
+}
+run_runtime_compile_args_test() {
+    run_job real_run_runtime_compile_args_test "$@"
+}
+run_warning_runtime_test() {
+    run_job real_run_warning_runtime_test "$@"
+}
+
 require_test_file() {
     local file=$1
     local description=$2
@@ -29,7 +111,7 @@ require_test_file() {
     return 1
 }
 
-run_test() {
+real_run_test() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -50,7 +132,7 @@ run_test() {
     fi
 }
 
-run_test_with_args() {
+real_run_test_with_args() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -72,7 +154,7 @@ run_test_with_args() {
     fi
 }
 
-run_diagnostic_code_test() {
+real_run_diagnostic_code_test() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -119,7 +201,7 @@ run_test "tests/return_void.zp" 0 "Return in void function"
 run_test "tests/modulo_test.zp" 0 "Modulo operator test"
 
 # Warning test helper: compile and check stderr for an arbitrary warning pattern
-run_warning_pattern_test() {
+real_run_warning_pattern_test() {
     local file=$1
     local warning_pattern=$2
     local description=$3
@@ -150,14 +232,14 @@ run_warning_pattern_test() {
 }
 
 # Warning test: compile and check stderr for the default warning message
-run_warning_test() {
+real_run_warning_test() {
     local file=$1
     local description=$2
-    run_warning_pattern_test "$file" "has non-void return type but no return" "$description"
+    real_run_warning_pattern_test "$file" "has non-void return type but no return" "$description"
 }
 
 # Runtime test: compile, run produced binary, check its exit code
-run_runtime_test() {
+real_run_runtime_test() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -192,7 +274,7 @@ run_runtime_test() {
     fi
 }
 
-run_runtime_args_test() {
+real_run_runtime_args_test() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -228,7 +310,7 @@ run_runtime_args_test() {
     fi
 }
 
-run_compile_args_test() {
+real_run_compile_args_test() {
     local file=$1
     local output=$2
     local description=$3
@@ -281,7 +363,7 @@ run_test_args() {
     fi
 }
 
-run_runtime_compile_args_test() {
+real_run_runtime_compile_args_test() {
     local file=$1
     local expected_exit_code=$2
     local description=$3
@@ -320,7 +402,7 @@ run_runtime_compile_args_test() {
 }
 
 # Warning + Runtime test: check for warning AND exit code
-run_warning_runtime_test() {
+real_run_warning_runtime_test() {
     local file=$1
     local expected_exit_code=$2
     local warning_pattern=$3
@@ -359,6 +441,7 @@ run_warning_runtime_test() {
         echo -e "${RED}FAIL${NC} (expected exit $expected_exit_code, got $run_code)"
     fi
 }
+
 
 # Warning test: non-void function without return should emit warning
 run_warning_test "tests/warn_missing_return.zp" "Warning: missing return in non-void function"
@@ -575,6 +658,7 @@ run_diagnostic_code_test "tests/diagnostics/05_codes_semantic.zp" 1 "Diagnostics
 run_diagnostic_code_test "tests/diagnostics/06_codes_cascade_stress.zp" 1 "Diagnostics: cascade stress remains bounded and coded" P1002 P1003 P1004 N1000
 run_test "tests/diagnostics/07_attributes_parser_sync.zp" 1 "Diagnostics: parser synchronization with malformed attributes"
 
+wait_all_jobs
 echo "-------------------------------"
 echo "Results: $PASSED / $TOTAL passed"
 echo "Skipped: $SKIPPED"
