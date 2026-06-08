@@ -87,9 +87,9 @@ var NAVTREEINDEX =
 "db/ddd/classsema_1_1BoundMemberAccess.html#adddce7c9e0270ffd86d75766dbe936b8",
 "dc/d2c/classsema_1_1Binder.html#a307b86efbb82a0aafcab783cf95c1724",
 "dc/d90/classzir_1_1Function.html#ab070dae2297e8915a88d7d31031c5555",
-"dd/df4/class__decl_8hpp_source.html",
+"dd/df4/class__decl_8hpp.html",
 "df/d01/structzap_1_1Diagnostic.html#a23d0092171ab41228cb07a1632609ac5",
-"df/df8/string__type__utils_8hpp_source.html"
+"df/df8/string__type__utils_8hpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

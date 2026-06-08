@@ -80,7 +80,7 @@ $(function(){initNavTree('dd/def/classForInNode.html','../../','df/d3f/classForI
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8bbb62ab04bbae931869b0691c2e8ad3" id="r_a8bbb62ab04bbae931869b0691c2e8ad3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bbb62ab04bbae931869b0691c2e8ad3">ForInNode</a> () noexcept=default</td></tr>
-<tr class="memitem:a7180d24d3aab5b2bdc26701672e51e62" id="r_a7180d24d3aab5b2bdc26701672e51e62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7180d24d3aab5b2bdc26701672e51e62">ForInNode</a> (std::string itemName, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; iterable, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; body)</td></tr>
+<tr class="memitem:adfb9ad1746f7e70b4fd667948b83bb4f" id="r_adfb9ad1746f7e70b4fd667948b83bb4f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfb9ad1746f7e70b4fd667948b83bb4f">ForInNode</a> (std::string indexName, std::string itemName, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; iterable, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; body)</td></tr>
 <tr class="memitem:a05d5f5be4cfab2b374f497e7c3f0a9d0" id="r_a05d5f5be4cfab2b374f497e7c3f0a9d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05d5f5be4cfab2b374f497e7c3f0a9d0">accept</a> (<a class="el" href="../../dc/d13/structVisitor.html">Visitor</a> &amp;v) override</td></tr>
 <tr class="inherit_header pub_methods_classStatementNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classStatementNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d1/dcd/classStatementNode.html">StatementNode</a></td></tr>
 <tr class="memitem:a824e7b51932f9833e12496154ab61458 inherit pub_methods_classStatementNode" id="r_a824e7b51932f9833e12496154ab61458"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcd/classStatementNode.html#a824e7b51932f9833e12496154ab61458">~StatementNode</a> () noexcept=default</td></tr>
@@ -90,6 +90,7 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a2909b5ec9bd3ed5dcabe7959698b62ba" id="r_a2909b5ec9bd3ed5dcabe7959698b62ba"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2909b5ec9bd3ed5dcabe7959698b62ba">indexName_</a></td></tr>
 <tr class="memitem:a82ad006eb0aa9ba4f5bf440ec5146b98" id="r_a82ad006eb0aa9ba4f5bf440ec5146b98"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82ad006eb0aa9ba4f5bf440ec5146b98">itemName_</a></td></tr>
 <tr class="memitem:aa568164c796aaa09c592797889c2b402" id="r_aa568164c796aaa09c592797889c2b402"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa568164c796aaa09c592797889c2b402">iterable_</a></td></tr>
 <tr class="memitem:a37c1286f42d7a48204ca2a27d698a900" id="r_a37c1286f42d7a48204ca2a27d698a900"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37c1286f42d7a48204ca2a27d698a900">body_</a></td></tr>
@@ -123,12 +124,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00016">ForInNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">ForInNode()</a>.</p>
 
 </div>
 </div>
-<a id="a7180d24d3aab5b2bdc26701672e51e62" name="a7180d24d3aab5b2bdc26701672e51e62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7180d24d3aab5b2bdc26701672e51e62">&#9670;&#160;</a></span>ForInNode() <span class="overload">[2/2]</span></h2>
+<a id="adfb9ad1746f7e70b4fd667948b83bb4f" name="adfb9ad1746f7e70b4fd667948b83bb4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb9ad1746f7e70b4fd667948b83bb4f">&#9670;&#160;</a></span>ForInNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,6 +140,11 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">ForInNode::ForInNode </td>
           <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>indexName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>itemName</em></span>, </td>
         </tr>
         <tr>
@@ -159,14 +165,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>      : <a class="code hl_variable" href="#a82ad006eb0aa9ba4f5bf440ec5146b98">itemName_</a>(std::move(itemName)), <a class="code hl_variable" href="#aa568164c796aaa09c592797889c2b402">iterable_</a>(std::move(iterable)),</div>
-<div class="line"><span class="lineno">   19</span>        <a class="code hl_variable" href="#a37c1286f42d7a48204ca2a27d698a900">body_</a>(std::move(body)) {}</div>
-<div class="ttc" id="aclassForInNode_html_a37c1286f42d7a48204ca2a27d698a900"><div class="ttname"><a href="#a37c1286f42d7a48204ca2a27d698a900">ForInNode::body_</a></div><div class="ttdeci">std::unique_ptr&lt; BodyNode &gt; body_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00013">for_in_node.hpp:13</a></div></div>
-<div class="ttc" id="aclassForInNode_html_a82ad006eb0aa9ba4f5bf440ec5146b98"><div class="ttname"><a href="#a82ad006eb0aa9ba4f5bf440ec5146b98">ForInNode::itemName_</a></div><div class="ttdeci">std::string itemName_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00011">for_in_node.hpp:11</a></div></div>
-<div class="ttc" id="aclassForInNode_html_aa568164c796aaa09c592797889c2b402"><div class="ttname"><a href="#aa568164c796aaa09c592797889c2b402">ForInNode::iterable_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; iterable_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00012">for_in_node.hpp:12</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>      : <a class="code hl_variable" href="#a2909b5ec9bd3ed5dcabe7959698b62ba">indexName_</a>(std::move(indexName)), <a class="code hl_variable" href="#a82ad006eb0aa9ba4f5bf440ec5146b98">itemName_</a>(std::move(itemName)),</div>
+<div class="line"><span class="lineno">   21</span>        <a class="code hl_variable" href="#aa568164c796aaa09c592797889c2b402">iterable_</a>(std::move(iterable)), <a class="code hl_variable" href="#a37c1286f42d7a48204ca2a27d698a900">body_</a>(std::move(body)) {}</div>
+<div class="ttc" id="aclassForInNode_html_a2909b5ec9bd3ed5dcabe7959698b62ba"><div class="ttname"><a href="#a2909b5ec9bd3ed5dcabe7959698b62ba">ForInNode::indexName_</a></div><div class="ttdeci">std::string indexName_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00011">for_in_node.hpp:11</a></div></div>
+<div class="ttc" id="aclassForInNode_html_a37c1286f42d7a48204ca2a27d698a900"><div class="ttname"><a href="#a37c1286f42d7a48204ca2a27d698a900">ForInNode::body_</a></div><div class="ttdeci">std::unique_ptr&lt; BodyNode &gt; body_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00014">for_in_node.hpp:14</a></div></div>
+<div class="ttc" id="aclassForInNode_html_a82ad006eb0aa9ba4f5bf440ec5146b98"><div class="ttname"><a href="#a82ad006eb0aa9ba4f5bf440ec5146b98">ForInNode::itemName_</a></div><div class="ttdeci">std::string itemName_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00012">for_in_node.hpp:12</a></div></div>
+<div class="ttc" id="aclassForInNode_html_aa568164c796aaa09c592797889c2b402"><div class="ttname"><a href="#aa568164c796aaa09c592797889c2b402">ForInNode::iterable_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; iterable_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dac/for__in__node_8hpp_source.html#l00013">for_in_node.hpp:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00013">body_</a>, <a class="el" href="#a8bbb62ab04bbae931869b0691c2e8ad3">ForInNode()</a>, <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00011">itemName_</a>, and <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00012">iterable_</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00014">body_</a>, <a class="el" href="#a8bbb62ab04bbae931869b0691c2e8ad3">ForInNode()</a>, <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00011">indexName_</a>, <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00012">itemName_</a>, and <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00013">iterable_</a>.</p>
 
 </div>
 </div>
@@ -196,8 +203,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00061">visitor.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00061">Visitor::visit()</a>.</p>
@@ -217,9 +224,27 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00016">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
+
+</div>
+</div>
+<a id="a2909b5ec9bd3ed5dcabe7959698b62ba" name="a2909b5ec9bd3ed5dcabe7959698b62ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2909b5ec9bd3ed5dcabe7959698b62ba">&#9670;&#160;</a></span>indexName_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ForInNode::indexName_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -235,9 +260,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00016">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -253,9 +278,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html">for_in_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00016">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dac/for__in__node_8hpp_source.html#l00017">ForInNode()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l05124">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
