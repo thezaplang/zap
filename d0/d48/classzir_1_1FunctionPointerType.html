@@ -193,8 +193,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">295</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  295</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad8ac5fc373039d51b08d0fb483323e65">params</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">296</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  296</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad8ac5fc373039d51b08d0fb483323e65">params</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00279">params</a>.</p>
 
@@ -223,8 +223,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">296</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  296</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ae00b5ce72b88661a7644dc068ea0a055">returnType</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">297</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ae00b5ce72b88661a7644dc068ea0a055">returnType</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00280">returnType</a>.</p>
 
@@ -259,11 +259,12 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  287</span>                                      {</div>
 <div class="line"><span class="lineno">  288</span>    std::string s = <span class="stringliteral">&quot;*fun(&quot;</span>;</div>
 <div class="line"><span class="lineno">  289</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#ad8ac5fc373039d51b08d0fb483323e65">params</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  290</span>      <span class="keywordflow">if</span> (i) s += <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><span class="lineno">  291</span>      s += <a class="code hl_variable" href="#ad8ac5fc373039d51b08d0fb483323e65">params</a>[i]-&gt;toString();</div>
-<div class="line"><span class="lineno">  292</span>    }</div>
-<div class="line"><span class="lineno">  293</span>    <span class="keywordflow">return</span> s + <span class="stringliteral">&quot;) &quot;</span> + <a class="code hl_variable" href="#ae00b5ce72b88661a7644dc068ea0a055">returnType</a>-&gt;toString();</div>
-<div class="line"><span class="lineno">  294</span>  }</div>
+<div class="line"><span class="lineno">  290</span>      <span class="keywordflow">if</span> (i)</div>
+<div class="line"><span class="lineno">  291</span>        s += <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><span class="lineno">  292</span>      s += <a class="code hl_variable" href="#ad8ac5fc373039d51b08d0fb483323e65">params</a>[i]-&gt;toString();</div>
+<div class="line"><span class="lineno">  293</span>    }</div>
+<div class="line"><span class="lineno">  294</span>    <span class="keywordflow">return</span> s + <span class="stringliteral">&quot;) &quot;</span> + <a class="code hl_variable" href="#ae00b5ce72b88661a7644dc068ea0a055">returnType</a>-&gt;toString();</div>
+<div class="line"><span class="lineno">  295</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00279">params</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00280">returnType</a>.</p>
 
@@ -292,7 +293,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00279">279</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00283">FunctionPointerType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">getParams()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00287">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00283">FunctionPointerType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">getParams()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00287">toString()</a>.</p>
 
 </div>
 </div>
@@ -318,7 +319,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00280">280</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00283">FunctionPointerType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">getReturnType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00287">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00283">FunctionPointerType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">getReturnType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00287">toString()</a>.</p>
 
 </div>
 </div>

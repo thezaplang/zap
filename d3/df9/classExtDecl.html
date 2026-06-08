@@ -169,14 +169,14 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>        : <a class="code hl_variable" href="#af4ab925b77885a0e239634f9a99dc35f">name_</a>(name), <a class="code hl_variable" href="#ab110b00cd695f7e44d8b2b60e00f10b8">params_</a>(std::move(params)),</div>
-<div class="line"><span class="lineno">   24</span>          <a class="code hl_variable" href="#a00377fa71513e5c0d916a1d73cabc541">returnType_</a>(std::move(returnType)), <a class="code hl_variable" href="#a41b1c4c2cf12d5cd4c9a706c58cd9161">isCVariadic_</a>(isCVariadic) {}</div>
-<div class="ttc" id="aclassExtDecl_html_a00377fa71513e5c0d916a1d73cabc541"><div class="ttname"><a href="#a00377fa71513e5c0d916a1d73cabc541">ExtDecl::returnType_</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; returnType_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00014">ext_decl.hpp:14</a></div></div>
-<div class="ttc" id="aclassExtDecl_html_a41b1c4c2cf12d5cd4c9a706c58cd9161"><div class="ttname"><a href="#a41b1c4c2cf12d5cd4c9a706c58cd9161">ExtDecl::isCVariadic_</a></div><div class="ttdeci">bool isCVariadic_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00015">ext_decl.hpp:15</a></div></div>
-<div class="ttc" id="aclassExtDecl_html_ab110b00cd695f7e44d8b2b60e00f10b8"><div class="ttname"><a href="#ab110b00cd695f7e44d8b2b60e00f10b8">ExtDecl::params_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; ParameterNode &gt; &gt; params_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00013">ext_decl.hpp:13</a></div></div>
-<div class="ttc" id="aclassExtDecl_html_af4ab925b77885a0e239634f9a99dc35f"><div class="ttname"><a href="#af4ab925b77885a0e239634f9a99dc35f">ExtDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00012">ext_decl.hpp:12</a></div></div>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>      : <a class="code hl_variable" href="#af4ab925b77885a0e239634f9a99dc35f">name_</a>(name), <a class="code hl_variable" href="#ab110b00cd695f7e44d8b2b60e00f10b8">params_</a>(std::move(params)),</div>
+<div class="line"><span class="lineno">   23</span>        <a class="code hl_variable" href="#a00377fa71513e5c0d916a1d73cabc541">returnType_</a>(std::move(returnType)), <a class="code hl_variable" href="#a41b1c4c2cf12d5cd4c9a706c58cd9161">isCVariadic_</a>(isCVariadic) {}</div>
+<div class="ttc" id="aclassExtDecl_html_a00377fa71513e5c0d916a1d73cabc541"><div class="ttname"><a href="#a00377fa71513e5c0d916a1d73cabc541">ExtDecl::returnType_</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; returnType_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00013">ext_decl.hpp:13</a></div></div>
+<div class="ttc" id="aclassExtDecl_html_a41b1c4c2cf12d5cd4c9a706c58cd9161"><div class="ttname"><a href="#a41b1c4c2cf12d5cd4c9a706c58cd9161">ExtDecl::isCVariadic_</a></div><div class="ttdeci">bool isCVariadic_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00014">ext_decl.hpp:14</a></div></div>
+<div class="ttc" id="aclassExtDecl_html_ab110b00cd695f7e44d8b2b60e00f10b8"><div class="ttname"><a href="#ab110b00cd695f7e44d8b2b60e00f10b8">ExtDecl::params_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; ParameterNode &gt; &gt; params_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00012">ext_decl.hpp:12</a></div></div>
+<div class="ttc" id="aclassExtDecl_html_af4ab925b77885a0e239634f9a99dc35f"><div class="ttname"><a href="#af4ab925b77885a0e239634f9a99dc35f">ExtDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d67/ext__decl_8hpp_source.html#l00011">ext_decl.hpp:11</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="#a7a2aa479fdec80f0b06c45b30a308a74">ExtDecl()</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00015">isCVariadic_</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00012">name_</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00013">params_</a>, and <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00014">returnType_</a>.</p>
+<p class="reference">References <a class="el" href="#a7a2aa479fdec80f0b06c45b30a308a74">ExtDecl()</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00014">isCVariadic_</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00011">name_</a>, <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00012">params_</a>, and <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00013">returnType_</a>.</p>
 
 </div>
 </div>
@@ -206,8 +206,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00061">visitor.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00061">Visitor::visit()</a>.</p>
@@ -227,7 +227,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00019">ExtDecl()</a>.</p>
 
@@ -245,7 +245,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00019">ExtDecl()</a>.</p>
 
@@ -263,7 +263,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00019">ExtDecl()</a>.</p>
 
@@ -281,7 +281,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html">ext_decl.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d67/ext__decl_8hpp_source.html#l00019">ExtDecl()</a>.</p>
 

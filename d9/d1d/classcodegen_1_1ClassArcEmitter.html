@@ -205,7 +205,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00013">isClassType()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00010">codegen::kClassGcMarkIndex</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00011">codegen::kClassReleaseFnIndex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00392">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00393">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -275,37 +275,38 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  224</span> </div>
 <div class="line"><span class="lineno">  225</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(checkFreeBB);</div>
 <div class="line"><span class="lineno">  226</span>  <span class="keyword">auto</span> *strongAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  227</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498">kClassStrongCountIndex</a>, <span class="stringliteral">&quot;arc.weak.release.strong.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  228</span>  <span class="keyword">auto</span> *strongCount =</div>
-<div class="line"><span class="lineno">  229</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
-<div class="line"><span class="lineno">  230</span>                                   strongAddr, <span class="stringliteral">&quot;arc.weak.release.strong&quot;</span>);</div>
-<div class="line"><span class="lineno">  231</span>  <span class="keyword">auto</span> *isStrongZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  232</span>      strongCount,</div>
-<div class="line"><span class="lineno">  233</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
-<div class="line"><span class="lineno">  234</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isStrongZero, freeBB, contBB);</div>
-<div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(freeBB);</div>
-<div class="line"><span class="lineno">  237</span>  <span class="keyword">auto</span> *rawObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  238</span>      typedPtr,</div>
-<div class="line"><span class="lineno">  239</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_)));</div>
-<div class="line"><span class="lineno">  240</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;free&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">  241</span>    <span class="keyword">auto</span> *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
-<div class="line"><span class="lineno">  242</span>                                           {rawObject-&gt;getType()}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  243</span>    <span class="keyword">auto</span> *freeFn = llvm::Function::Create(</div>
-<div class="line"><span class="lineno">  244</span>        freeTy, llvm::Function::ExternalLinkage, <span class="stringliteral">&quot;free&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  245</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;free&quot;</span>] = freeFn;</div>
-<div class="line"><span class="lineno">  246</span>  }</div>
-<div class="line"><span class="lineno">  247</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;free&quot;</span>), {rawObject});</div>
-<div class="line"><span class="lineno">  248</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(contBB);</div>
-<div class="line"><span class="lineno">  249</span> </div>
-<div class="line"><span class="lineno">  250</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(contBB);</div>
-<div class="line"><span class="lineno">  251</span>}</div>
+<div class="line"><span class="lineno">  227</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498">kClassStrongCountIndex</a>,</div>
+<div class="line"><span class="lineno">  228</span>      <span class="stringliteral">&quot;arc.weak.release.strong.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  229</span>  <span class="keyword">auto</span> *strongCount =</div>
+<div class="line"><span class="lineno">  230</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
+<div class="line"><span class="lineno">  231</span>                                   strongAddr, <span class="stringliteral">&quot;arc.weak.release.strong&quot;</span>);</div>
+<div class="line"><span class="lineno">  232</span>  <span class="keyword">auto</span> *isStrongZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  233</span>      strongCount,</div>
+<div class="line"><span class="lineno">  234</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
+<div class="line"><span class="lineno">  235</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isStrongZero, freeBB, contBB);</div>
+<div class="line"><span class="lineno">  236</span> </div>
+<div class="line"><span class="lineno">  237</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(freeBB);</div>
+<div class="line"><span class="lineno">  238</span>  <span class="keyword">auto</span> *rawObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  239</span>      typedPtr,</div>
+<div class="line"><span class="lineno">  240</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_)));</div>
+<div class="line"><span class="lineno">  241</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;free&quot;</span>) == 0) {</div>
+<div class="line"><span class="lineno">  242</span>    <span class="keyword">auto</span> *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
+<div class="line"><span class="lineno">  243</span>                                           {rawObject-&gt;getType()}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  244</span>    <span class="keyword">auto</span> *freeFn = llvm::Function::Create(</div>
+<div class="line"><span class="lineno">  245</span>        freeTy, llvm::Function::ExternalLinkage, <span class="stringliteral">&quot;free&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  246</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;free&quot;</span>] = freeFn;</div>
+<div class="line"><span class="lineno">  247</span>  }</div>
+<div class="line"><span class="lineno">  248</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;free&quot;</span>), {rawObject});</div>
+<div class="line"><span class="lineno">  249</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(contBB);</div>
+<div class="line"><span class="lineno">  250</span> </div>
+<div class="line"><span class="lineno">  251</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(contBB);</div>
+<div class="line"><span class="lineno">  252</span>}</div>
 <div class="ttc" id="anamespacecodegen_html_a4522bce13f5cca4a68bd098d5d43b498"><div class="ttname"><a href="../../d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498">codegen::kClassStrongCountIndex</a></div><div class="ttdeci">constexpr unsigned kClassStrongCountIndex</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d19/class__layout_8hpp_source.html#l00007">class_layout.hpp:7</a></div></div>
 <div class="ttc" id="anamespacecodegen_html_a8e78b53468947438a6a015bff559645d"><div class="ttname"><a href="../../d0/df2/namespacecodegen.html#a8e78b53468947438a6a015bff559645d">codegen::kClassWeakCountIndex</a></div><div class="ttdeci">constexpr unsigned kClassWeakCountIndex</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d19/class__layout_8hpp_source.html#l00008">class_layout.hpp:8</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">codegen::kClassStrongCountIndex</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">codegen::kClassWeakCountIndex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00392">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00393">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -367,7 +368,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00013">isClassType()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">codegen::kClassStrongCountIndex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00301">emitWeakLock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00302">emitWeakLock()</a>.</p>
 
 </div>
 </div>
@@ -430,7 +431,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">codegen::kClassWeakCountIndex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>.</p>
 
 </div>
 </div>
@@ -449,25 +450,25 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00392">392</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  392</span>                                        {</div>
-<div class="line"><span class="lineno">  393</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.scopeClassLocals_.empty()) {</div>
-<div class="line"><span class="lineno">  394</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  395</span>  }</div>
-<div class="line"><span class="lineno">  396</span> </div>
-<div class="line"><span class="lineno">  397</span>  <span class="keyword">auto</span> &amp;locals = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.scopeClassLocals_.back();</div>
-<div class="line"><span class="lineno">  398</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = locals.rbegin(); it != locals.rend(); ++it) {</div>
-<div class="line"><span class="lineno">  399</span>    <span class="keyword">auto</span> *addr = it-&gt;second;</div>
-<div class="line"><span class="lineno">  400</span>    <span class="keyword">auto</span> *value = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*it-&gt;first),</div>
-<div class="line"><span class="lineno">  401</span>                                               addr, <span class="stringliteral">&quot;arc.scope.value&quot;</span>);</div>
-<div class="line"><span class="lineno">  402</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(it-&gt;first)) {</div>
-<div class="line"><span class="lineno">  403</span>      <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(value, it-&gt;first);</div>
-<div class="line"><span class="lineno">  404</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  405</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(value, it-&gt;first);</div>
-<div class="line"><span class="lineno">  406</span>    }</div>
-<div class="line"><span class="lineno">  407</span>  }</div>
-<div class="line"><span class="lineno">  408</span>  locals.clear();</div>
-<div class="line"><span class="lineno">  409</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00393">393</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  393</span>                                        {</div>
+<div class="line"><span class="lineno">  394</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.scopeClassLocals_.empty()) {</div>
+<div class="line"><span class="lineno">  395</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  396</span>  }</div>
+<div class="line"><span class="lineno">  397</span> </div>
+<div class="line"><span class="lineno">  398</span>  <span class="keyword">auto</span> &amp;locals = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.scopeClassLocals_.back();</div>
+<div class="line"><span class="lineno">  399</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = locals.rbegin(); it != locals.rend(); ++it) {</div>
+<div class="line"><span class="lineno">  400</span>    <span class="keyword">auto</span> *addr = it-&gt;second;</div>
+<div class="line"><span class="lineno">  401</span>    <span class="keyword">auto</span> *value = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*it-&gt;first),</div>
+<div class="line"><span class="lineno">  402</span>                                               addr, <span class="stringliteral">&quot;arc.scope.value&quot;</span>);</div>
+<div class="line"><span class="lineno">  403</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(it-&gt;first)) {</div>
+<div class="line"><span class="lineno">  404</span>      <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(value, it-&gt;first);</div>
+<div class="line"><span class="lineno">  405</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  406</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(value, it-&gt;first);</div>
+<div class="line"><span class="lineno">  407</span>    }</div>
+<div class="line"><span class="lineno">  408</span>  }</div>
+<div class="line"><span class="lineno">  409</span>  locals.clear();</div>
+<div class="line"><span class="lineno">  410</span>}</div>
 <div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_a70d6a6a5d820c90fe5abc21fe0061c8c"><div class="ttname"><a href="#a70d6a6a5d820c90fe5abc21fe0061c8c">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded</a></div><div class="ttdeci">void emitReleaseWeakIfNeeded(llvm::Value *value, const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">class_arc_emitter.cpp:180</a></div></div>
 <div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_ac5c6dc271fbb2ae5f93b757adb8a5e90"><div class="ttname"><a href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">codegen::ClassArcEmitter::emitReleaseIfNeeded</a></div><div class="ttdeci">void emitReleaseIfNeeded(llvm::Value *value, const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">class_arc_emitter.cpp:85</a></div></div>
 </div><!-- fragment -->
@@ -504,36 +505,36 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">360</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  362</span>                                                          {</div>
-<div class="line"><span class="lineno">  363</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a97abc7b3744ccc2d58bd56edbe234f3d">isClassType</a>(type)) {</div>
-<div class="line"><span class="lineno">  364</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
-<div class="line"><span class="lineno">  365</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  366</span>  }</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
-<div class="line"><span class="lineno">  369</span>    <a class="code hl_function" href="#a9f8e5cb20d22d0e25710724027ae05e5">emitRetainWeakIfNeeded</a>(value, type);</div>
-<div class="line"><span class="lineno">  370</span>    <span class="keyword">auto</span> *oldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type),</div>
-<div class="line"><span class="lineno">  371</span>                                                  addr, <span class="stringliteral">&quot;arc.weak.store.old&quot;</span>);</div>
-<div class="line"><span class="lineno">  372</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
-<div class="line"><span class="lineno">  373</span>    <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(oldValue, type);</div>
-<div class="line"><span class="lineno">  374</span>    <span class="keywordflow">if</span> (valueIsOwned) {</div>
-<div class="line"><span class="lineno">  375</span>      <span class="keyword">auto</span> strongType = std::make_shared&lt;zir::ClassType&gt;(</div>
-<div class="line"><span class="lineno">  376</span>          *std::static_pointer_cast&lt;zir::ClassType&gt;(type));</div>
-<div class="line"><span class="lineno">  377</span>      strongType-&gt;setWeak(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  378</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(value, strongType);</div>
-<div class="line"><span class="lineno">  379</span>    }</div>
-<div class="line"><span class="lineno">  380</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  381</span>  }</div>
-<div class="line"><span class="lineno">  382</span> </div>
-<div class="line"><span class="lineno">  383</span>  <span class="keywordflow">if</span> (!valueIsOwned) {</div>
-<div class="line"><span class="lineno">  384</span>    <a class="code hl_function" href="#ae0c8ca1fd3402cfde39deba937cdb164">emitRetainIfNeeded</a>(value, type);</div>
-<div class="line"><span class="lineno">  385</span>  }</div>
-<div class="line"><span class="lineno">  386</span>  <span class="keyword">auto</span> *oldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type),</div>
-<div class="line"><span class="lineno">  387</span>                                                addr, <span class="stringliteral">&quot;arc.store.old&quot;</span>);</div>
-<div class="line"><span class="lineno">  388</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
-<div class="line"><span class="lineno">  389</span>  <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(oldValue, type);</div>
-<div class="line"><span class="lineno">  390</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">361</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  363</span>                                                          {</div>
+<div class="line"><span class="lineno">  364</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a97abc7b3744ccc2d58bd56edbe234f3d">isClassType</a>(type)) {</div>
+<div class="line"><span class="lineno">  365</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
+<div class="line"><span class="lineno">  366</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  367</span>  }</div>
+<div class="line"><span class="lineno">  368</span> </div>
+<div class="line"><span class="lineno">  369</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
+<div class="line"><span class="lineno">  370</span>    <a class="code hl_function" href="#a9f8e5cb20d22d0e25710724027ae05e5">emitRetainWeakIfNeeded</a>(value, type);</div>
+<div class="line"><span class="lineno">  371</span>    <span class="keyword">auto</span> *oldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type),</div>
+<div class="line"><span class="lineno">  372</span>                                                  addr, <span class="stringliteral">&quot;arc.weak.store.old&quot;</span>);</div>
+<div class="line"><span class="lineno">  373</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
+<div class="line"><span class="lineno">  374</span>    <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(oldValue, type);</div>
+<div class="line"><span class="lineno">  375</span>    <span class="keywordflow">if</span> (valueIsOwned) {</div>
+<div class="line"><span class="lineno">  376</span>      <span class="keyword">auto</span> strongType = std::make_shared&lt;zir::ClassType&gt;(</div>
+<div class="line"><span class="lineno">  377</span>          *std::static_pointer_cast&lt;zir::ClassType&gt;(type));</div>
+<div class="line"><span class="lineno">  378</span>      strongType-&gt;setWeak(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  379</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(value, strongType);</div>
+<div class="line"><span class="lineno">  380</span>    }</div>
+<div class="line"><span class="lineno">  381</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  382</span>  }</div>
+<div class="line"><span class="lineno">  383</span> </div>
+<div class="line"><span class="lineno">  384</span>  <span class="keywordflow">if</span> (!valueIsOwned) {</div>
+<div class="line"><span class="lineno">  385</span>    <a class="code hl_function" href="#ae0c8ca1fd3402cfde39deba937cdb164">emitRetainIfNeeded</a>(value, type);</div>
+<div class="line"><span class="lineno">  386</span>  }</div>
+<div class="line"><span class="lineno">  387</span>  <span class="keyword">auto</span> *oldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type),</div>
+<div class="line"><span class="lineno">  388</span>                                                addr, <span class="stringliteral">&quot;arc.store.old&quot;</span>);</div>
+<div class="line"><span class="lineno">  389</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(value, addr);</div>
+<div class="line"><span class="lineno">  390</span>  <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(oldValue, type);</div>
+<div class="line"><span class="lineno">  391</span>}</div>
 <div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_a9f8e5cb20d22d0e25710724027ae05e5"><div class="ttname"><a href="#a9f8e5cb20d22d0e25710724027ae05e5">codegen::ClassArcEmitter::emitRetainWeakIfNeeded</a></div><div class="ttdeci">void emitRetainWeakIfNeeded(llvm::Value *value, const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00142">class_arc_emitter.cpp:142</a></div></div>
 <div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_ae0c8ca1fd3402cfde39deba937cdb164"><div class="ttname"><a href="#ae0c8ca1fd3402cfde39deba937cdb164">codegen::ClassArcEmitter::emitRetainIfNeeded</a></div><div class="ttdeci">void emitRetainIfNeeded(llvm::Value *value, const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">class_arc_emitter.cpp:48</a></div></div>
 </div><!-- fragment -->
@@ -560,51 +561,51 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00254">254</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  255</span>                                                                   {</div>
-<div class="line"><span class="lineno">  256</span>  <span class="keywordflow">if</span> (!value || !<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
-<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">return</span> llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
-<div class="line"><span class="lineno">  258</span>  }</div>
-<div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>  <span class="keyword">auto</span> classType = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
-<div class="line"><span class="lineno">  261</span>  <span class="keyword">auto</span> *objectTy =</div>
-<div class="line"><span class="lineno">  262</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(classType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
-<div class="line"><span class="lineno">  263</span>  <span class="keyword">auto</span> *valuePtrTy = llvm::dyn_cast&lt;llvm::PointerType&gt;(value-&gt;getType());</div>
-<div class="line"><span class="lineno">  264</span>  <span class="keywordflow">if</span> (!valuePtrTy) {</div>
-<div class="line"><span class="lineno">  265</span>    <span class="keywordflow">return</span> llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
-<div class="line"><span class="lineno">  266</span>  }</div>
-<div class="line"><span class="lineno">  267</span> </div>
-<div class="line"><span class="lineno">  268</span>  <span class="keyword">auto</span> *nonNullBB = llvm::BasicBlock::Create(</div>
-<div class="line"><span class="lineno">  269</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.alive.nonnull&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
-<div class="line"><span class="lineno">  270</span>  <span class="keyword">auto</span> *mergeBB = llvm::BasicBlock::Create(</div>
-<div class="line"><span class="lineno">  271</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.alive.merge&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
-<div class="line"><span class="lineno">  272</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  273</span>      value, llvm::ConstantPointerNull::get(valuePtrTy),</div>
-<div class="line"><span class="lineno">  274</span>      <span class="stringliteral">&quot;arc.weak.alive.isnull&quot;</span>);</div>
-<div class="line"><span class="lineno">  275</span>  <span class="keyword">auto</span> *entryBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  276</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, mergeBB, nonNullBB);</div>
-<div class="line"><span class="lineno">  277</span> </div>
-<div class="line"><span class="lineno">  278</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(nonNullBB);</div>
-<div class="line"><span class="lineno">  279</span>  <span class="keyword">auto</span> *typedPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  280</span>      value, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;arc.weak.alive.cast&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  282</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;arc.weak.alive.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  283</span>  <span class="keyword">auto</span> *aliveValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  284</span>      llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), aliveAddr, <span class="stringliteral">&quot;arc.weak.alive&quot;</span>);</div>
-<div class="line"><span class="lineno">  285</span>  <span class="keyword">auto</span> *aliveBool = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpNE(</div>
-<div class="line"><span class="lineno">  286</span>      aliveValue,</div>
-<div class="line"><span class="lineno">  287</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
-<div class="line"><span class="lineno">  288</span>  <span class="keyword">auto</span> *aliveBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  289</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(mergeBB);</div>
-<div class="line"><span class="lineno">  290</span> </div>
-<div class="line"><span class="lineno">  291</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(mergeBB);</div>
-<div class="line"><span class="lineno">  292</span>  <span class="keyword">auto</span> *phi = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreatePHI(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
-<div class="line"><span class="lineno">  293</span>                                          2, <span class="stringliteral">&quot;arc.weak.alive.res&quot;</span>);</div>
-<div class="line"><span class="lineno">  294</span>  phi-&gt;addIncoming(</div>
-<div class="line"><span class="lineno">  295</span>      llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0), entryBB);</div>
-<div class="line"><span class="lineno">  296</span>  phi-&gt;addIncoming(aliveBool, aliveBB);</div>
-<div class="line"><span class="lineno">  297</span>  <span class="keywordflow">return</span> phi;</div>
-<div class="line"><span class="lineno">  298</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00255">255</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  256</span>                                                                   {</div>
+<div class="line"><span class="lineno">  257</span>  <span class="keywordflow">if</span> (!value || !<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
+<div class="line"><span class="lineno">  258</span>    <span class="keywordflow">return</span> llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
+<div class="line"><span class="lineno">  259</span>  }</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>  <span class="keyword">auto</span> classType = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
+<div class="line"><span class="lineno">  262</span>  <span class="keyword">auto</span> *objectTy =</div>
+<div class="line"><span class="lineno">  263</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(classType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
+<div class="line"><span class="lineno">  264</span>  <span class="keyword">auto</span> *valuePtrTy = llvm::dyn_cast&lt;llvm::PointerType&gt;(value-&gt;getType());</div>
+<div class="line"><span class="lineno">  265</span>  <span class="keywordflow">if</span> (!valuePtrTy) {</div>
+<div class="line"><span class="lineno">  266</span>    <span class="keywordflow">return</span> llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
+<div class="line"><span class="lineno">  267</span>  }</div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>  <span class="keyword">auto</span> *nonNullBB = llvm::BasicBlock::Create(</div>
+<div class="line"><span class="lineno">  270</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.alive.nonnull&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
+<div class="line"><span class="lineno">  271</span>  <span class="keyword">auto</span> *mergeBB = llvm::BasicBlock::Create(</div>
+<div class="line"><span class="lineno">  272</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.alive.merge&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
+<div class="line"><span class="lineno">  273</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  274</span>      value, llvm::ConstantPointerNull::get(valuePtrTy),</div>
+<div class="line"><span class="lineno">  275</span>      <span class="stringliteral">&quot;arc.weak.alive.isnull&quot;</span>);</div>
+<div class="line"><span class="lineno">  276</span>  <span class="keyword">auto</span> *entryBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  277</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, mergeBB, nonNullBB);</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(nonNullBB);</div>
+<div class="line"><span class="lineno">  280</span>  <span class="keyword">auto</span> *typedPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  281</span>      value, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;arc.weak.alive.cast&quot;</span>);</div>
+<div class="line"><span class="lineno">  282</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  283</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;arc.weak.alive.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  284</span>  <span class="keyword">auto</span> *aliveValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  285</span>      llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), aliveAddr, <span class="stringliteral">&quot;arc.weak.alive&quot;</span>);</div>
+<div class="line"><span class="lineno">  286</span>  <span class="keyword">auto</span> *aliveBool = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpNE(</div>
+<div class="line"><span class="lineno">  287</span>      aliveValue,</div>
+<div class="line"><span class="lineno">  288</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
+<div class="line"><span class="lineno">  289</span>  <span class="keyword">auto</span> *aliveBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  290</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(mergeBB);</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(mergeBB);</div>
+<div class="line"><span class="lineno">  293</span>  <span class="keyword">auto</span> *phi = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreatePHI(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
+<div class="line"><span class="lineno">  294</span>                                          2, <span class="stringliteral">&quot;arc.weak.alive.res&quot;</span>);</div>
+<div class="line"><span class="lineno">  295</span>  phi-&gt;addIncoming(</div>
+<div class="line"><span class="lineno">  296</span>      llvm::ConstantInt::get(llvm::Type::getInt1Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0), entryBB);</div>
+<div class="line"><span class="lineno">  297</span>  phi-&gt;addIncoming(aliveBool, aliveBB);</div>
+<div class="line"><span class="lineno">  298</span>  <span class="keywordflow">return</span> phi;</div>
+<div class="line"><span class="lineno">  299</span>}</div>
 <div class="ttc" id="anamespacecodegen_html_a2310f07ba73562b693ab290973b6786f"><div class="ttname"><a href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">codegen::kClassAliveIndex</a></div><div class="ttdeci">constexpr unsigned kClassAliveIndex</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d19/class__layout_8hpp_source.html#l00009">class_layout.hpp:9</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">codegen::kClassAliveIndex</a>.</p>
@@ -630,64 +631,64 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00301">301</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  302</span>                                                                  {</div>
-<div class="line"><span class="lineno">  303</span>  <span class="keywordflow">if</span> (!value || !<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
-<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">return</span> llvm::ConstantPointerNull::get(</div>
-<div class="line"><span class="lineno">  305</span>        llvm::cast&lt;llvm::PointerType&gt;(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type)));</div>
-<div class="line"><span class="lineno">  306</span>  }</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>  <span class="keyword">auto</span> weakClassType = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
-<div class="line"><span class="lineno">  309</span>  <span class="keyword">auto</span> strongClassType = std::make_shared&lt;zir::ClassType&gt;(*weakClassType);</div>
-<div class="line"><span class="lineno">  310</span>  strongClassType-&gt;setWeak(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  311</span>  <span class="keyword">auto</span> *resultTy =</div>
-<div class="line"><span class="lineno">  312</span>      llvm::cast&lt;llvm::PointerType&gt;(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*strongClassType));</div>
-<div class="line"><span class="lineno">  313</span>  <span class="keyword">auto</span> *objectTy =</div>
-<div class="line"><span class="lineno">  314</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(weakClassType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
-<div class="line"><span class="lineno">  315</span>  <span class="keyword">auto</span> *valuePtrTy = llvm::dyn_cast&lt;llvm::PointerType&gt;(value-&gt;getType());</div>
-<div class="line"><span class="lineno">  316</span>  <span class="keywordflow">if</span> (!valuePtrTy) {</div>
-<div class="line"><span class="lineno">  317</span>    <span class="keywordflow">return</span> llvm::ConstantPointerNull::get(resultTy);</div>
-<div class="line"><span class="lineno">  318</span>  }</div>
-<div class="line"><span class="lineno">  319</span> </div>
-<div class="line"><span class="lineno">  320</span>  <span class="keyword">auto</span> *aliveCheckBB = llvm::BasicBlock::Create(</div>
-<div class="line"><span class="lineno">  321</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.check&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
-<div class="line"><span class="lineno">  322</span>  <span class="keyword">auto</span> *retainBB = llvm::BasicBlock::Create(</div>
-<div class="line"><span class="lineno">  323</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.retain&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
-<div class="line"><span class="lineno">  324</span>  <span class="keyword">auto</span> *mergeBB = llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.merge&quot;</span>,</div>
-<div class="line"><span class="lineno">  325</span>                                           <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
-<div class="line"><span class="lineno">  326</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  327</span>      value, llvm::ConstantPointerNull::get(valuePtrTy),</div>
-<div class="line"><span class="lineno">  328</span>      <span class="stringliteral">&quot;arc.weak.lock.isnull&quot;</span>);</div>
-<div class="line"><span class="lineno">  329</span>  <span class="keyword">auto</span> *entryBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  330</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, mergeBB, aliveCheckBB);</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(aliveCheckBB);</div>
-<div class="line"><span class="lineno">  333</span>  <span class="keyword">auto</span> *typedPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  334</span>      value, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;arc.weak.lock.cast&quot;</span>);</div>
-<div class="line"><span class="lineno">  335</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  336</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;arc.weak.lock.alive.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  337</span>  <span class="keyword">auto</span> *aliveValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  338</span>      llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), aliveAddr, <span class="stringliteral">&quot;arc.weak.lock.alive&quot;</span>);</div>
-<div class="line"><span class="lineno">  339</span>  <span class="keyword">auto</span> *aliveBool = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpNE(</div>
-<div class="line"><span class="lineno">  340</span>      aliveValue,</div>
-<div class="line"><span class="lineno">  341</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
-<div class="line"><span class="lineno">  342</span>  <span class="keyword">auto</span> *aliveCheckBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  343</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(aliveBool, retainBB, mergeBB);</div>
-<div class="line"><span class="lineno">  344</span> </div>
-<div class="line"><span class="lineno">  345</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(retainBB);</div>
-<div class="line"><span class="lineno">  346</span>  <span class="keyword">auto</span> *strongValue =</div>
-<div class="line"><span class="lineno">  347</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(value, resultTy, <span class="stringliteral">&quot;arc.weak.lock.value&quot;</span>);</div>
-<div class="line"><span class="lineno">  348</span>  <a class="code hl_function" href="#ae0c8ca1fd3402cfde39deba937cdb164">emitRetainIfNeeded</a>(strongValue, strongClassType);</div>
-<div class="line"><span class="lineno">  349</span>  <span class="keyword">auto</span> *retainBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  350</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(mergeBB);</div>
-<div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(mergeBB);</div>
-<div class="line"><span class="lineno">  353</span>  <span class="keyword">auto</span> *phi = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreatePHI(resultTy, 3, <span class="stringliteral">&quot;arc.weak.lock.res&quot;</span>);</div>
-<div class="line"><span class="lineno">  354</span>  phi-&gt;addIncoming(llvm::ConstantPointerNull::get(resultTy), entryBB);</div>
-<div class="line"><span class="lineno">  355</span>  phi-&gt;addIncoming(llvm::ConstantPointerNull::get(resultTy), aliveCheckBlock);</div>
-<div class="line"><span class="lineno">  356</span>  phi-&gt;addIncoming(strongValue, retainBlock);</div>
-<div class="line"><span class="lineno">  357</span>  <span class="keywordflow">return</span> phi;</div>
-<div class="line"><span class="lineno">  358</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00302">302</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  303</span>                                                                  {</div>
+<div class="line"><span class="lineno">  304</span>  <span class="keywordflow">if</span> (!value || !<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(type)) {</div>
+<div class="line"><span class="lineno">  305</span>    <span class="keywordflow">return</span> llvm::ConstantPointerNull::get(</div>
+<div class="line"><span class="lineno">  306</span>        llvm::cast&lt;llvm::PointerType&gt;(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*type)));</div>
+<div class="line"><span class="lineno">  307</span>  }</div>
+<div class="line"><span class="lineno">  308</span> </div>
+<div class="line"><span class="lineno">  309</span>  <span class="keyword">auto</span> weakClassType = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
+<div class="line"><span class="lineno">  310</span>  <span class="keyword">auto</span> strongClassType = std::make_shared&lt;zir::ClassType&gt;(*weakClassType);</div>
+<div class="line"><span class="lineno">  311</span>  strongClassType-&gt;setWeak(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  312</span>  <span class="keyword">auto</span> *resultTy =</div>
+<div class="line"><span class="lineno">  313</span>      llvm::cast&lt;llvm::PointerType&gt;(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*strongClassType));</div>
+<div class="line"><span class="lineno">  314</span>  <span class="keyword">auto</span> *objectTy =</div>
+<div class="line"><span class="lineno">  315</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(weakClassType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
+<div class="line"><span class="lineno">  316</span>  <span class="keyword">auto</span> *valuePtrTy = llvm::dyn_cast&lt;llvm::PointerType&gt;(value-&gt;getType());</div>
+<div class="line"><span class="lineno">  317</span>  <span class="keywordflow">if</span> (!valuePtrTy) {</div>
+<div class="line"><span class="lineno">  318</span>    <span class="keywordflow">return</span> llvm::ConstantPointerNull::get(resultTy);</div>
+<div class="line"><span class="lineno">  319</span>  }</div>
+<div class="line"><span class="lineno">  320</span> </div>
+<div class="line"><span class="lineno">  321</span>  <span class="keyword">auto</span> *aliveCheckBB = llvm::BasicBlock::Create(</div>
+<div class="line"><span class="lineno">  322</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.check&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
+<div class="line"><span class="lineno">  323</span>  <span class="keyword">auto</span> *retainBB = llvm::BasicBlock::Create(</div>
+<div class="line"><span class="lineno">  324</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.retain&quot;</span>, <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
+<div class="line"><span class="lineno">  325</span>  <span class="keyword">auto</span> *mergeBB = llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.weak.lock.merge&quot;</span>,</div>
+<div class="line"><span class="lineno">  326</span>                                           <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_);</div>
+<div class="line"><span class="lineno">  327</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  328</span>      value, llvm::ConstantPointerNull::get(valuePtrTy),</div>
+<div class="line"><span class="lineno">  329</span>      <span class="stringliteral">&quot;arc.weak.lock.isnull&quot;</span>);</div>
+<div class="line"><span class="lineno">  330</span>  <span class="keyword">auto</span> *entryBB = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  331</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, mergeBB, aliveCheckBB);</div>
+<div class="line"><span class="lineno">  332</span> </div>
+<div class="line"><span class="lineno">  333</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(aliveCheckBB);</div>
+<div class="line"><span class="lineno">  334</span>  <span class="keyword">auto</span> *typedPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  335</span>      value, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;arc.weak.lock.cast&quot;</span>);</div>
+<div class="line"><span class="lineno">  336</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  337</span>      objectTy, typedPtr, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;arc.weak.lock.alive.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  338</span>  <span class="keyword">auto</span> *aliveValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  339</span>      llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), aliveAddr, <span class="stringliteral">&quot;arc.weak.lock.alive&quot;</span>);</div>
+<div class="line"><span class="lineno">  340</span>  <span class="keyword">auto</span> *aliveBool = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpNE(</div>
+<div class="line"><span class="lineno">  341</span>      aliveValue,</div>
+<div class="line"><span class="lineno">  342</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
+<div class="line"><span class="lineno">  343</span>  <span class="keyword">auto</span> *aliveCheckBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  344</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(aliveBool, retainBB, mergeBB);</div>
+<div class="line"><span class="lineno">  345</span> </div>
+<div class="line"><span class="lineno">  346</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(retainBB);</div>
+<div class="line"><span class="lineno">  347</span>  <span class="keyword">auto</span> *strongValue =</div>
+<div class="line"><span class="lineno">  348</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(value, resultTy, <span class="stringliteral">&quot;arc.weak.lock.value&quot;</span>);</div>
+<div class="line"><span class="lineno">  349</span>  <a class="code hl_function" href="#ae0c8ca1fd3402cfde39deba937cdb164">emitRetainIfNeeded</a>(strongValue, strongClassType);</div>
+<div class="line"><span class="lineno">  350</span>  <span class="keyword">auto</span> *retainBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  351</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(mergeBB);</div>
+<div class="line"><span class="lineno">  352</span> </div>
+<div class="line"><span class="lineno">  353</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(mergeBB);</div>
+<div class="line"><span class="lineno">  354</span>  <span class="keyword">auto</span> *phi = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreatePHI(resultTy, 3, <span class="stringliteral">&quot;arc.weak.lock.res&quot;</span>);</div>
+<div class="line"><span class="lineno">  355</span>  phi-&gt;addIncoming(llvm::ConstantPointerNull::get(resultTy), entryBB);</div>
+<div class="line"><span class="lineno">  356</span>  phi-&gt;addIncoming(llvm::ConstantPointerNull::get(resultTy), aliveCheckBlock);</div>
+<div class="line"><span class="lineno">  357</span>  phi-&gt;addIncoming(strongValue, retainBlock);</div>
+<div class="line"><span class="lineno">  358</span>  <span class="keywordflow">return</span> phi;</div>
+<div class="line"><span class="lineno">  359</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">codegen::kClassAliveIndex</a>.</p>
 
@@ -708,18 +709,18 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00686">686</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  686</span>                                                              {</div>
-<div class="line"><span class="lineno">  687</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;rec : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">records</a>) {</div>
-<div class="line"><span class="lineno">  688</span>    <span class="keywordflow">if</span> (rec-&gt;type &amp;&amp; rec-&gt;type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
-<div class="line"><span class="lineno">  689</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*rec-&gt;type);</div>
-<div class="line"><span class="lineno">  690</span>    }</div>
-<div class="line"><span class="lineno">  691</span>  }</div>
-<div class="line"><span class="lineno">  692</span>}</div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_ab8deb56b40049f1620cda5218c4e500d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">sema::BoundRootNode::records</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundRecordDeclaration &gt; &gt; records</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00643">bound_nodes.hpp:643</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00687">687</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  687</span>                                                              {</div>
+<div class="line"><span class="lineno">  688</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;rec : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">records</a>) {</div>
+<div class="line"><span class="lineno">  689</span>    <span class="keywordflow">if</span> (rec-&gt;type &amp;&amp; rec-&gt;type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
+<div class="line"><span class="lineno">  690</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*rec-&gt;type);</div>
+<div class="line"><span class="lineno">  691</span>    }</div>
+<div class="line"><span class="lineno">  692</span>  }</div>
+<div class="line"><span class="lineno">  693</span>}</div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_ab8deb56b40049f1620cda5218c4e500d"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d">sema::BoundRootNode::records</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundRecordDeclaration &gt; &gt; records</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00646">bound_nodes.hpp:646</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a></div><div class="ttdeci">@ Class</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00029">type.hpp:29</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00643">sema::BoundRootNode::records</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00646">sema::BoundRootNode::records</a>.</p>
 
 </div>
 </div>
@@ -738,287 +739,287 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">411</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  412</span>                                                  {</div>
-<div class="line"><span class="lineno">  413</span>  <span class="keywordflow">if</span> (!classType || <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classReleaseFns_.count(classType-&gt;getName())) {</div>
-<div class="line"><span class="lineno">  414</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  415</span>  }</div>
-<div class="line"><span class="lineno">  416</span> </div>
-<div class="line"><span class="lineno">  417</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*classType);</div>
-<div class="line"><span class="lineno">  418</span>  <span class="keyword">auto</span> *objectTy =</div>
-<div class="line"><span class="lineno">  419</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(classType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
-<div class="line"><span class="lineno">  420</span>  <span class="keyword">auto</span> *rawPtrTy =</div>
-<div class="line"><span class="lineno">  421</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
-<div class="line"><span class="lineno">  422</span>  <span class="keyword">auto</span> *helperTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
-<div class="line"><span class="lineno">  423</span>                                           {rawPtrTy}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  424</span>  <span class="keyword">auto</span> *releaseHelper = llvm::Function::Create(</div>
-<div class="line"><span class="lineno">  425</span>      helperTy, llvm::Function::InternalLinkage,</div>
-<div class="line"><span class="lineno">  426</span>      <span class="stringliteral">&quot;__zap_arc_release_&quot;</span> + classType-&gt;getCodegenName(), *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  427</span>  <span class="keyword">auto</span> *destroyHelper = llvm::Function::Create(</div>
-<div class="line"><span class="lineno">  428</span>      helperTy, llvm::Function::InternalLinkage,</div>
-<div class="line"><span class="lineno">  429</span>      <span class="stringliteral">&quot;__zap_arc_destroy_&quot;</span> + classType-&gt;getCodegenName(), *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  430</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classReleaseFns_[classType-&gt;getName()] = releaseHelper;</div>
-<div class="line"><span class="lineno">  431</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestroyFns_[classType-&gt;getName()] = destroyHelper;</div>
-<div class="line"><span class="lineno">  432</span> </div>
-<div class="line"><span class="lineno">  433</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : classType-&gt;getFields()) {</div>
-<div class="line"><span class="lineno">  434</span>    <span class="keywordflow">if</span> (field.type &amp;&amp; field.type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
-<div class="line"><span class="lineno">  435</span>      <a class="code hl_function" href="#add53981156a9a20a4f8a8f37ff1673a5">ensureClassArcSupport</a>(</div>
-<div class="line"><span class="lineno">  436</span>          std::static_pointer_cast&lt;zir::ClassType&gt;(field.type));</div>
-<div class="line"><span class="lineno">  437</span>    }</div>
-<div class="line"><span class="lineno">  438</span>  }</div>
-<div class="line"><span class="lineno">  439</span> </div>
-<div class="line"><span class="lineno">  440</span>  <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_.count(classType-&gt;getName())) {</div>
-<div class="line"><span class="lineno">  441</span>    std::vector&lt;llvm::Constant *&gt; entries;</div>
-<div class="line"><span class="lineno">  442</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> base = classType-&gt;getBase()) {</div>
-<div class="line"><span class="lineno">  443</span>      <a class="code hl_function" href="#add53981156a9a20a4f8a8f37ff1673a5">ensureClassArcSupport</a>(base);</div>
-<div class="line"><span class="lineno">  444</span>      <span class="keyword">auto</span> *baseVTable = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_.at(base-&gt;getName());</div>
-<div class="line"><span class="lineno">  445</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> *baseInit = baseVTable-&gt;getInitializer()) {</div>
-<div class="line"><span class="lineno">  446</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; baseInit-&gt;getNumOperands(); ++i) {</div>
-<div class="line"><span class="lineno">  447</span>          entries.push_back(</div>
-<div class="line"><span class="lineno">  448</span>              llvm::cast&lt;llvm::Constant&gt;(baseInit-&gt;getOperand(i)));</div>
-<div class="line"><span class="lineno">  449</span>        }</div>
-<div class="line"><span class="lineno">  450</span>      }</div>
-<div class="line"><span class="lineno">  451</span>    }</div>
-<div class="line"><span class="lineno">  452</span> </div>
-<div class="line"><span class="lineno">  453</span>    <span class="keyword">auto</span> methodsIt = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVirtualMethodFns_.find(classType-&gt;getName());</div>
-<div class="line"><span class="lineno">  454</span>    <span class="keywordflow">if</span> (methodsIt != <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVirtualMethodFns_.end()) {</div>
-<div class="line"><span class="lineno">  455</span>      <span class="keyword">auto</span> *i8PtrTy =</div>
-<div class="line"><span class="lineno">  456</span>          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
-<div class="line"><span class="lineno">  457</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[slot, fn] : methodsIt-&gt;second) {</div>
-<div class="line"><span class="lineno">  458</span>        <span class="keywordflow">if</span> (slot &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(entries.size())) {</div>
-<div class="line"><span class="lineno">  459</span>          entries.resize(<span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(slot + 1),</div>
-<div class="line"><span class="lineno">  460</span>                         llvm::ConstantPointerNull::get(i8PtrTy));</div>
-<div class="line"><span class="lineno">  461</span>        }</div>
-<div class="line"><span class="lineno">  462</span>        entries[slot] = llvm::ConstantExpr::getBitCast(fn, i8PtrTy);</div>
-<div class="line"><span class="lineno">  463</span>      }</div>
-<div class="line"><span class="lineno">  464</span>    }</div>
-<div class="line"><span class="lineno">  465</span> </div>
-<div class="line"><span class="lineno">  466</span>    <span class="keyword">auto</span> *i8PtrTy =</div>
-<div class="line"><span class="lineno">  467</span>        llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
-<div class="line"><span class="lineno">  468</span>    <span class="keyword">auto</span> *vtableTy =</div>
-<div class="line"><span class="lineno">  469</span>        llvm::ArrayType::get(i8PtrTy, <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(entries.size()));</div>
-<div class="line"><span class="lineno">  470</span>    <span class="keyword">auto</span> *init = llvm::ConstantArray::get(vtableTy, entries);</div>
-<div class="line"><span class="lineno">  471</span>    <span class="keyword">auto</span> *gv = <span class="keyword">new</span> llvm::GlobalVariable(</div>
-<div class="line"><span class="lineno">  472</span>        *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, vtableTy, <span class="keyword">true</span>, llvm::GlobalValue::InternalLinkage,</div>
-<div class="line"><span class="lineno">  473</span>        init, <span class="stringliteral">&quot;__zap_vtable_&quot;</span> + classType-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">  474</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_[classType-&gt;getName()] = gv;</div>
-<div class="line"><span class="lineno">  475</span>  }</div>
-<div class="line"><span class="lineno">  476</span> </div>
-<div class="line"><span class="lineno">  477</span>  <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classMetadataGlobals_.count(classType-&gt;getName())) {</div>
-<div class="line"><span class="lineno">  478</span>    std::vector&lt;uint32_t&gt; strongFieldOffsets;</div>
-<div class="line"><span class="lineno">  479</span>    <span class="keyword">auto</span> *layout = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_-&gt;getDataLayout().getStructLayout(objectTy);</div>
-<div class="line"><span class="lineno">  480</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; classType-&gt;getFields().size(); ++i) {</div>
-<div class="line"><span class="lineno">  481</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;field = classType-&gt;getFields()[i];</div>
-<div class="line"><span class="lineno">  482</span>      <span class="keywordflow">if</span> (!field.type || field.type-&gt;getKind() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a> ||</div>
-<div class="line"><span class="lineno">  483</span>          <a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(field.type)) {</div>
-<div class="line"><span class="lineno">  484</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  485</span>      }</div>
-<div class="line"><span class="lineno">  486</span>      strongFieldOffsets.push_back(</div>
-<div class="line"><span class="lineno">  487</span>          <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(layout-&gt;getElementOffset(</div>
-<div class="line"><span class="lineno">  488</span>              <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span><span class="keyword">&gt;</span>(i + <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a>))));</div>
-<div class="line"><span class="lineno">  489</span>    }</div>
-<div class="line"><span class="lineno">  490</span> </div>
-<div class="line"><span class="lineno">  491</span>    <span class="keyword">auto</span> *i32Ty = llvm::Type::getInt32Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_);</div>
-<div class="line"><span class="lineno">  492</span>    <span class="keyword">auto</span> *i32PtrTy = llvm::PointerType::getUnqual(i32Ty);</div>
-<div class="line"><span class="lineno">  493</span>    llvm::Constant *offsetPtr = llvm::ConstantPointerNull::get(i32PtrTy);</div>
-<div class="line"><span class="lineno">  494</span>    <span class="keywordflow">if</span> (!strongFieldOffsets.empty()) {</div>
-<div class="line"><span class="lineno">  495</span>      std::vector&lt;llvm::Constant *&gt; offsetConstants;</div>
-<div class="line"><span class="lineno">  496</span>      <span class="keywordflow">for</span> (uint32_t offset : strongFieldOffsets) {</div>
-<div class="line"><span class="lineno">  497</span>        offsetConstants.push_back(llvm::ConstantInt::get(i32Ty, offset));</div>
-<div class="line"><span class="lineno">  498</span>      }</div>
-<div class="line"><span class="lineno">  499</span>      <span class="keyword">auto</span> *offsetArrayTy = llvm::ArrayType::get(i32Ty, offsetConstants.size());</div>
-<div class="line"><span class="lineno">  500</span>      <span class="keyword">auto</span> *offsetArrayInit =</div>
-<div class="line"><span class="lineno">  501</span>          llvm::ConstantArray::get(offsetArrayTy, offsetConstants);</div>
-<div class="line"><span class="lineno">  502</span>      <span class="keyword">auto</span> *offsetGlobal = <span class="keyword">new</span> llvm::GlobalVariable(</div>
-<div class="line"><span class="lineno">  503</span>          *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, offsetArrayTy, <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  504</span>          llvm::GlobalValue::InternalLinkage, offsetArrayInit,</div>
-<div class="line"><span class="lineno">  505</span>          <span class="stringliteral">&quot;__zap_arc_offsets_&quot;</span> + classType-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">  506</span>      <span class="keyword">auto</span> *zero =</div>
-<div class="line"><span class="lineno">  507</span>          llvm::ConstantInt::get(llvm::Type::getInt32Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
-<div class="line"><span class="lineno">  508</span>      llvm::Constant *indices[] = {zero, zero};</div>
-<div class="line"><span class="lineno">  509</span>      offsetPtr = llvm::ConstantExpr::getInBoundsGetElementPtr(</div>
-<div class="line"><span class="lineno">  510</span>          offsetArrayTy, offsetGlobal, indices);</div>
-<div class="line"><span class="lineno">  511</span>    }</div>
-<div class="line"><span class="lineno">  512</span> </div>
-<div class="line"><span class="lineno">  513</span>    <span class="keyword">auto</span> *metaTy = llvm::StructType::create(</div>
-<div class="line"><span class="lineno">  514</span>        <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;__zap_arc_meta_&quot;</span> + classType-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">  515</span>    metaTy-&gt;setBody({i32Ty, i32PtrTy});</div>
-<div class="line"><span class="lineno">  516</span>    <span class="keyword">auto</span> *metaInit = llvm::ConstantStruct::get(</div>
-<div class="line"><span class="lineno">  517</span>        metaTy,</div>
-<div class="line"><span class="lineno">  518</span>        llvm::ConstantInt::get(</div>
-<div class="line"><span class="lineno">  519</span>            i32Ty, <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(strongFieldOffsets.size())),</div>
-<div class="line"><span class="lineno">  520</span>        offsetPtr);</div>
-<div class="line"><span class="lineno">  521</span>    <span class="keyword">auto</span> *metaGlobal = <span class="keyword">new</span> llvm::GlobalVariable(</div>
-<div class="line"><span class="lineno">  522</span>        *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, metaTy, <span class="keyword">true</span>, llvm::GlobalValue::InternalLinkage,</div>
-<div class="line"><span class="lineno">  523</span>        metaInit, <span class="stringliteral">&quot;__zap_arc_meta_&quot;</span> + classType-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">  524</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classMetadataGlobals_[classType-&gt;getName()] = metaGlobal;</div>
-<div class="line"><span class="lineno">  525</span>  }</div>
-<div class="line"><span class="lineno">  526</span> </div>
-<div class="line"><span class="lineno">  527</span>  <span class="keyword">auto</span> savedFn = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_;</div>
-<div class="line"><span class="lineno">  528</span>  <span class="keyword">auto</span> savedLocals = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_;</div>
-<div class="line"><span class="lineno">  529</span>  <span class="keyword">auto</span> savedBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
-<div class="line"><span class="lineno">  530</span> </div>
-<div class="line"><span class="lineno">  531</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = destroyHelper;</div>
-<div class="line"><span class="lineno">  532</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_.clear();</div>
-<div class="line"><span class="lineno">  533</span>  <span class="keyword">auto</span> *destroyEntry =</div>
-<div class="line"><span class="lineno">  534</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;entry&quot;</span>, destroyHelper);</div>
-<div class="line"><span class="lineno">  535</span>  <span class="keyword">auto</span> *destroyReturnBB =</div>
-<div class="line"><span class="lineno">  536</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.ret&quot;</span>, destroyHelper);</div>
-<div class="line"><span class="lineno">  537</span>  <span class="keyword">auto</span> *destroyFreeBB =</div>
-<div class="line"><span class="lineno">  538</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.free&quot;</span>, destroyHelper);</div>
-<div class="line"><span class="lineno">  539</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyEntry);</div>
-<div class="line"><span class="lineno">  540</span> </div>
-<div class="line"><span class="lineno">  541</span>  <span class="keyword">auto</span> *destroyRawObject = &amp;*destroyHelper-&gt;arg_begin();</div>
-<div class="line"><span class="lineno">  542</span>  destroyRawObject-&gt;setName(<span class="stringliteral">&quot;object.raw&quot;</span>);</div>
-<div class="line"><span class="lineno">  543</span>  <span class="keyword">auto</span> *destroyIsNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  544</span>      destroyRawObject,</div>
-<div class="line"><span class="lineno">  545</span>      llvm::ConstantPointerNull::get(llvm::cast&lt;llvm::PointerType&gt;(rawPtrTy)));</div>
-<div class="line"><span class="lineno">  546</span>  <span class="keyword">auto</span> *destroyBodyBB =</div>
-<div class="line"><span class="lineno">  547</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.destroy&quot;</span>, destroyHelper);</div>
-<div class="line"><span class="lineno">  548</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(destroyIsNull, destroyReturnBB, destroyBodyBB);</div>
-<div class="line"><span class="lineno">  549</span> </div>
-<div class="line"><span class="lineno">  550</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyBodyBB);</div>
-<div class="line"><span class="lineno">  551</span>  <span class="keyword">auto</span> *destroyTypedObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  552</span>      destroyRawObject, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;object&quot;</span>);</div>
-<div class="line"><span class="lineno">  553</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  554</span>      objectTy, destroyTypedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;alive.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  555</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(</div>
-<div class="line"><span class="lineno">  556</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0),</div>
-<div class="line"><span class="lineno">  557</span>      aliveAddr);</div>
-<div class="line"><span class="lineno">  558</span>  <span class="keyword">auto</span> dtorIt = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestructorFns_.find(classType-&gt;getName());</div>
-<div class="line"><span class="lineno">  559</span>  <span class="keywordflow">if</span> (dtorIt != <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestructorFns_.end()) {</div>
-<div class="line"><span class="lineno">  560</span>    <span class="keyword">auto</span> *dtorPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  561</span>        destroyTypedObject, dtorIt-&gt;second-&gt;getArg(0)-&gt;getType(), <span class="stringliteral">&quot;dtor.self&quot;</span>);</div>
-<div class="line"><span class="lineno">  562</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(dtorIt-&gt;second, {dtorPtr});</div>
-<div class="line"><span class="lineno">  563</span>  }</div>
-<div class="line"><span class="lineno">  564</span> </div>
-<div class="line"><span class="lineno">  565</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; classType-&gt;getFields().size(); ++i) {</div>
-<div class="line"><span class="lineno">  566</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;field = classType-&gt;getFields()[i];</div>
-<div class="line"><span class="lineno">  567</span>    <span class="keywordflow">if</span> (!field.type || field.type-&gt;getKind() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
-<div class="line"><span class="lineno">  568</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  569</span>    }</div>
-<div class="line"><span class="lineno">  570</span>    <span class="keyword">auto</span> *fieldAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  571</span>        objectTy, destroyTypedObject,</div>
-<div class="line"><span class="lineno">  572</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span><span class="keyword">&gt;</span>(i + <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a>));</div>
-<div class="line"><span class="lineno">  573</span>    <span class="keyword">auto</span> *fieldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  574</span>        <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*field.type), fieldAddr, field.name);</div>
-<div class="line"><span class="lineno">  575</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(field.type)) {</div>
-<div class="line"><span class="lineno">  576</span>      <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(fieldValue, field.type);</div>
-<div class="line"><span class="lineno">  577</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  578</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(fieldValue, field.type);</div>
-<div class="line"><span class="lineno">  579</span>    }</div>
-<div class="line"><span class="lineno">  580</span>  }</div>
-<div class="line"><span class="lineno">  581</span> </div>
-<div class="line"><span class="lineno">  582</span>  <span class="keyword">auto</span> *weakAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  583</span>      objectTy, destroyTypedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a8e78b53468947438a6a015bff559645d">kClassWeakCountIndex</a>, <span class="stringliteral">&quot;weakcount.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  584</span>  <span class="keyword">auto</span> *weakCount = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  585</span>      llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), weakAddr, <span class="stringliteral">&quot;weakcount&quot;</span>);</div>
-<div class="line"><span class="lineno">  586</span>  <span class="keyword">auto</span> *isWeakZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  587</span>      weakCount,</div>
-<div class="line"><span class="lineno">  588</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
-<div class="line"><span class="lineno">  589</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isWeakZero, destroyFreeBB, destroyReturnBB);</div>
-<div class="line"><span class="lineno">  590</span> </div>
-<div class="line"><span class="lineno">  591</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyFreeBB);</div>
-<div class="line"><span class="lineno">  592</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">  593</span>    <span class="keyword">auto</span> *unregisterTy = llvm::FunctionType::get(</div>
-<div class="line"><span class="lineno">  594</span>        llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {rawPtrTy}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  595</span>    <span class="keyword">auto</span> *unregisterFn =</div>
-<div class="line"><span class="lineno">  596</span>        llvm::Function::Create(unregisterTy, llvm::Function::ExternalLinkage,</div>
-<div class="line"><span class="lineno">  597</span>                               <span class="stringliteral">&quot;zap_arc_unregister&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  598</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>] = unregisterFn;</div>
-<div class="line"><span class="lineno">  599</span>  }</div>
-<div class="line"><span class="lineno">  600</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>),</div>
-<div class="line"><span class="lineno">  601</span>                               {destroyRawObject});</div>
-<div class="line"><span class="lineno">  602</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;free&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">  603</span>    <span class="keyword">auto</span> *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
-<div class="line"><span class="lineno">  604</span>                                           {rawPtrTy}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  605</span>    <span class="keyword">auto</span> *freeFn = llvm::Function::Create(</div>
-<div class="line"><span class="lineno">  606</span>        freeTy, llvm::Function::ExternalLinkage, <span class="stringliteral">&quot;free&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  607</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;free&quot;</span>] = freeFn;</div>
-<div class="line"><span class="lineno">  608</span>  }</div>
-<div class="line"><span class="lineno">  609</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;free&quot;</span>),</div>
-<div class="line"><span class="lineno">  610</span>                               {destroyRawObject});</div>
-<div class="line"><span class="lineno">  611</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(destroyReturnBB);</div>
-<div class="line"><span class="lineno">  612</span> </div>
-<div class="line"><span class="lineno">  613</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyReturnBB);</div>
-<div class="line"><span class="lineno">  614</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateRetVoid();</div>
-<div class="line"><span class="lineno">  615</span> </div>
-<div class="line"><span class="lineno">  616</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = releaseHelper;</div>
-<div class="line"><span class="lineno">  617</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_.clear();</div>
-<div class="line"><span class="lineno">  618</span>  <span class="keyword">auto</span> *entry = llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;entry&quot;</span>, releaseHelper);</div>
-<div class="line"><span class="lineno">  619</span>  <span class="keyword">auto</span> *decrementedBB =</div>
-<div class="line"><span class="lineno">  620</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.dec&quot;</span>, releaseHelper);</div>
-<div class="line"><span class="lineno">  621</span>  <span class="keyword">auto</span> *destroyBB =</div>
-<div class="line"><span class="lineno">  622</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.destroy&quot;</span>, releaseHelper);</div>
-<div class="line"><span class="lineno">  623</span>  <span class="keyword">auto</span> *cycleBB =</div>
-<div class="line"><span class="lineno">  624</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.cycle&quot;</span>, releaseHelper);</div>
-<div class="line"><span class="lineno">  625</span>  <span class="keyword">auto</span> *returnBB =</div>
-<div class="line"><span class="lineno">  626</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.ret&quot;</span>, releaseHelper);</div>
-<div class="line"><span class="lineno">  627</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(entry);</div>
-<div class="line"><span class="lineno">  628</span> </div>
-<div class="line"><span class="lineno">  629</span>  <span class="keyword">auto</span> *rawObject = &amp;*releaseHelper-&gt;arg_begin();</div>
-<div class="line"><span class="lineno">  630</span>  rawObject-&gt;setName(<span class="stringliteral">&quot;object.raw&quot;</span>);</div>
-<div class="line"><span class="lineno">  631</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  632</span>      rawObject,</div>
-<div class="line"><span class="lineno">  633</span>      llvm::ConstantPointerNull::get(llvm::cast&lt;llvm::PointerType&gt;(rawPtrTy)));</div>
-<div class="line"><span class="lineno">  634</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, returnBB, decrementedBB);</div>
-<div class="line"><span class="lineno">  635</span> </div>
-<div class="line"><span class="lineno">  636</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(decrementedBB);</div>
-<div class="line"><span class="lineno">  637</span>  <span class="keyword">auto</span> *typedObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
-<div class="line"><span class="lineno">  638</span>      rawObject, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;object&quot;</span>);</div>
-<div class="line"><span class="lineno">  639</span>  <span class="keyword">auto</span> *countAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  640</span>      objectTy, typedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498">kClassStrongCountIndex</a>, <span class="stringliteral">&quot;refcount.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  641</span>  <span class="keyword">auto</span> *count = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  642</span>      llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), countAddr, <span class="stringliteral">&quot;refcount&quot;</span>);</div>
-<div class="line"><span class="lineno">  643</span>  <span class="keyword">auto</span> *nextCount = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateSub(</div>
-<div class="line"><span class="lineno">  644</span>      count, llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 1),</div>
-<div class="line"><span class="lineno">  645</span>      <span class="stringliteral">&quot;refcount.next&quot;</span>);</div>
-<div class="line"><span class="lineno">  646</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(nextCount, countAddr);</div>
-<div class="line"><span class="lineno">  647</span>  <span class="keyword">auto</span> *isZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
-<div class="line"><span class="lineno">  648</span>      nextCount,</div>
-<div class="line"><span class="lineno">  649</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
-<div class="line"><span class="lineno">  650</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isZero, destroyBB, cycleBB);</div>
-<div class="line"><span class="lineno">  651</span> </div>
-<div class="line"><span class="lineno">  652</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyBB);</div>
-<div class="line"><span class="lineno">  653</span>  <span class="keyword">auto</span> *destroyAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
-<div class="line"><span class="lineno">  654</span>      objectTy, typedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#aae524487f488c12b500922655be38a97">kClassDestroyFnIndex</a>, <span class="stringliteral">&quot;destroy.addr&quot;</span>);</div>
-<div class="line"><span class="lineno">  655</span>  <span class="keyword">auto</span> *destroyFn = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
-<div class="line"><span class="lineno">  656</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_)),</div>
-<div class="line"><span class="lineno">  657</span>      destroyAddr, <span class="stringliteral">&quot;destroy.fn&quot;</span>);</div>
-<div class="line"><span class="lineno">  658</span>  <span class="keyword">auto</span> *destroyTy = llvm::FunctionType::get(</div>
-<div class="line"><span class="lineno">  659</span>      llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {rawPtrTy}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  660</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(destroyTy, destroyFn, {rawObject});</div>
-<div class="line"><span class="lineno">  661</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(returnBB);</div>
-<div class="line"><span class="lineno">  662</span> </div>
-<div class="line"><span class="lineno">  663</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(cycleBB);</div>
-<div class="line"><span class="lineno">  664</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">  665</span>    <span class="keyword">auto</span> *collectTy = llvm::FunctionType::get(</div>
-<div class="line"><span class="lineno">  666</span>        llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {}, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  667</span>    <span class="keyword">auto</span> *collectFn =</div>
-<div class="line"><span class="lineno">  668</span>        llvm::Function::Create(collectTy, llvm::Function::ExternalLinkage,</div>
-<div class="line"><span class="lineno">  669</span>                               <span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
-<div class="line"><span class="lineno">  670</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>] = collectFn;</div>
-<div class="line"><span class="lineno">  671</span>  }</div>
-<div class="line"><span class="lineno">  672</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(</div>
-<div class="line"><span class="lineno">  673</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>));</div>
-<div class="line"><span class="lineno">  674</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(returnBB);</div>
-<div class="line"><span class="lineno">  675</span> </div>
-<div class="line"><span class="lineno">  676</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(returnBB);</div>
-<div class="line"><span class="lineno">  677</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateRetVoid();</div>
-<div class="line"><span class="lineno">  678</span> </div>
-<div class="line"><span class="lineno">  679</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = savedFn;</div>
-<div class="line"><span class="lineno">  680</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_ = std::move(savedLocals);</div>
-<div class="line"><span class="lineno">  681</span>  <span class="keywordflow">if</span> (savedBlock) {</div>
-<div class="line"><span class="lineno">  682</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(savedBlock);</div>
-<div class="line"><span class="lineno">  683</span>  }</div>
-<div class="line"><span class="lineno">  684</span>}</div>
-<div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_add53981156a9a20a4f8a8f37ff1673a5"><div class="ttname"><a href="#add53981156a9a20a4f8a8f37ff1673a5">codegen::ClassArcEmitter::ensureClassArcSupport</a></div><div class="ttdeci">void ensureClassArcSupport(const std::shared_ptr&lt; zir::ClassType &gt; &amp;classType)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">class_arc_emitter.cpp:411</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">412</a> of file <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html">class_arc_emitter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  413</span>                                                  {</div>
+<div class="line"><span class="lineno">  414</span>  <span class="keywordflow">if</span> (!classType || <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classReleaseFns_.count(classType-&gt;getName())) {</div>
+<div class="line"><span class="lineno">  415</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  416</span>  }</div>
+<div class="line"><span class="lineno">  417</span> </div>
+<div class="line"><span class="lineno">  418</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*classType);</div>
+<div class="line"><span class="lineno">  419</span>  <span class="keyword">auto</span> *objectTy =</div>
+<div class="line"><span class="lineno">  420</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.structCache_.at(classType-&gt;getCodegenName() + <span class="stringliteral">&quot;.obj&quot;</span>);</div>
+<div class="line"><span class="lineno">  421</span>  <span class="keyword">auto</span> *rawPtrTy =</div>
+<div class="line"><span class="lineno">  422</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
+<div class="line"><span class="lineno">  423</span>  <span class="keyword">auto</span> *helperTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
+<div class="line"><span class="lineno">  424</span>                                           {rawPtrTy}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  425</span>  <span class="keyword">auto</span> *releaseHelper = llvm::Function::Create(</div>
+<div class="line"><span class="lineno">  426</span>      helperTy, llvm::Function::InternalLinkage,</div>
+<div class="line"><span class="lineno">  427</span>      <span class="stringliteral">&quot;__zap_arc_release_&quot;</span> + classType-&gt;getCodegenName(), *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  428</span>  <span class="keyword">auto</span> *destroyHelper = llvm::Function::Create(</div>
+<div class="line"><span class="lineno">  429</span>      helperTy, llvm::Function::InternalLinkage,</div>
+<div class="line"><span class="lineno">  430</span>      <span class="stringliteral">&quot;__zap_arc_destroy_&quot;</span> + classType-&gt;getCodegenName(), *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  431</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classReleaseFns_[classType-&gt;getName()] = releaseHelper;</div>
+<div class="line"><span class="lineno">  432</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestroyFns_[classType-&gt;getName()] = destroyHelper;</div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : classType-&gt;getFields()) {</div>
+<div class="line"><span class="lineno">  435</span>    <span class="keywordflow">if</span> (field.type &amp;&amp; field.type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
+<div class="line"><span class="lineno">  436</span>      <a class="code hl_function" href="#add53981156a9a20a4f8a8f37ff1673a5">ensureClassArcSupport</a>(</div>
+<div class="line"><span class="lineno">  437</span>          std::static_pointer_cast&lt;zir::ClassType&gt;(field.type));</div>
+<div class="line"><span class="lineno">  438</span>    }</div>
+<div class="line"><span class="lineno">  439</span>  }</div>
+<div class="line"><span class="lineno">  440</span> </div>
+<div class="line"><span class="lineno">  441</span>  <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_.count(classType-&gt;getName())) {</div>
+<div class="line"><span class="lineno">  442</span>    std::vector&lt;llvm::Constant *&gt; entries;</div>
+<div class="line"><span class="lineno">  443</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> base = classType-&gt;getBase()) {</div>
+<div class="line"><span class="lineno">  444</span>      <a class="code hl_function" href="#add53981156a9a20a4f8a8f37ff1673a5">ensureClassArcSupport</a>(base);</div>
+<div class="line"><span class="lineno">  445</span>      <span class="keyword">auto</span> *baseVTable = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_.at(base-&gt;getName());</div>
+<div class="line"><span class="lineno">  446</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> *baseInit = baseVTable-&gt;getInitializer()) {</div>
+<div class="line"><span class="lineno">  447</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; baseInit-&gt;getNumOperands(); ++i) {</div>
+<div class="line"><span class="lineno">  448</span>          entries.push_back(</div>
+<div class="line"><span class="lineno">  449</span>              llvm::cast&lt;llvm::Constant&gt;(baseInit-&gt;getOperand(i)));</div>
+<div class="line"><span class="lineno">  450</span>        }</div>
+<div class="line"><span class="lineno">  451</span>      }</div>
+<div class="line"><span class="lineno">  452</span>    }</div>
+<div class="line"><span class="lineno">  453</span> </div>
+<div class="line"><span class="lineno">  454</span>    <span class="keyword">auto</span> methodsIt = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVirtualMethodFns_.find(classType-&gt;getName());</div>
+<div class="line"><span class="lineno">  455</span>    <span class="keywordflow">if</span> (methodsIt != <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVirtualMethodFns_.end()) {</div>
+<div class="line"><span class="lineno">  456</span>      <span class="keyword">auto</span> *i8PtrTy =</div>
+<div class="line"><span class="lineno">  457</span>          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
+<div class="line"><span class="lineno">  458</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[slot, fn] : methodsIt-&gt;second) {</div>
+<div class="line"><span class="lineno">  459</span>        <span class="keywordflow">if</span> (slot &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(entries.size())) {</div>
+<div class="line"><span class="lineno">  460</span>          entries.resize(<span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(slot + 1),</div>
+<div class="line"><span class="lineno">  461</span>                         llvm::ConstantPointerNull::get(i8PtrTy));</div>
+<div class="line"><span class="lineno">  462</span>        }</div>
+<div class="line"><span class="lineno">  463</span>        entries[slot] = llvm::ConstantExpr::getBitCast(fn, i8PtrTy);</div>
+<div class="line"><span class="lineno">  464</span>      }</div>
+<div class="line"><span class="lineno">  465</span>    }</div>
+<div class="line"><span class="lineno">  466</span> </div>
+<div class="line"><span class="lineno">  467</span>    <span class="keyword">auto</span> *i8PtrTy =</div>
+<div class="line"><span class="lineno">  468</span>        llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_));</div>
+<div class="line"><span class="lineno">  469</span>    <span class="keyword">auto</span> *vtableTy =</div>
+<div class="line"><span class="lineno">  470</span>        llvm::ArrayType::get(i8PtrTy, <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(entries.size()));</div>
+<div class="line"><span class="lineno">  471</span>    <span class="keyword">auto</span> *init = llvm::ConstantArray::get(vtableTy, entries);</div>
+<div class="line"><span class="lineno">  472</span>    <span class="keyword">auto</span> *gv = <span class="keyword">new</span> llvm::GlobalVariable(</div>
+<div class="line"><span class="lineno">  473</span>        *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, vtableTy, <span class="keyword">true</span>, llvm::GlobalValue::InternalLinkage,</div>
+<div class="line"><span class="lineno">  474</span>        init, <span class="stringliteral">&quot;__zap_vtable_&quot;</span> + classType-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">  475</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classVTables_[classType-&gt;getName()] = gv;</div>
+<div class="line"><span class="lineno">  476</span>  }</div>
+<div class="line"><span class="lineno">  477</span> </div>
+<div class="line"><span class="lineno">  478</span>  <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classMetadataGlobals_.count(classType-&gt;getName())) {</div>
+<div class="line"><span class="lineno">  479</span>    std::vector&lt;uint32_t&gt; strongFieldOffsets;</div>
+<div class="line"><span class="lineno">  480</span>    <span class="keyword">auto</span> *layout = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_-&gt;getDataLayout().getStructLayout(objectTy);</div>
+<div class="line"><span class="lineno">  481</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; classType-&gt;getFields().size(); ++i) {</div>
+<div class="line"><span class="lineno">  482</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;field = classType-&gt;getFields()[i];</div>
+<div class="line"><span class="lineno">  483</span>      <span class="keywordflow">if</span> (!field.type || field.type-&gt;getKind() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a> ||</div>
+<div class="line"><span class="lineno">  484</span>          <a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(field.type)) {</div>
+<div class="line"><span class="lineno">  485</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  486</span>      }</div>
+<div class="line"><span class="lineno">  487</span>      strongFieldOffsets.push_back(</div>
+<div class="line"><span class="lineno">  488</span>          <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(layout-&gt;getElementOffset(</div>
+<div class="line"><span class="lineno">  489</span>              <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span><span class="keyword">&gt;</span>(i + <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a>))));</div>
+<div class="line"><span class="lineno">  490</span>    }</div>
+<div class="line"><span class="lineno">  491</span> </div>
+<div class="line"><span class="lineno">  492</span>    <span class="keyword">auto</span> *i32Ty = llvm::Type::getInt32Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_);</div>
+<div class="line"><span class="lineno">  493</span>    <span class="keyword">auto</span> *i32PtrTy = llvm::PointerType::getUnqual(i32Ty);</div>
+<div class="line"><span class="lineno">  494</span>    llvm::Constant *offsetPtr = llvm::ConstantPointerNull::get(i32PtrTy);</div>
+<div class="line"><span class="lineno">  495</span>    <span class="keywordflow">if</span> (!strongFieldOffsets.empty()) {</div>
+<div class="line"><span class="lineno">  496</span>      std::vector&lt;llvm::Constant *&gt; offsetConstants;</div>
+<div class="line"><span class="lineno">  497</span>      <span class="keywordflow">for</span> (uint32_t offset : strongFieldOffsets) {</div>
+<div class="line"><span class="lineno">  498</span>        offsetConstants.push_back(llvm::ConstantInt::get(i32Ty, offset));</div>
+<div class="line"><span class="lineno">  499</span>      }</div>
+<div class="line"><span class="lineno">  500</span>      <span class="keyword">auto</span> *offsetArrayTy = llvm::ArrayType::get(i32Ty, offsetConstants.size());</div>
+<div class="line"><span class="lineno">  501</span>      <span class="keyword">auto</span> *offsetArrayInit =</div>
+<div class="line"><span class="lineno">  502</span>          llvm::ConstantArray::get(offsetArrayTy, offsetConstants);</div>
+<div class="line"><span class="lineno">  503</span>      <span class="keyword">auto</span> *offsetGlobal = <span class="keyword">new</span> llvm::GlobalVariable(</div>
+<div class="line"><span class="lineno">  504</span>          *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, offsetArrayTy, <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  505</span>          llvm::GlobalValue::InternalLinkage, offsetArrayInit,</div>
+<div class="line"><span class="lineno">  506</span>          <span class="stringliteral">&quot;__zap_arc_offsets_&quot;</span> + classType-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">  507</span>      <span class="keyword">auto</span> *zero =</div>
+<div class="line"><span class="lineno">  508</span>          llvm::ConstantInt::get(llvm::Type::getInt32Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0);</div>
+<div class="line"><span class="lineno">  509</span>      llvm::Constant *indices[] = {zero, zero};</div>
+<div class="line"><span class="lineno">  510</span>      offsetPtr = llvm::ConstantExpr::getInBoundsGetElementPtr(</div>
+<div class="line"><span class="lineno">  511</span>          offsetArrayTy, offsetGlobal, indices);</div>
+<div class="line"><span class="lineno">  512</span>    }</div>
+<div class="line"><span class="lineno">  513</span> </div>
+<div class="line"><span class="lineno">  514</span>    <span class="keyword">auto</span> *metaTy = llvm::StructType::create(</div>
+<div class="line"><span class="lineno">  515</span>        <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;__zap_arc_meta_&quot;</span> + classType-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">  516</span>    metaTy-&gt;setBody({i32Ty, i32PtrTy});</div>
+<div class="line"><span class="lineno">  517</span>    <span class="keyword">auto</span> *metaInit = llvm::ConstantStruct::get(</div>
+<div class="line"><span class="lineno">  518</span>        metaTy,</div>
+<div class="line"><span class="lineno">  519</span>        llvm::ConstantInt::get(</div>
+<div class="line"><span class="lineno">  520</span>            i32Ty, <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(strongFieldOffsets.size())),</div>
+<div class="line"><span class="lineno">  521</span>        offsetPtr);</div>
+<div class="line"><span class="lineno">  522</span>    <span class="keyword">auto</span> *metaGlobal = <span class="keyword">new</span> llvm::GlobalVariable(</div>
+<div class="line"><span class="lineno">  523</span>        *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_, metaTy, <span class="keyword">true</span>, llvm::GlobalValue::InternalLinkage,</div>
+<div class="line"><span class="lineno">  524</span>        metaInit, <span class="stringliteral">&quot;__zap_arc_meta_&quot;</span> + classType-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">  525</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classMetadataGlobals_[classType-&gt;getName()] = metaGlobal;</div>
+<div class="line"><span class="lineno">  526</span>  }</div>
+<div class="line"><span class="lineno">  527</span> </div>
+<div class="line"><span class="lineno">  528</span>  <span class="keyword">auto</span> savedFn = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_;</div>
+<div class="line"><span class="lineno">  529</span>  <span class="keyword">auto</span> savedLocals = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_;</div>
+<div class="line"><span class="lineno">  530</span>  <span class="keyword">auto</span> savedBlock = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.GetInsertBlock();</div>
+<div class="line"><span class="lineno">  531</span> </div>
+<div class="line"><span class="lineno">  532</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = destroyHelper;</div>
+<div class="line"><span class="lineno">  533</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_.clear();</div>
+<div class="line"><span class="lineno">  534</span>  <span class="keyword">auto</span> *destroyEntry =</div>
+<div class="line"><span class="lineno">  535</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;entry&quot;</span>, destroyHelper);</div>
+<div class="line"><span class="lineno">  536</span>  <span class="keyword">auto</span> *destroyReturnBB =</div>
+<div class="line"><span class="lineno">  537</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.ret&quot;</span>, destroyHelper);</div>
+<div class="line"><span class="lineno">  538</span>  <span class="keyword">auto</span> *destroyFreeBB =</div>
+<div class="line"><span class="lineno">  539</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.free&quot;</span>, destroyHelper);</div>
+<div class="line"><span class="lineno">  540</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyEntry);</div>
+<div class="line"><span class="lineno">  541</span> </div>
+<div class="line"><span class="lineno">  542</span>  <span class="keyword">auto</span> *destroyRawObject = &amp;*destroyHelper-&gt;arg_begin();</div>
+<div class="line"><span class="lineno">  543</span>  destroyRawObject-&gt;setName(<span class="stringliteral">&quot;object.raw&quot;</span>);</div>
+<div class="line"><span class="lineno">  544</span>  <span class="keyword">auto</span> *destroyIsNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  545</span>      destroyRawObject,</div>
+<div class="line"><span class="lineno">  546</span>      llvm::ConstantPointerNull::get(llvm::cast&lt;llvm::PointerType&gt;(rawPtrTy)));</div>
+<div class="line"><span class="lineno">  547</span>  <span class="keyword">auto</span> *destroyBodyBB =</div>
+<div class="line"><span class="lineno">  548</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.destroy&quot;</span>, destroyHelper);</div>
+<div class="line"><span class="lineno">  549</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(destroyIsNull, destroyReturnBB, destroyBodyBB);</div>
+<div class="line"><span class="lineno">  550</span> </div>
+<div class="line"><span class="lineno">  551</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyBodyBB);</div>
+<div class="line"><span class="lineno">  552</span>  <span class="keyword">auto</span> *destroyTypedObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  553</span>      destroyRawObject, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;object&quot;</span>);</div>
+<div class="line"><span class="lineno">  554</span>  <span class="keyword">auto</span> *aliveAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  555</span>      objectTy, destroyTypedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a>, <span class="stringliteral">&quot;alive.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  556</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(</div>
+<div class="line"><span class="lineno">  557</span>      llvm::ConstantInt::get(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0),</div>
+<div class="line"><span class="lineno">  558</span>      aliveAddr);</div>
+<div class="line"><span class="lineno">  559</span>  <span class="keyword">auto</span> dtorIt = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestructorFns_.find(classType-&gt;getName());</div>
+<div class="line"><span class="lineno">  560</span>  <span class="keywordflow">if</span> (dtorIt != <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.classDestructorFns_.end()) {</div>
+<div class="line"><span class="lineno">  561</span>    <span class="keyword">auto</span> *dtorPtr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  562</span>        destroyTypedObject, dtorIt-&gt;second-&gt;getArg(0)-&gt;getType(), <span class="stringliteral">&quot;dtor.self&quot;</span>);</div>
+<div class="line"><span class="lineno">  563</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(dtorIt-&gt;second, {dtorPtr});</div>
+<div class="line"><span class="lineno">  564</span>  }</div>
+<div class="line"><span class="lineno">  565</span> </div>
+<div class="line"><span class="lineno">  566</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; classType-&gt;getFields().size(); ++i) {</div>
+<div class="line"><span class="lineno">  567</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;field = classType-&gt;getFields()[i];</div>
+<div class="line"><span class="lineno">  568</span>    <span class="keywordflow">if</span> (!field.type || field.type-&gt;getKind() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
+<div class="line"><span class="lineno">  569</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  570</span>    }</div>
+<div class="line"><span class="lineno">  571</span>    <span class="keyword">auto</span> *fieldAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  572</span>        objectTy, destroyTypedObject,</div>
+<div class="line"><span class="lineno">  573</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span><span class="keyword">&gt;</span>(i + <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a>));</div>
+<div class="line"><span class="lineno">  574</span>    <span class="keyword">auto</span> *fieldValue = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  575</span>        <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.toLLVMType(*field.type), fieldAddr, field.name);</div>
+<div class="line"><span class="lineno">  576</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#accf1237a8d8f5985f87cef40ca6cdfd2">isWeakClassType</a>(field.type)) {</div>
+<div class="line"><span class="lineno">  577</span>      <a class="code hl_function" href="#a70d6a6a5d820c90fe5abc21fe0061c8c">emitReleaseWeakIfNeeded</a>(fieldValue, field.type);</div>
+<div class="line"><span class="lineno">  578</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  579</span>      <a class="code hl_function" href="#ac5c6dc271fbb2ae5f93b757adb8a5e90">emitReleaseIfNeeded</a>(fieldValue, field.type);</div>
+<div class="line"><span class="lineno">  580</span>    }</div>
+<div class="line"><span class="lineno">  581</span>  }</div>
+<div class="line"><span class="lineno">  582</span> </div>
+<div class="line"><span class="lineno">  583</span>  <span class="keyword">auto</span> *weakAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  584</span>      objectTy, destroyTypedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a8e78b53468947438a6a015bff559645d">kClassWeakCountIndex</a>, <span class="stringliteral">&quot;weakcount.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  585</span>  <span class="keyword">auto</span> *weakCount = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  586</span>      llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), weakAddr, <span class="stringliteral">&quot;weakcount&quot;</span>);</div>
+<div class="line"><span class="lineno">  587</span>  <span class="keyword">auto</span> *isWeakZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  588</span>      weakCount,</div>
+<div class="line"><span class="lineno">  589</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
+<div class="line"><span class="lineno">  590</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isWeakZero, destroyFreeBB, destroyReturnBB);</div>
+<div class="line"><span class="lineno">  591</span> </div>
+<div class="line"><span class="lineno">  592</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyFreeBB);</div>
+<div class="line"><span class="lineno">  593</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>) == 0) {</div>
+<div class="line"><span class="lineno">  594</span>    <span class="keyword">auto</span> *unregisterTy = llvm::FunctionType::get(</div>
+<div class="line"><span class="lineno">  595</span>        llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {rawPtrTy}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  596</span>    <span class="keyword">auto</span> *unregisterFn =</div>
+<div class="line"><span class="lineno">  597</span>        llvm::Function::Create(unregisterTy, llvm::Function::ExternalLinkage,</div>
+<div class="line"><span class="lineno">  598</span>                               <span class="stringliteral">&quot;zap_arc_unregister&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  599</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>] = unregisterFn;</div>
+<div class="line"><span class="lineno">  600</span>  }</div>
+<div class="line"><span class="lineno">  601</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;zap_arc_unregister&quot;</span>),</div>
+<div class="line"><span class="lineno">  602</span>                               {destroyRawObject});</div>
+<div class="line"><span class="lineno">  603</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;free&quot;</span>) == 0) {</div>
+<div class="line"><span class="lineno">  604</span>    <span class="keyword">auto</span> *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_),</div>
+<div class="line"><span class="lineno">  605</span>                                           {rawPtrTy}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  606</span>    <span class="keyword">auto</span> *freeFn = llvm::Function::Create(</div>
+<div class="line"><span class="lineno">  607</span>        freeTy, llvm::Function::ExternalLinkage, <span class="stringliteral">&quot;free&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  608</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;free&quot;</span>] = freeFn;</div>
+<div class="line"><span class="lineno">  609</span>  }</div>
+<div class="line"><span class="lineno">  610</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;free&quot;</span>),</div>
+<div class="line"><span class="lineno">  611</span>                               {destroyRawObject});</div>
+<div class="line"><span class="lineno">  612</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(destroyReturnBB);</div>
+<div class="line"><span class="lineno">  613</span> </div>
+<div class="line"><span class="lineno">  614</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyReturnBB);</div>
+<div class="line"><span class="lineno">  615</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateRetVoid();</div>
+<div class="line"><span class="lineno">  616</span> </div>
+<div class="line"><span class="lineno">  617</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = releaseHelper;</div>
+<div class="line"><span class="lineno">  618</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_.clear();</div>
+<div class="line"><span class="lineno">  619</span>  <span class="keyword">auto</span> *entry = llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;entry&quot;</span>, releaseHelper);</div>
+<div class="line"><span class="lineno">  620</span>  <span class="keyword">auto</span> *decrementedBB =</div>
+<div class="line"><span class="lineno">  621</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.dec&quot;</span>, releaseHelper);</div>
+<div class="line"><span class="lineno">  622</span>  <span class="keyword">auto</span> *destroyBB =</div>
+<div class="line"><span class="lineno">  623</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.destroy&quot;</span>, releaseHelper);</div>
+<div class="line"><span class="lineno">  624</span>  <span class="keyword">auto</span> *cycleBB =</div>
+<div class="line"><span class="lineno">  625</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.cycle&quot;</span>, releaseHelper);</div>
+<div class="line"><span class="lineno">  626</span>  <span class="keyword">auto</span> *returnBB =</div>
+<div class="line"><span class="lineno">  627</span>      llvm::BasicBlock::Create(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_, <span class="stringliteral">&quot;arc.ret&quot;</span>, releaseHelper);</div>
+<div class="line"><span class="lineno">  628</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(entry);</div>
+<div class="line"><span class="lineno">  629</span> </div>
+<div class="line"><span class="lineno">  630</span>  <span class="keyword">auto</span> *rawObject = &amp;*releaseHelper-&gt;arg_begin();</div>
+<div class="line"><span class="lineno">  631</span>  rawObject-&gt;setName(<span class="stringliteral">&quot;object.raw&quot;</span>);</div>
+<div class="line"><span class="lineno">  632</span>  <span class="keyword">auto</span> *isNull = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  633</span>      rawObject,</div>
+<div class="line"><span class="lineno">  634</span>      llvm::ConstantPointerNull::get(llvm::cast&lt;llvm::PointerType&gt;(rawPtrTy)));</div>
+<div class="line"><span class="lineno">  635</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isNull, returnBB, decrementedBB);</div>
+<div class="line"><span class="lineno">  636</span> </div>
+<div class="line"><span class="lineno">  637</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(decrementedBB);</div>
+<div class="line"><span class="lineno">  638</span>  <span class="keyword">auto</span> *typedObject = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBitCast(</div>
+<div class="line"><span class="lineno">  639</span>      rawObject, llvm::PointerType::getUnqual(objectTy), <span class="stringliteral">&quot;object&quot;</span>);</div>
+<div class="line"><span class="lineno">  640</span>  <span class="keyword">auto</span> *countAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  641</span>      objectTy, typedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498">kClassStrongCountIndex</a>, <span class="stringliteral">&quot;refcount.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  642</span>  <span class="keyword">auto</span> *count = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  643</span>      llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), countAddr, <span class="stringliteral">&quot;refcount&quot;</span>);</div>
+<div class="line"><span class="lineno">  644</span>  <span class="keyword">auto</span> *nextCount = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateSub(</div>
+<div class="line"><span class="lineno">  645</span>      count, llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 1),</div>
+<div class="line"><span class="lineno">  646</span>      <span class="stringliteral">&quot;refcount.next&quot;</span>);</div>
+<div class="line"><span class="lineno">  647</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStore(nextCount, countAddr);</div>
+<div class="line"><span class="lineno">  648</span>  <span class="keyword">auto</span> *isZero = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateICmpEQ(</div>
+<div class="line"><span class="lineno">  649</span>      nextCount,</div>
+<div class="line"><span class="lineno">  650</span>      llvm::ConstantInt::get(llvm::Type::getInt64Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), 0));</div>
+<div class="line"><span class="lineno">  651</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCondBr(isZero, destroyBB, cycleBB);</div>
+<div class="line"><span class="lineno">  652</span> </div>
+<div class="line"><span class="lineno">  653</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(destroyBB);</div>
+<div class="line"><span class="lineno">  654</span>  <span class="keyword">auto</span> *destroyAddr = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateStructGEP(</div>
+<div class="line"><span class="lineno">  655</span>      objectTy, typedObject, <a class="code hl_variable" href="../../d0/df2/namespacecodegen.html#aae524487f488c12b500922655be38a97">kClassDestroyFnIndex</a>, <span class="stringliteral">&quot;destroy.addr&quot;</span>);</div>
+<div class="line"><span class="lineno">  656</span>  <span class="keyword">auto</span> *destroyFn = <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateLoad(</div>
+<div class="line"><span class="lineno">  657</span>      llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_)),</div>
+<div class="line"><span class="lineno">  658</span>      destroyAddr, <span class="stringliteral">&quot;destroy.fn&quot;</span>);</div>
+<div class="line"><span class="lineno">  659</span>  <span class="keyword">auto</span> *destroyTy = llvm::FunctionType::get(</div>
+<div class="line"><span class="lineno">  660</span>      llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {rawPtrTy}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  661</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(destroyTy, destroyFn, {rawObject});</div>
+<div class="line"><span class="lineno">  662</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(returnBB);</div>
+<div class="line"><span class="lineno">  663</span> </div>
+<div class="line"><span class="lineno">  664</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(cycleBB);</div>
+<div class="line"><span class="lineno">  665</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.count(<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>) == 0) {</div>
+<div class="line"><span class="lineno">  666</span>    <span class="keyword">auto</span> *collectTy = llvm::FunctionType::get(</div>
+<div class="line"><span class="lineno">  667</span>        llvm::Type::getVoidTy(<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.ctx_), {}, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  668</span>    <span class="keyword">auto</span> *collectFn =</div>
+<div class="line"><span class="lineno">  669</span>        llvm::Function::Create(collectTy, llvm::Function::ExternalLinkage,</div>
+<div class="line"><span class="lineno">  670</span>                               <span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>, *<a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.module_);</div>
+<div class="line"><span class="lineno">  671</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_[<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>] = collectFn;</div>
+<div class="line"><span class="lineno">  672</span>  }</div>
+<div class="line"><span class="lineno">  673</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateCall(</div>
+<div class="line"><span class="lineno">  674</span>      <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.functionMap_.at(<span class="stringliteral">&quot;zap_arc_cycle_collect&quot;</span>));</div>
+<div class="line"><span class="lineno">  675</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateBr(returnBB);</div>
+<div class="line"><span class="lineno">  676</span> </div>
+<div class="line"><span class="lineno">  677</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(returnBB);</div>
+<div class="line"><span class="lineno">  678</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.CreateRetVoid();</div>
+<div class="line"><span class="lineno">  679</span> </div>
+<div class="line"><span class="lineno">  680</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.currentFn_ = savedFn;</div>
+<div class="line"><span class="lineno">  681</span>  <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.localValues_ = std::move(savedLocals);</div>
+<div class="line"><span class="lineno">  682</span>  <span class="keywordflow">if</span> (savedBlock) {</div>
+<div class="line"><span class="lineno">  683</span>    <a class="code hl_variable" href="#aa4ea5606e1c5268c7c1c1346bc105147">codegen_</a>.builder_.SetInsertPoint(savedBlock);</div>
+<div class="line"><span class="lineno">  684</span>  }</div>
+<div class="line"><span class="lineno">  685</span>}</div>
+<div class="ttc" id="aclasscodegen_1_1ClassArcEmitter_html_add53981156a9a20a4f8a8f37ff1673a5"><div class="ttname"><a href="#add53981156a9a20a4f8a8f37ff1673a5">codegen::ClassArcEmitter::ensureClassArcSupport</a></div><div class="ttdeci">void ensureClassArcSupport(const std::shared_ptr&lt; zir::ClassType &gt; &amp;classType)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">class_arc_emitter.cpp:412</a></div></div>
 <div class="ttc" id="anamespacecodegen_html_a41fd7a49481ad3317aa9625720325a42"><div class="ttname"><a href="../../d0/df2/namespacecodegen.html#a41fd7a49481ad3317aa9625720325a42">codegen::kClassFieldStartIndex</a></div><div class="ttdeci">constexpr unsigned kClassFieldStartIndex</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d19/class__layout_8hpp_source.html#l00015">class_layout.hpp:15</a></div></div>
 <div class="ttc" id="anamespacecodegen_html_aae524487f488c12b500922655be38a97"><div class="ttname"><a href="../../d0/df2/namespacecodegen.html#aae524487f488c12b500922655be38a97">codegen::kClassDestroyFnIndex</a></div><div class="ttdeci">constexpr unsigned kClassDestroyFnIndex</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d19/class__layout_8hpp_source.html#l00012">class_layout.hpp:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">codegen::kClassAliveIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00012">codegen::kClassDestroyFnIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00015">codegen::kClassFieldStartIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">codegen::kClassStrongCountIndex</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">codegen::kClassWeakCountIndex</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">codegen_</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">codegen::kClassAliveIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00012">codegen::kClassDestroyFnIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00015">codegen::kClassFieldStartIndex</a>, <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">codegen::kClassStrongCountIndex</a>, and <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">codegen::kClassWeakCountIndex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -1091,7 +1092,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00024">expressionProducesOwnedClass()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00024">expressionProducesOwnedClass()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00018">isWeakClassType()</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1119,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00013">isClassType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00142">emitRetainWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00392">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00254">emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00301">emitWeakLock()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00142">emitRetainWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00393">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00255">emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00302">emitWeakLock()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -1145,7 +1146,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html#l00040">40</a> of file <a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html">class_arc_emitter.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00011">ClassArcEmitter()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00142">emitRetainWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00392">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00360">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00254">emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00301">emitWeakLock()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00686">ensureArcSupport()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00411">ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00011">ClassArcEmitter()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00180">emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00142">emitRetainWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00393">emitScopeReleases()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00361">emitStoreWithArc()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00255">emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00302">emitWeakLock()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00687">ensureArcSupport()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00412">ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>

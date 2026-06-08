@@ -175,8 +175,8 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>      : <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a>(std::move(n)), <a class="code hl_variable" href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">linkName</a>(link.empty() ? <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a> : std::move(link)),</div>
-<div class="line"><span class="lineno">   41</span>        <a class="code hl_variable" href="#a1e285c400593fdbe195b42812ecc5026">moduleName</a>(std::move(module)), <a class="code hl_variable" href="#a4eeccdceff1891f5d84fb39fcc20e084">type</a>(std::move(t)), <a class="code hl_variable" href="#a4064bb2d9547566a99ac87f7133a29de">visibility</a>(vis) {}</div>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>      : <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a>(std::move(n)), <a class="code hl_variable" href="#a47472cf1d7dcdedbd0a8fd7fc91d7106">linkName</a>(link.empty() ? <a class="code hl_variable" href="#a29e8c19b610c0090ca847b1f37df19a2">name</a> : std::move(link)),</div>
+<div class="line"><span class="lineno">   40</span>        <a class="code hl_variable" href="#a1e285c400593fdbe195b42812ecc5026">moduleName</a>(std::move(module)), <a class="code hl_variable" href="#a4eeccdceff1891f5d84fb39fcc20e084">type</a>(std::move(t)), <a class="code hl_variable" href="#a4064bb2d9547566a99ac87f7133a29de">visibility</a>(vis) {}</div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_a1e285c400593fdbe195b42812ecc5026"><div class="ttname"><a href="#a1e285c400593fdbe195b42812ecc5026">sema::Symbol::moduleName</a></div><div class="ttdeci">std::string moduleName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00020">symbol.hpp:20</a></div></div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_a29e8c19b610c0090ca847b1f37df19a2"><div class="ttname"><a href="#a29e8c19b610c0090ca847b1f37df19a2">sema::Symbol::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00018">symbol.hpp:18</a></div></div>
 <div class="ttc" id="aclasssema_1_1Symbol_html_a4064bb2d9547566a99ac87f7133a29de"><div class="ttname"><a href="#a4064bb2d9547566a99ac87f7133a29de">sema::Symbol::visibility</a></div><div class="ttdeci">Visibility visibility</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00022">symbol.hpp:22</a></div></div>
@@ -185,7 +185,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00019">linkName</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00020">moduleName</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00018">name</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00021">type</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00022">visibility</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00077">sema::FunctionSymbol::FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00144">sema::ModuleSymbol::ModuleSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00109">sema::OverloadSetSymbol::OverloadSetSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00131">sema::TypeSymbol::TypeSymbol()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00052">sema::VariableSymbol::VariableSymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00078">sema::FunctionSymbol::FunctionSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00148">sema::ModuleSymbol::ModuleSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00110">sema::OverloadSetSymbol::OverloadSetSymbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">Symbol()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00134">sema::TypeSymbol::TypeSymbol()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00051">sema::VariableSymbol::VariableSymbol()</a>.</p>
 
 </div>
 </div>
@@ -352,7 +352,7 @@ Protected Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d6/d62/symbol_8hpp_source.html">symbol.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00674">sema::Binder::mangleFunctionName()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00624">sema::Binder::renderFunctionSignature()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">Symbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00676">sema::Binder::mangleFunctionName()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00626">sema::Binder::renderFunctionSignature()</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00037">Symbol()</a>.</p>
 
 </div>
 </div>

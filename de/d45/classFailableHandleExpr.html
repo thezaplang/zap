@@ -160,8 +160,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">41</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>      : <a class="code hl_variable" href="#a3f5a24bef5f49bfe7df91f5d846eefd7">expression_</a>(std::move(expression)), <a class="code hl_variable" href="#a4da8352e5b4f2dac0eaaa978dddfb186">errorName_</a>(std::move(errorName)),</div>
-<div class="line"><span class="lineno">   45</span>        <a class="code hl_variable" href="#a24d56e8844617f4e064a3f4bcc89dfd4">handler_</a>(std::move(handler)) {}</div>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>      : <a class="code hl_variable" href="#a3f5a24bef5f49bfe7df91f5d846eefd7">expression_</a>(std::move(expression)), <a class="code hl_variable" href="#a4da8352e5b4f2dac0eaaa978dddfb186">errorName_</a>(std::move(errorName)),</div>
+<div class="line"><span class="lineno">   44</span>        <a class="code hl_variable" href="#a24d56e8844617f4e064a3f4bcc89dfd4">handler_</a>(std::move(handler)) {}</div>
 <div class="ttc" id="aclassFailableHandleExpr_html_a24d56e8844617f4e064a3f4bcc89dfd4"><div class="ttname"><a href="#a24d56e8844617f4e064a3f4bcc89dfd4">FailableHandleExpr::handler_</a></div><div class="ttdeci">std::unique_ptr&lt; BodyNode &gt; handler_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d2b/failable__nodes_8hpp_source.html#l00038">failable_nodes.hpp:38</a></div></div>
 <div class="ttc" id="aclassFailableHandleExpr_html_a3f5a24bef5f49bfe7df91f5d846eefd7"><div class="ttname"><a href="#a3f5a24bef5f49bfe7df91f5d846eefd7">FailableHandleExpr::expression_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; expression_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d2b/failable__nodes_8hpp_source.html#l00036">failable_nodes.hpp:36</a></div></div>
 <div class="ttc" id="aclassFailableHandleExpr_html_a4da8352e5b4f2dac0eaaa978dddfb186"><div class="ttname"><a href="#a4da8352e5b4f2dac0eaaa978dddfb186">FailableHandleExpr::errorName_</a></div><div class="ttdeci">std::string errorName_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d2b/failable__nodes_8hpp_source.html#l00037">failable_nodes.hpp:37</a></div></div>
@@ -196,8 +196,8 @@ Public Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../dd/d06/classExpressionNode.html#a087b6e7ef60d381070e6ff1c134aa916">ExpressionNode</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00047">47</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00061">visitor.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00061">Visitor::visit()</a>.</p>
@@ -219,7 +219,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03796">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03815">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -237,7 +237,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00036">36</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03796">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03815">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -255,7 +255,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00038">38</a> of file <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html">failable_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03796">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d2b/failable__nodes_8hpp_source.html#l00041">FailableHandleExpr()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l03815">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
