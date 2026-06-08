@@ -39,6 +39,7 @@ var classzap_1_1driver =
     [ "emit_zir_text", "d9/d00/classzap_1_1driver.html#a616daec4a94954fea4389990fddcc085", null ],
     [ "executable_path", "d9/d00/classzap_1_1driver.html#ad9adf0dd3e259173db7022d86dbef3ab", null ],
     [ "implicit_output", "d9/d00/classzap_1_1driver.html#a1d9fef1c35250a41bf4b7c3fe3d0ad52", null ],
+    [ "inc_prelude", "d9/d00/classzap_1_1driver.html#af6111ec38884755bddd5fc9c8f582c4e", null ],
     [ "inc_stdlib", "d9/d00/classzap_1_1driver.html#a21d41cfb87773126f37c71bffa87bd84", null ],
     [ "inputs", "d9/d00/classzap_1_1driver.html#afb33310e545414219d5863234eb4159c", null ],
     [ "linker_args", "d9/d00/classzap_1_1driver.html#a765ad31a05812aa9cab8ab56b17b3746", null ],
