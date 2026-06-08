@@ -371,13 +371,23 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
         body->addStatement(std::move(whileNode));
       } else if (peek().type == TokenType::FOR) {
         bool isForIn = false;
-        if (peek(1).type == TokenType::ID && peek(2).type == TokenType::ID &&
-            peek(2).value == "in") {
-          isForIn = true;
+        if (peek(1).type == TokenType::ID) {
+          if (peek(2).type == TokenType::ID && peek(2).value == "in") {
+            isForIn = true;
+          } else if (peek(2).type == TokenType::COMMA &&
+                     peek(3).type == TokenType::ID &&
+                     peek(4).type == TokenType::ID && peek(4).value == "in") {
+            isForIn = true;
+          }
         } else if (peek(1).type == TokenType::LPAREN &&
-                   peek(2).type == TokenType::ID &&
-                   peek(3).type == TokenType::ID && peek(3).value == "in") {
-          isForIn = true;
+                   peek(2).type == TokenType::ID) {
+          if (peek(3).type == TokenType::ID && peek(3).value == "in") {
+            isForIn = true;
+          } else if (peek(3).type == TokenType::COMMA &&
+                     peek(4).type == TokenType::ID &&
+                     peek(5).type == TokenType::ID && peek(5).value == "in") {
+            isForIn = true;
+          }
         }
         if (isForIn) {
           auto forInNode = parseForIn();
@@ -1045,7 +1055,14 @@ std::unique_ptr<ForInNode> Parser::parseForIn() {
     hasParen = true;
   }
 
+  std::string indexName = "";
   Token itemToken = eat(TokenType::ID);
+  if (peek().type == TokenType::COMMA) {
+    eat(TokenType::COMMA);
+    indexName = itemToken.value;
+    itemToken = eat(TokenType::ID);
+  }
+
   if (peek().type != TokenType::ID || peek().value != "in") {
     _diag.report(peek().span, DiagnosticLevel::Error,
                  "Expected 'in' in for-in loop.");
@@ -1066,8 +1083,8 @@ std::unique_ptr<ForInNode> Parser::parseForIn() {
   auto body = parseBody();
   Token rbraceToken = eat(TokenType::RBRACE);
 
-  auto forInNode =
-      _builder.makeForIn(itemToken.value, std::move(iterable), std::move(body));
+  auto forInNode = _builder.makeForIn(indexName, itemToken.value,
+                                      std::move(iterable), std::move(body));
   _builder.setSpan(forInNode.get(),
                    SourceSpan::merge(forKeyword.span, rbraceToken.span));
   return forInNode;

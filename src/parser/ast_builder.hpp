@@ -118,10 +118,11 @@ public:
                                      std::move(body));
   }
 
-  std::unique_ptr<ForInNode> makeForIn(const std::string &itemName,
+  std::unique_ptr<ForInNode> makeForIn(const std::string &indexName,
+                                       const std::string &itemName,
                                        std::unique_ptr<ExpressionNode> iterable,
                                        std::unique_ptr<BodyNode> body) {
-    return std::make_unique<ForInNode>(itemName, std::move(iterable),
+    return std::make_unique<ForInNode>(indexName, itemName, std::move(iterable),
                                        std::move(body));
   }
 

@@ -5249,6 +5249,16 @@ void Binder::visit(ForInNode &node) {
     error(node.span, "Variable '" + node.itemName_ + "' already declared.");
   }
 
+  std::shared_ptr<VariableSymbol> indexUserSymbol = nullptr;
+  if (!node.indexName_.empty()) {
+    indexUserSymbol = std::make_shared<VariableSymbol>(
+        node.indexName_, intType, false, false, node.indexName_, moduleName,
+        Visibility::Private);
+    if (!currentScope_->declare(node.indexName_, indexUserSymbol)) {
+      error(node.span, "Variable '" + node.indexName_ + "' already declared.");
+    }
+  }
+
   ++loopDepth_;
   auto body = bindBody(node.body_.get(), false);
   --loopDepth_;
@@ -5256,6 +5266,13 @@ void Binder::visit(ForInNode &node) {
   body->statements.insert(body->statements.begin(),
                           std::make_unique<BoundVariableDeclaration>(
                               itemSymbol, std::move(elementValue)));
+  if (indexUserSymbol) {
+    body->statements.insert(
+        body->statements.begin(),
+        std::make_unique<BoundVariableDeclaration>(
+            indexUserSymbol,
+            std::make_unique<BoundVariableExpression>(indexSymbol)));
+  }
   popScope();
 
   popScope();

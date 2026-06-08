@@ -407,6 +407,15 @@ run_test "tests/if_condition_error.zp" 1 "If condition type check"
 run_runtime_test "tests/ternary_test.zp" 0 "Ternary operator"
 run_test "tests/ternary_condition_error.zp" 1 "Ternary condition type check"
 run_test "tests/ternary_type_error.zp" 1 "Ternary branch type check"
+
+# Loop tests
+run_runtime_test "tests/for_c_style_test.zp" 0 "C-style for loop"
+run_test "tests/for_condition_error.zp" 1 "For loop condition type check"
+run_test "tests/for_increment_target_error.zp" 1 "For loop increment target type check"
+run_runtime_test "tests/for_in_array_test.zp" 0 "For-in loop on array"
+run_runtime_test "tests/for_in_list_test.zp" 0 "For-in loop on list"
+run_runtime_test "tests/for_in_index_test.zp" 0 "For-in loop with index variable"
+
 run_runtime_test "tests/enum_test.zp" 1 "Enum test"
 run_runtime_test "tests/enum_trailing_comma_test.zp" 0 "Enum trailing comma"
 run_runtime_test "tests/enum_assigned_values_test.zp" 0 "Enum explicit and implicit assigned discriminants"

@@ -8,15 +8,17 @@
 
 class ForInNode : public StatementNode {
 public:
+  std::string indexName_;
   std::string itemName_;
   std::unique_ptr<ExpressionNode> iterable_;
   std::unique_ptr<BodyNode> body_;
 
   ForInNode() noexcept = default;
-  ForInNode(std::string itemName, std::unique_ptr<ExpressionNode> iterable,
+  ForInNode(std::string indexName, std::string itemName,
+            std::unique_ptr<ExpressionNode> iterable,
             std::unique_ptr<BodyNode> body)
-      : itemName_(std::move(itemName)), iterable_(std::move(iterable)),
-        body_(std::move(body)) {}
+      : indexName_(std::move(indexName)), itemName_(std::move(itemName)),
+        iterable_(std::move(iterable)), body_(std::move(body)) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

@@ -1,0 +1,29 @@
+fun main() Int {
+    var values: [4]Int = {10, 20, 30, 40};
+    var index_sum: Int = 0;
+    var value_sum: Int = 0;
+
+    for i, v in values {
+        index_sum = index_sum + i;
+        value_sum = value_sum + v;
+    }
+
+    if index_sum != 6 { // 0 + 1 + 2 + 3 = 6
+        return 1;
+    }
+
+    if value_sum != 100 { // 10 + 20 + 30 + 40 = 100
+        return 2;
+    }
+
+    var index_sum2: Int = 0;
+    for (i2, v2 in values) {
+        index_sum2 = index_sum2 + i2;
+    }
+
+    if index_sum2 != 6 {
+        return 3;
+    }
+
+    return 0;
+}
