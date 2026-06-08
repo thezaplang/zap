@@ -90,6 +90,7 @@ public:
 
 class Server {
   std::string buffer;
+  std::string scratch;
 
   void sendMessageRaw(std::string_view message);
 

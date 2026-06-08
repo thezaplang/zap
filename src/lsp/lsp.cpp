@@ -422,9 +422,9 @@ void Server::logMessage(MessageType type, std::string_view message) {
 }
 
 void Server::sendMessage(const JsonObject &message) {
-  std::string serialized;
-  JsonParser::toString(serialized, message);
-  sendMessageRaw(serialized);
+  scratch.clear();
+  JsonParser::toString(scratch, message);
+  sendMessageRaw(scratch);
 }
 
 std::string Server::processMessage(std::string &line) {
