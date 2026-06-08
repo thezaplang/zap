@@ -80,16 +80,16 @@ var NAVTREEINDEX =
 "d3/dc3/classsema_1_1BoundContinueStatement.html#a72a9050e73a1d6c96b2d1512e05ce54f",
 "d4/da0/classzir_1_1BoundIRGenerator.html#a6f4dc9fe3389e2df321acb83917e6912",
 "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html",
-"d8/d5e/classAssignNode.html#a897aed991c15c72a36509010a03e7bb3",
-"d9/d0d/classzap_1_1lsp_1_1Server.html#adea03253e1c131a22192cbcca10eefdf",
-"da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a85c8cc352b8d2eb5dbaf7ef78260afc9",
-"db/dee/classzir_1_1GetElementPtrInst.html",
-"dc/d2c/classsema_1_1Binder.html#a346ab1e3a50d682abac3d2e8150fa94d",
-"dc/d90/classzir_1_1Function.html#ad979e7722e3df26574d89fc273db6d90",
-"de/d32/classStructLiteralNode.html#a13ef5eb5ad1ed7a0af7d8d53b8bc86a7",
-"df/d0a/classzir_1_1BinaryInst.html#a090e35febe9040bfe62985fc0fd40ccb",
-"dir_e1aa690b4af0a0538ec65649b0390051.html"
+"d8/d58/flags_8inc.html",
+"d9/d0d/classzap_1_1lsp_1_1Server.html#a8914da35827f80df1c97a29a01f3b5e2",
+"da/d2d/classzir_1_1Constant.html#adf7e3bb3efc51dc03a2f944d3cb889ee",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a7e67d1645fad05514fdeb2b1161e062a",
+"db/ddd/classsema_1_1BoundMemberAccess.html#adddce7c9e0270ffd86d75766dbe936b8",
+"dc/d2c/classsema_1_1Binder.html#a307b86efbb82a0aafcab783cf95c1724",
+"dc/d90/classzir_1_1Function.html#ab070dae2297e8915a88d7d31031c5555",
+"dd/df4/class__decl_8hpp_source.html",
+"df/d01/structzap_1_1Diagnostic.html#a23d0092171ab41228cb07a1632609ac5",
+"df/df8/string__type__utils_8hpp_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

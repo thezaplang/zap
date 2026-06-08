@@ -19,5 +19,6 @@ var classzap_1_1lsp_1_1Server =
     [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a59004e3bbbacf6a65ea32ff0e9bab309", null ],
     [ "sendMessage", "d9/d0d/classzap_1_1lsp_1_1Server.html#a99d90bae3515e721c7b0cb472ae98587", null ],
     [ "sendMessageRaw", "d9/d0d/classzap_1_1lsp_1_1Server.html#aefd8611365c2b26608c38ef5e382aa6c", null ],
-    [ "buffer", "d9/d0d/classzap_1_1lsp_1_1Server.html#a7692aeb86cec60f104f68ebab774977a", null ]
+    [ "buffer", "d9/d0d/classzap_1_1lsp_1_1Server.html#a7692aeb86cec60f104f68ebab774977a", null ],
+    [ "scratch", "d9/d0d/classzap_1_1lsp_1_1Server.html#a770f5775d9500e18c07047fd49729356", null ]
 ];
