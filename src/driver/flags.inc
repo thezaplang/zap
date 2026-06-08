@@ -25,6 +25,10 @@ ZAP_FLAG(Output, "-o", "Sets the output file.", JoinedSeparate)
 ZAP_FLAG(NoStdlib, "-nostdlib",
          "Stops the linker from linking the standard library.", Flag)
 
+// -noprelude
+ZAP_FLAG(NoPrelude, "-noprelude",
+         "Disables implicit injection of the standard prelude library.", Flag)
+
 // -c
 ZAP_FLAG(CompileOnly, "-c", "Compile and assemble but not link.", Flag)
 

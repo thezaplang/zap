@@ -50,6 +50,28 @@ run_test() {
     fi
 }
 
+run_test_with_args() {
+    local file=$1
+    local expected_exit_code=$2
+    local description=$3
+    shift 3
+
+    require_test_file "$file" "$description" || return
+
+    ((TOTAL++))
+    echo -n "Running $description ($file)... "
+
+    $ZAPC "$file" "$@" > /dev/null 2>&1
+    local exit_code=$?
+
+    if [ $exit_code -eq $expected_exit_code ]; then
+        echo -e "${GREEN}PASS${NC}"
+        ((PASSED++))
+    else
+        echo -e "${RED}FAIL${NC} (expected $expected_exit_code, got $exit_code)"
+    fi
+}
+
 run_diagnostic_code_test() {
     local file=$1
     local expected_exit_code=$2
@@ -522,6 +544,7 @@ run_runtime_test "tests/ref_return_test.zp" 0 "Ref return type (fun() ref T)"
 run_runtime_test "tests/std_io_printf_test.zp" 0 "std/io printf wrappers"
 run_runtime_test "tests/list_std_test.zp" 0 "std/collection List"
 run_runtime_test "tests/prelude_implicit_collection_test.zp" 0 "Implicit prelude exposes List/HashMap without imports"
+run_test_with_args "tests/prelude_implicit_collection_test.zp" 1 "Disabling prelude with -noprelude fails compilation" -noprelude
 run_runtime_test "tests/import_public/main.zp" 0 "Importing a public function through file namespace"
 run_runtime_test "tests/import_flat/main.zp" 0 "Selective flat import with braces"
 run_runtime_test "tests/import_alias/main.zp" 0 "Selective import alias with as"

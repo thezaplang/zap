@@ -367,7 +367,8 @@ void driver::setExecutablePath(std::filesystem::path path) {
 bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
   std::set<std::string> visiting;
-  if (loadModuleGraph(entryPath, moduleMap, visiting, drv.inc_stdlib)) {
+  if (loadModuleGraph(entryPath, moduleMap, visiting,
+                      drv.inc_stdlib && drv.inc_prelude)) {
     return true;
   }
 
@@ -606,6 +607,7 @@ bool driver::parseArgs(int argc, char **argv) {
 
   implicit_output = !args.has(ArgTypes::Output);
   inc_stdlib = !args.has(ArgTypes::NoStdlib);
+  inc_prelude = !args.has(ArgTypes::NoPrelude);
   // Unsafe features are enabled by default; keep the flag accepted for
   // backwards compatibility.
   allow_unsafe = true;
