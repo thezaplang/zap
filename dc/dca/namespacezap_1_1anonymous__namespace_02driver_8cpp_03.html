@@ -74,9 +74,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aec887b6f2fdb75498785916f4fe3bd13" id="r_aec887b6f2fdb75498785916f4fe3bd13"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec887b6f2fdb75498785916f4fe3bd13">computeLogicalModulePath</a> (const std::filesystem::path &amp;canonicalPath)</td></tr>
 <tr class="memitem:af4bbc238e3e3e6f7f312f70f61694f2a" id="r_af4bbc238e3e3e6f7f312f70f61694f2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4bbc238e3e3e6f7f312f70f61694f2a">readSourceFile</a> (const std::filesystem::path &amp;path, std::string &amp;content)</td></tr>
 <tr class="memitem:a1dfe06e90d85cbd45c5741aeacd89198" id="r_a1dfe06e90d85cbd45c5741aeacd89198"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dfe06e90d85cbd45c5741aeacd89198">hasPreludeImport</a> (const <a class="el" href="../../d8/d7a/classRootNode.html">RootNode</a> &amp;root)</td></tr>
-<tr class="memitem:aed22b37ca8ad9a85fb805eb4bb06173b" id="r_aed22b37ca8ad9a85fb805eb4bb06173b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed22b37ca8ad9a85fb805eb4bb06173b">injectImplicitPreludeImportIfNeeded</a> (<a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &amp;module)</td></tr>
+<tr class="memitem:a7cd162e995dbf70b54bebdb9455821d9" id="r_a7cd162e995dbf70b54bebdb9455821d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cd162e995dbf70b54bebdb9455821d9">injectImplicitPreludeImportIfNeeded</a> (<a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &amp;module, bool incStdlib)</td></tr>
 <tr class="memitem:a55d5b8a988ea0ec485ebdbda73d289b4" id="r_a55d5b8a988ea0ec485ebdbda73d289b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55d5b8a988ea0ec485ebdbda73d289b4">resolveImportTargets</a> (const std::filesystem::path &amp;modulePath, const <a class="el" href="../../d5/d3f/classImportNode.html">ImportNode</a> &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets)</td></tr>
-<tr class="memitem:a5133a75d670ba094d22e9aefdaef5c29" id="r_a5133a75d670ba094d22e9aefdaef5c29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5133a75d670ba094d22e9aefdaef5c29">loadModuleGraph</a> (const std::filesystem::path &amp;entryPath, std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting)</td></tr>
+<tr class="memitem:aa7df070da3e71bcaa792b197c34e2b61" id="r_aa7df070da3e71bcaa792b197c34e2b61"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7df070da3e71bcaa792b197c34e2b61">loadModuleGraph</a> (const std::filesystem::path &amp;entryPath, std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, bool incStdlib)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -251,10 +251,10 @@ Variables</h2></td></tr>
 <div class="ttc" id="aclasszap_1_1driver_html_aa325927167bfcfdae34b1966234c72f4"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4">zap::driver::is_implicit_output</a></div><div class="ttdeci">bool is_implicit_output() const noexcept</div><div class="ttdoc">Returns whether or not the output was explicit (-o) or not.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00075">driver.hpp:75</a></div></div>
 <div class="ttc" id="aclasszap_1_1driver_html_ae170c37200b2b35aca5175c480205b2e"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#ae170c37200b2b35aca5175c480205b2e">zap::driver::format_fileextension</a></div><div class="ttdeci">static constexpr const char * format_fileextension(output_type type) noexcept</div><div class="ttdoc">Returns a file extension based on the file format given.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00115">driver.hpp:115</a></div></div>
 <div class="ttc" id="aclasszap_1_1driver_html_ae7ad89816c5be89d657af411629f0b86"><div class="ttname"><a href="../../d9/d00/classzap_1_1driver.html#ae7ad89816c5be89d657af411629f0b86">zap::driver::emits_llvm_text</a></div><div class="ttdeci">bool emits_llvm_text() const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7e/driver_8hpp_source.html#l00076">driver.hpp:76</a></div></div>
-<div class="ttc" id="anamespacezap_html_a4568178cd71b87328c92ebc2c1ddf595"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595">zap::compileSourceZIR</a></div><div class="ttdeci">bool compileSourceZIR(sema::BoundRootNode &amp;node, std::ostream &amp;ofoutput)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00751">driver.cpp:751</a></div></div>
-<div class="ttc" id="anamespacezap_html_a59eaa38dc4c00c6b9ffe0e78eec3f3c9"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9">zap::compileSourceLLVMFromZIR</a></div><div class="ttdeci">bool compileSourceLLVMFromZIR(sema::BoundRootNode &amp;node, std::ostream &amp;ofoutput)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00767">driver.cpp:767</a></div></div>
+<div class="ttc" id="anamespacezap_html_a4568178cd71b87328c92ebc2c1ddf595"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595">zap::compileSourceZIR</a></div><div class="ttdeci">bool compileSourceZIR(sema::BoundRootNode &amp;node, std::ostream &amp;ofoutput)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00755">driver.cpp:755</a></div></div>
+<div class="ttc" id="anamespacezap_html_a59eaa38dc4c00c6b9ffe0e78eec3f3c9"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9">zap::compileSourceLLVMFromZIR</a></div><div class="ttdeci">bool compileSourceLLVMFromZIR(sema::BoundRootNode &amp;node, std::ostream &amp;ofoutput)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00771">driver.cpp:771</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00767">zap::compileSourceLLVMFromZIR()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00751">zap::compileSourceZIR()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00037">emitRequestedTextOutputs()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00076">zap::driver::emits_llvm_text()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00077">zap::driver::emits_zir()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00115">zap::driver::format_fileextension()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00075">zap::driver::is_implicit_output()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00089">zap::driver::TEXT_LLVM</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00091">zap::driver::ZIR</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00771">zap::compileSourceLLVMFromZIR()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00755">zap::compileSourceZIR()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00037">emitRequestedTextOutputs()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00076">zap::driver::emits_llvm_text()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00077">zap::driver::emits_zir()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00115">zap::driver::format_fileextension()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00075">zap::driver::is_implicit_output()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00089">zap::driver::TEXT_LLVM</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00091">zap::driver::ZIR</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00037">emitRequestedTextOutputs()</a>.</p>
 
@@ -297,8 +297,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aed22b37ca8ad9a85fb805eb4bb06173b" name="aed22b37ca8ad9a85fb805eb4bb06173b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed22b37ca8ad9a85fb805eb4bb06173b">&#9670;&#160;</a></span>injectImplicitPreludeImportIfNeeded()</h2>
+<a id="a7cd162e995dbf70b54bebdb9455821d9" name="a7cd162e995dbf70b54bebdb9455821d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cd162e995dbf70b54bebdb9455821d9">&#9670;&#160;</a></span>injectImplicitPreludeImportIfNeeded()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -306,38 +306,45 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void zap::anonymous_namespace{driver.cpp}::injectImplicitPreludeImportIfNeeded </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>module</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>module</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>incStdlib</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">210</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  210</span>                                                                 {</div>
-<div class="line"><span class="lineno">  211</span>  <span class="comment">// Keep stdlib modules self-contained; prelude is for userland ergonomics.</span></div>
-<div class="line"><span class="lineno">  212</span>  <span class="keywordflow">if</span> (module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>.rfind(<span class="stringliteral">&quot;std/&quot;</span>, 0) == 0) {</div>
+<div class="fragment"><div class="line"><span class="lineno">  211</span>                                                         {</div>
+<div class="line"><span class="lineno">  212</span>  <span class="keywordflow">if</span> (!incStdlib) {</div>
 <div class="line"><span class="lineno">  213</span>    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  214</span>  }</div>
-<div class="line"><span class="lineno">  215</span>  <span class="keywordflow">if</span> (!module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd">root</a> || <a class="code hl_function" href="#a1dfe06e90d85cbd45c5741aeacd89198">hasPreludeImport</a>(*module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd">root</a>)) {</div>
-<div class="line"><span class="lineno">  216</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  217</span>  }</div>
-<div class="line"><span class="lineno">  218</span> </div>
-<div class="line"><span class="lineno">  219</span>  <span class="keyword">auto</span> <span class="keyword">import</span> = std::make_unique&lt;ImportNode&gt;(<span class="stringliteral">&quot;std/prelude&quot;</span>);</div>
-<div class="line"><span class="lineno">  220</span>  <span class="keyword">module</span>.root-&gt;children.insert(module.root-&gt;children.begin(),</div>
-<div class="line"><span class="lineno">  221</span>                               std::move(import));</div>
-<div class="line"><span class="lineno">  222</span>}</div>
+<div class="line"><span class="lineno">  215</span>  <span class="comment">// Keep stdlib modules self-contained; prelude is for userland ergonomics.</span></div>
+<div class="line"><span class="lineno">  216</span>  <span class="keywordflow">if</span> (module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>.rfind(<span class="stringliteral">&quot;std/&quot;</span>, 0) == 0) {</div>
+<div class="line"><span class="lineno">  217</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  218</span>  }</div>
+<div class="line"><span class="lineno">  219</span>  <span class="keywordflow">if</span> (!module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd">root</a> || <a class="code hl_function" href="#a1dfe06e90d85cbd45c5741aeacd89198">hasPreludeImport</a>(*module.<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd">root</a>)) {</div>
+<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  221</span>  }</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>  <span class="keyword">auto</span> <span class="keyword">import</span> = std::make_unique&lt;ImportNode&gt;(<span class="stringliteral">&quot;std/prelude&quot;</span>);</div>
+<div class="line"><span class="lineno">  224</span>  <span class="keyword">module</span>.root-&gt;children.insert(module.root-&gt;children.begin(),</div>
+<div class="line"><span class="lineno">  225</span>                               std::move(import));</div>
+<div class="line"><span class="lineno">  226</span>}</div>
 <div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_a1dfe06e90d85cbd45c5741aeacd89198"><div class="ttname"><a href="#a1dfe06e90d85cbd45c5741aeacd89198">zap::anonymous_namespace{driver.cpp}::hasPreludeImport</a></div><div class="ttdeci">bool hasPreludeImport(const RootNode &amp;root)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00197">driver.cpp:197</a></div></div>
 <div class="ttc" id="astructsema_1_1ModuleInfo_html_a0d27c0d6b9922605fab2ae4a0c6c91fd"><div class="ttname"><a href="../../d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd">sema::ModuleInfo::root</a></div><div class="ttdeci">std::unique_ptr&lt; RootNode &gt; root</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00032">module_info.hpp:32</a></div></div>
 <div class="ttc" id="astructsema_1_1ModuleInfo_html_a23750b94548941e6b36a18945a43d89d"><div class="ttname"><a href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">sema::ModuleInfo::linkPath</a></div><div class="ttdeci">std::string linkPath</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00029">module_info.hpp:29</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">hasPreludeImport()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00029">sema::ModuleInfo::linkPath</a>, and <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00032">sema::ModuleInfo::root</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">injectImplicitPreludeImportIfNeeded()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">injectImplicitPreludeImportIfNeeded()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">loadModuleGraph()</a>.</p>
 
 </div>
 </div>
-<a id="a5133a75d670ba094d22e9aefdaef5c29" name="a5133a75d670ba094d22e9aefdaef5c29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5133a75d670ba094d22e9aefdaef5c29">&#9670;&#160;</a></span>loadModuleGraph()</h2>
+<a id="aa7df070da3e71bcaa792b197c34e2b61" name="aa7df070da3e71bcaa792b197c34e2b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7df070da3e71bcaa792b197c34e2b61">&#9670;&#160;</a></span>loadModuleGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -355,92 +362,97 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>visiting</em></span>&#160;)</td>
+          <td class="paramtype">std::set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>visiting</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>incStdlib</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">273</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  276</span>                                 {</div>
-<div class="line"><span class="lineno">  277</span>  <span class="keyword">auto</span> canonicalPath = std::filesystem::weakly_canonical(entryPath);</div>
-<div class="line"><span class="lineno">  278</span>  <span class="keyword">auto</span> moduleId = canonicalPath.string();</div>
-<div class="line"><span class="lineno">  279</span> </div>
-<div class="line"><span class="lineno">  280</span>  <span class="keywordflow">if</span> (modules.find(moduleId) != modules.end()) {</div>
-<div class="line"><span class="lineno">  281</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  282</span>  }</div>
-<div class="line"><span class="lineno">  283</span>  <span class="keywordflow">if</span> (visiting.count(moduleId)) {</div>
-<div class="line"><span class="lineno">  284</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;cyclic import detected involving &quot;</span>, canonicalPath);</div>
-<div class="line"><span class="lineno">  285</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">277</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  280</span>                                                 {</div>
+<div class="line"><span class="lineno">  281</span>  <span class="keyword">auto</span> canonicalPath = std::filesystem::weakly_canonical(entryPath);</div>
+<div class="line"><span class="lineno">  282</span>  <span class="keyword">auto</span> moduleId = canonicalPath.string();</div>
+<div class="line"><span class="lineno">  283</span> </div>
+<div class="line"><span class="lineno">  284</span>  <span class="keywordflow">if</span> (modules.find(moduleId) != modules.end()) {</div>
+<div class="line"><span class="lineno">  285</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  286</span>  }</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>  visiting.insert(moduleId);</div>
-<div class="line"><span class="lineno">  289</span> </div>
-<div class="line"><span class="lineno">  290</span>  std::string source;</div>
-<div class="line"><span class="lineno">  291</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#af4bbc238e3e3e6f7f312f70f61694f2a">readSourceFile</a>(canonicalPath, source)) {</div>
-<div class="line"><span class="lineno">  292</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  293</span>  }</div>
-<div class="line"><span class="lineno">  294</span> </div>
-<div class="line"><span class="lineno">  295</span>  DiagnosticEngine diagnostics(source, canonicalPath.string());</div>
-<div class="line"><span class="lineno">  296</span>  Lexer lex(diagnostics);</div>
-<div class="line"><span class="lineno">  297</span>  <span class="keyword">auto</span> tokens = lex.tokenize(source);</div>
-<div class="line"><span class="lineno">  298</span>  Parser parser(tokens, diagnostics);</div>
-<div class="line"><span class="lineno">  299</span>  <span class="keyword">auto</span> ast = parser.parse();</div>
-<div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  301</span>  <span class="keywordflow">if</span> (diagnostics.hadErrors() || !ast) {</div>
-<div class="line"><span class="lineno">  302</span>    diagnostics.printText(<a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>());</div>
-<div class="line"><span class="lineno">  303</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  304</span>  }</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>  <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
-<div class="line"><span class="lineno">  307</span>  <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
-<div class="line"><span class="lineno">  308</span>  <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
-<div class="line"><span class="lineno">  309</span>  <span class="keyword">module</span>-&gt;linkPath = computeLogicalModulePath(canonicalPath);</div>
-<div class="line"><span class="lineno">  310</span>  <span class="keyword">module</span>-&gt;sourceName = canonicalPath.string();</div>
-<div class="line"><span class="lineno">  311</span>  <span class="keyword">module</span>-&gt;root = std::move(ast);</div>
-<div class="line"><span class="lineno">  312</span>  <a class="code hl_function" href="#aed22b37ca8ad9a85fb805eb4bb06173b">injectImplicitPreludeImportIfNeeded</a>(*module);</div>
-<div class="line"><span class="lineno">  313</span> </div>
-<div class="line"><span class="lineno">  314</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;child : module-&gt;root-&gt;children) {</div>
-<div class="line"><span class="lineno">  315</span>    <span class="keyword">auto</span> importNode = <span class="keyword">dynamic_cast&lt;</span>ImportNode *<span class="keyword">&gt;</span>(child.get());</div>
-<div class="line"><span class="lineno">  316</span>    <span class="keywordflow">if</span> (!importNode) {</div>
-<div class="line"><span class="lineno">  317</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  318</span>    }</div>
-<div class="line"><span class="lineno">  319</span> </div>
-<div class="line"><span class="lineno">  320</span>    sema::ResolvedImport resolved;</div>
-<div class="line"><span class="lineno">  321</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">rawPath</a> = importNode-&gt;path;</div>
-<div class="line"><span class="lineno">  322</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">moduleAlias</a> = importNode-&gt;moduleAlias;</div>
-<div class="line"><span class="lineno">  323</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5a2cb9cb80d66240c744ed2a7603a3be">visibility</a> = importNode-&gt;visibility_;</div>
-<div class="line"><span class="lineno">  324</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5bda3440b389f5ce413e64d6bd8b58f7">span</a> = importNode-&gt;span;</div>
-<div class="line"><span class="lineno">  325</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;binding : importNode-&gt;bindings) {</div>
-<div class="line"><span class="lineno">  326</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#abe6cde9306a067c6736d03b7f84e0840">bindings</a>.push_back({binding.sourceName, binding.localName});</div>
-<div class="line"><span class="lineno">  327</span>    }</div>
-<div class="line"><span class="lineno">  328</span> </div>
-<div class="line"><span class="lineno">  329</span>    std::vector&lt;std::filesystem::path&gt; importTargets;</div>
-<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a55d5b8a988ea0ec485ebdbda73d289b4">resolveImportTargets</a>(canonicalPath, *importNode, importTargets)) {</div>
-<div class="line"><span class="lineno">  331</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  332</span>    }</div>
-<div class="line"><span class="lineno">  333</span> </div>
-<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : importTargets) {</div>
-<div class="line"><span class="lineno">  335</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">targetModuleIds</a>.push_back(target.string());</div>
+<div class="line"><span class="lineno">  287</span>  <span class="keywordflow">if</span> (visiting.count(moduleId)) {</div>
+<div class="line"><span class="lineno">  288</span>    <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;cyclic import detected involving &quot;</span>, canonicalPath);</div>
+<div class="line"><span class="lineno">  289</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  290</span>  }</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>  visiting.insert(moduleId);</div>
+<div class="line"><span class="lineno">  293</span> </div>
+<div class="line"><span class="lineno">  294</span>  std::string source;</div>
+<div class="line"><span class="lineno">  295</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="#af4bbc238e3e3e6f7f312f70f61694f2a">readSourceFile</a>(canonicalPath, source)) {</div>
+<div class="line"><span class="lineno">  296</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  297</span>  }</div>
+<div class="line"><span class="lineno">  298</span> </div>
+<div class="line"><span class="lineno">  299</span>  DiagnosticEngine diagnostics(source, canonicalPath.string());</div>
+<div class="line"><span class="lineno">  300</span>  Lexer lex(diagnostics);</div>
+<div class="line"><span class="lineno">  301</span>  <span class="keyword">auto</span> tokens = lex.tokenize(source);</div>
+<div class="line"><span class="lineno">  302</span>  Parser parser(tokens, diagnostics);</div>
+<div class="line"><span class="lineno">  303</span>  <span class="keyword">auto</span> ast = parser.parse();</div>
+<div class="line"><span class="lineno">  304</span> </div>
+<div class="line"><span class="lineno">  305</span>  <span class="keywordflow">if</span> (diagnostics.hadErrors() || !ast) {</div>
+<div class="line"><span class="lineno">  306</span>    diagnostics.printText(<a class="code hl_function" href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">err</a>());</div>
+<div class="line"><span class="lineno">  307</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  308</span>  }</div>
+<div class="line"><span class="lineno">  309</span> </div>
+<div class="line"><span class="lineno">  310</span>  <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
+<div class="line"><span class="lineno">  311</span>  <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
+<div class="line"><span class="lineno">  312</span>  <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
+<div class="line"><span class="lineno">  313</span>  <span class="keyword">module</span>-&gt;linkPath = computeLogicalModulePath(canonicalPath);</div>
+<div class="line"><span class="lineno">  314</span>  <span class="keyword">module</span>-&gt;sourceName = canonicalPath.string();</div>
+<div class="line"><span class="lineno">  315</span>  <span class="keyword">module</span>-&gt;root = std::move(ast);</div>
+<div class="line"><span class="lineno">  316</span>  <a class="code hl_function" href="#a7cd162e995dbf70b54bebdb9455821d9">injectImplicitPreludeImportIfNeeded</a>(*module, incStdlib);</div>
+<div class="line"><span class="lineno">  317</span> </div>
+<div class="line"><span class="lineno">  318</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;child : module-&gt;root-&gt;children) {</div>
+<div class="line"><span class="lineno">  319</span>    <span class="keyword">auto</span> importNode = <span class="keyword">dynamic_cast&lt;</span>ImportNode *<span class="keyword">&gt;</span>(child.get());</div>
+<div class="line"><span class="lineno">  320</span>    <span class="keywordflow">if</span> (!importNode) {</div>
+<div class="line"><span class="lineno">  321</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  322</span>    }</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>    sema::ResolvedImport resolved;</div>
+<div class="line"><span class="lineno">  325</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">rawPath</a> = importNode-&gt;path;</div>
+<div class="line"><span class="lineno">  326</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">moduleAlias</a> = importNode-&gt;moduleAlias;</div>
+<div class="line"><span class="lineno">  327</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5a2cb9cb80d66240c744ed2a7603a3be">visibility</a> = importNode-&gt;visibility_;</div>
+<div class="line"><span class="lineno">  328</span>    resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5bda3440b389f5ce413e64d6bd8b58f7">span</a> = importNode-&gt;span;</div>
+<div class="line"><span class="lineno">  329</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;binding : importNode-&gt;bindings) {</div>
+<div class="line"><span class="lineno">  330</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#abe6cde9306a067c6736d03b7f84e0840">bindings</a>.push_back({binding.sourceName, binding.localName});</div>
+<div class="line"><span class="lineno">  331</span>    }</div>
+<div class="line"><span class="lineno">  332</span> </div>
+<div class="line"><span class="lineno">  333</span>    std::vector&lt;std::filesystem::path&gt; importTargets;</div>
+<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a55d5b8a988ea0ec485ebdbda73d289b4">resolveImportTargets</a>(canonicalPath, *importNode, importTargets)) {</div>
+<div class="line"><span class="lineno">  335</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  336</span>    }</div>
 <div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>    <span class="keyword">module</span>-&gt;imports.push_back(std::move(resolved));</div>
-<div class="line"><span class="lineno">  339</span>  }</div>
-<div class="line"><span class="lineno">  340</span> </div>
-<div class="line"><span class="lineno">  341</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
-<div class="line"><span class="lineno">  342</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;targetId : <span class="keyword">import</span>.targetModuleIds) {</div>
-<div class="line"><span class="lineno">  343</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a5133a75d670ba094d22e9aefdaef5c29">loadModuleGraph</a>(targetId, modules, visiting)) {</div>
-<div class="line"><span class="lineno">  344</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  345</span>      }</div>
-<div class="line"><span class="lineno">  346</span>    }</div>
-<div class="line"><span class="lineno">  347</span>  }</div>
-<div class="line"><span class="lineno">  348</span> </div>
-<div class="line"><span class="lineno">  349</span>  visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno">  350</span>  modules[moduleId] = std::move(module);</div>
-<div class="line"><span class="lineno">  351</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  352</span>}</div>
-<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_a5133a75d670ba094d22e9aefdaef5c29"><div class="ttname"><a href="#a5133a75d670ba094d22e9aefdaef5c29">zap::anonymous_namespace{driver.cpp}::loadModuleGraph</a></div><div class="ttdeci">bool loadModuleGraph(const std::filesystem::path &amp;entryPath, std::map&lt; std::string, std::unique_ptr&lt; sema::ModuleInfo &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00273">driver.cpp:273</a></div></div>
-<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_a55d5b8a988ea0ec485ebdbda73d289b4"><div class="ttname"><a href="#a55d5b8a988ea0ec485ebdbda73d289b4">zap::anonymous_namespace{driver.cpp}::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00224">driver.cpp:224</a></div></div>
-<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_aed22b37ca8ad9a85fb805eb4bb06173b"><div class="ttname"><a href="#aed22b37ca8ad9a85fb805eb4bb06173b">zap::anonymous_namespace{driver.cpp}::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00210">driver.cpp:210</a></div></div>
+<div class="line"><span class="lineno">  338</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : importTargets) {</div>
+<div class="line"><span class="lineno">  339</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">targetModuleIds</a>.push_back(target.string());</div>
+<div class="line"><span class="lineno">  340</span>    }</div>
+<div class="line"><span class="lineno">  341</span> </div>
+<div class="line"><span class="lineno">  342</span>    <span class="keyword">module</span>-&gt;imports.push_back(std::move(resolved));</div>
+<div class="line"><span class="lineno">  343</span>  }</div>
+<div class="line"><span class="lineno">  344</span> </div>
+<div class="line"><span class="lineno">  345</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
+<div class="line"><span class="lineno">  346</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;targetId : <span class="keyword">import</span>.targetModuleIds) {</div>
+<div class="line"><span class="lineno">  347</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#aa7df070da3e71bcaa792b197c34e2b61">loadModuleGraph</a>(targetId, modules, visiting, incStdlib)) {</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  349</span>      }</div>
+<div class="line"><span class="lineno">  350</span>    }</div>
+<div class="line"><span class="lineno">  351</span>  }</div>
+<div class="line"><span class="lineno">  352</span> </div>
+<div class="line"><span class="lineno">  353</span>  visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno">  354</span>  modules[moduleId] = std::move(module);</div>
+<div class="line"><span class="lineno">  355</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  356</span>}</div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_a55d5b8a988ea0ec485ebdbda73d289b4"><div class="ttname"><a href="#a55d5b8a988ea0ec485ebdbda73d289b4">zap::anonymous_namespace{driver.cpp}::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00228">driver.cpp:228</a></div></div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_a7cd162e995dbf70b54bebdb9455821d9"><div class="ttname"><a href="#a7cd162e995dbf70b54bebdb9455821d9">zap::anonymous_namespace{driver.cpp}::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module, bool incStdlib)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00210">driver.cpp:210</a></div></div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_aa7df070da3e71bcaa792b197c34e2b61"><div class="ttname"><a href="#aa7df070da3e71bcaa792b197c34e2b61">zap::anonymous_namespace{driver.cpp}::loadModuleGraph</a></div><div class="ttdeci">bool loadModuleGraph(const std::filesystem::path &amp;entryPath, std::map&lt; std::string, std::unique_ptr&lt; sema::ModuleInfo &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, bool incStdlib)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00277">driver.cpp:277</a></div></div>
 <div class="ttc" id="anamespacezap_1_1anonymous__namespace_02driver_8cpp_03_html_af4bbc238e3e3e6f7f312f70f61694f2a"><div class="ttname"><a href="#af4bbc238e3e3e6f7f312f70f61694f2a">zap::anonymous_namespace{driver.cpp}::readSourceFile</a></div><div class="ttdeci">bool readSourceFile(const std::filesystem::path &amp;path, std::string &amp;content)</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00176">driver.cpp:176</a></div></div>
 <div class="ttc" id="anamespacezap_html_a674956178a1a7ce6606f78a8839a2e18"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18">zap::err</a></div><div class="ttdeci">Stream &amp; err()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00105">stream.cpp:105</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_a22d1d07df129d5e6e5be195ac446ab78"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">sema::ResolvedImport::rawPath</a></div><div class="ttdeci">std::string rawPath</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00018">module_info.hpp:18</a></div></div>
@@ -450,9 +462,9 @@ Variables</h2></td></tr>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_ac93f70cc1eac9f0d7a32438ca5d677db"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">sema::ResolvedImport::moduleAlias</a></div><div class="ttdeci">std::string moduleAlias</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00019">module_info.hpp:19</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_ad13cfbd05e6914cf846082034acb85fe"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">sema::ResolvedImport::targetModuleIds</a></div><div class="ttdeci">std::vector&lt; std::string &gt; targetModuleIds</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00020">module_info.hpp:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00021">sema::ResolvedImport::bindings</a>, <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00105">zap::err()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">loadModuleGraph()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00019">sema::ResolvedImport::moduleAlias</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00093">zap::Parser::parse()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00476">zap::DiagnosticEngine::printText()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00018">sema::ResolvedImport::rawPath</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00176">readSourceFile()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">resolveImportTargets()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00023">sema::ResolvedImport::span</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00020">sema::ResolvedImport::targetModuleIds</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00006">Lexer::tokenize()</a>, and <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00022">sema::ResolvedImport::visibility</a>.</p>
+<p class="reference">References <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00021">sema::ResolvedImport::bindings</a>, <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00105">zap::err()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00210">injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">loadModuleGraph()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00019">sema::ResolvedImport::moduleAlias</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00093">zap::Parser::parse()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00476">zap::DiagnosticEngine::printText()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00018">sema::ResolvedImport::rawPath</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00176">readSourceFile()</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">resolveImportTargets()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00023">sema::ResolvedImport::span</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00020">sema::ResolvedImport::targetModuleIds</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00006">Lexer::tokenize()</a>, and <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00022">sema::ResolvedImport::visibility</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">loadModuleGraph()</a>.</p>
 
 </div>
 </div>
@@ -499,7 +511,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00105">zap::err()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00176">readSourceFile()</a>, and <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">loadModuleGraph()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00176">readSourceFile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">loadModuleGraph()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00176">readSourceFile()</a>.</p>
 
 </div>
 </div>
@@ -527,58 +539,58 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">224</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  226</span>                                                                 {</div>
-<div class="line"><span class="lineno">  227</span>  std::filesystem::path resolvedPath;</div>
-<div class="line"><span class="lineno">  228</span>  <span class="keywordflow">if</span> (importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>.rfind(<span class="stringliteral">&quot;std/&quot;</span>, 0) == 0) {</div>
-<div class="line"><span class="lineno">  229</span>    resolvedPath = <a class="code hl_function" href="#a240275382280d14435c28bf270732618">stdlibRootPath</a>(<a class="code hl_variable" href="#a4d03d938e1256c804d3a8483d1823b61">g_executable_path</a>) /</div>
-<div class="line"><span class="lineno">  230</span>                   importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>.substr(std::string(<span class="stringliteral">&quot;std/&quot;</span>).size());</div>
-<div class="line"><span class="lineno">  231</span>  } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  232</span>    resolvedPath = modulePath.parent_path() / importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>;</div>
-<div class="line"><span class="lineno">  233</span>  }</div>
-<div class="line"><span class="lineno">  234</span>  resolvedPath = resolvedPath.lexically_normal();</div>
-<div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>  <span class="keyword">auto</span> tryFile = [&amp;](<span class="keyword">const</span> std::filesystem::path &amp;path) -&gt; <span class="keywordtype">bool</span> {</div>
-<div class="line"><span class="lineno">  237</span>    <span class="keywordflow">if</span> (std::filesystem::exists(path) &amp;&amp;</div>
-<div class="line"><span class="lineno">  238</span>        std::filesystem::is_regular_file(path)) {</div>
-<div class="line"><span class="lineno">  239</span>      targets.push_back(std::filesystem::weakly_canonical(path));</div>
-<div class="line"><span class="lineno">  240</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  241</span>    }</div>
-<div class="line"><span class="lineno">  242</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  243</span>  };</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>  <span class="keywordflow">if</span> (tryFile(resolvedPath)) {</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">228</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  230</span>                                                                 {</div>
+<div class="line"><span class="lineno">  231</span>  std::filesystem::path resolvedPath;</div>
+<div class="line"><span class="lineno">  232</span>  <span class="keywordflow">if</span> (importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>.rfind(<span class="stringliteral">&quot;std/&quot;</span>, 0) == 0) {</div>
+<div class="line"><span class="lineno">  233</span>    resolvedPath = <a class="code hl_function" href="#a240275382280d14435c28bf270732618">stdlibRootPath</a>(<a class="code hl_variable" href="#a4d03d938e1256c804d3a8483d1823b61">g_executable_path</a>) /</div>
+<div class="line"><span class="lineno">  234</span>                   importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>.substr(std::string(<span class="stringliteral">&quot;std/&quot;</span>).size());</div>
+<div class="line"><span class="lineno">  235</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  236</span>    resolvedPath = modulePath.parent_path() / importNode.<a class="code hl_variable" href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">path</a>;</div>
+<div class="line"><span class="lineno">  237</span>  }</div>
+<div class="line"><span class="lineno">  238</span>  resolvedPath = resolvedPath.lexically_normal();</div>
+<div class="line"><span class="lineno">  239</span> </div>
+<div class="line"><span class="lineno">  240</span>  <span class="keyword">auto</span> tryFile = [&amp;](<span class="keyword">const</span> std::filesystem::path &amp;path) -&gt; <span class="keywordtype">bool</span> {</div>
+<div class="line"><span class="lineno">  241</span>    <span class="keywordflow">if</span> (std::filesystem::exists(path) &amp;&amp;</div>
+<div class="line"><span class="lineno">  242</span>        std::filesystem::is_regular_file(path)) {</div>
+<div class="line"><span class="lineno">  243</span>      targets.push_back(std::filesystem::weakly_canonical(path));</div>
+<div class="line"><span class="lineno">  244</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  245</span>    }</div>
 <div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  247</span>  }</div>
+<div class="line"><span class="lineno">  247</span>  };</div>
 <div class="line"><span class="lineno">  248</span> </div>
-<div class="line"><span class="lineno">  249</span>  <span class="keywordflow">if</span> (resolvedPath.extension() != <span class="stringliteral">&quot;.zp&quot;</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  250</span>      tryFile(resolvedPath.string() + <span class="stringliteral">&quot;.zp&quot;</span>)) {</div>
-<div class="line"><span class="lineno">  251</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  252</span>  }</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>  <span class="keywordflow">if</span> (std::filesystem::exists(resolvedPath) &amp;&amp;</div>
-<div class="line"><span class="lineno">  255</span>      std::filesystem::is_directory(resolvedPath)) {</div>
-<div class="line"><span class="lineno">  256</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry :</div>
-<div class="line"><span class="lineno">  257</span>         std::filesystem::directory_iterator(resolvedPath)) {</div>
-<div class="line"><span class="lineno">  258</span>      <span class="keywordflow">if</span> (!entry.is_regular_file()) {</div>
-<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  260</span>      }</div>
-<div class="line"><span class="lineno">  261</span>      <span class="keywordflow">if</span> (entry.path().extension() == <span class="stringliteral">&quot;.zp&quot;</span>) {</div>
-<div class="line"><span class="lineno">  262</span>        targets.push_back(std::filesystem::weakly_canonical(entry.path()));</div>
-<div class="line"><span class="lineno">  263</span>      }</div>
-<div class="line"><span class="lineno">  264</span>    }</div>
-<div class="line"><span class="lineno">  265</span>    std::sort(targets.begin(), targets.end());</div>
-<div class="line"><span class="lineno">  266</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  267</span>  }</div>
-<div class="line"><span class="lineno">  268</span> </div>
-<div class="line"><span class="lineno">  269</span>  <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;import path not found: &quot;</span>, resolvedPath);</div>
-<div class="line"><span class="lineno">  270</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  271</span>}</div>
+<div class="line"><span class="lineno">  249</span>  <span class="keywordflow">if</span> (tryFile(resolvedPath)) {</div>
+<div class="line"><span class="lineno">  250</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  251</span>  }</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>  <span class="keywordflow">if</span> (resolvedPath.extension() != <span class="stringliteral">&quot;.zp&quot;</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  254</span>      tryFile(resolvedPath.string() + <span class="stringliteral">&quot;.zp&quot;</span>)) {</div>
+<div class="line"><span class="lineno">  255</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  256</span>  }</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>  <span class="keywordflow">if</span> (std::filesystem::exists(resolvedPath) &amp;&amp;</div>
+<div class="line"><span class="lineno">  259</span>      std::filesystem::is_directory(resolvedPath)) {</div>
+<div class="line"><span class="lineno">  260</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry :</div>
+<div class="line"><span class="lineno">  261</span>         std::filesystem::directory_iterator(resolvedPath)) {</div>
+<div class="line"><span class="lineno">  262</span>      <span class="keywordflow">if</span> (!entry.is_regular_file()) {</div>
+<div class="line"><span class="lineno">  263</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  264</span>      }</div>
+<div class="line"><span class="lineno">  265</span>      <span class="keywordflow">if</span> (entry.path().extension() == <span class="stringliteral">&quot;.zp&quot;</span>) {</div>
+<div class="line"><span class="lineno">  266</span>        targets.push_back(std::filesystem::weakly_canonical(entry.path()));</div>
+<div class="line"><span class="lineno">  267</span>      }</div>
+<div class="line"><span class="lineno">  268</span>    }</div>
+<div class="line"><span class="lineno">  269</span>    std::sort(targets.begin(), targets.end());</div>
+<div class="line"><span class="lineno">  270</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  271</span>  }</div>
+<div class="line"><span class="lineno">  272</span> </div>
+<div class="line"><span class="lineno">  273</span>  <a class="code hl_function" href="../../d9/d00/classzap_1_1driver.html#a0958bb807d28a48357f784f362b51735">driver::reportError</a>(<span class="stringliteral">&quot;import path not found: &quot;</span>, resolvedPath);</div>
+<div class="line"><span class="lineno">  274</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  275</span>}</div>
 <div class="ttc" id="aclassImportNode_html_ac923d54057d65a0df6f9db9b77e91a7a"><div class="ttname"><a href="../../d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">ImportNode::path</a></div><div class="ttdeci">std::string path</div><div class="ttdef"><b>Definition</b> <a href="../../de/de6/import__node_8hpp_source.html#l00015">import_node.hpp:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00079">g_executable_path</a>, <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00015">ImportNode::path</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">resolveImportTargets()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00099">stdlibRootPath()</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00079">g_executable_path</a>, <a class="el" href="../../de/de6/import__node_8hpp_source.html#l00015">ImportNode::path</a>, <a class="el" href="../../d7/d7e/driver_8hpp_source.html#l00161">zap::driver::reportError()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">resolveImportTargets()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00099">stdlibRootPath()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00273">loadModuleGraph()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">resolveImportTargets()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00277">loadModuleGraph()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">resolveImportTargets()</a>.</p>
 
 </div>
 </div>
@@ -659,7 +671,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00082">currentExecutablePath()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00099">stdlibRootPath()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00144">computeLogicalModulePath()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">resolveImportTargets()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00099">stdlibRootPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00144">computeLogicalModulePath()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">resolveImportTargets()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00099">stdlibRootPath()</a>.</p>
 
 </div>
 </div>
@@ -708,7 +720,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00079">79</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00144">computeLogicalModulePath()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00224">resolveImportTargets()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00144">computeLogicalModulePath()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00228">resolveImportTargets()</a>.</p>
 
 </div>
 </div>
