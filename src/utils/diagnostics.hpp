@@ -36,7 +36,9 @@ namespace detail {
 
 inline size_t tabWidth() { return 4; }
 
-inline bool isUtf8ContinuationByte(unsigned char c) { return (c & 0xC0) == 0x80; }
+inline bool isUtf8ContinuationByte(unsigned char c) {
+  return (c & 0xC0) == 0x80;
+}
 
 inline size_t utf8CodePointLength(unsigned char lead) {
   if ((lead & 0x80) == 0x00)
@@ -234,8 +236,8 @@ computeUnderlineColumns(const SourceSpan &span, const std::string &lineContent,
   size_t endByteInLine = startByteInLine;
   if (span.length > 0) {
     size_t desired = startByteInLine + span.length;
-    endByteInLine =
-        clampToCodePointBoundary(lineContent, std::min(desired, lineContent.size()));
+    endByteInLine = clampToCodePointBoundary(
+        lineContent, std::min(desired, lineContent.size()));
   } else {
     // zero-length span: point to the next visible cell
     endByteInLine = startByteInLine;
@@ -283,7 +285,8 @@ public:
     }
   }
 
-  static void print(std::ostream &os, const std::vector<Diagnostic> &diagnostics,
+  static void print(std::ostream &os,
+                    const std::vector<Diagnostic> &diagnostics,
                     const std::string &source) {
     for (const auto &diagnostic : diagnostics) {
       printDiagnostic(os, diagnostic, source);
@@ -329,7 +332,8 @@ private:
       lineStart = detail::findLineStartByLine(source, span.line);
     }
     const size_t lineEnd = detail::findLineEnd(source, lineStart);
-    const std::string lineContent = source.substr(lineStart, lineEnd - lineStart);
+    const std::string lineContent =
+        source.substr(lineStart, lineEnd - lineStart);
     const std::string renderedLine = detail::expandTabsForDisplay(lineContent);
 
     const std::string lineNumStr = std::to_string(span.line);
@@ -375,7 +379,8 @@ private:
       lineStart = detail::findLineStartByLine(source, span.line);
     }
     const size_t lineEnd = detail::findLineEnd(source, lineStart);
-    const std::string lineContent = source.substr(lineStart, lineEnd - lineStart);
+    const std::string lineContent =
+        source.substr(lineStart, lineEnd - lineStart);
     const std::string renderedLine = detail::expandTabsForDisplay(lineContent);
 
     const std::string lineNumStr = std::to_string(span.line);
@@ -518,9 +523,9 @@ private:
       return;
     }
 
-    diagnostics_.push_back(Diagnostic{DiagnosticLevel::Note,
-                                      defaultCodeFor(DiagnosticLevel::Note, message),
-                                      message, fileName, span, makeRange(span)});
+    diagnostics_.push_back(Diagnostic{
+        DiagnosticLevel::Note, defaultCodeFor(DiagnosticLevel::Note, message),
+        message, fileName, span, makeRange(span)});
   }
 
   void maybeAddHelpHint(SourceSpan span, const std::string &message) {
@@ -530,28 +535,35 @@ private:
     }
 
     if (message.find("Expected primary expression") != std::string::npos) {
-      addNote(span, "help: insert an expression (identifier, literal, or call) here.");
+      addNote(
+          span,
+          "help: insert an expression (identifier, literal, or call) here.");
       return;
     }
 
     if (message.find("Undefined identifier") != std::string::npos) {
-      addNote(span, "help: check spelling or declare the identifier before use.");
+      addNote(span,
+              "help: check spelling or declare the identifier before use.");
       return;
     }
 
     if (message.find("Cannot assign expression of type") != std::string::npos) {
-      addNote(span, "help: change the variable type or cast/convert the assigned expression.");
+      addNote(span, "help: change the variable type or cast/convert the "
+                    "assigned expression.");
       return;
     }
 
     if (message.find("If condition must be Bool") != std::string::npos ||
         message.find("While condition must be Bool") != std::string::npos) {
-      addNote(span, "help: use a Bool expression, e.g. comparison like 'x != 0'.");
+      addNote(span,
+              "help: use a Bool expression, e.g. comparison like 'x != 0'.");
       return;
     }
 
     if (message.find("Cannot compare") != std::string::npos) {
-      addNote(span, "help: ensure both operands are comparable and of compatible types.");
+      addNote(
+          span,
+          "help: ensure both operands are comparable and of compatible types.");
       return;
     }
   }

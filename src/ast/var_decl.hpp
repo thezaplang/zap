@@ -14,7 +14,8 @@ public:
   bool isGlobal_ = false;
   bool isExternal_ = false;
 
-  VarDecl() noexcept(std::is_nothrow_default_constructible<std::string>::value) = default;
+  VarDecl() noexcept(
+      std::is_nothrow_default_constructible<std::string>::value) = default;
   VarDecl(std::string name, std::unique_ptr<TypeNode> type,
           std::unique_ptr<ExpressionNode> initializer)
       : name_(name), type_(std::move(type)),

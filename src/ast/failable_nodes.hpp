@@ -39,8 +39,7 @@ public:
 
   FailableHandleExpr() noexcept = default;
   FailableHandleExpr(std::unique_ptr<ExpressionNode> expression,
-                     std::string errorName,
-                     std::unique_ptr<BodyNode> handler)
+                     std::string errorName, std::unique_ptr<BodyNode> handler)
       : expression_(std::move(expression)), errorName_(std::move(errorName)),
         handler_(std::move(handler)) {}
 

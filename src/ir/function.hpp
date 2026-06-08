@@ -23,9 +23,8 @@ public:
            std::string ownerTypeName = "", bool isDestructor = false,
            int vtableSlot = -1, bool isCVariadic = false)
       : name(std::move(name)), returnType(std::move(returnType)),
-        ownerTypeName(std::move(ownerTypeName)),
-        isDestructor(isDestructor), isCVariadic(isCVariadic),
-        vtableSlot(vtableSlot) {}
+        ownerTypeName(std::move(ownerTypeName)), isDestructor(isDestructor),
+        isCVariadic(isCVariadic), vtableSlot(vtableSlot) {}
 
   void addBlock(std::unique_ptr<BasicBlock> block) {
     blocks.push_back(std::move(block));

@@ -1,8 +1,8 @@
 #pragma once
+#include "../visibility.hpp"
 #include "attribute.hpp"
 #include "node.hpp"
 #include "visitor.hpp"
-#include "../visibility.hpp"
 #include <vector>
 
 class TopLevel : public virtual Node {

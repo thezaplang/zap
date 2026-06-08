@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include "utils/stream.hpp"
+#include <cstdint>
 #include <ostream>
 
 namespace zap {

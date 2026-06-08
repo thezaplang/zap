@@ -1,6 +1,6 @@
 #include "lsp.hpp"
-#include <charconv>
 #include <cctype>
+#include <charconv>
 #include <cstddef>
 #include <limits>
 #include <stdexcept>
@@ -342,28 +342,59 @@ void stringifyJson(std::string &out, const JsonObject &json) {
 } // namespace
 
 JsonObject::ObjectType JsonObject::getType() const noexcept {
-  if (isObject()) return ObjectType::OBJECT_T;
-  if (isList()) return ObjectType::LIST_T;
-  if (isInteger()) return ObjectType::INTEGER_T;
-  if (isString()) return ObjectType::STRING_T;
-  if (isBoolean()) return ObjectType::BOOLEAN_T;
+  if (isObject())
+    return ObjectType::OBJECT_T;
+  if (isList())
+    return ObjectType::LIST_T;
+  if (isInteger())
+    return ObjectType::INTEGER_T;
+  if (isString())
+    return ObjectType::STRING_T;
+  if (isBoolean())
+    return ObjectType::BOOLEAN_T;
   return ObjectType::NULL_T;
 }
 
-JsonObject::Object &JsonObject::getAsObject() { return std::get<Object>(storage); }
+JsonObject::Object &JsonObject::getAsObject() {
+  return std::get<Object>(storage);
+}
 JsonObject::List &JsonObject::getAsList() { return std::get<List>(storage); }
-const JsonObject::Object &JsonObject::getAsObject() const { return std::get<Object>(storage); }
-const JsonObject::List &JsonObject::getAsList() const { return std::get<List>(storage); }
-JsonObject::Integer JsonObject::getAsInteger() const { return std::get<Integer>(storage); }
-const JsonObject::String &JsonObject::getAsString() const { return std::get<String>(storage); }
-JsonObject::Boolean JsonObject::getAsBoolean() const { return std::get<Boolean>(storage); }
-JsonObject::Null JsonObject::getAsNull() const { return std::get<Null>(storage); }
-bool JsonObject::isObject() const noexcept { return std::holds_alternative<Object>(storage); }
-bool JsonObject::isList() const noexcept { return std::holds_alternative<List>(storage); }
-bool JsonObject::isInteger() const noexcept { return std::holds_alternative<Integer>(storage); }
-bool JsonObject::isString() const noexcept { return std::holds_alternative<String>(storage); }
-bool JsonObject::isBoolean() const noexcept { return std::holds_alternative<Boolean>(storage); }
-bool JsonObject::isNull() const noexcept { return std::holds_alternative<Null>(storage); }
+const JsonObject::Object &JsonObject::getAsObject() const {
+  return std::get<Object>(storage);
+}
+const JsonObject::List &JsonObject::getAsList() const {
+  return std::get<List>(storage);
+}
+JsonObject::Integer JsonObject::getAsInteger() const {
+  return std::get<Integer>(storage);
+}
+const JsonObject::String &JsonObject::getAsString() const {
+  return std::get<String>(storage);
+}
+JsonObject::Boolean JsonObject::getAsBoolean() const {
+  return std::get<Boolean>(storage);
+}
+JsonObject::Null JsonObject::getAsNull() const {
+  return std::get<Null>(storage);
+}
+bool JsonObject::isObject() const noexcept {
+  return std::holds_alternative<Object>(storage);
+}
+bool JsonObject::isList() const noexcept {
+  return std::holds_alternative<List>(storage);
+}
+bool JsonObject::isInteger() const noexcept {
+  return std::holds_alternative<Integer>(storage);
+}
+bool JsonObject::isString() const noexcept {
+  return std::holds_alternative<String>(storage);
+}
+bool JsonObject::isBoolean() const noexcept {
+  return std::holds_alternative<Boolean>(storage);
+}
+bool JsonObject::isNull() const noexcept {
+  return std::holds_alternative<Null>(storage);
+}
 
 JsonObject JsonParser::parse(std::string_view view) {
   const char *it = view.data();
@@ -453,7 +484,8 @@ std::string Server::processMessage(std::string &line) {
       }
 
       size_t parsed = 0;
-      auto res = std::from_chars(value.data(), value.data() + value.size(), parsed);
+      auto res =
+          std::from_chars(value.data(), value.data() + value.size(), parsed);
       if (res.ec != std::errc() || res.ptr != value.data() + value.size()) {
         return {};
       }

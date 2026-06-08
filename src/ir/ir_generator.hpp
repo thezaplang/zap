@@ -75,9 +75,9 @@ private:
   failableValueType(const std::shared_ptr<Type> &type) const;
   std::shared_ptr<Type>
   failableErrorType(const std::shared_ptr<Type> &type) const;
-  std::shared_ptr<Value> emitFailableFieldLoad(const std::shared_ptr<Value> &value,
-                                               int fieldIndex,
-                                               const std::shared_ptr<Type> &fieldType);
+  std::shared_ptr<Value>
+  emitFailableFieldLoad(const std::shared_ptr<Value> &value, int fieldIndex,
+                        const std::shared_ptr<Type> &fieldType);
   std::shared_ptr<Value> emitFailableOk(const std::shared_ptr<Value> &value);
   std::shared_ptr<Value> emitFailableValue(const std::shared_ptr<Value> &value);
   std::shared_ptr<Value> emitFailableError(const std::shared_ptr<Value> &value);

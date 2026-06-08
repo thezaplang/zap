@@ -6,7 +6,13 @@
 
 namespace zir {
 
-enum class ValueKind { Register, Constant, AggregateConstant, Argument, Global };
+enum class ValueKind {
+  Register,
+  Constant,
+  AggregateConstant,
+  Argument,
+  Global
+};
 
 class Value {
 public:

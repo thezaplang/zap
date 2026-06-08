@@ -11,8 +11,7 @@ public:
   std::unique_ptr<TypeNode> type_;
   std::vector<std::unique_ptr<Argument>> args_;
 
-  explicit NewExpr(std::unique_ptr<TypeNode> type)
-      : type_(std::move(type)) {}
+  explicit NewExpr(std::unique_ptr<TypeNode> type) : type_(std::move(type)) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

@@ -193,8 +193,7 @@ public:
   CallInst(std::shared_ptr<Value> res, std::string name,
            std::vector<std::shared_ptr<Value>> arguments,
            std::vector<bool> argumentIsRef = {},
-           std::shared_ptr<Value> pack = nullptr,
-           bool returnsRef = false)
+           std::shared_ptr<Value> pack = nullptr, bool returnsRef = false)
       : result(std::move(res)), funcName(std::move(name)),
         args(std::move(arguments)), argIsRef(std::move(argumentIsRef)),
         variadicPack(std::move(pack)), returnsRef_(returnsRef) {}
@@ -224,7 +223,8 @@ public:
     }
     s += ")";
     if (variadicPack) {
-      s += " spread " + variadicPack->getTypeName() + " " + variadicPack->getName();
+      s += " spread " + variadicPack->getTypeName() + " " +
+           variadicPack->getName();
     }
     return s;
   }
@@ -376,8 +376,8 @@ public:
   const std::shared_ptr<Value> &getResult() const { return result; }
   const std::shared_ptr<Value> &getWeakValue() const { return weakValue; }
   std::string toString() const override {
-    return result->getName() + " = weak.lock " + weakValue->getTypeName() + " " +
-           weakValue->getName();
+    return result->getName() + " = weak.lock " + weakValue->getTypeName() +
+           " " + weakValue->getName();
   }
 };
 
@@ -392,8 +392,8 @@ public:
   const std::shared_ptr<Value> &getResult() const { return result; }
   const std::shared_ptr<Value> &getWeakValue() const { return weakValue; }
   std::string toString() const override {
-    return result->getName() + " = weak.alive " + weakValue->getTypeName() + " " +
-           weakValue->getName();
+    return result->getName() + " = weak.alive " + weakValue->getTypeName() +
+           " " + weakValue->getName();
   }
 };
 

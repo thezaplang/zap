@@ -63,7 +63,8 @@ std::string abiTypeKey(const std::shared_ptr<zir::Type> &type) {
   }
   case zir::TypeKind::Array: {
     auto a = std::static_pointer_cast<zir::ArrayType>(type);
-    return "a" + std::to_string(a->getSize()) + "_" + abiTypeKey(a->getBaseType());
+    return "a" + std::to_string(a->getSize()) + "_" +
+           abiTypeKey(a->getBaseType());
   }
   case zir::TypeKind::FunctionPointer: {
     auto fn = std::static_pointer_cast<zir::FunctionPointerType>(type);
@@ -235,8 +236,7 @@ makeDefaultValueExpr(const std::shared_ptr<zir::Type> &type) {
       auto errorType = failableErrorType(type);
       std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>>
           fields;
-      fields.push_back(
-          {"ok", std::make_unique<BoundLiteral>("false", okType)});
+      fields.push_back({"ok", std::make_unique<BoundLiteral>("false", okType)});
       fields.push_back({"value", makeDefaultValueExpr(valueType)});
       fields.push_back({"error", makeDefaultValueExpr(errorType)});
       return std::make_unique<BoundStructLiteral>(std::move(fields), type);
@@ -345,22 +345,26 @@ bool sameFunctionSignature(const FunctionSymbol &lhs,
 static bool stmtAlwaysReturns(const BoundStatement *stmt);
 
 static bool blockAlwaysReturns(const BoundBlock *block) {
-  if (!block) return false;
-  if (block->result) return true;
+  if (!block)
+    return false;
+  if (block->result)
+    return true;
   for (const auto &s : block->statements) {
-    if (stmtAlwaysReturns(s.get())) return true;
+    if (stmtAlwaysReturns(s.get()))
+      return true;
   }
   return false;
 }
 
 static bool stmtAlwaysReturns(const BoundStatement *stmt) {
-  if (!stmt) return false;
-  if (dynamic_cast<const BoundReturnStatement *>(stmt)) return true;
+  if (!stmt)
+    return false;
+  if (dynamic_cast<const BoundReturnStatement *>(stmt))
+    return true;
   if (auto *blk = dynamic_cast<const BoundBlock *>(stmt))
     return blockAlwaysReturns(blk);
   if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(stmt))
-    return ifStmt->elseBody &&
-           blockAlwaysReturns(ifStmt->thenBody.get()) &&
+    return ifStmt->elseBody && blockAlwaysReturns(ifStmt->thenBody.get()) &&
            blockAlwaysReturns(ifStmt->elseBody.get());
   return false;
 }
@@ -406,13 +410,11 @@ deriveValueExpressionFromBlock(const BoundBlock &block) {
 
   const auto *tail = block.statements.back().get();
 
-  if (auto *exprStmt =
-          dynamic_cast<const BoundExpressionStatement *>(tail)) {
+  if (auto *exprStmt = dynamic_cast<const BoundExpressionStatement *>(tail)) {
     return exprStmt->expression ? exprStmt->expression->clone() : nullptr;
   }
 
-  if (auto *ifStmt =
-          dynamic_cast<const BoundIfStatement *>(tail)) {
+  if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(tail)) {
     return deriveValueExpressionFromIf(*ifStmt);
   }
 
@@ -704,9 +706,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
 
   std::vector<std::string> missing;
   for (const auto &name : baseFunction->genericParameterNames) {
-    auto it = std::find_if(
-        genericBindings.begin(), genericBindings.end(),
-        [&](const auto &entry) { return entry.first == name; });
+    auto it =
+        std::find_if(genericBindings.begin(), genericBindings.end(),
+                     [&](const auto &entry) { return entry.first == name; });
     if (it == genericBindings.end()) {
       missing.push_back(name);
     }
@@ -730,12 +732,13 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       cacheKey += ",";
     }
     const auto &name = baseFunction->genericParameterNames[i];
-    auto it = std::find_if(
-        genericBindings.begin(), genericBindings.end(),
-        [&](const auto &entry) { return entry.first == name; });
-    cacheKey += name + "=" + (it != genericBindings.end() && it->second
-                                  ? it->second->toString()
-                                  : std::string("<?>"));
+    auto it =
+        std::find_if(genericBindings.begin(), genericBindings.end(),
+                     [&](const auto &entry) { return entry.first == name; });
+    cacheKey +=
+        name + "=" +
+        (it != genericBindings.end() && it->second ? it->second->toString()
+                                                   : std::string("<?>"));
   }
   cacheKey += ">";
 
@@ -746,18 +749,21 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
 
   auto declIt = functionDeclarationNodes_.find(baseFunction.get());
   if (declIt == functionDeclarationNodes_.end() || !declIt->second) {
-    error(callSpan, "Internal error: missing declaration for generic function '" +
-                        baseFunction->name + "'.");
+    error(callSpan,
+          "Internal error: missing declaration for generic function '" +
+              baseFunction->name + "'.");
     return nullptr;
   }
 
   auto moduleIdIt = functionDeclarationModuleIds_.find(baseFunction.get());
-  auto moduleId =
-      moduleIdIt == functionDeclarationModuleIds_.end() ? currentModuleId_
-                                                        : moduleIdIt->second;
+  auto moduleId = moduleIdIt == functionDeclarationModuleIds_.end()
+                      ? currentModuleId_
+                      : moduleIdIt->second;
   auto moduleIt = modules_.find(moduleId);
   if (moduleIt == modules_.end() || !moduleIt->second.info) {
-    error(callSpan, "Internal error: current module not found for generic instantiation.");
+    error(
+        callSpan,
+        "Internal error: current module not found for generic instantiation.");
     return nullptr;
   }
 
@@ -785,8 +791,8 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
 
   auto instantiated = std::make_shared<FunctionSymbol>(
       baseFunction->name, std::move(instantiatedParams), instantiatedReturn, "",
-      baseFunction->moduleName, baseFunction->visibility, baseFunction->isUnsafe,
-      baseFunction->isCVariadic);
+      baseFunction->moduleName, baseFunction->visibility,
+      baseFunction->isUnsafe, baseFunction->isCVariadic);
   instantiated->isMethod = baseFunction->isMethod;
   instantiated->isStatic = baseFunction->isStatic;
   instantiated->isConstructor = baseFunction->isConstructor;
@@ -805,9 +811,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       genericSuffix += "$";
     }
     const auto &name = baseFunction->genericParameterNames[i];
-    auto it = std::find_if(
-        genericBindings.begin(), genericBindings.end(),
-        [&](const auto &entry) { return entry.first == name; });
+    auto it =
+        std::find_if(genericBindings.begin(), genericBindings.end(),
+                     [&](const auto &entry) { return entry.first == name; });
     if (it == genericBindings.end() || !it->second) {
       error(callSpan, "Missing binding for generic parameter '" + name + "'.");
       return nullptr;
@@ -821,8 +827,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
   functionDeclarationNodes_[instantiated.get()] = declIt->second;
   functionDeclarationModuleIds_[instantiated.get()] = moduleId;
 
-  auto inProgressIt = std::find(genericInstantiationInProgress_.begin(),
-                                genericInstantiationInProgress_.end(), cacheKey);
+  auto inProgressIt =
+      std::find(genericInstantiationInProgress_.begin(),
+                genericInstantiationInProgress_.end(), cacheKey);
   if (inProgressIt != genericInstantiationInProgress_.end()) {
     return instantiated;
   }
@@ -878,7 +885,8 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
     hasReturn = true;
   }
 
-  if (!hasReturn && instantiated->returnType->getKind() != zir::TypeKind::Void) {
+  if (!hasReturn &&
+      instantiated->returnType->getKind() != zir::TypeKind::Void) {
     auto kind = instantiated->returnType->getKind();
     if (instantiated->returnType->isInteger() || kind == zir::TypeKind::Float ||
         kind == zir::TypeKind::Bool) {
@@ -887,7 +895,8 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
         litVal = "0.0";
       else if (kind == zir::TypeKind::Bool)
         litVal = "false";
-      auto lit = std::make_unique<BoundLiteral>(litVal, instantiated->returnType);
+      auto lit =
+          std::make_unique<BoundLiteral>(litVal, instantiated->returnType);
       boundBody->statements.push_back(
           std::make_unique<BoundReturnStatement>(std::move(lit)));
     }
@@ -946,9 +955,9 @@ std::shared_ptr<zir::Type> Binder::substituteGenericType(
                                       record->getGenericCodegenBaseName(),
                                       substitutedArgs);
       for (const auto &field : record->getFields()) {
-        substituted->addField(field.name,
-                              substituteGenericType(field.type, genericBindings),
-                              field.visibility);
+        substituted->addField(
+            field.name, substituteGenericType(field.type, genericBindings),
+            field.visibility);
       }
       return substituted;
     }
@@ -1009,9 +1018,9 @@ std::shared_ptr<zir::Type> Binder::substituteGenericType(
         }
       }
       for (const auto &field : classType->getFields()) {
-        substituted->addField(field.name,
-                              substituteGenericType(field.type, genericBindings),
-                              field.visibility);
+        substituted->addField(
+            field.name, substituteGenericType(field.type, genericBindings),
+            field.visibility);
       }
       return substituted;
     }
@@ -1055,18 +1064,17 @@ bool Binder::validateGenericConstraints(
     activeGenericBindingsStack_.pop_back();
     if (!requiredType) {
       if (failureReason) {
-        *failureReason = "unknown constraint type for '" +
-                         constraint.parameterName + "'";
+        *failureReason =
+            "unknown constraint type for '" + constraint.parameterName + "'";
       }
       return false;
     }
     if (!canConvert(boundIt->second, requiredType)) {
       if (failureReason) {
-        *failureReason = "type parameter '" + constraint.parameterName +
-                         "' with type '" + boundIt->second->toString() +
-                         "' does not satisfy constraint '" +
-                         constraint.parameterName + ": " +
-                         requiredType->toString() + "'";
+        *failureReason =
+            "type parameter '" + constraint.parameterName + "' with type '" +
+            boundIt->second->toString() + "' does not satisfy constraint '" +
+            constraint.parameterName + ": " + requiredType->toString() + "'";
       }
       return false;
     }
@@ -1083,10 +1091,9 @@ Binder::orderedGenericBindings(
   for (const auto &[name, type] : genericBindings) {
     ordered.emplace_back(name, type);
   }
-  std::sort(ordered.begin(), ordered.end(),
-            [](const auto &lhs, const auto &rhs) {
-              return lhs.first < rhs.first;
-            });
+  std::sort(
+      ordered.begin(), ordered.end(),
+      [](const auto &lhs, const auto &rhs) { return lhs.first < rhs.first; });
   return ordered;
 }
 
@@ -1104,10 +1111,12 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
   if (auto recordDeclIt = recordTypeDeclarationNodes_.find(baseSymbol.get());
       recordDeclIt != recordTypeDeclarationNodes_.end()) {
     recordDecl = recordDeclIt->second;
-  } else if (auto structDeclIt = structTypeDeclarationNodes_.find(baseSymbol.get());
+  } else if (auto structDeclIt =
+                 structTypeDeclarationNodes_.find(baseSymbol.get());
              structDeclIt != structTypeDeclarationNodes_.end()) {
     structDecl = structDeclIt->second;
-  } else if (auto classDeclIt = classTypeDeclarationNodes_.find(baseSymbol.get());
+  } else if (auto classDeclIt =
+                 classTypeDeclarationNodes_.find(baseSymbol.get());
              classDeclIt != classTypeDeclarationNodes_.end()) {
     classDecl = classDeclIt->second;
   } else {
@@ -1170,8 +1179,8 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
       !validateGenericConstraints(*declGenericConstraints, genericBindings,
                                   &constraintFailure)) {
     error(typeNode.span, "Generic constraints not satisfied for type '" +
-                             typeNode.qualifiedName() + "': " +
-                             constraintFailure);
+                             typeNode.qualifiedName() +
+                             "': " + constraintFailure);
     return nullptr;
   }
 
@@ -1204,26 +1213,28 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
     return nullptr;
   }
 
-  auto baseRecordType = std::static_pointer_cast<zir::RecordType>(baseSymbol->type);
+  auto baseRecordType =
+      std::static_pointer_cast<zir::RecordType>(baseSymbol->type);
   auto displayName =
       renderGenericTypeName(baseRecordType->getName(), genericArgs);
   auto codegenName =
       renderGenericCodegenName(baseRecordType->getCodegenName(), genericArgs);
   if (classDecl) {
-    instantiatedType = std::make_shared<zir::ClassType>(displayName, codegenName);
+    instantiatedType =
+        std::make_shared<zir::ClassType>(displayName, codegenName);
   } else {
-    instantiatedType = std::make_shared<zir::RecordType>(displayName, codegenName);
+    instantiatedType =
+        std::make_shared<zir::RecordType>(displayName, codegenName);
   }
-  instantiatedType->setGenericInstance(baseRecordType->getName(),
-                                       baseRecordType->getCodegenName(),
-                                       genericArgs);
+  instantiatedType->setGenericInstance(
+      baseRecordType->getName(), baseRecordType->getCodegenName(), genericArgs);
 
   auto instantiatedSymbol = std::make_shared<TypeSymbol>(
       baseSymbol->name, instantiatedType, codegenName, baseSymbol->moduleName,
       baseSymbol->visibility, baseSymbol->isUnsafe, classDecl != nullptr);
   instantiatedSymbol->isGenericInstantiation = true;
-  instantiatedSymbol->genericArguments = {
-      genericBindings.begin(), genericBindings.end()};
+  instantiatedSymbol->genericArguments = {genericBindings.begin(),
+                                          genericBindings.end()};
   genericTypeInstantiations_[cacheKey] = instantiatedSymbol;
 
   if (classDecl) {
@@ -1279,11 +1290,12 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
         classInfo.nextVirtualSlot = baseIt->second.nextVirtualSlot;
       }
       for (const auto &field : baseClass->getFields()) {
-        instantiatedClassType->addField(field.name, field.type, field.visibility);
+        instantiatedClassType->addField(field.name, field.type,
+                                        field.visibility);
       }
     } else if (baseType) {
-      error(classDecl->baseType_->span, "Base type of class '" + classDecl->name_ +
-                                            "' must be a class.");
+      error(classDecl->baseType_->span,
+            "Base type of class '" + classDecl->name_ + "' must be a class.");
     }
   }
 
@@ -1418,13 +1430,12 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
           methodSymbol->vtableSlot = classInfo.nextVirtualSlot++;
         }
       }
-      methodSymbol->linkName =
-          mangleName(moduleIt->second.info->linkPath.empty()
-                         ? moduleIt->second.info->moduleId
-                         : moduleIt->second.info->linkPath,
-                     instantiatedClassType->getCodegenName() + "$" +
-                         methodDecl->name_ + "$" +
-                         sanitizeTypeName(functionSignatureKey(*methodSymbol)));
+      methodSymbol->linkName = mangleName(
+          moduleIt->second.info->linkPath.empty()
+              ? moduleIt->second.info->moduleId
+              : moduleIt->second.info->linkPath,
+          instantiatedClassType->getCodegenName() + "$" + methodDecl->name_ +
+              "$" + sanitizeTypeName(functionSignatureKey(*methodSymbol)));
       functionDeclarationNodes_[methodSymbol.get()] = methodDecl.get();
       functionDeclarationModuleIds_[methodSymbol.get()] =
           moduleIt->second.info->moduleId;
@@ -1528,8 +1539,7 @@ Binder::buildGenericBindings(
     const FunctionSymbol &function,
     const std::vector<std::unique_ptr<BoundExpression>> &arguments,
     const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
-    SourceSpan callSpan,
-    std::string *failureReason) {
+    SourceSpan callSpan, std::string *failureReason) {
   (void)callSpan;
   std::unordered_map<std::string, std::shared_ptr<zir::Type>> bindings;
 
@@ -1559,14 +1569,13 @@ Binder::buildGenericBindings(
   }
 
   auto declIt = functionDeclarationNodes_.find(&function);
-  const auto *decl = declIt == functionDeclarationNodes_.end() ? nullptr
-                                                               : declIt->second;
+  const auto *decl =
+      declIt == functionDeclarationNodes_.end() ? nullptr : declIt->second;
 
   std::function<bool(const std::shared_ptr<zir::Type> &,
                      const std::shared_ptr<zir::Type> &)>
-      inferFrom =
-          [&](const std::shared_ptr<zir::Type> &paramType,
-              const std::shared_ptr<zir::Type> &argType) -> bool {
+      inferFrom = [&](const std::shared_ptr<zir::Type> &paramType,
+                      const std::shared_ptr<zir::Type> &argType) -> bool {
     if (!paramType || !argType) {
       return true;
     }
@@ -1602,7 +1611,8 @@ Binder::buildGenericBindings(
         }
       }
 
-      if (rec->isGenericInstance() && argType->getKind() == zir::TypeKind::Record) {
+      if (rec->isGenericInstance() &&
+          argType->getKind() == zir::TypeKind::Record) {
         auto argRecord = std::static_pointer_cast<zir::RecordType>(argType);
         if (!argRecord->isGenericInstance() ||
             rec->getGenericBaseName() != argRecord->getGenericBaseName() ||
@@ -1620,9 +1630,8 @@ Binder::buildGenericBindings(
       }
       auto paramName = rec->getName();
       std::string normalizedParamName =
-          (!paramName.empty() && paramName[0] == '%')
-              ? paramName.substr(1)
-              : paramName;
+          (!paramName.empty() && paramName[0] == '%') ? paramName.substr(1)
+                                                      : paramName;
       auto isGenericName = std::find(function.genericParameterNames.begin(),
                                      function.genericParameterNames.end(),
                                      normalizedParamName) !=
@@ -1640,7 +1649,8 @@ Binder::buildGenericBindings(
 
     if (paramType->getKind() == zir::TypeKind::Class) {
       auto cls = std::static_pointer_cast<zir::ClassType>(paramType);
-      if (cls->isGenericInstance() && argType->getKind() == zir::TypeKind::Class) {
+      if (cls->isGenericInstance() &&
+          argType->getKind() == zir::TypeKind::Class) {
         auto argClass = std::static_pointer_cast<zir::ClassType>(argType);
         std::shared_ptr<zir::ClassType> matchingArgClass = argClass;
         while (matchingArgClass &&
@@ -1664,9 +1674,8 @@ Binder::buildGenericBindings(
       }
       auto paramName = cls->getName();
       std::string normalizedParamName =
-          (!paramName.empty() && paramName[0] == '%')
-              ? paramName.substr(1)
-              : paramName;
+          (!paramName.empty() && paramName[0] == '%') ? paramName.substr(1)
+                                                      : paramName;
       auto isGenericName = std::find(function.genericParameterNames.begin(),
                                      function.genericParameterNames.end(),
                                      normalizedParamName) !=
@@ -1689,8 +1698,6 @@ Binder::buildGenericBindings(
       return inferFrom(pp->getBaseType(), ap->getBaseType());
     }
 
-
-
     if (paramType->getKind() == zir::TypeKind::Array &&
         argType->getKind() == zir::TypeKind::Array) {
       auto pa = std::static_pointer_cast<zir::ArrayType>(paramType);
@@ -1702,7 +1709,7 @@ Binder::buildGenericBindings(
     }
 
     return true;
-          };
+  };
 
   size_t fixedCount = function.fixedParameterCount();
   for (size_t i = 0; i < arguments.size() && i < fixedCount; ++i) {
@@ -1718,11 +1725,10 @@ Binder::buildGenericBindings(
     if (bindings.find(name) == bindings.end()) {
       bool filledFromDefault = false;
       if (decl) {
-        auto paramIndex = static_cast<size_t>(
-            std::distance(function.genericParameterNames.begin(),
-                          std::find(function.genericParameterNames.begin(),
-                                    function.genericParameterNames.end(),
-                                    name)));
+        auto paramIndex = static_cast<size_t>(std::distance(
+            function.genericParameterNames.begin(),
+            std::find(function.genericParameterNames.begin(),
+                      function.genericParameterNames.end(), name)));
         if (paramIndex < decl->genericParams_.size() &&
             decl->genericParams_[paramIndex] &&
             decl->genericParams_[paramIndex]->defaultType) {
@@ -2025,7 +2031,8 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
           module.info->moduleName, recordDecl->visibility_, false);
       validateAndApplyTypeAttributes(*recordDecl, symbol, true);
       if (symbol->hasReprC) {
-        auto reprType = std::make_shared<zir::RecordType>(recordDecl->name_, recordDecl->name_);
+        auto reprType = std::make_shared<zir::RecordType>(recordDecl->name_,
+                                                          recordDecl->name_);
         reprType->hasReprC = true;
         symbol->type = reprType;
       }
@@ -2103,7 +2110,8 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
       typeDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
       validateAndApplyTypeAttributes(*structDecl, symbol, true);
       if (symbol->hasReprC) {
-        auto reprType = std::make_shared<zir::RecordType>(structDecl->name_, structDecl->name_);
+        auto reprType = std::make_shared<zir::RecordType>(structDecl->name_,
+                                                          structDecl->name_);
         reprType->hasReprC = true;
         symbol->type = reprType;
       }
@@ -2134,9 +2142,9 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
           }
         } else {
           if (overflowed) {
-            error(enumDecl->span,
-                  "Enum '" + enumDecl->name_ +
-                      "' has implicit value after maximum explicit discriminant.");
+            error(enumDecl->span, "Enum '" + enumDecl->name_ +
+                                      "' has implicit value after maximum "
+                                      "explicit discriminant.");
             break;
           }
           resolvedValue = nextImplicitValue;
@@ -2361,7 +2369,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         ++unsafeTypeContextDepth_;
       }
 
-      std::unordered_map<std::string, std::shared_ptr<zir::Type>> genericBindings;
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          genericBindings;
       for (const auto &genericParam : funDecl->genericParams_) {
         if (!genericParam) {
           continue;
@@ -2623,7 +2632,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         declaredFunctionSymbols_[methodDecl.get()] = symbol;
         functionDeclarationNodes_[symbol.get()] = methodDecl.get();
         functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
-        functionGenericParamNames_[symbol.get()] = symbol->genericParameterNames;
+        functionGenericParamNames_[symbol.get()] =
+            symbol->genericParameterNames;
         classInfo.methods[methodDecl->name_] = symbol;
         if (isCtor) {
           classInfo.constructor = symbol;
@@ -2732,14 +2742,14 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       }
       auto linkName = varDecl->isExternal_
-          ? varDecl->name_
-          : mangleName(module.info->linkPath.empty() ? module.info->moduleId
-                                                     : module.info->linkPath,
-                       varDecl->name_);
+                          ? varDecl->name_
+                          : mangleName(module.info->linkPath.empty()
+                                           ? module.info->moduleId
+                                           : module.info->linkPath,
+                                       varDecl->name_);
       auto symbol = std::make_shared<VariableSymbol>(
-          varDecl->name_, type, false, false,
-          linkName,
-          module.info->moduleName, varDecl->visibility_);
+          varDecl->name_, type, false, false, linkName, module.info->moduleName,
+          varDecl->visibility_);
       symbol->is_external = varDecl->isExternal_;
       if (!module.scope->declare(varDecl->name_, symbol)) {
         error(varDecl->span,
@@ -2830,8 +2840,8 @@ Binder::resolveQualifiedSymbol(const std::vector<std::string> &parts,
     if (memberIt == moduleSym->exports.end()) {
       auto privateIt = moduleSym->members.find(parts[i]);
       if (privateIt != moduleSym->members.end()) {
-        error(span, "Member '" + parts[i] + "' of module '" +
-                        moduleSym->name + "' is private.");
+        error(span, "Member '" + parts[i] + "' of module '" + moduleSym->name +
+                        "' is private.");
       } else {
         error(span, "Module '" + moduleSym->name + "' has no member '" +
                         parts[i] + "'.");
@@ -2903,8 +2913,11 @@ void Binder::validateAndApplyTypeAttributes(
       }
       seenRepr = true;
 
-      if (attr.arguments.size() != 1 || attr.arguments[0].kind != AttributeArgumentKind::Positional) {
-        error(attr.span, "attribute 'repr' expects exactly one positional string argument");
+      if (attr.arguments.size() != 1 ||
+          attr.arguments[0].kind != AttributeArgumentKind::Positional) {
+        error(
+            attr.span,
+            "attribute 'repr' expects exactly one positional string argument");
         continue;
       }
 
@@ -2915,7 +2928,8 @@ void Binder::validateAndApplyTypeAttributes(
       }
 
       if (str->value_ != "C") {
-        error(attr.span, "invalid argument for attribute 'repr': expected \"C\"");
+        error(attr.span,
+              "invalid argument for attribute 'repr': expected \"C\"");
         continue;
       }
 
@@ -2925,8 +2939,8 @@ void Binder::validateAndApplyTypeAttributes(
     }
 
     if (attr.name == "extern" || attr.name == "noMangle") {
-      error(attr.span,
-            "attribute '" + attr.name + "' cannot be applied to type declarations");
+      error(attr.span, "attribute '" + attr.name +
+                           "' cannot be applied to type declarations");
       continue;
     }
   }
@@ -2953,19 +2967,23 @@ void Binder::validateAndApplyFunctionAttributes(
       }
       seenExtern = true;
 
-      if (attr.arguments.size() != 1 || attr.arguments[0].kind != AttributeArgumentKind::Positional) {
-        error(attr.span, "attribute 'extern' expects exactly one positional string argument");
+      if (attr.arguments.size() != 1 ||
+          attr.arguments[0].kind != AttributeArgumentKind::Positional) {
+        error(attr.span, "attribute 'extern' expects exactly one positional "
+                         "string argument");
         continue;
       }
 
       auto *str = dynamic_cast<ConstString *>(attr.arguments[0].value.get());
       if (!str) {
-        error(attr.span, "attribute 'extern' expects a string literal argument");
+        error(attr.span,
+              "attribute 'extern' expects a string literal argument");
         continue;
       }
 
       if (str->value_ != "C") {
-        error(attr.span, "invalid argument for attribute 'extern': expected \"C\"");
+        error(attr.span,
+              "invalid argument for attribute 'extern': expected \"C\"");
         continue;
       }
 
@@ -3081,7 +3099,8 @@ void Binder::visit(FunDecl &node) {
     return;
   }
 
-  if (!symbol->genericParameterNames.empty() && !symbol->isGenericInstantiation) {
+  if (!symbol->genericParameterNames.empty() &&
+      !symbol->isGenericInstantiation) {
     return;
   }
 
@@ -3245,22 +3264,25 @@ void Binder::visit(VarDecl &node) {
     initializer = bindExpressionWithExpected(node.initializer_.get(), type);
     if (initializer && !isRef) {
       if (!canConvert(initializer->type, type)) {
-        error(node.initializer_->span, "Cannot assign expression of type '" +
-                                           renderTypeForUser(initializer->type) +
-                                           "' to variable of type '" +
-                                           renderTypeForUser(type) + "'");
+        error(node.initializer_->span,
+              "Cannot assign expression of type '" +
+                  renderTypeForUser(initializer->type) +
+                  "' to variable of type '" + renderTypeForUser(type) + "'");
       } else {
         initializer = wrapInCast(std::move(initializer), type);
       }
     }
   } else if (isRef) {
-    error(node.span, "Reference variable '" + node.name_ + "' must be initialized.");
+    error(node.span,
+          "Reference variable '" + node.name_ + "' must be initialized.");
   }
 
   if (!symbol) {
     symbol = std::make_shared<VariableSymbol>(
         node.name_, type, false, isRef,
-        node.isGlobal_ ? (node.isExternal_ ? node.name_ : mangleName(currentModuleLinkPath(), node.name_))
+        node.isGlobal_ ? (node.isExternal_
+                              ? node.name_
+                              : mangleName(currentModuleLinkPath(), node.name_))
                        : node.name_,
         modules_[currentModuleId_].info->moduleName, node.visibility_);
     symbol->is_external = node.isExternal_;
@@ -3298,10 +3320,10 @@ void Binder::visit(ConstDecl &node) {
     initializer = bindExpressionWithExpected(node.initializer_.get(), type);
     if (initializer) {
       if (!canConvert(initializer->type, type)) {
-        error(node.initializer_->span, "Cannot assign expression of type '" +
-                                           renderTypeForUser(initializer->type) +
-                                           "' to constant of type '" +
-                                           renderTypeForUser(type) + "'");
+        error(node.initializer_->span,
+              "Cannot assign expression of type '" +
+                  renderTypeForUser(initializer->type) +
+                  "' to constant of type '" + renderTypeForUser(type) + "'");
       } else {
         initializer = wrapInCast(std::move(initializer), type);
       }
@@ -3362,11 +3384,10 @@ void Binder::visit(ReturnNode &node) {
     if (isFailableType(expectedType) && !isFailableType(actualType)) {
       auto expectedValueType = failableValueType(expectedType);
       if (!canConvert(actualType, expectedValueType)) {
-        error(node.span, "Function '" + currentFunction_->name +
-                             "' expects return type '" +
-                             renderTypeForUser(expectedType) +
-                             "', but received '" +
-                             renderTypeForUser(actualType) + "'");
+        error(node.span,
+              "Function '" + currentFunction_->name +
+                  "' expects return type '" + renderTypeForUser(expectedType) +
+                  "', but received '" + renderTypeForUser(actualType) + "'");
       } else if (expr) {
         expr = wrapInCast(std::move(expr), expectedValueType);
         expr = makeFailableValueExpr(std::move(expr), expectedType);
@@ -3380,10 +3401,10 @@ void Binder::visit(ReturnNode &node) {
             std::move(expr), currentFunction_ && currentFunction_->returnsRef));
         return;
       }
-      error(node.span, "Function '" + currentFunction_->name +
-                           "' expects return type '" +
-                           renderTypeForUser(expectedType) + "', but received '" +
-                           renderTypeForUser(actualType) + "'");
+      error(node.span,
+            "Function '" + currentFunction_->name + "' expects return type '" +
+                renderTypeForUser(expectedType) + "', but received '" +
+                renderTypeForUser(actualType) + "'");
     } else if (expr) {
       expr = wrapInCast(std::move(expr), expectedType);
     }
@@ -3436,7 +3457,8 @@ void Binder::visit(BinExpr &node) {
 
   if (node.op_ == "+" &&
       ((isStringType(leftType) || leftType->getKind() == zir::TypeKind::Char) ||
-       (isStringType(rightType) || rightType->getKind() == zir::TypeKind::Char))) {
+       (isStringType(rightType) ||
+        rightType->getKind() == zir::TypeKind::Char))) {
     bool leftOk =
         isStringType(leftType) || leftType->getKind() == zir::TypeKind::Char;
     bool rightOk =
@@ -3503,7 +3525,8 @@ void Binder::visit(BinExpr &node) {
   } else if (node.op_ == "<<" || node.op_ == ">>") {
     if (!leftType->isInteger() || !rightType->isInteger()) {
       error(SourceSpan::merge(node.left_->span, node.right_->span),
-            "Shift operator '" + node.op_ + "' requires integer operands, got '" +
+            "Shift operator '" + node.op_ +
+                "' requires integer operands, got '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     } else {
@@ -3517,8 +3540,7 @@ void Binder::visit(BinExpr &node) {
                 "Shift amount must be non-negative, got '" +
                     std::to_string(*shiftAmount) + "'.");
         } else {
-          unsigned width =
-              static_cast<unsigned>(typeBitWidth(resultType));
+          unsigned width = static_cast<unsigned>(typeBitWidth(resultType));
           if (width == 0 || static_cast<uint64_t>(*shiftAmount) >= width) {
             error(SourceSpan::merge(node.left_->span, node.right_->span),
                   "Shift amount '" + std::to_string(*shiftAmount) +
@@ -3540,14 +3562,12 @@ void Binder::visit(BinExpr &node) {
          isNullType(leftType) || isNullType(rightType))) {
     }
 
-    bool stringComparison =
-        isStringType(leftType) && isStringType(rightType) &&
-        (node.op_ == "==" || node.op_ == "!=");
+    bool stringComparison = isStringType(leftType) && isStringType(rightType) &&
+                            (node.op_ == "==" || node.op_ == "!=");
 
     // Reject comparisons of struct types except String/StringView equality.
-    if (!stringComparison &&
-        (leftType->getKind() == zir::TypeKind::Record ||
-         rightType->getKind() == zir::TypeKind::Record)) {
+    if (!stringComparison && (leftType->getKind() == zir::TypeKind::Record ||
+                              rightType->getKind() == zir::TypeKind::Record)) {
       error(SourceSpan::merge(node.left_->span, node.right_->span),
             "Cannot compare struct types '" + renderTypeForUser(leftType) +
                 "' and '" + renderTypeForUser(rightType) + "'");
@@ -3638,8 +3658,7 @@ void Binder::visit(TernaryExpr &node) {
 
 void Binder::visit(ConstInt &node) {
   expressionStack_.push(std::make_unique<BoundLiteral>(
-      node.value_,
-      std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
+      node.value_, std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int)));
 }
 
 void Binder::visit(ConstFloat &node) {
@@ -3700,10 +3719,9 @@ void Binder::visit(CastExpr &node) {
   else if (isPointerType(expr->type) && isStringType(targetType)) {
     auto ptrType = std::static_pointer_cast<zir::PointerType>(expr->type);
     auto baseKind = ptrType->getBaseType()->getKind();
-    castAllowed = baseKind == zir::TypeKind::Void ||
-                  baseKind == zir::TypeKind::Char;
-  }
-  else if (isPointerType(expr->type) && targetType->isInteger())
+    castAllowed =
+        baseKind == zir::TypeKind::Void || baseKind == zir::TypeKind::Char;
+  } else if (isPointerType(expr->type) && targetType->isInteger())
     castAllowed = true;
   else if (expr->type->isInteger() && isPointerType(targetType))
     castAllowed = true;
@@ -3737,24 +3755,25 @@ void Binder::visit(TryExpr &node) {
   auto errorType = failableErrorType(expression->type);
 
   if (!currentFunction_ || !isFailableType(currentFunction_->returnType)) {
-    error(node.span,
-          "Operator '?' can only be used inside functions returning failable type.");
+    error(node.span, "Operator '?' can only be used inside functions returning "
+                     "failable type.");
     return;
   }
 
   auto currentErrorType = failableErrorType(currentFunction_->returnType);
   if (!currentErrorType || !errorType ||
       currentErrorType->toString() != errorType->toString()) {
-    error(node.span,
-          "Cannot propagate error type '" + renderTypeForUser(errorType) +
-              "' into function error type '" +
-              renderTypeForUser(currentErrorType) +
-              "': exact error type match is required for '?'.");
+    error(node.span, "Cannot propagate error type '" +
+                         renderTypeForUser(errorType) +
+                         "' into function error type '" +
+                         renderTypeForUser(currentErrorType) +
+                         "': exact error type match is required for '?'.");
     return;
   }
 
   expressionStack_.push(std::make_unique<BoundTryExpression>(
-      std::move(expression), valueType, currentFunction_->returnType, errorType));
+      std::move(expression), valueType, currentFunction_->returnType,
+      errorType));
 }
 
 void Binder::visit(FallbackExpr &node) {
@@ -3803,7 +3822,8 @@ void Binder::visit(FailableHandleExpr &node) {
   expressionStack_.pop();
 
   if (!isFailableType(expression->type)) {
-    error(node.span, "Operator 'or <name> { ... }' requires failable expression type, got '" +
+    error(node.span, "Operator 'or <name> { ... }' requires failable "
+                     "expression type, got '" +
                          renderTypeForUser(expression->type) + "'");
     return;
   }
@@ -3860,16 +3880,16 @@ void Binder::visit(FailNode &node) {
   auto propagatedType = currentFunction_->returnType;
   auto expectedErrorType = failableErrorType(propagatedType);
 
-  auto errExpr = bindExpressionWithExpected(node.errorValue_.get(), expectedErrorType);
+  auto errExpr =
+      bindExpressionWithExpected(node.errorValue_.get(), expectedErrorType);
   if (!errExpr) {
     return;
   }
 
   if (!canConvert(errExpr->type, expectedErrorType)) {
-    error(node.errorValue_->span, "Cannot fail with error type '" +
-                                      renderTypeForUser(errExpr->type) +
-                                      "', expected '" +
-                                      renderTypeForUser(expectedErrorType) + "'");
+    error(node.errorValue_->span,
+          "Cannot fail with error type '" + renderTypeForUser(errExpr->type) +
+              "', expected '" + renderTypeForUser(expectedErrorType) + "'");
     return;
   }
   errExpr = wrapInCast(std::move(errExpr), expectedErrorType);
@@ -3892,22 +3912,29 @@ void Binder::visit(ConstId &node) {
   } else if (auto moduleSymbol =
                  std::dynamic_pointer_cast<ModuleSymbol>(symbol)) {
     expressionStack_.push(std::make_unique<BoundModuleReference>(moduleSymbol));
-  } else if (auto overloadSet = std::dynamic_pointer_cast<OverloadSetSymbol>(symbol)) {
+  } else if (auto overloadSet =
+                 std::dynamic_pointer_cast<OverloadSetSymbol>(symbol)) {
     // Function reference — resolve to a function pointer type
     auto expected = currentExpectedExpressionType();
     std::shared_ptr<FunctionSymbol> match;
 
     if (expected && expected->getKind() == zir::TypeKind::FunctionPointer) {
-      const auto &fpType = static_cast<const zir::FunctionPointerType &>(*expected);
+      const auto &fpType =
+          static_cast<const zir::FunctionPointerType &>(*expected);
       for (const auto &overload : overloadSet->overloads) {
         if (overload->parameters.size() == fpType.getParams().size()) {
           bool ok = true;
           for (size_t i = 0; i < fpType.getParams().size(); ++i) {
-            if (!canConvert(fpType.getParams()[i], overload->parameters[i]->type)) {
-              ok = false; break;
+            if (!canConvert(fpType.getParams()[i],
+                            overload->parameters[i]->type)) {
+              ok = false;
+              break;
             }
           }
-          if (ok) { match = overload; break; }
+          if (ok) {
+            match = overload;
+            break;
+          }
         }
       }
     }
@@ -3921,7 +3948,8 @@ void Binder::visit(ConstId &node) {
         params.push_back(p->type);
       auto fpType = std::make_shared<zir::FunctionPointerType>(
           std::move(params), match->returnType);
-      expressionStack_.push(std::make_unique<BoundFunctionReference>(match, fpType));
+      expressionStack_.push(
+          std::make_unique<BoundFunctionReference>(match, fpType));
       return;
     }
     error(node.span, "'" + node.value_ + "' is not a variable or type.");
@@ -3989,9 +4017,8 @@ void Binder::visit(IndexAccessNode &node) {
 
   if (left->type->getKind() != zir::TypeKind::Array &&
       !isVariadicViewType(left->type) && !isStringType(left->type)) {
-    error(node.span,
-          "Type '" + renderTypeForUser(left->type) +
-              "' does not support indexing.");
+    error(node.span, "Type '" + renderTypeForUser(left->type) +
+                         "' does not support indexing.");
     return;
   }
 
@@ -4113,11 +4140,11 @@ void Binder::visit(MemberAccessNode &node) {
         auto fieldIt = infoIt->second.fields.find(node.member_);
         if (fieldIt != infoIt->second.fields.end()) {
           auto fieldVis = fieldIt->second->visibility;
-          bool allowed =
-              fieldVis == Visibility::Public ||
-              (!currentClassStack_.empty() &&
-               currentClassStack_.back() == classType->getName()) ||
-              (fieldVis == Visibility::Protected && !currentClassStack_.empty());
+          bool allowed = fieldVis == Visibility::Public ||
+                         (!currentClassStack_.empty() &&
+                          currentClassStack_.back() == classType->getName()) ||
+                         (fieldVis == Visibility::Protected &&
+                          !currentClassStack_.empty());
           if (!allowed) {
             error(node.span, "Field '" + node.member_ + "' is not accessible.");
             return;
@@ -4215,7 +4242,8 @@ void Binder::visit(FunCall &node) {
       std::vector<std::unique_ptr<BoundExpression>> rawArgs;
       rawArgs.reserve(node.params_.size());
       for (size_t i = 0; i < node.params_.size(); ++i) {
-        auto arg = bindExpressionWithExpected(node.params_[i]->value.get(), nullptr);
+        auto arg =
+            bindExpressionWithExpected(node.params_[i]->value.get(), nullptr);
         if (!arg) {
           return;
         }
@@ -4231,15 +4259,15 @@ void Binder::visit(FunCall &node) {
           inferenceArgs.push_back(rawArg->clone());
         }
         std::string genericBindingFailure;
-        auto genericBindings = buildGenericBindings(
-            *funcSymbol, inferenceArgs, node.genericArgs_, node.span,
-            &genericBindingFailure);
+        auto genericBindings =
+            buildGenericBindings(*funcSymbol, inferenceArgs, node.genericArgs_,
+                                 node.span, &genericBindingFailure);
         if (genericBindings.empty()) {
-          error(node.span, "No matching overload for method '" + member->member_ +
-                               "'. " +
-                               (genericBindingFailure.empty()
-                                    ? std::string("Generic type binding failed.")
-                                    : genericBindingFailure));
+          error(node.span,
+                "No matching overload for method '" + member->member_ + "'. " +
+                    (genericBindingFailure.empty()
+                         ? std::string("Generic type binding failed.")
+                         : genericBindingFailure));
           return;
         }
         funcSymbol = ensureGenericFunctionInstantiation(
@@ -4310,7 +4338,8 @@ void Binder::visit(FunCall &node) {
           for (size_t i = 0; i < node.params_.size(); ++i) {
             auto arg = bindExpressionWithExpected(node.params_[i]->value.get(),
                                                   fpType.getParams()[i]);
-            if (!arg) return;
+            if (!arg)
+              return;
             args.push_back(std::move(arg));
           }
           expressionStack_.push(std::make_unique<BoundIndirectCall>(
@@ -4327,7 +4356,8 @@ void Binder::visit(FunCall &node) {
       resolveQualifiedSymbol(calleeParts, node.span, SymbolKind::Function);
   if (!symbol) {
     // Check if it's a variable holding a function pointer
-    auto varSym = resolveQualifiedSymbol(calleeParts, node.span, SymbolKind::Variable);
+    auto varSym =
+        resolveQualifiedSymbol(calleeParts, node.span, SymbolKind::Variable);
     if (varSym && varSym->getKind() == SymbolKind::Variable) {
       auto varSymbol = std::static_pointer_cast<VariableSymbol>(varSym);
       if (varSymbol->type &&
@@ -4342,7 +4372,8 @@ void Binder::visit(FunCall &node) {
         for (size_t i = 0; i < node.params_.size(); ++i) {
           auto arg = bindExpressionWithExpected(node.params_[i]->value.get(),
                                                 fpType.getParams()[i]);
-          if (!arg) return;
+          if (!arg)
+            return;
           args.push_back(std::move(arg));
         }
         auto calleeExpr = std::make_unique<BoundVariableExpression>(varSymbol);
@@ -4454,14 +4485,14 @@ void Binder::visit(FunCall &node) {
     match.arguments.resize(fixedParamCount);
     match.argumentIsRef.resize(fixedParamCount, false);
     std::string genericBindingFailure;
-    auto genericBindings = buildGenericBindings(
-        *funcSymbol, rawArgs, node.genericArgs_, node.span,
-        &genericBindingFailure);
+    auto genericBindings =
+        buildGenericBindings(*funcSymbol, rawArgs, node.genericArgs_, node.span,
+                             &genericBindingFailure);
     if (!funcSymbol->genericParameterNames.empty() && genericBindings.empty()) {
-      rejectionNotes.push_back("'" + renderFunctionSignature(*funcSymbol) +
-                               "': " + (genericBindingFailure.empty()
-                                            ? "generic type binding failed"
-                                            : genericBindingFailure));
+      rejectionNotes.push_back(
+          "'" + renderFunctionSignature(*funcSymbol) + "': " +
+          (genericBindingFailure.empty() ? "generic type binding failed"
+                                         : genericBindingFailure));
       continue;
     }
     bool failed = false;
@@ -4739,7 +4770,8 @@ void Binder::visit(FunCall &node) {
       remappedRef.reserve(match.argumentIsRef.size());
 
       for (size_t i = 0; i < match.arguments.size(); ++i) {
-        auto argClone = match.arguments[i] ? match.arguments[i]->clone() : nullptr;
+        auto argClone =
+            match.arguments[i] ? match.arguments[i]->clone() : nullptr;
         if (i < resolvedSymbol->parameters.size() && argClone) {
           auto expected = resolvedSymbol->parameters[i]->type;
           if (!resolvedSymbol->parameters[i]->is_ref) {
@@ -4747,9 +4779,8 @@ void Binder::visit(FunCall &node) {
           }
         }
         remappedArgs.push_back(std::move(argClone));
-        remappedRef.push_back(i < match.argumentIsRef.size()
-                                  ? match.argumentIsRef[i]
-                                  : false);
+        remappedRef.push_back(
+            i < match.argumentIsRef.size() ? match.argumentIsRef[i] : false);
       }
 
       match.arguments = std::move(remappedArgs);
@@ -4962,9 +4993,8 @@ void Binder::visit(IfNode &node) {
   expressionStack_.pop();
 
   if (cond->type->getKind() != zir::TypeKind::Bool) {
-    error(node.condition_->span,
-          "If condition must be Bool, got '" + renderTypeForUser(cond->type) +
-              "'");
+    error(node.condition_->span, "If condition must be Bool, got '" +
+                                     renderTypeForUser(cond->type) + "'");
   }
 
   auto thenBody = bindBody(node.thenBody_.get(), true);
@@ -4980,7 +5010,8 @@ void Binder::visit(IfNode &node) {
 
 void Binder::visit(IfTypeNode &node) {
   if (activeGenericBindingsStack_.empty()) {
-    error(node.span, "'iftype' can only be used inside a generic instantiation.");
+    error(node.span,
+          "'iftype' can only be used inside a generic instantiation.");
     return;
   }
 
@@ -4994,8 +5025,9 @@ void Binder::visit(IfTypeNode &node) {
     }
   }
   if (!actualType) {
-    error(node.span, "'iftype' expects an active generic type parameter, got '" +
-                         node.parameterName_ + "'.");
+    error(node.span,
+          "'iftype' expects an active generic type parameter, got '" +
+              node.parameterName_ + "'.");
     return;
   }
 
@@ -5028,9 +5060,8 @@ void Binder::visit(WhileNode &node) {
   expressionStack_.pop();
 
   if (cond->type->getKind() != zir::TypeKind::Bool) {
-    error(node.condition_->span,
-          "While condition must be Bool, got '" +
-              renderTypeForUser(cond->type) + "'");
+    error(node.condition_->span, "While condition must be Bool, got '" +
+                                     renderTypeForUser(cond->type) + "'");
   }
 
   ++loopDepth_;
@@ -5060,13 +5091,14 @@ void Binder::visit(ForNode &node) {
   auto condition = std::move(expressionStack_.top());
   expressionStack_.pop();
   if (condition->type->getKind() != zir::TypeKind::Bool) {
-    error(node.condition_->span,
-          "For condition must be Bool, got '" +
-              renderTypeForUser(condition->type) + "'");
+    error(node.condition_->span, "For condition must be Bool, got '" +
+                                     renderTypeForUser(condition->type) + "'");
   }
 
-  auto incrementTargetId = dynamic_cast<ConstId *>(node.increment_->target_.get());
-  if (!incrementTargetId || incrementTargetId->value_ != node.initializer_->name_) {
+  auto incrementTargetId =
+      dynamic_cast<ConstId *>(node.increment_->target_.get());
+  if (!incrementTargetId ||
+      incrementTargetId->value_ != node.initializer_->name_) {
     error(node.increment_->target_->span,
           "For increment must assign to loop variable '" +
               node.initializer_->name_ + "'.");
@@ -5144,9 +5176,10 @@ void Binder::visit(ForInNode &node) {
         Visibility::Private);
     currentScope_->declare(sliceName, sliceSymbol);
     initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
-        sliceSymbol, std::make_unique<BoundCast>(
-                         std::make_unique<BoundVariableExpression>(iterableSymbol),
-                         sliceType)));
+        sliceSymbol,
+        std::make_unique<BoundCast>(
+            std::make_unique<BoundVariableExpression>(iterableSymbol),
+            sliceType)));
     accessName = sliceName;
     conditionAst = std::make_unique<BinExpr>(
         makeIdExpr(indexName), "<",
@@ -5220,10 +5253,9 @@ void Binder::visit(ForInNode &node) {
   auto body = bindBody(node.body_.get(), false);
   --loopDepth_;
 
-  body->statements.insert(
-      body->statements.begin(),
-      std::make_unique<BoundVariableDeclaration>(itemSymbol,
-                                                 std::move(elementValue)));
+  body->statements.insert(body->statements.begin(),
+                          std::make_unique<BoundVariableDeclaration>(
+                              itemSymbol, std::move(elementValue)));
   popScope();
 
   popScope();
@@ -5326,20 +5358,22 @@ Binder::evaluateConstantInt(const BoundExpression *expr) {
     if (binary->op == "<<") {
       if (*right < 0)
         return std::nullopt;
-      unsigned width = binary->left->type
-                           ? static_cast<unsigned>(typeBitWidth(binary->left->type))
-                           : 0u;
+      unsigned width =
+          binary->left->type
+              ? static_cast<unsigned>(typeBitWidth(binary->left->type))
+              : 0u;
       if (width == 0 || static_cast<uint64_t>(*right) >= width)
         return std::nullopt;
-      return static_cast<int64_t>(
-          static_cast<uint64_t>(*left) << static_cast<uint64_t>(*right));
+      return static_cast<int64_t>(static_cast<uint64_t>(*left)
+                                  << static_cast<uint64_t>(*right));
     }
     if (binary->op == ">>") {
       if (*right < 0)
         return std::nullopt;
-      unsigned width = binary->left->type
-                           ? static_cast<unsigned>(typeBitWidth(binary->left->type))
-                           : 0u;
+      unsigned width =
+          binary->left->type
+              ? static_cast<unsigned>(typeBitWidth(binary->left->type))
+              : 0u;
       if (width == 0 || static_cast<uint64_t>(*right) >= width)
         return std::nullopt;
       return *left >> static_cast<uint64_t>(*right);
@@ -5369,17 +5403,19 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
       return nullptr;
     }
 
-    if (!typeNode.errorType->qualifiers.empty() || !typeNode.errorType->typeName.empty()) {
+    if (!typeNode.errorType->qualifiers.empty() ||
+        !typeNode.errorType->typeName.empty()) {
       std::vector<std::string> errParts = typeNode.errorType->qualifiers;
       errParts.push_back(typeNode.errorType->typeName);
-      auto errSymbol =
-          resolveQualifiedSymbol(errParts, typeNode.errorType->span, SymbolKind::Type);
+      auto errSymbol = resolveQualifiedSymbol(
+          errParts, typeNode.errorType->span, SymbolKind::Type);
       if (errSymbol && errSymbol->getKind() == SymbolKind::Type) {
         auto errTypeSymbol = std::static_pointer_cast<TypeSymbol>(errSymbol);
         if (!errTypeSymbol->isErrorType) {
           error(typeNode.errorType->span,
                 "Type '" + typeNode.errorType->qualifiedName() +
-                    "' used as failable error type must be annotated with @error.");
+                    "' used as failable error type must be annotated with "
+                    "@error.");
         }
       }
     }
@@ -5444,13 +5480,17 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
     std::vector<std::shared_ptr<zir::Type>> params;
     for (const auto &p : typeNode.funPtrParams) {
       auto mapped = mapType(*p);
-      if (!mapped) return nullptr;
+      if (!mapped)
+        return nullptr;
       params.push_back(std::move(mapped));
     }
-    auto ret = typeNode.funPtrReturn ? mapType(*typeNode.funPtrReturn)
-                                     : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
-    if (!ret) return nullptr;
-    return std::make_shared<zir::FunctionPointerType>(std::move(params), std::move(ret));
+    auto ret = typeNode.funPtrReturn
+                   ? mapType(*typeNode.funPtrReturn)
+                   : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+    if (!ret)
+      return nullptr;
+    return std::make_shared<zir::FunctionPointerType>(std::move(params),
+                                                      std::move(ret));
   }
 
   std::vector<std::string> parts = typeNode.qualifiers;
@@ -5464,8 +5504,8 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
         return nullptr;
       }
     } else if (!typeNode.genericArgs.empty()) {
-      error(typeNode.span, "Type '" + typeNode.qualifiedName() +
-                               "' is not generic.");
+      error(typeNode.span,
+            "Type '" + typeNode.qualifiedName() + "' is not generic.");
       return nullptr;
     }
     if (typeSymbol->isUnsafe) {
@@ -5527,9 +5567,8 @@ void Binder::visit(UnaryExpr &node) {
   } else if (node.op_ == "*") {
     requireUnsafeContext(node.span, "pointer dereference");
     if (!isPointerType(type)) {
-      error(node.span,
-            "Cannot dereference non-pointer type '" + renderTypeForUser(type) +
-                "'");
+      error(node.span, "Cannot dereference non-pointer type '" +
+                           renderTypeForUser(type) + "'");
     } else {
       type = std::static_pointer_cast<zir::PointerType>(type)->getBaseType();
       if (type->getKind() == zir::TypeKind::Void) {
@@ -5683,10 +5722,10 @@ void Binder::visit(StructLiteralNode &node) {
     for (const auto &f : recordType->getFields()) {
       if (f.name == fieldInit.name) {
         if (!canConvert(boundVal->type, f.type)) {
-          error(node.span,
-                "Cannot assign type '" + renderTypeForUser(boundVal->type) +
-                    "' to field '" + f.name + "' of type '" +
-                    renderTypeForUser(f.type) + "'");
+          error(node.span, "Cannot assign type '" +
+                               renderTypeForUser(boundVal->type) +
+                               "' to field '" + f.name + "' of type '" +
+                               renderTypeForUser(f.type) + "'");
         }
         found = true;
         break;
@@ -5696,7 +5735,7 @@ void Binder::visit(StructLiteralNode &node) {
     if (!found) {
       error(fieldInit.value ? fieldInit.value->span : node.span,
             "Field '" + fieldInit.name + "' not found in struct '" +
-                           node.type_->qualifiedName() + "'");
+                node.type_->qualifiedName() + "'");
     }
 
     boundFields.push_back({fieldInit.name, std::move(boundVal)});
@@ -5813,8 +5852,8 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
     auto viewType = std::static_pointer_cast<zir::RecordType>(to);
     if (!viewType->getFields().empty() &&
         viewType->getFields()[0].type->getKind() == zir::TypeKind::Pointer) {
-      auto dataType =
-          std::static_pointer_cast<zir::PointerType>(viewType->getFields()[0].type);
+      auto dataType = std::static_pointer_cast<zir::PointerType>(
+          viewType->getFields()[0].type);
       return arrayType->getBaseType()->toString() ==
              dataType->getBaseType()->toString();
     }
@@ -5865,7 +5904,8 @@ Binder::getPromotedType(std::shared_ptr<zir::Type> t1,
 
   // Mixed signed/unsigned or both signed:
   // - preserve unsignedness when the unsigned operand width is >= signed width
-  //   (e.g. Int + UInt -> UInt, Int16 + UInt16 -> UInt16, Int + UInt64 -> UInt64)
+  //   (e.g. Int + UInt -> UInt, Int16 + UInt16 -> UInt16, Int + UInt64 ->
+  //   UInt64)
   // - otherwise use signed, width-aware promotion.
   if ((isUnsignedIntegerType(t1) && isSignedIntegerType(t2)) ||
       (isSignedIntegerType(t1) && isUnsignedIntegerType(t2))) {

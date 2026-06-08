@@ -19,7 +19,14 @@ public:
   using Boolean = bool;
   using Null = std::nullptr_t;
 
-  enum class ObjectType { OBJECT_T, LIST_T, INTEGER_T, STRING_T, BOOLEAN_T, NULL_T };
+  enum class ObjectType {
+    OBJECT_T,
+    LIST_T,
+    INTEGER_T,
+    STRING_T,
+    BOOLEAN_T,
+    NULL_T
+  };
 
 private:
   std::variant<Object, List, Integer, String, Boolean, Null> storage;

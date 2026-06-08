@@ -224,7 +224,8 @@ void ClassArcEmitter::emitReleaseWeakIfNeeded(
 
   codegen_.builder_.SetInsertPoint(checkFreeBB);
   auto *strongAddr = codegen_.builder_.CreateStructGEP(
-      objectTy, typedPtr, kClassStrongCountIndex, "arc.weak.release.strong.addr");
+      objectTy, typedPtr, kClassStrongCountIndex,
+      "arc.weak.release.strong.addr");
   auto *strongCount =
       codegen_.builder_.CreateLoad(llvm::Type::getInt64Ty(codegen_.ctx_),
                                    strongAddr, "arc.weak.release.strong");

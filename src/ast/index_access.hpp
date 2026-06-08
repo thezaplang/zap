@@ -9,7 +9,7 @@ public:
   std::unique_ptr<ExpressionNode> index_;
 
   IndexAccessNode(std::unique_ptr<ExpressionNode> left,
-                   std::unique_ptr<ExpressionNode> index)
+                  std::unique_ptr<ExpressionNode> index)
       : left_(std::move(left)), index_(std::move(index)) {}
 
   void accept(Visitor &v) override { v.visit(*this); }

@@ -260,9 +260,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       std::string numStr;
       bool isFloat = false;
 
-      if (_cur == '0' &&
-          (Peek2() == 'x' || Peek2() == 'X' || Peek2() == 'b' ||
-           Peek2() == 'B' || Peek2() == 'o' || Peek2() == 'O')) {
+      if (_cur == '0' && (Peek2() == 'x' || Peek2() == 'X' || Peek2() == 'b' ||
+                          Peek2() == 'B' || Peek2() == 'o' || Peek2() == 'O')) {
         const char prefix = Peek2();
         int base = 10;
         auto isValidDigit = [&](char ch) {
@@ -301,8 +300,9 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         }
 
         if (_pos == digitsStart || numericPart.empty()) {
-          _diag.report(SourceSpan(startLine, startColumn, startPos, _pos - startPos),
-                       zap::DiagnosticLevel::Error, "Invalid integer literal");
+          _diag.report(
+              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+              zap::DiagnosticLevel::Error, "Invalid integer literal");
           return tokens;
         }
 
@@ -313,8 +313,9 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         try {
           (void)std::stoull(parsed, nullptr, base);
         } catch (const std::exception &) {
-          _diag.report(SourceSpan(startLine, startColumn, startPos, _pos - startPos),
-                       zap::DiagnosticLevel::Error, "Integer literal out of range");
+          _diag.report(
+              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+              zap::DiagnosticLevel::Error, "Integer literal out of range");
           return tokens;
         }
 
@@ -324,7 +325,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         continue;
       }
 
-      while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+      while (!isAtEnd() &&
+             (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
         if (_input[_pos] != '_') {
           numStr += _input[_pos];
         }
@@ -335,7 +337,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         isFloat = true;
         numStr += _input[_pos++];
         _column++;
-        while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+        while (!isAtEnd() &&
+               (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
           if (_input[_pos] != '_') {
             numStr += _input[_pos];
           }

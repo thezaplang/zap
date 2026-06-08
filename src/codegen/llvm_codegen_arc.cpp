@@ -1,6 +1,6 @@
+#include "../utils/string_type_utils.hpp"
 #include "class_arc_emitter.hpp"
 #include "llvm_codegen.hpp"
-#include "../utils/string_type_utils.hpp"
 
 namespace codegen {
 namespace {
@@ -55,8 +55,9 @@ void LLVMCodeGen::emitReleaseIfNeeded(llvm::Value *value,
   arcEmitter_->emitReleaseIfNeeded(value, type);
 }
 
-llvm::Value *LLVMCodeGen::emitStringRetainIfNeeded(
-    llvm::Value *value, const std::shared_ptr<zir::Type> &type) {
+llvm::Value *
+LLVMCodeGen::emitStringRetainIfNeeded(llvm::Value *value,
+                                      const std::shared_ptr<zir::Type> &type) {
   if (!isOwnedStringType(type)) {
     return value;
   }
@@ -66,8 +67,10 @@ llvm::Value *LLVMCodeGen::emitStringRetainIfNeeded(
     auto *ptr = builder_.CreateExtractValue(value, {0}, "str.cvt.ptr");
     auto *len = builder_.CreateExtractValue(value, {1}, "str.cvt.len");
     llvm::Value *converted = llvm::UndefValue::get(stringTy);
-    converted = builder_.CreateInsertValue(converted, ptr, {0}, "str.cvt.ptr.i");
-    converted = builder_.CreateInsertValue(converted, len, {1}, "str.cvt.len.i");
+    converted =
+        builder_.CreateInsertValue(converted, ptr, {0}, "str.cvt.ptr.i");
+    converted =
+        builder_.CreateInsertValue(converted, len, {1}, "str.cvt.len.i");
     value = converted;
   }
   auto *fnTy = llvm::FunctionType::get(stringTy, {stringTy}, false);
@@ -86,12 +89,14 @@ void LLVMCodeGen::emitStringReleaseIfNeeded(
     auto *ptr = builder_.CreateExtractValue(value, {0}, "str.cvt.ptr");
     auto *len = builder_.CreateExtractValue(value, {1}, "str.cvt.len");
     llvm::Value *converted = llvm::UndefValue::get(stringTy);
-    converted = builder_.CreateInsertValue(converted, ptr, {0}, "str.cvt.ptr.i");
-    converted = builder_.CreateInsertValue(converted, len, {1}, "str.cvt.len.i");
+    converted =
+        builder_.CreateInsertValue(converted, ptr, {0}, "str.cvt.ptr.i");
+    converted =
+        builder_.CreateInsertValue(converted, len, {1}, "str.cvt.len.i");
     value = converted;
   }
-  auto *fnTy = llvm::FunctionType::get(llvm::Type::getVoidTy(ctx_), {stringTy},
-                                       false);
+  auto *fnTy =
+      llvm::FunctionType::get(llvm::Type::getVoidTy(ctx_), {stringTy}, false);
   auto callee = module_->getOrInsertFunction("zap_string_release", fnTy);
   builder_.CreateCall(fnTy, callee.getCallee(), {value});
 }
@@ -145,8 +150,8 @@ void LLVMCodeGen::emitScopeReleases() {
   }
   auto &locals = scopeStringLocals_.back();
   for (auto it = locals.rbegin(); it != locals.rend(); ++it) {
-    auto *value =
-        builder_.CreateLoad(toLLVMType(*it->first), it->second, "str.scope.release");
+    auto *value = builder_.CreateLoad(toLLVMType(*it->first), it->second,
+                                      "str.scope.release");
     emitStringReleaseIfNeeded(value, it->first);
   }
 }

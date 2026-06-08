@@ -119,8 +119,7 @@ private:
       genericTypeInstantiations_;
   std::unordered_map<const FunctionSymbol *, std::string>
       genericFunctionDeclarationKeys_;
-  std::unordered_map<const FunctionSymbol *, bool>
-      genericInstantiationEmitted_;
+  std::unordered_map<const FunctionSymbol *, bool> genericInstantiationEmitted_;
   std::vector<std::unordered_map<std::string, std::shared_ptr<zir::Type>>>
       activeGenericBindingsStack_;
   std::vector<std::string> genericInstantiationInProgress_;
@@ -138,8 +137,7 @@ private:
   std::vector<std::string> currentClassStack_;
 
   std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
-  std::shared_ptr<zir::Type>
-  mapTypeWithGenericBindings(
+  std::shared_ptr<zir::Type> mapTypeWithGenericBindings(
       const TypeNode &typeNode,
       const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
           &genericBindings);
@@ -170,8 +168,7 @@ private:
   std::shared_ptr<FunctionSymbol>
   findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
                           const FunctionSymbol &prototype) const;
-  std::shared_ptr<FunctionSymbol>
-  ensureGenericFunctionInstantiation(
+  std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(
       const std::shared_ptr<FunctionSymbol> &baseFunction,
       const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
           &genericBindings,
@@ -181,8 +178,7 @@ private:
       const FunctionSymbol &function,
       const std::vector<std::unique_ptr<BoundExpression>> &arguments,
       const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
-      SourceSpan callSpan,
-      std::string *failureReason = nullptr);
+      SourceSpan callSpan, std::string *failureReason = nullptr);
   std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
   orderedGenericBindings(
       const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
@@ -195,8 +191,9 @@ private:
       const std::vector<GenericConstraint> &constraints,
       std::unordered_map<std::string, std::shared_ptr<zir::Type>> &bindings,
       std::string *failureReason = nullptr);
-  std::shared_ptr<TypeSymbol> instantiateGenericTypeSymbol(
-      const std::shared_ptr<TypeSymbol> &baseSymbol, const TypeNode &typeNode);
+  std::shared_ptr<TypeSymbol>
+  instantiateGenericTypeSymbol(const std::shared_ptr<TypeSymbol> &baseSymbol,
+                               const TypeNode &typeNode);
   std::unique_ptr<BoundExpression>
   bindExpressionWithExpected(ExpressionNode *expr,
                              std::shared_ptr<zir::Type> expectedType);
