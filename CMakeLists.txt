@@ -16,6 +16,10 @@ set(SOURCES
     src/parser/parser.cpp
     src/ir/ir_generator.cpp
     src/sema/binder.cpp
+    src/sema/binder_decls.cpp
+    src/sema/binder_stmts.cpp
+    src/sema/binder_exprs.cpp
+    src/sema/binder_types.cpp
     src/codegen/llvm_codegen.cpp
     src/codegen/llvm_codegen_arc.cpp
     src/codegen/class_arc_emitter.cpp

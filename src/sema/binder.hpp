@@ -15,6 +15,50 @@
 
 namespace sema {
 
+constexpr const char *kFailablePrefix = "__zap_failable_";
+
+std::string sanitizeTypeName(const std::string &value);
+std::string abiTypeKey(const std::shared_ptr<zir::Type> &type);
+bool isStringType(const std::shared_ptr<zir::Type> &type);
+bool isFailableType(const std::shared_ptr<zir::Type> &type);
+std::shared_ptr<zir::Type>
+failableValueType(const std::shared_ptr<zir::Type> &type);
+std::shared_ptr<zir::Type>
+failableErrorType(const std::shared_ptr<zir::Type> &type);
+std::shared_ptr<zir::RecordType>
+makeFailableType(const std::shared_ptr<zir::Type> &valueType,
+                 const std::shared_ptr<zir::Type> &errorType);
+std::string
+renderGenericTypeName(const std::string &baseName,
+                      const std::vector<std::shared_ptr<zir::Type>> &arguments);
+std::string renderGenericCodegenName(
+    const std::string &baseName,
+    const std::vector<std::shared_ptr<zir::Type>> &arguments);
+std::shared_ptr<zir::RecordType>
+makeVariadicViewType(const std::shared_ptr<zir::Type> &elementType);
+bool isVariadicViewType(const std::shared_ptr<zir::Type> &type);
+std::unique_ptr<BoundExpression>
+makeDefaultValueExpr(const std::shared_ptr<zir::Type> &type);
+std::unique_ptr<BoundExpression>
+makeFailableValueExpr(std::unique_ptr<BoundExpression> valueExpr,
+                      const std::shared_ptr<zir::Type> &failableType);
+std::unique_ptr<BoundExpression>
+makeFailableErrorExpr(std::unique_ptr<BoundExpression> errorExpr,
+                      const std::shared_ptr<zir::Type> &failableType);
+std::vector<std::string> splitQualified(const std::string &value);
+bool extractQualifiedPath(const ExpressionNode *expr,
+                          std::vector<std::string> &parts);
+std::vector<std::shared_ptr<FunctionSymbol>>
+collectOverloads(const std::shared_ptr<Symbol> &symbol);
+bool sameFunctionSignature(const FunctionSymbol &lhs,
+                           const FunctionSymbol &rhs);
+bool stmtAlwaysReturns(const BoundStatement *stmt);
+bool blockAlwaysReturns(const BoundBlock *block);
+std::unique_ptr<BoundExpression>
+deriveValueExpressionFromBlock(const BoundBlock &block);
+std::unique_ptr<BoundExpression>
+deriveValueExpressionFromIf(const BoundIfStatement &stmt);
+
 class Binder : public Visitor {
 public:
   Binder(zap::DiagnosticEngine &diag, bool allowUnsafe = true);
