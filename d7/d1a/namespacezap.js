@@ -107,7 +107,7 @@ var namespacezap =
     [ "printhelp", "d7/d1a/namespacezap.html#a8f1c1f0e9b29234313c45ba575f97c7b", null ],
     [ "printversion", "d7/d1a/namespacezap.html#a88d12f1bc45c15c50cabec825874d8f2", null ],
     [ "verifyFile", "d7/d1a/namespacezap.html#a2a6e0e7719e15570ecf3fccf40924d36", null ],
-    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#a8c90e6cde85bb444e903439d6a561841", null ],
+    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#a1b8cede5eb368d57079820bf4f8265ca", null ],
     [ "arg_map", "d7/d1a/namespacezap.html#a643b77cd17312f07166298708493d14e", null ],
     [ "color_override", "d7/d1a/namespacezap.html#a198c6023d35b57a9a1a4300238c786de", null ],
     [ "standard_stream_colors", "d7/d1a/namespacezap.html#ac630b2e88f5129f86e9a7dfc5b886e52", null ],
