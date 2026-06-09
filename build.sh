@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Build script for Zap compiler
 # Creates build directory and compiles the project using CMake
 
-set -e  # Exit on error
+set -e # Exit on error
 
 # Colors for output
 RED='\033[0;31m'
@@ -18,13 +18,13 @@ echo -e "${YELLOW}Building Zap compiler...${NC}"
 
 # Configure git hooks path if in git repo
 if [ -d "$SCRIPT_DIR/.git" ]; then
-    git config core.hooksPath .githooks
+  git config core.hooksPath .githooks
 fi
 
 # Create build directory if it doesn't exist
 if [ ! -d "$SCRIPT_DIR/build" ]; then
-    echo -e "${YELLOW}Creating build directory...${NC}"
-    mkdir -p "$SCRIPT_DIR/build"
+  echo -e "${YELLOW}Creating build directory...${NC}"
+  mkdir -p "$SCRIPT_DIR/build"
 fi
 
 # Change to build directory
@@ -33,7 +33,7 @@ cd "$SCRIPT_DIR/build"
 CPU_COUNT=$(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 1)
 BUILD_JOBS=$((CPU_COUNT - 1))
 if [ "$BUILD_JOBS" -lt 1 ]; then
-    BUILD_JOBS=1
+  BUILD_JOBS=1
 fi
 
 # Run CMake to generate build files
@@ -46,9 +46,9 @@ cmake --build . --config Release --parallel "$BUILD_JOBS"
 
 # Check if build was successful
 if [ -f "$SCRIPT_DIR/build/zapc" ]; then
-    echo -e "${GREEN}Build successful!${NC}"
-    echo -e "${GREEN}Executable: $SCRIPT_DIR/build/zapc${NC}"
+  echo -e "${GREEN}Build successful!${NC}"
+  echo -e "${GREEN}Executable: $SCRIPT_DIR/build/zapc${NC}"
 else
-    echo -e "${RED}Build failed!${NC}"
-    exit 1
+  echo -e "${RED}Build failed!${NC}"
+  exit 1
 fi
