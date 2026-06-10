@@ -11,3 +11,4 @@
 - [ ] first ZIR optimalizations
 - [ ] inline asm
 - [ ] Windows support
+- [ ] mutation operators
