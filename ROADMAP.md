@@ -9,3 +9,5 @@
 - [ ] package registery
 - [ ] stdlib cleanup
 - [ ] first ZIR optimalizations
+- [ ] inline asm
+- [ ] Windows support
