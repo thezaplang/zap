@@ -4,8 +4,8 @@
 - [ ] tagged unions
 - [ ] traits
 - [ ] type inference
-- [ ] new faster cycle collector
-- [ ] ARC upgrade
+- [x] new faster cycle collector
+- [x] ARC upgrade
 - [ ] package registery
 - [ ] stdlib cleanup
 - [ ] first ZIR optimalizations
