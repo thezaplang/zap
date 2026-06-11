@@ -88,3 +88,4 @@ src/lsp/vscode/zap/stdlib
 # local exploratory workspace
 bugs/
 playground/
+bench/
