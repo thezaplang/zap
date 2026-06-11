@@ -70,13 +70,6 @@ _Static_assert(offsetof(zap_arc_header_t, vtable) >
                    offsetof(zap_arc_header_t, metadata),
                "ARC ABI: vtable must be after metadata");
 
-// ---- ARC cycle collector (Bacon-Rajan, scoped to a candidate set) ----
-//
-// Instead of a global registry of every live object, only objects whose strong
-// count was decremented to a value > 0 are pushed onto the possible-roots
-// buffer -- that is the only situation in which an object can be the root of a
-// garbage cycle. Collection then works over the transitive closure of those
-// roots along strong reference edges, never the whole heap.
 static void **zap_arc_roots = NULL;
 static size_t zap_arc_root_count = 0;
 static size_t zap_arc_root_capacity = 0;
@@ -125,8 +118,6 @@ void zap_arc_remove_possible_root(void *object) {
   }
 }
 
-// Open-addressing pointer->index map, used transiently to map an object in the
-// working set to its slot in the parallel incoming/reachable arrays.
 typedef struct {
   void **keys;
   uint32_t *vals;
@@ -150,11 +141,11 @@ static int zap_arc_ptrmap_init(zap_arc_ptrmap_t *m, size_t cap) {
   return m->keys != NULL && m->vals != NULL;
 }
 
-static void zap_arc_ptrmap_free(zap_arc_ptrmap_t *m) {
-  free(m->keys);
-  free(m->vals);
-  m->keys = NULL;
-  m->vals = NULL;
+static void zap_arc_ptrmap_clear(zap_arc_ptrmap_t *m) {
+  if (m->keys) {
+    memset(m->keys, 0, m->cap * sizeof(void *));
+  }
+  m->len = 0;
 }
 
 static int zap_arc_ptrmap_get(const zap_arc_ptrmap_t *m, void *key,
@@ -219,7 +210,6 @@ static int zap_arc_ptrmap_put(zap_arc_ptrmap_t *m, void *key, uint32_t value) {
   return 1;
 }
 
-// Append object to the working set (and the lookup map) unless already present.
 static int zap_arc_ws_push(void ***ws, size_t *count, size_t *cap,
                            zap_arc_ptrmap_t *map, void *object) {
   uint32_t existing;
@@ -242,20 +232,60 @@ static int zap_arc_ws_push(void ***ws, size_t *count, size_t *cap,
   return 1;
 }
 
+static void **zap_arc_snap = NULL;
+static size_t zap_arc_snap_cap = 0;
+static void **zap_arc_ws = NULL;
+static size_t zap_arc_ws_cap = 0;
+static int *zap_arc_incoming = NULL;
+static uint8_t *zap_arc_reachable = NULL;
+static uint32_t *zap_arc_stack = NULL;
+static size_t zap_arc_scratch_cap = 0;
+static zap_arc_ptrmap_t zap_arc_map = {NULL, NULL, 0, 0};
+
+static int zap_arc_ensure_scratch(size_t n) {
+  if (n <= zap_arc_scratch_cap) {
+    return 1;
+  }
+  size_t ncap = zap_arc_scratch_cap ? zap_arc_scratch_cap : 32;
+  while (ncap < n) {
+    ncap *= 2;
+  }
+  int *ni = (int *)realloc(zap_arc_incoming, ncap * sizeof(int));
+  if (ni) {
+    zap_arc_incoming = ni;
+  }
+  uint8_t *nr = (uint8_t *)realloc(zap_arc_reachable, ncap * sizeof(uint8_t));
+  if (nr) {
+    zap_arc_reachable = nr;
+  }
+  uint32_t *ns = (uint32_t *)realloc(zap_arc_stack, ncap * sizeof(uint32_t));
+  if (ns) {
+    zap_arc_stack = ns;
+  }
+  if (!ni || !nr || !ns) {
+    return 0;
+  }
+  zap_arc_scratch_cap = ncap;
+  return 1;
+}
+
 void zap_arc_cycle_collect(void) {
   if (zap_arc_collecting || zap_arc_root_count == 0) {
     return;
   }
   zap_arc_collecting = 1;
 
-  // Snapshot the possible-roots buffer and reset it, so that any roots
-  // discovered while tearing garbage down accumulate for the next collection
-  // instead of being dropped from under us.
-  void **roots = (void **)malloc(zap_arc_root_count * sizeof(void *));
-  if (!roots) {
-    zap_arc_collecting = 0;
-    return;
+  if (zap_arc_root_count > zap_arc_snap_cap) {
+    void **next =
+        (void **)realloc(zap_arc_snap, zap_arc_root_count * sizeof(void *));
+    if (!next) {
+      zap_arc_collecting = 0;
+      return;
+    }
+    zap_arc_snap = next;
+    zap_arc_snap_cap = zap_arc_root_count;
   }
+  void **roots = zap_arc_snap;
   size_t root_count = 0;
   for (size_t i = 0; i < zap_arc_root_count; ++i) {
     void *object = zap_arc_roots[i];
@@ -267,70 +297,66 @@ void zap_arc_cycle_collect(void) {
     roots[root_count++] = object;
   }
   zap_arc_root_count = 0;
-
-  void **ws = NULL;
-  size_t ws_count = 0;
-  size_t ws_cap = 0;
-  int *incoming = NULL;
-  uint8_t *reachable = NULL;
-  uint32_t *stack = NULL;
-  void **garbage = NULL;
-  zap_arc_ptrmap_t map = {NULL, NULL, 0, 0};
-
-  if (root_count == 0 || !zap_arc_ptrmap_init(&map, 64)) {
-    goto cleanup;
+  if (root_count == 0) {
+    zap_arc_collecting = 0;
+    return;
   }
 
-  // Working set = transitive closure of the snapshot roots along strong edges.
+  if (zap_arc_map.cap == 0 && !zap_arc_ptrmap_init(&zap_arc_map, 64)) {
+    zap_arc_collecting = 0;
+    return;
+  }
+  zap_arc_ptrmap_clear(&zap_arc_map);
+
+  size_t ws_count = 0;
   for (size_t i = 0; i < root_count; ++i) {
-    if (!zap_arc_ws_push(&ws, &ws_count, &ws_cap, &map, roots[i])) {
+    if (!zap_arc_ws_push(&zap_arc_ws, &ws_count, &zap_arc_ws_cap, &zap_arc_map,
+                         roots[i])) {
       goto cleanup;
     }
   }
   for (size_t cursor = 0; cursor < ws_count; ++cursor) {
-    zap_arc_header_t *header = (zap_arc_header_t *)ws[cursor];
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[cursor];
     if (!header->alive || !header->metadata) {
       continue;
     }
     for (uint32_t j = 0; j < header->metadata->strong_field_count; ++j) {
       uint32_t offset = header->metadata->strong_field_offsets[j];
-      void *child = *(void **)((char *)ws[cursor] + offset);
-      if (child && !zap_arc_ws_push(&ws, &ws_count, &ws_cap, &map, child)) {
+      void *child = *(void **)((char *)zap_arc_ws[cursor] + offset);
+      if (child && !zap_arc_ws_push(&zap_arc_ws, &ws_count, &zap_arc_ws_cap,
+                                    &zap_arc_map, child)) {
         goto cleanup;
       }
     }
   }
 
-  incoming = (int *)calloc(ws_count, sizeof(int));
-  reachable = (uint8_t *)calloc(ws_count, sizeof(uint8_t));
-  stack = (uint32_t *)malloc(ws_count * sizeof(uint32_t));
-  if (!incoming || !reachable || !stack) {
+  if (!zap_arc_ensure_scratch(ws_count)) {
     goto cleanup;
   }
+  int *incoming = zap_arc_incoming;
+  uint8_t *reachable = zap_arc_reachable;
+  uint32_t *stack = zap_arc_stack;
+  memset(incoming, 0, ws_count * sizeof(int));
+  memset(reachable, 0, ws_count * sizeof(uint8_t));
 
-  // Count strong edges internal to the working set.
   for (size_t i = 0; i < ws_count; ++i) {
-    zap_arc_header_t *header = (zap_arc_header_t *)ws[i];
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[i];
     if (!header->alive || !header->metadata) {
       continue;
     }
     for (uint32_t j = 0; j < header->metadata->strong_field_count; ++j) {
       uint32_t offset = header->metadata->strong_field_offsets[j];
-      void *child = *(void **)((char *)ws[i] + offset);
+      void *child = *(void **)((char *)zap_arc_ws[i] + offset);
       uint32_t ci;
-      if (child && zap_arc_ptrmap_get(&map, child, &ci)) {
+      if (child && zap_arc_ptrmap_get(&zap_arc_map, child, &ci)) {
         incoming[ci] += 1;
       }
     }
   }
 
-  // Objects whose strong count exceeds internal references are externally
-  // rooted; everything reachable from them is live. Edges from outside the
-  // working set are not counted here, which only widens that surplus, so a
-  // live object is never misclassified as garbage.
   size_t sp = 0;
   for (size_t i = 0; i < ws_count; ++i) {
-    zap_arc_header_t *header = (zap_arc_header_t *)ws[i];
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[i];
     if (header->alive && header->strong_count > incoming[i] && !reachable[i]) {
       reachable[i] = 1;
       stack[sp++] = (uint32_t)i;
@@ -338,64 +364,59 @@ void zap_arc_cycle_collect(void) {
   }
   while (sp) {
     uint32_t idx = stack[--sp];
-    zap_arc_header_t *header = (zap_arc_header_t *)ws[idx];
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[idx];
     if (!header->alive || !header->metadata) {
       continue;
     }
     for (uint32_t j = 0; j < header->metadata->strong_field_count; ++j) {
       uint32_t offset = header->metadata->strong_field_offsets[j];
-      void *child = *(void **)((char *)ws[idx] + offset);
+      void *child = *(void **)((char *)zap_arc_ws[idx] + offset);
       uint32_t ci;
-      if (child && zap_arc_ptrmap_get(&map, child, &ci) && !reachable[ci]) {
+      if (child && zap_arc_ptrmap_get(&zap_arc_map, child, &ci) &&
+          !reachable[ci]) {
         reachable[ci] = 1;
         stack[sp++] = ci;
       }
     }
   }
 
-  // The unreachable remainder is garbage. Mark it, pin each strong count to 1,
-  // then drive release_fn: a garbage object's strong fields that point at other
-  // garbage are skipped by inline release (it tests ZAP_ARC_GC_GARBAGE), so the
-  // teardown loop frees each member exactly once.
-  size_t garbage_count = 0;
   for (size_t i = 0; i < ws_count; ++i) {
-    zap_arc_header_t *header = (zap_arc_header_t *)ws[i];
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[i];
     if (!header->alive || reachable[i]) {
       continue;
     }
     header->gc_mark = ZAP_ARC_GC_GARBAGE;
     header->strong_count = 1;
-    garbage_count += 1;
   }
-  if (garbage_count > 0) {
-    garbage = (void **)malloc(garbage_count * sizeof(void *));
-    if (!garbage) {
-      goto cleanup;
-    }
-    size_t cursor = 0;
-    for (size_t i = 0; i < ws_count; ++i) {
-      zap_arc_header_t *header = (zap_arc_header_t *)ws[i];
-      if (header->alive && (header->gc_mark & ZAP_ARC_GC_GARBAGE)) {
-        garbage[cursor++] = ws[i];
-      }
-    }
-    for (size_t i = 0; i < garbage_count; ++i) {
-      zap_arc_header_t *header = (zap_arc_header_t *)garbage[i];
-      if (header->release_fn) {
-        header->release_fn(garbage[i]);
-      }
+  for (size_t i = 0; i < ws_count; ++i) {
+    zap_arc_header_t *header = (zap_arc_header_t *)zap_arc_ws[i];
+    if (header->alive && (header->gc_mark & ZAP_ARC_GC_GARBAGE) &&
+        header->release_fn) {
+      header->release_fn(zap_arc_ws[i]);
     }
   }
 
 cleanup:
-  free(garbage);
-  free(stack);
-  free(reachable);
-  free(incoming);
-  free(ws);
-  zap_arc_ptrmap_free(&map);
-  free(roots);
   zap_arc_collecting = 0;
+}
+
+__attribute__((destructor)) static void zap_arc_shutdown(void) {
+  free(zap_arc_roots);
+  free(zap_arc_snap);
+  free(zap_arc_ws);
+  free(zap_arc_incoming);
+  free(zap_arc_reachable);
+  free(zap_arc_stack);
+  free(zap_arc_map.keys);
+  free(zap_arc_map.vals);
+  zap_arc_roots = NULL;
+  zap_arc_snap = NULL;
+  zap_arc_ws = NULL;
+  zap_arc_incoming = NULL;
+  zap_arc_reachable = NULL;
+  zap_arc_stack = NULL;
+  zap_arc_map.keys = NULL;
+  zap_arc_map.vals = NULL;
 }
 
 void printInt(long v) { printf("%ld\n", v); }
