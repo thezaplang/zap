@@ -85,11 +85,11 @@ var NAVTREEINDEX =
 "da/d27/classzap_1_1Parser_1_1ParseError.html",
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a6d3ad154aabd45c6477fb3124ca12907",
 "db/dcc/classsema_1_1BoundForStatement.html#a2c855dd6ceea6fcf39b686e9c2e8efcf",
-"dc/d2c/classsema_1_1Binder.html#a1e339275a07b3279b9d90c2f69c6d556",
-"dc/d90/classzir_1_1Function.html#a043cfa928fb042682c0c5b1bb51cf201",
-"dd/de3/classzir_1_1AggregateConstant.html#a1e59a92a2c384f5e481ae51816662c7e",
-"de/d88/classsema_1_1BoundExpressionStatement.html#a90a211415842ae5f5cec7cc19f317c1b",
-"df/dd7/classzir_1_1EnumType.html#adbcddedf3b5cc4592d70f39229e5505f"
+"dc/d2c/classsema_1_1Binder.html#a1a2507a662eead217f5ba1e64b84e015",
+"dc/d46/classsema_1_1BoundVariableExpression.html#afe4522f259f71d5ebaf8ba2634965693",
+"dd/db3/classConstFloat.html",
+"de/d73/classzap_1_1Parser.html#ae7ba3a1260c0ec550f6c8b03947ec050",
+"df/dd7/classzir_1_1EnumType.html#a93d6d821756f947d3c5f3a15f6a6581d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
