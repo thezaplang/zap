@@ -169,6 +169,8 @@ private:
   void ensureArcSupport(sema::BoundRootNode &root);
   void ensureClassArcSupport(const std::shared_ptr<zir::ClassType> &classType);
   void computeCyclicClasses(const zir::Module &module);
+  llvm::StructType *getOrCreateClassStruct(const zir::ClassType &ct);
+  void finalizeClassStruct(const zir::ClassType &ct);
 
   friend class ClassArcEmitter;
 };

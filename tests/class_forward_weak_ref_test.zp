@@ -1,0 +1,43 @@
+// A class whose object layout is needed (Parent, with a strong field) is
+// declared *after* a class that forward-references it through a weak field.
+// This used to leave Parent's object struct header-only and crash codegen
+// with "Invalid indices for GEP". The struct body must be set from the real
+// class definition regardless of declaration order, so this must now compile
+// and run.
+
+class Child {
+    priv parent: weak Parent;
+
+    pub fun setParent(p: weak Parent) {
+        self.parent = p;
+    }
+}
+
+class Parent {
+    priv child: Child;
+    priv tag: Int;
+
+    pub fun setChild(c: Child) {
+        self.child = c;
+    }
+
+    pub fun setTag(t: Int) {
+        self.tag = t;
+    }
+
+    pub fun getTag() Int {
+        return self.tag;
+    }
+}
+
+fun main() Int {
+    var p: Parent = new Parent();
+    var c: Child = new Child();
+    p.setChild(c);
+    c.setParent(p);
+    p.setTag(7);
+    if (p.getTag() != 7) {
+        return 1;
+    }
+    return 0;
+}

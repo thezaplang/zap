@@ -113,6 +113,39 @@ void LLVMCodeGen::generate(sema::BoundRootNode &root) {
   root.accept(*this);
 }
 
+llvm::StructType *
+LLVMCodeGen::getOrCreateClassStruct(const zir::ClassType &ct) {
+  std::string objectName = ct.getCodegenName() + ".obj";
+  auto it = structCache_.find(objectName);
+  if (it != structCache_.end()) {
+    return it->second;
+  }
+  auto *objectTy = llvm::StructType::create(ctx_, objectName);
+  structCache_[objectName] = objectTy;
+  return objectTy;
+}
+
+void LLVMCodeGen::finalizeClassStruct(const zir::ClassType &ct) {
+  auto *objectTy = getOrCreateClassStruct(ct);
+  if (!objectTy->isOpaque()) {
+    return;
+  }
+  auto *i8PtrTy = llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
+  std::vector<llvm::Type *> fieldTypes = {
+      llvm::Type::getInt64Ty(ctx_),
+      llvm::Type::getInt64Ty(ctx_),
+      llvm::Type::getInt8Ty(ctx_),
+      llvm::Type::getInt8Ty(ctx_),
+      i8PtrTy,
+      i8PtrTy,
+      i8PtrTy,
+      llvm::PointerType::getUnqual(i8PtrTy)};
+  for (const auto &f : ct.getFields()) {
+    fieldTypes.push_back(toLLVMAggregateFieldType(f.type));
+  }
+  objectTy->setBody(fieldTypes);
+}
+
 void LLVMCodeGen::computeCyclicClasses(const zir::Module &module) {
   cyclicClasses_.clear();
 
@@ -245,6 +278,11 @@ void LLVMCodeGen::generate(const zir::Module &module) {
     }
     if (func->vtableSlot >= 0 && !func->ownerTypeName.empty()) {
       classVirtualMethodFns_[func->ownerTypeName][func->vtableSlot] = llvmFn;
+    }
+  }
+  for (const auto &type : module.getTypes()) {
+    if (type->getKind() == zir::TypeKind::Class) {
+      finalizeClassStruct(static_cast<const zir::ClassType &>(*type));
     }
   }
   computeCyclicClasses(module);
@@ -446,33 +484,7 @@ llvm::Type *LLVMCodeGen::toLLVMType(const zir::Type &ty) {
   }
   case zir::TypeKind::Class: {
     const auto &ct = static_cast<const zir::ClassType &>(ty);
-    std::string objectName = ct.getCodegenName() + ".obj";
-    auto it = structCache_.find(objectName);
-    llvm::StructType *objectTy = nullptr;
-    if (it != structCache_.end()) {
-      objectTy = it->second;
-    } else {
-      objectTy = llvm::StructType::create(ctx_, objectName);
-      structCache_[objectName] = objectTy;
-      std::vector<llvm::Type *> fieldTypes;
-      fieldTypes.push_back(llvm::Type::getInt64Ty(ctx_));
-      fieldTypes.push_back(llvm::Type::getInt64Ty(ctx_));
-      fieldTypes.push_back(llvm::Type::getInt8Ty(ctx_));
-      fieldTypes.push_back(llvm::Type::getInt8Ty(ctx_));
-      fieldTypes.push_back(
-          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)));
-      fieldTypes.push_back(
-          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)));
-      fieldTypes.push_back(
-          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)));
-      fieldTypes.push_back(llvm::PointerType::getUnqual(
-          llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_))));
-      for (const auto &f : ct.getFields()) {
-        fieldTypes.push_back(toLLVMAggregateFieldType(f.type));
-      }
-      objectTy->setBody(fieldTypes);
-    }
-    return llvm::PointerType::getUnqual(objectTy);
+    return llvm::PointerType::getUnqual(getOrCreateClassStruct(ct));
   }
   case zir::TypeKind::Array: {
     const auto &at = static_cast<const zir::ArrayType &>(ty);
