@@ -14,4 +14,8 @@ constexpr unsigned kClassMetadataIndex = ZAP_ARC_METADATA_INDEX;
 constexpr unsigned kClassVTableIndex = ZAP_ARC_VTABLE_INDEX;
 constexpr unsigned kClassFieldStartIndex = ZAP_ARC_FIELD_START_INDEX;
 
+// Flag bits packed into the gc_mark byte (see arc_layout.h).
+constexpr unsigned kClassGcGarbageMask = ZAP_ARC_GC_GARBAGE;
+constexpr unsigned kClassGcBufferedMask = ZAP_ARC_GC_BUFFERED;
+
 } // namespace codegen

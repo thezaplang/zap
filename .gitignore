@@ -52,6 +52,7 @@ Makefile
 
 # Other
 *.log
+log
 .local/
 
 #llvm
@@ -72,6 +73,7 @@ src/lsp/vscode/zap/package-lock.json
 
 # LLMs
 AGENTS.md
+CLAUDE.md
 .codex
 .gemini
 .gemini-*

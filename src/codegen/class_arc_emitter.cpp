@@ -115,8 +115,12 @@ void ClassArcEmitter::emitReleaseIfNeeded(
                                           codegen_.currentFn_);
   auto *skipBB = llvm::BasicBlock::Create(codegen_.ctx_, "arc.release.skip",
                                           codegen_.currentFn_);
+  auto *garbageBit = codegen_.builder_.CreateAnd(
+      gcMark, llvm::ConstantInt::get(llvm::Type::getInt8Ty(codegen_.ctx_),
+                                     kClassGcGarbageMask));
   auto *isMarked = codegen_.builder_.CreateICmpNE(
-      gcMark, llvm::ConstantInt::get(llvm::Type::getInt8Ty(codegen_.ctx_), 0));
+      garbageBit,
+      llvm::ConstantInt::get(llvm::Type::getInt8Ty(codegen_.ctx_), 0));
   codegen_.builder_.CreateCondBr(isMarked, skipBB, callBB);
 
   codegen_.builder_.SetInsertPoint(callBB);
@@ -238,6 +242,16 @@ void ClassArcEmitter::emitReleaseWeakIfNeeded(
   auto *rawObject = codegen_.builder_.CreateBitCast(
       typedPtr,
       llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(codegen_.ctx_)));
+  if (codegen_.functionMap_.count("zap_arc_remove_possible_root") == 0) {
+    auto *removeTy = llvm::FunctionType::get(
+        llvm::Type::getVoidTy(codegen_.ctx_), {rawObject->getType()}, false);
+    auto *removeFn = llvm::Function::Create(
+        removeTy, llvm::Function::ExternalLinkage,
+        "zap_arc_remove_possible_root", *codegen_.module_);
+    codegen_.functionMap_["zap_arc_remove_possible_root"] = removeFn;
+  }
+  codegen_.builder_.CreateCall(
+      codegen_.functionMap_.at("zap_arc_remove_possible_root"), {rawObject});
   if (codegen_.functionMap_.count("free") == 0) {
     auto *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(codegen_.ctx_),
                                            {rawObject->getType()}, false);
@@ -590,16 +604,17 @@ void ClassArcEmitter::ensureClassArcSupport(
   codegen_.builder_.CreateCondBr(isWeakZero, destroyFreeBB, destroyReturnBB);
 
   codegen_.builder_.SetInsertPoint(destroyFreeBB);
-  if (codegen_.functionMap_.count("zap_arc_unregister") == 0) {
-    auto *unregisterTy = llvm::FunctionType::get(
+  if (codegen_.functionMap_.count("zap_arc_remove_possible_root") == 0) {
+    auto *removeTy = llvm::FunctionType::get(
         llvm::Type::getVoidTy(codegen_.ctx_), {rawPtrTy}, false);
-    auto *unregisterFn =
-        llvm::Function::Create(unregisterTy, llvm::Function::ExternalLinkage,
-                               "zap_arc_unregister", *codegen_.module_);
-    codegen_.functionMap_["zap_arc_unregister"] = unregisterFn;
+    auto *removeFn = llvm::Function::Create(
+        removeTy, llvm::Function::ExternalLinkage,
+        "zap_arc_remove_possible_root", *codegen_.module_);
+    codegen_.functionMap_["zap_arc_remove_possible_root"] = removeFn;
   }
-  codegen_.builder_.CreateCall(codegen_.functionMap_.at("zap_arc_unregister"),
-                               {destroyRawObject});
+  codegen_.builder_.CreateCall(
+      codegen_.functionMap_.at("zap_arc_remove_possible_root"),
+      {destroyRawObject});
   if (codegen_.functionMap_.count("free") == 0) {
     auto *freeTy = llvm::FunctionType::get(llvm::Type::getVoidTy(codegen_.ctx_),
                                            {rawPtrTy}, false);
@@ -662,6 +677,16 @@ void ClassArcEmitter::ensureClassArcSupport(
   codegen_.builder_.CreateBr(returnBB);
 
   codegen_.builder_.SetInsertPoint(cycleBB);
+  if (codegen_.functionMap_.count("zap_arc_add_possible_root") == 0) {
+    auto *addTy = llvm::FunctionType::get(llvm::Type::getVoidTy(codegen_.ctx_),
+                                          {rawPtrTy}, false);
+    auto *addFn =
+        llvm::Function::Create(addTy, llvm::Function::ExternalLinkage,
+                               "zap_arc_add_possible_root", *codegen_.module_);
+    codegen_.functionMap_["zap_arc_add_possible_root"] = addFn;
+  }
+  codegen_.builder_.CreateCall(
+      codegen_.functionMap_.at("zap_arc_add_possible_root"), {rawObject});
   if (codegen_.functionMap_.count("zap_arc_cycle_collect") == 0) {
     auto *collectTy = llvm::FunctionType::get(
         llvm::Type::getVoidTy(codegen_.ctx_), {}, false);
