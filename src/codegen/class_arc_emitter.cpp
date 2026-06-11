@@ -636,8 +636,11 @@ void ClassArcEmitter::ensureClassArcSupport(
       llvm::BasicBlock::Create(codegen_.ctx_, "arc.dec", releaseHelper);
   auto *destroyBB =
       llvm::BasicBlock::Create(codegen_.ctx_, "arc.destroy", releaseHelper);
+  bool canBeCyclic = codegen_.cyclicClasses_.count(classType->getName()) != 0;
   auto *cycleBB =
-      llvm::BasicBlock::Create(codegen_.ctx_, "arc.cycle", releaseHelper);
+      canBeCyclic
+          ? llvm::BasicBlock::Create(codegen_.ctx_, "arc.cycle", releaseHelper)
+          : nullptr;
   auto *returnBB =
       llvm::BasicBlock::Create(codegen_.ctx_, "arc.ret", releaseHelper);
   codegen_.builder_.SetInsertPoint(entry);
@@ -663,7 +666,8 @@ void ClassArcEmitter::ensureClassArcSupport(
   auto *isZero = codegen_.builder_.CreateICmpEQ(
       nextCount,
       llvm::ConstantInt::get(llvm::Type::getInt64Ty(codegen_.ctx_), 0));
-  codegen_.builder_.CreateCondBr(isZero, destroyBB, cycleBB);
+  codegen_.builder_.CreateCondBr(isZero, destroyBB,
+                                 canBeCyclic ? cycleBB : returnBB);
 
   codegen_.builder_.SetInsertPoint(destroyBB);
   auto *destroyAddr = codegen_.builder_.CreateStructGEP(
@@ -676,28 +680,30 @@ void ClassArcEmitter::ensureClassArcSupport(
   codegen_.builder_.CreateCall(destroyTy, destroyFn, {rawObject});
   codegen_.builder_.CreateBr(returnBB);
 
-  codegen_.builder_.SetInsertPoint(cycleBB);
-  if (codegen_.functionMap_.count("zap_arc_add_possible_root") == 0) {
-    auto *addTy = llvm::FunctionType::get(llvm::Type::getVoidTy(codegen_.ctx_),
-                                          {rawPtrTy}, false);
-    auto *addFn =
-        llvm::Function::Create(addTy, llvm::Function::ExternalLinkage,
-                               "zap_arc_add_possible_root", *codegen_.module_);
-    codegen_.functionMap_["zap_arc_add_possible_root"] = addFn;
+  if (canBeCyclic) {
+    codegen_.builder_.SetInsertPoint(cycleBB);
+    if (codegen_.functionMap_.count("zap_arc_add_possible_root") == 0) {
+      auto *addTy = llvm::FunctionType::get(
+          llvm::Type::getVoidTy(codegen_.ctx_), {rawPtrTy}, false);
+      auto *addFn = llvm::Function::Create(
+          addTy, llvm::Function::ExternalLinkage, "zap_arc_add_possible_root",
+          *codegen_.module_);
+      codegen_.functionMap_["zap_arc_add_possible_root"] = addFn;
+    }
+    codegen_.builder_.CreateCall(
+        codegen_.functionMap_.at("zap_arc_add_possible_root"), {rawObject});
+    if (codegen_.functionMap_.count("zap_arc_cycle_collect") == 0) {
+      auto *collectTy = llvm::FunctionType::get(
+          llvm::Type::getVoidTy(codegen_.ctx_), {}, false);
+      auto *collectFn =
+          llvm::Function::Create(collectTy, llvm::Function::ExternalLinkage,
+                                 "zap_arc_cycle_collect", *codegen_.module_);
+      codegen_.functionMap_["zap_arc_cycle_collect"] = collectFn;
+    }
+    codegen_.builder_.CreateCall(
+        codegen_.functionMap_.at("zap_arc_cycle_collect"));
+    codegen_.builder_.CreateBr(returnBB);
   }
-  codegen_.builder_.CreateCall(
-      codegen_.functionMap_.at("zap_arc_add_possible_root"), {rawObject});
-  if (codegen_.functionMap_.count("zap_arc_cycle_collect") == 0) {
-    auto *collectTy = llvm::FunctionType::get(
-        llvm::Type::getVoidTy(codegen_.ctx_), {}, false);
-    auto *collectFn =
-        llvm::Function::Create(collectTy, llvm::Function::ExternalLinkage,
-                               "zap_arc_cycle_collect", *codegen_.module_);
-    codegen_.functionMap_["zap_arc_cycle_collect"] = collectFn;
-  }
-  codegen_.builder_.CreateCall(
-      codegen_.functionMap_.at("zap_arc_cycle_collect"));
-  codegen_.builder_.CreateBr(returnBB);
 
   codegen_.builder_.SetInsertPoint(returnBB);
   codegen_.builder_.CreateRetVoid();

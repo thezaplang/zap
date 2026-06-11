@@ -113,6 +113,77 @@ void LLVMCodeGen::generate(sema::BoundRootNode &root) {
   root.accept(*this);
 }
 
+void LLVMCodeGen::computeCyclicClasses(const zir::Module &module) {
+  cyclicClasses_.clear();
+
+  std::unordered_map<std::string, std::shared_ptr<zir::ClassType>> classes;
+  for (const auto &type : module.getTypes()) {
+    if (type->getKind() == zir::TypeKind::Class) {
+      auto cls = std::static_pointer_cast<zir::ClassType>(type);
+      classes[cls->getName()] = cls;
+    }
+  }
+
+  std::unordered_map<std::string, std::vector<std::string>> subtypesOf;
+  for (const auto &[name, cls] : classes) {
+    for (auto cur = cls; cur; cur = cur->getBase()) {
+      subtypesOf[cur->getName()].push_back(name);
+    }
+  }
+
+  std::unordered_map<std::string, std::unordered_set<std::string>> edges;
+  for (const auto &[name, cls] : classes) {
+    auto &out = edges[name];
+    for (auto cur = cls; cur; cur = cur->getBase()) {
+      for (const auto &field : cur->getFields()) {
+        if (!field.type || field.type->getKind() != zir::TypeKind::Class) {
+          continue;
+        }
+        auto fieldClass = std::static_pointer_cast<zir::ClassType>(field.type);
+        if (fieldClass->isWeak()) {
+          continue;
+        }
+        auto it = subtypesOf.find(fieldClass->getName());
+        if (it == subtypesOf.end()) {
+          continue;
+        }
+        for (const auto &sub : it->second) {
+          out.insert(sub);
+        }
+      }
+    }
+  }
+
+  for (const auto &[start, _] : classes) {
+    std::vector<std::string> stack = {start};
+    std::unordered_set<std::string> seen;
+    bool cyclic = false;
+    while (!stack.empty()) {
+      std::string node = std::move(stack.back());
+      stack.pop_back();
+      auto it = edges.find(node);
+      if (it == edges.end()) {
+        continue;
+      }
+      for (const auto &next : it->second) {
+        if (next == start) {
+          cyclic = true;
+          break;
+        }
+        if (seen.insert(next).second) {
+          stack.push_back(next);
+        }
+      }
+      if (cyclic) {
+        break;
+      }
+    }
+    if (cyclic) {
+      cyclicClasses_.insert(start);
+    }
+  }
+}
+
 void LLVMCodeGen::generate(const zir::Module &module) {
   initializeModule();
 
@@ -176,6 +247,7 @@ void LLVMCodeGen::generate(const zir::Module &module) {
       classVirtualMethodFns_[func->ownerTypeName][func->vtableSlot] = llvmFn;
     }
   }
+  computeCyclicClasses(module);
   for (const auto &type : module.getTypes()) {
     if (type->getKind() == zir::TypeKind::Class) {
       ensureClassArcSupport(std::static_pointer_cast<zir::ClassType>(type));

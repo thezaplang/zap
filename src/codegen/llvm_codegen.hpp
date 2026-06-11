@@ -86,6 +86,7 @@ private:
   std::map<std::string, llvm::Function *> classDestroyFns_;
   std::map<std::string, llvm::Function *> classDestructorFns_;
   std::map<std::string, llvm::GlobalVariable *> classMetadataGlobals_;
+  std::unordered_set<std::string> cyclicClasses_;
   std::vector<std::vector<std::pair<std::shared_ptr<zir::Type>, llvm::Value *>>>
       scopeClassLocals_;
   std::vector<std::vector<std::pair<std::shared_ptr<zir::Type>, llvm::Value *>>>
@@ -167,6 +168,7 @@ private:
   void emitScopeReleases();
   void ensureArcSupport(sema::BoundRootNode &root);
   void ensureClassArcSupport(const std::shared_ptr<zir::ClassType> &classType);
+  void computeCyclicClasses(const zir::Module &module);
 
   friend class ClassArcEmitter;
 };
