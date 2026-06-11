@@ -1695,17 +1695,6 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
                                        "class.alloc");
     auto *typedPtr = builder_.CreateBitCast(rawPtr, ptrTy, "class.obj");
 
-    if (functionMap_.count("zap_arc_register") == 0) {
-      auto *registerTy = llvm::FunctionType::get(
-          llvm::Type::getVoidTy(ctx_),
-          {llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_))}, false);
-      auto *registerFn =
-          llvm::Function::Create(registerTy, llvm::Function::ExternalLinkage,
-                                 "zap_arc_register", *module_);
-      functionMap_["zap_arc_register"] = registerFn;
-    }
-    builder_.CreateCall(functionMap_.at("zap_arc_register"), {rawPtr});
-
     auto *refCountAddr =
         builder_.CreateStructGEP(objectTy, typedPtr, 0, "refcount.addr");
     builder_.CreateStore(
@@ -3239,17 +3228,6 @@ void LLVMCodeGen::visit(sema::BoundNewExpression &node) {
   auto *rawPtr = builder_.CreateCall(functionMap_.at("malloc"), {sizeValue},
                                      "class.alloc");
   auto *typedPtr = builder_.CreateBitCast(rawPtr, ptrTy, "class.obj");
-
-  if (functionMap_.count("zap_arc_register") == 0) {
-    auto *registerTy = llvm::FunctionType::get(
-        llvm::Type::getVoidTy(ctx_),
-        {llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_))}, false);
-    auto *registerFn =
-        llvm::Function::Create(registerTy, llvm::Function::ExternalLinkage,
-                               "zap_arc_register", *module_);
-    functionMap_["zap_arc_register"] = registerFn;
-  }
-  builder_.CreateCall(functionMap_.at("zap_arc_register"), {rawPtr});
 
   auto *refCountAddr =
       builder_.CreateStructGEP(objectTy, typedPtr, 0, "refcount.addr");
