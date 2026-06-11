@@ -210,6 +210,7 @@ var hierarchy =
     [ "anonymous_namespace{lsp-main.cpp}::Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", null ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", null ],
     [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", null ],
+    [ "zap_arc_ptrmap_t", "d3/d12/structzap__arc__ptrmap__t.html", null ],
     [ "zap_string_header_t", "dd/dd3/structzap__string__header__t.html", null ],
     [ "zap_string_owner_entry_t", "db/de0/structzap__string__owner__entry__t.html", null ],
     [ "zap_string_t", "dd/d2a/structzap__string__t.html", null ]

@@ -191,6 +191,7 @@ var annotated_dup =
     [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", "d1/de8/structzap__arc__header__t" ],
     [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", "d4/d2c/structzap__arc__metadata__t" ],
+    [ "zap_arc_ptrmap_t", "d3/d12/structzap__arc__ptrmap__t.html", "d3/d12/structzap__arc__ptrmap__t" ],
     [ "zap_string_header_t", "dd/dd3/structzap__string__header__t.html", "dd/dd3/structzap__string__header__t" ],
     [ "zap_string_owner_entry_t", "db/de0/structzap__string__owner__entry__t.html", "db/de0/structzap__string__owner__entry__t" ],
     [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ]

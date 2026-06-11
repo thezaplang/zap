@@ -77,6 +77,8 @@ Macros</h2></td></tr>
 <tr class="memitem:aafee5303b52cab82215ce3f4d0a68b25" id="r_aafee5303b52cab82215ce3f4d0a68b25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafee5303b52cab82215ce3f4d0a68b25">ZAP_ARC_METADATA_INDEX</a>&#160;&#160;&#160;6</td></tr>
 <tr class="memitem:a31de6f1070bcddf4fb7092a9fc278a53" id="r_a31de6f1070bcddf4fb7092a9fc278a53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31de6f1070bcddf4fb7092a9fc278a53">ZAP_ARC_VTABLE_INDEX</a>&#160;&#160;&#160;7</td></tr>
 <tr class="memitem:afc2720595b223026f509430292a6d2a2" id="r_afc2720595b223026f509430292a6d2a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc2720595b223026f509430292a6d2a2">ZAP_ARC_FIELD_START_INDEX</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memitem:aad22af68fe02c5ed3294fa0328d500a9" id="r_aad22af68fe02c5ed3294fa0328d500a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad22af68fe02c5ed3294fa0328d500a9">ZAP_ARC_GC_GARBAGE</a>&#160;&#160;&#160;0x1</td></tr>
+<tr class="memitem:a4aeda59f411243e80a3c7d4f78d53791" id="r_a4aeda59f411243e80a3c7d4f78d53791"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aeda59f411243e80a3c7d4f78d53791">ZAP_ARC_GC_BUFFERED</a>&#160;&#160;&#160;0x2</td></tr>
 </table>
 <a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
 <a id="aee04651543d8f42e8d168cd287bf2cec" name="aee04651543d8f42e8d168cd287bf2cec"></a>
@@ -124,6 +126,42 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00013">13</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+
+</div>
+</div>
+<a id="a4aeda59f411243e80a3c7d4f78d53791" name="a4aeda59f411243e80a3c7d4f78d53791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aeda59f411243e80a3c7d4f78d53791">&#9670;&#160;</a></span>ZAP_ARC_GC_BUFFERED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ZAP_ARC_GC_BUFFERED&#160;&#160;&#160;0x2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00020">20</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00086">zap_arc_add_possible_root()</a>, <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00245">zap_arc_cycle_collect()</a>, and <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00111">zap_arc_remove_possible_root()</a>.</p>
+
+</div>
+</div>
+<a id="aad22af68fe02c5ed3294fa0328d500a9" name="aad22af68fe02c5ed3294fa0328d500a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad22af68fe02c5ed3294fa0328d500a9">&#9670;&#160;</a></span>ZAP_ARC_GC_GARBAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ZAP_ARC_GC_GARBAGE&#160;&#160;&#160;0x1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00019">19</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/dfa/stdlib_8c_source.html#l00245">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>
