@@ -16,6 +16,7 @@ var namespacezap =
     ] ],
     [ "lsp", "d5/d23/namespacezap_1_1lsp.html", "d5/d23/namespacezap_1_1lsp" ],
     [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
+      [ "compoundAssignOp", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html#a470f5f67db4c10a5819a62ce2a291180", null ],
       [ "qualifiedNameFromExpression", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html#a05f2998a2f843ce15a663ecb08b93391", null ]
     ] ],
     [ "detail", "d5/d59/namespacezap_1_1detail.html", [

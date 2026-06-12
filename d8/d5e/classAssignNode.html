@@ -92,6 +92,8 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a3297c5b975e2651df75475fb04f02438" id="r_a3297c5b975e2651df75475fb04f02438"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3297c5b975e2651df75475fb04f02438">target_</a></td></tr>
 <tr class="memitem:a7a1e3df83836f0a2ca6368381cbb7ac9" id="r_a7a1e3df83836f0a2ca6368381cbb7ac9"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a1e3df83836f0a2ca6368381cbb7ac9">expr_</a></td></tr>
+<tr class="memitem:a7594788ba55ad1bbd5ccaf0dc76c01d9" id="r_a7594788ba55ad1bbd5ccaf0dc76c01d9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7594788ba55ad1bbd5ccaf0dc76c01d9">op_</a></td></tr>
+<tr class="memdesc:a7594788ba55ad1bbd5ccaf0dc76c01d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compound-assignment operator (e.g. "+", "&lt;&lt;"). Empty for a plain "=".  <br /></td></tr>
 <tr class="inherit_header pub_attribs_classNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../df/dd0/classNode.html">Node</a></td></tr>
 <tr class="memitem:a48ef306cfa64ff29194ade8b098f127f inherit pub_attribs_classNode" id="r_a48ef306cfa64ff29194ade8b098f127f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a></td></tr>
 </table>
@@ -122,7 +124,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00014">AssignNode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00016">AssignNode()</a>.</p>
 
 </div>
 </div>
@@ -153,8 +155,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>      : <a class="code hl_variable" href="#a3297c5b975e2651df75475fb04f02438">target_</a>(std::move(target)), <a class="code hl_variable" href="#a7a1e3df83836f0a2ca6368381cbb7ac9">expr_</a>(std::move(expr)) {}</div>
+<p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>      : <a class="code hl_variable" href="#a3297c5b975e2651df75475fb04f02438">target_</a>(std::move(target)), <a class="code hl_variable" href="#a7a1e3df83836f0a2ca6368381cbb7ac9">expr_</a>(std::move(expr)) {}</div>
 <div class="ttc" id="aclassAssignNode_html_a3297c5b975e2651df75475fb04f02438"><div class="ttname"><a href="#a3297c5b975e2651df75475fb04f02438">AssignNode::target_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; target_</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d97/assign__node_8hpp_source.html#l00010">assign_node.hpp:10</a></div></div>
 <div class="ttc" id="aclassAssignNode_html_a7a1e3df83836f0a2ca6368381cbb7ac9"><div class="ttname"><a href="#a7a1e3df83836f0a2ca6368381cbb7ac9">AssignNode::expr_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; expr_</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d97/assign__node_8hpp_source.html#l00011">assign_node.hpp:11</a></div></div>
 </div><!-- fragment -->
@@ -188,8 +190,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00061">visitor.hpp:61</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00061">Visitor::visit()</a>.</p>
@@ -211,7 +213,27 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00014">AssignNode()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00562">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00016">AssignNode()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00567">sema::Binder::visit()</a>.</p>
+
+</div>
+</div>
+<a id="a7594788ba55ad1bbd5ccaf0dc76c01d9" name="a7594788ba55ad1bbd5ccaf0dc76c01d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7594788ba55ad1bbd5ccaf0dc76c01d9">&#9670;&#160;</a></span>op_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string AssignNode::op_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compound-assignment operator (e.g. "+", "&lt;&lt;"). Empty for a plain "=". </p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00567">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -229,7 +251,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../dd/d97/assign__node_8hpp_source.html">assign_node.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00014">AssignNode()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00562">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/d97/assign__node_8hpp_source.html#l00016">AssignNode()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00567">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>

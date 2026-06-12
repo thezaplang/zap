@@ -59,7 +59,7 @@ var NAVTREE =
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
-        [ "All", "globals.html", null ],
+        [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
@@ -74,22 +74,22 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/df9/classsema_1_1BoundVisitor.html#a6658a9c1cea488b02e463e5cadb03fb6",
-"d2/d0f/classsema_1_1BoundCast.html#afa4c3d1ad15a61606492df1a89347b0d",
-"d3/d09/classzap_1_1Stream.html#a24063f292467b27d191a6c19171223b0",
-"d3/ddb/type__node_8hpp_source.html",
-"d4/da0/classzir_1_1BoundIRGenerator.html#aa1063895d70a00713a8fdf64cdcea32b",
-"d6/da5/classzap_1_1StderrStream.html#a85b93667893a1ec2505dab2f9bb5c1a2",
-"d8/d57/classsema_1_1BoundTryExpression.html#a39d3f64224a02c234e639738b38c1c51",
-"d9/d0d/classzap_1_1lsp_1_1Server.html#a66f0383600d382ba0483a20a8d9433b5a0eaadb4fcb48a0a0ed7bc9868be9fbaa",
-"da/d27/classzap_1_1Parser_1_1ParseError.html",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a6a1bdb454d4c80300434ebea9a5d3f32",
-"db/db2/while__node_8hpp_source.html",
-"dc/d2c/classsema_1_1Binder.html#a1436c9a212e860afc8bbf779c8cd3e40",
-"dc/d46/classsema_1_1BoundVariableExpression.html",
-"dd/d9c/classsema_1_1BoundArrayLiteral.html#a7e354da52f3651b4b6c9279d72d7a04a",
-"de/d73/classzap_1_1Parser.html#adadfa3d4a34709ea11ad89da011d6497",
-"df/dd7/classzir_1_1EnumType.html#a59e1feb89a5be952893ff7215160bcb6"
+"d0/df9/classsema_1_1BoundVisitor.html#a662bfdf3942fbcbfa51710a04437f85f",
+"d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f",
+"d3/d09/classzap_1_1Stream.html#a0caaea495b5277e857e2ea97d6e0730d",
+"d3/dc7/structzir_1_1RecordType_1_1Field.html#a88c412d7867f00fcc2b87b0934dadc8b",
+"d4/da0/classzir_1_1BoundIRGenerator.html#a6d26b3e5f19aba9ad49cdb7a573186e5",
+"d6/d7b/classClassDecl.html#a569fdd188f0f44dc2cd5fb5841b7a5f3",
+"d8/d42/classzir_1_1CastInst.html#ac303fe7ef2551d716e52eeeac610f763",
+"d9/d00/classzap_1_1driver.html#afa170fa539648be9cfa7398b2dc3951e",
+"da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a53bd56d4a3ff004e1428e0b8655be442",
+"db/db1/classsema_1_1FunctionSymbol.html#a3a24f61e7d53ad1075fa61dc43dbf092",
+"dc/d2c/classsema_1_1Binder.html",
+"dc/d2c/classsema_1_1Binder.html#aef0145b7965fe5773e759e79f2df0325",
+"dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html#aba0f5bec7d5d372852133d87442cd39b",
+"de/d73/classzap_1_1Parser.html#a7f420c5385d75a8c7e7558b2e1730a71",
+"df/da0/classzir_1_1BranchInst.html#ab0088436abfca15f672592864544e816"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

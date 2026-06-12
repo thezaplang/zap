@@ -79,7 +79,7 @@ $(function(){initNavTree('d1/d29/classsema_1_1BoundAssignment.html','../../','d0
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab71a7041d889555f34f75641fef00287" id="r_ab71a7041d889555f34f75641fef00287"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab71a7041d889555f34f75641fef00287">BoundAssignment</a> (std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt; t, std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt; e)</td></tr>
+<tr class="memitem:ac9b84491eefd725d3a96e2e2390874bc" id="r_ac9b84491eefd725d3a96e2e2390874bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9b84491eefd725d3a96e2e2390874bc">BoundAssignment</a> (std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt; t, std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt; e, bool compound=false)</td></tr>
 <tr class="memitem:ad2b2f9b80bb551723cd2cd7954e162e7" id="r_ad2b2f9b80bb551723cd2cd7954e162e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2b2f9b80bb551723cd2cd7954e162e7">accept</a> (<a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html">BoundVisitor</a> &amp;v) override</td></tr>
 <tr class="memitem:a91acf42f6e91e93ddb051a72022ddd3e" id="r_a91acf42f6e91e93ddb051a72022ddd3e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d10/classsema_1_1BoundStatement.html">BoundStatement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91acf42f6e91e93ddb051a72022ddd3e">cloneStatement</a> () const override</td></tr>
 <tr class="inherit_header pub_methods_classsema_1_1BoundNode"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classsema_1_1BoundNode')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d0/db2/classsema_1_1BoundNode.html">sema::BoundNode</a></td></tr>
@@ -89,13 +89,14 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ab75f28be66775888b0aa139a85a13aee" id="r_ab75f28be66775888b0aa139a85a13aee"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab75f28be66775888b0aa139a85a13aee">target</a></td></tr>
 <tr class="memitem:a804d8d2d534a90e7353f2de70f568d30" id="r_a804d8d2d534a90e7353f2de70f568d30"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a804d8d2d534a90e7353f2de70f568d30">expression</a></td></tr>
+<tr class="memitem:a7427a03aced60e254a96df941a08f381" id="r_a7427a03aced60e254a96df941a08f381"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7427a03aced60e254a96df941a08f381">isCompound</a> = false</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00488">488</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00502">502</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab71a7041d889555f34f75641fef00287" name="ab71a7041d889555f34f75641fef00287"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab71a7041d889555f34f75641fef00287">&#9670;&#160;</a></span>BoundAssignment()</h2>
+<a id="ac9b84491eefd725d3a96e2e2390874bc" name="ac9b84491eefd725d3a96e2e2390874bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9b84491eefd725d3a96e2e2390874bc">&#9670;&#160;</a></span>BoundAssignment()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -111,7 +112,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>e</em></span>&#160;)</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>e</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>compound</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -121,12 +127,13 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00493">493</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  495</span>      : <a class="code hl_variable" href="#ab75f28be66775888b0aa139a85a13aee">target</a>(std::move(t)), <a class="code hl_variable" href="#a804d8d2d534a90e7353f2de70f568d30">expression</a>(std::move(e)) {}</div>
-<div class="ttc" id="aclasssema_1_1BoundAssignment_html_a804d8d2d534a90e7353f2de70f568d30"><div class="ttname"><a href="#a804d8d2d534a90e7353f2de70f568d30">sema::BoundAssignment::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00491">bound_nodes.hpp:491</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundAssignment_html_ab75f28be66775888b0aa139a85a13aee"><div class="ttname"><a href="#ab75f28be66775888b0aa139a85a13aee">sema::BoundAssignment::target</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; target</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00490">bound_nodes.hpp:490</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00508">508</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  510</span>      : <a class="code hl_variable" href="#ab75f28be66775888b0aa139a85a13aee">target</a>(std::move(t)), <a class="code hl_variable" href="#a804d8d2d534a90e7353f2de70f568d30">expression</a>(std::move(e)), <a class="code hl_variable" href="#a7427a03aced60e254a96df941a08f381">isCompound</a>(compound) {}</div>
+<div class="ttc" id="aclasssema_1_1BoundAssignment_html_a7427a03aced60e254a96df941a08f381"><div class="ttname"><a href="#a7427a03aced60e254a96df941a08f381">sema::BoundAssignment::isCompound</a></div><div class="ttdeci">bool isCompound</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00506">bound_nodes.hpp:506</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundAssignment_html_a804d8d2d534a90e7353f2de70f568d30"><div class="ttname"><a href="#a804d8d2d534a90e7353f2de70f568d30">sema::BoundAssignment::expression</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; expression</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00505">bound_nodes.hpp:505</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundAssignment_html_ab75f28be66775888b0aa139a85a13aee"><div class="ttname"><a href="#ab75f28be66775888b0aa139a85a13aee">sema::BoundAssignment::target</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; target</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00504">bound_nodes.hpp:504</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00491">expression</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00490">target</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00505">expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00506">isCompound</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00504">target</a>.</p>
 
 </div>
 </div>
@@ -156,8 +163,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/db2/classsema_1_1BoundNode.html#a1bcdc57213e5c1decea0b6808c6e675b">sema::BoundNode</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00496">496</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  496</span>{ v.visit(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00511">511</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  511</span>{ v.visit(*<span class="keyword">this</span>); }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/df9/classsema_1_1BoundVisitor.html#ab824f5330370d4da04917875cd337ed9">sema::BoundVisitor::visit()</a>.</p>
 
@@ -188,13 +195,13 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../dd/d10/classsema_1_1BoundStatement.html#a37c54d698c51805f1fdb4ef871fbb9ac">sema::BoundStatement</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00497">497</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  497</span>                                                                {</div>
-<div class="line"><span class="lineno">  498</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundAssignment&gt;(<a class="code hl_variable" href="#ab75f28be66775888b0aa139a85a13aee">target</a>-&gt;clone(),</div>
-<div class="line"><span class="lineno">  499</span>                                             <a class="code hl_variable" href="#a804d8d2d534a90e7353f2de70f568d30">expression</a>-&gt;clone());</div>
-<div class="line"><span class="lineno">  500</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00512">512</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  512</span>                                                                {</div>
+<div class="line"><span class="lineno">  513</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundAssignment&gt;(<a class="code hl_variable" href="#ab75f28be66775888b0aa139a85a13aee">target</a>-&gt;clone(),</div>
+<div class="line"><span class="lineno">  514</span>                                             <a class="code hl_variable" href="#a804d8d2d534a90e7353f2de70f568d30">expression</a>-&gt;clone(), <a class="code hl_variable" href="#a7427a03aced60e254a96df941a08f381">isCompound</a>);</div>
+<div class="line"><span class="lineno">  515</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00491">expression</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00490">target</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00505">expression</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00506">isCompound</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00504">target</a>.</p>
 
 </div>
 </div>
@@ -211,9 +218,27 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00491">491</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00505">505</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00493">BoundAssignment()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00497">cloneStatement()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02442">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00360">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00508">BoundAssignment()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00512">cloneStatement()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02445">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00360">zir::BoundIRGenerator::visit()</a>.</p>
+
+</div>
+</div>
+<a id="a7427a03aced60e254a96df941a08f381" name="a7427a03aced60e254a96df941a08f381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7427a03aced60e254a96df941a08f381">&#9670;&#160;</a></span>isCompound</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sema::BoundAssignment::isCompound = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00506">506</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00508">BoundAssignment()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00512">cloneStatement()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02445">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00360">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>
@@ -229,9 +254,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00490">490</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00504">504</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00493">BoundAssignment()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00497">cloneStatement()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02442">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00360">zir::BoundIRGenerator::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00508">BoundAssignment()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00512">cloneStatement()</a>, <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l02445">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00360">zir::BoundIRGenerator::visit()</a>.</p>
 
 </div>
 </div>

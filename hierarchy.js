@@ -17,6 +17,7 @@ var hierarchy =
         [ "sema::BoundArrayLiteral", "dd/d9c/classsema_1_1BoundArrayLiteral.html", null ],
         [ "sema::BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", null ],
         [ "sema::BoundCast", "d2/d0f/classsema_1_1BoundCast.html", null ],
+        [ "sema::BoundCompoundTargetLoad", "db/d2f/classsema_1_1BoundCompoundTargetLoad.html", null ],
         [ "sema::BoundFailableHandleExpression", "d5/d43/classsema_1_1BoundFailableHandleExpression.html", null ],
         [ "sema::BoundFallbackExpression", "d9/d37/classsema_1_1BoundFallbackExpression.html", null ],
         [ "sema::BoundFunctionCall", "df/da0/classsema_1_1BoundFunctionCall.html", null ],

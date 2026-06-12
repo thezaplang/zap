@@ -10,6 +10,7 @@ var namespacesema =
     [ "BoundLiteral", "db/d85/classsema_1_1BoundLiteral.html", "db/d85/classsema_1_1BoundLiteral" ],
     [ "BoundCast", "d2/d0f/classsema_1_1BoundCast.html", "d2/d0f/classsema_1_1BoundCast" ],
     [ "BoundVariableExpression", "dc/d46/classsema_1_1BoundVariableExpression.html", "dc/d46/classsema_1_1BoundVariableExpression" ],
+    [ "BoundCompoundTargetLoad", "db/d2f/classsema_1_1BoundCompoundTargetLoad.html", "db/d2f/classsema_1_1BoundCompoundTargetLoad" ],
     [ "BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", "d5/d03/classsema_1_1BoundModuleReference" ],
     [ "BoundBinaryExpression", "df/dee/classsema_1_1BoundBinaryExpression.html", "df/dee/classsema_1_1BoundBinaryExpression" ],
     [ "BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", "db/d94/classsema_1_1BoundTernaryExpression" ],

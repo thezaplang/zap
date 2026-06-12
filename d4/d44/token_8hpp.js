@@ -80,7 +80,19 @@ var token_8hpp =
       [ "WEAK", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afe4722ca9de2cfd88591a69de2430c0a", null ],
       [ "WHERE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a0116b78582fbf1fd6e069fde8dd308c4", null ],
       [ "IFTYPE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a2571f230a967d9d250465039c30ecd45", null ],
-      [ "FAIL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a936c4a5547a9360243178f726f6b2715", null ]
+      [ "FAIL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a936c4a5547a9360243178f726f6b2715", null ],
+      [ "PLUS_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a286e4cffb49dac1c03238aea860ad140", null ],
+      [ "MINUS_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a774b6288dc9072f0a38f90179cb074f5", null ],
+      [ "STAR_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afc0970681dc349e37c0005be4960e6a8", null ],
+      [ "SLASH_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a6dc7e6f5ffe756500e352e727edfe54e", null ],
+      [ "PERCENT_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a1014021b267db498eee153eac4c70f1b", null ],
+      [ "AMP_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a845206c648de5db7a8814ef867864c45", null ],
+      [ "PIPE_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ae774f87514076d56b9a3a8b41650fddd", null ],
+      [ "CARET_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a8192abb9711d71a998ee398b85b30d93", null ],
+      [ "LSHIFT_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a7acf4b3fccb886f3ede8075dd6398f9c", null ],
+      [ "RSHIFT_ASSIGN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a8c8a604b494527124c8a4e74dd324930", null ],
+      [ "INCREMENT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a5d249e853c4031947f979fe903390dfb", null ],
+      [ "DECREMENT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921acd27a3a13d233019cec19a2423d65a84", null ]
     ] ],
     [ "tokenTypeToString", "d4/d44/token_8hpp.html#adcf4232d1b543f396684ab4b9d3d4bc5", null ]
 ];
