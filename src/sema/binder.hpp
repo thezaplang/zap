@@ -198,6 +198,11 @@ private:
   std::unique_ptr<BoundExpression>
   wrapInCast(std::unique_ptr<BoundExpression> expr,
              std::shared_ptr<zir::Type> targetType);
+  std::unique_ptr<BoundExpression>
+  buildBinaryExpression(std::unique_ptr<BoundExpression> left,
+                        const std::string &op,
+                        std::unique_ptr<BoundExpression> right,
+                        SourceSpan leftSpan, SourceSpan rightSpan);
   void error(SourceSpan span, const std::string &message);
   std::string mangleName(const std::string &modulePath,
                          const std::string &name) const;

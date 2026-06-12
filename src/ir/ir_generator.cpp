@@ -365,10 +365,23 @@ void BoundIRGenerator::visit(sema::BoundAssignment &node) {
   auto target = valueStack_.top();
   valueStack_.pop();
 
+  auto oldCompoundTargetAddr = compoundTargetAddr_;
+  if (node.isCompound)
+    compoundTargetAddr_ = target;
+
   node.expression->accept(*this);
   auto val = valueStack_.top();
   valueStack_.pop();
+
+  compoundTargetAddr_ = oldCompoundTargetAddr;
   currentBlock_->addInstruction(std::make_unique<StoreInst>(val, target));
+}
+
+void BoundIRGenerator::visit(sema::BoundCompoundTargetLoad &node) {
+  auto reg = createRegister(node.type);
+  currentBlock_->addInstruction(
+      std::make_unique<LoadInst>(reg, compoundTargetAddr_));
+  valueStack_.push(reg);
 }
 
 void BoundIRGenerator::visit(sema::BoundExpressionStatement &node) {
@@ -1536,25 +1549,28 @@ void BoundIRGenerator::visit(sema::BoundIndexAccess &node) {
   bool oldEvaluateAsAddress = evaluateAsAddress_;
   evaluateAsAddress_ = true;
   node.left->accept(*this);
-  evaluateAsAddress_ = oldEvaluateAsAddress;
   auto left = valueStack_.top();
   valueStack_.pop();
 
+  evaluateAsAddress_ = false;
   node.index->accept(*this);
   auto indexVal = valueStack_.top();
   valueStack_.pop();
+  evaluateAsAddress_ = oldEvaluateAsAddress;
 
-  int idx = 0;
+  auto ptr = createRegister(std::make_shared<PointerType>(node.type));
   if (auto *c = dynamic_cast<Constant *>(indexVal.get())) {
+    int idx = 0;
     try {
       idx = std::stoi(c->getName());
     } catch (...) {
     }
+    currentBlock_->addInstruction(
+        std::make_unique<GetElementPtrInst>(ptr, left, idx));
+  } else {
+    currentBlock_->addInstruction(
+        std::make_unique<GetElementPtrInst>(ptr, left, indexVal));
   }
-
-  auto ptr = createRegister(std::make_shared<PointerType>(node.type));
-  currentBlock_->addInstruction(
-      std::make_unique<GetElementPtrInst>(ptr, left, idx));
 
   if (evaluateAsAddress_) {
     valueStack_.push(ptr);

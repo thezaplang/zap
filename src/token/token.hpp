@@ -82,6 +82,18 @@ enum TokenType {
   WHERE,
   IFTYPE,
   FAIL,
+  PLUS_ASSIGN,    ///< '+=' symbol.
+  MINUS_ASSIGN,   ///< '-=' symbol.
+  STAR_ASSIGN,    ///< '*=' symbol.
+  SLASH_ASSIGN,   ///< '/=' symbol.
+  PERCENT_ASSIGN, ///< '%=' symbol.
+  AMP_ASSIGN,     ///< '&=' symbol.
+  PIPE_ASSIGN,    ///< '|=' symbol.
+  CARET_ASSIGN,   ///< '^=' symbol.
+  LSHIFT_ASSIGN,  ///< '<<=' symbol.
+  RSHIFT_ASSIGN,  ///< '>>=' symbol.
+  INCREMENT,      ///< '++' symbol.
+  DECREMENT,      ///< '--' symbol.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -198,6 +210,30 @@ inline std::string tokenTypeToString(TokenType type) {
     return "/";
   case TokenType::CONCAT:
     return "~";
+  case TokenType::PLUS_ASSIGN:
+    return "+=";
+  case TokenType::MINUS_ASSIGN:
+    return "-=";
+  case TokenType::STAR_ASSIGN:
+    return "*=";
+  case TokenType::SLASH_ASSIGN:
+    return "/=";
+  case TokenType::PERCENT_ASSIGN:
+    return "%=";
+  case TokenType::AMP_ASSIGN:
+    return "&=";
+  case TokenType::PIPE_ASSIGN:
+    return "|=";
+  case TokenType::CARET_ASSIGN:
+    return "^=";
+  case TokenType::LSHIFT_ASSIGN:
+    return "<<=";
+  case TokenType::RSHIFT_ASSIGN:
+    return ">>=";
+  case TokenType::INCREMENT:
+    return "++";
+  case TokenType::DECREMENT:
+    return "--";
   case TokenType::ID:
     return "identifier";
   case TokenType::INTEGER:

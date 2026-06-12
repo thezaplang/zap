@@ -1664,8 +1664,11 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
           static_cast<const Register &>(*gepInst.getResult()).getRawName());
     } else {
       llvm::Value *basePtr = ptr;
-      auto *index = llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_),
-                                           gepInst.getIndex());
+      llvm::Value *index =
+          gepInst.getIndexValue()
+              ? lowerZIRRValue(gepInst.getIndexValue())
+              : llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx_),
+                                       gepInst.getIndex());
       if (baseType->getKind() == zir::TypeKind::Array) {
         auto *arrayTy = toLLVMType(*baseType);
         if (!pointerType) {
@@ -2440,14 +2443,27 @@ void LLVMCodeGen::visit(sema::BoundCast &node) {
 }
 
 void LLVMCodeGen::visit(sema::BoundAssignment &node) {
+  bool old = evaluateAsAddr_;
+  llvm::Value *alloca = nullptr;
+  llvm::Value *oldCompoundTargetAddr = compoundTargetAddr_;
+  if (node.isCompound) {
+    evaluateAsAddr_ = true;
+    node.target->accept(*this);
+    alloca = lastValue_;
+    evaluateAsAddr_ = old;
+    compoundTargetAddr_ = alloca;
+  }
+
   node.expression->accept(*this);
   llvm::Value *val = lastValue_;
+  compoundTargetAddr_ = oldCompoundTargetAddr;
 
-  bool old = evaluateAsAddr_;
-  evaluateAsAddr_ = true;
-  node.target->accept(*this);
-  llvm::Value *alloca = lastValue_;
-  evaluateAsAddr_ = old;
+  if (!node.isCompound) {
+    evaluateAsAddr_ = true;
+    node.target->accept(*this);
+    alloca = lastValue_;
+    evaluateAsAddr_ = old;
+  }
 
   if (isClassType(node.target->type)) {
     emitStoreWithArc(alloca, val, node.target->type,
@@ -2455,6 +2471,10 @@ void LLVMCodeGen::visit(sema::BoundAssignment &node) {
   } else {
     builder_.CreateStore(val, alloca);
   }
+}
+
+void LLVMCodeGen::visit(sema::BoundCompoundTargetLoad &node) {
+  lastValue_ = builder_.CreateLoad(toLLVMType(*node.type), compoundTargetAddr_);
 }
 
 void LLVMCodeGen::visit(sema::BoundExpressionStatement &node) {

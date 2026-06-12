@@ -105,12 +105,32 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       ++_column;
       continue;
     } else if (_cur == '+') {
+      if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::PLUS_ASSIGN, "+=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      } else if (Peek2() == '+') {
+        tokens.emplace_back(TokenType::INCREMENT, "++", startLine, startColumn,
+                            startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      }
       tokens.emplace_back(TokenType::PLUS, "+", startLine, startColumn,
                           startPos, 1);
       ++_pos;
       ++_column;
       continue;
     } else if (_cur == '*') {
+      if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::STAR_ASSIGN, "*=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      }
       tokens.emplace_back(TokenType::MULTIPLY, "*", startLine, startColumn,
                           startPos, 1);
       ++_pos;
@@ -119,6 +139,18 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
     } else if (_cur == '-') {
       if (Peek2() == '>') {
         tokens.emplace_back(TokenType::ARROW, "->", startLine, startColumn,
+                            startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      } else if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::MINUS_ASSIGN, "-=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      } else if (Peek2() == '-') {
+        tokens.emplace_back(TokenType::DECREMENT, "--", startLine, startColumn,
                             startPos, 2);
         _pos += 2;
         _column += 2;
@@ -135,6 +167,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           ++_pos;
         }
         continue;
+      } else if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::SLASH_ASSIGN, "/=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
       } else {
         tokens.emplace_back(TokenType::DIVIDE, "/", startLine, startColumn,
                             startPos, 1);
@@ -143,12 +181,26 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         continue;
       }
     } else if (_cur == '%') {
+      if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::PERCENT_ASSIGN, "%=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      }
       tokens.emplace_back(TokenType::MODULO, "%", startLine, startColumn,
                           startPos, 1);
       ++_pos;
       ++_column;
       continue;
     } else if (_cur == '^') {
+      if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::CARET_ASSIGN, "^=", startLine,
+                            startColumn, startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      }
       tokens.emplace_back(TokenType::POW, "^", startLine, startColumn, startPos,
                           1);
       ++_pos;
@@ -157,6 +209,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
     } else if (_cur == '&') {
       if (Peek2() == '&') {
         tokens.emplace_back(TokenType::AND, "&&", startLine, startColumn,
+                            startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      } else if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::AMP_ASSIGN, "&=", startLine, startColumn,
                             startPos, 2);
         _pos += 2;
         _column += 2;
@@ -172,6 +230,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       if (Peek2() == '|') {
         tokens.emplace_back(TokenType::OR, "||", startLine, startColumn,
                             startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
+      } else if (Peek2() == '=') {
+        tokens.emplace_back(TokenType::PIPE_ASSIGN, "|=", startLine,
+                            startColumn, startPos, 2);
         _pos += 2;
         _column += 2;
         continue;
@@ -217,7 +281,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         continue;
       }
     } else if (_cur == '<') {
-      if (Peek2() == '<') {
+      if (Peek2() == '<' && Peek3() == '=') {
+        tokens.emplace_back(TokenType::LSHIFT_ASSIGN, "<<=", startLine,
+                            startColumn, startPos, 3);
+        _pos += 3;
+        _column += 3;
+        continue;
+      } else if (Peek2() == '<') {
         tokens.emplace_back(TokenType::LSHIFT, "<<", startLine, startColumn,
                             startPos, 2);
         _pos += 2;
@@ -237,7 +307,13 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         continue;
       }
     } else if (_cur == '>') {
-      if (Peek2() == '>') {
+      if (Peek2() == '>' && Peek3() == '=') {
+        tokens.emplace_back(TokenType::RSHIFT_ASSIGN, ">>=", startLine,
+                            startColumn, startPos, 3);
+        _pos += 3;
+        _column += 3;
+        continue;
+      } else if (Peek2() == '>') {
         tokens.emplace_back(TokenType::RSHIFT, ">>", startLine, startColumn,
                             startPos, 2);
         _pos += 2;

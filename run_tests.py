@@ -36,6 +36,9 @@ SPECIAL_CASES = {
     "tests/enum_test.zp": {"type": "runtime", "exit": 1, "desc": "Enum test"},
     "tests/type_alias.zp": {"type": "runtime", "exit": 42, "desc": "Type aliasing (alias Name = Type)"},
     "tests/control_flow.zp": {"type": "runtime", "exit": 1, "desc": "Control flow return value"},
+    "tests/compound_assign_test.zp": {"type": "runtime", "exit": 42, "desc": "Compound assignment (+= -= *= /= %= <<= >>= |= &= ^=) and ++/--"},
+    "tests/compound_assign_eval_once_test.zp": {"type": "runtime", "exit": 1, "desc": "Compound assignment evaluates its target exactly once"},
+    "tests/array_dynamic_index_test.zp": {"type": "runtime", "exit": 45, "desc": "Assigning through a runtime-computed array index"},
     "tests/function_call_test.zp": {"type": "runtime", "exit": 1, "desc": "Function call tests"},
 
     # Runtime with custom run arguments

@@ -306,18 +306,26 @@ public:
 class GetElementPtrInst : public Instruction {
   std::shared_ptr<Value> result, ptr;
   int index;
+  std::shared_ptr<Value> indexValue;
 
 public:
   GetElementPtrInst(std::shared_ptr<Value> res, std::shared_ptr<Value> p,
                     int idx)
       : result(std::move(res)), ptr(std::move(p)), index(idx) {}
+  GetElementPtrInst(std::shared_ptr<Value> res, std::shared_ptr<Value> p,
+                    std::shared_ptr<Value> idx)
+      : result(std::move(res)), ptr(std::move(p)), index(0),
+        indexValue(std::move(idx)) {}
   OpCode getOpCode() const override { return OpCode::GetElementPtr; }
   const std::shared_ptr<Value> &getResult() const { return result; }
   const std::shared_ptr<Value> &getPointer() const { return ptr; }
   int getIndex() const { return index; }
+  const std::shared_ptr<Value> &getIndexValue() const { return indexValue; }
   std::string toString() const override {
     return result->getName() + " = getelementptr " + ptr->getTypeName() + " " +
-           ptr->getName() + ", i32 " + std::to_string(index);
+           ptr->getName() + ", " +
+           (indexValue ? indexValue->getTypeName() + " " + indexValue->getName()
+                       : "i32 " + std::to_string(index));
   }
 };
 

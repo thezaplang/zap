@@ -23,6 +23,7 @@ public:
   void visit(sema::BoundExpressionStatement &node) override;
   void visit(sema::BoundLiteral &node) override;
   void visit(sema::BoundVariableExpression &node) override;
+  void visit(sema::BoundCompoundTargetLoad &node) override;
   void visit(sema::BoundBinaryExpression &node) override;
   void visit(sema::BoundTernaryExpression &node) override;
   void visit(sema::BoundUnaryExpression &node) override;
@@ -67,6 +68,7 @@ private:
 
   std::shared_ptr<Value> lastResultValue_ = nullptr;
   bool evaluateAsAddress_ = false;
+  std::shared_ptr<Value> compoundTargetAddr_ = nullptr;
   std::shared_ptr<Value> createRegister(std::shared_ptr<Type> type);
   std::string createBlockLabel(const std::string &prefix);
 

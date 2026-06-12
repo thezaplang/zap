@@ -38,6 +38,7 @@ public:
   void visit(sema::BoundExpressionStatement &node) override;
   void visit(sema::BoundLiteral &node) override;
   void visit(sema::BoundVariableExpression &node) override;
+  void visit(sema::BoundCompoundTargetLoad &node) override;
   void visit(sema::BoundBinaryExpression &node) override;
   void visit(sema::BoundTernaryExpression &node) override;
   void visit(sema::BoundUnaryExpression &node) override;
@@ -73,6 +74,7 @@ private:
   llvm::Function *currentFn_ = nullptr;
   llvm::Value *lastValue_ = nullptr;
   bool evaluateAsAddr_ = false;
+  llvm::Value *compoundTargetAddr_ = nullptr;
 
   std::map<std::string, llvm::Value *> localValues_;
   std::map<std::string, llvm::GlobalVariable *> globalValues_;

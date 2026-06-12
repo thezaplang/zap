@@ -9,6 +9,8 @@ class AssignNode : public StatementNode {
 public:
   std::unique_ptr<ExpressionNode> target_;
   std::unique_ptr<ExpressionNode> expr_;
+  /// Compound-assignment operator (e.g. "+", "<<"). Empty for a plain "=".
+  std::string op_;
   AssignNode() noexcept = default;
 
   AssignNode(std::unique_ptr<ExpressionNode> target,

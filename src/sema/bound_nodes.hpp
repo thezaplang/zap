@@ -18,6 +18,7 @@ class BoundExpressionStatement;
 class BoundExpression;
 class BoundLiteral;
 class BoundVariableExpression;
+class BoundCompoundTargetLoad;
 class BoundBinaryExpression;
 class BoundTernaryExpression;
 class BoundUnaryExpression;
@@ -58,6 +59,7 @@ public:
   virtual void visit(BoundExpressionStatement &node) = 0;
   virtual void visit(BoundLiteral &node) = 0;
   virtual void visit(BoundVariableExpression &node) = 0;
+  virtual void visit(BoundCompoundTargetLoad &node) = 0;
   virtual void visit(BoundBinaryExpression &node) = 0;
   virtual void visit(BoundTernaryExpression &node) = 0;
   virtual void visit(BoundUnaryExpression &node) = 0;
@@ -166,6 +168,18 @@ public:
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundExpression> clone() const override {
     return std::make_unique<BoundVariableExpression>(symbol);
+  }
+};
+
+/// Reads the value of a compound-assignment target (`a` in `a += b`) from the
+/// address the enclosing BoundAssignment computes once.
+class BoundCompoundTargetLoad : public BoundExpression {
+public:
+  explicit BoundCompoundTargetLoad(std::shared_ptr<zir::Type> t)
+      : BoundExpression(std::move(t)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+  std::unique_ptr<BoundExpression> clone() const override {
+    return std::make_unique<BoundCompoundTargetLoad>(type);
   }
 };
 
@@ -489,14 +503,15 @@ class BoundAssignment : public BoundStatement {
 public:
   std::unique_ptr<BoundExpression> target;
   std::unique_ptr<BoundExpression> expression;
+  bool isCompound = false;
 
   BoundAssignment(std::unique_ptr<BoundExpression> t,
-                  std::unique_ptr<BoundExpression> e)
-      : target(std::move(t)), expression(std::move(e)) {}
+                  std::unique_ptr<BoundExpression> e, bool compound = false)
+      : target(std::move(t)), expression(std::move(e)), isCompound(compound) {}
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundStatement> cloneStatement() const override {
     return std::make_unique<BoundAssignment>(target->clone(),
-                                             expression->clone());
+                                             expression->clone(), isCompound);
   }
 };
 

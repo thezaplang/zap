@@ -1,0 +1,20 @@
+import "std/io" { printInt };
+
+// Storing through an array index computed at runtime (variable or call) must
+// address the right element, not always element 0.
+fun two() Int {
+    return 2;
+}
+
+fun main() Int {
+    var arr: [4]Int = {0, 0, 0, 0};
+    var i: Int = 1;
+    arr[i] = 10;          // arr[1] = 10
+    arr[two()] = 30;      // arr[2] = 30
+    arr[i] += 5;          // arr[1] = 15
+    var sum: Int = 0;
+    for (var j: Int = 0; j < 4; j++) {
+        sum = sum + arr[j];
+    }
+    return sum;           // 0 + 15 + 30 + 0 = 45
+}

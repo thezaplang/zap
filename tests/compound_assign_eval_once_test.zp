@@ -1,0 +1,17 @@
+import "std/io" { printInt };
+
+// Counts how many times the index expression is evaluated.
+global var calls: Int = 0;
+
+fun idx() Int {
+    calls += 1;
+    return 1;
+}
+
+fun main() Int {
+    var arr: [3]Int = {10, 20, 30};
+    // A compound assignment must evaluate its target (and the side effects in
+    // it) exactly once, unlike a naive `arr[idx()] = arr[idx()] + 5` desugar.
+    arr[idx()] += 5;
+    return calls; // exit code 1 == evaluated once
+}

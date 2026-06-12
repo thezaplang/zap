@@ -7,6 +7,33 @@
 
 namespace zap {
 namespace {
+std::string compoundAssignOp(TokenType type) {
+  switch (type) {
+  case TokenType::PLUS_ASSIGN:
+    return "+";
+  case TokenType::MINUS_ASSIGN:
+    return "-";
+  case TokenType::STAR_ASSIGN:
+    return "*";
+  case TokenType::SLASH_ASSIGN:
+    return "/";
+  case TokenType::PERCENT_ASSIGN:
+    return "%";
+  case TokenType::AMP_ASSIGN:
+    return "&";
+  case TokenType::PIPE_ASSIGN:
+    return "|";
+  case TokenType::CARET_ASSIGN:
+    return "^";
+  case TokenType::LSHIFT_ASSIGN:
+    return "<<";
+  case TokenType::RSHIFT_ASSIGN:
+    return ">>";
+  default:
+    return "";
+  }
+}
+
 std::string qualifiedNameFromExpression(const ExpressionNode *expr) {
   if (auto id = dynamic_cast<const ConstId *>(expr)) {
     return id->value_;
@@ -415,6 +442,28 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           auto value = parseExpression();
           Token semi = eat(TokenType::SEMICOLON);
           auto assign = _builder.makeAssign(std::move(expr), std::move(value));
+          _builder.setSpan(assign.get(),
+                           SourceSpan::merge(assign->target_->span, semi.span));
+          body->addStatement(std::move(assign));
+        } else if (!compoundAssignOp(peek().type).empty()) {
+          std::string op = compoundAssignOp(peek().type);
+          eat(peek().type);
+          auto value = parseExpression();
+          Token semi = eat(TokenType::SEMICOLON);
+          auto assign = _builder.makeAssign(std::move(expr), std::move(value));
+          assign->op_ = op;
+          _builder.setSpan(assign.get(),
+                           SourceSpan::merge(assign->target_->span, semi.span));
+          body->addStatement(std::move(assign));
+        } else if (peek().type == TokenType::INCREMENT ||
+                   peek().type == TokenType::DECREMENT) {
+          std::string op = peek().type == TokenType::INCREMENT ? "+" : "-";
+          eat(peek().type);
+          Token semi = eat(TokenType::SEMICOLON);
+          auto one = _builder.makeConstInt(static_cast<int64_t>(1));
+          _builder.setSpan(one.get(), semi.span);
+          auto assign = _builder.makeAssign(std::move(expr), std::move(one));
+          assign->op_ = op;
           _builder.setSpan(assign.get(),
                            SourceSpan::merge(assign->target_->span, semi.span));
           body->addStatement(std::move(assign));
@@ -1000,6 +1049,32 @@ std::unique_ptr<VarDecl> Parser::parseForInitVarDecl() {
 
 std::unique_ptr<AssignNode> Parser::parseForIncrementAssign() {
   auto target = parseExpression();
+
+  if (peek().type == TokenType::INCREMENT ||
+      peek().type == TokenType::DECREMENT) {
+    std::string op = peek().type == TokenType::INCREMENT ? "+" : "-";
+    Token opTok = eat(peek().type);
+    auto one = _builder.makeConstInt(static_cast<int64_t>(1));
+    _builder.setSpan(one.get(), opTok.span);
+    SourceSpan startSpan = target->span;
+    auto assign = _builder.makeAssign(std::move(target), std::move(one));
+    assign->op_ = op;
+    _builder.setSpan(assign.get(), SourceSpan::merge(startSpan, opTok.span));
+    return assign;
+  }
+
+  std::string compoundOp = compoundAssignOp(peek().type);
+  if (!compoundOp.empty()) {
+    eat(peek().type);
+    auto expr = parseExpression();
+    SourceSpan startSpan = target->span;
+    auto assign = _builder.makeAssign(std::move(target), std::move(expr));
+    assign->op_ = compoundOp;
+    _builder.setSpan(assign.get(),
+                     SourceSpan::merge(startSpan, assign->expr_->span));
+    return assign;
+  }
+
   eat(TokenType::ASSIGN);
   auto expr = parseExpression();
   auto assign = _builder.makeAssign(std::move(target), std::move(expr));

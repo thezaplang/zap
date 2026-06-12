@@ -79,11 +79,21 @@ void Binder::visit(BinExpr &node) {
     expressionStack_.pop();
   }
 
+  expressionStack_.push(
+      buildBinaryExpression(std::move(left), node.op_, std::move(right),
+                            node.left_->span, node.right_->span));
+}
+
+std::unique_ptr<BoundExpression>
+Binder::buildBinaryExpression(std::unique_ptr<BoundExpression> left,
+                              const std::string &op,
+                              std::unique_ptr<BoundExpression> right,
+                              SourceSpan leftSpan, SourceSpan rightSpan) {
   auto leftType = left->type;
   auto rightType = right->type;
   std::shared_ptr<zir::Type> resultType = leftType;
 
-  if (node.op_ == "+" &&
+  if (op == "+" &&
       ((isStringType(leftType) || leftType->getKind() == zir::TypeKind::Char) ||
        (isStringType(rightType) ||
         rightType->getKind() == zir::TypeKind::Char))) {
@@ -94,43 +104,40 @@ void Binder::visit(BinExpr &node) {
     bool hasString = isStringType(leftType) || isStringType(rightType);
 
     if (!leftOk || !rightOk || !hasString) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
+      error(SourceSpan::merge(leftSpan, rightSpan),
             "Concatenation requires String and/or Char operands with at least "
             "one String, got '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     }
     resultType = std::make_shared<zir::RecordType>("String", "String");
-  } else if ((node.op_ == "+" || node.op_ == "-") &&
+  } else if ((op == "+" || op == "-") &&
              (isPointerType(leftType) || isPointerType(rightType))) {
-    if (node.op_ == "+" && isPointerType(leftType) && rightType->isInteger()) {
+    if (op == "+" && isPointerType(leftType) && rightType->isInteger()) {
       resultType = leftType;
-    } else if (node.op_ == "+" && leftType->isInteger() &&
-               isPointerType(rightType)) {
+    } else if (op == "+" && leftType->isInteger() && isPointerType(rightType)) {
       std::swap(left, right);
       std::swap(leftType, rightType);
       resultType = leftType;
-    } else if (node.op_ == "-" && isPointerType(leftType) &&
-               rightType->isInteger()) {
+    } else if (op == "-" && isPointerType(leftType) && rightType->isInteger()) {
       resultType = leftType;
-    } else if (node.op_ == "-" && isPointerType(leftType) &&
+    } else if (op == "-" && isPointerType(leftType) &&
                isPointerType(rightType)) {
       if (leftType->toString() != rightType->toString()) {
-        error(SourceSpan::merge(node.left_->span, node.right_->span),
+        error(SourceSpan::merge(leftSpan, rightSpan),
               "Pointer subtraction requires operands of the same type.");
       }
       resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
     } else {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
+      error(SourceSpan::merge(leftSpan, rightSpan),
             "Invalid pointer arithmetic between '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     }
-  } else if (node.op_ == "+" || node.op_ == "-" || node.op_ == "*" ||
-             node.op_ == "/" || node.op_ == "%") {
+  } else if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
     if (!isNumeric(leftType) || !isNumeric(rightType)) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
-            "Operator '" + node.op_ + "' cannot be applied to '" +
+      error(SourceSpan::merge(leftSpan, rightSpan),
+            "Operator '" + op + "' cannot be applied to '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     } else {
@@ -138,11 +145,10 @@ void Binder::visit(BinExpr &node) {
       left = wrapInCast(std::move(left), resultType);
       right = wrapInCast(std::move(right), resultType);
     }
-  } else if (node.op_ == "&" || node.op_ == "|" || node.op_ == "^") {
+  } else if (op == "&" || op == "|" || op == "^") {
     if (!leftType->isInteger() || !rightType->isInteger()) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
-            "Bitwise operator '" + node.op_ +
-                "' requires integer operands, got '" +
+      error(SourceSpan::merge(leftSpan, rightSpan),
+            "Bitwise operator '" + op + "' requires integer operands, got '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     } else {
@@ -150,11 +156,10 @@ void Binder::visit(BinExpr &node) {
       left = wrapInCast(std::move(left), resultType);
       right = wrapInCast(std::move(right), resultType);
     }
-  } else if (node.op_ == "<<" || node.op_ == ">>") {
+  } else if (op == "<<" || op == ">>") {
     if (!leftType->isInteger() || !rightType->isInteger()) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
-            "Shift operator '" + node.op_ +
-                "' requires integer operands, got '" +
+      error(SourceSpan::merge(leftSpan, rightSpan),
+            "Shift operator '" + op + "' requires integer operands, got '" +
                 renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     } else {
@@ -164,13 +169,13 @@ void Binder::visit(BinExpr &node) {
 
       if (auto shiftAmount = evaluateConstantInt(right.get())) {
         if (*shiftAmount < 0) {
-          error(SourceSpan::merge(node.left_->span, node.right_->span),
+          error(SourceSpan::merge(leftSpan, rightSpan),
                 "Shift amount must be non-negative, got '" +
                     std::to_string(*shiftAmount) + "'.");
         } else {
           unsigned width = static_cast<unsigned>(typeBitWidth(resultType));
           if (width == 0 || static_cast<uint64_t>(*shiftAmount) >= width) {
-            error(SourceSpan::merge(node.left_->span, node.right_->span),
+            error(SourceSpan::merge(leftSpan, rightSpan),
                   "Shift amount '" + std::to_string(*shiftAmount) +
                       "' is out of range for type '" +
                       renderTypeForUser(resultType) + "' (" +
@@ -179,8 +184,8 @@ void Binder::visit(BinExpr &node) {
         }
       }
     }
-  } else if (node.op_ == "==" || node.op_ == "!=" || node.op_ == "<" ||
-             node.op_ == "<=" || node.op_ == ">" || node.op_ == ">=") {
+  } else if (op == "==" || op == "!=" || op == "<" || op == "<=" || op == ">" ||
+             op == ">=") {
     bool classOrNullComparison =
         (leftType->getKind() == zir::TypeKind::Class &&
          isNullType(rightType)) ||
@@ -191,18 +196,18 @@ void Binder::visit(BinExpr &node) {
     }
 
     bool stringComparison = isStringType(leftType) && isStringType(rightType) &&
-                            (node.op_ == "==" || node.op_ == "!=");
+                            (op == "==" || op == "!=");
 
     // Reject comparisons of struct types except String/StringView equality.
     if (!stringComparison && (leftType->getKind() == zir::TypeKind::Record ||
                               rightType->getKind() == zir::TypeKind::Record)) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
+      error(SourceSpan::merge(leftSpan, rightSpan),
             "Cannot compare struct types '" + renderTypeForUser(leftType) +
                 "' and '" + renderTypeForUser(rightType) + "'");
     }
 
     if (!canConvert(leftType, rightType) && !canConvert(rightType, leftType)) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
+      error(SourceSpan::merge(leftSpan, rightSpan),
             "Cannot compare '" + renderTypeForUser(leftType) + "' and '" +
                 renderTypeForUser(rightType) + "'");
     } else if (isNullType(leftType) && isPointerType(rightType)) {
@@ -229,17 +234,17 @@ void Binder::visit(BinExpr &node) {
       right = wrapInCast(std::move(right), stringViewType);
     }
     resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
-  } else if (node.op_ == "&&" || node.op_ == "||") {
+  } else if (op == "&&" || op == "||") {
     if (leftType->getKind() != zir::TypeKind::Bool ||
         rightType->getKind() != zir::TypeKind::Bool) {
-      error(SourceSpan::merge(node.left_->span, node.right_->span),
-            "Logical operator '" + node.op_ + "' requires Bool operands.");
+      error(SourceSpan::merge(leftSpan, rightSpan),
+            "Logical operator '" + op + "' requires Bool operands.");
     }
     resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
   }
 
-  expressionStack_.push(std::make_unique<BoundBinaryExpression>(
-      std::move(left), node.op_, std::move(right), resultType));
+  return std::make_unique<BoundBinaryExpression>(std::move(left), op,
+                                                 std::move(right), resultType);
 }
 
 void Binder::visit(TernaryExpr &node) {
@@ -597,6 +602,16 @@ void Binder::visit(AssignNode &node) {
   if (!expr)
     return;
 
+  bool isCompound = !node.op_.empty();
+  if (isCompound) {
+    auto targetLoad = std::make_unique<BoundCompoundTargetLoad>(target->type);
+    expr =
+        buildBinaryExpression(std::move(targetLoad), node.op_, std::move(expr),
+                              node.target_->span, node.expr_->span);
+    if (!expr)
+      return;
+  }
+
   if (!canConvert(expr->type, target->type)) {
     error(node.span, "Cannot assign expression of type '" +
                          renderTypeForUser(expr->type) + "' to type '" +
@@ -605,8 +620,8 @@ void Binder::visit(AssignNode &node) {
     expr = wrapInCast(std::move(expr), target->type);
   }
 
-  statementStack_.push(
-      std::make_unique<BoundAssignment>(std::move(target), std::move(expr)));
+  statementStack_.push(std::make_unique<BoundAssignment>(
+      std::move(target), std::move(expr), isCompound));
 }
 
 void Binder::visit(IndexAccessNode &node) {
