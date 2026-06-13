@@ -493,6 +493,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         type = TokenType::CONST;
       else if (identStr == "unsafe")
         type = TokenType::UNSAFE;
+      else if (identStr == "asm")
+        type = TokenType::ASM;
       else if (identStr == "null")
         type = TokenType::NULL_LITERAL;
       else if (identStr == "alias")

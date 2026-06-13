@@ -1,0 +1,17 @@
+import "std/io" { println };
+
+fun main() Int {
+    var out: Int = 0;
+    var a: Int = 20;
+    var b: Int = 22;
+    unsafe {
+        asm("nop");
+        asm("nop" ::: "memory");
+        asm("addq $2, $0" : "=r"(out) : "0"(a), "r"(b));
+    }
+    println("inline asm ran");
+    if (out == 42) {
+        return 0;
+    }
+    return 1;
+}

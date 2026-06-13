@@ -1,0 +1,20 @@
+import "std/io" { println, printf };
+
+// Inline assembly, only allowed inside `unsafe`. Operand syntax follows GCC
+// extended asm: asm("template" : outputs : inputs : clobbers), where operands
+// are "constraint"(expr) and template positions are $0, $1, ... (outputs first).
+fun main() Int {
+    var sum: Int = 0;
+    var a: Int = 17;
+    var b: Int = 25;
+
+    unsafe {
+        asm("nop");
+        asm("nop" ::: "memory");
+        asm("addq $2, $0" : "=r"(sum) : "0"(a), "r"(b));
+    }
+
+    printf("17 + 25 via asm = %d\n", sum);
+    println("inline asm executed");
+    return 0;
+}

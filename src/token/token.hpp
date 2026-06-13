@@ -94,6 +94,7 @@ enum TokenType {
   RSHIFT_ASSIGN,  ///< '>>=' symbol.
   INCREMENT,      ///< '++' symbol.
   DECREMENT,      ///< '--' symbol.
+  ASM,            ///< "asm" keyword.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -252,6 +253,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "const";
   case TokenType::UNSAFE:
     return "unsafe";
+  case TokenType::ASM:
+    return "asm";
   case TokenType::NULL_LITERAL:
     return "null";
   case TokenType::ALIAS:

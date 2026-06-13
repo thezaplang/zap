@@ -1,5 +1,6 @@
 #pragma once
 #include "array_literal.hpp"
+#include "asm_stmt_node.hpp"
 #include "assign_node.hpp"
 #include "bin_expr.hpp"
 #include "body_node.hpp"

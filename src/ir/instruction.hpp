@@ -35,7 +35,8 @@ enum class OpCode {
   Phi,
   Cast,
   WeakLock,
-  WeakAlive
+  WeakAlive,
+  InlineAsm
 };
 
 class Instruction {
@@ -402,6 +403,53 @@ public:
   std::string toString() const override {
     return result->getName() + " = weak.alive " + weakValue->getTypeName() +
            " " + weakValue->getName();
+  }
+};
+
+struct AsmOperand {
+  std::string constraint;
+  std::shared_ptr<Value> value;
+  std::shared_ptr<Type> valueType;
+};
+
+class InlineAsmInst : public Instruction {
+  std::string assembly;
+  std::vector<AsmOperand> outputs;
+  std::vector<AsmOperand> inputs;
+  std::vector<std::string> clobbers;
+
+public:
+  InlineAsmInst(std::string asmStr, std::vector<AsmOperand> outs,
+                std::vector<AsmOperand> ins, std::vector<std::string> clob)
+      : assembly(std::move(asmStr)), outputs(std::move(outs)),
+        inputs(std::move(ins)), clobbers(std::move(clob)) {}
+  OpCode getOpCode() const override { return OpCode::InlineAsm; }
+  const std::string &getAssembly() const { return assembly; }
+  const std::vector<AsmOperand> &getOutputs() const { return outputs; }
+  const std::vector<AsmOperand> &getInputs() const { return inputs; }
+  const std::vector<std::string> &getClobbers() const { return clobbers; }
+  std::string toString() const override {
+    std::string s = "asm \"" + assembly + "\"";
+    auto appendOperands = [&](const char *label,
+                              const std::vector<AsmOperand> &ops) {
+      if (ops.empty())
+        return;
+      s += std::string(" ") + label + " ";
+      for (size_t i = 0; i < ops.size(); ++i) {
+        s += "\"" + ops[i].constraint + "\"(" +
+             (ops[i].value ? ops[i].value->getName() : "?") + ")" +
+             (i + 1 < ops.size() ? ", " : "");
+      }
+    };
+    appendOperands("out", outputs);
+    appendOperands("in", inputs);
+    if (!clobbers.empty()) {
+      s += " clobbers ";
+      for (size_t i = 0; i < clobbers.size(); ++i) {
+        s += "\"" + clobbers[i] + "\"" + (i + 1 < clobbers.size() ? ", " : "");
+      }
+    }
+    return s;
   }
 };
 

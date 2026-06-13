@@ -83,6 +83,51 @@ void Binder::visit(UnsafeBlockNode &node) {
   statementStack_.push(std::move(boundBody));
 }
 
+void Binder::visit(AsmStmtNode &node) {
+  requireUnsafeContext(node.span, "inline 'asm'");
+
+  std::vector<BoundAsmOperand> outputs;
+  for (auto &operand : node.outputs) {
+    operand.expr->accept(*this);
+    if (expressionStack_.empty())
+      return;
+    auto bound = std::move(expressionStack_.top());
+    expressionStack_.pop();
+
+    bool isLValue =
+        dynamic_cast<BoundVariableExpression *>(bound.get()) ||
+        dynamic_cast<BoundIndexAccess *>(bound.get()) ||
+        dynamic_cast<BoundMemberAccess *>(bound.get()) ||
+        (dynamic_cast<BoundUnaryExpression *>(bound.get()) &&
+         static_cast<BoundUnaryExpression *>(bound.get())->op == "*");
+    if (!isLValue) {
+      error(node.span, "Inline 'asm' output operand must be an l-value.");
+      return;
+    }
+    if (auto varExpr = dynamic_cast<BoundVariableExpression *>(bound.get())) {
+      if (varExpr->symbol->is_const) {
+        error(node.span, "Cannot assign to constant '" + varExpr->symbol->name +
+                             "' through inline 'asm'.");
+        return;
+      }
+    }
+    outputs.push_back({operand.constraint, std::move(bound)});
+  }
+
+  std::vector<BoundAsmOperand> inputs;
+  for (auto &operand : node.inputs) {
+    operand.expr->accept(*this);
+    if (expressionStack_.empty())
+      return;
+    auto bound = std::move(expressionStack_.top());
+    expressionStack_.pop();
+    inputs.push_back({operand.constraint, std::move(bound)});
+  }
+
+  statementStack_.push(std::make_unique<BoundAsmStatement>(
+      node.assembly, std::move(outputs), std::move(inputs), node.clobbers));
+}
+
 void Binder::visit(ReturnNode &node) {
   std::unique_ptr<BoundExpression> expr = nullptr;
   bool expressionHadDiagnostic = false;

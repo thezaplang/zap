@@ -9,6 +9,6 @@
 - [ ] package registery
 - [ ] stdlib cleanup
 - [ ] first ZIR optimalizations
-- [ ] inline asm
+- [x] inline asm
 - [ ] Windows support
-- [ ] mutation operators
+- [x] mutation operators

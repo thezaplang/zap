@@ -30,6 +30,7 @@ class ParameterNode;
 class TypeNode;
 class IndexAccessNode;
 class UnsafeBlockNode;
+class AsmStmtNode;
 class TryExpr;
 class FallbackExpr;
 class FailableHandleExpr;
@@ -87,6 +88,7 @@ struct Visitor {
   virtual void visit(TypeNode &) {}
   virtual void visit(IndexAccessNode &) {}
   virtual void visit(UnsafeBlockNode &) {}
+  virtual void visit(AsmStmtNode &) {}
   virtual void visit(FailNode &) {}
 
   virtual void visit(ExpressionNode &) {}

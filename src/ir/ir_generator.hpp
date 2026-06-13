@@ -42,6 +42,7 @@ public:
   void visit(sema::BoundForStatement &node) override;
   void visit(sema::BoundBreakStatement &node) override;
   void visit(sema::BoundContinueStatement &node) override;
+  void visit(sema::BoundAsmStatement &node) override;
   void visit(sema::BoundCast &node) override;
   void visit(sema::BoundNewExpression &node) override;
   void visit(sema::BoundWeakLockExpression &node) override;

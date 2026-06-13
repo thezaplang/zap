@@ -103,6 +103,7 @@ public:
   void visit(ClassDecl &node) override;
   void visit(StructLiteralNode &node) override;
   void visit(UnsafeBlockNode &node) override;
+  void visit(AsmStmtNode &node) override;
   void visit(NewExpr &node) override;
   void visit(TryExpr &node) override;
   void visit(FallbackExpr &node) override;

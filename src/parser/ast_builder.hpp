@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../ast/array_literal.hpp"
+#include "../ast/asm_stmt_node.hpp"
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
 #include "../ast/body_node.hpp"
@@ -85,6 +86,12 @@ public:
 
   std::unique_ptr<UnsafeBlockNode> makeUnsafeBlock() {
     return std::make_unique<UnsafeBlockNode>();
+  }
+
+  std::unique_ptr<AsmStmtNode> makeAsm(std::string assembly) {
+    auto node = std::make_unique<AsmStmtNode>();
+    node->assembly = std::move(assembly);
+    return node;
   }
 
   std::unique_ptr<IfNode> makeIf(std::unique_ptr<ExpressionNode> condition,

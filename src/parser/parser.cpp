@@ -435,6 +435,8 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
         body->addStatement(parseContinue());
       } else if (peek().type == TokenType::UNSAFE) {
         body->addStatement(parseUnsafeBlock());
+      } else if (peek().type == TokenType::ASM) {
+        body->addStatement(parseAsm());
       } else {
         auto expr = parseExpression();
         if (peek().type == TokenType::ASSIGN) {
@@ -1273,6 +1275,81 @@ std::unique_ptr<UnsafeBlockNode> Parser::parseUnsafeBlock() {
   _builder.setSpan(unsafeBlock.get(),
                    SourceSpan::merge(unsafeKeyword.span, rbraceToken.span));
   return unsafeBlock;
+}
+
+std::vector<AsmOperandNode> Parser::parseAsmOperandList() {
+  std::vector<AsmOperandNode> operands;
+  while (true) {
+    AsmOperandNode operand;
+    operand.constraint = eat(TokenType::STRING).value;
+    eat(TokenType::LPAREN);
+    operand.expr = parseExpression();
+    eat(TokenType::RPAREN);
+    operands.push_back(std::move(operand));
+    if (peek().type != TokenType::COMMA)
+      break;
+    eat(TokenType::COMMA);
+  }
+  return operands;
+}
+
+std::unique_ptr<AsmStmtNode> Parser::parseAsm() {
+  Token asmKeyword = eat(TokenType::ASM);
+  eat(TokenType::LPAREN);
+  Token templateToken = eat(TokenType::STRING);
+
+  auto node = _builder.makeAsm(templateToken.value);
+
+  // The lexer merges adjacent ':' into '::', so consume colon separators one
+  // at a time, buffering the second half of a '::' token.
+  bool pendingColon = false;
+  auto consumeColon = [&]() -> bool {
+    if (pendingColon) {
+      pendingColon = false;
+      return true;
+    }
+    if (peek().type == TokenType::COLON) {
+      eat(TokenType::COLON);
+      return true;
+    }
+    if (peek().type == TokenType::DOUBLECOLON) {
+      eat(TokenType::DOUBLECOLON);
+      pendingColon = true;
+      return true;
+    }
+    return false;
+  };
+  auto sectionEmpty = [&]() -> bool {
+    return pendingColon || peek().type == TokenType::COLON ||
+           peek().type == TokenType::DOUBLECOLON ||
+           peek().type == TokenType::RPAREN;
+  };
+
+  if (consumeColon()) {
+    if (!sectionEmpty())
+      node->outputs = parseAsmOperandList();
+
+    if (consumeColon()) {
+      if (!sectionEmpty())
+        node->inputs = parseAsmOperandList();
+
+      if (consumeColon()) {
+        if (!sectionEmpty()) {
+          node->clobbers.push_back(eat(TokenType::STRING).value);
+          while (peek().type == TokenType::COMMA) {
+            eat(TokenType::COMMA);
+            node->clobbers.push_back(eat(TokenType::STRING).value);
+          }
+        }
+      }
+    }
+  }
+
+  eat(TokenType::RPAREN);
+  Token semi = eat(TokenType::SEMICOLON);
+
+  _builder.setSpan(node.get(), SourceSpan::merge(asmKeyword.span, semi.span));
+  return node;
 }
 
 std::unique_ptr<ExpressionNode> Parser::parseCastExpression() {

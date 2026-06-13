@@ -1442,6 +1442,30 @@ void BoundIRGenerator::visit(sema::BoundForStatement &node) {
   currentBlock_ = endBlockPtr;
 }
 
+void BoundIRGenerator::visit(sema::BoundAsmStatement &node) {
+  std::vector<AsmOperand> outputs;
+  for (auto &operand : node.outputs) {
+    bool oldEvaluateAsAddress = evaluateAsAddress_;
+    evaluateAsAddress_ = true;
+    operand.expr->accept(*this);
+    evaluateAsAddress_ = oldEvaluateAsAddress;
+    auto addr = valueStack_.top();
+    valueStack_.pop();
+    outputs.push_back({operand.constraint, addr, operand.expr->type});
+  }
+
+  std::vector<AsmOperand> inputs;
+  for (auto &operand : node.inputs) {
+    operand.expr->accept(*this);
+    auto value = valueStack_.top();
+    valueStack_.pop();
+    inputs.push_back({operand.constraint, value, operand.expr->type});
+  }
+
+  currentBlock_->addInstruction(std::make_unique<InlineAsmInst>(
+      node.assembly, std::move(outputs), std::move(inputs), node.clobbers));
+}
+
 void BoundIRGenerator::visit(sema::BoundBreakStatement &node) {
   if (loopLabelStack_.empty()) {
     // Should have been diagnosed earlier in binder, but guard anyway

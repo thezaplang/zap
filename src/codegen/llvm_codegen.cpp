@@ -5,6 +5,7 @@
 #include <llvm/IR/BasicBlock.h>
 #include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/Function.h>
+#include <llvm/IR/InlineAsm.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Verifier.h>
@@ -64,6 +65,7 @@ LLVMCodeGen::LLVMCodeGen()
       arcEmitter_(std::make_unique<ClassArcEmitter>(*this)), nextStringId_(0) {
   llvm::InitializeNativeTarget();
   llvm::InitializeNativeTargetAsmPrinter();
+  llvm::InitializeNativeTargetAsmParser();
 }
 
 LLVMCodeGen::~LLVMCodeGen() = default;
@@ -1840,9 +1842,78 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
     zirOwnedClassValues_.insert(allocInst.getResult().get());
     return;
   }
+  case OpCode::InlineAsm: {
+    const auto &asmInst = static_cast<const InlineAsmInst &>(inst);
+    std::vector<std::string> outConstraints, inConstraints;
+    std::vector<llvm::Value *> outAddrs, inValues;
+    std::vector<llvm::Type *> outValueTypes;
+    for (const auto &out : asmInst.getOutputs()) {
+      outConstraints.push_back(out.constraint);
+      outAddrs.push_back(lowerZIRValue(out.value));
+      outValueTypes.push_back(toLLVMType(*out.valueType));
+    }
+    for (const auto &in : asmInst.getInputs()) {
+      inConstraints.push_back(in.constraint);
+      inValues.push_back(lowerZIRRValue(in.value));
+    }
+    buildInlineAsmCall(asmInst.getAssembly(), outConstraints, outAddrs,
+                       outValueTypes, inConstraints, inValues,
+                       asmInst.getClobbers());
+    return;
+  }
   case OpCode::Retain:
   case OpCode::Release:
     throw std::runtime_error("ZIR opcode not lowered yet in LLVM backend");
+  }
+}
+
+void LLVMCodeGen::buildInlineAsmCall(
+    const std::string &assembly, const std::vector<std::string> &outConstraints,
+    const std::vector<llvm::Value *> &outAddrs,
+    const std::vector<llvm::Type *> &outValueTypes,
+    const std::vector<std::string> &inConstraints,
+    const std::vector<llvm::Value *> &inValues,
+    const std::vector<std::string> &clobbers) {
+  std::vector<std::string> parts;
+  for (const auto &c : outConstraints)
+    parts.push_back(c);
+  for (const auto &c : inConstraints)
+    parts.push_back(c);
+  for (const auto &c : clobbers)
+    parts.push_back("~{" + c + "}");
+
+  std::string constraints;
+  for (size_t i = 0; i < parts.size(); ++i) {
+    if (i > 0)
+      constraints += ",";
+    constraints += parts[i];
+  }
+
+  llvm::Type *retTy;
+  if (outValueTypes.empty()) {
+    retTy = llvm::Type::getVoidTy(ctx_);
+  } else if (outValueTypes.size() == 1) {
+    retTy = outValueTypes[0];
+  } else {
+    retTy = llvm::StructType::get(ctx_, outValueTypes);
+  }
+
+  std::vector<llvm::Type *> paramTypes;
+  for (auto *v : inValues)
+    paramTypes.push_back(v->getType());
+
+  auto *fnTy = llvm::FunctionType::get(retTy, paramTypes, /*isVarArg=*/false);
+  auto *inlineAsm = llvm::InlineAsm::get(fnTy, assembly, constraints,
+                                         /*hasSideEffects=*/true);
+  auto *call = builder_.CreateCall(inlineAsm, inValues);
+
+  if (outValueTypes.size() == 1) {
+    builder_.CreateStore(call, outAddrs[0]);
+  } else if (outValueTypes.size() > 1) {
+    for (unsigned i = 0; i < outValueTypes.size(); ++i) {
+      auto *field = builder_.CreateExtractValue(call, {i});
+      builder_.CreateStore(field, outAddrs[i]);
+    }
   }
 }
 
@@ -3585,6 +3656,30 @@ void LLVMCodeGen::visit(sema::BoundBreakStatement &node) {
   // Create a new continuation block so subsequent instructions have a place
   auto *contBB = llvm::BasicBlock::Create(ctx_, "after.break", currentFn_);
   builder_.SetInsertPoint(contBB);
+}
+
+void LLVMCodeGen::visit(sema::BoundAsmStatement &node) {
+  std::vector<std::string> outConstraints, inConstraints;
+  std::vector<llvm::Value *> outAddrs, inValues;
+  std::vector<llvm::Type *> outValueTypes;
+
+  for (auto &out : node.outputs) {
+    bool old = evaluateAsAddr_;
+    evaluateAsAddr_ = true;
+    out.expr->accept(*this);
+    evaluateAsAddr_ = old;
+    outConstraints.push_back(out.constraint);
+    outAddrs.push_back(lastValue_);
+    outValueTypes.push_back(toLLVMType(*out.expr->type));
+  }
+  for (auto &in : node.inputs) {
+    in.expr->accept(*this);
+    inConstraints.push_back(in.constraint);
+    inValues.push_back(lastValue_);
+  }
+
+  buildInlineAsmCall(node.assembly, outConstraints, outAddrs, outValueTypes,
+                     inConstraints, inValues, node.clobbers);
 }
 
 void LLVMCodeGen::visit(sema::BoundContinueStatement &node) {

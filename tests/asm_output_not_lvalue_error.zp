@@ -1,0 +1,7 @@
+fun main() Int {
+    var a: Int = 1;
+    unsafe {
+        asm("nop" : "=r"(a + 1) : "r"(a));
+    }
+    return 0;
+}

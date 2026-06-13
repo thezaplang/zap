@@ -1,0 +1,5 @@
+// Inline 'asm' outside of an unsafe context must be rejected.
+fun main() Int {
+    asm("nop");
+    return 0;
+}

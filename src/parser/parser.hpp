@@ -1,5 +1,6 @@
 #pragma once
 #include "../ast/array_literal.hpp"
+#include "../ast/asm_stmt_node.hpp"
 #include "../ast/assign_node.hpp"
 #include "../ast/attribute.hpp"
 #include "../ast/bin_expr.hpp"
@@ -72,6 +73,8 @@ private:
   std::unique_ptr<ImportNode> parseImportDecl();
   std::unique_ptr<BodyNode> parseBody();
   std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
+  std::unique_ptr<AsmStmtNode> parseAsm();
+  std::vector<AsmOperandNode> parseAsmOperandList();
   std::unique_ptr<VarDecl> parseVarDecl();
   std::unique_ptr<ConstDecl> parseConstDecl();
   std::unique_ptr<AssignNode> parseAssign();

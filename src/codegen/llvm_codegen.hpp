@@ -57,6 +57,7 @@ public:
   void visit(sema::BoundForStatement &node) override;
   void visit(sema::BoundBreakStatement &node) override;
   void visit(sema::BoundContinueStatement &node) override;
+  void visit(sema::BoundAsmStatement &node) override;
   void visit(sema::BoundCast &node) override;
   void visit(sema::BoundNewExpression &node) override;
   void visit(sema::BoundWeakLockExpression &node) override;
@@ -125,6 +126,13 @@ private:
   void declareZIRFunction(const zir::Function &fn, bool isExternal);
   void emitZIRFunction(const zir::Function &fn);
   void emitZIRInstruction(const zir::Instruction &inst);
+  void buildInlineAsmCall(const std::string &assembly,
+                          const std::vector<std::string> &outConstraints,
+                          const std::vector<llvm::Value *> &outAddrs,
+                          const std::vector<llvm::Type *> &outValueTypes,
+                          const std::vector<std::string> &inConstraints,
+                          const std::vector<llvm::Value *> &inValues,
+                          const std::vector<std::string> &clobbers);
   llvm::Value *lowerZIRValue(const std::shared_ptr<zir::Value> &value);
   llvm::Value *lowerZIRRValue(const std::shared_ptr<zir::Value> &value);
   llvm::Constant *lowerZIRConstant(const zir::Constant &constant);

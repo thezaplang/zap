@@ -35,6 +35,7 @@ class BoundWhileStatement;
 class BoundForStatement;
 class BoundBreakStatement;
 class BoundContinueStatement;
+class BoundAsmStatement;
 class BoundCast;
 class BoundNewExpression;
 class BoundWeakLockExpression;
@@ -78,6 +79,7 @@ public:
   virtual void visit(BoundForStatement &node) = 0;
   virtual void visit(BoundBreakStatement &node) = 0;
   virtual void visit(BoundContinueStatement &node) = 0;
+  virtual void visit(BoundAsmStatement &node) = 0;
   virtual void visit(BoundCast &node) = 0;
   virtual void visit(BoundNewExpression &node) = 0;
   virtual void visit(BoundWeakLockExpression &node) = 0;
@@ -578,6 +580,38 @@ public:
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundStatement> cloneStatement() const override {
     return std::make_unique<BoundBreakStatement>();
+  }
+};
+
+struct BoundAsmOperand {
+  std::string constraint;
+  std::unique_ptr<BoundExpression> expr;
+};
+
+class BoundAsmStatement : public BoundStatement {
+public:
+  std::string assembly;
+  std::vector<BoundAsmOperand> outputs;
+  std::vector<BoundAsmOperand> inputs;
+  std::vector<std::string> clobbers;
+
+  BoundAsmStatement(std::string asmStr, std::vector<BoundAsmOperand> outs,
+                    std::vector<BoundAsmOperand> ins,
+                    std::vector<std::string> clob)
+      : assembly(std::move(asmStr)), outputs(std::move(outs)),
+        inputs(std::move(ins)), clobbers(std::move(clob)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+  std::unique_ptr<BoundStatement> cloneStatement() const override {
+    std::vector<BoundAsmOperand> outs;
+    outs.reserve(outputs.size());
+    for (const auto &o : outputs)
+      outs.push_back({o.constraint, o.expr->clone()});
+    std::vector<BoundAsmOperand> ins;
+    ins.reserve(inputs.size());
+    for (const auto &i : inputs)
+      ins.push_back({i.constraint, i.expr->clone()});
+    return std::make_unique<BoundAsmStatement>(assembly, std::move(outs),
+                                               std::move(ins), clobbers);
   }
 };
 
