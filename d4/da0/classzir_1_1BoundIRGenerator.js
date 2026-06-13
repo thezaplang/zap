@@ -11,6 +11,7 @@ var classzir_1_1BoundIRGenerator =
     [ "generate", "d4/da0/classzir_1_1BoundIRGenerator.html#abf97cfb82a0ef117b7f0f62b2e7da8f4", null ],
     [ "isFailableType", "d4/da0/classzir_1_1BoundIRGenerator.html#a363f23d71f6370cca2f791155a667c63", null ],
     [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#a191f154271fba1cede2d0e221092e63b", null ],
+    [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#a617452582f0d50a325b6568036959f01", null ],
     [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#a3a7a540227e0d1fcbebdc0a1b470dff6", null ],
     [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#ae45ae55e934f864c661caa2339bcfcd4", null ],
     [ "visit", "d4/da0/classzir_1_1BoundIRGenerator.html#a28a32dc4d57b74b9c3e4dfa5124f41e1", null ],

@@ -75,21 +75,22 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d0/df9/classsema_1_1BoundVisitor.html#a662bfdf3942fbcbfa51710a04437f85f",
-"d2/d0f/classsema_1_1BoundCast.html#abd77ba9261e7399c8abe98941627415f",
-"d3/d09/classzap_1_1Stream.html#a0caaea495b5277e857e2ea97d6e0730d",
-"d3/dc7/structzir_1_1RecordType_1_1Field.html#a88c412d7867f00fcc2b87b0934dadc8b",
-"d4/da0/classzir_1_1BoundIRGenerator.html#a6d26b3e5f19aba9ad49cdb7a573186e5",
-"d6/d7b/classClassDecl.html#a569fdd188f0f44dc2cd5fb5841b7a5f3",
-"d8/d42/classzir_1_1CastInst.html#ac303fe7ef2551d716e52eeeac610f763",
-"d9/d00/classzap_1_1driver.html#afa170fa539648be9cfa7398b2dc3951e",
-"da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a53bd56d4a3ff004e1428e0b8655be442",
-"db/db1/classsema_1_1FunctionSymbol.html#a3a24f61e7d53ad1075fa61dc43dbf092",
-"dc/d2c/classsema_1_1Binder.html",
-"dc/d2c/classsema_1_1Binder.html#aef0145b7965fe5773e759e79f2df0325",
-"dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html#aba0f5bec7d5d372852133d87442cd39b",
-"de/d73/classzap_1_1Parser.html#a7f420c5385d75a8c7e7558b2e1730a71",
-"df/da0/classzir_1_1BranchInst.html#ab0088436abfca15f672592864544e816"
+"d2/d0f/classsema_1_1BoundCast.html#a7f81bf0960272eec286c3ae0a76b77cd",
+"d3/d09/classzap_1_1Stream.html#a0a00e5832186d81f304125d1b46f3da6",
+"d3/dc7/structzir_1_1RecordType_1_1Field.html#a496401941d1d882181d08f6c9dbcef70",
+"d4/da0/classzir_1_1BoundIRGenerator.html#a6379e85e64cd09c23043429daa916a92",
+"d6/d6f/classsema_1_1BoundUnaryExpression.html#a0d6425a55575f4e30602e9b5b7a7778f",
+"d8/d42/classzir_1_1CastInst.html",
+"d9/d00/classzap_1_1driver.html#ac2c5133daa52408461b78bf1144e634b",
+"d9/de9/structEnumDecl_1_1Entry.html#adbeaa401f8db2ebd2cdadd0c8a84a6d9",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a2846efcd8ab803fe30e564283b615afa",
+"db/d54/classsema_1_1BoundNewExpression.html#a4132d8799eb526fe045f2a7e6eb4f1a8",
+"dc/d01/classsema_1_1BoundAsmStatement.html#a25ffb4d530277ac443733c1c31ea444f",
+"dc/d2c/classsema_1_1Binder.html#a97cd50b88390b372dc050e3a844a3aa9",
+"dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a16e131ec45a905c268d6cfb4813e3e26",
+"de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281",
+"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8",
+"functions_vars_l.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

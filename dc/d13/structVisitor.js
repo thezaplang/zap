@@ -2,6 +2,7 @@ var structVisitor =
 [
     [ "~Visitor", "dc/d13/structVisitor.html#a49597f6d065f5986f628acf370d5996e", null ],
     [ "visit", "dc/d13/structVisitor.html#a269cdcc9b90a8892c27a798da5427ade", null ],
+    [ "visit", "dc/d13/structVisitor.html#a51f056ee46496b5ef6fca0b9fa883ad8", null ],
     [ "visit", "dc/d13/structVisitor.html#a86abfe2c8b5b2d5e23eb9e37e287bedf", null ],
     [ "visit", "dc/d13/structVisitor.html#a75dd3a055360d8d4b438879e53236324", null ],
     [ "visit", "dc/d13/structVisitor.html#a4911bd33272f1d05306edf365500786f", null ],

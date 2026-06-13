@@ -34,6 +34,8 @@ var namespacesema =
     [ "BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
     [ "BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
     [ "BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
+    [ "BoundAsmOperand", "dc/ddd/structsema_1_1BoundAsmOperand.html", "dc/ddd/structsema_1_1BoundAsmOperand" ],
+    [ "BoundAsmStatement", "dc/d01/classsema_1_1BoundAsmStatement.html", "dc/d01/classsema_1_1BoundAsmStatement" ],
     [ "BoundContinueStatement", "d3/dc3/classsema_1_1BoundContinueStatement.html", "d3/dc3/classsema_1_1BoundContinueStatement" ],
     [ "BoundFunctionDeclaration", "db/d37/classsema_1_1BoundFunctionDeclaration.html", "db/d37/classsema_1_1BoundFunctionDeclaration" ],
     [ "BoundExternalFunctionDeclaration", "d7/d1f/classsema_1_1BoundExternalFunctionDeclaration.html", "d7/d1f/classsema_1_1BoundExternalFunctionDeclaration" ],

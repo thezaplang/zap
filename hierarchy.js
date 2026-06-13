@@ -6,11 +6,14 @@ var hierarchy =
     [ "zap::ArgHolder", "d9/d39/classzap_1_1ArgHolder.html", null ],
     [ "Argument", "dc/d8f/structArgument.html", null ],
     [ "zap::ArgVal", "d4/df7/structzap_1_1ArgVal.html", null ],
+    [ "zir::AsmOperand", "d6/d55/structzir_1_1AsmOperand.html", null ],
+    [ "AsmOperandNode", "db/d99/structAsmOperandNode.html", null ],
     [ "AstBuilder", "de/d56/classAstBuilder.html", null ],
     [ "AttributeArgument", "dc/dc4/structAttributeArgument.html", null ],
     [ "AttributeNode", "d7/da3/structAttributeNode.html", null ],
     [ "zir::BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", null ],
     [ "sema::ResolvedImport::Binding", "dc/d93/structsema_1_1ResolvedImport_1_1Binding.html", null ],
+    [ "sema::BoundAsmOperand", "dc/ddd/structsema_1_1BoundAsmOperand.html", null ],
     [ "sema::BoundNode", "d0/db2/classsema_1_1BoundNode.html", [
       [ "sema::BoundEnumDeclaration", "d2/d9e/classsema_1_1BoundEnumDeclaration.html", null ],
       [ "sema::BoundExpression", "db/d06/classsema_1_1BoundExpression.html", [
@@ -41,6 +44,7 @@ var hierarchy =
       [ "sema::BoundRecordDeclaration", "d1/d8b/classsema_1_1BoundRecordDeclaration.html", null ],
       [ "sema::BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", null ],
       [ "sema::BoundStatement", "dd/d10/classsema_1_1BoundStatement.html", [
+        [ "sema::BoundAsmStatement", "dc/d01/classsema_1_1BoundAsmStatement.html", null ],
         [ "sema::BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", null ],
         [ "sema::BoundBlock", "d1/d45/classsema_1_1BoundBlock.html", null ],
         [ "sema::BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", null ],
@@ -87,6 +91,7 @@ var hierarchy =
       [ "zir::CmpInst", "d1/d56/classzir_1_1CmpInst.html", null ],
       [ "zir::CondBranchInst", "d2/ddf/classzir_1_1CondBranchInst.html", null ],
       [ "zir::GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", null ],
+      [ "zir::InlineAsmInst", "da/d3e/classzir_1_1InlineAsmInst.html", null ],
       [ "zir::LoadInst", "d8/d6d/classzir_1_1LoadInst.html", null ],
       [ "zir::PhiInst", "d7/de6/classzir_1_1PhiInst.html", null ],
       [ "zir::ReleaseInst", "d0/db2/classzir_1_1ReleaseInst.html", null ],
@@ -135,6 +140,7 @@ var hierarchy =
       [ "ParameterNode", "d9/dd3/classParameterNode.html", null ],
       [ "RootNode", "d8/d7a/classRootNode.html", null ],
       [ "StatementNode", "d1/dcd/classStatementNode.html", [
+        [ "AsmStmtNode", "d8/ddd/classAsmStmtNode.html", null ],
         [ "AssignNode", "d8/d5e/classAssignNode.html", null ],
         [ "BreakNode", "d7/db8/classBreakNode.html", null ],
         [ "ConstDecl", "d2/def/classConstDecl.html", null ],

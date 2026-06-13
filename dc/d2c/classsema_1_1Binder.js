@@ -59,6 +59,7 @@ var classsema_1_1Binder =
     [ "validateAndApplyTypeAttributes", "dc/d2c/classsema_1_1Binder.html#a71ba24348fe77d9c037048223fd35f1d", null ],
     [ "validateGenericConstraints", "dc/d2c/classsema_1_1Binder.html#a5b96966b4abff7b0b7f6257f51eb897b", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a258872446b8797736d4a014d07cfa876", null ],
+    [ "visit", "dc/d2c/classsema_1_1Binder.html#ad6ce139a1c1a02635fbda40bd12245bd", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#af07ea07811165e7853a829f878f7f512", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a0dd25e904270c79ba38561ec5633f879", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a028cf378f133924b4011d2c47fceac1a", null ],

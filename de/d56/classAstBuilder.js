@@ -1,6 +1,7 @@
 var classAstBuilder =
 [
     [ "makeArrayLiteral", "de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97", null ],
+    [ "makeAsm", "de/d56/classAstBuilder.html#a97c1145b34a2918e8cb066e495303ebe", null ],
     [ "makeAssign", "de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7", null ],
     [ "makeBinExpr", "de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed", null ],
     [ "makeBody", "de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218", null ],

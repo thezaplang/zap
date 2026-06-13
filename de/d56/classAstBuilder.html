@@ -77,6 +77,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a34ee5c93eb19d1b3cf8568fbadd9a191" id="r_a34ee5c93eb19d1b3cf8568fbadd9a191"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d86/classFunCall.html">FunCall</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34ee5c93eb19d1b3cf8568fbadd9a191">makeFunCall</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; callee)</td></tr>
 <tr class="memitem:add1f1cc36b637c14dac70d735b5d4218" id="r_add1f1cc36b637c14dac70d735b5d4218"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add1f1cc36b637c14dac70d735b5d4218">makeBody</a> ()</td></tr>
 <tr class="memitem:a9faa921e18701dd8ca80c1b647ae8981" id="r_a9faa921e18701dd8ca80c1b647ae8981"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/dff/classUnsafeBlockNode.html">UnsafeBlockNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9faa921e18701dd8ca80c1b647ae8981">makeUnsafeBlock</a> ()</td></tr>
+<tr class="memitem:a97c1145b34a2918e8cb066e495303ebe" id="r_a97c1145b34a2918e8cb066e495303ebe"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d8/ddd/classAsmStmtNode.html">AsmStmtNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97c1145b34a2918e8cb066e495303ebe">makeAsm</a> (std::string assembly)</td></tr>
 <tr class="memitem:ab9eb852498da6f2991e63aaeac1674b0" id="r_ab9eb852498da6f2991e63aaeac1674b0"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d8/dd5/classIfNode.html">IfNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9eb852498da6f2991e63aaeac1674b0">makeIf</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; condition, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; thenBody, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; elseBody)</td></tr>
 <tr class="memitem:a77baeaa6bc8b865d020c662933f3a59a" id="r_a77baeaa6bc8b865d020c662933f3a59a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d1/dbf/classIfTypeNode.html">IfTypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77baeaa6bc8b865d020c662933f3a59a">makeIfType</a> (const std::string &amp;parameterName, std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; matchType, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; thenBody, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; elseBody)</td></tr>
 <tr class="memitem:ab0658306e6876ee0de3b69e54debde94" id="r_ab0658306e6876ee0de3b69e54debde94"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d2/df8/classWhileNode.html">WhileNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0658306e6876ee0de3b69e54debde94">makeWhile</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; condition, std::unique_ptr&lt; <a class="el" href="../../de/df0/classBodyNode.html">BodyNode</a> &gt; body)</td></tr>
@@ -116,7 +117,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00047">47</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="adc49af93510eb83a2e28e7e145864c97" name="adc49af93510eb83a2e28e7e145864c97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adc49af93510eb83a2e28e7e145864c97">&#9670;&#160;</a></span>makeArrayLiteral()</h2>
@@ -141,10 +142,42 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00062">62</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>                                                                      {</div>
-<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> std::make_unique&lt;ArrayLiteralNode&gt;(std::move(elements));</div>
-<div class="line"><span class="lineno">   64</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00063">63</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                                      {</div>
+<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">return</span> std::make_unique&lt;ArrayLiteralNode&gt;(std::move(elements));</div>
+<div class="line"><span class="lineno">   65</span>  }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a97c1145b34a2918e8cb066e495303ebe" name="a97c1145b34a2918e8cb066e495303ebe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97c1145b34a2918e8cb066e495303ebe">&#9670;&#160;</a></span>makeAsm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="../../d8/ddd/classAsmStmtNode.html">AsmStmtNode</a> &gt; AstBuilder::makeAsm </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>assembly</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00091">91</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>                                                         {</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keyword">auto</span> node = std::make_unique&lt;AsmStmtNode&gt;();</div>
+<div class="line"><span class="lineno">   93</span>    node-&gt;assembly = std::move(assembly);</div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> node;</div>
+<div class="line"><span class="lineno">   95</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -175,10 +208,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                                             {</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> std::make_unique&lt;AssignNode&gt;(std::move(target), std::move(expr));</div>
-<div class="line"><span class="lineno">   53</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00051">51</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                                                                             {</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">return</span> std::make_unique&lt;AssignNode&gt;(std::move(target), std::move(expr));</div>
+<div class="line"><span class="lineno">   54</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -214,10 +247,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00169">169</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>                                                                            {</div>
-<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">return</span> std::make_unique&lt;BinExpr&gt;(std::move(left), op, std::move(right));</div>
-<div class="line"><span class="lineno">  173</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00176">176</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  178</span>                                                                            {</div>
+<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">return</span> std::make_unique&lt;BinExpr&gt;(std::move(left), op, std::move(right));</div>
+<div class="line"><span class="lineno">  180</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -244,8 +277,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00084">84</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>{ <span class="keywordflow">return</span> std::make_unique&lt;BodyNode&gt;(); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00085">85</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>{ <span class="keywordflow">return</span> std::make_unique&lt;BodyNode&gt;(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -272,10 +305,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00151">151</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>                                       {</div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">return</span> std::make_unique&lt;BreakNode&gt;();</div>
-<div class="line"><span class="lineno">  153</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00158">158</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>                                       {</div>
+<div class="line"><span class="lineno">  159</span>    <span class="keywordflow">return</span> std::make_unique&lt;BreakNode&gt;();</div>
+<div class="line"><span class="lineno">  160</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -306,10 +339,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00164">164</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  165</span>                                                                       {</div>
-<div class="line"><span class="lineno">  166</span>    <span class="keywordflow">return</span> std::make_unique&lt;CastExpr&gt;(std::move(expr), std::move(type));</div>
-<div class="line"><span class="lineno">  167</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00171">171</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                                       {</div>
+<div class="line"><span class="lineno">  173</span>    <span class="keywordflow">return</span> std::make_unique&lt;CastExpr&gt;(std::move(expr), std::move(type));</div>
+<div class="line"><span class="lineno">  174</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -336,10 +369,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00267">267</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  267</span>                                                                {</div>
-<div class="line"><span class="lineno">  268</span>    <span class="keywordflow">return</span> std::make_unique&lt;ClassDecl&gt;(name);</div>
-<div class="line"><span class="lineno">  269</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00274">274</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  274</span>                                                                {</div>
+<div class="line"><span class="lineno">  275</span>    <span class="keywordflow">return</span> std::make_unique&lt;ClassDecl&gt;(name);</div>
+<div class="line"><span class="lineno">  276</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -366,10 +399,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00215">215</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  215</span>                                                     {</div>
-<div class="line"><span class="lineno">  216</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstBool&gt;(value);</div>
-<div class="line"><span class="lineno">  217</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00222">222</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  222</span>                                                     {</div>
+<div class="line"><span class="lineno">  223</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstBool&gt;(value);</div>
+<div class="line"><span class="lineno">  224</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -396,10 +429,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00227">227</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  227</span>                                                                 {</div>
-<div class="line"><span class="lineno">  228</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstChar&gt;(value);</div>
-<div class="line"><span class="lineno">  229</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00234">234</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  234</span>                                                                 {</div>
+<div class="line"><span class="lineno">  235</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstChar&gt;(value);</div>
+<div class="line"><span class="lineno">  236</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -435,10 +468,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00136">136</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  137</span>                                                    {</div>
-<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstDecl&gt;(name, std::move(type), std::move(init));</div>
-<div class="line"><span class="lineno">  139</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00143">143</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>                                                    {</div>
+<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstDecl&gt;(name, std::move(type), std::move(init));</div>
+<div class="line"><span class="lineno">  146</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -465,10 +498,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00211">211</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  211</span>                                                         {</div>
-<div class="line"><span class="lineno">  212</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstFloat&gt;(value);</div>
-<div class="line"><span class="lineno">  213</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00218">218</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  218</span>                                                         {</div>
+<div class="line"><span class="lineno">  219</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstFloat&gt;(value);</div>
+<div class="line"><span class="lineno">  220</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -495,10 +528,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00219">219</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>                                                             {</div>
-<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstId&gt;(value);</div>
-<div class="line"><span class="lineno">  221</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00226">226</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>                                                             {</div>
+<div class="line"><span class="lineno">  227</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstId&gt;(value);</div>
+<div class="line"><span class="lineno">  228</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -525,10 +558,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00207">207</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  207</span>                                                                        {</div>
-<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(rawLiteralText);</div>
-<div class="line"><span class="lineno">  209</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00214">214</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  214</span>                                                                        {</div>
+<div class="line"><span class="lineno">  215</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(rawLiteralText);</div>
+<div class="line"><span class="lineno">  216</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -555,10 +588,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00203">203</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  203</span>                                                      {</div>
-<div class="line"><span class="lineno">  204</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(value);</div>
-<div class="line"><span class="lineno">  205</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00210">210</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  210</span>                                                      {</div>
+<div class="line"><span class="lineno">  211</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstInt&gt;(value);</div>
+<div class="line"><span class="lineno">  212</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -585,10 +618,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00231">231</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  231</span>                                           {</div>
-<div class="line"><span class="lineno">  232</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstNull&gt;();</div>
-<div class="line"><span class="lineno">  233</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00238">238</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  238</span>                                           {</div>
+<div class="line"><span class="lineno">  239</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstNull&gt;();</div>
+<div class="line"><span class="lineno">  240</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -615,10 +648,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00223">223</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  223</span>                                                                     {</div>
-<div class="line"><span class="lineno">  224</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstString&gt;(value);</div>
-<div class="line"><span class="lineno">  225</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00230">230</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  230</span>                                                                     {</div>
+<div class="line"><span class="lineno">  231</span>    <span class="keywordflow">return</span> std::make_unique&lt;ConstString&gt;(value);</div>
+<div class="line"><span class="lineno">  232</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -645,10 +678,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00155">155</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>                                             {</div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> std::make_unique&lt;ContinueNode&gt;();</div>
-<div class="line"><span class="lineno">  157</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00162">162</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  162</span>                                             {</div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">return</span> std::make_unique&lt;ContinueNode&gt;();</div>
+<div class="line"><span class="lineno">  164</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -679,10 +712,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00254">254</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  255</span>                                                                           {</div>
-<div class="line"><span class="lineno">  256</span>    <span class="keywordflow">return</span> std::make_unique&lt;EnumDecl&gt;(name, std::move(entries));</div>
-<div class="line"><span class="lineno">  257</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00261">261</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  262</span>                                                                           {</div>
+<div class="line"><span class="lineno">  263</span>    <span class="keywordflow">return</span> std::make_unique&lt;EnumDecl&gt;(name, std::move(entries));</div>
+<div class="line"><span class="lineno">  264</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -709,10 +742,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00147">147</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  147</span>                                                     {</div>
-<div class="line"><span class="lineno">  148</span>    <span class="keywordflow">return</span> std::make_unique&lt;FailNode&gt;(std::move(errorValue));</div>
-<div class="line"><span class="lineno">  149</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00154">154</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>                                                     {</div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">return</span> std::make_unique&lt;FailNode&gt;(std::move(errorValue));</div>
+<div class="line"><span class="lineno">  156</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -748,11 +781,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00196">196</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  198</span>                                                          {</div>
-<div class="line"><span class="lineno">  199</span>    <span class="keywordflow">return</span> std::make_unique&lt;FailableHandleExpr&gt;(std::move(expression),</div>
-<div class="line"><span class="lineno">  200</span>                                                errorName, std::move(handler));</div>
-<div class="line"><span class="lineno">  201</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00203">203</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  205</span>                                                          {</div>
+<div class="line"><span class="lineno">  206</span>    <span class="keywordflow">return</span> std::make_unique&lt;FailableHandleExpr&gt;(std::move(expression),</div>
+<div class="line"><span class="lineno">  207</span>                                                errorName, std::move(handler));</div>
+<div class="line"><span class="lineno">  208</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -783,11 +816,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00189">189</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  190</span>                                                           {</div>
-<div class="line"><span class="lineno">  191</span>    <span class="keywordflow">return</span> std::make_unique&lt;FallbackExpr&gt;(std::move(expression),</div>
-<div class="line"><span class="lineno">  192</span>                                          std::move(fallback));</div>
-<div class="line"><span class="lineno">  193</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00196">196</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  197</span>                                                           {</div>
+<div class="line"><span class="lineno">  198</span>    <span class="keywordflow">return</span> std::make_unique&lt;FallbackExpr&gt;(std::move(expression),</div>
+<div class="line"><span class="lineno">  199</span>                                          std::move(fallback));</div>
+<div class="line"><span class="lineno">  200</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -828,12 +861,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00112">112</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  115</span>                                                                 {</div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> std::make_unique&lt;ForNode&gt;(std::move(initializer),</div>
-<div class="line"><span class="lineno">  117</span>                                     std::move(condition), std::move(increment),</div>
-<div class="line"><span class="lineno">  118</span>                                     std::move(body));</div>
-<div class="line"><span class="lineno">  119</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00119">119</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>                                                                 {</div>
+<div class="line"><span class="lineno">  123</span>    <span class="keywordflow">return</span> std::make_unique&lt;ForNode&gt;(std::move(initializer),</div>
+<div class="line"><span class="lineno">  124</span>                                     std::move(condition), std::move(increment),</div>
+<div class="line"><span class="lineno">  125</span>                                     std::move(body));</div>
+<div class="line"><span class="lineno">  126</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -874,11 +907,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00121">121</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                                     {</div>
-<div class="line"><span class="lineno">  125</span>    <span class="keywordflow">return</span> std::make_unique&lt;ForInNode&gt;(indexName, itemName, std::move(iterable),</div>
-<div class="line"><span class="lineno">  126</span>                                       std::move(body));</div>
-<div class="line"><span class="lineno">  127</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00128">128</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  131</span>                                                                     {</div>
+<div class="line"><span class="lineno">  132</span>    <span class="keywordflow">return</span> std::make_unique&lt;ForInNode&gt;(indexName, itemName, std::move(iterable),</div>
+<div class="line"><span class="lineno">  133</span>                                       std::move(body));</div>
+<div class="line"><span class="lineno">  134</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -905,12 +938,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00078">78</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>                                                                           {</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunCall&gt;();</div>
-<div class="line"><span class="lineno">   80</span>    f-&gt;callee_ = std::move(callee);</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> f;</div>
-<div class="line"><span class="lineno">   82</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00079">79</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>                                                                           {</div>
+<div class="line"><span class="lineno">   80</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunCall&gt;();</div>
+<div class="line"><span class="lineno">   81</span>    f-&gt;callee_ = std::move(callee);</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> f;</div>
+<div class="line"><span class="lineno">   83</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -937,12 +970,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00066">66</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   66</span>                                                            {</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunDecl&gt;();</div>
-<div class="line"><span class="lineno">   68</span>    f-&gt;name_ = name;</div>
-<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">return</span> f;</div>
-<div class="line"><span class="lineno">   70</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00067">67</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>                                                            {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keyword">auto</span> f = std::make_unique&lt;FunDecl&gt;();</div>
+<div class="line"><span class="lineno">   69</span>    f-&gt;name_ = name;</div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">return</span> f;</div>
+<div class="line"><span class="lineno">   71</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -978,11 +1011,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00090">90</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>                                                                   {</div>
-<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfNode&gt;(std::move(condition), std::move(thenBody),</div>
-<div class="line"><span class="lineno">   94</span>                                    std::move(elseBody));</div>
-<div class="line"><span class="lineno">   95</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span>                                                                   {</div>
+<div class="line"><span class="lineno">  100</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfNode&gt;(std::move(condition), std::move(thenBody),</div>
+<div class="line"><span class="lineno">  101</span>                                    std::move(elseBody));</div>
+<div class="line"><span class="lineno">  102</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1023,12 +1056,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>                                                                           {</div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfTypeNode&gt;(parameterName, std::move(matchType),</div>
-<div class="line"><span class="lineno">  102</span>                                        std::move(thenBody),</div>
-<div class="line"><span class="lineno">  103</span>                                        std::move(elseBody));</div>
-<div class="line"><span class="lineno">  104</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00104">104</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                                                           {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> std::make_unique&lt;IfTypeNode&gt;(parameterName, std::move(matchType),</div>
+<div class="line"><span class="lineno">  109</span>                                        std::move(thenBody),</div>
+<div class="line"><span class="lineno">  110</span>                                        std::move(elseBody));</div>
+<div class="line"><span class="lineno">  111</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1064,11 +1097,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00248">248</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  249</span>                                                 {}) {</div>
-<div class="line"><span class="lineno">  250</span>    <span class="keywordflow">return</span> std::make_unique&lt;ImportNode&gt;(std::move(path), std::move(moduleAlias),</div>
-<div class="line"><span class="lineno">  251</span>                                        std::move(bindings));</div>
-<div class="line"><span class="lineno">  252</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00255">255</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  256</span>                                                 {}) {</div>
+<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">return</span> std::make_unique&lt;ImportNode&gt;(std::move(path), std::move(moduleAlias),</div>
+<div class="line"><span class="lineno">  258</span>                                        std::move(bindings));</div>
+<div class="line"><span class="lineno">  259</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1099,10 +1132,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00056">56</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   57</span>                                                       {</div>
-<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> std::make_unique&lt;IndexAccessNode&gt;(std::move(left), std::move(index));</div>
-<div class="line"><span class="lineno">   59</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00057">57</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                       {</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">return</span> std::make_unique&lt;IndexAccessNode&gt;(std::move(left), std::move(index));</div>
+<div class="line"><span class="lineno">   60</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1133,10 +1166,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00073">73</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>                                            {</div>
-<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">return</span> std::make_unique&lt;MemberAccessNode&gt;(std::move(left), member);</div>
-<div class="line"><span class="lineno">   76</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00074">74</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>                                            {</div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordflow">return</span> std::make_unique&lt;MemberAccessNode&gt;(std::move(left), member);</div>
+<div class="line"><span class="lineno">   77</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1163,10 +1196,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00271">271</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  271</span>                                                                   {</div>
-<div class="line"><span class="lineno">  272</span>    <span class="keywordflow">return</span> std::make_unique&lt;NewExpr&gt;(std::move(type));</div>
-<div class="line"><span class="lineno">  273</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00278">278</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  278</span>                                                                   {</div>
+<div class="line"><span class="lineno">  279</span>    <span class="keywordflow">return</span> std::make_unique&lt;NewExpr&gt;(std::move(type));</div>
+<div class="line"><span class="lineno">  280</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1207,11 +1240,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00235">235</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  238</span>                                                                    {</div>
-<div class="line"><span class="lineno">  239</span>    <span class="keywordflow">return</span> std::make_unique&lt;ParameterNode&gt;(name, std::move(type), isRef,</div>
-<div class="line"><span class="lineno">  240</span>                                           isVariadic);</div>
-<div class="line"><span class="lineno">  241</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00242">242</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  245</span>                                                                    {</div>
+<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> std::make_unique&lt;ParameterNode&gt;(name, std::move(type), isRef,</div>
+<div class="line"><span class="lineno">  247</span>                                           isVariadic);</div>
+<div class="line"><span class="lineno">  248</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1247,11 +1280,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00260">260</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  262</span>                                                                 {</div>
-<div class="line"><span class="lineno">  263</span>    <span class="keywordflow">return</span> std::make_unique&lt;RecordDecl&gt;(name, std::move(genericParams),</div>
-<div class="line"><span class="lineno">  264</span>                                        std::move(fields));</div>
-<div class="line"><span class="lineno">  265</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00267">267</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  269</span>                                                                 {</div>
+<div class="line"><span class="lineno">  270</span>    <span class="keywordflow">return</span> std::make_unique&lt;RecordDecl&gt;(name, std::move(genericParams),</div>
+<div class="line"><span class="lineno">  271</span>                                        std::move(fields));</div>
+<div class="line"><span class="lineno">  272</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1278,10 +1311,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00142">142</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                  {</div>
-<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::make_unique&lt;ReturnNode&gt;(std::move(value));</div>
-<div class="line"><span class="lineno">  144</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00149">149</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  149</span>                                                  {</div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">return</span> std::make_unique&lt;ReturnNode&gt;(std::move(value));</div>
+<div class="line"><span class="lineno">  151</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1308,8 +1341,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keywordflow">return</span> std::make_unique&lt;RootNode&gt;(); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00049">49</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keywordflow">return</span> std::make_unique&lt;RootNode&gt;(); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1345,11 +1378,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00176">176</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  178</span>                                                          {</div>
-<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">return</span> std::make_unique&lt;TernaryExpr&gt;(</div>
-<div class="line"><span class="lineno">  180</span>        std::move(condition), std::move(thenExpr), std::move(elseExpr));</div>
-<div class="line"><span class="lineno">  181</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00183">183</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  185</span>                                                          {</div>
+<div class="line"><span class="lineno">  186</span>    <span class="keywordflow">return</span> std::make_unique&lt;TernaryExpr&gt;(</div>
+<div class="line"><span class="lineno">  187</span>        std::move(condition), std::move(thenExpr), std::move(elseExpr));</div>
+<div class="line"><span class="lineno">  188</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1376,10 +1409,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00184">184</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  184</span>                                                        {</div>
-<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">return</span> std::make_unique&lt;TryExpr&gt;(std::move(expression));</div>
-<div class="line"><span class="lineno">  186</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00191">191</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  191</span>                                                        {</div>
+<div class="line"><span class="lineno">  192</span>    <span class="keywordflow">return</span> std::make_unique&lt;TryExpr&gt;(std::move(expression));</div>
+<div class="line"><span class="lineno">  193</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1406,10 +1439,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00243">243</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  243</span>                                                          {</div>
-<div class="line"><span class="lineno">  244</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeNode&gt;(name);</div>
-<div class="line"><span class="lineno">  245</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00250">250</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>                                                          {</div>
+<div class="line"><span class="lineno">  251</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeNode&gt;(name);</div>
+<div class="line"><span class="lineno">  252</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1440,10 +1473,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00276">276</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  276</span>                                                                         {</div>
-<div class="line"><span class="lineno">  277</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeAliasDecl&gt;(name, std::move(type));</div>
-<div class="line"><span class="lineno">  278</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00283">283</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  283</span>                                                                         {</div>
+<div class="line"><span class="lineno">  284</span>    <span class="keywordflow">return</span> std::make_unique&lt;TypeAliasDecl&gt;(name, std::move(type));</div>
+<div class="line"><span class="lineno">  285</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1474,10 +1507,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00160">160</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  160</span>                                                                         {</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnaryExpr&gt;(op, std::move(expr));</div>
-<div class="line"><span class="lineno">  162</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00167">167</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>                                                                         {</div>
+<div class="line"><span class="lineno">  168</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnaryExpr&gt;(op, std::move(expr));</div>
+<div class="line"><span class="lineno">  169</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1504,10 +1537,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00086">86</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>                                                   {</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnsafeBlockNode&gt;();</div>
-<div class="line"><span class="lineno">   88</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00087">87</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                   {</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> std::make_unique&lt;UnsafeBlockNode&gt;();</div>
+<div class="line"><span class="lineno">   89</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1543,10 +1576,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00129">129</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  131</span>                                                                           {</div>
-<div class="line"><span class="lineno">  132</span>    <span class="keywordflow">return</span> std::make_unique&lt;VarDecl&gt;(name, std::move(type), std::move(init));</div>
-<div class="line"><span class="lineno">  133</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00136">136</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>                                                                           {</div>
+<div class="line"><span class="lineno">  139</span>    <span class="keywordflow">return</span> std::make_unique&lt;VarDecl&gt;(name, std::move(type), std::move(init));</div>
+<div class="line"><span class="lineno">  140</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1577,10 +1610,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00107">107</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  108</span>                                          {</div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">return</span> std::make_unique&lt;WhileNode&gt;(std::move(condition), std::move(body));</div>
-<div class="line"><span class="lineno">  110</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00114">114</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                                          {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> std::make_unique&lt;WhileNode&gt;(std::move(condition), std::move(body));</div>
+<div class="line"><span class="lineno">  117</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1613,13 +1646,13 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00280">280</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  280</span>                                                                    {</div>
-<div class="line"><span class="lineno">  281</span>    <span class="keywordflow">if</span> (node) {</div>
-<div class="line"><span class="lineno">  282</span>      node-&gt;span = span;</div>
-<div class="line"><span class="lineno">  283</span>    }</div>
-<div class="line"><span class="lineno">  284</span>    <span class="keywordflow">return</span> node;</div>
-<div class="line"><span class="lineno">  285</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00287">287</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  287</span>                                                                    {</div>
+<div class="line"><span class="lineno">  288</span>    <span class="keywordflow">if</span> (node) {</div>
+<div class="line"><span class="lineno">  289</span>      node-&gt;span = span;</div>
+<div class="line"><span class="lineno">  290</span>    }</div>
+<div class="line"><span class="lineno">  291</span>    <span class="keywordflow">return</span> node;</div>
+<div class="line"><span class="lineno">  292</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
