@@ -124,19 +124,23 @@ llvm::Value *LLVMCodeGen::emitWeakLock(llvm::Value *value,
 
 void LLVMCodeGen::emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
                                    const std::shared_ptr<zir::Type> &type,
-                                   bool valueIsOwned) {
+                                   bool valueIsOwned, bool skipReleaseOld) {
   if (isOwnedStringType(type)) {
-    emitStoreWithStringArc(addr, value, type, valueIsOwned);
+    emitStoreWithStringArc(addr, value, type, valueIsOwned, skipReleaseOld);
     return;
   }
-  arcEmitter_->emitStoreWithArc(addr, value, type, valueIsOwned);
+  arcEmitter_->emitStoreWithArc(addr, value, type, valueIsOwned,
+                                skipReleaseOld);
 }
 
 void LLVMCodeGen::emitStoreWithStringArc(llvm::Value *addr, llvm::Value *value,
                                          const std::shared_ptr<zir::Type> &type,
-                                         bool valueIsOwned) {
-  auto *oldValue = builder_.CreateLoad(toLLVMType(*type), addr, "str.old");
-  emitStringReleaseIfNeeded(oldValue, type);
+                                         bool valueIsOwned,
+                                         bool skipReleaseOld) {
+  if (!skipReleaseOld) {
+    auto *oldValue = builder_.CreateLoad(toLLVMType(*type), addr, "str.old");
+    emitStringReleaseIfNeeded(oldValue, type);
+  }
 
   auto *storedValue =
       valueIsOwned ? value : emitStringRetainIfNeeded(value, type);

@@ -337,8 +337,10 @@ void BoundIRGenerator::visit(sema::BoundFailStatement &node) {
   currentBlock_->addInstruction(
       std::make_unique<GetElementPtrInst>(valueAddr, allocaReg, 1));
   if (valueType && valueType->getKind() != TypeKind::Void) {
+    // The value field is unused on the error path; zero it without ARC.
     currentBlock_->addInstruction(std::make_unique<StoreInst>(
-        std::make_shared<Constant>("0", valueType), valueAddr));
+        std::make_shared<Constant>("0", valueType), valueAddr,
+        /*bypassArc=*/true));
   }
 
   auto errAddr = createRegister(std::make_shared<PointerType>(errorType));
@@ -1044,8 +1046,8 @@ void BoundIRGenerator::visit(sema::BoundStructLiteral &node) {
           std::make_shared<PointerType>(fields[fieldIndex].type));
       currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
           fieldAddr, allocaReg, fieldIndex));
-      currentBlock_->addInstruction(
-          std::make_unique<StoreInst>(val, fieldAddr));
+      currentBlock_->addInstruction(std::make_unique<StoreInst>(
+          val, fieldAddr, /*bypassArc=*/false, /*initStore=*/true));
     }
   }
 

@@ -374,7 +374,7 @@ ClassArcEmitter::emitWeakLock(llvm::Value *value,
 
 void ClassArcEmitter::emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
                                        const std::shared_ptr<zir::Type> &type,
-                                       bool valueIsOwned) {
+                                       bool valueIsOwned, bool skipReleaseOld) {
   if (!isClassType(type)) {
     codegen_.builder_.CreateStore(value, addr);
     return;
@@ -382,10 +382,14 @@ void ClassArcEmitter::emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
 
   if (isWeakClassType(type)) {
     emitRetainWeakIfNeeded(value, type);
-    auto *oldValue = codegen_.builder_.CreateLoad(codegen_.toLLVMType(*type),
-                                                  addr, "arc.weak.store.old");
-    codegen_.builder_.CreateStore(value, addr);
-    emitReleaseWeakIfNeeded(oldValue, type);
+    if (!skipReleaseOld) {
+      auto *oldValue = codegen_.builder_.CreateLoad(codegen_.toLLVMType(*type),
+                                                    addr, "arc.weak.store.old");
+      codegen_.builder_.CreateStore(value, addr);
+      emitReleaseWeakIfNeeded(oldValue, type);
+    } else {
+      codegen_.builder_.CreateStore(value, addr);
+    }
     if (valueIsOwned) {
       auto strongType = std::make_shared<zir::ClassType>(
           *std::static_pointer_cast<zir::ClassType>(type));
@@ -398,10 +402,14 @@ void ClassArcEmitter::emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
   if (!valueIsOwned) {
     emitRetainIfNeeded(value, type);
   }
-  auto *oldValue = codegen_.builder_.CreateLoad(codegen_.toLLVMType(*type),
-                                                addr, "arc.store.old");
-  codegen_.builder_.CreateStore(value, addr);
-  emitReleaseIfNeeded(oldValue, type);
+  if (!skipReleaseOld) {
+    auto *oldValue = codegen_.builder_.CreateLoad(codegen_.toLLVMType(*type),
+                                                  addr, "arc.store.old");
+    codegen_.builder_.CreateStore(value, addr);
+    emitReleaseIfNeeded(oldValue, type);
+  } else {
+    codegen_.builder_.CreateStore(value, addr);
+  }
 }
 
 void ClassArcEmitter::emitScopeReleases() {

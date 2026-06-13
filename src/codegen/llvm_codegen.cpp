@@ -1004,7 +1004,10 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
     auto dstType = storeInst.getDestination()->getType();
     auto ptrType = std::dynamic_pointer_cast<zir::PointerType>(dstType);
     auto valueType = ptrType ? ptrType->getBaseType() : nullptr;
-    if (valueType && isClassType(valueType)) {
+    bool skipReleaseOld = storeInst.initStore();
+    if (storeInst.bypassArc()) {
+      builder_.CreateStore(src, dst);
+    } else if (valueType && isClassType(valueType)) {
       if (zirPendingClassParamInitAllocas_.count(
               storeInst.getDestination().get()) > 0) {
         builder_.CreateStore(src, dst);
@@ -1013,7 +1016,7 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
       } else {
         bool valueIsOwned =
             zirOwnedClassValues_.count(storeInst.getSource().get()) > 0;
-        emitStoreWithArc(dst, src, valueType, valueIsOwned);
+        emitStoreWithArc(dst, src, valueType, valueIsOwned, skipReleaseOld);
         if (valueIsOwned) {
           zirOwnedClassValues_.erase(storeInst.getSource().get());
         }
@@ -1021,7 +1024,7 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
     } else if (valueType && isOwnedStringType(valueType)) {
       bool valueIsOwned =
           zirOwnedStringValues_.count(storeInst.getSource().get()) > 0;
-      emitStoreWithStringArc(dst, src, valueType, valueIsOwned);
+      emitStoreWithStringArc(dst, src, valueType, valueIsOwned, skipReleaseOld);
       if (valueIsOwned) {
         zirOwnedStringValues_.erase(storeInst.getSource().get());
       }

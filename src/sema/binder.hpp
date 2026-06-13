@@ -195,6 +195,10 @@ private:
                                               const std::string &memberName,
                                               SourceSpan span);
   std::optional<int64_t> evaluateConstantInt(const BoundExpression *expr);
+  // Fold a binary expression with literal operands into a single literal.
+  // Returns nullptr when it cannot be folded.
+  std::unique_ptr<BoundExpression>
+  foldConstantBinary(const BoundBinaryExpression *binary);
   std::string makeSyntheticLoopName(std::string_view prefix);
   std::unique_ptr<BoundExpression>
   wrapInCast(std::unique_ptr<BoundExpression> expr,

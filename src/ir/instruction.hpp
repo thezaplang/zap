@@ -111,13 +111,22 @@ public:
 
 class StoreInst : public Instruction {
   std::shared_ptr<Value> src, dest;
+  // Emit a plain store with no ARC retain/release.
+  bool bypassArc_;
+  // Destination is freshly allocated: retain a borrowed value but do not
+  // release the (garbage) previous contents.
+  bool initStore_;
 
 public:
-  StoreInst(std::shared_ptr<Value> s, std::shared_ptr<Value> d)
-      : src(std::move(s)), dest(std::move(d)) {}
+  StoreInst(std::shared_ptr<Value> s, std::shared_ptr<Value> d,
+            bool bypassArc = false, bool initStore = false)
+      : src(std::move(s)), dest(std::move(d)), bypassArc_(bypassArc),
+        initStore_(initStore) {}
   OpCode getOpCode() const override { return OpCode::Store; }
   const std::shared_ptr<Value> &getSource() const { return src; }
   const std::shared_ptr<Value> &getDestination() const { return dest; }
+  bool bypassArc() const { return bypassArc_; }
+  bool initStore() const { return initStore_; }
   std::string toString() const override {
     return "store " + src->getTypeName() + " " + src->getName() + ", " +
            dest->getTypeName() + " " + dest->getName();

@@ -243,8 +243,13 @@ Binder::buildBinaryExpression(std::unique_ptr<BoundExpression> left,
     resultType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
   }
 
-  return std::make_unique<BoundBinaryExpression>(std::move(left), op,
-                                                 std::move(right), resultType);
+  auto result = std::make_unique<BoundBinaryExpression>(
+      std::move(left), op, std::move(right), resultType);
+
+  if (auto folded = foldConstantBinary(result.get()))
+    return folded;
+
+  return result;
 }
 
 void Binder::visit(TernaryExpr &node) {

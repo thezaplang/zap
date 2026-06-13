@@ -1,0 +1,57 @@
+// Regression: a failable function returning a class instance (both paths).
+
+@error
+struct E {
+    message: String,
+}
+
+class Box {
+    priv v: Int;
+    fun init(v: Int) {
+        self.v = v;
+    }
+    pub fun get() Int {
+        return self.v;
+    }
+}
+
+fun make(ok: Bool) Box!E {
+    if !ok {
+        fail E { message: "boom" };
+    }
+    return new Box(21);
+}
+
+fun unwrap(ok: Bool) Int!E {
+    var b: Box = make(ok)?;
+    return b.get();
+}
+
+fun main() Int {
+    // Success path: returns a class through the failable aggregate.
+    var good: Int = unwrap(true) or 0;
+    if good != 21 {
+        return 1;
+    }
+
+    // Failure path: error carries through, value field stays null.
+    var bad: Int = unwrap(false) or err {
+        if err.message == "boom" { 21 } else { 0 }
+    };
+    if bad != 21 {
+        return 2;
+    }
+
+    // Many allocations to surface use-after-free / double-free.
+    var sum: Int = 0;
+    var i: Int = 0;
+    while i < 500 {
+        sum = sum + (unwrap(true) or 0);
+        i = i + 1;
+    }
+    if sum != 21 * 500 {
+        return 3;
+    }
+
+    return 42;
+}

@@ -948,6 +948,36 @@ Binder::evaluateConstantInt(const BoundExpression *expr) {
   return std::nullopt;
 }
 
+std::unique_ptr<BoundExpression>
+Binder::foldConstantBinary(const BoundBinaryExpression *binary) {
+  if (!binary)
+    return nullptr;
+
+  auto *left = dynamic_cast<const BoundLiteral *>(binary->left.get());
+  auto *right = dynamic_cast<const BoundLiteral *>(binary->right.get());
+  if (!left || !right)
+    return nullptr;
+
+  // String literal concatenation.
+  if (binary->op == "+" && isStringType(binary->type)) {
+    if (isStringType(left->type) && isStringType(right->type)) {
+      return std::make_unique<BoundLiteral>(
+          left->value + right->value,
+          std::make_shared<zir::RecordType>("StringView", "StringView"));
+    }
+    return nullptr;
+  }
+
+  // Integer arithmetic/bitwise.
+  if (binary->type && binary->type->isInteger()) {
+    if (auto value = evaluateConstantInt(binary))
+      return std::make_unique<BoundLiteral>(std::to_string(*value),
+                                            binary->type);
+  }
+
+  return nullptr;
+}
+
 void Binder::error(SourceSpan span, const std::string &message) {
   if (message.find(" is private.") != std::string::npos) {
     sawPrivacyError_ = true;

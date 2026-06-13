@@ -31,7 +31,7 @@ public:
                             const std::shared_ptr<zir::Type> &type);
   void emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
                         const std::shared_ptr<zir::Type> &type,
-                        bool valueIsOwned);
+                        bool valueIsOwned, bool skipReleaseOld = false);
   void emitScopeReleases();
   void ensureArcSupport(sema::BoundRootNode &root);
   void ensureClassArcSupport(const std::shared_ptr<zir::ClassType> &classType);

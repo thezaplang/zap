@@ -35,6 +35,8 @@ SPECIAL_CASES = {
     # Runtime with non-zero exit
     "tests/enum_test.zp": {"type": "runtime", "exit": 1, "desc": "Enum test"},
     "tests/type_alias.zp": {"type": "runtime", "exit": 42, "desc": "Type aliasing (alias Name = Type)"},
+    "tests/global_string_concat_test.zp": {"type": "runtime", "exit": 42, "desc": "Global var initialized with literal '+' concatenation is constant-folded"},
+    "tests/failable_class_return_test.zp": {"type": "runtime", "exit": 42, "desc": "Failable function returning a class instance (success and fail paths)"},
     "tests/control_flow.zp": {"type": "runtime", "exit": 1, "desc": "Control flow return value"},
     "tests/compound_assign_test.zp": {"type": "runtime", "exit": 42, "desc": "Compound assignment (+= -= *= /= %= <<= >>= |= &= ^=) and ++/--"},
     "tests/compound_assign_eval_once_test.zp": {"type": "runtime", "exit": 1, "desc": "Compound assignment evaluates its target exactly once"},
