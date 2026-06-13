@@ -6,7 +6,7 @@ var classcodegen_1_1ClassArcEmitter =
     [ "emitRetainIfNeeded", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ae0c8ca1fd3402cfde39deba937cdb164", null ],
     [ "emitRetainWeakIfNeeded", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a9f8e5cb20d22d0e25710724027ae05e5", null ],
     [ "emitScopeReleases", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#aa1daed1a1ea0c64d2c4ed06ee10aa675", null ],
-    [ "emitStoreWithArc", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a1d5f7b3c74c62bf578de14ca05820e67", null ],
+    [ "emitStoreWithArc", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a277d04e94f6ac715b06b77866602a168", null ],
     [ "emitWeakAlive", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#acb4d18a4b872f8f6ea0dd7e61d870562", null ],
     [ "emitWeakLock", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ad46873ec53ec2bdf77d589bbd79dc25a", null ],
     [ "ensureArcSupport", "d9/d1d/classcodegen_1_1ClassArcEmitter.html#ac584b80e76a83c7510b29c07c5f9725c", null ],

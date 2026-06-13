@@ -22,6 +22,7 @@ var classsema_1_1Binder =
     [ "error", "dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a", null ],
     [ "evaluateConstantInt", "dc/d2c/classsema_1_1Binder.html#a4de5e9c89239303acb2f9524373e52de", null ],
     [ "findFunctionBySignature", "dc/d2c/classsema_1_1Binder.html#aab445f6144c2318a1aac8086e13d1c8a", null ],
+    [ "foldConstantBinary", "dc/d2c/classsema_1_1Binder.html#abc248fce7feff75633a8fe98a8e46c5a", null ],
     [ "functionSignatureKey", "dc/d2c/classsema_1_1Binder.html#a4c2eb0bba80150fe85e642794192f608", null ],
     [ "getCVariadicArgumentType", "dc/d2c/classsema_1_1Binder.html#a2da5af115d5d8f2a037c87f551f6c605", null ],
     [ "getPromotedType", "dc/d2c/classsema_1_1Binder.html#a8b08f09e613662a8380a6d4cde95ce59", null ],

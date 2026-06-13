@@ -1,5 +1,15 @@
 var NAVTREEINDEX16 =
 {
+"df/d31/classzir_1_1CallInst.html#aeb7b08a88e3d6f7ee4d2cfcedd13a172":[1,0,5,10,11],
+"df/d31/classzir_1_1CallInst.html#aeb7b08a88e3d6f7ee4d2cfcedd13a172":[2,0,4,9,11],
+"df/d31/classzir_1_1CallInst.html#afe42d8dcbd7074e0d485ecb85e2e5f3a":[1,0,5,10,17],
+"df/d31/classzir_1_1CallInst.html#afe42d8dcbd7074e0d485ecb85e2e5f3a":[2,0,4,9,17],
+"df/d31/ir__generator_8hpp.html":[3,0,0,3,4],
+"df/d31/ir__generator_8hpp_source.html":[3,0,0,3,4],
+"df/d35/namespacezir.html":[1,0,5],
+"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609":[1,0,5,41],
+"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4":[1,0,5,41,0],
+"df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb":[1,0,5,41,3],
 "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8":[1,0,5,41,4],
 "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255":[1,0,5,41,1],
 "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488":[1,0,5,41,2],
@@ -239,15 +249,5 @@ var NAVTREEINDEX16 =
 "functions_u.html":[2,3,0,21],
 "functions_v.html":[2,3,0,22],
 "functions_vars.html":[2,3,2],
-"functions_vars.html":[2,3,2,0],
-"functions_vars_a.html":[2,3,2,1],
-"functions_vars_b.html":[2,3,2,2],
-"functions_vars_c.html":[2,3,2,3],
-"functions_vars_d.html":[2,3,2,4],
-"functions_vars_e.html":[2,3,2,5],
-"functions_vars_f.html":[2,3,2,6],
-"functions_vars_g.html":[2,3,2,7],
-"functions_vars_h.html":[2,3,2,8],
-"functions_vars_i.html":[2,3,2,9],
-"functions_vars_k.html":[2,3,2,10]
+"functions_vars.html":[2,3,2,0]
 };
