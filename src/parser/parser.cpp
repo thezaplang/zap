@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "../ast/fun_call.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <limits>
@@ -471,6 +472,10 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           body->addStatement(std::move(assign));
         } else if (peek().type == TokenType::SEMICOLON) {
           eat(TokenType::SEMICOLON);
+          if (!dynamic_cast<FunCall *>(expr.get())) {
+            _diag.report(expr->span, DiagnosticLevel::Warning,
+                         "Expression result is unused.");
+          }
           body->addStatement(std::move(expr));
         } else {
           if (peek().type == TokenType::RBRACE) {
@@ -921,6 +926,11 @@ std::unique_ptr<IfNode> Parser::parseIf() {
   bool oldAllow = _allowStructLiteral;
   if (!hasParen) {
     _allowStructLiteral = false;
+  }
+  if (!hasParen && peek().type == TokenType::LBRACE) {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Expected condition expression after 'if'.");
+    throw ParseError();
   }
   auto condition = parseExpression();
   _allowStructLiteral = oldAllow;

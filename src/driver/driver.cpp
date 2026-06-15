@@ -307,6 +307,8 @@ bool loadModuleGraph(
     return true;
   }
 
+  diagnostics.printText(err());
+
   auto module = std::make_unique<sema::ModuleInfo>();
   module->moduleId = moduleId;
   module->moduleName = canonicalPath.stem().string();
