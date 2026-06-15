@@ -682,10 +682,7 @@ LLVMCodeGen::lowerZIRAggregateConstant(const zir::AggregateConstant &constant) {
   }
 
   const auto *recordTy =
-      dynamic_cast<const zir::RecordType *>(constant.getType().get());
-  if (!recordTy) {
-    return llvm::Constant::getNullValue(ty);
-  }
+      static_cast<const zir::RecordType *>(constant.getType().get());
 
   const auto &recordFields = recordTy->getFields();
   std::vector<llvm::Constant *> elems(recordFields.size(), nullptr);
