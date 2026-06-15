@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"df/d31/classzir_1_1CallInst.html#ae05cc02ebfc26141044f58ba21716817":[2,0,4,9,5],
 "df/d31/classzir_1_1CallInst.html#aeb7b08a88e3d6f7ee4d2cfcedd13a172":[1,0,5,10,11],
 "df/d31/classzir_1_1CallInst.html#aeb7b08a88e3d6f7ee4d2cfcedd13a172":[2,0,4,9,11],
 "df/d31/classzir_1_1CallInst.html#afe42d8dcbd7074e0d485ecb85e2e5f3a":[1,0,5,10,17],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "functions_type.html":[2,3,3],
 "functions_u.html":[2,3,0,21],
 "functions_v.html":[2,3,0,22],
-"functions_vars.html":[2,3,2],
-"functions_vars.html":[2,3,2,0]
+"functions_vars.html":[2,3,2]
 };
