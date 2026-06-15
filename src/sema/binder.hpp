@@ -11,6 +11,7 @@
 #include <stack>
 #include <string_view>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace sema {
@@ -180,6 +181,19 @@ private:
   };
   std::unordered_map<std::string, ClassInfo> classInfos_;
   std::vector<std::string> currentClassStack_;
+
+  struct PairHash {
+    size_t operator()(const std::pair<const zir::Type *, const zir::Type *> &p)
+        const noexcept {
+      size_t h1 = std::hash<const void *>{}(p.first);
+      size_t h2 = std::hash<const void *>{}(p.second);
+      return h1 ^ (h2 * 2654435761u); // Knuth's multiplicative constant,
+                                      // spreads bits to reduce collisions
+    }
+  };
+  mutable std::unordered_map<std::pair<const zir::Type *, const zir::Type *>,
+                             bool, PairHash>
+      canConvertCache_;
 
   std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
   std::shared_ptr<zir::Type> mapTypeWithGenericBindings(

@@ -1572,26 +1572,32 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
     return false;
   if (from->getKind() == to->getKind() && from->toString() == to->toString())
     return true;
+
+  auto key = std::make_pair(from.get(), to.get());
+  auto cacheIt = canConvertCache_.find(key);
+  if (cacheIt != canConvertCache_.end())
+    return cacheIt->second;
+
+  auto &cached = canConvertCache_[key];
   if (isNullType(from) &&
       (isPointerType(to) || to->getKind() == zir::TypeKind::Class))
-    return true;
+    return cached = true;
   if (isStringType(from) && isStringType(to))
-    return true;
+    return cached = true;
   if (isStringType(from) && isPointerType(to)) {
     auto ptrType = std::static_pointer_cast<zir::PointerType>(to);
-    return ptrType && ptrType->getBaseType()->getKind() == zir::TypeKind::Char;
+    return cached = (ptrType &&
+                     ptrType->getBaseType()->getKind() == zir::TypeKind::Char);
   }
   if (from->getKind() == zir::TypeKind::Class &&
       to->getKind() == zir::TypeKind::Class) {
     auto fromClass = std::static_pointer_cast<zir::ClassType>(from);
     auto toClass = std::static_pointer_cast<zir::ClassType>(to);
-    if (fromClass->isWeak() && !toClass->isWeak()) {
-      return false;
-    }
+    if (fromClass->isWeak() && !toClass->isWeak())
+      return cached = false;
     for (auto current = fromClass; current; current = current->getBase()) {
-      if (current->getName() == toClass->getName()) {
-        return true;
-      }
+      if (current->getName() == toClass->getName())
+        return cached = true;
     }
   }
   if (from->getKind() == zir::TypeKind::Array && isVariadicViewType(to)) {
@@ -1601,8 +1607,8 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
         viewType->getFields()[0].type->getKind() == zir::TypeKind::Pointer) {
       auto dataType = std::static_pointer_cast<zir::PointerType>(
           viewType->getFields()[0].type);
-      return arrayType->getBaseType()->toString() ==
-             dataType->getBaseType()->toString();
+      return cached = (arrayType->getBaseType()->toString() ==
+                       dataType->getBaseType()->toString());
     }
   }
   if (isFailableType(from) && isFailableType(to)) {
@@ -1610,16 +1616,15 @@ bool Binder::canConvert(std::shared_ptr<zir::Type> from,
     auto fromErrorType = failableErrorType(from);
     auto toValueType = failableValueType(to);
     auto toErrorType = failableErrorType(to);
-    return canConvert(fromValueType, toValueType) &&
-           canConvert(fromErrorType, toErrorType);
+    return cached = (canConvert(fromValueType, toValueType) &&
+                     canConvert(fromErrorType, toErrorType));
   }
-
   if (isNumeric(from) && isNumeric(to))
-    return true;
+    return cached = true;
   if (from->getKind() == zir::TypeKind::Enum &&
       to->getKind() == zir::TypeKind::Int)
-    return true;
-  return false;
+    return cached = true;
+  return cached = false;
 }
 
 std::shared_ptr<zir::Type>
