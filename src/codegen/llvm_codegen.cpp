@@ -942,7 +942,8 @@ LLVMCodeGen::emitStringConcat(llvm::Value *lhs, llvm::Value *rhs,
     rhsLen = llvm::ConstantInt::get(i64Ty, 1);
   }
 
-  if (functionMap_.count("string_concat_ptrlen") == 0) {
+  auto concatIt = functionMap_.find("string_concat_ptrlen");
+  if (concatIt == functionMap_.end()) {
     std::vector<llvm::Type *> params = {
         llvm::PointerType::getUnqual(i8Ty), i64Ty,
         llvm::PointerType::getUnqual(i8Ty), i64Ty};
@@ -950,10 +951,10 @@ LLVMCodeGen::emitStringConcat(llvm::Value *lhs, llvm::Value *rhs,
                                        params, false);
     auto *fn = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                       "string_concat_ptrlen", *module_);
-    functionMap_["string_concat_ptrlen"] = fn;
+    concatIt = functionMap_.emplace("string_concat_ptrlen", fn).first;
   }
 
-  auto *concatFn = functionMap_.at("string_concat_ptrlen");
+  auto *concatFn = concatIt->second;
   auto *call = builder_.CreateCall(concatFn, {lhsPtr, lhsLen, rhsPtr, rhsLen});
   auto *sumLen = builder_.CreateAdd(lhsLen, rhsLen);
 
@@ -1794,17 +1795,18 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
       sizeValue = builder_.CreateIntCast(sizeValue, sizeTy, /*isSigned=*/false);
     }
 
-    if (functionMap_.count("malloc") == 0) {
+    auto mallocIt = functionMap_.find("malloc");
+    if (mallocIt == functionMap_.end()) {
       auto *mallocTy = llvm::FunctionType::get(
           llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)), {sizeTy},
           false);
       auto *mallocFn = llvm::Function::Create(
           mallocTy, llvm::Function::ExternalLinkage, "malloc", *module_);
-      functionMap_["malloc"] = mallocFn;
+      mallocIt = functionMap_.emplace("malloc", mallocFn).first;
     }
 
-    auto *rawPtr = builder_.CreateCall(functionMap_.at("malloc"), {sizeValue},
-                                       "class.alloc");
+    auto *rawPtr =
+        builder_.CreateCall(mallocIt->second, {sizeValue}, "class.alloc");
     auto *typedPtr = builder_.CreateBitCast(rawPtr, ptrTy, "class.obj");
 
     auto *refCountAddr =
@@ -1965,18 +1967,20 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
     llvmArgIt->setName("argv");
     llvm::Value *argvValue = &*llvmArgIt++;
 
-    if (functionMap_.count("__zap_process_set_args") == 0) {
+    auto setArgsIt = functionMap_.find("__zap_process_set_args");
+    if (setArgsIt == functionMap_.end()) {
       auto *ft = llvm::FunctionType::get(llvm::Type::getVoidTy(ctx_),
                                          {i32Ty, argvTy}, false);
       auto *setArgsFn =
           llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                  "__zap_process_set_args", *module_);
-      functionMap_["__zap_process_set_args"] = setArgsFn;
+      setArgsIt =
+          functionMap_.emplace("__zap_process_set_args", setArgsFn).first;
     }
     builder_.SetInsertPoint(
         llvm::BasicBlock::Create(ctx_, "entry", currentFn_));
     builder_.CreateCall(
-        functionMap_.at("__zap_process_set_args"),
+        setArgsIt->second,
         {builder_.CreateIntCast(argcValue, i32Ty, true), argvValue});
     builder_.CreateBr(llvm::BasicBlock::Create(
         ctx_, fn.getBlocks().front()->label, currentFn_));
@@ -2147,17 +2151,19 @@ void LLVMCodeGen::visit(sema::BoundFunctionDeclaration &node) {
     argIt->setName("argv");
     llvm::Value *argvValue = &*argIt++;
 
-    if (functionMap_.count("__zap_process_set_args") == 0) {
+    auto setArgsIt2 = functionMap_.find("__zap_process_set_args");
+    if (setArgsIt2 == functionMap_.end()) {
       auto *ft = llvm::FunctionType::get(llvm::Type::getVoidTy(ctx_),
                                          {i32Ty, argvTy}, false);
       auto *setArgsFn =
           llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                  "__zap_process_set_args", *module_);
-      functionMap_["__zap_process_set_args"] = setArgsFn;
+      setArgsIt2 =
+          functionMap_.emplace("__zap_process_set_args", setArgsFn).first;
     }
 
     builder_.CreateCall(
-        functionMap_.at("__zap_process_set_args"),
+        setArgsIt2->second,
         {builder_.CreateIntCast(argcValue, i32Ty, true), argvValue});
   }
 
@@ -2652,8 +2658,9 @@ void LLVMCodeGen::visit(sema::BoundLiteral &node) {
 
 void LLVMCodeGen::visit(sema::BoundVariableExpression &node) {
   llvm::Value *addr = nullptr;
-  if (localValues_.count(node.symbol->name)) {
-    addr = localValues_.at(node.symbol->name);
+  auto localIt = localValues_.find(node.symbol->name);
+  if (localIt != localValues_.end()) {
+    addr = localIt->second;
   } else {
     addr = globalValues_.at(node.symbol->linkName);
   }
@@ -3414,17 +3421,18 @@ void LLVMCodeGen::visit(sema::BoundNewExpression &node) {
     sizeValue = builder_.CreateIntCast(sizeValue, sizeTy, /*isSigned=*/false);
   }
 
-  if (functionMap_.count("malloc") == 0) {
+  auto mallocIt2 = functionMap_.find("malloc");
+  if (mallocIt2 == functionMap_.end()) {
     auto *mallocTy = llvm::FunctionType::get(
         llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)), {sizeTy},
         false);
     auto *mallocFn = llvm::Function::Create(
         mallocTy, llvm::Function::ExternalLinkage, "malloc", *module_);
-    functionMap_["malloc"] = mallocFn;
+    mallocIt2 = functionMap_.emplace("malloc", mallocFn).first;
   }
 
-  auto *rawPtr = builder_.CreateCall(functionMap_.at("malloc"), {sizeValue},
-                                     "class.alloc");
+  auto *rawPtr =
+      builder_.CreateCall(mallocIt2->second, {sizeValue}, "class.alloc");
   auto *typedPtr = builder_.CreateBitCast(rawPtr, ptrTy, "class.obj");
 
   auto *refCountAddr =
