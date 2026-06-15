@@ -731,6 +731,26 @@ LLVMCodeGen::lowerZIRAggregateConstant(const zir::AggregateConstant &constant) {
               fieldConst = llvm::ConstantStruct::get(dstStructTy, {ptr, len});
             }
           }
+        } else if (fieldConst->getType()->isIntegerTy() &&
+                   expectedFieldTy->isIntegerTy()) {
+          unsigned srcBits = fieldConst->getType()->getIntegerBitWidth();
+          unsigned dstBits = expectedFieldTy->getIntegerBitWidth();
+          if (dstBits < srcBits) {
+            fieldConst = llvm::dyn_cast<llvm::Constant>(
+                llvm::ConstantExpr::getTrunc(fieldConst, expectedFieldTy));
+          } else if (dstBits > srcBits) {
+            auto targetFieldType =
+                recordFields[static_cast<size_t>(fieldIndex)].type;
+            if (targetFieldType->isUnsigned()) {
+              fieldConst =
+                  llvm::dyn_cast<llvm::Constant>(llvm::ConstantExpr::getCast(
+                      llvm::Instruction::ZExt, fieldConst, expectedFieldTy));
+            } else {
+              fieldConst =
+                  llvm::dyn_cast<llvm::Constant>(llvm::ConstantExpr::getCast(
+                      llvm::Instruction::SExt, fieldConst, expectedFieldTy));
+            }
+          }
         } else {
           fieldConst = llvm::dyn_cast<llvm::Constant>(
               llvm::ConstantExpr::getBitCast(fieldConst, expectedFieldTy));
