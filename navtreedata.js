@@ -86,9 +86,9 @@ var NAVTREEINDEX =
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a21e24d255796283280bc639a6b9346b9",
 "db/d54/classsema_1_1BoundNewExpression.html#a4132d8799eb526fe045f2a7e6eb4f1a8",
 "dc/d01/classsema_1_1BoundAsmStatement.html#a0f9b35baaa2ed04414931f63d0e6133b",
-"dc/d2c/classsema_1_1Binder.html#a97cd50b88390b372dc050e3a844a3aa9",
+"dc/d2c/classsema_1_1Binder.html#a9456d4536c4e53f72296de3a17abded6",
 "dc/de8/classzap_1_1StdoutStream.html#ad07228b9c824fd941a766c7a858a671c",
-"de/d56/classAstBuilder.html#a9faa921e18701dd8ca80c1b647ae8981",
+"de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0",
 "df/d31/classzir_1_1CallInst.html#ae05cc02ebfc26141044f58ba21716817",
 "functions_vars.html"
 ];

@@ -67,6 +67,7 @@ $(function(){initNavTree('dc/d02/namespacezap_1_1anonymous__namespace_02parser_8
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a470f5f67db4c10a5819a62ce2a291180" id="r_a470f5f67db4c10a5819a62ce2a291180"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a470f5f67db4c10a5819a62ce2a291180">compoundAssignOp</a> (<a class="el" href="../../d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921">TokenType</a> type)</td></tr>
+<tr class="memitem:aa291d7c8fd525f92c9ec82bce0c0dad9" id="r_aa291d7c8fd525f92c9ec82bce0c0dad9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa291d7c8fd525f92c9ec82bce0c0dad9">qualifiedNameFromExpressionImpl</a> (const <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> *expr, std::string &amp;<a class="el" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>)</td></tr>
 <tr class="memitem:a05f2998a2f843ce15a663ecb08b93391" id="r_a05f2998a2f843ce15a663ecb08b93391"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05f2998a2f843ce15a663ecb08b93391">qualifiedNameFromExpression</a> (const <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> *expr)</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
@@ -144,27 +145,61 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../dc/ddd/parser_8cpp_source.html">parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>                                                                  {</div>
+<div class="line"><span class="lineno">   54</span>  std::string result;</div>
+<div class="line"><span class="lineno">   55</span>  result.reserve(32);</div>
+<div class="line"><span class="lineno">   56</span>  <a class="code hl_function" href="#aa291d7c8fd525f92c9ec82bce0c0dad9">qualifiedNameFromExpressionImpl</a>(expr, result);</div>
+<div class="line"><span class="lineno">   57</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">   58</span>}</div>
+<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02parser_8cpp_03_html_aa291d7c8fd525f92c9ec82bce0c0dad9"><div class="ttname"><a href="#aa291d7c8fd525f92c9ec82bce0c0dad9">zap::anonymous_namespace{parser.cpp}::qualifiedNameFromExpressionImpl</a></div><div class="ttdeci">void qualifiedNameFromExpressionImpl(const ExpressionNode *expr, std::string &amp;out)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/ddd/parser_8cpp_source.html#l00038">parser.cpp:38</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00053">qualifiedNameFromExpression()</a>, and <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">qualifiedNameFromExpressionImpl()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00053">qualifiedNameFromExpression()</a>.</p>
+
+</div>
+</div>
+<a id="aa291d7c8fd525f92c9ec82bce0c0dad9" name="aa291d7c8fd525f92c9ec82bce0c0dad9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa291d7c8fd525f92c9ec82bce0c0dad9">&#9670;&#160;</a></span>qualifiedNameFromExpressionImpl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zap::anonymous_namespace{parser.cpp}::qualifiedNameFromExpressionImpl </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> *</td>          <td class="paramname"><span class="paramname"><em>expr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p class="definition">Definition at line <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../dc/ddd/parser_8cpp_source.html">parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>                                                                  {</div>
-<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr)) {</div>
-<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">return</span> <span class="keywordtype">id</span>-&gt;value_;</div>
-<div class="line"><span class="lineno">   41</span>  }</div>
-<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr)) {</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keyword">auto</span> base = <a class="code hl_function" href="#a05f2998a2f843ce15a663ecb08b93391">qualifiedNameFromExpression</a>(member-&gt;left_.get());</div>
-<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">if</span> (base.empty()) {</div>
-<div class="line"><span class="lineno">   45</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">   46</span>    }</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> base + <span class="stringliteral">&quot;.&quot;</span> + member-&gt;member_;</div>
-<div class="line"><span class="lineno">   48</span>  }</div>
-<div class="line"><span class="lineno">   49</span>  <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">   50</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>                                                     {</div>
+<div class="line"><span class="lineno">   40</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr)) {</div>
+<div class="line"><span class="lineno">   41</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="keywordtype">id</span>-&gt;value_;</div>
+<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   43</span>  }</div>
+<div class="line"><span class="lineno">   44</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr)) {</div>
+<div class="line"><span class="lineno">   45</span>    <a class="code hl_function" href="#aa291d7c8fd525f92c9ec82bce0c0dad9">qualifiedNameFromExpressionImpl</a>(member-&gt;left_.get(), <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>);</div>
+<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>.empty())</div>
+<div class="line"><span class="lineno">   47</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   48</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="charliteral">&#39;.&#39;</span>;</div>
+<div class="line"><span class="lineno">   49</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += member-&gt;member_;</div>
+<div class="line"><span class="lineno">   50</span>  }</div>
+<div class="line"><span class="lineno">   51</span>}</div>
 <div class="ttc" id="aclassConstId_html"><div class="ttname"><a href="../../d3/d4c/classConstId.html">ConstId</a></div><div class="ttdef"><b>Definition</b> <a href="../../d5/df9/const__id_8hpp_source.html#l00004">const_id.hpp:4</a></div></div>
 <div class="ttc" id="aclassMemberAccessNode_html"><div class="ttname"><a href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d5f/member__access_8hpp_source.html#l00007">member_access.hpp:7</a></div></div>
-<div class="ttc" id="anamespacezap_1_1anonymous__namespace_02parser_8cpp_03_html_a05f2998a2f843ce15a663ecb08b93391"><div class="ttname"><a href="#a05f2998a2f843ce15a663ecb08b93391">zap::anonymous_namespace{parser.cpp}::qualifiedNameFromExpression</a></div><div class="ttdeci">std::string qualifiedNameFromExpression(const ExpressionNode *expr)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/ddd/parser_8cpp_source.html#l00038">parser.cpp:38</a></div></div>
+<div class="ttc" id="anamespacezap_html_ae6ad8e87b28adc8798a538d35a6f3e66"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">zap::out</a></div><div class="ttdeci">Stream &amp; out()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00110">stream.cpp:110</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">qualifiedNameFromExpression()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00110">zap::out()</a>, and <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">qualifiedNameFromExpressionImpl()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">qualifiedNameFromExpression()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00053">qualifiedNameFromExpression()</a>, and <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00038">qualifiedNameFromExpressionImpl()</a>.</p>
 
 </div>
 </div>
