@@ -169,6 +169,7 @@ var hierarchy =
       ] ],
       [ "TypeNode", "d7/d9f/classTypeNode.html", null ]
     ] ],
+    [ "sema::Binder::PairHash", "d3/da4/structsema_1_1Binder_1_1PairHash.html", null ],
     [ "zap::Parser", "de/d73/classzap_1_1Parser.html", null ],
     [ "anonymous_namespace{lsp-main.cpp}::ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", null ],
     [ "sema::ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", null ],

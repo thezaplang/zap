@@ -234,6 +234,10 @@ var NAVTREEINDEX3 =
 "d3/d94/classFunDecl.html#aa717eb54369f206b95a313d307079865":[2,0,36,2],
 "d3/d94/classFunDecl.html#ab8b0c6e70ecf3a335f30c2641c535c3d":[2,0,36,0],
 "d3/d94/classFunDecl.html#af774b737fc9ee999bd5c0771e1cb0cfa":[2,0,36,12],
+"d3/da4/structsema_1_1Binder_1_1PairHash.html":[1,0,3,0,2],
+"d3/da4/structsema_1_1Binder_1_1PairHash.html":[2,0,2,0,2],
+"d3/da4/structsema_1_1Binder_1_1PairHash.html#ad332d0ae474bed47b45d30d9843ffddb":[1,0,3,0,2,0],
+"d3/da4/structsema_1_1Binder_1_1PairHash.html#ad332d0ae474bed47b45d30d9843ffddb":[2,0,2,0,2,0],
 "d3/da8/classTryExpr.html":[2,0,59],
 "d3/da8/classTryExpr.html#a29a274ad396f6df6064231d9501c3df2":[2,0,59,0],
 "d3/da8/classTryExpr.html#a2e0f27efe37b72974836bfe72fbf0154":[2,0,59,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "d3/dc3/classsema_1_1BoundContinueStatement.html#a72a9050e73a1d6c96b2d1512e05ce54f":[2,0,2,36,2],
 "d3/dc3/classsema_1_1BoundContinueStatement.html#a9a22af9a2bcf9851d0760124e5195156":[1,0,3,36,0],
 "d3/dc3/classsema_1_1BoundContinueStatement.html#a9a22af9a2bcf9851d0760124e5195156":[2,0,2,36,0],
-"d3/dc3/classsema_1_1BoundContinueStatement.html#ad70a34b7710e8b250c33abc273a0ad25":[1,0,3,36,1],
-"d3/dc3/classsema_1_1BoundContinueStatement.html#ad70a34b7710e8b250c33abc273a0ad25":[2,0,2,36,1],
-"d3/dc7/structzir_1_1RecordType_1_1Field.html":[1,0,5,28,0],
-"d3/dc7/structzir_1_1RecordType_1_1Field.html":[2,0,4,27,0],
-"d3/dc7/structzir_1_1RecordType_1_1Field.html#a496401941d1d882181d08f6c9dbcef70":[1,0,5,28,0,2]
+"d3/dc3/classsema_1_1BoundContinueStatement.html#ad70a34b7710e8b250c33abc273a0ad25":[1,0,3,36,1]
 };

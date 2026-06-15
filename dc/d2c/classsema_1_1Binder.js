@@ -2,6 +2,7 @@ var classsema_1_1Binder =
 [
     [ "ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
+    [ "PairHash", "d3/da4/structsema_1_1Binder_1_1PairHash.html", "d3/da4/structsema_1_1Binder_1_1PairHash" ],
     [ "Binder", "dc/d2c/classsema_1_1Binder.html#ab880f37a39fda84d0eefda8715fc61e2", null ],
     [ "applyImports", "dc/d2c/classsema_1_1Binder.html#ad3a73e9f896f9a3810d9ddb120abc07c", null ],
     [ "bind", "dc/d2c/classsema_1_1Binder.html#abc5b4a2693ba0038ae47e2b431bc9e6a", null ],
@@ -110,6 +111,7 @@ var classsema_1_1Binder =
     [ "allowUnsafe_", "dc/d2c/classsema_1_1Binder.html#a759de976b6b7730df5715e940b6339e5", null ],
     [ "boundRoot_", "dc/d2c/classsema_1_1Binder.html#a316acd01780dd2a3af58785e436375a3", null ],
     [ "builtinScope_", "dc/d2c/classsema_1_1Binder.html#a67872f11fb35c005abe3bb03fd59db28", null ],
+    [ "canConvertCache_", "dc/d2c/classsema_1_1Binder.html#a036f712dc27a0f83adc91fb01519b21a", null ],
     [ "classInfos_", "dc/d2c/classsema_1_1Binder.html#a257667b2ab492554ecb7d2d66cf430d2", null ],
     [ "classTypeDeclarationNodes_", "dc/d2c/classsema_1_1Binder.html#a1b5988ad8a5654ac23fd7d10675da16b", null ],
     [ "currentBlock_", "dc/d2c/classsema_1_1Binder.html#abfd6910620b631f48799295a2b171e5e", null ],

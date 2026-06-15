@@ -1,5 +1,9 @@
 var NAVTREEINDEX10 =
 {
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a1d5cd107cc3c7e4db383fe37f8a4c5fa":[2,0,1,1,119],
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a21cc657dd662391cf43c9ebe8fdd7ee0":[1,0,1,3,43],
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a21cc657dd662391cf43c9ebe8fdd7ee0":[2,0,1,1,43],
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a21e24d255796283280bc639a6b9346b9":[1,0,1,3,104],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a21e24d255796283280bc639a6b9346b9":[2,0,1,1,104],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a2846efcd8ab803fe30e564283b615afa":[1,0,1,3,57],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a2846efcd8ab803fe30e564283b615afa":[2,0,1,1,57],
@@ -245,9 +249,5 @@ var NAVTREEINDEX10 =
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5":[1,0,3,37,0],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5":[2,0,2,37,0],
 "db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e":[1,0,3,37,2],
-"db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e":[2,0,2,37,2],
-"db/d50/binder__types_8cpp.html":[3,0,0,8,5],
-"db/d50/binder__types_8cpp_source.html":[3,0,0,8,5],
-"db/d54/classsema_1_1BoundNewExpression.html":[1,0,3,19],
-"db/d54/classsema_1_1BoundNewExpression.html":[2,0,2,19]
+"db/d37/classsema_1_1BoundFunctionDeclaration.html#af4481b6f6424ed4a9cf880ac381aae1e":[2,0,2,37,2]
 };
