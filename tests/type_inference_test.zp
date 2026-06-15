@@ -1,0 +1,98 @@
+struct Color {
+    r: UInt8;
+    g: UInt8;
+    b: UInt8;
+}
+
+struct Vec2 {
+    x: Int32;
+    y: Int32;
+}
+
+struct Wrapper {
+    value: Int64;
+    flag: Bool;
+}
+
+global var globalCount = 0;
+const globalMax = 255;
+
+fun increment(ref n: Int) {
+    n = n + 1;
+}
+
+fun getFloat() Float {
+    return 2.5;
+}
+
+fun main() Int {
+    var x = 42;
+    if x != 42 { return 1; }
+
+    var s = "hello";
+    if s != "hello" { return 2; }
+
+    var b = true;
+    if b != true { return 3; }
+
+    var f = 3.14;
+    if f == 0.0 { return 4; }
+
+    var result = getFloat();
+    if result != 2.5 { return 5; }
+
+    var sum = 10 + 20;
+    if sum != 30 { return 6; }
+
+    var y = x;
+    if y != 42 { return 7; }
+
+    var counter = 0;
+    counter = counter + 1;
+    counter = counter + 1;
+    if counter != 2 { return 8; }
+
+    var n = 5;
+    increment(ref n);
+    if n != 6 { return 9; }
+
+    const limit = 100;
+    if limit != 100 { return 10; }
+
+    const msg = "ok";
+    if msg != "ok" { return 11; }
+
+    const flag = false;
+    if flag { return 12; }
+
+    const doubled = 21 * 2;
+    if doubled != 42 { return 13; }
+
+    if globalCount != 0 { return 14; }
+    if globalMax != 255 { return 15; }
+
+    var c = Color{r: 255, g: 128, b: 0};
+    if c.r != 255 { return 16; }
+    if c.g != 128 { return 17; }
+    if c.b != 0 { return 18; }
+
+    var v = Vec2{x: 100, y: -50};
+    if v.x != 100 { return 19; }
+    if v.y != -50 { return 20; }
+
+    var w = Wrapper{value: 9999, flag: true};
+    if w.value != 9999 { return 21; }
+    if !w.flag { return 22; }
+
+    var black = Color{r: 0, g: 0, b: 0};
+    if black.r != 0 { return 23; }
+
+    var white = Color{r: 255, g: 255, b: 255};
+    if white.b != 255 { return 24; }
+
+    var origin = Vec2{x: 0, y: 0};
+    if origin.x != 0 { return 25; }
+    if origin.y != 0 { return 26; }
+
+    return 0;
+}

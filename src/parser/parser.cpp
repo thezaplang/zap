@@ -523,8 +523,19 @@ std::unique_ptr<VarDecl> Parser::parseVarDecl() {
   Token varKeyword = eat(TokenType::VAR);
   Token varNameToken = eat(TokenType::ID);
 
-  eat(TokenType::COLON);
+  if (peek().type == TokenType::ASSIGN) {
+    // var x = expr  (type inferred from initializer)
+    eat(TokenType::ASSIGN);
+    auto expr = parseExpression();
+    Token semicolonToken = eat(TokenType::SEMICOLON);
+    auto varDecl =
+        _builder.makeVarDecl(varNameToken.value, nullptr, std::move(expr));
+    _builder.setSpan(varDecl.get(),
+                     SourceSpan::merge(varKeyword.span, semicolonToken.span));
+    return varDecl;
+  }
 
+  eat(TokenType::COLON);
   auto typeNode = parseType();
 
   if (peek().type == TokenType::ASSIGN) {
@@ -551,9 +562,11 @@ std::unique_ptr<ConstDecl> Parser::parseConstDecl() {
   Token constKeyword = eat(TokenType::CONST);
   Token constNameToken = eat(TokenType::ID);
 
-  eat(TokenType::COLON);
-
-  auto typeNode = parseType();
+  std::unique_ptr<TypeNode> typeNode = nullptr;
+  if (peek().type == TokenType::COLON) {
+    eat(TokenType::COLON);
+    typeNode = parseType();
+  }
 
   eat(TokenType::ASSIGN);
   auto expr = parseExpression();

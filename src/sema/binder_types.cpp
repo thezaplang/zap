@@ -487,20 +487,29 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
         return nullptr;
       }
     } else {
-      const auto &declParam = (*declGenericParams)[i];
-      if (!declParam || !declParam->defaultType) {
-        error(typeNode.span, "Missing generic type arguments for type '" +
-                                 typeNode.qualifiedName() + "'.");
-        return nullptr;
+      if (!activeGenericBindingsStack_.empty()) {
+        const auto &stackBindings = activeGenericBindingsStack_.back();
+        auto stackIt = stackBindings.find(baseSymbol->genericParameterNames[i]);
+        if (stackIt != stackBindings.end()) {
+          mapped = stackIt->second;
+        }
       }
-      activeGenericBindingsStack_.push_back(genericBindings);
-      mapped = mapType(*declParam->defaultType);
-      activeGenericBindingsStack_.pop_back();
       if (!mapped) {
-        error(declParam->defaultType->span,
-              "Unknown default generic type argument in type '" +
-                  typeNode.qualifiedName() + "'.");
-        return nullptr;
+        const auto &declParam = (*declGenericParams)[i];
+        if (!declParam || !declParam->defaultType) {
+          error(typeNode.span, "Missing generic type arguments for type '" +
+                                   typeNode.qualifiedName() + "'.");
+          return nullptr;
+        }
+        activeGenericBindingsStack_.push_back(genericBindings);
+        mapped = mapType(*declParam->defaultType);
+        activeGenericBindingsStack_.pop_back();
+        if (!mapped) {
+          error(declParam->defaultType->span,
+                "Unknown default generic type argument in type '" +
+                    typeNode.qualifiedName() + "'.");
+          return nullptr;
+        }
       }
     }
     genericArgs.push_back(mapped);

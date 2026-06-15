@@ -33,6 +33,9 @@ SPECIAL_CASES = {
     "tests/diagnostics/07_attributes_parser_sync.zp": {"type": "compile", "exit": 1, "desc": "Diagnostics: parser synchronization with malformed attributes"},
 
     # Runtime with non-zero exit
+    "tests/type_inference_test.zp": {"type": "runtime", "exit": 0, "desc": "Type inference: var/const without annotation, struct field type-directed binding"},
+    "tests/return_type_infer_test.zp": {"type": "runtime", "exit": 0, "desc": "Type inference: function return type inferred from return statements"},
+    "tests/generic_struct_infer_test.zp": {"type": "runtime", "exit": 0, "desc": "Type inference: generic struct type args inferred from field values"},
     "tests/enum_test.zp": {"type": "runtime", "exit": 1, "desc": "Enum test"},
     "tests/type_alias.zp": {"type": "runtime", "exit": 42, "desc": "Type aliasing (alias Name = Type)"},
     "tests/global_string_concat_test.zp": {"type": "runtime", "exit": 42, "desc": "Global var initialized with literal '+' concatenation is constant-folded"},

@@ -146,7 +146,7 @@ void Binder::visit(ReturnNode &node) {
     }
   }
 
-  if (currentFunction_) {
+  if (currentFunction_ && currentFunction_->returnType) {
     auto expectedType = currentFunction_->returnType;
     auto actualType =
         expr ? expr->type

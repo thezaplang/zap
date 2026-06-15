@@ -1714,7 +1714,67 @@ void Binder::visit(StructLiteralNode &node) {
   }
 
   auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
+
+  bool pushedInferredBindings = false;
+  if (!typeSymbol->genericParameterNames.empty() &&
+      node.type_->genericArgs.empty()) {
+    const std::vector<std::unique_ptr<ParameterNode>> *declFields = nullptr;
+    if (auto rdIt = recordTypeDeclarationNodes_.find(typeSymbol.get());
+        rdIt != recordTypeDeclarationNodes_.end()) {
+      declFields = &rdIt->second->fields_;
+    } else if (auto sdIt = structTypeDeclarationNodes_.find(typeSymbol.get());
+               sdIt != structTypeDeclarationNodes_.end()) {
+      declFields = &sdIt->second->fields_;
+    }
+
+    if (declFields) {
+      std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+          inferredBindings;
+
+      for (const auto &fieldInit : node.fields_) {
+        for (const auto &declField : *declFields) {
+          if (declField->name != fieldInit.name)
+            continue;
+          const TypeNode &fieldTypeNode = *declField->type;
+          if (!fieldTypeNode.qualifiers.empty() ||
+              !fieldTypeNode.genericArgs.empty())
+            break;
+          const auto &paramName = fieldTypeNode.typeName;
+          bool isGenericParam = false;
+          for (const auto &gp : typeSymbol->genericParameterNames) {
+            if (gp == paramName) {
+              isGenericParam = true;
+              break;
+            }
+          }
+          if (!isGenericParam || inferredBindings.count(paramName))
+            break;
+          auto stackSizeBefore = expressionStack_.size();
+          fieldInit.value->accept(*this);
+          if (expressionStack_.size() > stackSizeBefore) {
+            auto preBound = std::move(expressionStack_.top());
+            expressionStack_.pop();
+            if (preBound && preBound->type) {
+              inferredBindings[paramName] = preBound->type;
+            }
+          }
+          break;
+        }
+      }
+
+      if (!inferredBindings.empty()) {
+        activeGenericBindingsStack_.push_back(std::move(inferredBindings));
+        pushedInferredBindings = true;
+      }
+    }
+  }
+
   auto mappedType = mapType(*node.type_);
+
+  if (pushedInferredBindings) {
+    activeGenericBindingsStack_.pop_back();
+  }
+
   if (!mappedType || mappedType->getKind() != zir::TypeKind::Record) {
     error(node.span, "'" + node.type_->qualifiedName() + "' is not a struct.");
     return;
@@ -1730,11 +1790,27 @@ void Binder::visit(StructLiteralNode &node) {
   std::vector<std::string> missingFields;
 
   for (auto &fieldInit : node.fields_) {
-    fieldInit.value->accept(*this);
-    if (expressionStack_.empty())
+    std::shared_ptr<zir::Type> fieldExpectedType = nullptr;
+    for (const auto &f : recordType->getFields()) {
+      if (f.name == fieldInit.name) {
+        fieldExpectedType = f.type;
+        break;
+      }
+    }
+
+    std::unique_ptr<BoundExpression> boundVal;
+    if (fieldExpectedType) {
+      boundVal =
+          bindExpressionWithExpected(fieldInit.value.get(), fieldExpectedType);
+    } else {
+      fieldInit.value->accept(*this);
+      if (expressionStack_.empty())
+        continue;
+      boundVal = std::move(expressionStack_.top());
+      expressionStack_.pop();
+    }
+    if (!boundVal)
       continue;
-    auto boundVal = std::move(expressionStack_.top());
-    expressionStack_.pop();
 
     bool found = false;
     for (const auto &f : recordType->getFields()) {
@@ -1744,6 +1820,8 @@ void Binder::visit(StructLiteralNode &node) {
                                renderTypeForUser(boundVal->type) +
                                "' to field '" + f.name + "' of type '" +
                                renderTypeForUser(f.type) + "'");
+        } else {
+          boundVal = wrapInCast(std::move(boundVal), f.type);
         }
         found = true;
         break;

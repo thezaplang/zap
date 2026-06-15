@@ -1,0 +1,70 @@
+record Pair<T, U> {
+    first: T;
+    second: U;
+}
+
+record Box<T> {
+    value: T;
+}
+
+record Triple<A, B, C> {
+    a: A;
+    b: B;
+    c: C;
+}
+
+fun getFirst<T, U>(p: Pair<T, U>) T {
+    return p.first;
+}
+
+fun getSecond<T, U>(p: Pair<T, U>) U {
+    return p.second;
+}
+
+fun unbox<T>(b: Box<T>) T {
+    return b.value;
+}
+
+fun main() Int {
+    var p1: Pair<Int, Bool> = Pair<Int, Bool>{first: 42, second: true};
+    if p1.first != 42 { return 1; }
+    if !p1.second { return 2; }
+
+    var p2 = Pair{first: 10, second: false};
+    if p2.first != 10 { return 3; }
+    if p2.second { return 4; }
+
+    var p3 = Pair{first: "hello", second: 99};
+    if p3.first != "hello" { return 5; }
+    if p3.second != 99 { return 6; }
+
+    var p4 = Pair{first: true, second: false};
+    if !p4.first { return 7; }
+    if p4.second { return 8; }
+
+    var b1 = Box{value: 77};
+    if b1.value != 77 { return 9; }
+
+    var b2 = Box{value: true};
+    if !b2.value { return 10; }
+
+    var t = Triple{a: 1, b: "two", c: false};
+    if t.a != 1 { return 11; }
+    if t.b != "two" { return 12; }
+    if t.c { return 13; }
+
+    var p5 = Pair{first: 55, second: true};
+    if getFirst(p5) != 55 { return 14; }
+    if !getSecond(p5) { return 15; }
+
+    var b3 = Box{value: 123};
+    if unbox(b3) != 123 { return 16; }
+
+    var p6 = Pair{first: 0, second: 0};
+    p6.first = 7;
+    p6.second = 8;
+    if p6.first != 7 { return 17; }
+    if p6.second != 8 { return 18; }
+
+    return 0;
+}

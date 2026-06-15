@@ -1,0 +1,75 @@
+fun add(a: Int, b: Int) {
+    return a + b;
+}
+
+fun greet(name: String) {
+    return "Hello, " + name;
+}
+
+fun isPositive(n: Int) {
+    if n > 0 {
+        return true;
+    }
+    return false;
+}
+
+fun double(n: Int) {
+    return n * 2;
+}
+
+fun clamp(n: Int, lo: Int, hi: Int) {
+    if n < lo {
+        return lo;
+    }
+    if n > hi {
+        return hi;
+    }
+    return n;
+}
+
+fun noop() {
+    var x = 0;
+    x = x + 1;
+}
+
+fun earlyOut(flag: Bool) {
+    if flag {
+        return;
+    }
+}
+
+fun half(x: Float) {
+    return x / 2.0;
+}
+
+fun square(n: Int) {
+    return n * n;
+}
+
+fun addThenDouble(a: Int, b: Int) {
+    return double(add(a, b));
+}
+
+fun explicitAdd(a: Int, b: Int) Int {
+    return a + b;
+}
+
+fun main() Int {
+    if add(3, 4) != 7 { return 1; }
+    if greet("World") != "Hello, World" { return 2; }
+    if isPositive(-1) { return 3; }
+    if !isPositive(5) { return 4; }
+    if !isPositive(1) { return 5; }
+    if isPositive(0) { return 6; }
+    if double(7) != 14 { return 7; }
+    if clamp(5, 0, 10) != 5 { return 8; }
+    if clamp(-3, 0, 10) != 0 { return 9; }
+    if clamp(15, 0, 10) != 10 { return 10; }
+    noop();
+    earlyOut(true);
+    earlyOut(false);
+    if square(9) != 81 { return 11; }
+    if addThenDouble(3, 4) != 14 { return 12; }
+    if explicitAdd(10, 5) != 15 { return 13; }
+    return 0;
+}
