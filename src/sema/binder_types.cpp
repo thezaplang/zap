@@ -1386,156 +1386,177 @@ void Binder::validateAndApplyFunctionAttributes(
 }
 
 std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
-  if (typeNode.isVarArgs) {
-    if (!typeNode.baseType)
-      return nullptr;
-    return mapType(*typeNode.baseType);
+  // Cache simple types when not in a generic instantiation context.
+  // Skip cache for array types with size expressions (they evaluate AST nodes)
+  // and for failable types (they may emit errors on first call).
+  bool canCache = activeGenericBindingsStack_.empty() && !typeNode.isVarArgs &&
+                  !typeNode.isFailable &&
+                  !(typeNode.isArray && typeNode.arraySize);
+  if (canCache) {
+    auto it = mapTypeCache_.find(&typeNode);
+    if (it != mapTypeCache_.end())
+      return it->second;
   }
 
-  if (typeNode.isFailable) {
-    if (!typeNode.baseType || !typeNode.errorType) {
-      error(typeNode.span, "Invalid failable type declaration.");
-      return nullptr;
+  auto doMap = [&]() -> std::shared_ptr<zir::Type> {
+    if (typeNode.isVarArgs) {
+      if (!typeNode.baseType)
+        return nullptr;
+      return mapType(*typeNode.baseType);
     }
 
-    auto valueType = mapType(*typeNode.baseType);
-    auto errorType = mapType(*typeNode.errorType);
+    if (typeNode.isFailable) {
+      if (!typeNode.baseType || !typeNode.errorType) {
+        error(typeNode.span, "Invalid failable type declaration.");
+        return nullptr;
+      }
 
-    if (!valueType || !errorType) {
-      return nullptr;
-    }
+      auto valueType = mapType(*typeNode.baseType);
+      auto errorType = mapType(*typeNode.errorType);
 
-    if (!typeNode.errorType->qualifiers.empty() ||
-        !typeNode.errorType->typeName.empty()) {
-      std::vector<std::string> errParts = typeNode.errorType->qualifiers;
-      errParts.push_back(typeNode.errorType->typeName);
-      auto errSymbol = resolveQualifiedSymbol(
-          errParts, typeNode.errorType->span, SymbolKind::Type);
-      if (errSymbol && errSymbol->getKind() == SymbolKind::Type) {
-        auto errTypeSymbol = std::static_pointer_cast<TypeSymbol>(errSymbol);
-        if (!errTypeSymbol->isErrorType) {
-          error(typeNode.errorType->span,
-                "Type '" + typeNode.errorType->qualifiedName() +
-                    "' used as failable error type must be annotated with "
-                    "@error.");
+      if (!valueType || !errorType) {
+        return nullptr;
+      }
+
+      if (!typeNode.errorType->qualifiers.empty() ||
+          !typeNode.errorType->typeName.empty()) {
+        std::vector<std::string> errParts = typeNode.errorType->qualifiers;
+        errParts.push_back(typeNode.errorType->typeName);
+        auto errSymbol = resolveQualifiedSymbol(
+            errParts, typeNode.errorType->span, SymbolKind::Type);
+        if (errSymbol && errSymbol->getKind() == SymbolKind::Type) {
+          auto errTypeSymbol = std::static_pointer_cast<TypeSymbol>(errSymbol);
+          if (!errTypeSymbol->isErrorType) {
+            error(typeNode.errorType->span,
+                  "Type '" + typeNode.errorType->qualifiedName() +
+                      "' used as failable error type must be annotated with "
+                      "@error.");
+          }
         }
+      }
+
+      return makeFailableType(valueType, errorType);
+    }
+
+    if (!activeGenericBindingsStack_.empty() && typeNode.qualifiers.empty() &&
+        typeNode.genericArgs.empty()) {
+      const auto &bindings = activeGenericBindingsStack_.back();
+      auto it = bindings.find(typeNode.typeName);
+      if (it != bindings.end()) {
+        auto mapped = it->second;
+        if (typeNode.isWeak) {
+          if (!mapped || mapped->getKind() != zir::TypeKind::Class) {
+            error(typeNode.span, "'weak' can only be used with class types.");
+            return nullptr;
+          }
+          auto weakType = std::make_shared<zir::ClassType>(
+              *std::static_pointer_cast<zir::ClassType>(mapped));
+          weakType->setWeak(true);
+          return weakType;
+        }
+        return mapped;
       }
     }
 
-    return makeFailableType(valueType, errorType);
-  }
+    if (typeNode.isArray) {
+      if (!typeNode.baseType)
+        return nullptr;
+      auto base = mapType(*typeNode.baseType);
 
-  if (!activeGenericBindingsStack_.empty() && typeNode.qualifiers.empty() &&
-      typeNode.genericArgs.empty()) {
-    const auto &bindings = activeGenericBindingsStack_.back();
-    auto it = bindings.find(typeNode.typeName);
-    if (it != bindings.end()) {
-      auto mapped = it->second;
+      if (!typeNode.arraySize) {
+        return makeVariadicViewType(base);
+      }
+
+      size_t size = 0;
+      typeNode.arraySize->accept(*this);
+      if (!expressionStack_.empty()) {
+        auto boundSize = std::move(expressionStack_.top());
+        expressionStack_.pop();
+        auto evaluated = evaluateConstantInt(boundSize.get());
+        if (evaluated) {
+          size = static_cast<size_t>(*evaluated);
+        } else {
+          error(typeNode.span,
+                "Array size must be a constant integer expression.");
+        }
+      }
+
+      return std::make_shared<zir::ArrayType>(std::move(base), size);
+    }
+
+    if (typeNode.isPointer) {
+      if (!typeNode.baseType)
+        return nullptr;
+      auto base = mapType(*typeNode.baseType);
+      return std::make_shared<zir::PointerType>(std::move(base));
+    }
+
+    if (typeNode.isFunPtr) {
+      std::vector<std::shared_ptr<zir::Type>> params;
+      for (const auto &p : typeNode.funPtrParams) {
+        auto mapped = mapType(*p);
+        if (!mapped)
+          return nullptr;
+        params.push_back(std::move(mapped));
+      }
+      auto ret =
+          typeNode.funPtrReturn
+              ? mapType(*typeNode.funPtrReturn)
+              : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+      if (!ret)
+        return nullptr;
+      return std::make_shared<zir::FunctionPointerType>(std::move(params),
+                                                        std::move(ret));
+    }
+
+    std::vector<std::string> parts = typeNode.qualifiers;
+    parts.push_back(typeNode.typeName);
+    auto symbol =
+        resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type);
+    if (symbol && symbol->getKind() == SymbolKind::Type) {
+      auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
+      if (!typeSymbol->genericParameterNames.empty()) {
+        typeSymbol = instantiateGenericTypeSymbol(typeSymbol, typeNode);
+        if (!typeSymbol) {
+          return nullptr;
+        }
+      } else if (!typeNode.genericArgs.empty()) {
+        error(typeNode.span,
+              "Type '" + typeNode.qualifiedName() + "' is not generic.");
+        return nullptr;
+      }
+      if (typeSymbol->isUnsafe) {
+        requireUnsafeContext(typeNode.span, "unsafe struct types");
+      }
       if (typeNode.isWeak) {
-        if (!mapped || mapped->getKind() != zir::TypeKind::Class) {
+        if (!typeSymbol->isClass ||
+            typeSymbol->type->getKind() != zir::TypeKind::Class) {
           error(typeNode.span, "'weak' can only be used with class types.");
           return nullptr;
         }
         auto weakType = std::make_shared<zir::ClassType>(
-            *std::static_pointer_cast<zir::ClassType>(mapped));
+            *std::static_pointer_cast<zir::ClassType>(typeSymbol->type));
         weakType->setWeak(true);
         return weakType;
       }
-      return mapped;
-    }
-  }
 
-  if (typeNode.isArray) {
-    if (!typeNode.baseType)
-      return nullptr;
-    auto base = mapType(*typeNode.baseType);
-
-    if (!typeNode.arraySize) {
-      return makeVariadicViewType(base);
-    }
-
-    size_t size = 0;
-    typeNode.arraySize->accept(*this);
-    if (!expressionStack_.empty()) {
-      auto boundSize = std::move(expressionStack_.top());
-      expressionStack_.pop();
-      auto evaluated = evaluateConstantInt(boundSize.get());
-      if (evaluated) {
-        size = static_cast<size_t>(*evaluated);
-      } else {
+      auto resolvedType = typeSymbol->type;
+      if (typeNode.errorType && !typeSymbol->isErrorType) {
         error(typeNode.span,
-              "Array size must be a constant integer expression.");
+              "Type '" + typeNode.qualifiedName() +
+                  "' used as failable error type must be annotated with "
+                  "@error.");
       }
+      return resolvedType;
     }
 
-    return std::make_shared<zir::ArrayType>(std::move(base), size);
-  }
+    return nullptr;
+  }; // end doMap lambda
 
-  if (typeNode.isPointer) {
-    if (!typeNode.baseType)
-      return nullptr;
-    auto base = mapType(*typeNode.baseType);
-    return std::make_shared<zir::PointerType>(std::move(base));
-  }
-
-  if (typeNode.isFunPtr) {
-    std::vector<std::shared_ptr<zir::Type>> params;
-    for (const auto &p : typeNode.funPtrParams) {
-      auto mapped = mapType(*p);
-      if (!mapped)
-        return nullptr;
-      params.push_back(std::move(mapped));
-    }
-    auto ret = typeNode.funPtrReturn
-                   ? mapType(*typeNode.funPtrReturn)
-                   : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
-    if (!ret)
-      return nullptr;
-    return std::make_shared<zir::FunctionPointerType>(std::move(params),
-                                                      std::move(ret));
-  }
-
-  std::vector<std::string> parts = typeNode.qualifiers;
-  parts.push_back(typeNode.typeName);
-  auto symbol = resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type);
-  if (symbol && symbol->getKind() == SymbolKind::Type) {
-    auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
-    if (!typeSymbol->genericParameterNames.empty()) {
-      typeSymbol = instantiateGenericTypeSymbol(typeSymbol, typeNode);
-      if (!typeSymbol) {
-        return nullptr;
-      }
-    } else if (!typeNode.genericArgs.empty()) {
-      error(typeNode.span,
-            "Type '" + typeNode.qualifiedName() + "' is not generic.");
-      return nullptr;
-    }
-    if (typeSymbol->isUnsafe) {
-      requireUnsafeContext(typeNode.span, "unsafe struct types");
-    }
-    if (typeNode.isWeak) {
-      if (!typeSymbol->isClass ||
-          typeSymbol->type->getKind() != zir::TypeKind::Class) {
-        error(typeNode.span, "'weak' can only be used with class types.");
-        return nullptr;
-      }
-      auto weakType = std::make_shared<zir::ClassType>(
-          *std::static_pointer_cast<zir::ClassType>(typeSymbol->type));
-      weakType->setWeak(true);
-      return weakType;
-    }
-
-    auto resolvedType = typeSymbol->type;
-    if (typeNode.errorType && !typeSymbol->isErrorType) {
-      error(typeNode.span,
-            "Type '" + typeNode.qualifiedName() +
-                "' used as failable error type must be annotated with "
-                "@error.");
-    }
-    return resolvedType;
-  }
-
-  return nullptr;
+  auto result = doMap();
+  if (canCache)
+    mapTypeCache_[&typeNode] = result;
+  return result;
 }
 
 bool Binder::isNumeric(std::shared_ptr<zir::Type> type) const {

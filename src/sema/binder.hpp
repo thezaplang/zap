@@ -194,6 +194,8 @@ private:
   mutable std::unordered_map<std::pair<const zir::Type *, const zir::Type *>,
                              bool, PairHash>
       canConvertCache_;
+  std::unordered_map<const TypeNode *, std::shared_ptr<zir::Type>>
+      mapTypeCache_;
 
   std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
   std::shared_ptr<zir::Type> mapTypeWithGenericBindings(
