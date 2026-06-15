@@ -133,6 +133,7 @@ var classsema_1_1Binder =
     [ "genericTypeInstantiations_", "dc/d2c/classsema_1_1Binder.html#ae43ea8780a2e6b5d5ea9437ef4feab87", null ],
     [ "hadError_", "dc/d2c/classsema_1_1Binder.html#a92d914ef06ad8f810bce2aece1efba2c", null ],
     [ "loopDepth_", "dc/d2c/classsema_1_1Binder.html#acbc88bac62b2734181fc19e13274dd08", null ],
+    [ "mapTypeCache_", "dc/d2c/classsema_1_1Binder.html#a86d5727462cbf1921a090d740222cede", null ],
     [ "modules_", "dc/d2c/classsema_1_1Binder.html#ae7a58bd4b321e7ced17d0797e7beed46", null ],
     [ "recordTypeDeclarationNodes_", "dc/d2c/classsema_1_1Binder.html#a97cd50b88390b372dc050e3a844a3aa9", null ],
     [ "sawPrivacyError_", "dc/d2c/classsema_1_1Binder.html#a3d1ae1a88e4bea8a747045c21571c33b", null ],
