@@ -80,7 +80,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00503">503</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00522">522</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a97591e3ab20c6fa5979cf0de1001d04f" name="a97591e3ab20c6fa5979cf0de1001d04f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a97591e3ab20c6fa5979cf0de1001d04f">&#9670;&#160;</a></span>ArgHolder()</h2>
@@ -105,20 +105,20 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00509">509</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  509</span>                                           : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>(args) {</div>
-<div class="line"><span class="lineno">  510</span>    <span class="keywordtype">unsigned</span> pos = 0;</div>
-<div class="line"><span class="lineno">  511</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> ArgVal &amp;arg : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>) {</div>
-<div class="line"><span class="lineno">  512</span>      <span class="keywordtype">unsigned</span> idx = (unsigned)arg.type;</div>
-<div class="line"><span class="lineno">  513</span>      <a class="code hl_variable" href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">_posArray</a>[idx] = pos++;</div>
-<div class="line"><span class="lineno">  514</span>      <a class="code hl_variable" href="#a12bfcb10d967d7bc91cb879412d9f91d">_countArray</a>[idx]++;</div>
-<div class="line"><span class="lineno">  515</span>    }</div>
-<div class="line"><span class="lineno">  516</span>  }</div>
-<div class="ttc" id="aclasszap_1_1ArgHolder_html_a12bfcb10d967d7bc91cb879412d9f91d"><div class="ttname"><a href="#a12bfcb10d967d7bc91cb879412d9f91d">zap::ArgHolder::_countArray</a></div><div class="ttdeci">uint16_t _countArray[(unsigned) ArgTypes::ARGS_END]</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00505">driver.cpp:505</a></div></div>
-<div class="ttc" id="aclasszap_1_1ArgHolder_html_a31e73aa420a3d6c8d91d835197868301"><div class="ttname"><a href="#a31e73aa420a3d6c8d91d835197868301">zap::ArgHolder::_args</a></div><div class="ttdeci">const std::vector&lt; ArgVal &gt; &amp; _args</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00506">driver.cpp:506</a></div></div>
-<div class="ttc" id="aclasszap_1_1ArgHolder_html_a412f97dc30c9fa3ef4edf4f0abb2fb02"><div class="ttname"><a href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">zap::ArgHolder::_posArray</a></div><div class="ttdeci">uint16_t _posArray[(unsigned) ArgTypes::ARGS_END]</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00504">driver.cpp:504</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">528</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  528</span>                                           : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>(args) {</div>
+<div class="line"><span class="lineno">  529</span>    <span class="keywordtype">unsigned</span> pos = 0;</div>
+<div class="line"><span class="lineno">  530</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> ArgVal &amp;arg : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>) {</div>
+<div class="line"><span class="lineno">  531</span>      <span class="keywordtype">unsigned</span> idx = (unsigned)arg.type;</div>
+<div class="line"><span class="lineno">  532</span>      <a class="code hl_variable" href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">_posArray</a>[idx] = pos++;</div>
+<div class="line"><span class="lineno">  533</span>      <a class="code hl_variable" href="#a12bfcb10d967d7bc91cb879412d9f91d">_countArray</a>[idx]++;</div>
+<div class="line"><span class="lineno">  534</span>    }</div>
+<div class="line"><span class="lineno">  535</span>  }</div>
+<div class="ttc" id="aclasszap_1_1ArgHolder_html_a12bfcb10d967d7bc91cb879412d9f91d"><div class="ttname"><a href="#a12bfcb10d967d7bc91cb879412d9f91d">zap::ArgHolder::_countArray</a></div><div class="ttdeci">uint16_t _countArray[(unsigned) ArgTypes::ARGS_END]</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00524">driver.cpp:524</a></div></div>
+<div class="ttc" id="aclasszap_1_1ArgHolder_html_a31e73aa420a3d6c8d91d835197868301"><div class="ttname"><a href="#a31e73aa420a3d6c8d91d835197868301">zap::ArgHolder::_args</a></div><div class="ttdeci">const std::vector&lt; ArgVal &gt; &amp; _args</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00525">driver.cpp:525</a></div></div>
+<div class="ttc" id="aclasszap_1_1ArgHolder_html_a412f97dc30c9fa3ef4edf4f0abb2fb02"><div class="ttname"><a href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">zap::ArgHolder::_posArray</a></div><div class="ttdeci">uint16_t _posArray[(unsigned) ArgTypes::ARGS_END]</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00523">driver.cpp:523</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00506">_args</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00505">_countArray</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00504">_posArray</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00525">_args</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00524">_countArray</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00523">_posArray</a>.</p>
 
 </div>
 </div>
@@ -146,12 +146,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00518">518</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  518</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a12bfcb10d967d7bc91cb879412d9f91d">_countArray</a>[(unsigned)t]; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00537">537</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  537</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a12bfcb10d967d7bc91cb879412d9f91d">_countArray</a>[(unsigned)t]; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00505">_countArray</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00524">_countArray</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00520">has()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00539">has()</a>.</p>
 
 </div>
 </div>
@@ -178,17 +178,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00522">522</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  522</span>                                                  {</div>
-<div class="line"><span class="lineno">  523</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a32262561c7ceeafdfd39225b7308dd62">has</a>(argT))</div>
-<div class="line"><span class="lineno">  524</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  525</span>    <span class="keywordflow">return</span> &amp;<a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>[<a class="code hl_variable" href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">_posArray</a>[(unsigned)argT]];</div>
-<div class="line"><span class="lineno">  526</span>  }</div>
-<div class="ttc" id="aclasszap_1_1ArgHolder_html_a32262561c7ceeafdfd39225b7308dd62"><div class="ttname"><a href="#a32262561c7ceeafdfd39225b7308dd62">zap::ArgHolder::has</a></div><div class="ttdeci">bool has(ArgTypes t) const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00520">driver.cpp:520</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00541">541</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  541</span>                                                  {</div>
+<div class="line"><span class="lineno">  542</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a32262561c7ceeafdfd39225b7308dd62">has</a>(argT))</div>
+<div class="line"><span class="lineno">  543</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  544</span>    <span class="keywordflow">return</span> &amp;<a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>[<a class="code hl_variable" href="#a412f97dc30c9fa3ef4edf4f0abb2fb02">_posArray</a>[(unsigned)argT]];</div>
+<div class="line"><span class="lineno">  545</span>  }</div>
+<div class="ttc" id="aclasszap_1_1ArgHolder_html_a32262561c7ceeafdfd39225b7308dd62"><div class="ttname"><a href="#a32262561c7ceeafdfd39225b7308dd62">zap::ArgHolder::has</a></div><div class="ttdeci">bool has(ArgTypes t) const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00539">driver.cpp:539</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00506">_args</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00504">_posArray</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00520">has()</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00525">_args</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00523">_posArray</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00539">has()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00544">zap::driver::parseArgs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00563">zap::driver::parseArgs()</a>.</p>
 
 </div>
 </div>
@@ -215,21 +215,21 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">528</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  528</span>                                                                 {</div>
-<div class="line"><span class="lineno">  529</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a32262561c7ceeafdfd39225b7308dd62">has</a>(argT))</div>
-<div class="line"><span class="lineno">  530</span>      <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">  531</span>    std::vector&lt;const ArgVal *&gt; vec;</div>
-<div class="line"><span class="lineno">  532</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> ArgVal &amp;arg : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>) {</div>
-<div class="line"><span class="lineno">  533</span>      <span class="keywordflow">if</span> (arg.type == argT)</div>
-<div class="line"><span class="lineno">  534</span>        vec.emplace_back(&amp;arg);</div>
-<div class="line"><span class="lineno">  535</span>    }</div>
-<div class="line"><span class="lineno">  536</span>    <span class="keywordflow">return</span> vec;</div>
-<div class="line"><span class="lineno">  537</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00547">547</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  547</span>                                                                 {</div>
+<div class="line"><span class="lineno">  548</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a32262561c7ceeafdfd39225b7308dd62">has</a>(argT))</div>
+<div class="line"><span class="lineno">  549</span>      <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  550</span>    std::vector&lt;const ArgVal *&gt; vec;</div>
+<div class="line"><span class="lineno">  551</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> ArgVal &amp;arg : <a class="code hl_variable" href="#a31e73aa420a3d6c8d91d835197868301">_args</a>) {</div>
+<div class="line"><span class="lineno">  552</span>      <span class="keywordflow">if</span> (arg.type == argT)</div>
+<div class="line"><span class="lineno">  553</span>        vec.emplace_back(&amp;arg);</div>
+<div class="line"><span class="lineno">  554</span>    }</div>
+<div class="line"><span class="lineno">  555</span>    <span class="keywordflow">return</span> vec;</div>
+<div class="line"><span class="lineno">  556</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00506">_args</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00520">has()</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00525">_args</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00539">has()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00544">zap::driver::parseArgs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00563">zap::driver::parseArgs()</a>.</p>
 
 </div>
 </div>
@@ -256,13 +256,13 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00520">520</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  520</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="#a02a5ff76204e7f0525e2e0c00f503d06">count</a>(t); }</div>
-<div class="ttc" id="aclasszap_1_1ArgHolder_html_a02a5ff76204e7f0525e2e0c00f503d06"><div class="ttname"><a href="#a02a5ff76204e7f0525e2e0c00f503d06">zap::ArgHolder::count</a></div><div class="ttdeci">unsigned count(ArgTypes t) const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00518">driver.cpp:518</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00539">539</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  539</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="#a02a5ff76204e7f0525e2e0c00f503d06">count</a>(t); }</div>
+<div class="ttc" id="aclasszap_1_1ArgHolder_html_a02a5ff76204e7f0525e2e0c00f503d06"><div class="ttname"><a href="#a02a5ff76204e7f0525e2e0c00f503d06">zap::ArgHolder::count</a></div><div class="ttdeci">unsigned count(ArgTypes t) const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d5/d15/driver_8cpp_source.html#l00537">driver.cpp:537</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00518">count()</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00537">count()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00522">get()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">getAll()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00544">zap::driver::parseArgs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00541">get()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00547">getAll()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00563">zap::driver::parseArgs()</a>.</p>
 
 </div>
 </div>
@@ -287,9 +287,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00506">506</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00525">525</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00509">ArgHolder()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00522">get()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">getAll()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">ArgHolder()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00541">get()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00547">getAll()</a>.</p>
 
 </div>
 </div>
@@ -313,10 +313,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00505">505</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  505</span>{};</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00524">524</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  524</span>{};</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00509">ArgHolder()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00518">count()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">ArgHolder()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00537">count()</a>.</p>
 
 </div>
 </div>
@@ -340,10 +340,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00504">504</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  504</span>{};</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00523">523</a> of file <a class="el" href="../../d5/d15/driver_8cpp_source.html">driver.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  523</span>{};</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00509">ArgHolder()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00522">get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00528">ArgHolder()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00541">get()</a>.</p>
 
 </div>
 </div>

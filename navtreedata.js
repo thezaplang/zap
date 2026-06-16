@@ -81,16 +81,16 @@ var NAVTREEINDEX =
 "d4/da0/classzir_1_1BoundIRGenerator.html#a576b2e50a24d9386f64fbb5dc7aa9e40",
 "d6/d6c/if__node_8hpp.html",
 "d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html#ad50ea991baa255060526223d779ebc60",
-"d9/d00/classzap_1_1driver.html#aaa6bd5a698ddd9e6c057af948fb7cee1",
-"d9/de9/structEnumDecl_1_1Entry.html#a0059ec66b0c310c14afa2c0a25714bda",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a1d5cd107cc3c7e4db383fe37f8a4c5fa",
-"db/d50/binder__types_8cpp.html",
-"db/dfa/stdlib_8c_source.html",
-"dc/d2c/classsema_1_1Binder.html#a882ec2613888190c9d0616b6a648fe7d",
-"dc/ddd/structsema_1_1BoundAsmOperand.html#a496ef193a4dfbe6c686b1487113d1d62",
-"de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e",
-"df/d31/classzir_1_1CallInst.html#a9c776d0dc3c40a8a95ff0579a0e8c0bc",
-"functions_q.html"
+"d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4",
+"d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a1781a39461c06f00ccde8fee9481ab8a",
+"db/d37/classsema_1_1BoundFunctionDeclaration.html#ad74a50df6f27d1770b81c2edd85175b5",
+"db/dfa/stdlib_8c.html#ae9123704f1b7c7d41e2854f51ee55174",
+"dc/d2c/classsema_1_1Binder.html#a8650ee054beac6d43afdbad354d9a5ca",
+"dc/ddd/structsema_1_1BoundAsmOperand.html",
+"de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850",
+"df/d31/classzir_1_1CallInst.html#a8238cf58ae7e511089aed33f6cb72b80",
+"functions_m.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
