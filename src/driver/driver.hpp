@@ -11,7 +11,7 @@
 
 namespace zap {
 
-/// @brief The class that drives the argument parsing.
+/// @brief Orchestrates and controls the entire compilation process.
 /// Order of the functions that should be called is by how they are defined here
 /// in the header. Meaning that first is parseArgs(int, char**), second is
 /// splitInputs(), third is verifySources(), and so on... Most functions
