@@ -9,7 +9,13 @@ int main(int argc, char **argv) {
       zapcDriver.setExecutablePath(argv[0]);
     }
 
-    if (!zapcDriver.parseArgs(argc, argv)) {
+    switch (auto res = zapcDriver.parseArgs(argc, argv); res) {
+      using namespace zap::args;
+    case ParseResult::Success:
+      break;
+    case ParseResult::Failed:
+      return 1;
+    case ParseResult::SkipCompilation:
       return 0;
     }
 

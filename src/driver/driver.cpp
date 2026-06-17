@@ -1,7 +1,6 @@
 #include "driver/driver.hpp"
 #include "ast/import_node.hpp"
 #include "codegen/llvm_codegen.hpp"
-#include "driver/compiler.hpp"
 #include "ir/ir_generator.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
@@ -44,7 +43,7 @@ bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
                         ? base_output_path
                         : std::filesystem::path(base_output_path)
                               .replace_extension(driver::format_fileextension(
-                                  driver::output_type::ZIR));
+                                  args::OutputType::ZIR));
     std::ofstream zir_output(zir_path, std::ios::binary);
     if (!zir_output) {
       driver::reportError("couldn't open the provided file: ", zir_path,
@@ -61,7 +60,7 @@ bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
                          ? base_output_path
                          : std::filesystem::path(base_output_path)
                                .replace_extension(driver::format_fileextension(
-                                   driver::output_type::TEXT_LLVM));
+                                   args::OutputType::TEXT_LLVM));
     std::ofstream llvm_output(llvm_path, std::ios::binary);
     if (!llvm_output) {
       driver::reportError("couldn't open the provided file: ", llvm_path,
@@ -389,7 +388,8 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
   std::set<std::string> visiting;
   if (loadModuleGraph(entryPath, moduleMap, visiting,
-                      drv.inc_stdlib && drv.inc_prelude, drv.import_map)) {
+                      drv.cmdArgs.incStdlib && drv.cmdArgs.incPrelude,
+                      drv.cmdArgs.importMap)) {
     return true;
   }
 
@@ -412,7 +412,7 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     modules.push_back(std::move(*module));
   }
 
-  sema::Binder binder(diagnostics, drv.allow_unsafe);
+  sema::Binder binder(diagnostics, true);
   auto boundAst = binder.bind(modules);
   diagnostics.printText(err());
 
@@ -424,10 +424,10 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   if (drv.binary_output()) {
     std::filesystem::path out_path;
 
-    if (drv.get_output_type() == driver::output_type::EXEC) {
+    if (drv.get_output_type() == args::OutputType::EXEC) {
       out_path = entryPath.string() + ".o";
       drv.cleanups.emplace_back(out_path);
-    } else if (drv.get_output_type() == driver::output_type::OBJECT) {
+    } else if (drv.get_output_type() == args::OutputType::OBJECT) {
       if (drv.is_implicit_output()) {
         out_path = entryPath.string() + ".o";
       } else {
@@ -436,18 +436,18 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     }
 
     if (compileObjectFromZIR(*boundAst, out_path.string(),
-                             drv.optimization_level)) {
+                             static_cast<int>(drv.cmdArgs.optLevel))) {
       return true;
     }
 
-    drv.objects.emplace_back(std::move(out_path));
-  } else if (drv.get_output_type() == driver::output_type::ASM) {
+    drv.cmdArgs.objects.emplace_back(std::move(out_path));
+  } else if (drv.get_output_type() == args::OutputType::ASM) {
     std::filesystem::path out_path =
         drv.is_implicit_output() ? entryPath : drv.get_output();
     out_path.replace_extension(
-        driver::format_fileextension(driver::output_type::ASM));
+        driver::format_fileextension(args::OutputType::ASM));
     if (compileAssemblyFromZIR(*boundAst, out_path.string(),
-                               drv.optimization_level)) {
+                               static_cast<int>(drv.cmdArgs.optLevel))) {
       return true;
     }
   } else if (drv.emits_text_output()) {
@@ -463,261 +463,8 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   return false;
 }
 
-static inline void printhelp() {
-  out() << "Usage: zapc [options] <file>\n"
-           "Options:\n";
-#define ZAP_FLAG(ID, STR, MSG, ...)                                            \
-  out() << "  " STR;                                                           \
-  if constexpr ((2 + (sizeof(STR) - 1)) >= 18) {                               \
-    (out() << '\n').indent(18) << MSG;                                         \
-  } else {                                                                     \
-    out().indent(18 - ((sizeof(STR) - 1) + 2)) << MSG "\n";                    \
-  }
-#include "../driver/flags.inc"
-#undef ZAP_FLAG
-}
-
-enum class ArgTypes : unsigned {
-#define ZAP_FLAG(ID, ...) ID,
-#include "../driver/flags.inc"
-#undef ZAP_FLAG
-  ARGS_END
-};
-
-class ArgConf {
-public:
-  enum class ArgKind { Flag, Joined, Separate, JoinedSeparate };
-
-private:
-  ArgKind _kind;
-  ArgTypes _type;
-
-public:
-  ArgConf(ArgKind kind, ArgTypes type) noexcept : _kind(kind), _type(type) {}
-
-  ArgKind getKind() const noexcept { return _kind; }
-
-  ArgTypes getType() const noexcept { return _type; }
-};
-
-/// Ideally use a specialized string map.
-const std::unordered_map<std::string_view, ArgConf> arg_map = {{
-#define ZAP_FLAG(ID, STR, MSG, KIND, ...)                                      \
-  {STR, ArgConf(ArgConf::ArgKind::KIND, ArgTypes::ID)},
-#include "../driver/flags.inc"
-#undef ZAP_FLAG
-}};
-
-struct ArgVal {
-  std::string_view original;
-  std::string_view optional;
-  ArgTypes type;
-
-  bool valid() const noexcept { return original.size(); }
-
-  ArgVal(std::string_view og, std::string_view opt, ArgTypes t) noexcept
-      : original(og), optional(opt), type(t) {}
-};
-
-class ArgHolder {
-  uint16_t _posArray[(unsigned)ArgTypes::ARGS_END]{};
-  uint16_t _countArray[(unsigned)ArgTypes::ARGS_END]{};
-  const std::vector<ArgVal> &_args;
-
-public:
-  ArgHolder(const std::vector<ArgVal> &args) : _args(args) {
-    unsigned pos = 0;
-    for (const ArgVal &arg : _args) {
-      unsigned idx = (unsigned)arg.type;
-      _posArray[idx] = pos++;
-      _countArray[idx]++;
-    }
-  }
-
-  unsigned count(ArgTypes t) const noexcept { return _countArray[(unsigned)t]; }
-
-  bool has(ArgTypes t) const noexcept { return count(t); }
-
-  const ArgVal *get(ArgTypes argT) const noexcept {
-    if (!has(argT))
-      return nullptr;
-    return &_args[_posArray[(unsigned)argT]];
-  }
-
-  std::vector<const ArgVal *> getAll(ArgTypes argT) const noexcept {
-    if (!has(argT))
-      return {};
-    std::vector<const ArgVal *> vec;
-    for (const ArgVal &arg : _args) {
-      if (arg.type == argT)
-        vec.emplace_back(&arg);
-    }
-    return vec;
-  }
-};
-
-static inline void printversion() {
-  out() << "Zap Compiler v" << zap::ZAP_VERSION << '\n';
-}
-
-bool driver::parseArgs(int argc, char **argv) {
-  bool err = false;
-  std::vector<ArgVal> argsvec;
-
-  for (int i = 1; i < argc; i++) {
-    std::string_view original(argv[i]);
-
-    if (original[0] == '-') {
-      if (auto it = arg_map.find(original); it != arg_map.end()) {
-        const ArgConf &conf = it->second;
-
-        if (conf.getKind() == ArgConf::ArgKind::Flag) {
-          argsvec.emplace_back(original, std::string_view(), conf.getType());
-        } else {
-          if (i + 1 == argc) {
-            reportError("missing value for flag '", it->first, "'");
-            err = true;
-            break;
-          }
-          argsvec.emplace_back(original, argv[i + 1], conf.getType());
-          i++;
-        }
-      } else {
-        const ArgConf *maybeConf = nullptr;
-        size_t offset = 0;
-#define ZAP_FLAG(ID, STR, MSG, KIND, ...)                                      \
-  if constexpr (ArgConf::ArgKind::KIND == ArgConf::ArgKind::Joined ||          \
-                ArgConf::ArgKind::KIND == ArgConf::ArgKind::JoinedSeparate) {  \
-    if (original.size() >= (sizeof(STR) - 1)) {                                \
-      auto it = arg_map.find(original.substr(0, (sizeof(STR) - 1)));           \
-      if (it != arg_map.end()) {                                               \
-        maybeConf = &it->second;                                               \
-        offset = sizeof(STR) - 1;                                              \
-        goto match_found;                                                      \
-      }                                                                        \
-    }                                                                          \
-  }
-#include "../driver/flags.inc"
-#undef ZAP_FLAG
-        reportError("unknown flag '", original, "' encountered");
-        err = true;
-      match_found:
-        argsvec.emplace_back(original, original.substr(offset),
-                             maybeConf->getType());
-      }
-    } else {
-      inputs.emplace_back(original);
-    }
-  }
-
-  if (err) {
-    return false;
-  }
-
-  ArgHolder args(argsvec);
-
-  if (args.has(ArgTypes::Help)) {
-    printhelp();
-    return false;
-  }
-
-  if (args.has(ArgTypes::Version)) {
-    printversion();
-    return false;
-  }
-
-  implicit_output = !args.has(ArgTypes::Output);
-  inc_stdlib = !args.has(ArgTypes::NoStdlib);
-  inc_prelude = !args.has(ArgTypes::NoPrelude);
-  // Unsafe features are enabled by default; keep the flag accepted for
-  // backwards compatibility.
-  allow_unsafe = true;
-
-  bool emit_s = args.has(ArgTypes::CompileOnlyS);
-  bool nolink = args.has(ArgTypes::CompileOnly);
-  bool emit_llvm = args.has(ArgTypes::EmitLLVM);
-  bool emit_zir = args.has(ArgTypes::EmitZIR);
-
-  if (args.has(ArgTypes::OptLevel)) {
-    std::string_view optL = args.get(ArgTypes::OptLevel)->optional;
-
-    if (optL == "0") {
-      optimization_level = 0;
-    } else if (optL == "1") {
-      optimization_level = 1;
-    } else if (optL == "2") {
-      optimization_level = 2;
-    } else if (optL == "3") {
-      optimization_level = 3;
-    } else {
-      reportError("unknown optimization value '", optL, "' encountered");
-      err = true;
-    }
-  } else
-    optimization_level = 0;
-
-  if (err)
-    return false;
-
-  for (const ArgVal *arg : args.getAll(ArgTypes::LinkDir)) {
-    std::string val = "-L";
-    val += arg->optional;
-
-    linker_args.emplace_back(std::move(val));
-  }
-
-  for (const ArgVal *arg : args.getAll(ArgTypes::LinkLib)) {
-    std::string val = "-l";
-    val += arg->optional;
-
-    linker_args.emplace_back(std::move(val));
-  }
-
-  for (const ArgVal *arg : args.getAll(ArgTypes::ImportMap)) {
-    std::string_view entry = arg->optional;
-    auto eq = entry.find('=');
-    if (eq == std::string_view::npos) {
-      reportError("--import-map requires format @alias=path, got: ", entry);
-      err = true;
-      continue;
-    }
-    import_map[std::string(entry.substr(0, eq))] =
-        std::string(entry.substr(eq + 1));
-  }
-
-  if (err) {
-    return false;
-  }
-
-  if (emit_s) {
-    if (!emit_llvm && !emit_zir)
-      out_type = output_type::ASM;
-  }
-
-  emit_llvm_text = emit_llvm;
-  emit_zir_text = emit_zir;
-
-  if (out_type == output_type::EXEC) {
-    if (nolink) {
-      out_type = output_type::OBJECT;
-    }
-  }
-
-  if ((emit_llvm_text || emit_zir_text) && !implicit_output &&
-      (emit_llvm_text == emit_zir_text)) {
-    reportError("cannot use -o when emitting multiple text outputs");
-    return false;
-  }
-
-  output = args.has(ArgTypes::Output) ? args.get(ArgTypes::Output)->optional
-                                      : "a.out";
-
-  if (!inputs.empty()) {
-    return true;
-  }
-
-  reportError("no input files");
-  return false;
+args::ParseResult driver::parseArgs(int argc, char **argv) {
+  return args::parse(argc, argv, cmdArgs);
 }
 
 bool driver::splitInputs() {
@@ -727,9 +474,9 @@ bool driver::splitInputs() {
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
     if (ext == ".zp") {
-      sources.emplace_back(std::move(input_path));
+      cmdArgs.sources.emplace_back(std::move(input_path));
     } else if (ext == ".a" || ext == ".o") {
-      objects.emplace_back(std::move(input_path));
+      cmdArgs.objects.emplace_back(std::move(input_path));
     } else {
       reportError("unknown input type: ", input);
       return true;
@@ -740,16 +487,17 @@ bool driver::splitInputs() {
 }
 
 bool driver::verifyOutput() {
-  const zap::driver::output_type &emit_type = get_output_type();
+  const args::OutputType &emit_type = get_output_type();
 
-  bool per_file_emit = emits_text_output() || (emit_type != output_type::EXEC);
+  bool per_file_emit =
+      emits_text_output() || (emit_type != args::OutputType::EXEC);
 
   if (per_file_emit && get_inputs().size() > 1 && !is_implicit_output()) {
     reportError("cannot specify -o with multiple input files");
     return true;
   }
 
-  if (per_file_emit && !objects.empty()) {
+  if (per_file_emit && !cmdArgs.objects.empty()) {
     reportError(
         "cannot use object files or archives with the selected output mode");
     return true;
@@ -775,11 +523,11 @@ bool verifyFile(const std::filesystem::path &input) {
 }
 
 bool driver::verifySources() {
-  for (const std::filesystem::path &input : sources) {
+  for (const std::filesystem::path &input : cmdArgs.sources) {
     if (verifyFile(input))
       return true;
   }
-  for (const std::filesystem::path &input : objects) {
+  for (const std::filesystem::path &input : cmdArgs.objects) {
     if (verifyFile(input))
       return true;
   }
@@ -896,7 +644,7 @@ bool driver::compileSourceFile(const std::string &source,
     return true;
   }
 
-  sema::Binder binder(diagnostics, allow_unsafe);
+  sema::Binder binder(diagnostics, true);
   auto boundAst = binder.bind(*ast);
   diagnostics.printText(err());
 
@@ -908,35 +656,37 @@ bool driver::compileSourceFile(const std::string &source,
   if (binary_output()) {
     std::filesystem::path out_path;
 
-    if (out_type == output_type::EXEC) {
+    if (cmdArgs.output.type == args::OutputType::EXEC) {
       out_path = source_name + ".o";
       cleanups.emplace_back(out_path);
-    } else if (out_type == output_type::OBJECT) {
-      if (implicit_output) {
+    } else if (cmdArgs.output.type == args::OutputType::OBJECT) {
+      if (cmdArgs.output.implicit) {
         out_path = source_name + ".o";
       } else {
-        out_path = output;
+        out_path = cmdArgs.output.path;
       }
     }
 
     if (compileObjectFromZIR(*boundAst, out_path.string(),
-                             optimization_level)) {
+                             static_cast<int>(cmdArgs.optLevel))) {
       return true;
     }
 
-    objects.emplace_back(std::move(out_path));
-  } else if (out_type == output_type::ASM) {
-    std::filesystem::path out_path =
-        implicit_output ? std::filesystem::path(source_name) : output;
+    cmdArgs.objects.emplace_back(std::move(out_path));
+  } else if (cmdArgs.output.type == args::OutputType::ASM) {
+    std::filesystem::path out_path = cmdArgs.output.implicit
+                                         ? std::filesystem::path(source_name)
+                                         : cmdArgs.output.path;
     out_path.replace_extension(
-        driver::format_fileextension(driver::output_type::ASM));
+        driver::format_fileextension(args::OutputType::ASM));
     if (compileAssemblyFromZIR(*boundAst, out_path.string(),
-                               optimization_level)) {
+                               static_cast<int>(cmdArgs.optLevel))) {
       return true;
     }
   } else if (emits_text_output()) {
-    std::filesystem::path out_path =
-        implicit_output ? std::filesystem::path(source_name) : output;
+    std::filesystem::path out_path = cmdArgs.output.implicit
+                                         ? std::filesystem::path(source_name)
+                                         : cmdArgs.output.path;
     if (emitRequestedTextOutputs(*this, *boundAst, out_path)) {
       return true;
     }
@@ -948,7 +698,7 @@ bool driver::compileSourceFile(const std::string &source,
 }
 
 bool driver::compile() {
-  for (const std::filesystem::path &input : sources) {
+  for (const std::filesystem::path &input : cmdArgs.sources) {
     if (compileLoadedModules(*this, input))
       return true;
   }
@@ -962,22 +712,22 @@ bool driver::link() {
 
   std::string cmd = "/usr/bin/cc ";
 
-  if (inc_stdlib) {
+  if (cmdArgs.incStdlib) {
     cmd += stdlibObjectPath(executable_path).string() + " ";
   } else {
     cmd += "-nostdlib ";
   }
 
-  for (const auto &obj : objects) {
+  for (const auto &obj : cmdArgs.objects) {
     cmd += obj.string() + " ";
   }
 
-  for (const auto &arg : linker_args) {
+  for (const auto &arg : cmdArgs.linkerArgs) {
     cmd += arg + " ";
   }
 
   cmd += "-lm ";
-  cmd += "-o " + output.string();
+  cmd += "-o " + cmdArgs.output.path.string();
 
   int res = std::system(cmd.c_str());
   if (res != 0) {

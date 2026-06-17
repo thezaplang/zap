@@ -24,6 +24,7 @@ set(SOURCES
     src/codegen/llvm_codegen_arc.cpp
     src/codegen/class_arc_emitter.cpp
     src/driver/driver.cpp
+    src/driver/args/argparse.cpp
     src/utils/stream.cpp
 )
 

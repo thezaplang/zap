@@ -43,7 +43,7 @@ ZAP_FLAG(EmitZIR, "-emit-zir", "Emit ZIR as the output format.", Flag)
 
 // --allow-unsafe
 ZAP_FLAG(AllowUnsafe, "--allow-unsafe",
-         "Enables unsafe blocks, unsafe functions, and raw pointers.", Flag)
+         "Enables unsafe blocks, unsafe functions, and raw pointers. (deprecated, unsafe allowed by default)", Flag)
 
 // -l
 ZAP_FLAG(LinkLib, "-l", "Link with library <name> (forwarded to the linker).",
