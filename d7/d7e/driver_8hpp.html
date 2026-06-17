@@ -63,18 +63,20 @@ $(function(){initNavTree('d7/d7e/driver_8hpp.html','../../',''); });
   <div class="headertitle"><div class="title">driver.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d9/d0f/stream_8hpp_source.html">utils/stream.hpp</a>&quot;</code><br />
-<code>#include &lt;filesystem&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../da/d15/argparse_8hpp_source.html">args/argparse.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d7/dfe/args_8hpp_source.html">args/args.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d9/d0f/stream_8hpp_source.html">utils/stream.hpp</a>&quot;</code><br />
 </div>
 <p><a href="../../d7/d7e/driver_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:zap_3A_3Adriver" id="r_zap_3A_3Adriver"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d00/classzap_1_1driver.html">zap::driver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class that drives the argument parsing. Order of the functions that should be called is by how they are defined here in the header. Meaning that first is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a812ecc0e86c32959aeb36d7fba6b1f8a" title="Parses the provided args.">parseArgs(int, char**)</a>, second is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a7cbb3a0fafc3b27961c50b8429476b25" title="Splits inputs based on their file extension.">splitInputs()</a>, third is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a2e6f807c443f88930e4eed3dad96a2ca" title="Verifies that the sources provided actually exist or not.">verifySources()</a>, and so on... Most functions return true on <em>error</em> not on success. It returns error due to easy checks like if(verifyOutput()) return 1;.  <a href="../../d9/d00/classzap_1_1driver.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orchestrates and controls the entire compilation process. Order of the functions that should be called is by how they are defined here in the header. Meaning that first is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a58b077e9891bf3787dcd9d4fdbbdc237" title="Parses the provided args.">parseArgs(int, char**)</a>, second is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a7cbb3a0fafc3b27961c50b8429476b25" title="Splits inputs based on their file extension.">splitInputs()</a>, third is <a class="el" href="../../d9/d00/classzap_1_1driver.html#a2e6f807c443f88930e4eed3dad96a2ca" title="Verifies that the sources provided actually exist or not.">verifySources()</a>, and so on... Most functions return true on <em>error</em> not on success. It returns error due to easy checks like if(verifyOutput()) return 1;.  <a href="../../d9/d00/classzap_1_1driver.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>

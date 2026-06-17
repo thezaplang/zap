@@ -2,7 +2,6 @@ var annotated_dup =
 [
     [ "anonymous_namespace{lsp-main.cpp}", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html", [
       [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
-      [ "LspFlags", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags.html", "d6/dda/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspFlags" ],
       [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
       [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
       [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
@@ -71,15 +70,18 @@ var annotated_dup =
       [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ]
     ] ],
     [ "zap", "d7/d1a/namespacezap.html", [
+      [ "args", "d3/d6f/namespacezap_1_1args.html", [
+        [ "ArgConf", "d9/de6/classzap_1_1args_1_1ArgConf.html", "d9/de6/classzap_1_1args_1_1ArgConf" ],
+        [ "ArgVal", "d2/d2a/structzap_1_1args_1_1ArgVal.html", "d2/d2a/structzap_1_1args_1_1ArgVal" ],
+        [ "ArgHolder", "d6/d1a/classzap_1_1args_1_1ArgHolder.html", "d6/d1a/classzap_1_1args_1_1ArgHolder" ],
+        [ "CmdlineArgs", "d9/d45/structzap_1_1args_1_1CmdlineArgs.html", "d9/d45/structzap_1_1args_1_1CmdlineArgs" ]
+      ] ],
       [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
         [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
         [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],
         [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ]
       ] ],
-      [ "ArgConf", "d5/df3/classzap_1_1ArgConf.html", "d5/df3/classzap_1_1ArgConf" ],
-      [ "ArgVal", "d4/df7/structzap_1_1ArgVal.html", "d4/df7/structzap_1_1ArgVal" ],
-      [ "ArgHolder", "d9/d39/classzap_1_1ArgHolder.html", "d9/d39/classzap_1_1ArgHolder" ],
       [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
       [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],
       [ "Parser", "de/d73/classzap_1_1Parser.html", "de/d73/classzap_1_1Parser" ],

@@ -81,7 +81,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ac952a343e03f547982f4cf8900d08c71" id="r_ac952a343e03f547982f4cf8900d08c71"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac952a343e03f547982f4cf8900d08c71">sourceForPath</a> (const std::filesystem::path &amp;path) const</td></tr>
-<tr class="memitem:a44d4c40a98de72111bb3241da576ccac" id="r_a44d4c40a98de72111bb3241da576ccac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44d4c40a98de72111bb3241da576ccac">loadModuleGraph</a> (const std::filesystem::path &amp;modulePath, std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, <a class="el" href="../../dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html">AnalysisResult</a> &amp;result, const std::string &amp;entryUri, bool allowEntryErrors=false) const</td></tr>
+<tr class="memitem:a9ac8250b8854139cfdc541969c9e36db" id="r_a9ac8250b8854139cfdc541969c9e36db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ac8250b8854139cfdc541969c9e36db">loadModuleGraph</a> (const std::filesystem::path &amp;modulePath, std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d0/d65/structsema_1_1ModuleInfo.html">sema::ModuleInfo</a> &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, <a class="el" href="../../dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html">AnalysisResult</a> &amp;result, const std::string &amp;entryUri, const <a class="el" href="../../d3/d6f/namespacezap_1_1args.html#aaec0ae0bd6b175e5e56f541224b6c753">zap::args::ImportMap</a> &amp;importMap, bool allowEntryErrors=false) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -91,7 +91,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01813">1813</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01834">1834</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a188d39e49f0052577879b6fa053025e6" name="a188d39e49f0052577879b6fa053025e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a188d39e49f0052577879b6fa053025e6">&#9670;&#160;</a></span>analyze()</h2>
@@ -116,62 +116,62 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02035">2035</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 2035</span>                                                     {</div>
-<div class="line"><span class="lineno"> 2036</span>    AnalysisResult result;</div>
-<div class="line"><span class="lineno"> 2037</span>    <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
-<div class="line"><span class="lineno"> 2038</span>    <span class="keywordflow">if</span> (docIt == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 2039</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno"> 2040</span>    }</div>
-<div class="line"><span class="lineno"> 2041</span> </div>
-<div class="line"><span class="lineno"> 2042</span>    std::map&lt;std::string, std::unique_ptr&lt;sema::ModuleInfo&gt;&gt; moduleMap;</div>
-<div class="line"><span class="lineno"> 2043</span>    std::set&lt;std::string&gt; visiting;</div>
-<div class="line"><span class="lineno"> 2044</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a44d4c40a98de72111bb3241da576ccac">loadModuleGraph</a>(docIt-&gt;second.path, moduleMap, visiting, result, uri,</div>
-<div class="line"><span class="lineno"> 2045</span>                         <span class="keyword">false</span>)) {</div>
-<div class="line"><span class="lineno"> 2046</span>      <span class="keywordflow">if</span> (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {</div>
-<div class="line"><span class="lineno"> 2047</span>        result.diagnosticsByUri[uri] = {};</div>
-<div class="line"><span class="lineno"> 2048</span>      }</div>
-<div class="line"><span class="lineno"> 2049</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno"> 2050</span>    }</div>
-<div class="line"><span class="lineno"> 2051</span> </div>
-<div class="line"><span class="lineno"> 2052</span>    std::string entryId =</div>
-<div class="line"><span class="lineno"> 2053</span>        std::filesystem::weakly_canonical(docIt-&gt;second.path).string();</div>
-<div class="line"><span class="lineno"> 2054</span>    <span class="keyword">auto</span> entrySource = <a class="code hl_function" href="#ac952a343e03f547982f4cf8900d08c71">sourceForPath</a>(docIt-&gt;second.path);</div>
-<div class="line"><span class="lineno"> 2055</span>    <span class="keywordflow">if</span> (!entrySource) {</div>
-<div class="line"><span class="lineno"> 2056</span>      result.diagnosticsByUri[uri] = {};</div>
-<div class="line"><span class="lineno"> 2057</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno"> 2058</span>    }</div>
-<div class="line"><span class="lineno"> 2059</span> </div>
-<div class="line"><span class="lineno"> 2060</span>    <span class="keyword">auto</span> entryModuleIt = moduleMap.find(entryId);</div>
-<div class="line"><span class="lineno"> 2061</span>    <span class="keywordflow">if</span> (entryModuleIt == moduleMap.end()) {</div>
-<div class="line"><span class="lineno"> 2062</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno"> 2063</span>    }</div>
-<div class="line"><span class="lineno"> 2064</span> </div>
-<div class="line"><span class="lineno"> 2065</span>    entryModuleIt-&gt;second-&gt;isEntry = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 2066</span> </div>
-<div class="line"><span class="lineno"> 2067</span>    zap::DiagnosticEngine diagnostics(*entrySource,</div>
-<div class="line"><span class="lineno"> 2068</span>                                      docIt-&gt;second.path.string());</div>
-<div class="line"><span class="lineno"> 2069</span>    std::vector&lt;sema::ModuleInfo&gt; modules;</div>
-<div class="line"><span class="lineno"> 2070</span>    modules.reserve(moduleMap.size());</div>
-<div class="line"><span class="lineno"> 2071</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, modulePtr] : moduleMap) {</div>
-<div class="line"><span class="lineno"> 2072</span>      modules.push_back(std::move(*modulePtr));</div>
-<div class="line"><span class="lineno"> 2073</span>    }</div>
-<div class="line"><span class="lineno"> 2074</span> </div>
-<div class="line"><span class="lineno"> 2075</span>    <span class="keyword">auto</span> flags = <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac241ac84f6d8c30373076aff80b90cb7">findAndReadFlags</a>(docIt-&gt;second.path);</div>
-<div class="line"><span class="lineno"> 2076</span> </div>
-<div class="line"><span class="lineno"> 2077</span>    sema::Binder binder(diagnostics, flags.allowUnsafe);</div>
-<div class="line"><span class="lineno"> 2078</span>    <span class="keyword">auto</span> boundAst = binder.bind(modules);</div>
-<div class="line"><span class="lineno"> 2079</span>    (void)boundAst;</div>
-<div class="line"><span class="lineno"> 2080</span> </div>
-<div class="line"><span class="lineno"> 2081</span>    result.diagnosticsByUri[uri] = diagnostics.diagnostics();</div>
-<div class="line"><span class="lineno"> 2082</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno"> 2083</span>  }</div>
-<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a44d4c40a98de72111bb3241da576ccac"><div class="ttname"><a href="#a44d4c40a98de72111bb3241da576ccac">anonymous_namespace{lsp-main.cpp}::Workspace::loadModuleGraph</a></div><div class="ttdeci">bool loadModuleGraph(const std::filesystem::path &amp;modulePath, std::map&lt; std::string, std::unique_ptr&lt; sema::ModuleInfo &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, AnalysisResult &amp;result, const std::string &amp;entryUri, bool allowEntryErrors=false) const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01854">lsp-main.cpp:1854</a></div></div>
-<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a9363264bff9129e9cbd3ee3191224784"><div class="ttname"><a href="#a9363264bff9129e9cbd3ee3191224784">anonymous_namespace{lsp-main.cpp}::Workspace::documentsByUri_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, DocumentState &gt; documentsByUri_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01819">lsp-main.cpp:1819</a></div></div>
-<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_ac952a343e03f547982f4cf8900d08c71"><div class="ttname"><a href="#ac952a343e03f547982f4cf8900d08c71">anonymous_namespace{lsp-main.cpp}::Workspace::sourceForPath</a></div><div class="ttdeci">std::optional&lt; std::string &gt; sourceForPath(const std::filesystem::path &amp;path) const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01824">lsp-main.cpp:1824</a></div></div>
-<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_ac241ac84f6d8c30373076aff80b90cb7"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac241ac84f6d8c30373076aff80b90cb7">anonymous_namespace{lsp-main.cpp}::findAndReadFlags</a></div><div class="ttdeci">LspFlags findAndReadFlags(std::filesystem::path startPath)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00220">lsp-main.cpp:220</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02061">2061</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2061</span>                                                     {</div>
+<div class="line"><span class="lineno"> 2062</span>    AnalysisResult result;</div>
+<div class="line"><span class="lineno"> 2063</span>    <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
+<div class="line"><span class="lineno"> 2064</span>    <span class="keywordflow">if</span> (docIt == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 2065</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno"> 2066</span>    }</div>
+<div class="line"><span class="lineno"> 2067</span> </div>
+<div class="line"><span class="lineno"> 2068</span>    <span class="keyword">auto</span> flags = <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#abecc41a62bf5acba8d898f40cf5700da">findAndReadFlags</a>(docIt-&gt;second.path);</div>
+<div class="line"><span class="lineno"> 2069</span> </div>
+<div class="line"><span class="lineno"> 2070</span>    std::map&lt;std::string, std::unique_ptr&lt;sema::ModuleInfo&gt;&gt; moduleMap;</div>
+<div class="line"><span class="lineno"> 2071</span>    std::set&lt;std::string&gt; visiting;</div>
+<div class="line"><span class="lineno"> 2072</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a9ac8250b8854139cfdc541969c9e36db">loadModuleGraph</a>(docIt-&gt;second.path, moduleMap, visiting, result, uri,</div>
+<div class="line"><span class="lineno"> 2073</span>                         flags.importMap, <span class="keyword">false</span>)) {</div>
+<div class="line"><span class="lineno"> 2074</span>      <span class="keywordflow">if</span> (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {</div>
+<div class="line"><span class="lineno"> 2075</span>        result.diagnosticsByUri[uri] = {};</div>
+<div class="line"><span class="lineno"> 2076</span>      }</div>
+<div class="line"><span class="lineno"> 2077</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno"> 2078</span>    }</div>
+<div class="line"><span class="lineno"> 2079</span> </div>
+<div class="line"><span class="lineno"> 2080</span>    std::string entryId =</div>
+<div class="line"><span class="lineno"> 2081</span>        std::filesystem::weakly_canonical(docIt-&gt;second.path).string();</div>
+<div class="line"><span class="lineno"> 2082</span>    <span class="keyword">auto</span> entrySource = <a class="code hl_function" href="#ac952a343e03f547982f4cf8900d08c71">sourceForPath</a>(docIt-&gt;second.path);</div>
+<div class="line"><span class="lineno"> 2083</span>    <span class="keywordflow">if</span> (!entrySource) {</div>
+<div class="line"><span class="lineno"> 2084</span>      result.diagnosticsByUri[uri] = {};</div>
+<div class="line"><span class="lineno"> 2085</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno"> 2086</span>    }</div>
+<div class="line"><span class="lineno"> 2087</span> </div>
+<div class="line"><span class="lineno"> 2088</span>    <span class="keyword">auto</span> entryModuleIt = moduleMap.find(entryId);</div>
+<div class="line"><span class="lineno"> 2089</span>    <span class="keywordflow">if</span> (entryModuleIt == moduleMap.end()) {</div>
+<div class="line"><span class="lineno"> 2090</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno"> 2091</span>    }</div>
+<div class="line"><span class="lineno"> 2092</span> </div>
+<div class="line"><span class="lineno"> 2093</span>    entryModuleIt-&gt;second-&gt;isEntry = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 2094</span> </div>
+<div class="line"><span class="lineno"> 2095</span>    zap::DiagnosticEngine diagnostics(*entrySource,</div>
+<div class="line"><span class="lineno"> 2096</span>                                      docIt-&gt;second.path.string());</div>
+<div class="line"><span class="lineno"> 2097</span>    std::vector&lt;sema::ModuleInfo&gt; modules;</div>
+<div class="line"><span class="lineno"> 2098</span>    modules.reserve(moduleMap.size());</div>
+<div class="line"><span class="lineno"> 2099</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, modulePtr] : moduleMap) {</div>
+<div class="line"><span class="lineno"> 2100</span>      modules.push_back(std::move(*modulePtr));</div>
+<div class="line"><span class="lineno"> 2101</span>    }</div>
+<div class="line"><span class="lineno"> 2102</span> </div>
+<div class="line"><span class="lineno"> 2103</span>    sema::Binder binder(diagnostics);</div>
+<div class="line"><span class="lineno"> 2104</span>    <span class="keyword">auto</span> boundAst = binder.bind(modules);</div>
+<div class="line"><span class="lineno"> 2105</span>    (void)boundAst;</div>
+<div class="line"><span class="lineno"> 2106</span> </div>
+<div class="line"><span class="lineno"> 2107</span>    result.diagnosticsByUri[uri] = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno"> 2108</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno"> 2109</span>  }</div>
+<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a9363264bff9129e9cbd3ee3191224784"><div class="ttname"><a href="#a9363264bff9129e9cbd3ee3191224784">anonymous_namespace{lsp-main.cpp}::Workspace::documentsByUri_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, DocumentState &gt; documentsByUri_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01840">lsp-main.cpp:1840</a></div></div>
+<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a9ac8250b8854139cfdc541969c9e36db"><div class="ttname"><a href="#a9ac8250b8854139cfdc541969c9e36db">anonymous_namespace{lsp-main.cpp}::Workspace::loadModuleGraph</a></div><div class="ttdeci">bool loadModuleGraph(const std::filesystem::path &amp;modulePath, std::map&lt; std::string, std::unique_ptr&lt; sema::ModuleInfo &gt; &gt; &amp;modules, std::set&lt; std::string &gt; &amp;visiting, AnalysisResult &amp;result, const std::string &amp;entryUri, const zap::args::ImportMap &amp;importMap, bool allowEntryErrors=false) const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01875">lsp-main.cpp:1875</a></div></div>
+<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_ac952a343e03f547982f4cf8900d08c71"><div class="ttname"><a href="#ac952a343e03f547982f4cf8900d08c71">anonymous_namespace{lsp-main.cpp}::Workspace::sourceForPath</a></div><div class="ttdeci">std::optional&lt; std::string &gt; sourceForPath(const std::filesystem::path &amp;path) const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01845">lsp-main.cpp:1845</a></div></div>
+<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_abecc41a62bf5acba8d898f40cf5700da"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#abecc41a62bf5acba8d898f40cf5700da">anonymous_namespace{lsp-main.cpp}::findAndReadFlags</a></div><div class="ttdeci">zap::args::CmdlineArgs findAndReadFlags(std::filesystem::path startPath)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00221">lsp-main.cpp:221</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00419">sema::Binder::bind()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00307">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00220">anonymous_namespace{lsp-main.cpp}::findAndReadFlags()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">sourceForPath()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00419">sema::Binder::bind()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00328">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00221">anonymous_namespace{lsp-main.cpp}::findAndReadFlags()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">sourceForPath()</a>.</p>
 
 </div>
 </div>
@@ -198,24 +198,24 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01987">1987</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1987</span>                                   {</div>
-<div class="line"><span class="lineno"> 1988</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
-<div class="line"><span class="lineno"> 1989</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 1990</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno"> 1991</span>    }</div>
-<div class="line"><span class="lineno"> 1992</span> </div>
-<div class="line"><span class="lineno"> 1993</span>    std::string canonicalKey = it-&gt;second.path.string();</div>
-<div class="line"><span class="lineno"> 1994</span>    <span class="keyword">auto</span> pathIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(canonicalKey);</div>
-<div class="line"><span class="lineno"> 1995</span>    <span class="keywordflow">if</span> (pathIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end() &amp;&amp; pathIt-&gt;second == uri) {</div>
-<div class="line"><span class="lineno"> 1996</span>      <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.erase(pathIt);</div>
-<div class="line"><span class="lineno"> 1997</span>    }</div>
-<div class="line"><span class="lineno"> 1998</span> </div>
-<div class="line"><span class="lineno"> 1999</span>    <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.erase(it);</div>
-<div class="line"><span class="lineno"> 2000</span>  }</div>
-<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a967c48bec41fce7ceadd74c7af34d856"><div class="ttname"><a href="#a967c48bec41fce7ceadd74c7af34d856">anonymous_namespace{lsp-main.cpp}::Workspace::uriByCanonicalPath_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; uriByCanonicalPath_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01820">lsp-main.cpp:1820</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02010">2010</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2010</span>                                   {</div>
+<div class="line"><span class="lineno"> 2011</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
+<div class="line"><span class="lineno"> 2012</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 2013</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno"> 2014</span>    }</div>
+<div class="line"><span class="lineno"> 2015</span> </div>
+<div class="line"><span class="lineno"> 2016</span>    std::string canonicalKey = it-&gt;second.path.string();</div>
+<div class="line"><span class="lineno"> 2017</span>    <span class="keyword">auto</span> pathIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(canonicalKey);</div>
+<div class="line"><span class="lineno"> 2018</span>    <span class="keywordflow">if</span> (pathIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end() &amp;&amp; pathIt-&gt;second == uri) {</div>
+<div class="line"><span class="lineno"> 2019</span>      <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.erase(pathIt);</div>
+<div class="line"><span class="lineno"> 2020</span>    }</div>
+<div class="line"><span class="lineno"> 2021</span> </div>
+<div class="line"><span class="lineno"> 2022</span>    <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.erase(it);</div>
+<div class="line"><span class="lineno"> 2023</span>  }</div>
+<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_a967c48bec41fce7ceadd74c7af34d856"><div class="ttname"><a href="#a967c48bec41fce7ceadd74c7af34d856">anonymous_namespace{lsp-main.cpp}::Workspace::uriByCanonicalPath_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; uriByCanonicalPath_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01841">lsp-main.cpp:1841</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">uriByCanonicalPath_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">uriByCanonicalPath_</a>.</p>
 
 </div>
 </div>
@@ -242,12 +242,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02002">2002</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 2002</span>                                            {</div>
-<div class="line"><span class="lineno"> 2003</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri) != <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end();</div>
-<div class="line"><span class="lineno"> 2004</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02025">2025</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2025</span>                                            {</div>
+<div class="line"><span class="lineno"> 2026</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri) != <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end();</div>
+<div class="line"><span class="lineno"> 2027</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>.</p>
 
 </div>
 </div>
@@ -274,20 +274,20 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01954">1954</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1954</span>                                                            {</div>
-<div class="line"><span class="lineno"> 1955</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
-<div class="line"><span class="lineno"> 1956</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end() ? nullptr : &amp;it-&gt;second;</div>
-<div class="line"><span class="lineno"> 1957</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01977">1977</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1977</span>                                                            {</div>
+<div class="line"><span class="lineno"> 1978</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
+<div class="line"><span class="lineno"> 1979</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end() ? nullptr : &amp;it-&gt;second;</div>
+<div class="line"><span class="lineno"> 1980</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02359">main()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02210">anonymous_namespace{lsp-main.cpp}::resolveDefinition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02385">main()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02236">anonymous_namespace{lsp-main.cpp}::resolveDefinition()</a>.</p>
 
 </div>
 </div>
-<a id="a44d4c40a98de72111bb3241da576ccac" name="a44d4c40a98de72111bb3241da576ccac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44d4c40a98de72111bb3241da576ccac">&#9670;&#160;</a></span>loadModuleGraph()</h2>
+<a id="a9ac8250b8854139cfdc541969c9e36db" name="a9ac8250b8854139cfdc541969c9e36db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ac8250b8854139cfdc541969c9e36db">&#9670;&#160;</a></span>loadModuleGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,6 +323,11 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="../../d3/d6f/namespacezap_1_1args.html#aaec0ae0bd6b175e5e56f541224b6c753">zap::args::ImportMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>importMap</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>allowEntryErrors</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;) const</td>
         </tr>
       </table>
@@ -333,103 +338,104 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">1854</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1858</span>                                                                      {</div>
-<div class="line"><span class="lineno"> 1859</span>    std::filesystem::path canonicalPath =</div>
-<div class="line"><span class="lineno"> 1860</span>        std::filesystem::weakly_canonical(modulePath);</div>
-<div class="line"><span class="lineno"> 1861</span>    std::string moduleId = canonicalPath.string();</div>
-<div class="line"><span class="lineno"> 1862</span>    std::string entryModuleId =</div>
-<div class="line"><span class="lineno"> 1863</span>        std::filesystem::weakly_canonical(<a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.at(entryUri).path)</div>
-<div class="line"><span class="lineno"> 1864</span>            .string();</div>
-<div class="line"><span class="lineno"> 1865</span>    <span class="keywordtype">bool</span> isEntryModule = moduleId == entryModuleId;</div>
-<div class="line"><span class="lineno"> 1866</span>    <span class="keywordflow">if</span> (modules.find(moduleId) != modules.end()) {</div>
-<div class="line"><span class="lineno"> 1867</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1868</span>    }</div>
-<div class="line"><span class="lineno"> 1869</span>    <span class="keywordflow">if</span> (visiting.count(moduleId)) {</div>
-<div class="line"><span class="lineno"> 1870</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1871</span>    }</div>
-<div class="line"><span class="lineno"> 1872</span> </div>
-<div class="line"><span class="lineno"> 1873</span>    visiting.insert(moduleId);</div>
-<div class="line"><span class="lineno"> 1874</span> </div>
-<div class="line"><span class="lineno"> 1875</span>    <span class="keyword">auto</span> source = <a class="code hl_function" href="#ac952a343e03f547982f4cf8900d08c71">sourceForPath</a>(canonicalPath);</div>
-<div class="line"><span class="lineno"> 1876</span>    <span class="keywordflow">if</span> (!source) {</div>
-<div class="line"><span class="lineno"> 1877</span>      visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno"> 1878</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1879</span>    }</div>
-<div class="line"><span class="lineno"> 1880</span> </div>
-<div class="line"><span class="lineno"> 1881</span>    zap::DiagnosticEngine diagnostics(*source, canonicalPath.string());</div>
-<div class="line"><span class="lineno"> 1882</span>    Lexer lex(diagnostics);</div>
-<div class="line"><span class="lineno"> 1883</span>    <span class="keyword">auto</span> tokens = lex.tokenize(*source);</div>
-<div class="line"><span class="lineno"> 1884</span>    zap::Parser parser(tokens, diagnostics);</div>
-<div class="line"><span class="lineno"> 1885</span>    <span class="keyword">auto</span> ast = parser.parse();</div>
-<div class="line"><span class="lineno"> 1886</span> </div>
-<div class="line"><span class="lineno"> 1887</span>    <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(moduleId);</div>
-<div class="line"><span class="lineno"> 1888</span>    <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 1889</span>      result.diagnosticsByUri[uriIt-&gt;second] = diagnostics.diagnostics();</div>
-<div class="line"><span class="lineno"> 1890</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (moduleId == std::filesystem::weakly_canonical(</div>
-<div class="line"><span class="lineno"> 1891</span>                               <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.at(entryUri).path)</div>
-<div class="line"><span class="lineno"> 1892</span>                               .string()) {</div>
-<div class="line"><span class="lineno"> 1893</span>      result.diagnosticsByUri[entryUri] = diagnostics.diagnostics();</div>
-<div class="line"><span class="lineno"> 1894</span>    }</div>
-<div class="line"><span class="lineno"> 1895</span> </div>
-<div class="line"><span class="lineno"> 1896</span>    <span class="keywordflow">if</span> (!ast ||</div>
-<div class="line"><span class="lineno"> 1897</span>        (diagnostics.hadErrors() &amp;&amp; !(allowEntryErrors &amp;&amp; isEntryModule))) {</div>
-<div class="line"><span class="lineno"> 1898</span>      visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno"> 1899</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1900</span>    }</div>
-<div class="line"><span class="lineno"> 1901</span> </div>
-<div class="line"><span class="lineno"> 1902</span>    <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
-<div class="line"><span class="lineno"> 1903</span>    <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
-<div class="line"><span class="lineno"> 1904</span>    <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
-<div class="line"><span class="lineno"> 1905</span>    <span class="keyword">module</span>-&gt;linkPath = computeLogicalModulePath(canonicalPath);</div>
-<div class="line"><span class="lineno"> 1906</span>    <span class="keyword">module</span>-&gt;sourceName = canonicalPath.string();</div>
-<div class="line"><span class="lineno"> 1907</span>    <span class="keyword">module</span>-&gt;root = std::move(ast);</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">1875</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1880</span>                                           {</div>
+<div class="line"><span class="lineno"> 1881</span>    std::filesystem::path canonicalPath =</div>
+<div class="line"><span class="lineno"> 1882</span>        std::filesystem::weakly_canonical(modulePath);</div>
+<div class="line"><span class="lineno"> 1883</span>    std::string moduleId = canonicalPath.string();</div>
+<div class="line"><span class="lineno"> 1884</span>    std::string entryModuleId =</div>
+<div class="line"><span class="lineno"> 1885</span>        std::filesystem::weakly_canonical(<a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.at(entryUri).path)</div>
+<div class="line"><span class="lineno"> 1886</span>            .string();</div>
+<div class="line"><span class="lineno"> 1887</span>    <span class="keywordtype">bool</span> isEntryModule = moduleId == entryModuleId;</div>
+<div class="line"><span class="lineno"> 1888</span>    <span class="keywordflow">if</span> (modules.find(moduleId) != modules.end()) {</div>
+<div class="line"><span class="lineno"> 1889</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1890</span>    }</div>
+<div class="line"><span class="lineno"> 1891</span>    <span class="keywordflow">if</span> (visiting.count(moduleId)) {</div>
+<div class="line"><span class="lineno"> 1892</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1893</span>    }</div>
+<div class="line"><span class="lineno"> 1894</span> </div>
+<div class="line"><span class="lineno"> 1895</span>    visiting.insert(moduleId);</div>
+<div class="line"><span class="lineno"> 1896</span> </div>
+<div class="line"><span class="lineno"> 1897</span>    <span class="keyword">auto</span> source = <a class="code hl_function" href="#ac952a343e03f547982f4cf8900d08c71">sourceForPath</a>(canonicalPath);</div>
+<div class="line"><span class="lineno"> 1898</span>    <span class="keywordflow">if</span> (!source) {</div>
+<div class="line"><span class="lineno"> 1899</span>      visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno"> 1900</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1901</span>    }</div>
+<div class="line"><span class="lineno"> 1902</span> </div>
+<div class="line"><span class="lineno"> 1903</span>    zap::DiagnosticEngine diagnostics(*source, canonicalPath.string());</div>
+<div class="line"><span class="lineno"> 1904</span>    Lexer lex(diagnostics);</div>
+<div class="line"><span class="lineno"> 1905</span>    <span class="keyword">auto</span> tokens = lex.tokenize(*source);</div>
+<div class="line"><span class="lineno"> 1906</span>    zap::Parser parser(tokens, diagnostics);</div>
+<div class="line"><span class="lineno"> 1907</span>    <span class="keyword">auto</span> ast = parser.parse();</div>
 <div class="line"><span class="lineno"> 1908</span> </div>
-<div class="line"><span class="lineno"> 1909</span>    <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#af80d7e916a2e8c0baa885747cac35142">injectImplicitPreludeImportIfNeeded</a>(*module);</div>
-<div class="line"><span class="lineno"> 1910</span> </div>
-<div class="line"><span class="lineno"> 1911</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;child : module-&gt;root-&gt;children) {</div>
-<div class="line"><span class="lineno"> 1912</span>      <span class="keyword">auto</span> importNode = <span class="keyword">dynamic_cast&lt;</span>ImportNode *<span class="keyword">&gt;</span>(child.get());</div>
-<div class="line"><span class="lineno"> 1913</span>      <span class="keywordflow">if</span> (!importNode) {</div>
-<div class="line"><span class="lineno"> 1914</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1915</span>      }</div>
-<div class="line"><span class="lineno"> 1916</span> </div>
-<div class="line"><span class="lineno"> 1917</span>      sema::ResolvedImport resolved;</div>
-<div class="line"><span class="lineno"> 1918</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">rawPath</a> = importNode-&gt;path;</div>
-<div class="line"><span class="lineno"> 1919</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">moduleAlias</a> = importNode-&gt;moduleAlias;</div>
-<div class="line"><span class="lineno"> 1920</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5a2cb9cb80d66240c744ed2a7603a3be">visibility</a> = importNode-&gt;visibility_;</div>
-<div class="line"><span class="lineno"> 1921</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5bda3440b389f5ce413e64d6bd8b58f7">span</a> = importNode-&gt;span;</div>
-<div class="line"><span class="lineno"> 1922</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;binding : importNode-&gt;bindings) {</div>
-<div class="line"><span class="lineno"> 1923</span>        resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#abe6cde9306a067c6736d03b7f84e0840">bindings</a>.push_back({binding.sourceName, binding.localName});</div>
-<div class="line"><span class="lineno"> 1924</span>      }</div>
-<div class="line"><span class="lineno"> 1925</span> </div>
-<div class="line"><span class="lineno"> 1926</span>      std::vector&lt;std::filesystem::path&gt; importTargets;</div>
-<div class="line"><span class="lineno"> 1927</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a3d912fb44c6c282b589d6d232aadd626">resolveImportTargets</a>(canonicalPath, *importNode, importTargets)) {</div>
-<div class="line"><span class="lineno"> 1928</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1929</span>      }</div>
+<div class="line"><span class="lineno"> 1909</span>    <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(moduleId);</div>
+<div class="line"><span class="lineno"> 1910</span>    <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 1911</span>      result.diagnosticsByUri[uriIt-&gt;second] = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno"> 1912</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (moduleId == std::filesystem::weakly_canonical(</div>
+<div class="line"><span class="lineno"> 1913</span>                               <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.at(entryUri).path)</div>
+<div class="line"><span class="lineno"> 1914</span>                               .string()) {</div>
+<div class="line"><span class="lineno"> 1915</span>      result.diagnosticsByUri[entryUri] = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno"> 1916</span>    }</div>
+<div class="line"><span class="lineno"> 1917</span> </div>
+<div class="line"><span class="lineno"> 1918</span>    <span class="keywordflow">if</span> (!ast ||</div>
+<div class="line"><span class="lineno"> 1919</span>        (diagnostics.hadErrors() &amp;&amp; !(allowEntryErrors &amp;&amp; isEntryModule))) {</div>
+<div class="line"><span class="lineno"> 1920</span>      visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno"> 1921</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1922</span>    }</div>
+<div class="line"><span class="lineno"> 1923</span> </div>
+<div class="line"><span class="lineno"> 1924</span>    <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
+<div class="line"><span class="lineno"> 1925</span>    <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
+<div class="line"><span class="lineno"> 1926</span>    <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
+<div class="line"><span class="lineno"> 1927</span>    <span class="keyword">module</span>-&gt;linkPath = computeLogicalModulePath(canonicalPath);</div>
+<div class="line"><span class="lineno"> 1928</span>    <span class="keyword">module</span>-&gt;sourceName = canonicalPath.string();</div>
+<div class="line"><span class="lineno"> 1929</span>    <span class="keyword">module</span>-&gt;root = std::move(ast);</div>
 <div class="line"><span class="lineno"> 1930</span> </div>
-<div class="line"><span class="lineno"> 1931</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : importTargets) {</div>
-<div class="line"><span class="lineno"> 1932</span>        resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">targetModuleIds</a>.push_back(target.string());</div>
-<div class="line"><span class="lineno"> 1933</span>      }</div>
-<div class="line"><span class="lineno"> 1934</span> </div>
-<div class="line"><span class="lineno"> 1935</span>      <span class="keyword">module</span>-&gt;imports.push_back(std::move(resolved));</div>
-<div class="line"><span class="lineno"> 1936</span>    }</div>
-<div class="line"><span class="lineno"> 1937</span> </div>
-<div class="line"><span class="lineno"> 1938</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
-<div class="line"><span class="lineno"> 1939</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;targetId : <span class="keyword">import</span>.targetModuleIds) {</div>
-<div class="line"><span class="lineno"> 1940</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a44d4c40a98de72111bb3241da576ccac">loadModuleGraph</a>(targetId, modules, visiting, result, entryUri,</div>
-<div class="line"><span class="lineno"> 1941</span>                             allowEntryErrors)) {</div>
-<div class="line"><span class="lineno"> 1942</span>          visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno"> 1943</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1944</span>        }</div>
-<div class="line"><span class="lineno"> 1945</span>      }</div>
-<div class="line"><span class="lineno"> 1946</span>    }</div>
+<div class="line"><span class="lineno"> 1931</span>    <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#af80d7e916a2e8c0baa885747cac35142">injectImplicitPreludeImportIfNeeded</a>(*module);</div>
+<div class="line"><span class="lineno"> 1932</span> </div>
+<div class="line"><span class="lineno"> 1933</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;child : module-&gt;root-&gt;children) {</div>
+<div class="line"><span class="lineno"> 1934</span>      <span class="keyword">auto</span> importNode = <span class="keyword">dynamic_cast&lt;</span>ImportNode *<span class="keyword">&gt;</span>(child.get());</div>
+<div class="line"><span class="lineno"> 1935</span>      <span class="keywordflow">if</span> (!importNode) {</div>
+<div class="line"><span class="lineno"> 1936</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1937</span>      }</div>
+<div class="line"><span class="lineno"> 1938</span> </div>
+<div class="line"><span class="lineno"> 1939</span>      sema::ResolvedImport resolved;</div>
+<div class="line"><span class="lineno"> 1940</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">rawPath</a> = importNode-&gt;path;</div>
+<div class="line"><span class="lineno"> 1941</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">moduleAlias</a> = importNode-&gt;moduleAlias;</div>
+<div class="line"><span class="lineno"> 1942</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5a2cb9cb80d66240c744ed2a7603a3be">visibility</a> = importNode-&gt;visibility_;</div>
+<div class="line"><span class="lineno"> 1943</span>      resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5bda3440b389f5ce413e64d6bd8b58f7">span</a> = importNode-&gt;span;</div>
+<div class="line"><span class="lineno"> 1944</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;binding : importNode-&gt;bindings) {</div>
+<div class="line"><span class="lineno"> 1945</span>        resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#abe6cde9306a067c6736d03b7f84e0840">bindings</a>.push_back({binding.sourceName, binding.localName});</div>
+<div class="line"><span class="lineno"> 1946</span>      }</div>
 <div class="line"><span class="lineno"> 1947</span> </div>
-<div class="line"><span class="lineno"> 1948</span>    visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno"> 1949</span>    modules[moduleId] = std::move(module);</div>
-<div class="line"><span class="lineno"> 1950</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1951</span>  }</div>
-<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_a3d912fb44c6c282b589d6d232aadd626"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a3d912fb44c6c282b589d6d232aadd626">anonymous_namespace{lsp-main.cpp}::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00264">lsp-main.cpp:264</a></div></div>
-<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_af80d7e916a2e8c0baa885747cac35142"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#af80d7e916a2e8c0baa885747cac35142">anonymous_namespace{lsp-main.cpp}::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00251">lsp-main.cpp:251</a></div></div>
+<div class="line"><span class="lineno"> 1948</span>      std::vector&lt;std::filesystem::path&gt; importTargets;</div>
+<div class="line"><span class="lineno"> 1949</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac23aab752066a1203b912909204abf89">resolveImportTargets</a>(canonicalPath, *importNode, importTargets,</div>
+<div class="line"><span class="lineno"> 1950</span>                                importMap)) {</div>
+<div class="line"><span class="lineno"> 1951</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1952</span>      }</div>
+<div class="line"><span class="lineno"> 1953</span> </div>
+<div class="line"><span class="lineno"> 1954</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : importTargets) {</div>
+<div class="line"><span class="lineno"> 1955</span>        resolved.<a class="code hl_variable" href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">targetModuleIds</a>.push_back(target.string());</div>
+<div class="line"><span class="lineno"> 1956</span>      }</div>
+<div class="line"><span class="lineno"> 1957</span> </div>
+<div class="line"><span class="lineno"> 1958</span>      <span class="keyword">module</span>-&gt;imports.push_back(std::move(resolved));</div>
+<div class="line"><span class="lineno"> 1959</span>    }</div>
+<div class="line"><span class="lineno"> 1960</span> </div>
+<div class="line"><span class="lineno"> 1961</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
+<div class="line"><span class="lineno"> 1962</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;targetId : <span class="keyword">import</span>.targetModuleIds) {</div>
+<div class="line"><span class="lineno"> 1963</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a9ac8250b8854139cfdc541969c9e36db">loadModuleGraph</a>(targetId, modules, visiting, result, entryUri,</div>
+<div class="line"><span class="lineno"> 1964</span>                             importMap, allowEntryErrors)) {</div>
+<div class="line"><span class="lineno"> 1965</span>          visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno"> 1966</span>          <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1967</span>        }</div>
+<div class="line"><span class="lineno"> 1968</span>      }</div>
+<div class="line"><span class="lineno"> 1969</span>    }</div>
+<div class="line"><span class="lineno"> 1970</span> </div>
+<div class="line"><span class="lineno"> 1971</span>    visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno"> 1972</span>    modules[moduleId] = std::move(module);</div>
+<div class="line"><span class="lineno"> 1973</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1974</span>  }</div>
+<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_ac23aab752066a1203b912909204abf89"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ac23aab752066a1203b912909204abf89">anonymous_namespace{lsp-main.cpp}::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets, const zap::args::ImportMap &amp;importMap)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00265">lsp-main.cpp:265</a></div></div>
+<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_af80d7e916a2e8c0baa885747cac35142"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#af80d7e916a2e8c0baa885747cac35142">anonymous_namespace{lsp-main.cpp}::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00252">lsp-main.cpp:252</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_a22d1d07df129d5e6e5be195ac446ab78"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#a22d1d07df129d5e6e5be195ac446ab78">sema::ResolvedImport::rawPath</a></div><div class="ttdeci">std::string rawPath</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00018">module_info.hpp:18</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_a5a2cb9cb80d66240c744ed2a7603a3be"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5a2cb9cb80d66240c744ed2a7603a3be">sema::ResolvedImport::visibility</a></div><div class="ttdeci">Visibility visibility</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00022">module_info.hpp:22</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_a5bda3440b389f5ce413e64d6bd8b58f7"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#a5bda3440b389f5ce413e64d6bd8b58f7">sema::ResolvedImport::span</a></div><div class="ttdeci">SourceSpan span</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00023">module_info.hpp:23</a></div></div>
@@ -437,9 +443,9 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_ac93f70cc1eac9f0d7a32438ca5d677db"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#ac93f70cc1eac9f0d7a32438ca5d677db">sema::ResolvedImport::moduleAlias</a></div><div class="ttdeci">std::string moduleAlias</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00019">module_info.hpp:19</a></div></div>
 <div class="ttc" id="astructsema_1_1ResolvedImport_html_ad13cfbd05e6914cf846082034acb85fe"><div class="ttname"><a href="../../d9/ddd/structsema_1_1ResolvedImport.html#ad13cfbd05e6914cf846082034acb85fe">sema::ResolvedImport::targetModuleIds</a></div><div class="ttdeci">std::vector&lt; std::string &gt; targetModuleIds</div><div class="ttdef"><b>Definition</b> <a href="../../da/de6/module__info_8hpp_source.html#l00020">module_info.hpp:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00021">sema::ResolvedImport::bindings</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00307">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00251">anonymous_namespace{lsp-main.cpp}::injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00019">sema::ResolvedImport::moduleAlias</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00129">zap::Parser::parse()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00018">sema::ResolvedImport::rawPath</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00264">anonymous_namespace{lsp-main.cpp}::resolveImportTargets()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">sourceForPath()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00023">sema::ResolvedImport::span</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00020">sema::ResolvedImport::targetModuleIds</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00049">Lexer::tokenize()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">uriByCanonicalPath_</a>, and <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00022">sema::ResolvedImport::visibility</a>.</p>
+<p class="reference">References <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00021">sema::ResolvedImport::bindings</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00328">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00252">anonymous_namespace{lsp-main.cpp}::injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00019">sema::ResolvedImport::moduleAlias</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00129">zap::Parser::parse()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00018">sema::ResolvedImport::rawPath</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00265">anonymous_namespace{lsp-main.cpp}::resolveImportTargets()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">sourceForPath()</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00023">sema::ResolvedImport::span</a>, <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00020">sema::ResolvedImport::targetModuleIds</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00049">Lexer::tokenize()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">uriByCanonicalPath_</a>, and <a class="el" href="../../da/de6/module__info_8hpp_source.html#l00022">sema::ResolvedImport::visibility</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02035">analyze()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02006">loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02061">analyze()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02029">loadProject()</a>.</p>
 
 </div>
 </div>
@@ -470,37 +476,40 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02006">2006</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 2007</span>                                                                               {</div>
-<div class="line"><span class="lineno"> 2008</span>    <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
-<div class="line"><span class="lineno"> 2009</span>    <span class="keywordflow">if</span> (docIt == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 2010</span>      <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><span class="lineno"> 2011</span>    }</div>
-<div class="line"><span class="lineno"> 2012</span> </div>
-<div class="line"><span class="lineno"> 2013</span>    ProjectState state;</div>
-<div class="line"><span class="lineno"> 2014</span>    std::set&lt;std::string&gt; visiting;</div>
-<div class="line"><span class="lineno"> 2015</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a44d4c40a98de72111bb3241da576ccac">loadModuleGraph</a>(docIt-&gt;second.path, state.moduleMap, visiting,</div>
-<div class="line"><span class="lineno"> 2016</span>                         state.analysis, uri, allowEntryErrors)) {</div>
-<div class="line"><span class="lineno"> 2017</span>      <span class="keywordflow">if</span> (state.analysis.diagnosticsByUri.find(uri) ==</div>
-<div class="line"><span class="lineno"> 2018</span>          state.analysis.diagnosticsByUri.end()) {</div>
-<div class="line"><span class="lineno"> 2019</span>        state.analysis.diagnosticsByUri[uri] = {};</div>
-<div class="line"><span class="lineno"> 2020</span>      }</div>
-<div class="line"><span class="lineno"> 2021</span>      <span class="keywordflow">return</span> state;</div>
-<div class="line"><span class="lineno"> 2022</span>    }</div>
-<div class="line"><span class="lineno"> 2023</span> </div>
-<div class="line"><span class="lineno"> 2024</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[moduleId, _] : state.moduleMap) {</div>
-<div class="line"><span class="lineno"> 2025</span>      <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(moduleId);</div>
-<div class="line"><span class="lineno"> 2026</span>      <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 2027</span>        state.uriByModuleId[moduleId] = uriIt-&gt;second;</div>
-<div class="line"><span class="lineno"> 2028</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 2029</span>        state.uriByModuleId[moduleId] = <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903">pathToUri</a>(moduleId);</div>
-<div class="line"><span class="lineno"> 2030</span>      }</div>
-<div class="line"><span class="lineno"> 2031</span>    }</div>
-<div class="line"><span class="lineno"> 2032</span>    <span class="keywordflow">return</span> state;</div>
-<div class="line"><span class="lineno"> 2033</span>  }</div>
-<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_a521397e756e4dc960648a8cee8723903"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903">anonymous_namespace{lsp-main.cpp}::pathToUri</a></div><div class="ttdeci">std::string pathToUri(const std::filesystem::path &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00361">lsp-main.cpp:361</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02029">2029</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2030</span>                                                                               {</div>
+<div class="line"><span class="lineno"> 2031</span>    <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
+<div class="line"><span class="lineno"> 2032</span>    <span class="keywordflow">if</span> (docIt == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 2033</span>      <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><span class="lineno"> 2034</span>    }</div>
+<div class="line"><span class="lineno"> 2035</span> </div>
+<div class="line"><span class="lineno"> 2036</span>    <span class="keyword">auto</span> flags = <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#abecc41a62bf5acba8d898f40cf5700da">findAndReadFlags</a>(docIt-&gt;second.path);</div>
+<div class="line"><span class="lineno"> 2037</span> </div>
+<div class="line"><span class="lineno"> 2038</span>    ProjectState state;</div>
+<div class="line"><span class="lineno"> 2039</span>    std::set&lt;std::string&gt; visiting;</div>
+<div class="line"><span class="lineno"> 2040</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a9ac8250b8854139cfdc541969c9e36db">loadModuleGraph</a>(docIt-&gt;second.path, state.moduleMap, visiting,</div>
+<div class="line"><span class="lineno"> 2041</span>                         state.analysis, uri, flags.importMap,</div>
+<div class="line"><span class="lineno"> 2042</span>                         allowEntryErrors)) {</div>
+<div class="line"><span class="lineno"> 2043</span>      <span class="keywordflow">if</span> (state.analysis.diagnosticsByUri.find(uri) ==</div>
+<div class="line"><span class="lineno"> 2044</span>          state.analysis.diagnosticsByUri.end()) {</div>
+<div class="line"><span class="lineno"> 2045</span>        state.analysis.diagnosticsByUri[uri] = {};</div>
+<div class="line"><span class="lineno"> 2046</span>      }</div>
+<div class="line"><span class="lineno"> 2047</span>      <span class="keywordflow">return</span> state;</div>
+<div class="line"><span class="lineno"> 2048</span>    }</div>
+<div class="line"><span class="lineno"> 2049</span> </div>
+<div class="line"><span class="lineno"> 2050</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[moduleId, _] : state.moduleMap) {</div>
+<div class="line"><span class="lineno"> 2051</span>      <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(moduleId);</div>
+<div class="line"><span class="lineno"> 2052</span>      <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 2053</span>        state.uriByModuleId[moduleId] = uriIt-&gt;second;</div>
+<div class="line"><span class="lineno"> 2054</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 2055</span>        state.uriByModuleId[moduleId] = <a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903">pathToUri</a>(moduleId);</div>
+<div class="line"><span class="lineno"> 2056</span>      }</div>
+<div class="line"><span class="lineno"> 2057</span>    }</div>
+<div class="line"><span class="lineno"> 2058</span>    <span class="keywordflow">return</span> state;</div>
+<div class="line"><span class="lineno"> 2059</span>  }</div>
+<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_a521397e756e4dc960648a8cee8723903"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#a521397e756e4dc960648a8cee8723903">anonymous_namespace{lsp-main.cpp}::pathToUri</a></div><div class="ttdeci">std::string pathToUri(const std::filesystem::path &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00382">lsp-main.cpp:382</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00313">anonymous_namespace{lsp-main.cpp}::ProjectState::analysis</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00307">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00311">anonymous_namespace{lsp-main.cpp}::ProjectState::moduleMap</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00361">anonymous_namespace{lsp-main.cpp}::pathToUri()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">uriByCanonicalPath_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00312">anonymous_namespace{lsp-main.cpp}::ProjectState::uriByModuleId</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00334">anonymous_namespace{lsp-main.cpp}::ProjectState::analysis</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00328">anonymous_namespace{lsp-main.cpp}::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00221">anonymous_namespace{lsp-main.cpp}::findAndReadFlags()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00332">anonymous_namespace{lsp-main.cpp}::ProjectState::moduleMap</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00382">anonymous_namespace{lsp-main.cpp}::pathToUri()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">uriByCanonicalPath_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00333">anonymous_namespace{lsp-main.cpp}::ProjectState::uriByModuleId</a>.</p>
 
 </div>
 </div>
@@ -541,27 +550,27 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01959">1959</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1960</span>                                             {</div>
-<div class="line"><span class="lineno"> 1961</span>    std::filesystem::path canonicalPath =</div>
-<div class="line"><span class="lineno"> 1962</span>        std::filesystem::weakly_canonical(path);</div>
-<div class="line"><span class="lineno"> 1963</span>    std::string canonicalKey = canonicalPath.string();</div>
-<div class="line"><span class="lineno"> 1964</span> </div>
-<div class="line"><span class="lineno"> 1965</span>    <span class="keyword">auto</span> existingUriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(canonicalKey);</div>
-<div class="line"><span class="lineno"> 1966</span>    <span class="keywordflow">if</span> (existingUriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end() &amp;&amp;</div>
-<div class="line"><span class="lineno"> 1967</span>        existingUriIt-&gt;second != uri) {</div>
-<div class="line"><span class="lineno"> 1968</span>      <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.erase(existingUriIt-&gt;second);</div>
-<div class="line"><span class="lineno"> 1969</span>      existingUriIt-&gt;second = uri;</div>
-<div class="line"><span class="lineno"> 1970</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1971</span>      <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>[canonicalKey] = uri;</div>
-<div class="line"><span class="lineno"> 1972</span>    }</div>
-<div class="line"><span class="lineno"> 1973</span> </div>
-<div class="line"><span class="lineno"> 1974</span>    <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>[uri] =</div>
-<div class="line"><span class="lineno"> 1975</span>        DocumentState{uri, std::move(canonicalPath), std::move(text), <a class="code hl_typedef" href="../../d7/d1a/namespacezap.html#a0acdcff1050bab4113419710c3284caa">version</a>};</div>
-<div class="line"><span class="lineno"> 1976</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01982">1982</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1983</span>                                             {</div>
+<div class="line"><span class="lineno"> 1984</span>    std::filesystem::path canonicalPath =</div>
+<div class="line"><span class="lineno"> 1985</span>        std::filesystem::weakly_canonical(path);</div>
+<div class="line"><span class="lineno"> 1986</span>    std::string canonicalKey = canonicalPath.string();</div>
+<div class="line"><span class="lineno"> 1987</span> </div>
+<div class="line"><span class="lineno"> 1988</span>    <span class="keyword">auto</span> existingUriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(canonicalKey);</div>
+<div class="line"><span class="lineno"> 1989</span>    <span class="keywordflow">if</span> (existingUriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end() &amp;&amp;</div>
+<div class="line"><span class="lineno"> 1990</span>        existingUriIt-&gt;second != uri) {</div>
+<div class="line"><span class="lineno"> 1991</span>      <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.erase(existingUriIt-&gt;second);</div>
+<div class="line"><span class="lineno"> 1992</span>      existingUriIt-&gt;second = uri;</div>
+<div class="line"><span class="lineno"> 1993</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 1994</span>      <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>[canonicalKey] = uri;</div>
+<div class="line"><span class="lineno"> 1995</span>    }</div>
+<div class="line"><span class="lineno"> 1996</span> </div>
+<div class="line"><span class="lineno"> 1997</span>    <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>[uri] =</div>
+<div class="line"><span class="lineno"> 1998</span>        DocumentState{uri, std::move(canonicalPath), std::move(text), <a class="code hl_typedef" href="../../d7/d1a/namespacezap.html#a0acdcff1050bab4113419710c3284caa">version</a>};</div>
+<div class="line"><span class="lineno"> 1999</span>  }</div>
 <div class="ttc" id="anamespacezap_html_a0acdcff1050bab4113419710c3284caa"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a0acdcff1050bab4113419710c3284caa">zap::version</a></div><div class="ttdeci">_version_base&lt; uint16_t &gt; version</div><div class="ttdoc">Can be changed to any integer or float type.</div><div class="ttdef"><b>Definition</b> <a href="../../d7/dad/version_8hpp_source.html#l00034">version.hpp:34</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">uriByCanonicalPath_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">uriByCanonicalPath_</a>.</p>
 
 </div>
 </div>
@@ -588,43 +597,43 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">1824</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1824</span>                                                     {</div>
-<div class="line"><span class="lineno"> 1825</span>    std::string key = std::filesystem::weakly_canonical(path).string();</div>
-<div class="line"><span class="lineno"> 1826</span>    <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(key);</div>
-<div class="line"><span class="lineno"> 1827</span>    <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 1828</span>      <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uriIt-&gt;second);</div>
-<div class="line"><span class="lineno"> 1829</span>      <span class="keywordflow">if</span> (docIt != <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 1830</span>        <span class="keywordflow">return</span> docIt-&gt;second.text;</div>
-<div class="line"><span class="lineno"> 1831</span>      }</div>
-<div class="line"><span class="lineno"> 1832</span>    }</div>
-<div class="line"><span class="lineno"> 1833</span> </div>
-<div class="line"><span class="lineno"> 1834</span>    std::error_code ec;</div>
-<div class="line"><span class="lineno"> 1835</span>    <span class="keyword">auto</span> writeTime = std::filesystem::last_write_time(path, ec);</div>
-<div class="line"><span class="lineno"> 1836</span>    <span class="keywordflow">if</span> (!ec) {</div>
-<div class="line"><span class="lineno"> 1837</span>      <span class="keyword">auto</span> cacheIt = <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>.find(key);</div>
-<div class="line"><span class="lineno"> 1838</span>      <span class="keywordflow">if</span> (cacheIt != <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>.end() &amp;&amp;</div>
-<div class="line"><span class="lineno"> 1839</span>          cacheIt-&gt;second.lastWriteTime == writeTime) {</div>
-<div class="line"><span class="lineno"> 1840</span>        <span class="keywordflow">return</span> cacheIt-&gt;second.content;</div>
-<div class="line"><span class="lineno"> 1841</span>      }</div>
-<div class="line"><span class="lineno"> 1842</span>    }</div>
-<div class="line"><span class="lineno"> 1843</span> </div>
-<div class="line"><span class="lineno"> 1844</span>    std::string content;</div>
-<div class="line"><span class="lineno"> 1845</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd">readSourceFile</a>(path, content)) {</div>
-<div class="line"><span class="lineno"> 1846</span>      <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><span class="lineno"> 1847</span>    }</div>
-<div class="line"><span class="lineno"> 1848</span>    <span class="keywordflow">if</span> (!ec) {</div>
-<div class="line"><span class="lineno"> 1849</span>      <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>[key] = <a class="code hl_struct" href="../../d7/d48/structanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile.html">CachedFile</a>{writeTime, content};</div>
-<div class="line"><span class="lineno"> 1850</span>    }</div>
-<div class="line"><span class="lineno"> 1851</span>    <span class="keywordflow">return</span> content;</div>
-<div class="line"><span class="lineno"> 1852</span>  }</div>
-<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_ad39f11e9e7841380d4bc28dc254483f2"><div class="ttname"><a href="#ad39f11e9e7841380d4bc28dc254483f2">anonymous_namespace{lsp-main.cpp}::Workspace::fileContentCache_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, CachedFile &gt; fileContentCache_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01821">lsp-main.cpp:1821</a></div></div>
-<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_ab4e25b48977adf8887d2ed48bb852dcd"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd">anonymous_namespace{lsp-main.cpp}::readSourceFile</a></div><div class="ttdeci">bool readSourceFile(const std::filesystem::path &amp;path, std::string &amp;content)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00185">lsp-main.cpp:185</a></div></div>
-<div class="ttc" id="astructanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile_html"><div class="ttname"><a href="../../d7/d48/structanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile.html">anonymous_namespace{lsp-main.cpp}::Workspace::CachedFile</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01814">lsp-main.cpp:1814</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">1845</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1845</span>                                                     {</div>
+<div class="line"><span class="lineno"> 1846</span>    std::string key = std::filesystem::weakly_canonical(path).string();</div>
+<div class="line"><span class="lineno"> 1847</span>    <span class="keyword">auto</span> uriIt = <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.find(key);</div>
+<div class="line"><span class="lineno"> 1848</span>    <span class="keywordflow">if</span> (uriIt != <a class="code hl_variable" href="#a967c48bec41fce7ceadd74c7af34d856">uriByCanonicalPath_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 1849</span>      <span class="keyword">auto</span> docIt = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uriIt-&gt;second);</div>
+<div class="line"><span class="lineno"> 1850</span>      <span class="keywordflow">if</span> (docIt != <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 1851</span>        <span class="keywordflow">return</span> docIt-&gt;second.text;</div>
+<div class="line"><span class="lineno"> 1852</span>      }</div>
+<div class="line"><span class="lineno"> 1853</span>    }</div>
+<div class="line"><span class="lineno"> 1854</span> </div>
+<div class="line"><span class="lineno"> 1855</span>    std::error_code ec;</div>
+<div class="line"><span class="lineno"> 1856</span>    <span class="keyword">auto</span> writeTime = std::filesystem::last_write_time(path, ec);</div>
+<div class="line"><span class="lineno"> 1857</span>    <span class="keywordflow">if</span> (!ec) {</div>
+<div class="line"><span class="lineno"> 1858</span>      <span class="keyword">auto</span> cacheIt = <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>.find(key);</div>
+<div class="line"><span class="lineno"> 1859</span>      <span class="keywordflow">if</span> (cacheIt != <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>.end() &amp;&amp;</div>
+<div class="line"><span class="lineno"> 1860</span>          cacheIt-&gt;second.lastWriteTime == writeTime) {</div>
+<div class="line"><span class="lineno"> 1861</span>        <span class="keywordflow">return</span> cacheIt-&gt;second.content;</div>
+<div class="line"><span class="lineno"> 1862</span>      }</div>
+<div class="line"><span class="lineno"> 1863</span>    }</div>
+<div class="line"><span class="lineno"> 1864</span> </div>
+<div class="line"><span class="lineno"> 1865</span>    std::string content;</div>
+<div class="line"><span class="lineno"> 1866</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd">readSourceFile</a>(path, content)) {</div>
+<div class="line"><span class="lineno"> 1867</span>      <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><span class="lineno"> 1868</span>    }</div>
+<div class="line"><span class="lineno"> 1869</span>    <span class="keywordflow">if</span> (!ec) {</div>
+<div class="line"><span class="lineno"> 1870</span>      <a class="code hl_variable" href="#ad39f11e9e7841380d4bc28dc254483f2">fileContentCache_</a>[key] = <a class="code hl_struct" href="../../d7/d48/structanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile.html">CachedFile</a>{writeTime, content};</div>
+<div class="line"><span class="lineno"> 1871</span>    }</div>
+<div class="line"><span class="lineno"> 1872</span>    <span class="keywordflow">return</span> content;</div>
+<div class="line"><span class="lineno"> 1873</span>  }</div>
+<div class="ttc" id="aclassanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_html_ad39f11e9e7841380d4bc28dc254483f2"><div class="ttname"><a href="#ad39f11e9e7841380d4bc28dc254483f2">anonymous_namespace{lsp-main.cpp}::Workspace::fileContentCache_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, CachedFile &gt; fileContentCache_</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01842">lsp-main.cpp:1842</a></div></div>
+<div class="ttc" id="anamespaceanonymous__namespace_02lsp-main_8cpp_03_html_ab4e25b48977adf8887d2ed48bb852dcd"><div class="ttname"><a href="../../dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html#ab4e25b48977adf8887d2ed48bb852dcd">anonymous_namespace{lsp-main.cpp}::readSourceFile</a></div><div class="ttdeci">bool readSourceFile(const std::filesystem::path &amp;path, std::string &amp;content)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l00186">lsp-main.cpp:186</a></div></div>
+<div class="ttc" id="astructanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile_html"><div class="ttname"><a href="../../d7/d48/structanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile.html">anonymous_namespace{lsp-main.cpp}::Workspace::CachedFile</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d0c/lsp-main_8cpp_source.html#l01835">lsp-main.cpp:1835</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01821">fileContentCache_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00185">anonymous_namespace{lsp-main.cpp}::readSourceFile()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">uriByCanonicalPath_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01842">fileContentCache_</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l00186">anonymous_namespace{lsp-main.cpp}::readSourceFile()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">uriByCanonicalPath_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02035">analyze()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02061">analyze()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>.</p>
 
 </div>
 </div>
@@ -660,17 +669,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01978">1978</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1978</span>                                                                     {</div>
-<div class="line"><span class="lineno"> 1979</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
-<div class="line"><span class="lineno"> 1980</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
-<div class="line"><span class="lineno"> 1981</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno"> 1982</span>    }</div>
-<div class="line"><span class="lineno"> 1983</span>    it-&gt;second.text = std::move(text);</div>
-<div class="line"><span class="lineno"> 1984</span>    it-&gt;second.version = <a class="code hl_typedef" href="../../d7/d1a/namespacezap.html#a0acdcff1050bab4113419710c3284caa">version</a>;</div>
-<div class="line"><span class="lineno"> 1985</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02001">2001</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 2001</span>                                                                     {</div>
+<div class="line"><span class="lineno"> 2002</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.find(uri);</div>
+<div class="line"><span class="lineno"> 2003</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="#a9363264bff9129e9cbd3ee3191224784">documentsByUri_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 2004</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno"> 2005</span>    }</div>
+<div class="line"><span class="lineno"> 2006</span>    it-&gt;second.text = std::move(text);</div>
+<div class="line"><span class="lineno"> 2007</span>    it-&gt;second.version = <a class="code hl_typedef" href="../../d7/d1a/namespacezap.html#a0acdcff1050bab4113419710c3284caa">version</a>;</div>
+<div class="line"><span class="lineno"> 2008</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">documentsByUri_</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">documentsByUri_</a>.</p>
 
 </div>
 </div>
@@ -695,9 +704,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01819">1819</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01840">1840</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02035">analyze()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01987">close()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02002">contains()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01954">document()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02006">loadProject()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01959">open()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">sourceForPath()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01978">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02061">analyze()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02010">close()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02025">contains()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01977">document()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02029">loadProject()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01982">open()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">sourceForPath()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02001">update()</a>.</p>
 
 </div>
 </div>
@@ -721,9 +730,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01821">1821</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01842">1842</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">sourceForPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">sourceForPath()</a>.</p>
 
 </div>
 </div>
@@ -747,9 +756,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01820">1820</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01841">1841</a> of file <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html">lsp-main.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01987">close()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01854">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02006">loadProject()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01959">open()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01824">sourceForPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02010">close()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01875">loadModuleGraph()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l02029">loadProject()</a>, <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01982">open()</a>, and <a class="el" href="../../da/d0c/lsp-main_8cpp_source.html#l01845">sourceForPath()</a>.</p>
 
 </div>
 </div>
