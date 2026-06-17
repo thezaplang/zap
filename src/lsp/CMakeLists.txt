@@ -8,6 +8,7 @@ set(LSP_SOURCES
   "${CMAKE_SOURCE_DIR}/src/sema/binder_stmts.cpp"
   "${CMAKE_SOURCE_DIR}/src/sema/binder_exprs.cpp"
   "${CMAKE_SOURCE_DIR}/src/sema/binder_types.cpp"
+  "${CMAKE_SOURCE_DIR}/src/driver/args/argparse.cpp"
   "${CMAKE_SOURCE_DIR}/src/utils/stream.cpp"
 )
 
