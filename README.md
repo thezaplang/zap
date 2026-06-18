@@ -1,7 +1,7 @@
 <h1 align="center">Zap Programming Language</h1>
 <br>
 <p>
-  <img src="art/Logo.svg" alt="Zap Logo" width="250"  align="left"/>
+  <img src="art/Logo.svg" alt="Zap Logo" width="220"  align="left"/>
 </p>
 Systems programming that doesn't get in your way.
 
