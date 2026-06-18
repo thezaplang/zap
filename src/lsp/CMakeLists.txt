@@ -1,7 +1,10 @@
 set(LSP_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/lsp-main.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/lsp.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/protocol_messages.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/protocol_utils.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/symbol_index.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/workspace.cpp"
   "${CMAKE_SOURCE_DIR}/src/lexer/lexer.cpp"
   "${CMAKE_SOURCE_DIR}/src/parser/parser.cpp"
   "${CMAKE_SOURCE_DIR}/src/frontend/module_loader.cpp"
