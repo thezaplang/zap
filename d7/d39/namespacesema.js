@@ -46,6 +46,7 @@ var namespacesema =
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
     [ "ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", "d9/ddd/structsema_1_1ResolvedImport" ],
     [ "ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", "d0/d65/structsema_1_1ModuleInfo" ],
+    [ "SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", "dd/d4f/structsema_1_1SemanticInfo" ],
     [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
     [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],
     [ "FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", "db/db1/classsema_1_1FunctionSymbol" ],

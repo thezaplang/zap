@@ -1,14 +1,5 @@
 var annotated_dup =
 [
-    [ "anonymous_namespace{lsp-main.cpp}", "dd/d05/namespaceanonymous__namespace_02lsp-main_8cpp_03.html", [
-      [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
-      [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
-      [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
-      [ "LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature" ],
-      [ "CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext" ],
-      [ "HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo" ],
-      [ "Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace" ]
-    ] ],
     [ "codegen", "d0/df2/namespacecodegen.html", [
       [ "ClassArcEmitter", "d9/d1d/classcodegen_1_1ClassArcEmitter.html", "d9/d1d/classcodegen_1_1ClassArcEmitter" ],
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
@@ -60,6 +51,7 @@ var annotated_dup =
       [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
       [ "ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", "d9/ddd/structsema_1_1ResolvedImport" ],
       [ "ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", "d0/d65/structsema_1_1ModuleInfo" ],
+      [ "SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", "dd/d4f/structsema_1_1SemanticInfo" ],
       [ "Symbol", "d1/df6/classsema_1_1Symbol.html", "d1/df6/classsema_1_1Symbol" ],
       [ "VariableSymbol", "d8/d9a/classsema_1_1VariableSymbol.html", "d8/d9a/classsema_1_1VariableSymbol" ],
       [ "FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", "db/db1/classsema_1_1FunctionSymbol" ],
@@ -83,7 +75,15 @@ var annotated_dup =
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
         [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
         [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],
-        [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ]
+        [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ],
+        [ "VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo" ],
+        [ "Workspace", "d1/dae/classzap_1_1lsp_1_1Workspace.html", "d1/dae/classzap_1_1lsp_1_1Workspace" ],
+        [ "DocumentState", "df/d05/structzap_1_1lsp_1_1DocumentState.html", "df/d05/structzap_1_1lsp_1_1DocumentState" ],
+        [ "AnalysisResult", "d1/dff/structzap_1_1lsp_1_1AnalysisResult.html", "d1/dff/structzap_1_1lsp_1_1AnalysisResult" ],
+        [ "ProjectState", "de/ddb/structzap_1_1lsp_1_1ProjectState.html", "de/ddb/structzap_1_1lsp_1_1ProjectState" ],
+        [ "LspSignature", "d6/d68/structzap_1_1lsp_1_1LspSignature.html", "d6/d68/structzap_1_1lsp_1_1LspSignature" ],
+        [ "CallContext", "d7/d3f/structzap_1_1lsp_1_1CallContext.html", "d7/d3f/structzap_1_1lsp_1_1CallContext" ],
+        [ "HoverInfo", "d1/d23/structzap_1_1lsp_1_1HoverInfo.html", "d1/d23/structzap_1_1lsp_1_1HoverInfo" ]
       ] ],
       [ "driver", "d9/d00/classzap_1_1driver.html", "d9/d00/classzap_1_1driver" ],
       [ "_version_base", "d3/dfd/classzap_1_1__version__base.html", "d3/dfd/classzap_1_1__version__base" ],

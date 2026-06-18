@@ -1,7 +1,7 @@
 var hierarchy =
 [
     [ "zap::_version_base&lt; T &gt;", "d3/dfd/classzap_1_1__version__base.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", null ],
+    [ "zap::lsp::AnalysisResult", "d1/dff/structzap_1_1lsp_1_1AnalysisResult.html", null ],
     [ "zap::args::ArgConf", "d9/de6/classzap_1_1args_1_1ArgConf.html", null ],
     [ "zap::args::ArgHolder", "d6/d1a/classzap_1_1args_1_1ArgHolder.html", null ],
     [ "Argument", "dc/d8f/structArgument.html", null ],
@@ -62,8 +62,8 @@ var hierarchy =
       [ "codegen::LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", null ],
       [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ]
     ] ],
-    [ "anonymous_namespace{lsp-main.cpp}::Workspace::CachedFile", "d7/d48/structanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace_1_1CachedFile.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", null ],
+    [ "zap::lsp::Workspace::CachedFile", "d3/da6/structzap_1_1lsp_1_1Workspace_1_1CachedFile.html", null ],
+    [ "zap::lsp::CallContext", "d7/d3f/structzap_1_1lsp_1_1CallContext.html", null ],
     [ "codegen::ClassArcEmitter", "d9/d1d/classcodegen_1_1ClassArcEmitter.html", null ],
     [ "sema::Binder::ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", null ],
     [ "zap::args::CmdlineArgs", "d9/d45/structzap_1_1args_1_1CmdlineArgs.html", null ],
@@ -72,7 +72,7 @@ var hierarchy =
     [ "zap::DiagnosticPosition", "d7/dc4/structzap_1_1DiagnosticPosition.html", null ],
     [ "zap::DiagnosticRange", "d0/d67/structzap_1_1DiagnosticRange.html", null ],
     [ "zap::DiagnosticTextFormatter", "d8/dbe/classzap_1_1DiagnosticTextFormatter.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", null ],
+    [ "zap::lsp::DocumentState", "df/d05/structzap_1_1lsp_1_1DocumentState.html", null ],
     [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
     [ "EnumDecl::Entry", "d9/de9/structEnumDecl_1_1Entry.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
@@ -80,7 +80,7 @@ var hierarchy =
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
     [ "GenericConstraint", "d2/d6f/structGenericConstraint.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", null ],
+    [ "zap::lsp::HoverInfo", "d1/d23/structzap_1_1lsp_1_1HoverInfo.html", null ],
     [ "ImportBinding", "d7/de6/structImportBinding.html", null ],
     [ "zir::Instruction", "d0/dad/classzir_1_1Instruction.html", [
       [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", null ],
@@ -106,7 +106,7 @@ var hierarchy =
     [ "zap::lsp::JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", null ],
     [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
     [ "Lexer", "d6/dc0/classLexer.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", null ],
+    [ "zap::lsp::LspSignature", "d6/d68/structzap_1_1lsp_1_1LspSignature.html", null ],
     [ "zap::lsp::LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", null ],
     [ "zir::Module", "d9/d68/classzir_1_1Module.html", null ],
     [ "sema::ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", null ],
@@ -171,12 +171,13 @@ var hierarchy =
     ] ],
     [ "sema::Binder::PairHash", "d3/da4/structsema_1_1Binder_1_1PairHash.html", null ],
     [ "zap::Parser", "de/d73/classzap_1_1Parser.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", null ],
+    [ "zap::lsp::ProjectState", "de/ddb/structzap_1_1lsp_1_1ProjectState.html", null ],
     [ "sema::ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", null ],
     [ "std::runtime_error", null, [
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
     [ "zap::frontend::RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", null ],
+    [ "sema::SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", null ],
     [ "zap::lsp::Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", null ],
     [ "SourceSpan", "d4/d5b/structSourceSpan.html", null ],
     [ "zap::Stream", "d3/d09/classzap_1_1Stream.html", [
@@ -213,10 +214,11 @@ var hierarchy =
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]
     ] ],
     [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", null ],
+    [ "zap::lsp::VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", null ],
     [ "Visitor", "dc/d13/structVisitor.html", [
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
     ] ],
-    [ "anonymous_namespace{lsp-main.cpp}::Workspace", "df/dd6/classanonymous__namespace_02lsp-main_8cpp_03_1_1Workspace.html", null ],
+    [ "zap::lsp::Workspace", "d1/dae/classzap_1_1lsp_1_1Workspace.html", null ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", null ],
     [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", null ],
     [ "zap_arc_ptrmap_t", "d3/d12/structzap__arc__ptrmap__t.html", null ],

@@ -35,7 +35,7 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
@@ -75,22 +75,22 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d0/df9/classsema_1_1BoundVisitor.html#a662bfdf3942fbcbfa51710a04437f85f",
-"d2/d2a/structzap_1_1args_1_1ArgVal.html#a05d493fa6c3b0476b03bb182eb216218",
-"d3/d09/classzap_1_1Stream.html#a098c8da4e552c96912ac900fbd9426af",
-"d3/d94/classFunDecl.html#a1ae49eb2c973ce953ed54147527abe31",
-"d4/da0/classzir_1_1BoundIRGenerator.html#a191f154271fba1cede2d0e221092e63b",
-"d6/d5e/classsema_1_1BoundIndexAccess.html#a0eeb339bbfb61d815a425224ef2f7e42",
-"d7/de6/structImportBinding.html#ac6f72be4ffc512b024e7695272808e35",
-"d9/d0d/classzap_1_1lsp_1_1Server.html",
-"d9/de6/classzap_1_1args_1_1ArgConf.html#a7067f86cc099eafbd9337e0eb340a8a6a7d50c09f1ad7d098e0a847bcdcab7efb",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a0ff2a208b229f24f1ef3a88ae9e50302",
-"db/d34/ir__generator_8cpp.html",
-"db/dfa/stdlib_8c.html#adb504d8c46394319487f8c615e44234a",
-"dc/d2c/classsema_1_1Binder.html#a80c910442942e3a71c7cc8773f79e2d3",
-"dc/ddd/parser_8cpp_source.html",
-"de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f",
-"df/d31/classzir_1_1CallInst.html",
-"functions_c.html"
+"d1/df6/classsema_1_1Symbol.html#ac09f024a530d1b7265e39b7dea412680",
+"d2/ddf/classzir_1_1CondBranchInst.html#ad93c679d491759ff9da962cce55fcc86",
+"d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daabc57d158e98071ed3c9e4dea90a2fe7c",
+"d4/d52/structsema_1_1Binder_1_1ClassInfo.html#af3038fe2d2645ceea839e9d97d42e2a7",
+"d5/d59/namespacezap_1_1detail.html#a8ef9daef2101239d359d560fab8ed0ab",
+"d7/d6e/classzir_1_1BasicBlock.html#a5bd36183b510f980ef9e6ef69a811bfd",
+"d8/ddd/classAsmStmtNode.html#a552ffeb60ff47510fd31752ee4702d6c",
+"d9/d68/classzir_1_1Module.html#a8fbc8e5d660f5efe8aab99315699e814",
+"da/db6/classzir_1_1RetainInst.html#a6c957f4cd32bbc41d6b5f0e9afb2c106",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#ac422baac0ccf9876da632ad18e8e07f2",
+"db/dfa/stdlib_8c.html#a265aca7debb8df2479eea9aa423ea772",
+"dc/d2c/classsema_1_1Binder.html#a316acd01780dd2a3af58785e436375a3",
+"dc/d90/classzir_1_1Function.html#a59a3a5d39cef7a8e0cf09bc88b5a0a83",
+"de/d14/classsema_1_1OverloadSetSymbol.html#a57c2fae15a82773db1a1173a50d4ecfd",
+"de/df0/classBodyNode.html",
+"df/ddd/namespacezap_1_1frontend.html#a5f5c5dad013c86a7ffa5545a8a2f69bd"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
