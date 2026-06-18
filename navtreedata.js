@@ -74,23 +74,23 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/df9/classsema_1_1BoundVisitor.html#a662bfdf3942fbcbfa51710a04437f85f",
-"d1/df6/classsema_1_1Symbol.html#a1e285c400593fdbe195b42812ecc5026",
-"d2/dbd/structsema_1_1Binder_1_1ModuleState.html#af30b9e3f8aec4144b33eeee644ede600",
-"d3/d65/classsema_1_1BoundWhileStatement.html#a6c8e574134c0960d5c4f46cd23753dde",
-"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afc0970681dc349e37c0005be4960e6a8",
-"d5/d23/namespacezap_1_1lsp.html#aa5a408eb8dd9e95540be1739d435a397",
-"d7/d1a/namespacezap.html#a873ac3ffa9672c2ecc2552347957d68eab5bf627e448384cf3a4c35121ca6008d",
-"d8/d6d/classzir_1_1LoadInst.html#ab57bf864e7fc292514e608b6bf730193",
-"d9/d3d/classRecordDecl.html#a9dd4e6487d776e52dfa12fda227817cc",
-"da/d3e/classzir_1_1InlineAsmInst.html#a06232de837a2f2511da917b6f806bab1",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a6aee274d74ad03fb4403f51572a82662",
-"db/db1/classsema_1_1FunctionSymbol.html#add39495c133555bb93e923cb237d30d6",
-"dc/d2c/classsema_1_1Binder.html#a028cf378f133924b4011d2c47fceac1a",
-"dc/d2c/classsema_1_1Binder.html#ae7def500fdd66aa36d6586934c676ce2",
-"dd/d9c/classsema_1_1BoundArrayLiteral.html#ad19792d9fe7d92be78b26f9b49e1d389",
-"de/d73/classzap_1_1Parser.html#abf36ab07135fe67c115e4bb34bbd6ccc",
-"df/da0/classzir_1_1BranchInst.html#ab0088436abfca15f672592864544e816"
+"d0/df9/classsema_1_1BoundVisitor.html#a4d7488ae662dfe59e00796d05109ac67",
+"d1/df6/classsema_1_1Symbol.html",
+"d2/dbd/structsema_1_1Binder_1_1ModuleState.html#a374282f30279977b65d314bfa089fd45",
+"d3/d57/classzir_1_1Argument.html#ad5f2e1f50f687197da3a22fa15e2f611",
+"d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ad09e18e6251f251a86cd6c7942354ec5",
+"d5/d23/namespacezap_1_1lsp.html#a62cbd82970b32545e9aee9e4520e736a",
+"d7/d1a/namespacezap.html#a790dc43d58221292d73e46d4fe12d79d",
+"d8/d68/classzir_1_1ArrayType.html#ae9bb7d4a334cfff417dad21225bafa04",
+"d9/d37/classsema_1_1BoundFallbackExpression.html#a744559bde86d749207a2696311ffb335",
+"da/d3d/classsema_1_1BoundRootNode.html#a99dae104acce35b8891156bb06a131fa",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a62f537e5a8ccb06c9f2a0f65344543a0",
+"db/db1/classsema_1_1FunctionSymbol.html#a645852dcbef00dfc9f58fd058fb56e48",
+"dc/d13/structVisitor.html#ac8cf6a8dfcbe7c3fcbc8eba6e89bc306",
+"dc/d2c/classsema_1_1Binder.html#ad6ce139a1c1a02635fbda40bd12245bd",
+"dd/d97/assign__node_8hpp.html",
+"de/d73/classzap_1_1Parser.html#a9c28de7f6f99698bea80383a60118066",
+"df/da0/classsema_1_1BoundFunctionCall.html#a6dfd4aa4ea2adf268b7846373880fdb3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
