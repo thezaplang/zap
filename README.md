@@ -1,18 +1,10 @@
 <h1 align="center">Zap Programming Language</h1>
-
-<p align="center">
-  <img src="art/Logo.svg" alt="Zap Logo" width="275" />
+<br>
+<p>
+  <img src="art/Logo.svg" alt="Zap Logo" width="250"  align="left"/>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Early%20Alpha-FF9800?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/License-Apache%202.0-4CAF50?style=for-the-badge&logo=apache&logoColor=white" />
-  <a href="https://github.com/thezaplang/zap">
-    <img src="https://img.shields.io/github/stars/thezaplang/zap?style=for-the-badge" />
-  </a>
-</p>
-
-> Systems programming that doesn't get in your way.
+Systems programming that doesn't get in your way.
 
 You want predictable performance. No GC pauses. Real enums.
 Error handling that doesn't look like noise.
@@ -21,34 +13,27 @@ Error handling that doesn't look like noise.
 or are ready to step into systems programming.** ARC memory
 model, LLVM backend, modern syntax. Write low-level software
 without low-level frustration.
-
+<br>
 [Discord](https://discord.gg/cVGqffBA6m) · [Roadmap](ROADMAP.md) · [Documentation](docs/README.md)
-
----
-
+<br clear="left">
+<br>
+<br>
 ## Why Zap?
 
-> [!WARNING]
-> Early alpha — not everything is implemented yet.
 
-| Problem | Zap's answer |
-|---|---|
-| GC pauses & unpredictable latency | ARC, memory freed deterministically |
-| No real enums | Enums with exhaustive pattern matching |
-| Verbose error handling | Failable functions |
-| Limited generics | Full static generics |
-| Concise conditional expressions | Ternary operator `?:` |
-| Single-platform compilers | LLVM: x86, ARM, RISC-V, WASM, embedded |
-| No lightweight concurrency | Fibers, like goroutines without the runtime cost |
-| Hard to triage compiler errors at scale | Stable diagnostic codes (`Pxxxx`, `Sxxxx`, `Wxxxx`, `Nxxxx`) in CLI and LSP |
+<ul>
+<li><b>deterministic memory management</b>: Even though Zap has automatic memory management, it deletes objects exactly when they are no longer needed.</li>
+<li><b>productivity</b>: Zap allows you to use an object-oriented approach, has a very fast compile-time, and has its own <a href="https://github.com/thezaplang/thor">build tool</a>
+<li><b>performance</b>: Zap, thanks to being free from the bloat of other languages, has a very fast compile time, and, thanks to LLVM and its own IR, the resulting application is really efficient.</li>
+</ul>
 
----
+<br>
 
 ## Cycles
 
 If you know what ARC is, you probably also know that when two objects point to each other, ARC will never delete them even though they are not needed.
-Swift added `weak` to prevent this, we also added weak in Zap, but it often happens that you simply don't see that there is a cycle somewhere.
-Zap solves this problem thanks to its Cycle Collector, i.e. it is actually a garbage collector operating on objects causing the cycle, REST OF OBJECTS ARE NOT AFFECTED (cycle collector can be disabled if someone needs it!)
+Swift added `weak` to prevent this. We also added weak in Zap, but it often happens that you simply don't see that there is a cycle somewhere.
+Zap solves this problem thanks to its Cycle Collector, i.e., it is actually a garbage collector operating on objects causing the cycle, REST OF OBJECTS ARE NOT AFFECTED (cycle collector can be disabled if someone needs it!)
 
 ---
 
