@@ -107,7 +107,7 @@ var hierarchy =
     [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
     [ "Lexer", "d6/dc0/classLexer.html", null ],
     [ "anonymous_namespace{lsp-main.cpp}::LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", null ],
-    [ "anonymous_namespace{lsp-main.cpp}::LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", null ],
+    [ "zap::lsp::LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", null ],
     [ "zir::Module", "d9/d68/classzir_1_1Module.html", null ],
     [ "sema::ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", null ],
     [ "sema::Binder::ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", null ],
@@ -176,6 +176,7 @@ var hierarchy =
     [ "std::runtime_error", null, [
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
+    [ "zap::frontend::RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", null ],
     [ "zap::lsp::Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", null ],
     [ "SourceSpan", "d4/d5b/structSourceSpan.html", null ],
     [ "zap::Stream", "d3/d09/classzap_1_1Stream.html", [

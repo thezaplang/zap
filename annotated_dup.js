@@ -4,7 +4,6 @@ var annotated_dup =
       [ "DocumentState", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState.html", "d6/d99/structanonymous__namespace_02lsp-main_8cpp_03_1_1DocumentState" ],
       [ "AnalysisResult", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult.html", "dd/d93/structanonymous__namespace_02lsp-main_8cpp_03_1_1AnalysisResult" ],
       [ "ProjectState", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState.html", "da/df8/structanonymous__namespace_02lsp-main_8cpp_03_1_1ProjectState" ],
-      [ "LspSymbol", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol.html", "d1/d24/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSymbol" ],
       [ "LspSignature", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature.html", "dc/db4/structanonymous__namespace_02lsp-main_8cpp_03_1_1LspSignature" ],
       [ "CallContext", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext.html", "d1/dc2/structanonymous__namespace_02lsp-main_8cpp_03_1_1CallContext" ],
       [ "HoverInfo", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo.html", "dd/d11/structanonymous__namespace_02lsp-main_8cpp_03_1_1HoverInfo" ],
@@ -76,7 +75,11 @@ var annotated_dup =
         [ "ArgHolder", "d6/d1a/classzap_1_1args_1_1ArgHolder.html", "d6/d1a/classzap_1_1args_1_1ArgHolder" ],
         [ "CmdlineArgs", "d9/d45/structzap_1_1args_1_1CmdlineArgs.html", "d9/d45/structzap_1_1args_1_1CmdlineArgs" ]
       ] ],
+      [ "frontend", "df/ddd/namespacezap_1_1frontend.html", [
+        [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ]
+      ] ],
       [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
+        [ "LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", "df/d17/structzap_1_1lsp_1_1LspSymbol" ],
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
         [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
         [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],

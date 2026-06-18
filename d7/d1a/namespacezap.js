@@ -2,19 +2,13 @@ var namespacezap =
 [
     [ "args", "d3/d6f/namespacezap_1_1args.html", "d3/d6f/namespacezap_1_1args" ],
     [ "anonymous_namespace{driver.cpp}", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html", [
-      [ "computeLogicalModulePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#aec887b6f2fdb75498785916f4fe3bd13", null ],
-      [ "currentExecutablePath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1b46bdefb6c665374ef9f52c428c8df1", null ],
       [ "emitRequestedTextOutputs", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3", null ],
-      [ "hasPreludeImport", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1dfe06e90d85cbd45c5741aeacd89198", null ],
-      [ "injectImplicitPreludeImportIfNeeded", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a7cd162e995dbf70b54bebdb9455821d9", null ],
       [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#afa2abc3cf7e9581c9db67aa702e37a76", null ],
       [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
-      [ "resolveImportTargets", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a776b3cdc01e11ae19e754adaaf9552fa", null ],
-      [ "stdlibObjectPath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a1904ce2bef785a25665b697eb2118993", null ],
-      [ "stdlibRootPath", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a240275382280d14435c28bf270732618", null ],
-      [ "stripSourceExtension", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acbf6eae3836b52a72fa7cee7634b63e1", null ],
+      [ "runtimePaths", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af576f68efd5d5dd96c06267a7974f2d5", null ],
       [ "g_executable_path", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a4d03d938e1256c804d3a8483d1823b61", null ]
     ] ],
+    [ "frontend", "df/ddd/namespacezap_1_1frontend.html", "df/ddd/namespacezap_1_1frontend" ],
     [ "lsp", "d5/d23/namespacezap_1_1lsp.html", "d5/d23/namespacezap_1_1lsp" ],
     [ "anonymous_namespace{parser.cpp}", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html", [
       [ "compoundAssignOp", "dc/d02/namespacezap_1_1anonymous__namespace_02parser_8cpp_03.html#a470f5f67db4c10a5819a62ce2a291180", null ],
