@@ -226,15 +226,14 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
   if (!ok)
     return ParseResult::Failed;
 
-  if (emitS) {
-    if (!emitLLVM && !emitZIR)
-      args.output.type = OutputType::ASM;
-  }
-
-  if (args.output.type == OutputType::EXEC) {
-    if (compileOnly) {
-      args.output.type = OutputType::OBJECT;
-    }
+  if (emitZIR) {
+    args.output.type = OutputType::ZIR;
+  } else if (emitLLVM) {
+    args.output.type = emitS ? OutputType::TEXT_LLVM : OutputType::LLVM;
+  } else if (emitS) {
+    args.output.type = OutputType::ASM;
+  } else if (compileOnly) {
+    args.output.type = OutputType::OBJECT;
   }
 
   if ((emitLLVM || emitZIR) && !args.output.implicit && (emitLLVM == emitZIR)) {
