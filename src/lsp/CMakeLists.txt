@@ -1,5 +1,6 @@
 set(LSP_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/lsp-main.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/language_features.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/lsp.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/protocol_messages.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/protocol_utils.cpp"
