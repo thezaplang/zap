@@ -45,6 +45,11 @@
         "comments": {
             "patterns": [
                 {
+                    "name": "comment.block.zap",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                },
+                {
                     "name": "comment.line.double-slash.zap",
                     "match": "//.*$"
                 }

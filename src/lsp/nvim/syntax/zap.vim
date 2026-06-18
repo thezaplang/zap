@@ -3,6 +3,7 @@ if exists("b:current_syntax")
 endif
 
 syntax case match
+syntax sync fromstart
 
 " Core language keywords
 syntax keyword zapConditional if else iftype match
@@ -27,6 +28,7 @@ syntax match zapNumber "\<0[bB][01_]\+\>"
 syntax match zapNumber "\<0[oO][0-7_]\+\>"
 syntax match zapNumber "\<[0-9]\+\(\.[0-9]\+\)\?\>"
 syntax keyword zapBoolean true false null
+syntax region zapBlockComment start="/\*" end="\*/" contains=@Spell keepend
 syntax region zapLineComment start="//" end="$" contains=@Spell keepend
 
 " Namespaces and symbols
@@ -81,8 +83,8 @@ syntax match zapComparisonOperator "==\|!=\|>=\|<=\|>\|<\ze\%([^A-Za-z_]\|$\)"
 syntax match zapBitwiseOperator "<<\|>>"
 syntax match zapTernaryOperator "?\|:"
 syntax match zapAssignmentOperator "="
-" Exclude // from arithmetic operator highlighting so line comments win.
-syntax match zapArithmeticOperator "\%(//\)\@![+\-/%^~]"
+" Exclude comment starts from arithmetic operator highlighting so comments win.
+syntax match zapArithmeticOperator "\%(//\|/\*\)\@![+\-/%^~]"
 syntax match zapUnaryOperator "!"
 syntax match zapPointerOperator "\%(^\|[^A-Za-z0-9_]\)\zs[&*]\ze\%([^=]\|$\)"
 
@@ -94,6 +96,7 @@ highlight default link zapStorageClass StorageClass
 highlight default link zapStructure Structure
 
 highlight default link zapLineComment Comment
+highlight default link zapBlockComment Comment
 highlight default link zapString String
 highlight default link zapEscape SpecialChar
 highlight default link zapChar Character

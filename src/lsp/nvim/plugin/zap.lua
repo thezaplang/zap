@@ -107,6 +107,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "zap",
   callback = function(args)
     vim.bo[args.buf].commentstring = "// %s"
+    vim.bo[args.buf].comments = "s1:/*,mb:*,ex:*/,://"
     vim.bo[args.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
     -- Force reliable syntax activation for zap buffers.

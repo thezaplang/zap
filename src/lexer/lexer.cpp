@@ -211,6 +211,32 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           ++_pos;
         }
         continue;
+      } else if (Peek2() == '*') {
+        _pos += 2;
+        _column += 2;
+        bool closed = false;
+        while (!isAtEnd()) {
+          if (_input[_pos] == '*' && Peek2() == '/') {
+            _pos += 2;
+            _column += 2;
+            closed = true;
+            break;
+          }
+          if (_input[_pos] == '\n') {
+            ++_line;
+            _column = 1;
+          } else {
+            ++_column;
+          }
+          ++_pos;
+        }
+        if (!closed) {
+          _diag.report(
+              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+              zap::DiagnosticLevel::Error, "Unterminated block comment");
+          return tokens;
+        }
+        continue;
       } else if (Peek2() == '=') {
         tokens.emplace_back(TokenType::SLASH_ASSIGN, "/=", startLine,
                             startColumn, startPos, 2);

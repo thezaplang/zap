@@ -1,0 +1,4 @@
+fun main() Int {
+    /* missing terminator
+    return 1;
+}

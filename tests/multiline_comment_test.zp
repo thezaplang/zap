@@ -1,0 +1,13 @@
+/*
+  Top-level block comments should be ignored by the lexer.
+*/
+fun main() Int {
+    var value: Int = 20;
+    /*
+      Tokens inside block comments must not reach the parser:
+      return 1;
+      var broken = ;
+    */
+    value += 22; /* inline block comment */
+    return value - 42;
+}
