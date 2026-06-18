@@ -79,18 +79,18 @@ var NAVTREEINDEX =
 "d2/ddf/classzir_1_1CondBranchInst.html#ad93c679d491759ff9da962cce55fcc86",
 "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daabc57d158e98071ed3c9e4dea90a2fe7c",
 "d4/d52/structsema_1_1Binder_1_1ClassInfo.html#af3038fe2d2645ceea839e9d97d42e2a7",
-"d5/d59/namespacezap_1_1detail.html#a8ef9daef2101239d359d560fab8ed0ab",
-"d7/d6e/classzir_1_1BasicBlock.html#a5bd36183b510f980ef9e6ef69a811bfd",
-"d8/ddd/classAsmStmtNode.html#a552ffeb60ff47510fd31752ee4702d6c",
-"d9/d68/classzir_1_1Module.html#a8fbc8e5d660f5efe8aab99315699e814",
-"da/db6/classzir_1_1RetainInst.html#a6c957f4cd32bbc41d6b5f0e9afb2c106",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#ac422baac0ccf9876da632ad18e8e07f2",
-"db/dfa/stdlib_8c.html#a265aca7debb8df2479eea9aa423ea772",
-"dc/d2c/classsema_1_1Binder.html#a316acd01780dd2a3af58785e436375a3",
-"dc/d90/classzir_1_1Function.html#a59a3a5d39cef7a8e0cf09bc88b5a0a83",
-"de/d14/classsema_1_1OverloadSetSymbol.html#a57c2fae15a82773db1a1173a50d4ecfd",
-"de/df0/classBodyNode.html",
-"df/ddd/namespacezap_1_1frontend.html#a5f5c5dad013c86a7ffa5545a8a2f69bd"
+"d5/d3f/classImportNode.html#a3359ebbc1b6bed869e9dc9bcda5abde4",
+"d7/d39/namespacesema.html#a4a94bb1034064c1900bfb79268609cc0",
+"d8/da7/arc__layout_8h.html#a31de6f1070bcddf4fb7092a9fc278a53",
+"d9/d59/classNewExpr.html",
+"da/d6b/classsema_1_1BoundFunctionReference.html#aa455f52f25521479a8d217bd7a9ce0b8",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a9b1d5358bf357fc32a680eabe9a48c97",
+"db/dee/classzir_1_1GetElementPtrInst.html",
+"dc/d2c/classsema_1_1Binder.html#a18fd96691df629a0a4b886f35c0afbbf",
+"dc/d2e/classzir_1_1StoreInst.html#ab0926b278169260053fe2aeb07608e0f",
+"dd/df9/argparse_8cpp_source.html",
+"de/de6/import__node_8hpp.html",
+"df/ddd/namespacezap_1_1frontend.html#a06b19cd0588a07f80f2b79e2d2414244"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
