@@ -210,6 +210,7 @@ var hierarchy =
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
       [ "zir::AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", null ],
       [ "zir::Argument", "d3/d57/classzir_1_1Argument.html", null ],
+      [ "zir::ArrayConstant", "d1/dc9/classzir_1_1ArrayConstant.html", null ],
       [ "zir::Constant", "da/d2d/classzir_1_1Constant.html", null ],
       [ "zir::Global", "d0/d8c/classzir_1_1Global.html", null ],
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]

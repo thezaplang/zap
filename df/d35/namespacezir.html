@@ -106,6 +106,7 @@ Classes</h2></td></tr>
 <tr class="memitem:Register" id="r_Register"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d1e/classzir_1_1Register.html">Register</a></td></tr>
 <tr class="memitem:Constant" id="r_Constant"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d2d/classzir_1_1Constant.html">Constant</a></td></tr>
 <tr class="memitem:AggregateConstant" id="r_AggregateConstant"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html">AggregateConstant</a></td></tr>
+<tr class="memitem:ArrayConstant" id="r_ArrayConstant"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html">ArrayConstant</a></td></tr>
 <tr class="memitem:Argument" id="r_Argument"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d57/classzir_1_1Argument.html">Argument</a></td></tr>
 <tr class="memitem:Global" id="r_Global"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/classzir_1_1Global.html">Global</a></td></tr>
 </table><table class="memberdecls">
@@ -227,6 +228,8 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a>
 , <br />
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488">AggregateConstant</a>
+, <br />
+&#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe">ArrayConstant</a>
 , <br />
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a>
 , <br />
@@ -473,6 +476,7 @@ Enumerations</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4" name="a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4"></a>Register&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255" name="a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"></a>Constant&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488" name="a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488"></a>AggregateConstant&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe" name="a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe"></a>ArrayConstant&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb" name="a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb"></a>Argument&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8" name="a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"></a>Global&#160;</td><td class="fielddoc"></td></tr>
 </table>
@@ -482,12 +486,14 @@ Enumerations</h2></td></tr>
 <div class="line"><span class="lineno">   10</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4">Register</a>,</div>
 <div class="line"><span class="lineno">   11</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">Constant</a>,</div>
 <div class="line"><span class="lineno">   12</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488">AggregateConstant</a>,</div>
-<div class="line"><span class="lineno">   13</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a>,</div>
-<div class="line"><span class="lineno">   14</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">Global</a></div>
-<div class="line"><span class="lineno">   15</span>};</div>
+<div class="line"><span class="lineno">   13</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe">ArrayConstant</a>,</div>
+<div class="line"><span class="lineno">   14</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">Argument</a>,</div>
+<div class="line"><span class="lineno">   15</span>  <a class="code hl_enumvalue" href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">Global</a></div>
+<div class="line"><span class="lineno">   16</span>};</div>
+<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe">zir::ValueKind::ArrayConstant</a></div><div class="ttdeci">@ ArrayConstant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00013">value.hpp:13</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a0ba7583639a274c434bbe6ef797115a4">zir::ValueKind::Register</a></div><div class="ttdeci">@ Register</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00010">value.hpp:10</a></div></div>
-<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">zir::ValueKind::Argument</a></div><div class="ttdeci">@ Argument</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00013">value.hpp:13</a></div></div>
-<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::ValueKind::Global</a></div><div class="ttdeci">@ Global</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00014">value.hpp:14</a></div></div>
+<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">zir::ValueKind::Argument</a></div><div class="ttdeci">@ Argument</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00014">value.hpp:14</a></div></div>
+<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::ValueKind::Global</a></div><div class="ttdeci">@ Global</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00015">value.hpp:15</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">zir::ValueKind::Constant</a></div><div class="ttdeci">@ Constant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00011">value.hpp:11</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488">zir::ValueKind::AggregateConstant</a></div><div class="ttdeci">@ AggregateConstant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00012">value.hpp:12</a></div></div>
 </div><!-- fragment -->

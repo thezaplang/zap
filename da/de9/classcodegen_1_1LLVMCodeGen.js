@@ -38,6 +38,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "isOwnedStringType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a97d7685e8e82a86ff9701cc947fa589d", null ],
     [ "isWeakClassType", "da/de9/classcodegen_1_1LLVMCodeGen.html#aea40a6c5f785fb226f6940b6d1f66c2e", null ],
     [ "lowerZIRAggregateConstant", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3d7ae8234685ecf142610d531d8eee35", null ],
+    [ "lowerZIRArrayConstant", "da/de9/classcodegen_1_1LLVMCodeGen.html#a271b4b9de5359ec2f4ba1712f0dcf6d6", null ],
     [ "lowerZIRCast", "da/de9/classcodegen_1_1LLVMCodeGen.html#a8790bb73812f29f115bce58c670e9fe2", null ],
     [ "lowerZIRConstant", "da/de9/classcodegen_1_1LLVMCodeGen.html#a9c43c2cdab04db1ac5b4377e0e8d7ff8", null ],
     [ "lowerZIRRValue", "da/de9/classcodegen_1_1LLVMCodeGen.html#afaca4118cf5f3527b29c3e6f241d78a6", null ],
