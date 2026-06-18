@@ -1,13 +1,14 @@
 #include "driver/args/argparse.hpp"
+#include "frontend/module_loader.hpp"
 #include "lexer/lexer.hpp"
 #include "lsp.hpp"
+#include "lsp/symbol_index.hpp"
 #include "parser/parser.hpp"
 #include "sema/binder.hpp"
 #include "sema/module_info.hpp"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
-#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <map>
@@ -68,77 +69,6 @@ getIntegerField(const JsonObject &object,
     return std::nullopt;
   }
   return value->getAsInteger();
-}
-
-std::string stripSourceExtension(const std::filesystem::path &path) {
-  auto normalized = path.generic_string();
-  if (path.extension() == ".zp" && normalized.size() >= 4) {
-    normalized.resize(normalized.size() - 3);
-  }
-  return normalized;
-}
-
-std::filesystem::path stdlibRootPath() {
-  static std::optional<std::filesystem::path> cachedPath;
-  if (cachedPath) {
-    return *cachedPath;
-  }
-
-  auto computePath = []() -> std::filesystem::path {
-    if (const char *configured = std::getenv("ZAPC_STDLIB_DIR")) {
-      if (*configured != '\0') {
-        return std::filesystem::path(configured);
-      }
-    }
-
-    std::error_code ec;
-    auto exePath = std::filesystem::read_symlink("/proc/self/exe", ec);
-    if (!ec && !exePath.empty()) {
-      auto siblingStd =
-          std::filesystem::weakly_canonical(exePath).parent_path() / "std";
-      if (std::filesystem::exists(siblingStd) &&
-          std::filesystem::is_directory(siblingStd)) {
-        return siblingStd;
-      }
-    }
-
-    return std::filesystem::path(ZAPC_STDLIB_DIR);
-  };
-
-  cachedPath = computePath();
-  return *cachedPath;
-}
-
-std::string
-computeLogicalModulePath(const std::filesystem::path &canonicalPath) {
-  auto stdRoot = std::filesystem::weakly_canonical(stdlibRootPath());
-  auto cwdRoot =
-      std::filesystem::weakly_canonical(std::filesystem::current_path());
-
-  auto buildRelative = [&](const std::filesystem::path &root,
-                           const std::string &prefix =
-                               "") -> std::optional<std::string> {
-    auto rootText = root.generic_string();
-    auto pathText = canonicalPath.generic_string();
-    if (pathText == rootText || pathText.rfind(rootText + "/", 0) != 0) {
-      return std::nullopt;
-    }
-
-    auto rel = std::filesystem::relative(canonicalPath, root);
-    auto stripped = stripSourceExtension(rel);
-    if (prefix.empty()) {
-      return stripped;
-    }
-    return prefix + "/" + stripped;
-  };
-
-  if (auto logical = buildRelative(stdRoot, "std")) {
-    return *logical;
-  }
-  if (auto logical = buildRelative(cwdRoot)) {
-    return *logical;
-  }
-  return stripSourceExtension(canonicalPath.filename());
 }
 
 std::optional<std::filesystem::path> uriToPath(std::string_view uri) {
@@ -236,93 +166,6 @@ zap::args::CmdlineArgs findAndReadFlags(std::filesystem::path startPath) {
   return {};
 }
 
-bool hasPreludeImport(const RootNode &root) {
-  for (const auto &child : root.children) {
-    auto importNode = dynamic_cast<ImportNode *>(child.get());
-    if (!importNode) {
-      continue;
-    }
-    if (importNode->path == "std/prelude") {
-      return true;
-    }
-  }
-  return false;
-}
-
-void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module) {
-  if (module.linkPath.rfind("std/", 0) == 0) {
-    return;
-  }
-  if (!module.root || hasPreludeImport(*module.root)) {
-    return;
-  }
-
-  auto import = std::make_unique<ImportNode>("std/prelude");
-  module.root->children.insert(module.root->children.begin(),
-                               std::move(import));
-}
-
-bool resolveImportTargets(const std::filesystem::path &modulePath,
-                          const ImportNode &importNode,
-                          std::vector<std::filesystem::path> &targets,
-                          const zap::args::ImportMap &importMap) {
-  std::filesystem::path resolvedPath;
-  const std::string &importPath = importNode.path;
-
-  // TODO: duplicated logic (see driver.cpp:236 resolveImportTargets)
-  //       this probably should be refactored into
-  //       a shared utility function.
-  bool resolvedViaMap = false;
-  for (const auto &[alias, target] : importMap) {
-    if (importPath.rfind(alias, 0) == 0) {
-      std::string rest = importPath.substr(alias.size());
-      if (!rest.empty() && rest[0] == '/')
-        rest = rest.substr(1);
-      resolvedPath = std::filesystem::path(target) / rest;
-      resolvedViaMap = true;
-      break;
-    }
-  }
-
-  if (!resolvedViaMap) {
-    if (importPath.rfind("std/", 0) == 0) {
-      resolvedPath =
-          stdlibRootPath() / importPath.substr(std::string("std/").size());
-    } else {
-      resolvedPath = modulePath.parent_path() / importPath;
-    }
-  }
-  resolvedPath = resolvedPath.lexically_normal();
-
-  auto tryFile = [&](const std::filesystem::path &path) -> bool {
-    if (std::filesystem::exists(path) &&
-        std::filesystem::is_regular_file(path)) {
-      targets.push_back(std::filesystem::weakly_canonical(path));
-      return true;
-    }
-    return false;
-  };
-
-  if (tryFile(resolvedPath)) {
-    return true;
-  }
-  if (resolvedPath.extension() != ".zp" &&
-      tryFile(resolvedPath.string() + ".zp")) {
-    return true;
-  }
-  if (std::filesystem::exists(resolvedPath) &&
-      std::filesystem::is_directory(resolvedPath)) {
-    for (const auto &entry :
-         std::filesystem::directory_iterator(resolvedPath)) {
-      if (entry.is_regular_file() && entry.path().extension() == ".zp") {
-        targets.push_back(std::filesystem::weakly_canonical(entry.path()));
-      }
-    }
-    return !targets.empty();
-  }
-  return false;
-}
-
 struct AnalysisResult {
   std::unordered_map<std::string, std::vector<zap::Diagnostic>>
       diagnosticsByUri;
@@ -332,14 +175,6 @@ struct ProjectState {
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
   std::unordered_map<std::string, std::string> uriByModuleId;
   AnalysisResult analysis;
-};
-
-struct LspSymbol {
-  std::string name;
-  std::string uri;
-  SourceSpan span;
-  int64_t completionKind = 6;
-  Visibility visibility = Visibility::Private;
 };
 
 struct LspSignature {
@@ -1719,96 +1554,6 @@ collectExportedSymbolsRecursive(const ProjectState &project,
   return symbols;
 }
 
-void collectLocalsInBody(const BodyNode *body, size_t offset,
-                         const std::string &uri,
-                         std::vector<LspSymbol> &symbols);
-
-void collectLocalsFromNode(const Node *node, size_t offset,
-                           const std::string &uri,
-                           std::vector<LspSymbol> &symbols) {
-  if (!node) {
-    return;
-  }
-
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    if (!containsOffset(var->span, offset) && var->span.offset > offset) {
-      return;
-    }
-    if (var->span.offset <= offset) {
-      symbols.push_back(*makeSymbol(uri, var->name_, var->span, 6));
-    }
-    return;
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    if (!containsOffset(cnst->span, offset) && cnst->span.offset > offset) {
-      return;
-    }
-    if (cnst->span.offset <= offset) {
-      symbols.push_back(*makeSymbol(uri, cnst->name_, cnst->span, 21));
-    }
-    return;
-  }
-  if (auto body = dynamic_cast<const BodyNode *>(node)) {
-    collectLocalsInBody(body, offset, uri, symbols);
-    return;
-  }
-  if (auto ifNode = dynamic_cast<const IfNode *>(node)) {
-    if (!containsOffset(ifNode->span, offset)) {
-      return;
-    }
-    if (ifNode->thenBody_ &&
-        (!ifNode->thenBody_->statements.empty() || ifNode->thenBody_->result) &&
-        (ifNode->thenBody_->statements.empty() ||
-         offset >= ifNode->thenBody_->statements.front()->span.offset)) {
-      collectLocalsInBody(ifNode->thenBody_.get(), offset, uri, symbols);
-    } else if (ifNode->elseBody_) {
-      collectLocalsInBody(ifNode->elseBody_.get(), offset, uri, symbols);
-    }
-    return;
-  }
-  if (auto whileNode = dynamic_cast<const WhileNode *>(node)) {
-    if (containsOffset(whileNode->span, offset) && whileNode->body_) {
-      collectLocalsInBody(whileNode->body_.get(), offset, uri, symbols);
-    }
-    return;
-  }
-}
-
-void collectLocalsInBody(const BodyNode *body, size_t offset,
-                         const std::string &uri,
-                         std::vector<LspSymbol> &symbols) {
-  for (const auto &statement : body->statements) {
-    if (!statement || statement->span.offset > offset) {
-      break;
-    }
-    if (auto var = dynamic_cast<const VarDecl *>(statement.get())) {
-      symbols.push_back(*makeSymbol(uri, var->name_, var->span, 6));
-    } else if (auto cnst = dynamic_cast<const ConstDecl *>(statement.get())) {
-      symbols.push_back(*makeSymbol(uri, cnst->name_, cnst->span, 21));
-    }
-    collectLocalsFromNode(statement.get(), offset, uri, symbols);
-  }
-}
-
-std::vector<LspSymbol> collectLocalSymbols(const RootNode &root, size_t offset,
-                                           const std::string &uri) {
-  std::vector<LspSymbol> symbols;
-  for (const auto &child : root.children) {
-    auto fun = dynamic_cast<const FunDecl *>(child.get());
-    if (!fun || !fun->body_ || !containsOffset(fun->span, offset)) {
-      continue;
-    }
-    for (const auto &param : fun->params_) {
-      if (param) {
-        symbols.push_back(*makeSymbol(uri, param->name, param->span, 6));
-      }
-    }
-    collectLocalsInBody(fun->body_.get(), offset, uri, symbols);
-    break;
-  }
-  return symbols;
-}
-
 JsonObject makeLocation(const std::string &uri, const SourceSpan &span) {
   zap::DiagnosticRange range{{span.line, span.column, span.offset},
                              {span.line,
@@ -1840,6 +1585,12 @@ class Workspace {
   std::unordered_map<std::string, DocumentState> documentsByUri_;
   std::unordered_map<std::string, std::string> uriByCanonicalPath_;
   mutable std::unordered_map<std::string, CachedFile> fileContentCache_;
+
+  zap::frontend::RuntimePaths runtimePaths() const {
+    return zap::frontend::RuntimePaths{std::filesystem::path(),
+                                       std::filesystem::path(ZAPC_STDLIB_DIR),
+                                       std::filesystem::path()};
+  }
 
   std::optional<std::string>
   sourceForPath(const std::filesystem::path &path) const {
@@ -1924,11 +1675,12 @@ class Workspace {
     auto module = std::make_unique<sema::ModuleInfo>();
     module->moduleId = moduleId;
     module->moduleName = canonicalPath.stem().string();
-    module->linkPath = computeLogicalModulePath(canonicalPath);
+    module->linkPath =
+        zap::frontend::computeLogicalModulePath(canonicalPath, runtimePaths());
     module->sourceName = canonicalPath.string();
     module->root = std::move(ast);
 
-    injectImplicitPreludeImportIfNeeded(*module);
+    zap::frontend::injectImplicitPreludeImportIfNeeded(*module, true);
 
     for (const auto &child : module->root->children) {
       auto importNode = dynamic_cast<ImportNode *>(child.get());
@@ -1936,26 +1688,15 @@ class Workspace {
         continue;
       }
 
-      sema::ResolvedImport resolved;
-      resolved.rawPath = importNode->path;
-      resolved.moduleAlias = importNode->moduleAlias;
-      resolved.visibility = importNode->visibility_;
-      resolved.span = importNode->span;
-      for (const auto &binding : importNode->bindings) {
-        resolved.bindings.push_back({binding.sourceName, binding.localName});
-      }
-
       std::vector<std::filesystem::path> importTargets;
-      if (!resolveImportTargets(canonicalPath, *importNode, importTargets,
-                                importMap)) {
+      if (!zap::frontend::resolveImportTargets(canonicalPath, *importNode,
+                                               importTargets, importMap,
+                                               runtimePaths())) {
         continue;
       }
 
-      for (const auto &target : importTargets) {
-        resolved.targetModuleIds.push_back(target.string());
-      }
-
-      module->imports.push_back(std::move(resolved));
+      module->imports.push_back(
+          zap::frontend::makeResolvedImport(*importNode, importTargets));
     }
 
     for (const auto &import : module->imports) {

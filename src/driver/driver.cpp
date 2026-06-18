@@ -1,6 +1,7 @@
 #include "driver/driver.hpp"
 #include "ast/import_node.hpp"
 #include "codegen/llvm_codegen.hpp"
+#include "frontend/module_loader.hpp"
 #include "ir/ir_generator.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
@@ -15,10 +16,8 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <optional>
 #include <set>
 #include <string_view>
-#include <unistd.h>
 
 namespace zap {
 bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput);
@@ -77,99 +76,10 @@ bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
 
 std::filesystem::path g_executable_path;
 
-std::optional<std::filesystem::path>
-currentExecutablePath(const std::filesystem::path &argv0Hint) {
-  std::error_code ec;
-  auto procPath = std::filesystem::read_symlink("/proc/self/exe", ec);
-  if (!ec && !procPath.empty()) {
-    return std::filesystem::weakly_canonical(procPath);
-  }
-
-  if (!argv0Hint.empty()) {
-    auto resolved = argv0Hint.is_absolute()
-                        ? argv0Hint
-                        : std::filesystem::current_path() / argv0Hint;
-    return std::filesystem::weakly_canonical(resolved, ec);
-  }
-
-  return std::nullopt;
-}
-
-std::filesystem::path stdlibRootPath(const std::filesystem::path &argv0Hint) {
-  if (const char *configured = std::getenv("ZAPC_STDLIB_DIR")) {
-    if (*configured != '\0') {
-      return std::filesystem::path(configured);
-    }
-  }
-
-  if (auto exePath = currentExecutablePath(argv0Hint)) {
-    auto siblingStd = exePath->parent_path() / "std";
-    if (std::filesystem::exists(siblingStd) &&
-        std::filesystem::is_directory(siblingStd)) {
-      return siblingStd;
-    }
-  }
-
-  return std::filesystem::path(ZAPC_STDLIB_DIR);
-}
-
-std::filesystem::path stdlibObjectPath(const std::filesystem::path &argv0Hint) {
-  if (const char *configured = std::getenv("ZAPC_STDLIB_PATH")) {
-    if (*configured != '\0') {
-      return std::filesystem::path(configured);
-    }
-  }
-
-  if (auto exePath = currentExecutablePath(argv0Hint)) {
-    auto siblingObject = exePath->parent_path() / "stdlib.o";
-    if (std::filesystem::exists(siblingObject) &&
-        std::filesystem::is_regular_file(siblingObject)) {
-      return siblingObject;
-    }
-  }
-
-  return std::filesystem::path(ZAPC_STDLIB_PATH);
-}
-
-std::string stripSourceExtension(const std::filesystem::path &path) {
-  auto normalized = path.generic_string();
-  if (path.extension() == ".zp" && normalized.size() >= 4) {
-    normalized.resize(normalized.size() - 4);
-  }
-  return normalized;
-}
-
-std::string
-computeLogicalModulePath(const std::filesystem::path &canonicalPath) {
-  auto stdRoot =
-      std::filesystem::weakly_canonical(stdlibRootPath(g_executable_path));
-  auto cwdRoot =
-      std::filesystem::weakly_canonical(std::filesystem::current_path());
-
-  auto buildRelative = [&](const std::filesystem::path &root,
-                           const std::string &prefix =
-                               "") -> std::optional<std::string> {
-    auto rootText = root.generic_string();
-    auto pathText = canonicalPath.generic_string();
-    if (pathText == rootText || pathText.rfind(rootText + "/", 0) != 0) {
-      return std::nullopt;
-    }
-
-    auto rel = std::filesystem::relative(canonicalPath, root);
-    auto stripped = stripSourceExtension(rel);
-    if (prefix.empty()) {
-      return stripped;
-    }
-    return prefix + "/" + stripped;
-  };
-
-  if (auto logical = buildRelative(stdRoot, "std")) {
-    return *logical;
-  }
-  if (auto logical = buildRelative(cwdRoot)) {
-    return *logical;
-  }
-  return stripSourceExtension(canonicalPath.filename());
+frontend::RuntimePaths runtimePaths() {
+  return frontend::RuntimePaths{g_executable_path,
+                                std::filesystem::path(ZAPC_STDLIB_DIR),
+                                std::filesystem::path(ZAPC_STDLIB_PATH)};
 }
 
 bool readSourceFile(const std::filesystem::path &path, std::string &content) {
@@ -191,103 +101,6 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
   }
 
   return false;
-}
-
-bool hasPreludeImport(const RootNode &root) {
-  for (const auto &child : root.children) {
-    auto importNode = dynamic_cast<ImportNode *>(child.get());
-    if (!importNode) {
-      continue;
-    }
-    if (importNode->path == "std/prelude") {
-      return true;
-    }
-  }
-  return false;
-}
-
-void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
-                                         bool incStdlib) {
-  if (!incStdlib) {
-    return;
-  }
-  // Keep stdlib modules self-contained; prelude is for userland ergonomics.
-  if (module.linkPath.rfind("std/", 0) == 0) {
-    return;
-  }
-  if (!module.root || hasPreludeImport(*module.root)) {
-    return;
-  }
-
-  auto import = std::make_unique<ImportNode>("std/prelude");
-  module.root->children.insert(module.root->children.begin(),
-                               std::move(import));
-}
-
-bool resolveImportTargets(
-    const std::filesystem::path &modulePath, const ImportNode &importNode,
-    std::vector<std::filesystem::path> &targets,
-    const std::unordered_map<std::string, std::string> &importMap) {
-  std::filesystem::path resolvedPath;
-  const std::string &importPath = importNode.path;
-
-  bool resolvedViaMap = false;
-  for (const auto &[alias, target] : importMap) {
-    if (importPath.rfind(alias, 0) == 0) {
-      std::string rest = importPath.substr(alias.size());
-      if (!rest.empty() && rest[0] == '/')
-        rest = rest.substr(1);
-      resolvedPath = std::filesystem::path(target) / rest;
-      resolvedViaMap = true;
-      break;
-    }
-  }
-
-  if (!resolvedViaMap) {
-    if (importPath.rfind("std/", 0) == 0) {
-      resolvedPath = stdlibRootPath(g_executable_path) /
-                     importPath.substr(std::string("std/").size());
-    } else {
-      resolvedPath = modulePath.parent_path() / importPath;
-    }
-  }
-  resolvedPath = resolvedPath.lexically_normal();
-
-  auto tryFile = [&](const std::filesystem::path &path) -> bool {
-    if (std::filesystem::exists(path) &&
-        std::filesystem::is_regular_file(path)) {
-      targets.push_back(std::filesystem::weakly_canonical(path));
-      return true;
-    }
-    return false;
-  };
-
-  if (tryFile(resolvedPath)) {
-    return false;
-  }
-
-  if (resolvedPath.extension() != ".zp" &&
-      tryFile(resolvedPath.string() + ".zp")) {
-    return false;
-  }
-
-  if (std::filesystem::exists(resolvedPath) &&
-      std::filesystem::is_directory(resolvedPath)) {
-    for (const auto &entry :
-         std::filesystem::directory_iterator(resolvedPath)) {
-      if (!entry.is_regular_file()) {
-        continue;
-      }
-      if (entry.path().extension() == ".zp") {
-        targets.push_back(std::filesystem::weakly_canonical(entry.path()));
-      }
-    }
-    std::sort(targets.begin(), targets.end());
-    return false;
-  }
-
-  driver::reportError("import path not found: ", resolvedPath);
-  return true;
 }
 
 bool loadModuleGraph(
@@ -329,10 +142,11 @@ bool loadModuleGraph(
   auto module = std::make_unique<sema::ModuleInfo>();
   module->moduleId = moduleId;
   module->moduleName = canonicalPath.stem().string();
-  module->linkPath = computeLogicalModulePath(canonicalPath);
+  module->linkPath =
+      frontend::computeLogicalModulePath(canonicalPath, runtimePaths());
   module->sourceName = canonicalPath.string();
   module->root = std::move(ast);
-  injectImplicitPreludeImportIfNeeded(*module, incStdlib);
+  frontend::injectImplicitPreludeImportIfNeeded(*module, incStdlib);
 
   for (const auto &child : module->root->children) {
     auto importNode = dynamic_cast<ImportNode *>(child.get());
@@ -340,26 +154,17 @@ bool loadModuleGraph(
       continue;
     }
 
-    sema::ResolvedImport resolved;
-    resolved.rawPath = importNode->path;
-    resolved.moduleAlias = importNode->moduleAlias;
-    resolved.visibility = importNode->visibility_;
-    resolved.span = importNode->span;
-    for (const auto &binding : importNode->bindings) {
-      resolved.bindings.push_back({binding.sourceName, binding.localName});
-    }
-
     std::vector<std::filesystem::path> importTargets;
-    if (resolveImportTargets(canonicalPath, *importNode, importTargets,
-                             importMap)) {
+    std::string importError;
+    if (!frontend::resolveImportTargets(canonicalPath, *importNode,
+                                        importTargets, importMap,
+                                        runtimePaths(), &importError)) {
+      driver::reportError(importError);
       return true;
     }
 
-    for (const auto &target : importTargets) {
-      resolved.targetModuleIds.push_back(target.string());
-    }
-
-    module->imports.push_back(std::move(resolved));
+    module->imports.push_back(
+        frontend::makeResolvedImport(*importNode, importTargets));
   }
 
   for (const auto &import : module->imports) {
@@ -713,7 +518,10 @@ bool driver::link() {
   std::string cmd = "/usr/bin/cc ";
 
   if (cmdArgs.incStdlib) {
-    cmd += stdlibObjectPath(executable_path).string() + " ";
+    auto paths = frontend::RuntimePaths{
+        executable_path, std::filesystem::path(ZAPC_STDLIB_DIR),
+        std::filesystem::path(ZAPC_STDLIB_PATH)};
+    cmd += frontend::stdlibObjectPath(paths).string() + " ";
   } else {
     cmd += "-nostdlib ";
   }

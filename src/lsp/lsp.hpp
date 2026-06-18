@@ -1,5 +1,7 @@
 #pragma once
 
+#include "token/token.hpp"
+#include "visibility.hpp"
 #include <cstdint>
 #include <iostream>
 #include <string>
@@ -9,6 +11,14 @@
 #include <vector>
 
 namespace zap::lsp {
+
+struct LspSymbol {
+  std::string name;
+  std::string uri;
+  SourceSpan span;
+  int64_t completionKind = 6;
+  Visibility visibility = Visibility::Private;
+};
 
 class JsonObject {
 public:

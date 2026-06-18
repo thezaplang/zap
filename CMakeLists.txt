@@ -14,6 +14,7 @@ set(SOURCES
     src/main.cpp
     src/lexer/lexer.cpp
     src/parser/parser.cpp
+    src/frontend/module_loader.cpp
     src/ir/ir_generator.cpp
     src/sema/binder.cpp
     src/sema/binder_decls.cpp
@@ -84,4 +85,3 @@ option(INCLUDE_LSP "Should the LSP binary be compiled" ON)
 if(INCLUDE_LSP)
     add_subdirectory(src/lsp)
 endif()
-
