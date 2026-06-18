@@ -23,6 +23,7 @@ set(SOURCES
     src/sema/binder_types.cpp
     src/codegen/llvm_codegen.cpp
     src/codegen/llvm_codegen_constants.cpp
+    src/codegen/llvm_codegen_zir.cpp
     src/codegen/llvm_codegen_arc.cpp
     src/codegen/class_arc_emitter.cpp
     src/driver/driver.cpp
