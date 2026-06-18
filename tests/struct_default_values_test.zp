@@ -1,0 +1,49 @@
+struct Config {
+  retries: Int = 3,
+  enabled: Bool = true,
+  marker: Char = 'z',
+  fallback: Int,
+}
+
+fun main() Int {
+  var empty: Config = Config {};
+  if empty.retries != 3 {
+    return 1;
+  }
+  if !empty.enabled {
+    return 2;
+  }
+  if empty.marker != 'z' {
+    return 3;
+  }
+  if empty.fallback != 0 {
+    return 4;
+  }
+
+  var partial: Config = Config { enabled: false };
+  if partial.retries != 3 {
+    return 5;
+  }
+  if partial.enabled {
+    return 6;
+  }
+  if partial.marker != 'z' {
+    return 7;
+  }
+
+  var override: Config = Config { retries: 9, marker: 'x', fallback: 4 };
+  if override.retries != 9 {
+    return 8;
+  }
+  if !override.enabled {
+    return 9;
+  }
+  if override.marker != 'x' {
+    return 10;
+  }
+  if override.fallback != 4 {
+    return 11;
+  }
+
+  return 0;
+}

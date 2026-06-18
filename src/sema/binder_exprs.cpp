@@ -1808,6 +1808,11 @@ void Binder::visit(StructLiteralNode &node) {
   }
 
   auto recordType = std::static_pointer_cast<zir::RecordType>(mappedType);
+  const StructDeclarationNode *structDecl = nullptr;
+  if (auto sdIt = structTypeDeclarationNodes_.find(typeSymbol.get());
+      sdIt != structTypeDeclarationNodes_.end()) {
+    structDecl = sdIt->second;
+  }
   std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>>
       boundFields;
   std::vector<std::string> missingFields;
@@ -1869,8 +1874,42 @@ void Binder::visit(StructLiteralNode &node) {
       }
     }
     if (!initialized) {
-      missingFields.push_back(f.name);
-      boundFields.push_back({f.name, makeDefaultValueExpr(f.type)});
+      const ParameterNode *declField = nullptr;
+      if (structDecl) {
+        for (const auto &candidate : structDecl->fields_) {
+          if (candidate->name == f.name) {
+            declField = candidate.get();
+            break;
+          }
+        }
+      }
+
+      std::unique_ptr<BoundExpression> defaultValue;
+      bool hasDeclaredDefault = declField && declField->defaultValue;
+      if (hasDeclaredDefault) {
+        defaultValue =
+            bindExpressionWithExpected(declField->defaultValue.get(), f.type);
+        if (!defaultValue) {
+          defaultValue = nullptr;
+        } else if (!canConvert(defaultValue->type, f.type)) {
+          error(declField->defaultValue->span,
+                "Cannot assign default value of type '" +
+                    renderTypeForUser(defaultValue->type) + "' to field '" +
+                    f.name + "' of type '" + renderTypeForUser(f.type) + "'");
+          defaultValue = nullptr;
+        } else {
+          defaultValue = wrapInCast(std::move(defaultValue), f.type);
+        }
+      }
+
+      if (!defaultValue) {
+        if (!hasDeclaredDefault) {
+          missingFields.push_back(f.name);
+        }
+        defaultValue = makeDefaultValueExpr(f.type);
+      }
+
+      boundFields.push_back({f.name, std::move(defaultValue)});
     }
   }
 

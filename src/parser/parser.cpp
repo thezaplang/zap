@@ -502,7 +502,7 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
   return body;
 }
 
-std::unique_ptr<ParameterNode> Parser::parseParameter() {
+std::unique_ptr<ParameterNode> Parser::parseParameter(bool allowDefault) {
   bool isRef = false;
   if (peek().type == TokenType::REF) {
     eat(TokenType::REF);
@@ -511,11 +511,19 @@ std::unique_ptr<ParameterNode> Parser::parseParameter() {
   Token paramNameToken = eat(TokenType::ID);
   eat(TokenType::COLON);
   auto typeNode = parseType();
+  auto *typeNodePtr = typeNode.get();
   bool isVariadic = typeNode && typeNode->isVarArgs;
-  auto paramNode = _builder.makeParam(paramNameToken.value, std::move(typeNode),
-                                      isRef, isVariadic);
-  _builder.setSpan(paramNode.get(), SourceSpan::merge(paramNameToken.span,
-                                                      paramNode->type->span));
+  std::unique_ptr<ExpressionNode> defaultValue = nullptr;
+  if (allowDefault && peek().type == TokenType::ASSIGN) {
+    eat(TokenType::ASSIGN);
+    defaultValue = parseExpression();
+  }
+  auto endSpan = defaultValue ? defaultValue->span : typeNodePtr->span;
+  auto paramNode =
+      _builder.makeParam(paramNameToken.value, std::move(typeNode), isRef,
+                         isVariadic, std::move(defaultValue));
+  _builder.setSpan(paramNode.get(),
+                   SourceSpan::merge(paramNameToken.span, endSpan));
   return paramNode;
 }
 
@@ -2049,7 +2057,7 @@ std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl(bool isUnsafe) {
 
   if (peek().type != TokenType::RBRACE) {
     do {
-      fields.push_back(parseParameter());
+      fields.push_back(parseParameter(true));
 
       if (peek().type == TokenType::COMMA ||
           peek().type == TokenType::SEMICOLON) {

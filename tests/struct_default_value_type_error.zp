@@ -1,0 +1,8 @@
+struct BadDefault {
+  count: Int = true,
+}
+
+fun main() Int {
+  var value: BadDefault = BadDefault {};
+  return value.count;
+}

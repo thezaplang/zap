@@ -101,7 +101,7 @@ private:
   std::unique_ptr<ExpressionNode> parsePrimaryExpression();
 
   int getPrecedence(TokenType type);
-  std::unique_ptr<ParameterNode> parseParameter();
+  std::unique_ptr<ParameterNode> parseParameter(bool allowDefault = false);
   std::unique_ptr<EnumDecl> parseEnumDecl();
   std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
   std::unique_ptr<RecordDecl> parseRecordDecl();

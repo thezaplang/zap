@@ -239,12 +239,12 @@ public:
     return std::make_unique<ConstNull>();
   }
 
-  std::unique_ptr<ParameterNode> makeParam(const std::string &name,
-                                           std::unique_ptr<TypeNode> type,
-                                           bool isRef = false,
-                                           bool isVariadic = false) {
+  std::unique_ptr<ParameterNode>
+  makeParam(const std::string &name, std::unique_ptr<TypeNode> type,
+            bool isRef = false, bool isVariadic = false,
+            std::unique_ptr<ExpressionNode> defaultValue = nullptr) {
     return std::make_unique<ParameterNode>(name, std::move(type), isRef,
-                                           isVariadic);
+                                           isVariadic, std::move(defaultValue));
   }
 
   std::unique_ptr<TypeNode> makeType(const std::string &name) {
