@@ -9017,102 +9017,142 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1808</span>  }</div>
 <div class="line"><span class="lineno"> 1809</span> </div>
 <div class="line"><span class="lineno"> 1810</span>  <span class="keyword">auto</span> recordType = std::static_pointer_cast&lt;zir::RecordType&gt;(mappedType);</div>
-<div class="line"><span class="lineno"> 1811</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt;</div>
-<div class="line"><span class="lineno"> 1812</span>      boundFields;</div>
-<div class="line"><span class="lineno"> 1813</span>  std::vector&lt;std::string&gt; missingFields;</div>
-<div class="line"><span class="lineno"> 1814</span> </div>
-<div class="line"><span class="lineno"> 1815</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;fieldInit : node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>) {</div>
-<div class="line"><span class="lineno"> 1816</span>    std::shared_ptr&lt;zir::Type&gt; fieldExpectedType = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno"> 1817</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
-<div class="line"><span class="lineno"> 1818</span>      <span class="keywordflow">if</span> (f.name == fieldInit.name) {</div>
-<div class="line"><span class="lineno"> 1819</span>        fieldExpectedType = f.type;</div>
-<div class="line"><span class="lineno"> 1820</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno"> 1821</span>      }</div>
-<div class="line"><span class="lineno"> 1822</span>    }</div>
-<div class="line"><span class="lineno"> 1823</span> </div>
-<div class="line"><span class="lineno"> 1824</span>    std::unique_ptr&lt;BoundExpression&gt; boundVal;</div>
-<div class="line"><span class="lineno"> 1825</span>    <span class="keywordflow">if</span> (fieldExpectedType) {</div>
-<div class="line"><span class="lineno"> 1826</span>      boundVal =</div>
-<div class="line"><span class="lineno"> 1827</span>          <a class="code hl_function" href="#a1436c9a212e860afc8bbf779c8cd3e40">bindExpressionWithExpected</a>(fieldInit.value.get(), fieldExpectedType);</div>
-<div class="line"><span class="lineno"> 1828</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1829</span>      fieldInit.value-&gt;accept(*<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno"> 1830</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.empty())</div>
-<div class="line"><span class="lineno"> 1831</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1832</span>      boundVal = std::move(<a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.top());</div>
-<div class="line"><span class="lineno"> 1833</span>      <a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.pop();</div>
-<div class="line"><span class="lineno"> 1834</span>    }</div>
-<div class="line"><span class="lineno"> 1835</span>    <span class="keywordflow">if</span> (!boundVal)</div>
-<div class="line"><span class="lineno"> 1836</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1837</span> </div>
-<div class="line"><span class="lineno"> 1838</span>    <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1839</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
-<div class="line"><span class="lineno"> 1840</span>      <span class="keywordflow">if</span> (f.name == fieldInit.name) {</div>
-<div class="line"><span class="lineno"> 1841</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a4ce2d02f56f37e167ef14ac426c20675">canConvert</a>(boundVal-&gt;type, f.type)) {</div>
-<div class="line"><span class="lineno"> 1842</span>          <a class="code hl_function" href="#a835fc89ff3d0983dcffde07ae535da3a">error</a>(node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>, <span class="stringliteral">&quot;Cannot assign type &#39;&quot;</span> +</div>
-<div class="line"><span class="lineno"> 1843</span>                               <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(boundVal-&gt;type) +</div>
-<div class="line"><span class="lineno"> 1844</span>                               <span class="stringliteral">&quot;&#39; to field &#39;&quot;</span> + f.name + <span class="stringliteral">&quot;&#39; of type &#39;&quot;</span> +</div>
-<div class="line"><span class="lineno"> 1845</span>                               <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(f.type) + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1846</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1847</span>          boundVal = <a class="code hl_function" href="#a25a5ccada7fba1d0081c53340a60b7ba">wrapInCast</a>(std::move(boundVal), f.type);</div>
-<div class="line"><span class="lineno"> 1848</span>        }</div>
-<div class="line"><span class="lineno"> 1849</span>        found = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1850</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno"> 1851</span>      }</div>
-<div class="line"><span class="lineno"> 1852</span>    }</div>
-<div class="line"><span class="lineno"> 1853</span> </div>
-<div class="line"><span class="lineno"> 1854</span>    <span class="keywordflow">if</span> (!found) {</div>
-<div class="line"><span class="lineno"> 1855</span>      <a class="code hl_function" href="#a835fc89ff3d0983dcffde07ae535da3a">error</a>(fieldInit.value ? fieldInit.value-&gt;span : node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>,</div>
-<div class="line"><span class="lineno"> 1856</span>            <span class="stringliteral">&quot;Field &#39;&quot;</span> + fieldInit.name + <span class="stringliteral">&quot;&#39; not found in struct &#39;&quot;</span> +</div>
-<div class="line"><span class="lineno"> 1857</span>                node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;qualifiedName() + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1858</span>    }</div>
-<div class="line"><span class="lineno"> 1859</span> </div>
-<div class="line"><span class="lineno"> 1860</span>    boundFields.push_back({fieldInit.name, std::move(boundVal)});</div>
-<div class="line"><span class="lineno"> 1861</span>  }</div>
-<div class="line"><span class="lineno"> 1862</span> </div>
-<div class="line"><span class="lineno"> 1863</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
-<div class="line"><span class="lineno"> 1864</span>    <span class="keywordtype">bool</span> initialized = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1865</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;bf : boundFields) {</div>
-<div class="line"><span class="lineno"> 1866</span>      <span class="keywordflow">if</span> (bf.first == f.name) {</div>
-<div class="line"><span class="lineno"> 1867</span>        initialized = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1868</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno"> 1869</span>      }</div>
-<div class="line"><span class="lineno"> 1870</span>    }</div>
-<div class="line"><span class="lineno"> 1871</span>    <span class="keywordflow">if</span> (!initialized) {</div>
-<div class="line"><span class="lineno"> 1872</span>      missingFields.push_back(f.name);</div>
-<div class="line"><span class="lineno"> 1873</span>      boundFields.push_back({f.name, <a class="code hl_function" href="../../d7/d39/namespacesema.html#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(f.type)});</div>
-<div class="line"><span class="lineno"> 1874</span>    }</div>
-<div class="line"><span class="lineno"> 1875</span>  }</div>
-<div class="line"><span class="lineno"> 1876</span> </div>
-<div class="line"><span class="lineno"> 1877</span>  <span class="keywordflow">if</span> (!missingFields.empty()) {</div>
-<div class="line"><span class="lineno"> 1878</span>    std::string missingList;</div>
-<div class="line"><span class="lineno"> 1879</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; missingFields.size(); ++i) {</div>
-<div class="line"><span class="lineno"> 1880</span>      <span class="keywordflow">if</span> (i != 0) {</div>
-<div class="line"><span class="lineno"> 1881</span>        missingList += <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><span class="lineno"> 1882</span>      }</div>
-<div class="line"><span class="lineno"> 1883</span>      missingList += <span class="stringliteral">&quot;&#39;&quot;</span> + missingFields[i] + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
-<div class="line"><span class="lineno"> 1884</span>    }</div>
-<div class="line"><span class="lineno"> 1885</span> </div>
-<div class="line"><span class="lineno"> 1886</span>    SourceSpan warningSpan = node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>;</div>
-<div class="line"><span class="lineno"> 1887</span>    <span class="keywordflow">if</span> (!node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.empty() &amp;&amp; node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.front().value) {</div>
-<div class="line"><span class="lineno"> 1888</span>      warningSpan = node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.front().value-&gt;span;</div>
-<div class="line"><span class="lineno"> 1889</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>) {</div>
-<div class="line"><span class="lineno"> 1890</span>      warningSpan = node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;span;</div>
-<div class="line"><span class="lineno"> 1891</span>    }</div>
-<div class="line"><span class="lineno"> 1892</span> </div>
-<div class="line"><span class="lineno"> 1893</span>    <a class="code hl_variable" href="#af12162de0a157ebbe7239f2bc58cda9a">_diag</a>.report(warningSpan, <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">zap::DiagnosticLevel::Warning</a>,</div>
-<div class="line"><span class="lineno"> 1894</span>                 <span class="stringliteral">&quot;Struct literal for &#39;&quot;</span> + node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;qualifiedName() +</div>
-<div class="line"><span class="lineno"> 1895</span>                     <span class="stringliteral">&quot;&#39; is missing fields: &quot;</span> + missingList +</div>
-<div class="line"><span class="lineno"> 1896</span>                     <span class="stringliteral">&quot;. Using default values.&quot;</span>);</div>
-<div class="line"><span class="lineno"> 1897</span>  }</div>
-<div class="line"><span class="lineno"> 1898</span> </div>
-<div class="line"><span class="lineno"> 1899</span>  <a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.push(</div>
-<div class="line"><span class="lineno"> 1900</span>      std::make_unique&lt;BoundStructLiteral&gt;(std::move(boundFields), recordType));</div>
-<div class="line"><span class="lineno"> 1901</span>}</div>
+<div class="line"><span class="lineno"> 1811</span>  <span class="keyword">const</span> StructDeclarationNode *structDecl = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno"> 1812</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> sdIt = <a class="code hl_variable" href="#a9bef916dda9cf9685bbab328412128e0">structTypeDeclarationNodes_</a>.find(typeSymbol.get());</div>
+<div class="line"><span class="lineno"> 1813</span>      sdIt != <a class="code hl_variable" href="#a9bef916dda9cf9685bbab328412128e0">structTypeDeclarationNodes_</a>.end()) {</div>
+<div class="line"><span class="lineno"> 1814</span>    structDecl = sdIt-&gt;second;</div>
+<div class="line"><span class="lineno"> 1815</span>  }</div>
+<div class="line"><span class="lineno"> 1816</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt;</div>
+<div class="line"><span class="lineno"> 1817</span>      boundFields;</div>
+<div class="line"><span class="lineno"> 1818</span>  std::vector&lt;std::string&gt; missingFields;</div>
+<div class="line"><span class="lineno"> 1819</span> </div>
+<div class="line"><span class="lineno"> 1820</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;fieldInit : node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>) {</div>
+<div class="line"><span class="lineno"> 1821</span>    std::shared_ptr&lt;zir::Type&gt; fieldExpectedType = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno"> 1822</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
+<div class="line"><span class="lineno"> 1823</span>      <span class="keywordflow">if</span> (f.name == fieldInit.name) {</div>
+<div class="line"><span class="lineno"> 1824</span>        fieldExpectedType = f.type;</div>
+<div class="line"><span class="lineno"> 1825</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno"> 1826</span>      }</div>
+<div class="line"><span class="lineno"> 1827</span>    }</div>
+<div class="line"><span class="lineno"> 1828</span> </div>
+<div class="line"><span class="lineno"> 1829</span>    std::unique_ptr&lt;BoundExpression&gt; boundVal;</div>
+<div class="line"><span class="lineno"> 1830</span>    <span class="keywordflow">if</span> (fieldExpectedType) {</div>
+<div class="line"><span class="lineno"> 1831</span>      boundVal =</div>
+<div class="line"><span class="lineno"> 1832</span>          <a class="code hl_function" href="#a1436c9a212e860afc8bbf779c8cd3e40">bindExpressionWithExpected</a>(fieldInit.value.get(), fieldExpectedType);</div>
+<div class="line"><span class="lineno"> 1833</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 1834</span>      fieldInit.value-&gt;accept(*<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno"> 1835</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.empty())</div>
+<div class="line"><span class="lineno"> 1836</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1837</span>      boundVal = std::move(<a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.top());</div>
+<div class="line"><span class="lineno"> 1838</span>      <a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.pop();</div>
+<div class="line"><span class="lineno"> 1839</span>    }</div>
+<div class="line"><span class="lineno"> 1840</span>    <span class="keywordflow">if</span> (!boundVal)</div>
+<div class="line"><span class="lineno"> 1841</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1842</span> </div>
+<div class="line"><span class="lineno"> 1843</span>    <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1844</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
+<div class="line"><span class="lineno"> 1845</span>      <span class="keywordflow">if</span> (f.name == fieldInit.name) {</div>
+<div class="line"><span class="lineno"> 1846</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a4ce2d02f56f37e167ef14ac426c20675">canConvert</a>(boundVal-&gt;type, f.type)) {</div>
+<div class="line"><span class="lineno"> 1847</span>          <a class="code hl_function" href="#a835fc89ff3d0983dcffde07ae535da3a">error</a>(node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>, <span class="stringliteral">&quot;Cannot assign type &#39;&quot;</span> +</div>
+<div class="line"><span class="lineno"> 1848</span>                               <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(boundVal-&gt;type) +</div>
+<div class="line"><span class="lineno"> 1849</span>                               <span class="stringliteral">&quot;&#39; to field &#39;&quot;</span> + f.name + <span class="stringliteral">&quot;&#39; of type &#39;&quot;</span> +</div>
+<div class="line"><span class="lineno"> 1850</span>                               <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(f.type) + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1851</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 1852</span>          boundVal = <a class="code hl_function" href="#a25a5ccada7fba1d0081c53340a60b7ba">wrapInCast</a>(std::move(boundVal), f.type);</div>
+<div class="line"><span class="lineno"> 1853</span>        }</div>
+<div class="line"><span class="lineno"> 1854</span>        found = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1855</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno"> 1856</span>      }</div>
+<div class="line"><span class="lineno"> 1857</span>    }</div>
+<div class="line"><span class="lineno"> 1858</span> </div>
+<div class="line"><span class="lineno"> 1859</span>    <span class="keywordflow">if</span> (!found) {</div>
+<div class="line"><span class="lineno"> 1860</span>      <a class="code hl_function" href="#a835fc89ff3d0983dcffde07ae535da3a">error</a>(fieldInit.value ? fieldInit.value-&gt;span : node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>,</div>
+<div class="line"><span class="lineno"> 1861</span>            <span class="stringliteral">&quot;Field &#39;&quot;</span> + fieldInit.name + <span class="stringliteral">&quot;&#39; not found in struct &#39;&quot;</span> +</div>
+<div class="line"><span class="lineno"> 1862</span>                node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;qualifiedName() + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1863</span>    }</div>
+<div class="line"><span class="lineno"> 1864</span> </div>
+<div class="line"><span class="lineno"> 1865</span>    boundFields.push_back({fieldInit.name, std::move(boundVal)});</div>
+<div class="line"><span class="lineno"> 1866</span>  }</div>
+<div class="line"><span class="lineno"> 1867</span> </div>
+<div class="line"><span class="lineno"> 1868</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;f : recordType-&gt;getFields()) {</div>
+<div class="line"><span class="lineno"> 1869</span>    <span class="keywordtype">bool</span> initialized = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1870</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;bf : boundFields) {</div>
+<div class="line"><span class="lineno"> 1871</span>      <span class="keywordflow">if</span> (bf.first == f.name) {</div>
+<div class="line"><span class="lineno"> 1872</span>        initialized = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1873</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno"> 1874</span>      }</div>
+<div class="line"><span class="lineno"> 1875</span>    }</div>
+<div class="line"><span class="lineno"> 1876</span>    <span class="keywordflow">if</span> (!initialized) {</div>
+<div class="line"><span class="lineno"> 1877</span>      <span class="keyword">const</span> ParameterNode *declField = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno"> 1878</span>      <span class="keywordflow">if</span> (structDecl) {</div>
+<div class="line"><span class="lineno"> 1879</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;candidate : structDecl-&gt;<a class="code hl_variable" href="../../de/d35/classStructDeclarationNode.html#afb3ed65aab801a29339072786d1e0088">fields_</a>) {</div>
+<div class="line"><span class="lineno"> 1880</span>          <span class="keywordflow">if</span> (candidate-&gt;name == f.name) {</div>
+<div class="line"><span class="lineno"> 1881</span>            declField = candidate.get();</div>
+<div class="line"><span class="lineno"> 1882</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno"> 1883</span>          }</div>
+<div class="line"><span class="lineno"> 1884</span>        }</div>
+<div class="line"><span class="lineno"> 1885</span>      }</div>
+<div class="line"><span class="lineno"> 1886</span> </div>
+<div class="line"><span class="lineno"> 1887</span>      std::unique_ptr&lt;BoundExpression&gt; defaultValue;</div>
+<div class="line"><span class="lineno"> 1888</span>      <span class="keywordtype">bool</span> hasDeclaredDefault = declField &amp;&amp; declField-&gt;<a class="code hl_variable" href="../../d9/dd3/classParameterNode.html#ad2a0c9cc7d83ebddbe6c4658fc83e693">defaultValue</a>;</div>
+<div class="line"><span class="lineno"> 1889</span>      <span class="keywordflow">if</span> (hasDeclaredDefault) {</div>
+<div class="line"><span class="lineno"> 1890</span>        defaultValue =</div>
+<div class="line"><span class="lineno"> 1891</span>            <a class="code hl_function" href="#a1436c9a212e860afc8bbf779c8cd3e40">bindExpressionWithExpected</a>(declField-&gt;<a class="code hl_variable" href="../../d9/dd3/classParameterNode.html#ad2a0c9cc7d83ebddbe6c4658fc83e693">defaultValue</a>.get(), f.type);</div>
+<div class="line"><span class="lineno"> 1892</span>        <span class="keywordflow">if</span> (!defaultValue) {</div>
+<div class="line"><span class="lineno"> 1893</span>          defaultValue = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno"> 1894</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a4ce2d02f56f37e167ef14ac426c20675">canConvert</a>(defaultValue-&gt;type, f.type)) {</div>
+<div class="line"><span class="lineno"> 1895</span>          <a class="code hl_function" href="#a835fc89ff3d0983dcffde07ae535da3a">error</a>(declField-&gt;<a class="code hl_variable" href="../../d9/dd3/classParameterNode.html#ad2a0c9cc7d83ebddbe6c4658fc83e693">defaultValue</a>-&gt;span,</div>
+<div class="line"><span class="lineno"> 1896</span>                <span class="stringliteral">&quot;Cannot assign default value of type &#39;&quot;</span> +</div>
+<div class="line"><span class="lineno"> 1897</span>                    <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(defaultValue-&gt;type) + <span class="stringliteral">&quot;&#39; to field &#39;&quot;</span> +</div>
+<div class="line"><span class="lineno"> 1898</span>                    f.name + <span class="stringliteral">&quot;&#39; of type &#39;&quot;</span> + <a class="code hl_function" href="#a44cfd49bf53378610dd5ed7da1fd47a1">renderTypeForUser</a>(f.type) + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1899</span>          defaultValue = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno"> 1900</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 1901</span>          defaultValue = <a class="code hl_function" href="#a25a5ccada7fba1d0081c53340a60b7ba">wrapInCast</a>(std::move(defaultValue), f.type);</div>
+<div class="line"><span class="lineno"> 1902</span>        }</div>
+<div class="line"><span class="lineno"> 1903</span>      }</div>
+<div class="line"><span class="lineno"> 1904</span> </div>
+<div class="line"><span class="lineno"> 1905</span>      <span class="keywordflow">if</span> (!defaultValue) {</div>
+<div class="line"><span class="lineno"> 1906</span>        <span class="keywordflow">if</span> (!hasDeclaredDefault) {</div>
+<div class="line"><span class="lineno"> 1907</span>          missingFields.push_back(f.name);</div>
+<div class="line"><span class="lineno"> 1908</span>        }</div>
+<div class="line"><span class="lineno"> 1909</span>        defaultValue = <a class="code hl_function" href="../../d7/d39/namespacesema.html#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(f.type);</div>
+<div class="line"><span class="lineno"> 1910</span>      }</div>
+<div class="line"><span class="lineno"> 1911</span> </div>
+<div class="line"><span class="lineno"> 1912</span>      boundFields.push_back({f.name, std::move(defaultValue)});</div>
+<div class="line"><span class="lineno"> 1913</span>    }</div>
+<div class="line"><span class="lineno"> 1914</span>  }</div>
+<div class="line"><span class="lineno"> 1915</span> </div>
+<div class="line"><span class="lineno"> 1916</span>  <span class="keywordflow">if</span> (!missingFields.empty()) {</div>
+<div class="line"><span class="lineno"> 1917</span>    std::string missingList;</div>
+<div class="line"><span class="lineno"> 1918</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; missingFields.size(); ++i) {</div>
+<div class="line"><span class="lineno"> 1919</span>      <span class="keywordflow">if</span> (i != 0) {</div>
+<div class="line"><span class="lineno"> 1920</span>        missingList += <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><span class="lineno"> 1921</span>      }</div>
+<div class="line"><span class="lineno"> 1922</span>      missingList += <span class="stringliteral">&quot;&#39;&quot;</span> + missingFields[i] + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
+<div class="line"><span class="lineno"> 1923</span>    }</div>
+<div class="line"><span class="lineno"> 1924</span> </div>
+<div class="line"><span class="lineno"> 1925</span>    SourceSpan warningSpan = node.<a class="code hl_variable" href="../../df/dd0/classNode.html#a48ef306cfa64ff29194ade8b098f127f">span</a>;</div>
+<div class="line"><span class="lineno"> 1926</span>    <span class="keywordflow">if</span> (!node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.empty() &amp;&amp; node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.front().value) {</div>
+<div class="line"><span class="lineno"> 1927</span>      warningSpan = node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">fields_</a>.front().value-&gt;span;</div>
+<div class="line"><span class="lineno"> 1928</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>) {</div>
+<div class="line"><span class="lineno"> 1929</span>      warningSpan = node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;span;</div>
+<div class="line"><span class="lineno"> 1930</span>    }</div>
+<div class="line"><span class="lineno"> 1931</span> </div>
+<div class="line"><span class="lineno"> 1932</span>    <a class="code hl_variable" href="#af12162de0a157ebbe7239f2bc58cda9a">_diag</a>.report(warningSpan, <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">zap::DiagnosticLevel::Warning</a>,</div>
+<div class="line"><span class="lineno"> 1933</span>                 <span class="stringliteral">&quot;Struct literal for &#39;&quot;</span> + node.<a class="code hl_variable" href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">type_</a>-&gt;qualifiedName() +</div>
+<div class="line"><span class="lineno"> 1934</span>                     <span class="stringliteral">&quot;&#39; is missing fields: &quot;</span> + missingList +</div>
+<div class="line"><span class="lineno"> 1935</span>                     <span class="stringliteral">&quot;. Using default values.&quot;</span>);</div>
+<div class="line"><span class="lineno"> 1936</span>  }</div>
+<div class="line"><span class="lineno"> 1937</span> </div>
+<div class="line"><span class="lineno"> 1938</span>  <a class="code hl_variable" href="#a346ab1e3a50d682abac3d2e8150fa94d">expressionStack_</a>.push(</div>
+<div class="line"><span class="lineno"> 1939</span>      std::make_unique&lt;BoundStructLiteral&gt;(std::move(boundFields), recordType));</div>
+<div class="line"><span class="lineno"> 1940</span>}</div>
+<div class="ttc" id="aclassParameterNode_html_ad2a0c9cc7d83ebddbe6c4658fc83e693"><div class="ttname"><a href="../../d9/dd3/classParameterNode.html#ad2a0c9cc7d83ebddbe6c4658fc83e693">ParameterNode::defaultValue</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionNode &gt; defaultValue</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d0b/parameter__node_8hpp_source.html#l00015">parameter_node.hpp:15</a></div></div>
 <div class="ttc" id="aclassStructLiteralNode_html_a668dfa0d66228d219b1bc46d28060e90"><div class="ttname"><a href="../../de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90">StructLiteralNode::fields_</a></div><div class="ttdeci">std::vector&lt; StructFieldInit &gt; fields_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7f/struct__literal_8hpp_source.html#l00020">struct_literal.hpp:20</a></div></div>
 <div class="ttc" id="aclassStructLiteralNode_html_a6df9660deed1bf26cf9c498ff3b662d1"><div class="ttname"><a href="../../de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1">StructLiteralNode::type_</a></div><div class="ttdeci">std::unique_ptr&lt; TypeNode &gt; type_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d7f/struct__literal_8hpp_source.html#l00019">struct_literal.hpp:19</a></div></div>
 <div class="ttc" id="anamespacesema_html_a4a94bb1034064c1900bfb79268609cc0"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a4a94bb1034064c1900bfb79268609cc0">sema::splitQualified</a></div><div class="ttdeci">std::vector&lt; std::string &gt; splitQualified(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00277">binder.cpp:277</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00118">_diag</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00174">activeGenericBindingsStack_</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00019">bindExpressionWithExpected()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01599">canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00995">error()</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00124">expressionStack_</a>, <a class="el" href="../../d7/d7f/struct__literal_8hpp_source.html#l00020">StructLiteralNode::fields_</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00013">TypeNode::genericArgs</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">sema::makeDefaultValueExpr()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01397">mapType()</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00012">TypeNode::qualifiers</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00154">recordTypeDeclarationNodes_</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00708">renderTypeForUser()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01593">requireUnsafeContext()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00818">resolveQualifiedSymbol()</a>, <a class="el" href="../../d3/d09/node_8hpp_source.html#l00011">Node::span</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00277">sema::splitQualified()</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00156">structTypeDeclarationNodes_</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00012">sema::Type</a>, <a class="el" href="../../d7/d7f/struct__literal_8hpp_source.html#l00019">StructLiteralNode::type_</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00011">TypeNode::typeName</a>, <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00803">visit()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Warning</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01769">wrapInCast()</a>.</p>
+<p class="reference">References <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00118">_diag</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00174">activeGenericBindingsStack_</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00019">bindExpressionWithExpected()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01599">canConvert()</a>, <a class="el" href="../../d2/d0b/parameter__node_8hpp_source.html#l00015">ParameterNode::defaultValue</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00995">error()</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00124">expressionStack_</a>, <a class="el" href="../../d8/d0b/struct__decl_8hpp_source.html#l00015">StructDeclarationNode::fields_</a>, <a class="el" href="../../d7/d7f/struct__literal_8hpp_source.html#l00020">StructLiteralNode::fields_</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00013">TypeNode::genericArgs</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">sema::makeDefaultValueExpr()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01397">mapType()</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00012">TypeNode::qualifiers</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00154">recordTypeDeclarationNodes_</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00708">renderTypeForUser()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01593">requireUnsafeContext()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00818">resolveQualifiedSymbol()</a>, <a class="el" href="../../d3/d09/node_8hpp_source.html#l00011">Node::span</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00277">sema::splitQualified()</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00156">structTypeDeclarationNodes_</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00012">sema::Type</a>, <a class="el" href="../../d7/d7f/struct__literal_8hpp_source.html#l00019">StructLiteralNode::type_</a>, <a class="el" href="../../d3/ddb/type__node_8hpp_source.html#l00011">TypeNode::typeName</a>, <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00803">visit()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Warning</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01769">wrapInCast()</a>.</p>
 
 </div>
 </div>

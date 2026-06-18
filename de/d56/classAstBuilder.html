@@ -104,7 +104,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a32c304c34179039490ab58a94216113f" id="r_a32c304c34179039490ab58a94216113f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../dd/d93/classConstString.html">ConstString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32c304c34179039490ab58a94216113f">makeConstString</a> (const std::string &amp;value)</td></tr>
 <tr class="memitem:a475df4c7fe3dfa4e13ecf50612ddae1b" id="r_a475df4c7fe3dfa4e13ecf50612ddae1b"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d12/classConstChar.html">ConstChar</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a475df4c7fe3dfa4e13ecf50612ddae1b">makeConstChar</a> (const std::string &amp;value)</td></tr>
 <tr class="memitem:a97c1e5a8af9ab231edc200cec1978812" id="r_a97c1e5a8af9ab231edc200cec1978812"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/ddf/classConstNull.html">ConstNull</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97c1e5a8af9ab231edc200cec1978812">makeConstNull</a> ()</td></tr>
-<tr class="memitem:a6268ef36a2a8bb42fc0e6816f210423a" id="r_a6268ef36a2a8bb42fc0e6816f210423a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6268ef36a2a8bb42fc0e6816f210423a">makeParam</a> (const std::string &amp;name, std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; type, bool isRef=false, bool isVariadic=false)</td></tr>
+<tr class="memitem:ab14c9cc8bab1cf0ea3263aaf1a13f0a7" id="r_ab14c9cc8bab1cf0ea3263aaf1a13f0a7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab14c9cc8bab1cf0ea3263aaf1a13f0a7">makeParam</a> (const std::string &amp;name, std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; type, bool isRef=false, bool isVariadic=false, std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt; defaultValue=nullptr)</td></tr>
 <tr class="memitem:ab11f1dc58c8deae55be12b57e11e4a17" id="r_ab11f1dc58c8deae55be12b57e11e4a17"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab11f1dc58c8deae55be12b57e11e4a17">makeType</a> (const std::string &amp;name)</td></tr>
 <tr class="memitem:afcfb4fe4e1ff5ae0a73020ce10d8d403" id="r_afcfb4fe4e1ff5ae0a73020ce10d8d403"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d5/d3f/classImportNode.html">ImportNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcfb4fe4e1ff5ae0a73020ce10d8d403">makeImport</a> (std::string path, std::string moduleAlias=&quot;&quot;, std::vector&lt; <a class="el" href="../../d7/de6/structImportBinding.html">ImportBinding</a> &gt; bindings={})</td></tr>
 <tr class="memitem:aeac048fd0f7cb8665f51f5a7c90ed4ea" id="r_aeac048fd0f7cb8665f51f5a7c90ed4ea"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d0/d96/classEnumDecl.html">EnumDecl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeac048fd0f7cb8665f51f5a7c90ed4ea">makeEnumDecl</a> (const std::string &amp;name, std::vector&lt; <a class="el" href="../../d9/de9/structEnumDecl_1_1Entry.html">EnumDecl::Entry</a> &gt; entries)</td></tr>
@@ -1203,8 +1203,8 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a6268ef36a2a8bb42fc0e6816f210423a" name="a6268ef36a2a8bb42fc0e6816f210423a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6268ef36a2a8bb42fc0e6816f210423a">&#9670;&#160;</a></span>makeParam()</h2>
+<a id="ab14c9cc8bab1cf0ea3263aaf1a13f0a7" name="ab14c9cc8bab1cf0ea3263aaf1a13f0a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab14c9cc8bab1cf0ea3263aaf1a13f0a7">&#9670;&#160;</a></span>makeParam()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1230,7 +1230,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isVariadic</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isVariadic</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="../../dd/d06/classExpressionNode.html">ExpressionNode</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>defaultValue</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1240,10 +1245,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00242">242</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  245</span>                                                                    {</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html#l00243">243</a> of file <a class="el" href="../../d4/d78/ast__builder_8hpp_source.html">ast_builder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  245</span>                                                                  {</div>
 <div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> std::make_unique&lt;ParameterNode&gt;(name, std::move(type), isRef,</div>
-<div class="line"><span class="lineno">  247</span>                                           isVariadic);</div>
+<div class="line"><span class="lineno">  247</span>                                           isVariadic, std::move(defaultValue));</div>
 <div class="line"><span class="lineno">  248</span>  }</div>
 </div><!-- fragment -->
 </div>
