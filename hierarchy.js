@@ -187,6 +187,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "StructFieldInit", "d8/d96/structStructFieldInit.html", null ],
+    [ "zap::lsp::StructLiteralCompletionContext", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext.html", null ],
     [ "sema::Symbol", "d1/df6/classsema_1_1Symbol.html", [
       [ "sema::FunctionSymbol", "db/db1/classsema_1_1FunctionSymbol.html", null ],
       [ "sema::ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", null ],

@@ -8,6 +8,7 @@ var protocol__utils_8cpp =
     [ "zap::lsp::getStringField", "d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315", null ],
     [ "zap::lsp::identifierAt", "d5/d23/namespacezap_1_1lsp.html#ae0ff567ea5bf1b9ff49f7e889896ba3c", null ],
     [ "zap::lsp::isIdentifierChar", "d5/d23/namespacezap_1_1lsp.html#a1120684c06c72d01175a22c7457cb3ce", null ],
+    [ "zap::lsp::memberAccessAtCursor", "d5/d23/namespacezap_1_1lsp.html#abe33711317e7ecf7db1ed42304cecea2", null ],
     [ "zap::lsp::memberAccessBeforeCursor", "d5/d23/namespacezap_1_1lsp.html#a571744758c915972f9718f54cfc3ac1b", null ],
     [ "zap::lsp::offsetFromPosition", "d5/d23/namespacezap_1_1lsp.html#aa5a408eb8dd9e95540be1739d435a397", null ],
     [ "zap::lsp::pathToUri", "d5/d23/namespacezap_1_1lsp.html#ae1ef66bd36274b643247cd505ea42bbe", null ],

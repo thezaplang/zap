@@ -71,6 +71,7 @@ var annotated_dup =
         [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ]
       ] ],
       [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
+        [ "StructLiteralCompletionContext", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext.html", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext" ],
         [ "LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", "df/d17/structzap_1_1lsp_1_1LspSymbol" ],
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
         [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
