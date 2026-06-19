@@ -13,6 +13,7 @@ exports.activate = activate;
 exports.deactivate = deactivate;
 const fs = require("fs");
 const path = require("path");
+const child_process_1 = require("child_process");
 const vscode_1 = require("vscode");
 const node_1 = require("vscode-languageclient/node");
 let client;
@@ -23,6 +24,13 @@ function isValidStdlibDir(candidate) {
         fs.existsSync(prelude) &&
         fs.statSync(prelude).isFile());
 }
+function isValidCoreDir(candidate) {
+    const core = path.join(candidate, "core.zp");
+    return (fs.existsSync(candidate) &&
+        fs.statSync(candidate).isDirectory() &&
+        fs.existsSync(core) &&
+        fs.statSync(core).isFile());
+}
 function detectWorkspaceStdlibPath() {
     for (const folder of vscode_1.workspace.workspaceFolders || []) {
         const candidate = path.join(folder.uri.fsPath, "std");
@@ -32,14 +40,83 @@ function detectWorkspaceStdlibPath() {
     }
     return "";
 }
-function detectBundledStdlibPath(context) {
-    const candidate = context.asAbsolutePath("stdlib");
-    if (isValidStdlibDir(candidate)) {
-        return fs.realpathSync(candidate);
+function detectWorkspaceCorePath() {
+    for (const folder of vscode_1.workspace.workspaceFolders || []) {
+        const candidate = path.join(folder.uri.fsPath, "core");
+        if (isValidCoreDir(candidate)) {
+            return fs.realpathSync(candidate);
+        }
     }
     return "";
 }
-function resolveStdlibPath(context) {
+function isExecutableFile(candidate) {
+    try {
+        return fs.existsSync(candidate) && fs.statSync(candidate).isFile();
+    }
+    catch (_a) {
+        return false;
+    }
+}
+function detectWorkspaceZapcPath() {
+    for (const folder of vscode_1.workspace.workspaceFolders || []) {
+        const exeName = process.platform === "win32" ? "zapc.exe" : "zapc";
+        const candidate = path.join(folder.uri.fsPath, "build", exeName);
+        if (isExecutableFile(candidate)) {
+            return candidate;
+        }
+    }
+    return "";
+}
+function resolveZapcPath(context) {
+    const config = vscode_1.workspace.getConfiguration("zap-lsp");
+    const configuredZapcPath = (config.get("zapcPath") || "").trim();
+    if (configuredZapcPath && isExecutableFile(configuredZapcPath)) {
+        return configuredZapcPath;
+    }
+    const exeName = process.platform === "win32" ? "zapc.exe" : "zapc";
+    const bundledZapcPath = context.asAbsolutePath(path.join("bin", exeName));
+    if (isExecutableFile(bundledZapcPath)) {
+        return bundledZapcPath;
+    }
+    return detectWorkspaceZapcPath();
+}
+function queryStdlibPathFromZapc(zapcPath) {
+    if (!zapcPath) {
+        return "";
+    }
+    try {
+        const output = (0, child_process_1.execFileSync)(zapcPath, ["--print-stdlib-path"], {
+            encoding: "utf8",
+            stdio: ["ignore", "pipe", "ignore"],
+        }).trim();
+        if (output && isValidStdlibDir(output)) {
+            return fs.realpathSync(output);
+        }
+    }
+    catch (_a) {
+        // ignore invalid compiler path or output and continue with fallbacks
+    }
+    return "";
+}
+function queryCorePathFromZapc(zapcPath) {
+    if (!zapcPath) {
+        return "";
+    }
+    try {
+        const output = (0, child_process_1.execFileSync)(zapcPath, ["--print-core-path"], {
+            encoding: "utf8",
+            stdio: ["ignore", "pipe", "ignore"],
+        }).trim();
+        if (output && isValidCoreDir(output)) {
+            return fs.realpathSync(output);
+        }
+    }
+    catch (_a) {
+        // ignore invalid compiler path or output and continue with fallbacks
+    }
+    return "";
+}
+function resolveStdlibPath(zapcPath) {
     const config = vscode_1.workspace.getConfiguration("zap-lsp");
     const configuredStdlibPath = (config.get("stdlibPath") || "").trim();
     if (configuredStdlibPath) {
@@ -53,11 +130,31 @@ function resolveStdlibPath(context) {
             // ignore invalid configured path and continue with fallbacks
         }
     }
-    const bundledStdlib = detectBundledStdlibPath(context);
-    if (bundledStdlib) {
-        return bundledStdlib;
+    const zapcStdlibPath = queryStdlibPathFromZapc(zapcPath);
+    if (zapcStdlibPath) {
+        return zapcStdlibPath;
     }
     return detectWorkspaceStdlibPath();
+}
+function resolveCorePath(zapcPath) {
+    const config = vscode_1.workspace.getConfiguration("zap-lsp");
+    const configuredCorePath = (config.get("corePath") || "").trim();
+    if (configuredCorePath) {
+        try {
+            const resolved = fs.realpathSync(configuredCorePath);
+            if (isValidCoreDir(resolved)) {
+                return resolved;
+            }
+        }
+        catch (_a) {
+            // ignore invalid configured path and continue with fallbacks
+        }
+    }
+    const zapcCorePath = queryCorePathFromZapc(zapcPath);
+    if (zapcCorePath) {
+        return zapcCorePath;
+    }
+    return detectWorkspaceCorePath();
 }
 function activate(context) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -65,10 +162,15 @@ function activate(context) {
         const configuredPath = (config.get("path") || "").trim();
         const bundledServerPath = context.asAbsolutePath(path.join("bin", "zap-lsp"));
         const lspPath = configuredPath || bundledServerPath;
-        const stdlibPath = resolveStdlibPath(context);
+        const zapcPath = resolveZapcPath(context);
+        const corePath = resolveCorePath(zapcPath);
+        const stdlibPath = resolveStdlibPath(zapcPath);
         const env = Object.assign({}, process.env);
         if (!configuredPath && fs.existsSync(bundledServerPath)) {
             fs.chmodSync(bundledServerPath, 0o755);
+        }
+        if (corePath) {
+            env.ZAPC_CORE_DIR = corePath;
         }
         if (stdlibPath) {
             env.ZAPC_STDLIB_DIR = stdlibPath;

@@ -20,6 +20,7 @@
 #include <llvm/TargetParser/Triple.h>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 
 namespace codegen {
 namespace {
@@ -109,33 +110,74 @@ std::string lowerAsmConstraintToLLVM(const std::string &constraint,
   return constraint;
 }
 
+void initializeLLVMTargets() {
+  static const bool initialized = [] {
+    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
+    llvm::InitializeAllTargetMCs();
+    llvm::InitializeAllAsmPrinters();
+    llvm::InitializeAllAsmParsers();
+    return true;
+  }();
+  (void)initialized;
+}
+
+std::string normalizeTargetTriple(std::string targetTriple) {
+  if (targetTriple.empty()) {
+    return llvm::sys::getDefaultTargetTriple();
+  }
+  return llvm::Triple::normalize(targetTriple);
+}
+
+llvm::CodeGenOptLevel toCodeGenOptLevel(int optimizationLevel) {
+  if (optimizationLevel < 0) {
+    optimizationLevel = 0;
+  } else if (optimizationLevel > 3) {
+    optimizationLevel = 3;
+  }
+
+  if (optimizationLevel == 1) {
+    return llvm::CodeGenOptLevel::Less;
+  }
+  if (optimizationLevel == 2) {
+    return llvm::CodeGenOptLevel::Default;
+  }
+  if (optimizationLevel == 3) {
+    return llvm::CodeGenOptLevel::Aggressive;
+  }
+  return llvm::CodeGenOptLevel::None;
+}
+
 } // namespace
-LLVMCodeGen::LLVMCodeGen()
-    : builder_(ctx_), evaluateAsAddr_(false),
+LLVMCodeGen::LLVMCodeGen(std::string targetTriple, bool freestanding)
+    : builder_(ctx_),
+      targetTriple_(normalizeTargetTriple(std::move(targetTriple))),
+      freestanding_(freestanding), evaluateAsAddr_(false),
       arcEmitter_(std::make_unique<ClassArcEmitter>(*this)), nextStringId_(0) {
-  llvm::InitializeNativeTarget();
-  llvm::InitializeNativeTargetAsmPrinter();
-  llvm::InitializeNativeTargetAsmParser();
+  initializeLLVMTargets();
 }
 
 LLVMCodeGen::~LLVMCodeGen() = default;
 
 void LLVMCodeGen::initializeModule() {
   module_ = std::make_unique<llvm::Module>("zap_module", ctx_);
-  auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
-  llvm::Triple triple(targetTripleStr);
+  llvm::Triple triple(targetTriple_);
   module_->setTargetTriple(triple);
   std::string error;
-  const auto *target =
-      llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
-  if (target) {
-    llvm::TargetOptions opts;
-    if (auto *tm = target->createTargetMachine(triple, "generic", "", opts,
-                                               llvm::Reloc::PIC_)) {
-      module_->setDataLayout(tm->createDataLayout());
-      delete tm;
-    }
+  const auto *target = llvm::TargetRegistry::lookupTarget(triple, error);
+  if (!target) {
+    throw std::runtime_error("target lookup failed for '" + targetTriple_ +
+                             "': " + error);
   }
+
+  llvm::TargetOptions opts;
+  std::unique_ptr<llvm::TargetMachine> tm(target->createTargetMachine(
+      triple, "generic", "", opts, llvm::Reloc::PIC_));
+  if (!tm) {
+    throw std::runtime_error("failed to create target machine for '" +
+                             targetTriple_ + "'");
+  }
+  module_->setDataLayout(tm->createDataLayout());
 }
 
 void LLVMCodeGen::generate(sema::BoundRootNode &root) {
@@ -255,36 +297,24 @@ void LLVMCodeGen::printIR(llvm::raw_ostream &os) const {
 
 bool LLVMCodeGen::emitObjectFile(const std::string &path,
                                  int optimization_level) {
-  auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
-  llvm::Triple triple(targetTripleStr);
+  llvm::Triple triple(targetTriple_);
   module_->setTargetTriple(triple);
   std::string error;
-  const auto *target =
-      llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
+  const auto *target = llvm::TargetRegistry::lookupTarget(triple, error);
   if (!target) {
     llvm::errs() << "Target lookup failed: " << error << "\n";
     return false;
   }
 
-  if (optimization_level < 0) {
-    optimization_level = 0;
-  } else if (optimization_level > 3) {
-    optimization_level = 3;
-  }
-
-  llvm::CodeGenOptLevel codegenOptLevel = llvm::CodeGenOptLevel::None;
-  if (optimization_level == 1) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Less;
-  } else if (optimization_level == 2) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Default;
-  } else if (optimization_level == 3) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Aggressive;
-  }
-
   llvm::TargetOptions opts;
-  auto *tm = target->createTargetMachine(triple, "generic", "", opts,
-                                         llvm::Reloc::PIC_, std::nullopt,
-                                         codegenOptLevel);
+  std::unique_ptr<llvm::TargetMachine> tm(target->createTargetMachine(
+      triple, "generic", "", opts, llvm::Reloc::PIC_, std::nullopt,
+      toCodeGenOptLevel(optimization_level)));
+  if (!tm) {
+    llvm::errs() << "Failed to create target machine for: " << targetTriple_
+                 << "\n";
+    return false;
+  }
   module_->setDataLayout(tm->createDataLayout());
 
   std::error_code ec;
@@ -307,42 +337,29 @@ bool LLVMCodeGen::emitObjectFile(const std::string &path,
   if (!is_broken)
     pm.run(*module_);
   dest.flush();
-  delete tm;
   return !is_broken;
 }
 
 bool LLVMCodeGen::emitAssemblyFile(const std::string &path,
                                    int optimization_level) {
-  auto targetTripleStr = llvm::sys::getDefaultTargetTriple();
-  llvm::Triple triple(targetTripleStr);
+  llvm::Triple triple(targetTriple_);
   module_->setTargetTriple(triple);
   std::string error;
-  const auto *target =
-      llvm::TargetRegistry::lookupTarget(targetTripleStr, error);
+  const auto *target = llvm::TargetRegistry::lookupTarget(triple, error);
   if (!target) {
     llvm::errs() << "Target lookup failed: " << error << "\n";
     return false;
   }
 
-  if (optimization_level < 0) {
-    optimization_level = 0;
-  } else if (optimization_level > 3) {
-    optimization_level = 3;
-  }
-
-  llvm::CodeGenOptLevel codegenOptLevel = llvm::CodeGenOptLevel::None;
-  if (optimization_level == 1) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Less;
-  } else if (optimization_level == 2) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Default;
-  } else if (optimization_level == 3) {
-    codegenOptLevel = llvm::CodeGenOptLevel::Aggressive;
-  }
-
   llvm::TargetOptions opts;
-  auto *tm = target->createTargetMachine(triple, "generic", "", opts,
-                                         llvm::Reloc::PIC_, std::nullopt,
-                                         codegenOptLevel);
+  std::unique_ptr<llvm::TargetMachine> tm(target->createTargetMachine(
+      triple, "generic", "", opts, llvm::Reloc::PIC_, std::nullopt,
+      toCodeGenOptLevel(optimization_level)));
+  if (!tm) {
+    llvm::errs() << "Failed to create target machine for: " << targetTriple_
+                 << "\n";
+    return false;
+  }
   module_->setDataLayout(tm->createDataLayout());
 
   std::error_code ec;
@@ -364,7 +381,6 @@ bool LLVMCodeGen::emitAssemblyFile(const std::string &path,
     pm.run(*module_);
   }
   dest.flush();
-  delete tm;
   return !is_broken;
 }
 
@@ -527,7 +543,7 @@ LLVMCodeGen::buildFunctionType(const sema::FunctionSymbol &sym,
 
 llvm::FunctionType *LLVMCodeGen::buildFunctionType(const zir::Function &fn) {
   std::vector<llvm::Type *> paramTypes;
-  if (fn.name == "main") {
+  if (!freestanding_ && fn.name == "main") {
     paramTypes.push_back(llvm::Type::getInt32Ty(ctx_));
     paramTypes.push_back(llvm::PointerType::getUnqual(
         llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_))));
@@ -684,7 +700,7 @@ void LLVMCodeGen::visit(sema::BoundRootNode &node) {
   }
 
   for (const auto &fn : node.functions) {
-    bool isEntryMain = fn->symbol->linkName == "main";
+    bool isEntryMain = !freestanding_ && fn->symbol->linkName == "main";
     auto *ft = buildFunctionType(*fn->symbol, isEntryMain);
     auto *f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage,
                                      fn->symbol->linkName, *module_);
@@ -749,7 +765,7 @@ void LLVMCodeGen::visit(sema::BoundFunctionDeclaration &node) {
   builder_.SetInsertPoint(entry);
 
   auto argIt = fn->arg_begin();
-  if (node.symbol->linkName == "main") {
+  if (!freestanding_ && node.symbol->linkName == "main") {
     auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
     auto *i8PtrTy = llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
     auto *argvTy = llvm::PointerType::getUnqual(i8PtrTy);

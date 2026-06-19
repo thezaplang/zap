@@ -57,6 +57,19 @@ SPECIAL_CASES = {
         "output_file": "tests/nostdlib_ext_main_object.o",
         "desc": "Object compile with -nostdlib and external main"
     },
+    "tests/core_nostdlib_test.zp": {
+        "type": "compile",
+        "exit": 0,
+        "compile_flags": ["-nostdlib", "-c"],
+        "output_file": "tests/core_nostdlib_test.o",
+        "desc": "Core StringView helpers remain available with -nostdlib"
+    },
+    "tests/core_implicit_disabled_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "compile_flags": ["-nostdlib", "-c"],
+        "desc": "Core is not implicitly imported with -nostdlib"
+    },
     "tests/inline_asm_x86_io_test.zp": {
         "type": "compile",
         "exit": 0,
@@ -124,6 +137,30 @@ EXTRA_TESTS = [
         "desc": "Emit LLVM IR for a valid program",
         "compile_flags": ["-S", "-emit-llvm"],
         "output_file": "/tmp/zap-valid.ll"
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Emit LLVM IR with explicit target triple",
+        "compile_flags": ["--target=x86_64-pc-windows-msvc", "-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-target.ll",
+        "output_pattern": 'target triple = "x86_64-pc-windows-msvc"'
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Emit freestanding LLVM IR without host main args",
+        "compile_flags": ["--freestanding", "--target=x86_64-unknown-none", "-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-freestanding.ll",
+        "output_pattern": "define i64 @main()"
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Freestanding executable link is rejected",
+        "compile_flags": ["--freestanding"],
+        "exit": 1,
+        "stderr_pattern": "cannot link executable in freestanding mode"
     },
     {
         "file": "tests/logical_ops.zp",

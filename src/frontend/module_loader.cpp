@@ -42,6 +42,24 @@ std::filesystem::path stdlibRootPath(const RuntimePaths &paths) {
   return paths.configuredStdlibDir;
 }
 
+std::filesystem::path coreRootPath(const RuntimePaths &paths) {
+  if (const char *configured = std::getenv("ZAPC_CORE_DIR")) {
+    if (*configured != '\0') {
+      return std::filesystem::path(configured);
+    }
+  }
+
+  if (auto exePath = currentExecutablePath(paths.executablePath)) {
+    auto siblingCore = exePath->parent_path() / "core";
+    if (std::filesystem::exists(siblingCore) &&
+        std::filesystem::is_directory(siblingCore)) {
+      return siblingCore;
+    }
+  }
+
+  return paths.configuredCoreDir;
+}
+
 std::filesystem::path stdlibObjectPath(const RuntimePaths &paths) {
   if (const char *configured = std::getenv("ZAPC_STDLIB_PATH")) {
     if (*configured != '\0') {
@@ -71,6 +89,7 @@ std::string stripSourceExtension(const std::filesystem::path &path) {
 std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
                                      const RuntimePaths &paths) {
   auto stdRoot = std::filesystem::weakly_canonical(stdlibRootPath(paths));
+  auto coreRoot = std::filesystem::weakly_canonical(coreRootPath(paths));
   auto cwdRoot =
       std::filesystem::weakly_canonical(std::filesystem::current_path());
 
@@ -91,6 +110,12 @@ std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
     return prefix + "/" + stripped;
   };
 
+  if (auto logical = buildRelative(coreRoot, "core")) {
+    if (*logical == "core/core") {
+      return "core";
+    }
+    return *logical;
+  }
   if (auto logical = buildRelative(stdRoot, "std")) {
     return *logical;
   }
@@ -100,10 +125,10 @@ std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
   return stripSourceExtension(canonicalPath.filename());
 }
 
-bool hasPreludeImport(const RootNode &root) {
+bool hasImplicitImport(const RootNode &root, std::string_view path) {
   for (const auto &child : root.children) {
     auto importNode = dynamic_cast<ImportNode *>(child.get());
-    if (importNode && importNode->path == "std/prelude") {
+    if (importNode && importNode->path == path) {
       return true;
     }
   }
@@ -115,10 +140,11 @@ void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
   if (!includePrelude) {
     return;
   }
-  if (module.linkPath.rfind("std/", 0) == 0) {
+  if (module.linkPath == "core" || module.linkPath.rfind("core/", 0) == 0 ||
+      module.linkPath.rfind("std/", 0) == 0) {
     return;
   }
-  if (!module.root || hasPreludeImport(*module.root)) {
+  if (!module.root || hasImplicitImport(*module.root, "std/prelude")) {
     return;
   }
 
@@ -159,7 +185,12 @@ bool resolveImportTargets(const std::filesystem::path &modulePath,
   }
 
   if (!resolvedViaMap) {
-    if (importPath.rfind("std/", 0) == 0) {
+    if (importPath == "core") {
+      resolvedPath = coreRootPath(paths) / "core";
+    } else if (importPath.rfind("core/", 0) == 0) {
+      resolvedPath =
+          coreRootPath(paths) / importPath.substr(std::string("core/").size());
+    } else if (importPath.rfind("std/", 0) == 0) {
       resolvedPath =
           stdlibRootPath(paths) / importPath.substr(std::string("std/").size());
     } else {

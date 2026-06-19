@@ -1,0 +1,4 @@
+fun main() Int {
+    var text: StringView = view("kernel");
+    return len(text);
+}

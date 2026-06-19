@@ -17,7 +17,8 @@ class ClassArcEmitter;
 
 class LLVMCodeGen : public sema::BoundVisitor {
 public:
-  LLVMCodeGen();
+  explicit LLVMCodeGen(std::string targetTriple = {},
+                       bool freestanding = false);
   ~LLVMCodeGen();
 
   void generate(sema::BoundRootNode &root);
@@ -73,6 +74,8 @@ private:
   llvm::LLVMContext ctx_;
   llvm::IRBuilder<> builder_;
   std::unique_ptr<llvm::Module> module_;
+  std::string targetTriple_;
+  bool freestanding_ = false;
 
   llvm::Function *currentFn_ = nullptr;
   llvm::Value *lastValue_ = nullptr;

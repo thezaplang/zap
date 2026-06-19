@@ -88,6 +88,10 @@ public:
   get_import_map() const noexcept {
     return cmdArgs.importMap;
   }
+  const std::string &get_target_triple() const noexcept {
+    return cmdArgs.targetTriple;
+  }
+  bool is_freestanding() const noexcept { return cmdArgs.freestanding; }
   bool emits_text_output() const noexcept {
     return cmdArgs.output.type == args::OutputType::TEXT_LLVM ||
            cmdArgs.output.type == args::OutputType::ZIR ||

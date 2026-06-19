@@ -11,7 +11,7 @@ void printHelp() {
 #define ZAP_FLAG(ID, STR, MSG, ...)                                            \
   out() << "  " STR;                                                           \
   if constexpr ((2 + (sizeof(STR) - 1)) >= 18) {                               \
-    (out() << '\n').indent(18) << MSG;                                         \
+    (out() << '\n').indent(18) << MSG "\n";                                    \
   } else {                                                                     \
     out().indent(18 - ((sizeof(STR) - 1) + 2)) << MSG "\n";                    \
   }
@@ -111,6 +111,13 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
     std::string_view original(cmdline[i]);
 
     if (original[0] == '-') {
+      constexpr std::string_view targetPrefix = "--target=";
+      if (original.rfind(targetPrefix, 0) == 0) {
+        argsvec.emplace_back(original, original.substr(targetPrefix.size()),
+                             ArgTypes::Target);
+        continue;
+      }
+
       if (auto it = arg_map.find(original); it != arg_map.end()) {
         const ArgConf &conf = it->second;
 
@@ -166,10 +173,19 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
     printVersion();
     return ParseResult::SkipCompilation;
   }
+  if (holder.has(ArgTypes::PrintStdlibPath)) {
+    args.printStdlibPath = true;
+    return ParseResult::Success;
+  }
+  if (holder.has(ArgTypes::PrintCorePath)) {
+    args.printCorePath = true;
+    return ParseResult::Success;
+  }
 
   args.output.implicit = !holder.has(ArgTypes::Output);
-  args.incStdlib = !holder.has(ArgTypes::NoStdlib);
-  args.incPrelude = !holder.has(ArgTypes::NoPrelude);
+  args.freestanding = holder.has(ArgTypes::Freestanding);
+  args.incStdlib = !args.freestanding && !holder.has(ArgTypes::NoStdlib);
+  args.incPrelude = !args.freestanding && !holder.has(ArgTypes::NoPrelude);
 
   bool emitS = holder.has(ArgTypes::CompileOnlyS);
   bool compileOnly = holder.has(ArgTypes::CompileOnly);
@@ -196,6 +212,15 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
 
   if (!ok)
     return ParseResult::Failed;
+
+  if (holder.has(ArgTypes::Target)) {
+    std::string_view target = holder.get(ArgTypes::Target)->optional;
+    if (target.empty()) {
+      reportError("--target requires a target triple");
+      return ParseResult::Failed;
+    }
+    args.targetTriple = std::string(target);
+  }
 
   for (const ArgVal *arg : holder.getAll(ArgTypes::LinkDir)) {
     std::string val = "-L";

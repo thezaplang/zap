@@ -36,6 +36,24 @@ local function detect_stdlib(root_dir)
   return nil
 end
 
+local function detect_core(root_dir)
+  local candidates = {}
+  if root_dir and root_dir ~= "" then
+    table.insert(candidates, root_dir .. "/core")
+  end
+
+  local repo_core = repo_root() .. "/core"
+  table.insert(candidates, repo_core)
+
+  for _, candidate in ipairs(candidates) do
+    if vim.fn.isdirectory(candidate) == 1 then
+      return candidate
+    end
+  end
+
+  return nil
+end
+
 local function make_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -129,12 +147,20 @@ function M.make()
     capabilities = make_capabilities(),
     on_attach = on_attach,
     before_init = function(_, config)
+      local core = detect_core(config.root_dir)
       local stdlib = detect_stdlib(config.root_dir)
+      local env = config.cmd_env or {}
+      if core then
+        env = vim.tbl_extend("force", env, {
+          ZAPC_CORE_DIR = core,
+        })
+      end
       if stdlib then
-        config.cmd_env = vim.tbl_extend("force", config.cmd_env or {}, {
+        env = vim.tbl_extend("force", env, {
           ZAPC_STDLIB_DIR = stdlib,
         })
       end
+      config.cmd_env = env
     end,
   }
 end

@@ -1,0 +1,110 @@
+pub struct StringView {
+  ptr: *Char,
+  len: Int,
+}
+
+pub fun len(s: StringView) Int {
+  var sv: StringView = s;
+  return sv.len;
+}
+
+pub fun at(s: StringView, i: Int) Char {
+  var sv: StringView = s;
+  if sv.ptr == null || i < 0 || i >= sv.len {
+    return '\0';
+  }
+  unsafe {
+    return *(sv.ptr + i);
+  }
+}
+
+pub fun slice(s: StringView, start: Int, len: Int) StringView {
+  var sv: StringView = s;
+  if sv.ptr == null || sv.len <= 0 || len <= 0 || start >= sv.len {
+    return StringView { ptr: null, len: 0 };
+  }
+
+  var safeStart: Int = start;
+  if safeStart < 0 {
+    safeStart = 0;
+  }
+
+  var safeLen: Int = len;
+  var available: Int = sv.len - safeStart;
+  if safeLen > available {
+    safeLen = available;
+  }
+
+  unsafe {
+    return StringView { ptr: sv.ptr + safeStart, len: safeLen };
+  }
+}
+
+pub fun eq(a: StringView, b: StringView) Bool {
+  if a.len != b.len {
+    return false;
+  }
+
+  if a.len == 0 {
+    return true;
+  }
+
+  var i: Int = 0;
+  while i < a.len {
+    if at(a, i) != at(b, i) {
+      return false;
+    }
+    i = i + 1;
+  }
+  return true;
+}
+
+pub fun view(s: StringView) StringView {
+  return s;
+}
+
+pub fun startsWith(s: StringView, prefix: StringView) Bool {
+  var n: Int = len(s);
+  var m: Int = len(prefix);
+  if m > n {
+    return false;
+  }
+  var i: Int = 0;
+  while i < m {
+    if at(s, i) != at(prefix, i) {
+      return false;
+    }
+    i = i + 1;
+  }
+  return true;
+}
+
+pub fun indexOf(s: StringView, needle: StringView) Int {
+  var n: Int = len(s);
+  var m: Int = len(needle);
+  if m == 0 {
+    return 0;
+  }
+  if m > n {
+    return -1;
+  }
+
+  var i: Int = 0;
+  while i <= n - m {
+    var j: Int = 0;
+    var matched: Bool = true;
+    while j < m {
+      if at(s, i + j) != at(needle, j) {
+        matched = false;
+        j = m;
+      }
+      j = j + 1;
+    }
+    if matched {
+      return i;
+    }
+    i = i + 1;
+  }
+
+  return -1;
+}

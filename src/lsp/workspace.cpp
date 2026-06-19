@@ -10,9 +10,9 @@
 namespace zap::lsp {
 
 zap::frontend::RuntimePaths Workspace::runtimePaths() const {
-  return zap::frontend::RuntimePaths{std::filesystem::path(),
-                                     std::filesystem::path(ZAPC_STDLIB_DIR),
-                                     std::filesystem::path()};
+  return zap::frontend::RuntimePaths{
+      std::filesystem::path(), std::filesystem::path(ZAPC_CORE_DIR),
+      std::filesystem::path(ZAPC_STDLIB_DIR), std::filesystem::path()};
 }
 
 std::optional<std::string>

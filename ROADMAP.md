@@ -1,7 +1,7 @@
 # Zap Roadmap
 
 ## Zap v0.3.0
-- [ ] tagged unions
+- [x] tagged unions
 - [ ] traits
 - [x] type inference
 - [x] new faster cycle collector

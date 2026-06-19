@@ -1,0 +1,24 @@
+import "core" { StringView, view, len, at, slice, eq, startsWith, indexOf };
+
+fun main() Int {
+    var text: StringView = view("kernel");
+    if len(text) != 6 {
+        return 1;
+    }
+    if at(text, 1) != 'e' {
+        return 2;
+    }
+
+    var tail: StringView = slice(text, 3, 3);
+    if !eq(tail, view("nel")) {
+        return 3;
+    }
+
+    if !startsWith(text, view("ker")) {
+        return 4;
+    }
+    if indexOf(text, view("rn")) != 2 {
+        return 5;
+    }
+    return 0;
+}

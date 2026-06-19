@@ -105,6 +105,7 @@ def main():
         raise SystemExit(f"missing {SERVER}; build zap-lsp first")
 
     env = os.environ.copy()
+    env["ZAPC_CORE_DIR"] = str(ROOT / "core")
     env["ZAPC_STDLIB_DIR"] = str(ROOT / "std")
     proc = subprocess.Popen(
         [str(SERVER)],

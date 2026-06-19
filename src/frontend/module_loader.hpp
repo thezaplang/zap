@@ -14,6 +14,7 @@ using ImportMap = std::unordered_map<std::string, std::string>;
 
 struct RuntimePaths {
   std::filesystem::path executablePath;
+  std::filesystem::path configuredCoreDir;
   std::filesystem::path configuredStdlibDir;
   std::filesystem::path configuredStdlibObject;
 };
@@ -22,13 +23,14 @@ std::optional<std::filesystem::path>
 currentExecutablePath(const std::filesystem::path &argv0Hint);
 
 std::filesystem::path stdlibRootPath(const RuntimePaths &paths);
+std::filesystem::path coreRootPath(const RuntimePaths &paths);
 std::filesystem::path stdlibObjectPath(const RuntimePaths &paths);
 
 std::string stripSourceExtension(const std::filesystem::path &path);
 std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
                                      const RuntimePaths &paths);
 
-bool hasPreludeImport(const RootNode &root);
+bool hasImplicitImport(const RootNode &root, std::string_view path);
 void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
                                          bool includePrelude);
 

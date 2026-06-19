@@ -51,8 +51,7 @@ add_dependencies(zapc zap_stdlib)
 set(LLVM_COMPONENTS
     core
     support
-    native
-    nativecodegen
+    all-targets
     mc
     target
     analysis
@@ -71,6 +70,7 @@ endif()
 target_link_libraries(zapc PRIVATE ${llvm_libs})
 target_compile_definitions(zapc PRIVATE ${LLVM_DEFINITIONS})
 target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_PATH="${CMAKE_BINARY_DIR}/stdlib.o")
+target_compile_definitions(zapc PRIVATE ZAPC_CORE_DIR="${CMAKE_SOURCE_DIR}/core")
 target_compile_definitions(zapc PRIVATE ZAPC_STDLIB_DIR="${CMAKE_SOURCE_DIR}/std")
 
 include(cmake/doxygen.cmake)

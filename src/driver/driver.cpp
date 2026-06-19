@@ -21,15 +21,18 @@
 
 namespace zap {
 bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput);
-bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
-                              std::ostream &ofoutput);
+bool compileSourceLLVMFromZIR(sema::BoundRootNode &node, std::ostream &ofoutput,
+                              const std::string &targetTriple,
+                              bool freestanding);
 std::unique_ptr<zir::Module> generateZIRModule(sema::BoundRootNode &node);
 bool compileObjectFromZIR(sema::BoundRootNode &node,
                           const std::string &output_path,
-                          int optimization_level);
+                          int optimization_level,
+                          const std::string &targetTriple, bool freestanding);
 bool compileAssemblyFromZIR(sema::BoundRootNode &node,
                             const std::string &output_path,
-                            int optimization_level);
+                            int optimization_level,
+                            const std::string &targetTriple, bool freestanding);
 namespace {
 
 bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
@@ -66,7 +69,8 @@ bool emitRequestedTextOutputs(driver &drv, sema::BoundRootNode &node,
                           "\nreason: ", strerror(errno));
       return true;
     }
-    if (compileSourceLLVMFromZIR(node, llvm_output)) {
+    if (compileSourceLLVMFromZIR(node, llvm_output, drv.get_target_triple(),
+                                 drv.is_freestanding())) {
       return true;
     }
   }
@@ -78,6 +82,7 @@ std::filesystem::path g_executable_path;
 
 frontend::RuntimePaths runtimePaths() {
   return frontend::RuntimePaths{g_executable_path,
+                                std::filesystem::path(ZAPC_CORE_DIR),
                                 std::filesystem::path(ZAPC_STDLIB_DIR),
                                 std::filesystem::path(ZAPC_STDLIB_PATH)};
 }
@@ -106,7 +111,7 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
 bool loadModuleGraph(
     const std::filesystem::path &entryPath,
     std::map<std::string, std::unique_ptr<sema::ModuleInfo>> &modules,
-    std::set<std::string> &visiting, bool incStdlib,
+    std::set<std::string> &visiting, bool incPrelude,
     const std::unordered_map<std::string, std::string> &importMap) {
   auto canonicalPath = std::filesystem::weakly_canonical(entryPath);
   auto moduleId = canonicalPath.string();
@@ -146,7 +151,7 @@ bool loadModuleGraph(
       frontend::computeLogicalModulePath(canonicalPath, runtimePaths());
   module->sourceName = canonicalPath.string();
   module->root = std::move(ast);
-  frontend::injectImplicitPreludeImportIfNeeded(*module, incStdlib);
+  frontend::injectImplicitPreludeImportIfNeeded(*module, incPrelude);
 
   for (const auto &child : module->root->children) {
     auto importNode = dynamic_cast<ImportNode *>(child.get());
@@ -169,7 +174,7 @@ bool loadModuleGraph(
 
   for (const auto &import : module->imports) {
     for (const auto &targetId : import.targetModuleIds) {
-      if (loadModuleGraph(targetId, modules, visiting, incStdlib, importMap)) {
+      if (loadModuleGraph(targetId, modules, visiting, incPrelude, importMap)) {
         return true;
       }
     }
@@ -241,7 +246,9 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     }
 
     if (compileObjectFromZIR(*boundAst, out_path.string(),
-                             static_cast<int>(drv.cmdArgs.optLevel))) {
+                             static_cast<int>(drv.cmdArgs.optLevel),
+                             drv.cmdArgs.targetTriple,
+                             drv.cmdArgs.freestanding)) {
       return true;
     }
 
@@ -252,7 +259,9 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     out_path.replace_extension(
         driver::format_fileextension(args::OutputType::ASM));
     if (compileAssemblyFromZIR(*boundAst, out_path.string(),
-                               static_cast<int>(drv.cmdArgs.optLevel))) {
+                               static_cast<int>(drv.cmdArgs.optLevel),
+                               drv.cmdArgs.targetTriple,
+                               drv.cmdArgs.freestanding)) {
       return true;
     }
   } else if (drv.emits_text_output()) {
@@ -269,7 +278,16 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
 }
 
 args::ParseResult driver::parseArgs(int argc, char **argv) {
-  return args::parse(argc, argv, cmdArgs);
+  auto result = args::parse(argc, argv, cmdArgs);
+  if (result == args::ParseResult::Success && cmdArgs.printStdlibPath) {
+    out() << frontend::stdlibRootPath(runtimePaths()) << '\n';
+    return args::ParseResult::SkipCompilation;
+  }
+  if (result == args::ParseResult::Success && cmdArgs.printCorePath) {
+    out() << frontend::coreRootPath(runtimePaths()) << '\n';
+    return args::ParseResult::SkipCompilation;
+  }
+  return result;
 }
 
 bool driver::splitInputs() {
@@ -310,6 +328,12 @@ bool driver::verifyOutput() {
 
   if (!format_supported()) {
     reportError("chosen file output mode is not yet supported in this version");
+    return true;
+  }
+
+  if (cmdArgs.freestanding && needs_linking()) {
+    reportError("cannot link executable in freestanding mode; use -c, -S, or "
+                "-emit-llvm and link with an OS-specific linker script");
     return true;
   }
 
@@ -360,8 +384,9 @@ bool compileSourceZIR(sema::BoundRootNode &node, std::ostream &ofoutput) {
   return false;
 }
 
-bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
-                              std::ostream &ofoutput) {
+bool compileSourceLLVMFromZIR(sema::BoundRootNode &node, std::ostream &ofoutput,
+                              const std::string &targetTriple,
+                              bool freestanding) {
   try {
     auto mod = generateZIRModule(node);
     if (!mod) {
@@ -369,7 +394,7 @@ bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
       return true;
     }
 
-    codegen::LLVMCodeGen llvmGen;
+    codegen::LLVMCodeGen llvmGen(targetTriple, freestanding);
     llvmGen.generate(*mod);
     std::string ir;
     llvm::raw_string_ostream rs(ir);
@@ -384,7 +409,8 @@ bool compileSourceLLVMFromZIR(sema::BoundRootNode &node,
 
 bool compileObjectFromZIR(sema::BoundRootNode &node,
                           const std::string &output_path,
-                          int optimization_level) {
+                          int optimization_level,
+                          const std::string &targetTriple, bool freestanding) {
   try {
     auto mod = generateZIRModule(node);
     if (!mod) {
@@ -392,7 +418,7 @@ bool compileObjectFromZIR(sema::BoundRootNode &node,
       return true;
     }
 
-    codegen::LLVMCodeGen llvmGen;
+    codegen::LLVMCodeGen llvmGen(targetTriple, freestanding);
     llvmGen.generate(*mod);
     if (!llvmGen.emitObjectFile(output_path, optimization_level)) {
       driver::reportError("object file emission failed");
@@ -407,7 +433,9 @@ bool compileObjectFromZIR(sema::BoundRootNode &node,
 
 bool compileAssemblyFromZIR(sema::BoundRootNode &node,
                             const std::string &output_path,
-                            int optimization_level) {
+                            int optimization_level,
+                            const std::string &targetTriple,
+                            bool freestanding) {
   try {
     auto mod = generateZIRModule(node);
     if (!mod) {
@@ -415,7 +443,7 @@ bool compileAssemblyFromZIR(sema::BoundRootNode &node,
       return true;
     }
 
-    codegen::LLVMCodeGen llvmGen;
+    codegen::LLVMCodeGen llvmGen(targetTriple, freestanding);
     llvmGen.generate(*mod);
     if (!llvmGen.emitAssemblyFile(output_path, optimization_level)) {
       driver::reportError("assembly file emission failed");
@@ -473,7 +501,8 @@ bool driver::compileSourceFile(const std::string &source,
     }
 
     if (compileObjectFromZIR(*boundAst, out_path.string(),
-                             static_cast<int>(cmdArgs.optLevel))) {
+                             static_cast<int>(cmdArgs.optLevel),
+                             cmdArgs.targetTriple, cmdArgs.freestanding)) {
       return true;
     }
 
@@ -485,7 +514,8 @@ bool driver::compileSourceFile(const std::string &source,
     out_path.replace_extension(
         driver::format_fileextension(args::OutputType::ASM));
     if (compileAssemblyFromZIR(*boundAst, out_path.string(),
-                               static_cast<int>(cmdArgs.optLevel))) {
+                               static_cast<int>(cmdArgs.optLevel),
+                               cmdArgs.targetTriple, cmdArgs.freestanding)) {
       return true;
     }
   } else if (emits_text_output()) {
@@ -519,7 +549,8 @@ bool driver::link() {
 
   if (cmdArgs.incStdlib) {
     auto paths = frontend::RuntimePaths{
-        executable_path, std::filesystem::path(ZAPC_STDLIB_DIR),
+        executable_path, std::filesystem::path(ZAPC_CORE_DIR),
+        std::filesystem::path(ZAPC_STDLIB_DIR),
         std::filesystem::path(ZAPC_STDLIB_PATH)};
     cmd += frontend::stdlibObjectPath(paths).string() + " ";
   } else {

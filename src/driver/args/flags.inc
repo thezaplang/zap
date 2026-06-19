@@ -18,6 +18,14 @@ ZAP_FLAG(Help, "--help", "Displays available options.", Flag)
 // --version
 ZAP_FLAG(Version, "--version", "Prints out the version information.", Flag)
 
+// --print-stdlib-path
+ZAP_FLAG(PrintStdlibPath, "--print-stdlib-path",
+         "Prints the resolved standard library directory.", Flag)
+
+// --print-core-path
+ZAP_FLAG(PrintCorePath, "--print-core-path",
+         "Prints the resolved core library directory.", Flag)
+
 // -o
 ZAP_FLAG(Output, "-o", "Sets the output file.", JoinedSeparate)
 
@@ -28,6 +36,10 @@ ZAP_FLAG(NoStdlib, "-nostdlib",
 // -noprelude
 ZAP_FLAG(NoPrelude, "-noprelude",
          "Disables implicit injection of the standard prelude library.", Flag)
+
+// --freestanding
+ZAP_FLAG(Freestanding, "--freestanding",
+         "Compile without host OS runtime assumptions.", Flag)
 
 // -c
 ZAP_FLAG(CompileOnly, "-c", "Compile and assemble but not link.", Flag)
@@ -56,6 +68,9 @@ ZAP_FLAG(LinkDir, "-L",
 
 // -O
 ZAP_FLAG(OptLevel, "-O", "Set optimization level (default: -O0).", Joined)
+
+// --target=
+ZAP_FLAG(Target, "--target=", "Set LLVM target triple.", Joined)
 
 // --import-map
 ZAP_FLAG(ImportMap, "--import-map",

@@ -17,7 +17,6 @@
         "bin/**",
         "node_modules/**",
         "src/**",
-        "stdlib/**",
         "syntaxes/**",
         "language-configuration.json",
         "README.md",
@@ -44,7 +43,17 @@
                 "zap-lsp.stdlibPath": {
                     "type": "string",
                     "default": "",
-                    "description": "Path to the Zap stdlib directory used for imports like std/io."
+                    "description": "Path to the Zap stdlib directory used for imports like std/io. If unset, the extension uses a std/ directory in the current workspace."
+                },
+                "zap-lsp.corePath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path to the Zap core library directory used for import \"core\". If unset, the extension asks zapc or uses a core/ directory in the current workspace."
+                },
+                "zap-lsp.zapcPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional path to zapc. The extension uses `zapc --print-core-path` and `zapc --print-stdlib-path` to discover library directories."
                 }
             }
         },

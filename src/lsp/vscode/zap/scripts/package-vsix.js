@@ -10,23 +10,18 @@ const vsce = require("@vscode/vsce/out/package.js");
 async function stageBundledServer(cwd) {
     const repoRoot = path.resolve(cwd, "..", "..", "..", "..");
     const serverSource = path.join(repoRoot, "build", "zap-lsp");
+    const compilerSource = path.join(repoRoot, "build", "zapc");
     const serverTarget = path.join(cwd, "bin", "zap-lsp");
+    const compilerTarget = path.join(cwd, "bin", "zapc");
 
     await fs.promises.access(serverSource, fs.constants.R_OK);
+    await fs.promises.access(compilerSource, fs.constants.R_OK);
 
     await fs.promises.mkdir(path.dirname(serverTarget), { recursive: true });
     await fs.promises.copyFile(serverSource, serverTarget);
+    await fs.promises.copyFile(compilerSource, compilerTarget);
     await fs.promises.chmod(serverTarget, 0o755);
-}
-
-async function stageBundledStdlib(cwd) {
-    const repoRoot = path.resolve(cwd, "..", "..", "..", "..");
-    const stdlibSource = path.join(repoRoot, "std");
-    const stdlibTarget = path.join(cwd, "stdlib");
-
-    await fs.promises.access(stdlibSource, fs.constants.R_OK);
-    await fs.promises.rm(stdlibTarget, { recursive: true, force: true });
-    await fs.promises.cp(stdlibSource, stdlibTarget, { recursive: true });
+    await fs.promises.chmod(compilerTarget, 0o755);
 }
 
 function compileTypeScript(cwd) {
@@ -93,7 +88,6 @@ async function main() {
 
     compileTypeScript(cwd);
     await stageBundledServer(cwd);
-    await stageBundledStdlib(cwd);
 
     const files = collectManifestFiles(cwd, manifest).map((file) => ({
         path: `extension/${file}`,

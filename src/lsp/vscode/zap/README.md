@@ -11,9 +11,7 @@ Syntax highlighting and LSP support for Zap.
 
 The packaged `.vsix` bundles `zap-lsp`.
 
-The packaged extension ships with a bundled `stdlib/` (staged from the repo root `std/` during packaging) and uses it by default for imports like `std/io`.
-
-You usually do not need to set `zap-lsp.stdlibPath` unless you want to override the bundled stdlib with your own.
+The extension asks `zapc --print-core-path` and `zapc --print-stdlib-path` for the library directories used for imports like `core` and `std/io`. Set `zap-lsp.zapcPath` when the compiler is outside the workspace, or set `zap-lsp.corePath` / `zap-lsp.stdlibPath` to override discovery entirely.
 
 ## Optional Server Override
 
@@ -31,6 +29,7 @@ Example stdlib override setting (optional):
 
 ```json
 {
+  "zap-lsp.corePath": "/path/to/zap/core",
   "zap-lsp.stdlibPath": "/path/to/zap/std"
 }
 ```

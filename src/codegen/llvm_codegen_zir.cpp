@@ -1231,7 +1231,7 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
   zirBlockExitMap_.clear();
 
   auto llvmArgIt = currentFn_->arg_begin();
-  if (fn.name == "main") {
+  if (!freestanding_ && fn.name == "main") {
     auto *i32Ty = llvm::Type::getInt32Ty(ctx_);
     auto *i8PtrTy = llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_));
     auto *argvTy = llvm::PointerType::getUnqual(i8PtrTy);
@@ -1268,7 +1268,8 @@ void LLVMCodeGen::emitZIRFunction(const zir::Function &fn) {
 
   for (size_t i = 0; i < fn.getBlocks().size(); ++i) {
     const auto &block = fn.getBlocks()[i];
-    if (fn.name == "main" && i == 0 && zirBlockMap_.count(block->label) != 0) {
+    if (!freestanding_ && fn.name == "main" && i == 0 &&
+        zirBlockMap_.count(block->label) != 0) {
       continue;
     }
     zirBlockMap_[block->label] =

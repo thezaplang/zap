@@ -334,9 +334,9 @@ void Binder::applyImports(ModuleState &module, bool allowIncomplete) {
       }
 
       if (import.bindings.empty()) {
-        bool isImplicitPreludeImport =
+        bool isImplicitStdImport =
             import.rawPath == "std/prelude" && import.moduleAlias.empty();
-        if (isImplicitPreludeImport) {
+        if (isImplicitStdImport) {
           for (const auto &exported : target.symbol->exports) {
             if (!module.scope->lookupLocal(exported.first)) {
               module.scope->declare(exported.first, exported.second);

@@ -23,6 +23,7 @@ add_executable(zap-lsp ${LSP_SOURCES})
 
 target_include_directories(zap-lsp PRIVATE "${CMAKE_SOURCE_DIR}/src")
 target_compile_options(zap-lsp PRIVATE -Wall -Wextra)
+target_compile_definitions(zap-lsp PRIVATE ZAPC_CORE_DIR="${CMAKE_SOURCE_DIR}/core")
 target_compile_definitions(zap-lsp PRIVATE ZAPC_STDLIB_DIR="${CMAKE_SOURCE_DIR}/std")
 
 set_target_properties(zap-lsp PROPERTIES
