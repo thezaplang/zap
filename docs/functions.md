@@ -51,6 +51,23 @@ Standard call syntax:
 var total: Int = add(10, 20);
 ```
 
+### Builtin `sizeof`
+
+`sizeof(x)` returns the size in bytes as an `Int` compile-time constant. The
+argument can be a type name or an expression:
+
+```zap
+var intBytes: Int = sizeof(Int32); // 4
+
+struct Packet {
+    tag: UInt8,
+    value: Int32,
+}
+
+var packet: Packet = Packet{tag: 1, value: 2};
+var packetBytes: Int = sizeof(packet);
+```
+
 ---
 
 ## Parameters

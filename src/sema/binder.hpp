@@ -272,6 +272,7 @@ private:
   bindExpressionWithExpected(ExpressionNode *expr,
                              std::shared_ptr<zir::Type> expectedType);
   std::shared_ptr<zir::Type> currentExpectedExpressionType() const;
+  bool bindSizeOfBuiltinCall(FunCall &node);
   bool bindWeakBuiltinCall(FunCall &node);
   int conversionCost(std::shared_ptr<zir::Type> from,
                      std::shared_ptr<zir::Type> to) const;

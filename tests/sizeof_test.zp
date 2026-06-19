@@ -1,0 +1,52 @@
+@{packed}
+struct PackedPacket {
+    tag: UInt8,
+    value: Int32,
+    tail: UInt8,
+}
+
+struct PaddedPacket {
+    tag: UInt8,
+    value: Int32,
+    tail: UInt8,
+}
+
+@repr("C")
+enum CMode {
+    Read,
+    Write,
+}
+
+enum Value {
+    Empty,
+    Number(Int32),
+    Wide(Int64),
+}
+
+fun main() Int {
+    if sizeof(Void) != 0 { return 1; }
+    if sizeof(Bool) != 1 { return 2; }
+    if sizeof(UInt8) != 1 { return 3; }
+    if sizeof(Int16) != 2 { return 4; }
+    if sizeof(Int32) != 4 { return 5; }
+    if sizeof(Int) != 8 { return 6; }
+    if sizeof(Float64) != 8 { return 7; }
+    if sizeof(String) != 16 { return 8; }
+    if sizeof(CMode) != 4 { return 9; }
+    if sizeof(Value) != 16 { return 10; }
+    if sizeof(PackedPacket) != 6 { return 11; }
+    if sizeof(PaddedPacket) != 12 { return 12; }
+
+    var bytes: [4]UInt8 = {1, 2, 3, 4};
+    if sizeof(bytes) != 4 { return 13; }
+
+    var packet: PaddedPacket = PaddedPacket{tag: 1, value: 2, tail: 3};
+    if sizeof(packet) != 12 { return 14; }
+
+    unsafe {
+        var ptr: *UInt8 = &bytes[0];
+        if sizeof(ptr) != 8 { return 15; }
+    }
+
+    return 0;
+}
