@@ -547,35 +547,49 @@ Public Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   90</span>                 (i &lt; variants.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><span class="lineno">   91</span>        }</div>
 <div class="line"><span class="lineno">   92</span>        res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   93</span>      }</div>
-<div class="line"><span class="lineno">   94</span>    }</div>
-<div class="line"><span class="lineno">   95</span>    res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.empty()) {</div>
-<div class="line"><span class="lineno">   97</span>      res += <span class="stringliteral">&quot;; Globals\n&quot;</span>;</div>
-<div class="line"><span class="lineno">   98</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>) {</div>
-<div class="line"><span class="lineno">   99</span>        res += global-&gt;getName() + <span class="stringliteral">&quot; = global &quot;</span> +</div>
-<div class="line"><span class="lineno">  100</span>               global-&gt;getValueType()-&gt;toString();</div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">if</span> (global-&gt;getInitializer()) {</div>
-<div class="line"><span class="lineno">  102</span>          res += <span class="stringliteral">&quot; &quot;</span> + global-&gt;getInitializer()-&gt;getName();</div>
-<div class="line"><span class="lineno">  103</span>        }</div>
-<div class="line"><span class="lineno">  104</span>        res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  105</span>      }</div>
-<div class="line"><span class="lineno">  106</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   93</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743">TypeKind::TaggedUnion</a>) {</div>
+<div class="line"><span class="lineno">   94</span>        <span class="keyword">auto</span> tu = std::static_pointer_cast&lt;TaggedUnionType&gt;(type);</div>
+<div class="line"><span class="lineno">   95</span>        res += tu-&gt;toString() + <span class="stringliteral">&quot; { &quot;</span>;</div>
+<div class="line"><span class="lineno">   96</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;variants = tu-&gt;getVariants();</div>
+<div class="line"><span class="lineno">   97</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; variants.size(); ++i) {</div>
+<div class="line"><span class="lineno">   98</span>          res += variants[i].name;</div>
+<div class="line"><span class="lineno">   99</span>          <span class="keywordflow">if</span> (variants[i].payloadType) {</div>
+<div class="line"><span class="lineno">  100</span>            res += <span class="stringliteral">&quot;(&quot;</span> + variants[i].payloadType-&gt;toString() + <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="lineno">  101</span>          }</div>
+<div class="line"><span class="lineno">  102</span>          res += <span class="stringliteral">&quot; = &quot;</span> + std::to_string(variants[i].tag) +</div>
+<div class="line"><span class="lineno">  103</span>                 (i &lt; variants.size() - 1 ? <span class="stringliteral">&quot;, &quot;</span> : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">  104</span>        }</div>
+<div class="line"><span class="lineno">  105</span>        res += <span class="stringliteral">&quot; }\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  106</span>      }</div>
 <div class="line"><span class="lineno">  107</span>    }</div>
-<div class="line"><span class="lineno">  108</span>    res += <span class="stringliteral">&quot;; External Functions\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>) {</div>
-<div class="line"><span class="lineno">  110</span>      res += <span class="stringliteral">&quot;extern &quot;</span> + func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  111</span>    }</div>
-<div class="line"><span class="lineno">  112</span>    res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>) {</div>
-<div class="line"><span class="lineno">  114</span>      res += func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  115</span>    }</div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">  117</span>  }</div>
+<div class="line"><span class="lineno">  108</span>    res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>.empty()) {</div>
+<div class="line"><span class="lineno">  110</span>      res += <span class="stringliteral">&quot;; Globals\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  111</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : <a class="code hl_variable" href="#ac71196f8d7e25da0b1f2721f00e9beee">globals</a>) {</div>
+<div class="line"><span class="lineno">  112</span>        res += global-&gt;getName() + <span class="stringliteral">&quot; = global &quot;</span> +</div>
+<div class="line"><span class="lineno">  113</span>               global-&gt;getValueType()-&gt;toString();</div>
+<div class="line"><span class="lineno">  114</span>        <span class="keywordflow">if</span> (global-&gt;getInitializer()) {</div>
+<div class="line"><span class="lineno">  115</span>          res += <span class="stringliteral">&quot; &quot;</span> + global-&gt;getInitializer()-&gt;getName();</div>
+<div class="line"><span class="lineno">  116</span>        }</div>
+<div class="line"><span class="lineno">  117</span>        res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  118</span>      }</div>
+<div class="line"><span class="lineno">  119</span>      res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  120</span>    }</div>
+<div class="line"><span class="lineno">  121</span>    res += <span class="stringliteral">&quot;; External Functions\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  122</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#ad57e9c2b15ecdb8051eeae58ee0621b7">externalFunctions</a>) {</div>
+<div class="line"><span class="lineno">  123</span>      res += <span class="stringliteral">&quot;extern &quot;</span> + func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  124</span>    }</div>
+<div class="line"><span class="lineno">  125</span>    res += <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;func : <a class="code hl_variable" href="#a68448e89a31ac6ba1fd104d9a55df155">functions</a>) {</div>
+<div class="line"><span class="lineno">  127</span>      res += func-&gt;toString() + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  128</span>    }</div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">  130</span>  }</div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00028">type.hpp:28</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00031">type.hpp:31</a></div></div>
+<div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743">zir::TypeKind::TaggedUnion</a></div><div class="ttdeci">@ TaggedUnion</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00032">type.hpp:32</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00016">externalFunctions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00015">functions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00013">globals</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00011">name</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00012">types</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00016">externalFunctions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00015">functions</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00013">globals</a>, <a class="el" href="../../de/def/module_8hpp_source.html#l00011">name</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00032">zir::TaggedUnion</a>, and <a class="el" href="../../de/def/module_8hpp_source.html#l00012">types</a>.</p>
 
 </div>
 </div>

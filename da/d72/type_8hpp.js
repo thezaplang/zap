@@ -8,6 +8,8 @@ var type_8hpp =
     [ "zir::ClassType", "dc/dae/classzir_1_1ClassType.html", "dc/dae/classzir_1_1ClassType" ],
     [ "zir::EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
     [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", "d1/d76/structzir_1_1EnumType_1_1Variant" ],
+    [ "zir::TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html", "dd/db3/classzir_1_1TaggedUnionType" ],
+    [ "zir::TaggedUnionType::Variant", "df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html", "df/d7f/structzir_1_1TaggedUnionType_1_1Variant" ],
     [ "zir::ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
     [ "zir::FunctionPointerType", "d0/d48/classzir_1_1FunctionPointerType.html", "d0/d48/classzir_1_1FunctionPointerType" ],
     [ "zir::TypeKind", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959", [
@@ -33,6 +35,7 @@ var type_8hpp =
       [ "zir::TypeKind::Class", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af", null ],
       [ "zir::TypeKind::Array", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a4410ec34d9e6c1a68100ca0ce033fb17", null ],
       [ "zir::TypeKind::Enum", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c", null ],
+      [ "zir::TypeKind::TaggedUnion", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743", null ],
       [ "zir::TypeKind::FunctionPointer", "df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a208adf8bf2acdb0d453083d29d6e7afb", null ]
     ] ]
 ];

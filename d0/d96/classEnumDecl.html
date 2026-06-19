@@ -105,7 +105,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a421b4b80d7b9b037d01158a56f5a1648" name="a421b4b80d7b9b037d01158a56f5a1648"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a421b4b80d7b9b037d01158a56f5a1648">&#9670;&#160;</a></span>EnumDecl() <span class="overload">[1/3]</span></h2>
@@ -159,12 +159,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">32</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>      : <a class="code hl_variable" href="#ac5ec1fa863173b9ef7543d7b516d538f">name_</a>(name), <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>(std::move(entries)) {}</div>
-<div class="ttc" id="aclassEnumDecl_html_ac5ec1fa863173b9ef7543d7b516d538f"><div class="ttname"><a href="#ac5ec1fa863173b9ef7543d7b516d538f">EnumDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d1c/enum__decl_8hpp_source.html#l00027">enum_decl.hpp:27</a></div></div>
-<div class="ttc" id="aclassEnumDecl_html_adee6bdbdd0417a0211390a0f35850d01"><div class="ttname"><a href="#adee6bdbdd0417a0211390a0f35850d01">EnumDecl::entries_</a></div><div class="ttdeci">std::vector&lt; Entry &gt; entries_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d1c/enum__decl_8hpp_source.html#l00028">enum_decl.hpp:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>      : <a class="code hl_variable" href="#ac5ec1fa863173b9ef7543d7b516d538f">name_</a>(name), <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>(std::move(entries)) {}</div>
+<div class="ttc" id="aclassEnumDecl_html_ac5ec1fa863173b9ef7543d7b516d538f"><div class="ttname"><a href="#ac5ec1fa863173b9ef7543d7b516d538f">EnumDecl::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d1c/enum__decl_8hpp_source.html#l00032">enum_decl.hpp:32</a></div></div>
+<div class="ttc" id="aclassEnumDecl_html_adee6bdbdd0417a0211390a0f35850d01"><div class="ttname"><a href="#adee6bdbdd0417a0211390a0f35850d01">EnumDecl::entries_</a></div><div class="ttdeci">std::vector&lt; Entry &gt; entries_</div><div class="ttdef"><b>Definition</b> <a href="../../df/d1c/enum__decl_8hpp_source.html#l00033">enum_decl.hpp:33</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00028">entries_</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00027">name_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00033">entries_</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">name_</a>.</p>
 
 </div>
 </div>
@@ -195,15 +195,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>      : <a class="code hl_variable" href="#ac5ec1fa863173b9ef7543d7b516d538f">name_</a>(name) {</div>
-<div class="line"><span class="lineno">   39</span>    <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>.reserve(entryNames.size());</div>
-<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;entryName : entryNames) {</div>
-<div class="line"><span class="lineno">   41</span>      <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>.emplace_back(std::move(entryName));</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
-<div class="line"><span class="lineno">   43</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>      : <a class="code hl_variable" href="#ac5ec1fa863173b9ef7543d7b516d538f">name_</a>(name) {</div>
+<div class="line"><span class="lineno">   44</span>    <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>.reserve(entryNames.size());</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;entryName : entryNames) {</div>
+<div class="line"><span class="lineno">   46</span>      <a class="code hl_variable" href="#adee6bdbdd0417a0211390a0f35850d01">entries_</a>.emplace_back(std::move(entryName));</div>
+<div class="line"><span class="lineno">   47</span>    }</div>
+<div class="line"><span class="lineno">   48</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00028">entries_</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00027">name_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00033">entries_</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">name_</a>.</p>
 
 </div>
 </div>
@@ -233,8 +233,8 @@ Public Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../df/dd0/classNode.html#a005a33d684aeb049d1e909704f206ae6">Node</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
 <div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00062">visitor.hpp:62</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00062">Visitor::visit()</a>.</p>
@@ -254,9 +254,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00028">28</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00033">33</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">EnumDecl()</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">EnumDecl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">EnumDecl()</a>, and <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00042">EnumDecl()</a>.</p>
 
 </div>
 </div>
@@ -272,9 +272,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00027">27</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">32</a> of file <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html">enum_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00032">EnumDecl()</a>, <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">EnumDecl()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l01248">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00037">EnumDecl()</a>, <a class="el" href="../../df/d1c/enum__decl_8hpp_source.html#l00042">EnumDecl()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l01315">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>

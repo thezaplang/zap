@@ -76,6 +76,8 @@ var classcodegen_1_1LLVMCodeGen =
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3fecfcd40930fa37a9b7e9a2491f985e", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a4ff38f0f5aaab8db69236c616ffa6309", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#ac422baac0ccf9876da632ad18e8e07f2", null ],
+    [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a460c3660d9c865efa5a02a81481a794a", null ],
+    [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a7fd63330487b2118652330c783ebe12b", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#a69af5846e97a358fc2ab362f88587676", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#aafbf9542b83914e73d7aef5408aca599", null ],
     [ "visit", "da/de9/classcodegen_1_1LLVMCodeGen.html#aa714871da010a5c3d9d7cde761c6d998", null ],

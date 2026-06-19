@@ -32,6 +32,7 @@ var hierarchy =
         [ "sema::BoundModuleReference", "d5/d03/classsema_1_1BoundModuleReference.html", null ],
         [ "sema::BoundNewExpression", "db/d54/classsema_1_1BoundNewExpression.html", null ],
         [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", null ],
+        [ "sema::BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", null ],
         [ "sema::BoundTernaryExpression", "db/d94/classsema_1_1BoundTernaryExpression.html", null ],
         [ "sema::BoundTryExpression", "d8/d57/classsema_1_1BoundTryExpression.html", null ],
         [ "sema::BoundUnaryExpression", "d6/d6f/classsema_1_1BoundUnaryExpression.html", null ],
@@ -56,7 +57,8 @@ var hierarchy =
         [ "sema::BoundReturnStatement", "d2/d99/classsema_1_1BoundReturnStatement.html", null ],
         [ "sema::BoundVariableDeclaration", "d2/d5b/classsema_1_1BoundVariableDeclaration.html", null ],
         [ "sema::BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", null ]
-      ] ]
+      ] ],
+      [ "sema::BoundTaggedUnionDeclaration", "dc/da0/classsema_1_1BoundTaggedUnionDeclaration.html", null ]
     ] ],
     [ "sema::BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", [
       [ "codegen::LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", null ],
@@ -205,7 +207,8 @@ var hierarchy =
       [ "zir::PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", null ],
       [ "zir::RecordType", "da/de1/classzir_1_1RecordType.html", [
         [ "zir::ClassType", "dc/dae/classzir_1_1ClassType.html", null ]
-      ] ]
+      ] ],
+      [ "zir::TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html", null ]
     ] ],
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
       [ "zir::AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", null ],
@@ -216,6 +219,7 @@ var hierarchy =
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]
     ] ],
     [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", null ],
+    [ "zir::TaggedUnionType::Variant", "df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html", null ],
     [ "zap::lsp::VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", null ],
     [ "Visitor", "dc/d13/structVisitor.html", [
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
