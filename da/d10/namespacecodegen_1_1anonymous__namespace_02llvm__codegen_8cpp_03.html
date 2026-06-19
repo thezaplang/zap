@@ -68,6 +68,9 @@ $(function(){initNavTree('da/d10/namespacecodegen_1_1anonymous__namespace_02llvm
 Functions</h2></td></tr>
 <tr class="memitem:a380165df1f48789b28989b860e9b71ac" id="r_a380165df1f48789b28989b860e9b71ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a380165df1f48789b28989b860e9b71ac">isStringType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 <tr class="memitem:a12fd8eccc942fb96e9825f1e37390762" id="r_a12fd8eccc942fb96e9825f1e37390762"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12fd8eccc942fb96e9825f1e37390762">isStringRecordName</a> (const std::string &amp;full)</td></tr>
+<tr class="memitem:a8445bdb720c26744ec9d2a83a064c53e" id="r_a8445bdb720c26744ec9d2a83a064c53e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8445bdb720c26744ec9d2a83a064c53e">lowerGccAsmTemplateToLLVM</a> (const std::string &amp;assembly)</td></tr>
+<tr class="memitem:a314e68387d71b51806754ae306403d8d" id="r_a314e68387d71b51806754ae306403d8d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a314e68387d71b51806754ae306403d8d">lowerX86GccConstraintToLLVM</a> (const std::string &amp;constraint)</td></tr>
+<tr class="memitem:aae1ea840179cef0910141de1cbca4595" id="r_aae1ea840179cef0910141de1cbca4595"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae1ea840179cef0910141de1cbca4595">lowerAsmConstraintToLLVM</a> (const std::string &amp;constraint, const llvm::Triple &amp;triple)</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a12fd8eccc942fb96e9825f1e37390762" name="a12fd8eccc942fb96e9825f1e37390762"></a>
@@ -85,15 +88,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>                                               {</div>
-<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#ae8184319a065dd047614d53ec0e4244b">zap::text::isStringRecordName</a>(full);</div>
-<div class="line"><span class="lineno">   30</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                               {</div>
+<div class="line"><span class="lineno">   31</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#ae8184319a065dd047614d53ec0e4244b">zap::text::isStringRecordName</a>(full);</div>
+<div class="line"><span class="lineno">   32</span>}</div>
 <div class="ttc" id="anamespacezap_1_1text_html_ae8184319a065dd047614d53ec0e4244b"><div class="ttname"><a href="../../dc/db9/namespacezap_1_1text.html#ae8184319a065dd047614d53ec0e4244b">zap::text::isStringRecordName</a></div><div class="ttdeci">bool isStringRecordName(const std::string &amp;full)</div><div class="ttdef"><b>Definition</b> <a href="../../df/df8/string__type__utils_8hpp_source.html#l00031">string_type_utils.hpp:31</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00028">isStringRecordName()</a>, and <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00031">zap::text::isStringRecordName()</a>.</p>
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00030">isStringRecordName()</a>, and <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00031">zap::text::isStringRecordName()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00028">isStringRecordName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00030">isStringRecordName()</a>.</p>
 
 </div>
 </div>
@@ -112,15 +115,163 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00024">24</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>                                                      {</div>
-<div class="line"><span class="lineno">   25</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a>(type);</div>
-<div class="line"><span class="lineno">   26</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>                                                      {</div>
+<div class="line"><span class="lineno">   27</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a>(type);</div>
+<div class="line"><span class="lineno">   28</span>}</div>
 <div class="ttc" id="anamespacezap_1_1text_html_a80463f2bda983207e79303b56cdb4a1c"><div class="ttname"><a href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a></div><div class="ttdeci">bool isStringType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../df/df8/string__type__utils_8hpp_source.html#l00035">string_type_utils.hpp:35</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00024">isStringType()</a>, and <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00035">zap::text::isStringType()</a>.</p>
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">isStringType()</a>, and <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00035">zap::text::isStringType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00024">isStringType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00026">isStringType()</a>.</p>
+
+</div>
+</div>
+<a id="aae1ea840179cef0910141de1cbca4595" name="aae1ea840179cef0910141de1cbca4595"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae1ea840179cef0910141de1cbca4595">&#9670;&#160;</a></span>lowerAsmConstraintToLLVM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string codegen::anonymous_namespace{llvm_codegen.cpp}::lowerAsmConstraintToLLVM </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>constraint</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const llvm::Triple &amp;</td>          <td class="paramname"><span class="paramname"><em>triple</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00105">105</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  106</span>                                                               {</div>
+<div class="line"><span class="lineno">  107</span>  <span class="keywordflow">if</span> (triple.isX86())</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a314e68387d71b51806754ae306403d8d">lowerX86GccConstraintToLLVM</a>(constraint);</div>
+<div class="line"><span class="lineno">  109</span>  <span class="keywordflow">return</span> constraint;</div>
+<div class="line"><span class="lineno">  110</span>}</div>
+<div class="ttc" id="anamespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03_html_a314e68387d71b51806754ae306403d8d"><div class="ttname"><a href="#a314e68387d71b51806754ae306403d8d">codegen::anonymous_namespace{llvm_codegen.cpp}::lowerX86GccConstraintToLLVM</a></div><div class="ttdeci">std::string lowerX86GccConstraintToLLVM(const std::string &amp;constraint)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">llvm_codegen.cpp:62</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00105">lowerAsmConstraintToLLVM()</a>, and <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">lowerX86GccConstraintToLLVM()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00105">lowerAsmConstraintToLLVM()</a>.</p>
+
+</div>
+</div>
+<a id="a8445bdb720c26744ec9d2a83a064c53e" name="a8445bdb720c26744ec9d2a83a064c53e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8445bdb720c26744ec9d2a83a064c53e">&#9670;&#160;</a></span>lowerGccAsmTemplateToLLVM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string codegen::anonymous_namespace{llvm_codegen.cpp}::lowerGccAsmTemplateToLLVM </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>assembly</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00034">34</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>                                                               {</div>
+<div class="line"><span class="lineno">   35</span>  std::string lowered;</div>
+<div class="line"><span class="lineno">   36</span>  lowered.reserve(assembly.size());</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; assembly.size(); ++i) {</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">if</span> (assembly[i] != <span class="charliteral">&#39;%&#39;</span> || i + 1 == assembly.size()) {</div>
+<div class="line"><span class="lineno">   40</span>      lowered.push_back(assembly[i]);</div>
+<div class="line"><span class="lineno">   41</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   42</span>    }</div>
+<div class="line"><span class="lineno">   43</span> </div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordtype">char</span> next = assembly[i + 1];</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">if</span> (std::isdigit(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(next))) {</div>
+<div class="line"><span class="lineno">   46</span>      lowered.push_back(<span class="charliteral">&#39;$&#39;</span>);</div>
+<div class="line"><span class="lineno">   47</span>      <span class="keywordflow">while</span> (i + 1 &lt; assembly.size() &amp;&amp;</div>
+<div class="line"><span class="lineno">   48</span>             std::isdigit(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(assembly[i + 1]))) {</div>
+<div class="line"><span class="lineno">   49</span>        lowered.push_back(assembly[++i]);</div>
+<div class="line"><span class="lineno">   50</span>      }</div>
+<div class="line"><span class="lineno">   51</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (next == <span class="charliteral">&#39;%&#39;</span>) {</div>
+<div class="line"><span class="lineno">   52</span>      lowered.push_back(<span class="charliteral">&#39;%&#39;</span>);</div>
+<div class="line"><span class="lineno">   53</span>      ++i;</div>
+<div class="line"><span class="lineno">   54</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   55</span>      lowered.push_back(assembly[i]);</div>
+<div class="line"><span class="lineno">   56</span>    }</div>
+<div class="line"><span class="lineno">   57</span>  }</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>  <span class="keywordflow">return</span> lowered;</div>
+<div class="line"><span class="lineno">   60</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00034">lowerGccAsmTemplateToLLVM()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00034">lowerGccAsmTemplateToLLVM()</a>.</p>
+
+</div>
+</div>
+<a id="a314e68387d71b51806754ae306403d8d" name="a314e68387d71b51806754ae306403d8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a314e68387d71b51806754ae306403d8d">&#9670;&#160;</a></span>lowerX86GccConstraintToLLVM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string codegen::anonymous_namespace{llvm_codegen.cpp}::lowerX86GccConstraintToLLVM </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>constraint</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">62</a> of file <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html">llvm_codegen.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>                                                                   {</div>
+<div class="line"><span class="lineno">   63</span>  std::string lowered;</div>
+<div class="line"><span class="lineno">   64</span>  lowered.reserve(constraint.size() + 8);</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; constraint.size(); ++i) {</div>
+<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">if</span> (constraint[i] == <span class="charliteral">&#39;{&#39;</span>) {</div>
+<div class="line"><span class="lineno">   68</span>      <span class="keywordflow">while</span> (i &lt; constraint.size()) {</div>
+<div class="line"><span class="lineno">   69</span>        lowered.push_back(constraint[i]);</div>
+<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">if</span> (constraint[i] == <span class="charliteral">&#39;}&#39;</span>)</div>
+<div class="line"><span class="lineno">   71</span>          <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   72</span>        ++i;</div>
+<div class="line"><span class="lineno">   73</span>      }</div>
+<div class="line"><span class="lineno">   74</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   75</span>    }</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">switch</span> (constraint[i]) {</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;a&#39;</span>:</div>
+<div class="line"><span class="lineno">   79</span>      lowered += <span class="stringliteral">&quot;{ax}&quot;</span>;</div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;b&#39;</span>:</div>
+<div class="line"><span class="lineno">   82</span>      lowered += <span class="stringliteral">&quot;{bx}&quot;</span>;</div>
+<div class="line"><span class="lineno">   83</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;c&#39;</span>:</div>
+<div class="line"><span class="lineno">   85</span>      lowered += <span class="stringliteral">&quot;{cx}&quot;</span>;</div>
+<div class="line"><span class="lineno">   86</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;d&#39;</span>:</div>
+<div class="line"><span class="lineno">   88</span>      lowered += <span class="stringliteral">&quot;{dx}&quot;</span>;</div>
+<div class="line"><span class="lineno">   89</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;S&#39;</span>:</div>
+<div class="line"><span class="lineno">   91</span>      lowered += <span class="stringliteral">&quot;{si}&quot;</span>;</div>
+<div class="line"><span class="lineno">   92</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">case</span> <span class="charliteral">&#39;D&#39;</span>:</div>
+<div class="line"><span class="lineno">   94</span>      lowered += <span class="stringliteral">&quot;{di}&quot;</span>;</div>
+<div class="line"><span class="lineno">   95</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   97</span>      lowered.push_back(constraint[i]);</div>
+<div class="line"><span class="lineno">   98</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   99</span>    }</div>
+<div class="line"><span class="lineno">  100</span>  }</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">return</span> lowered;</div>
+<div class="line"><span class="lineno">  103</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">lowerX86GccConstraintToLLVM()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00105">lowerAsmConstraintToLLVM()</a>, and <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00062">lowerX86GccConstraintToLLVM()</a>.</p>
 
 </div>
 </div>

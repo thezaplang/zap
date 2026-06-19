@@ -1,5 +1,8 @@
 var NAVTREEINDEX13 =
 {
+"dc/d13/structVisitor.html#aa8ba50365901e661f3ddf0864bad91e1":[2,0,64,15],
+"dc/d13/structVisitor.html#aaab4b9469c64a8d64f46f4a8e8589cce":[2,0,64,21],
+"dc/d13/structVisitor.html#aaef602692df9eedc00defc2ee0f54a36":[2,0,64,7],
 "dc/d13/structVisitor.html#ab9d7c68fc7a196784873e527d832c650":[2,0,64,49],
 "dc/d13/structVisitor.html#abbe4f37dd078f12e3947703901679a82":[2,0,64,39],
 "dc/d13/structVisitor.html#abe9b41e041fe95618e31eccc697c1108":[2,0,64,26],
@@ -246,8 +249,5 @@ var NAVTREEINDEX13 =
 "dc/d2c/classsema_1_1Binder.html#acbc88bac62b2734181fc19e13274dd08":[2,0,1,0,133],
 "dc/d2c/classsema_1_1Binder.html#acc6ded3321ad49d4ee009780cacb20f5":[1,0,2,0,18],
 "dc/d2c/classsema_1_1Binder.html#acc6ded3321ad49d4ee009780cacb20f5":[2,0,1,0,18],
-"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f":[1,0,2,0,139],
-"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f":[2,0,1,0,139],
-"dc/d2c/classsema_1_1Binder.html#acd0dbb29a108cef175b932356527a8a6":[1,0,2,0,17],
-"dc/d2c/classsema_1_1Binder.html#acd0dbb29a108cef175b932356527a8a6":[2,0,1,0,17]
+"dc/d2c/classsema_1_1Binder.html#acc7af7747070254879e1d5df01d0e55f":[1,0,2,0,139]
 };

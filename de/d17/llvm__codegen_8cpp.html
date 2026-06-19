@@ -67,6 +67,7 @@ $(function(){initNavTree('de/d17/llvm__codegen_8cpp.html','../../',''); });
 <code>#include &quot;<a class="el" href="../../df/df8/string__type__utils_8hpp_source.html">../utils/string_type_utils.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d3/d88/class__arc__emitter_8hpp_source.html">class_arc_emitter.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>&quot;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
 <code>#include &lt;llvm/IR/BasicBlock.h&gt;</code><br />
 <code>#include &lt;llvm/IR/DerivedTypes.h&gt;</code><br />
 <code>#include &lt;llvm/IR/Function.h&gt;</code><br />
@@ -81,6 +82,7 @@ $(function(){initNavTree('de/d17/llvm__codegen_8cpp.html','../../',''); });
 <code>#include &lt;llvm/Target/TargetMachine.h&gt;</code><br />
 <code>#include &lt;llvm/Target/TargetOptions.h&gt;</code><br />
 <code>#include &lt;llvm/TargetParser/Host.h&gt;</code><br />
+<code>#include &lt;llvm/TargetParser/Triple.h&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
 </div>
@@ -95,6 +97,9 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a380165df1f48789b28989b860e9b71ac" id="r_a380165df1f48789b28989b860e9b71ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac">codegen::anonymous_namespace{llvm_codegen.cpp}::isStringType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type)</td></tr>
 <tr class="memitem:a12fd8eccc942fb96e9825f1e37390762" id="r_a12fd8eccc942fb96e9825f1e37390762"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a12fd8eccc942fb96e9825f1e37390762">codegen::anonymous_namespace{llvm_codegen.cpp}::isStringRecordName</a> (const std::string &amp;full)</td></tr>
+<tr class="memitem:a8445bdb720c26744ec9d2a83a064c53e" id="r_a8445bdb720c26744ec9d2a83a064c53e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a8445bdb720c26744ec9d2a83a064c53e">codegen::anonymous_namespace{llvm_codegen.cpp}::lowerGccAsmTemplateToLLVM</a> (const std::string &amp;assembly)</td></tr>
+<tr class="memitem:a314e68387d71b51806754ae306403d8d" id="r_a314e68387d71b51806754ae306403d8d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a314e68387d71b51806754ae306403d8d">codegen::anonymous_namespace{llvm_codegen.cpp}::lowerX86GccConstraintToLLVM</a> (const std::string &amp;constraint)</td></tr>
+<tr class="memitem:aae1ea840179cef0910141de1cbca4595" id="r_aae1ea840179cef0910141de1cbca4595"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#aae1ea840179cef0910141de1cbca4595">codegen::anonymous_namespace{llvm_codegen.cpp}::lowerAsmConstraintToLLVM</a> (const std::string &amp;constraint, const llvm::Triple &amp;triple)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
