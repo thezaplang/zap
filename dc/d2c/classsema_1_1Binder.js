@@ -10,6 +10,7 @@ var classsema_1_1Binder =
     [ "bind", "dc/d2c/classsema_1_1Binder.html#a76d9bd7742c313afadf5bef110d8ee7c", null ],
     [ "bindBody", "dc/d2c/classsema_1_1Binder.html#a9cebd4e41f19d6569f3bde77c5949d8a", null ],
     [ "bindExpressionWithExpected", "dc/d2c/classsema_1_1Binder.html#a1436c9a212e860afc8bbf779c8cd3e40", null ],
+    [ "bindSizeOfBuiltinCall", "dc/d2c/classsema_1_1Binder.html#a759fa1f25526be5384e7e3e77c0d3bc0", null ],
     [ "bindWeakBuiltinCall", "dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2", null ],
     [ "buildBinaryExpression", "dc/d2c/classsema_1_1Binder.html#ab2d21c67187f86fcb4033b1eda5178ae", null ],
     [ "buildGenericBindings", "dc/d2c/classsema_1_1Binder.html#aefa819f08d46036b6f853eafdcd04522", null ],

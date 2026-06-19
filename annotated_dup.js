@@ -5,6 +5,9 @@ var annotated_dup =
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
     ] ],
     [ "sema", "d7/d39/namespacesema.html", [
+      [ "anonymous_namespace{binder_exprs.cpp}", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03.html", [
+        [ "TypeLayout", "de/d06/structsema_1_1anonymous__namespace_02binder__exprs_8cpp_03_1_1TypeLayout.html", "de/d06/structsema_1_1anonymous__namespace_02binder__exprs_8cpp_03_1_1TypeLayout" ]
+      ] ],
       [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
       [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],

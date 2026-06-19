@@ -1,5 +1,6 @@
 var namespacesema =
 [
+    [ "anonymous_namespace{binder_exprs.cpp}", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03.html", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03" ],
     [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
     [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
     [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],

@@ -210,6 +210,7 @@ var hierarchy =
       ] ],
       [ "zir::TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html", null ]
     ] ],
+    [ "sema::anonymous_namespace{binder_exprs.cpp}::TypeLayout", "de/d06/structsema_1_1anonymous__namespace_02binder__exprs_8cpp_03_1_1TypeLayout.html", null ],
     [ "zir::Value", "da/d98/classzir_1_1Value.html", [
       [ "zir::AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", null ],
       [ "zir::Argument", "d3/d57/classzir_1_1Argument.html", null ],
