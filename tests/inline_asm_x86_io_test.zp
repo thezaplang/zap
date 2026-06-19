@@ -1,0 +1,33 @@
+fun inb(port: UInt16) UInt8 {
+    var result: UInt8;
+    unsafe { asm("inb %1, %0" : "=a"(result) : "Nd"(port)); }
+    return result;
+}
+
+fun inw(port: UInt16) UInt16 {
+    var result: UInt16;
+    unsafe { asm("inw %1, %0" : "=a"(result) : "Nd"(port)); }
+    return result;
+}
+
+fun inl(port: UInt16) UInt32 {
+    var result: UInt32;
+    unsafe { asm("inl %1, %0" : "=a"(result) : "Nd"(port)); }
+    return result;
+}
+
+fun outb(port: UInt16, value: UInt8) {
+    unsafe { asm("outb %0, %1" : : "a"(value), "Nd"(port)); }
+}
+
+fun outw(port: UInt16, value: UInt16) {
+    unsafe { asm("outw %0, %1" : : "a"(value), "Nd"(port)); }
+}
+
+fun outl(port: UInt16, value: UInt32) {
+    unsafe { asm("outl %0, %1" : : "a"(value), "Nd"(port)); }
+}
+
+fun __premain() Int {
+    return 0;
+}

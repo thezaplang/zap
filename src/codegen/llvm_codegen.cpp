@@ -2,6 +2,7 @@
 #include "../utils/string_type_utils.hpp"
 #include "class_arc_emitter.hpp"
 #include "class_layout.hpp"
+#include <cctype>
 #include <llvm/IR/BasicBlock.h>
 #include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/Function.h>
@@ -16,6 +17,7 @@
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/Target/TargetOptions.h>
 #include <llvm/TargetParser/Host.h>
+#include <llvm/TargetParser/Triple.h>
 #include <optional>
 #include <stdexcept>
 
@@ -27,6 +29,84 @@ bool isStringType(const std::shared_ptr<zir::Type> &type) {
 
 bool isStringRecordName(const std::string &full) {
   return zap::text::isStringRecordName(full);
+}
+
+std::string lowerGccAsmTemplateToLLVM(const std::string &assembly) {
+  std::string lowered;
+  lowered.reserve(assembly.size());
+
+  for (size_t i = 0; i < assembly.size(); ++i) {
+    if (assembly[i] != '%' || i + 1 == assembly.size()) {
+      lowered.push_back(assembly[i]);
+      continue;
+    }
+
+    char next = assembly[i + 1];
+    if (std::isdigit(static_cast<unsigned char>(next))) {
+      lowered.push_back('$');
+      while (i + 1 < assembly.size() &&
+             std::isdigit(static_cast<unsigned char>(assembly[i + 1]))) {
+        lowered.push_back(assembly[++i]);
+      }
+    } else if (next == '%') {
+      lowered.push_back('%');
+      ++i;
+    } else {
+      lowered.push_back(assembly[i]);
+    }
+  }
+
+  return lowered;
+}
+
+std::string lowerX86GccConstraintToLLVM(const std::string &constraint) {
+  std::string lowered;
+  lowered.reserve(constraint.size() + 8);
+
+  for (size_t i = 0; i < constraint.size(); ++i) {
+    if (constraint[i] == '{') {
+      while (i < constraint.size()) {
+        lowered.push_back(constraint[i]);
+        if (constraint[i] == '}')
+          break;
+        ++i;
+      }
+      continue;
+    }
+
+    switch (constraint[i]) {
+    case 'a':
+      lowered += "{ax}";
+      break;
+    case 'b':
+      lowered += "{bx}";
+      break;
+    case 'c':
+      lowered += "{cx}";
+      break;
+    case 'd':
+      lowered += "{dx}";
+      break;
+    case 'S':
+      lowered += "{si}";
+      break;
+    case 'D':
+      lowered += "{di}";
+      break;
+    default:
+      lowered.push_back(constraint[i]);
+      break;
+    }
+  }
+
+  return lowered;
+}
+
+std::string lowerAsmConstraintToLLVM(const std::string &constraint,
+                                     const llvm::Triple &triple) {
+  if (triple.isX86())
+    return lowerX86GccConstraintToLLVM(constraint);
+  return constraint;
 }
 
 } // namespace
@@ -505,11 +585,12 @@ void LLVMCodeGen::buildInlineAsmCall(
     const std::vector<std::string> &inConstraints,
     const std::vector<llvm::Value *> &inValues,
     const std::vector<std::string> &clobbers) {
+  llvm::Triple triple(module_->getTargetTriple());
   std::vector<std::string> parts;
   for (const auto &c : outConstraints)
-    parts.push_back(c);
+    parts.push_back(lowerAsmConstraintToLLVM(c, triple));
   for (const auto &c : inConstraints)
-    parts.push_back(c);
+    parts.push_back(lowerAsmConstraintToLLVM(c, triple));
   for (const auto &c : clobbers)
     parts.push_back("~{" + c + "}");
 
@@ -534,8 +615,9 @@ void LLVMCodeGen::buildInlineAsmCall(
     paramTypes.push_back(v->getType());
 
   auto *fnTy = llvm::FunctionType::get(retTy, paramTypes, /*isVarArg=*/false);
-  auto *inlineAsm = llvm::InlineAsm::get(fnTy, assembly, constraints,
-                                         /*hasSideEffects=*/true);
+  auto *inlineAsm =
+      llvm::InlineAsm::get(fnTy, lowerGccAsmTemplateToLLVM(assembly),
+                           constraints, /*hasSideEffects=*/true);
   auto *call = builder_.CreateCall(inlineAsm, inValues);
 
   if (outValueTypes.size() == 1) {

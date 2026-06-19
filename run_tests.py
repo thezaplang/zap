@@ -57,6 +57,13 @@ SPECIAL_CASES = {
         "output_file": "tests/nostdlib_ext_main_object.o",
         "desc": "Object compile with -nostdlib and external main"
     },
+    "tests/inline_asm_x86_io_test.zp": {
+        "type": "compile",
+        "exit": 0,
+        "compile_flags": ["-nostdlib", "-c"],
+        "output_file": "tests/inline_asm_x86_io_test.o",
+        "desc": "Inline asm accepts GCC-style x86 port I/O constraints"
+    },
 
     # Warnings
     "tests/warn_missing_return.zp": {
@@ -162,6 +169,14 @@ EXTRA_TESTS = [
         "compile_flags": ["-S", "-emit-llvm"],
         "output_file": "/tmp/zap-generic-packed-struct.ll",
         "output_pattern": "PackedBox$g$i32\" = type <{ i8, i32, i8 }>"
+    },
+    {
+        "file": "tests/inline_asm_x86_io_test.zp",
+        "type": "compile",
+        "desc": "Emit LLVM IR for GCC-style x86 inline asm",
+        "compile_flags": ["-nostdlib", "-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-inline-asm-x86-io.ll",
+        "output_pattern": "asm sideeffect \"inb $1, $0\", \"={ax},N{dx}\""
     },
     {
         "file": "tests/prelude_implicit_collection_test.zp",
