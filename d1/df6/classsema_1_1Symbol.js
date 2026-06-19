@@ -8,6 +8,7 @@ var classsema_1_1Symbol =
     [ "hasNoMangle", "d1/df6/classsema_1_1Symbol.html#a6f5b4986ab0e5440cb37daf7da5e1139", null ],
     [ "hasReprC", "d1/df6/classsema_1_1Symbol.html#a755d12d1a94488a0fa9a69587accb54d", null ],
     [ "isErrorType", "d1/df6/classsema_1_1Symbol.html#ac7b9536e832e071dca375bc5ea45c7a6", null ],
+    [ "isPacked", "d1/df6/classsema_1_1Symbol.html#aed5a970df1db12e5617f991ffcbf528f", null ],
     [ "linkName", "d1/df6/classsema_1_1Symbol.html#a47472cf1d7dcdedbd0a8fd7fc91d7106", null ],
     [ "moduleName", "d1/df6/classsema_1_1Symbol.html#a1e285c400593fdbe195b42812ecc5026", null ],
     [ "name", "d1/df6/classsema_1_1Symbol.html#a29e8c19b610c0090ca847b1f37df19a2", null ],
