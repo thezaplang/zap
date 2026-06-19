@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"d8/d58/flags_8inc_source.html":[3,0,0,2,0,3],
+"d8/d5e/classAssignNode.html":[2,0,8],
 "d8/d5e/classAssignNode.html#a3297c5b975e2651df75475fb04f02438":[2,0,8,5],
 "d8/d5e/classAssignNode.html#a62dd35945f4a714bba26f3f8e4f9ef63":[2,0,8,0],
 "d8/d5e/classAssignNode.html#a7594788ba55ad1bbd5ccaf0dc76c01d9":[2,0,8,4],
@@ -247,7 +249,5 @@ var NAVTREEINDEX8 =
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a70d6a6a5d820c90fe5abc21fe0061c8c":[2,0,0,0,2],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a795956dc22f38520700c44c3dc46eb5e":[1,0,0,5,0],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a795956dc22f38520700c44c3dc46eb5e":[2,0,0,0,0],
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a97abc7b3744ccc2d58bd56edbe234f3d":[1,0,0,5,12],
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a97abc7b3744ccc2d58bd56edbe234f3d":[2,0,0,0,12],
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a9f8e5cb20d22d0e25710724027ae05e5":[1,0,0,5,4]
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a97abc7b3744ccc2d58bd56edbe234f3d":[1,0,0,5,12]
 };
