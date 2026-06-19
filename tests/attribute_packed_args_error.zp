@@ -1,0 +1,8 @@
+@{packed("yes")}
+struct BadPackedArgs {
+    tag: UInt8,
+}
+
+fun main() Int {
+    return 0;
+}

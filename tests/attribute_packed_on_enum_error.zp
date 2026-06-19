@@ -1,0 +1,9 @@
+@{packed}
+enum PackedEnum {
+    A,
+    B,
+}
+
+fun main() Int {
+    return 0;
+}

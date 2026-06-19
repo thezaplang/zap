@@ -37,6 +37,7 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         auto reprType = std::make_shared<zir::RecordType>(recordDecl->name_,
                                                           recordDecl->name_);
         reprType->hasReprC = true;
+        reprType->isPacked = symbol->isPacked;
         symbol->type = reprType;
       }
       for (const auto &genericParam : recordDecl->genericParams_) {
@@ -116,6 +117,7 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         auto reprType = std::make_shared<zir::RecordType>(structDecl->name_,
                                                           structDecl->name_);
         reprType->hasReprC = true;
+        reprType->isPacked = symbol->isPacked;
         symbol->type = reprType;
       }
       if (!module.scope->declare(structDecl->name_, symbol)) {

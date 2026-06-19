@@ -140,6 +140,7 @@ protected:
 
 public:
   bool hasReprC = false;
+  bool isPacked = false;
 
   RecordType(std::string n, std::string codegen = "")
       : name(std::move(n)),

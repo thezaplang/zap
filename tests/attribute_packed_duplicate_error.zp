@@ -1,0 +1,8 @@
+@{packed, packed}
+struct DuplicatePacked {
+    tag: UInt8,
+}
+
+fun main() Int {
+    return 0;
+}

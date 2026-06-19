@@ -77,6 +77,20 @@ fun length_sq(v: Vec2) Float {
 
 > Both forms are supported in current Zap tooling/tests. Use project conventions consistently.
 
+### Packed layout
+
+Use `@{packed}` on a struct when its LLVM representation must omit layout padding between fields:
+
+```/dev/null/examples.zp#L1-5
+@{packed}
+struct Packet {
+    tag: UInt8,
+    value: Int32,
+}
+```
+
+Packed layout is intended for ABI- or byte-layout-sensitive data. It should be used deliberately because unaligned field access may be slower or more constrained on some targets.
+
 ### Struct/record literals
 
 Fielded aggregate literals are supported in typed contexts (for example where the target type is known), with rules enforced by semantic analysis:

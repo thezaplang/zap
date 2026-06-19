@@ -1,0 +1,14 @@
+@{repr("C"), packed}
+struct CPacket {
+    tag: UInt8,
+    value: Int32,
+    tail: UInt8,
+}
+
+fun main() Int {
+    var packet: CPacket = CPacket{tag: 7, value: 300, tail: 9};
+    if packet.tag != 7 { return 1; }
+    if packet.value != 300 { return 2; }
+    if packet.tail != 9 { return 3; }
+    return 0;
+}

@@ -140,6 +140,30 @@ EXTRA_TESTS = [
         "output_file": "/tmp/zap-struct.ll"
     },
     {
+        "file": "tests/struct_packed_ir_test.zp",
+        "type": "compile",
+        "desc": "Emit LLVM IR for packed structs",
+        "compile_flags": ["-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-packed-struct.ll",
+        "output_pattern": "PackedBits\" = type <{ i8, i32, i8 }>"
+    },
+    {
+        "file": "tests/struct_packed_repr_c_ir_test.zp",
+        "type": "compile",
+        "desc": "Emit LLVM IR for packed @repr(\"C\") structs",
+        "compile_flags": ["-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-packed-repr-c-struct.ll",
+        "output_pattern": "%CPacket = type <{ i8, i32, i8 }>"
+    },
+    {
+        "file": "tests/generic_packed_struct_ir_test.zp",
+        "type": "compile",
+        "desc": "Emit LLVM IR for generic packed structs",
+        "compile_flags": ["-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-generic-packed-struct.ll",
+        "output_pattern": "PackedBox$g$i32\" = type <{ i8, i32, i8 }>"
+    },
+    {
         "file": "tests/prelude_implicit_collection_test.zp",
         "type": "compile",
         "desc": "Disabling prelude with -noprelude fails compilation",
@@ -222,6 +246,7 @@ def execute_test(test_item, zapc_path):
     stderr_pattern = test_item.get("stderr_pattern", None)
     diagnostics = test_item.get("diagnostics", [])
     output_file = test_item.get("output_file", None)
+    output_pattern = test_item.get("output_pattern", None)
     
     to_cleanup = []
     
@@ -265,6 +290,11 @@ def execute_test(test_item, zapc_path):
             if output_file:
                 if not os.path.exists(output_file):
                     return False, f"Expected output file not found: {output_file}"
+                if output_pattern:
+                    with open(output_file, "r", encoding="utf-8", errors="replace") as f:
+                        output_text = f.read()
+                    if output_pattern not in output_text:
+                        return False, f"Expected output pattern '{output_pattern}' not found in {output_file}"
                     
             if stderr_pattern:
                 if stderr_pattern.lower() not in res.stderr.lower():

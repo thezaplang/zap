@@ -1,0 +1,14 @@
+@{packed}
+struct PackedBox<T> {
+    tag: UInt8,
+    value: T,
+    tail: UInt8,
+}
+
+fun main() Int {
+    var boxed: PackedBox<Int32> = PackedBox<Int32>{tag: 4, value: 500, tail: 6};
+    if boxed.tag != 4 { return 1; }
+    if boxed.value != 500 { return 2; }
+    if boxed.tail != 6 { return 3; }
+    return 0;
+}

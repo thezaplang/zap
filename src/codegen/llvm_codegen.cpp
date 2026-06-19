@@ -342,7 +342,7 @@ llvm::Type *LLVMCodeGen::toLLVMType(const zir::Type &ty) {
       fieldTypes.push_back(
           llvm::PointerType::getUnqual(llvm::Type::getInt8Ty(ctx_)));
       fieldTypes.push_back(llvm::Type::getInt64Ty(ctx_));
-      structTy->setBody(fieldTypes);
+      structTy->setBody(fieldTypes, rt.isPacked);
       return structTy;
     }
 
@@ -351,7 +351,7 @@ llvm::Type *LLVMCodeGen::toLLVMType(const zir::Type &ty) {
     std::vector<llvm::Type *> fieldTypes;
     for (const auto &f : rt.getFields())
       fieldTypes.push_back(toLLVMAggregateFieldType(f.type));
-    structTy->setBody(fieldTypes);
+    structTy->setBody(fieldTypes, rt.isPacked);
     return structTy;
   }
   case zir::TypeKind::Class: {

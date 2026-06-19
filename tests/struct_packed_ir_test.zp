@@ -1,0 +1,14 @@
+@{packed}
+struct PackedBits {
+    tag: UInt8,
+    value: Int32,
+    tail: UInt8,
+}
+
+fun main() Int {
+    var bits: PackedBits = PackedBits{tag: 1, value: 42, tail: 2};
+    if bits.tag != 1 { return 1; }
+    if bits.value != 42 { return 2; }
+    if bits.tail != 2 { return 3; }
+    return 0;
+}

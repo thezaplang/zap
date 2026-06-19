@@ -72,13 +72,14 @@ public:
     for (const auto &type : types) {
       if (type->getKind() == TypeKind::Record) {
         auto rt = std::static_pointer_cast<RecordType>(type);
-        res += rt->toString() + " = type { ";
+        res += rt->toString() + " = type ";
+        res += rt->isPacked ? "<{ " : "{ ";
         const auto &fields = rt->getFields();
         for (size_t i = 0; i < fields.size(); ++i) {
           res +=
               fields[i].type->toString() + (i < fields.size() - 1 ? ", " : "");
         }
-        res += " }\n";
+        res += rt->isPacked ? " }>\n" : " }\n";
       } else if (type->getKind() == TypeKind::Enum) {
         auto et = std::static_pointer_cast<EnumType>(type);
         res += et->toString() + " { ";

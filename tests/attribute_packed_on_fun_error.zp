@@ -1,0 +1,8 @@
+@{packed}
+fun helper() Int {
+    return 0;
+}
+
+fun main() Int {
+    return helper();
+}

@@ -570,11 +570,15 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
   }
   instantiatedType->setGenericInstance(
       baseRecordType->getName(), baseRecordType->getCodegenName(), genericArgs);
+  instantiatedType->hasReprC = baseRecordType->hasReprC;
+  instantiatedType->isPacked = baseRecordType->isPacked;
 
   auto instantiatedSymbol = std::make_shared<TypeSymbol>(
       baseSymbol->name, instantiatedType, codegenName, baseSymbol->moduleName,
       baseSymbol->visibility, baseSymbol->isUnsafe, classDecl != nullptr);
   instantiatedSymbol->isGenericInstantiation = true;
+  instantiatedSymbol->hasReprC = baseSymbol->hasReprC;
+  instantiatedSymbol->isPacked = baseSymbol->isPacked;
   instantiatedSymbol->genericArguments = {genericBindings.begin(),
                                           genericBindings.end()};
   genericTypeInstantiations_[cacheKey] = instantiatedSymbol;
@@ -1242,7 +1246,7 @@ std::string Binder::describeConversion(std::shared_ptr<zir::Type> from,
 
 bool Binder::isSupportedBuiltInAttribute(const std::string &name) const {
   static const std::unordered_set<std::string> builtIns = {
-      "error", "repr", "extern", "noMangle"};
+      "error", "repr", "packed", "extern", "noMangle"};
   return builtIns.find(name) != builtIns.end();
 }
 
@@ -1266,6 +1270,7 @@ void Binder::validateAndApplyTypeAttributes(
 
   bool seenError = false;
   bool seenRepr = false;
+  bool seenPacked = false;
 
   for (const auto &attr : node.attributes_) {
     if (attr.name == "error") {
@@ -1315,6 +1320,28 @@ void Binder::validateAndApplyTypeAttributes(
 
       symbol->hasReprC = true;
       symbol->reprValue = str->value_;
+      continue;
+    }
+
+    if (attr.name == "packed") {
+      if (seenPacked) {
+        error(attr.span, "duplicate attribute 'packed'");
+        continue;
+      }
+      if (attr.hasArguments()) {
+        error(attr.span, "attribute 'packed' does not accept arguments");
+        continue;
+      }
+      auto recordType =
+          std::dynamic_pointer_cast<zir::RecordType>(symbol->type);
+      if (!recordType || symbol->type->getKind() != zir::TypeKind::Record) {
+        error(attr.span,
+              "attribute 'packed' can only be applied to record types");
+        continue;
+      }
+      seenPacked = true;
+      symbol->isPacked = true;
+      recordType->isPacked = true;
       continue;
     }
 
@@ -1386,7 +1413,7 @@ void Binder::validateAndApplyFunctionAttributes(
       continue;
     }
 
-    if (attr.name == "repr" || attr.name == "error") {
+    if (attr.name == "repr" || attr.name == "error" || attr.name == "packed") {
       error(attr.span,
             "attribute '" + attr.name + "' cannot be applied to functions");
       continue;

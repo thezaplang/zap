@@ -24,6 +24,7 @@ public:
   // Built-in attribute semantic flags (MVP).
   bool isErrorType = false; // @error on enum/struct
   bool hasReprC = false;    // @repr("C") on enum/struct
+  bool isPacked = false;    // @packed on record-like types
   bool hasExternC = false;  // @extern("C") on function
   bool hasNoMangle = false; // @noMangle on function
 
