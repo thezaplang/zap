@@ -3,7 +3,7 @@ var namespacezap =
     [ "args", "d3/d6f/namespacezap_1_1args.html", "d3/d6f/namespacezap_1_1args" ],
     [ "anonymous_namespace{driver.cpp}", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html", [
       [ "emitRequestedTextOutputs", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#acfb14e0533098d3b50db6c54a7b5cfb3", null ],
-      [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#afa2abc3cf7e9581c9db67aa702e37a76", null ],
+      [ "loadModuleGraph", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a75590bfdd20bd16658dec4cc799de06e", null ],
       [ "readSourceFile", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af4bbc238e3e3e6f7f312f70f61694f2a", null ],
       [ "runtimePaths", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#af576f68efd5d5dd96c06267a7974f2d5", null ],
       [ "g_executable_path", "dc/dca/namespacezap_1_1anonymous__namespace_02driver_8cpp_03.html#a4d03d938e1256c804d3a8483d1823b61", null ]
@@ -87,10 +87,10 @@ var namespacezap =
       [ "Warning", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
       [ "Error", "d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd", null ]
     ] ],
-    [ "compileAssemblyFromZIR", "d7/d1a/namespacezap.html#acf7f30878e001c3556d5b9c80bb25d8b", null ],
+    [ "compileAssemblyFromZIR", "d7/d1a/namespacezap.html#a0d673943b341b072851a97d6d5bfe910", null ],
     [ "compileLoadedModules", "d7/d1a/namespacezap.html#a5b534b45b24952eb8d0ee6cbdb4eb199", null ],
-    [ "compileObjectFromZIR", "d7/d1a/namespacezap.html#aa45f8059fbd9d638fea35ed88ebb1e31", null ],
-    [ "compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#a59eaa38dc4c00c6b9ffe0e78eec3f3c9", null ],
+    [ "compileObjectFromZIR", "d7/d1a/namespacezap.html#abacec974c49c333d41ab85deac609714", null ],
+    [ "compileSourceLLVMFromZIR", "d7/d1a/namespacezap.html#aa86ec60dd1423b253795db34924187d4", null ],
     [ "compileSourceZIR", "d7/d1a/namespacezap.html#a4568178cd71b87328c92ebc2c1ddf595", null ],
     [ "err", "d7/d1a/namespacezap.html#a674956178a1a7ce6606f78a8839a2e18", null ],
     [ "generateZIRModule", "d7/d1a/namespacezap.html#ac3b3cc5f8cb33ef1c1ae96b60e68125e", null ],

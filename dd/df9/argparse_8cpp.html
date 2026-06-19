@@ -228,7 +228,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  out() &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> STR;                                                           \</div>
 <div class="line">  <span class="keywordflow">if</span> <span class="keyword">constexpr</span> ((2 + (<span class="keyword">sizeof</span>(STR) - 1)) &gt;= 18) {                               \</div>
-<div class="line">    (out() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>).indent(18) &lt;&lt; MSG;                                         \</div>
+<div class="line">    (out() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>).indent(18) &lt;&lt; MSG <span class="stringliteral">&quot;\n&quot;</span>;                                    \</div>
 <div class="line">  } <span class="keywordflow">else</span> {                                                                     \</div>
 <div class="line">    out().indent(18 - ((<span class="keyword">sizeof</span>(STR) - 1) + 2)) &lt;&lt; MSG <span class="stringliteral">&quot;\n&quot;</span>;                    \</div>
 <div class="line">  }</div>

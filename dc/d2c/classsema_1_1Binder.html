@@ -357,9 +357,9 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  334</span>      }</div>
 <div class="line"><span class="lineno">  335</span> </div>
 <div class="line"><span class="lineno">  336</span>      <span class="keywordflow">if</span> (<span class="keyword">import</span>.bindings.empty()) {</div>
-<div class="line"><span class="lineno">  337</span>        <span class="keywordtype">bool</span> isImplicitPreludeImport =</div>
+<div class="line"><span class="lineno">  337</span>        <span class="keywordtype">bool</span> isImplicitStdImport =</div>
 <div class="line"><span class="lineno">  338</span>            <span class="keyword">import</span>.rawPath == <span class="stringliteral">&quot;std/prelude&quot;</span> &amp;&amp; <span class="keyword">import</span>.moduleAlias.empty();</div>
-<div class="line"><span class="lineno">  339</span>        <span class="keywordflow">if</span> (isImplicitPreludeImport) {</div>
+<div class="line"><span class="lineno">  339</span>        <span class="keywordflow">if</span> (isImplicitStdImport) {</div>
 <div class="line"><span class="lineno">  340</span>          <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;exported : target.symbol-&gt;exports) {</div>
 <div class="line"><span class="lineno">  341</span>            <span class="keywordflow">if</span> (!module.scope-&gt;lookupLocal(exported.first)) {</div>
 <div class="line"><span class="lineno">  342</span>              <span class="keyword">module</span>.scope-&gt;declare(exported.first, exported.second);</div>
@@ -458,7 +458,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00118">_diag</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Error</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00246">zap::lsp::Workspace::analyze()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00429">bind()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00431">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00193">zap::lsp::Workspace::loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00246">zap::lsp::Workspace::analyze()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00429">bind()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00459">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00193">zap::lsp::Workspace::loadProject()</a>.</p>
 
 </div>
 </div>

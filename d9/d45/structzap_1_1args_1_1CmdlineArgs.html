@@ -86,8 +86,16 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a1d64bd6e0592deac4d3cde67cc16b2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Include the zap stdlib.o or not.  <br /></td></tr>
 <tr class="memitem:a24d4b1e5f8b2cb0db408adc35660dcd4" id="r_a24d4b1e5f8b2cb0db408adc35660dcd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24d4b1e5f8b2cb0db408adc35660dcd4">incPrelude</a> = true</td></tr>
 <tr class="memdesc:a24d4b1e5f8b2cb0db408adc35660dcd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Include the implicit prelude or not.  <br /></td></tr>
+<tr class="memitem:a00778e4386a95b2c4a70257e2c50b3c8" id="r_a00778e4386a95b2c4a70257e2c50b3c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00778e4386a95b2c4a70257e2c50b3c8">freestanding</a> = false</td></tr>
+<tr class="memdesc:a00778e4386a95b2c4a70257e2c50b3c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile without host OS runtime assumptions.  <br /></td></tr>
+<tr class="memitem:aa3ea5804029e8871d2265a5311be2ef1" id="r_aa3ea5804029e8871d2265a5311be2ef1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3ea5804029e8871d2265a5311be2ef1">printStdlibPath</a> = false</td></tr>
+<tr class="memdesc:aa3ea5804029e8871d2265a5311be2ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the resolved stdlib directory.  <br /></td></tr>
+<tr class="memitem:aacb355b201eba0152e4124ed3ff98c38" id="r_aacb355b201eba0152e4124ed3ff98c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacb355b201eba0152e4124ed3ff98c38">printCorePath</a> = false</td></tr>
+<tr class="memdesc:aacb355b201eba0152e4124ed3ff98c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the resolved core library directory.  <br /></td></tr>
 <tr class="memitem:a7361601fb0ae76e223888022418b058f" id="r_a7361601fb0ae76e223888022418b058f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d6f/namespacezap_1_1args.html#abb3bb0796c96a6593673baac493ba5e4">OptLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7361601fb0ae76e223888022418b058f">optLevel</a> = <a class="el" href="../../d3/d6f/namespacezap_1_1args.html#abb3bb0796c96a6593673baac493ba5e4a00594a175ce5a58f286d91ca0a6f15a2">OptLevel::O1</a></td></tr>
 <tr class="memdesc:a7361601fb0ae76e223888022418b058f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimization level (0-3).  <br /></td></tr>
+<tr class="memitem:a883a3a95a3cbc1f43db9b3ed73b937b5" id="r_a883a3a95a3cbc1f43db9b3ed73b937b5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883a3a95a3cbc1f43db9b3ed73b937b5">targetTriple</a></td></tr>
+<tr class="memdesc:a883a3a95a3cbc1f43db9b3ed73b937b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">LLVM target triple; empty means host target.  <br /></td></tr>
 <tr class="memitem:a884913da6621592783f0146519a63054" id="r_a884913da6621592783f0146519a63054"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a884913da6621592783f0146519a63054">linkerArgs</a></td></tr>
 <tr class="memdesc:a884913da6621592783f0146519a63054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extra linker arguments (e.g. -lSDL2, -L/path).  <br /></td></tr>
 <tr class="memitem:a17480e340bed3619394a1b7ff20ba832" id="r_a17480e340bed3619394a1b7ff20ba832"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d6f/namespacezap_1_1args.html#aaec0ae0bd6b175e5e56f541224b6c753">ImportMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17480e340bed3619394a1b7ff20ba832">importMap</a></td></tr>
@@ -97,6 +105,26 @@ Public Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00031">31</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a00778e4386a95b2c4a70257e2c50b3c8" name="a00778e4386a95b2c4a70257e2c50b3c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00778e4386a95b2c4a70257e2c50b3c8">&#9670;&#160;</a></span>freestanding</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::args::CmdlineArgs::freestanding = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compile without host OS runtime assumptions. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
+
+</div>
+</div>
 <a id="a954eaa1ed44627aa9a4ab06cbfede39f" name="a954eaa1ed44627aa9a4ab06cbfede39f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a954eaa1ed44627aa9a4ab06cbfede39f">&#9670;&#160;</a></span>implicit</h2>
 
@@ -129,9 +157,9 @@ Public Attributes</h2></td></tr>
 
 <p>Import path aliases (@alias -&gt; path). </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -151,7 +179,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00043">43</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -171,7 +199,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00042">42</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -207,7 +235,7 @@ Public Attributes</h2></td></tr>
 
 <p>Extra linker arguments (e.g. -lSDL2, -L/path). </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00053">53</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
 </div>
 </div>
@@ -227,7 +255,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -245,9 +273,9 @@ Public Attributes</h2></td></tr>
 
 <p>Optimization level (0-3). </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00192">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -283,6 +311,42 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aacb355b201eba0152e4124ed3ff98c38" name="aacb355b201eba0152e4124ed3ff98c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacb355b201eba0152e4124ed3ff98c38">&#9670;&#160;</a></span>printCorePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::args::CmdlineArgs::printCorePath = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the resolved core library directory. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00046">46</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa3ea5804029e8871d2265a5311be2ef1" name="aa3ea5804029e8871d2265a5311be2ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ea5804029e8871d2265a5311be2ef1">&#9670;&#160;</a></span>printStdlibPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zap::args::CmdlineArgs::printStdlibPath = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the resolved stdlib directory. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00045">45</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ab89ab64a51eee50b844095ca66dc2697" name="ab89ab64a51eee50b844095ca66dc2697"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab89ab64a51eee50b844095ca66dc2697">&#9670;&#160;</a></span>sources</h2>
 
@@ -298,6 +362,26 @@ Public Attributes</h2></td></tr>
 <p>A vector of .zp files. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00033">33</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a883a3a95a3cbc1f43db9b3ed73b937b5" name="a883a3a95a3cbc1f43db9b3ed73b937b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883a3a95a3cbc1f43db9b3ed73b937b5">&#9670;&#160;</a></span>targetTriple</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string zap::args::CmdlineArgs::targetTriple</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>LLVM target triple; empty means host target. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d7/dfe/args_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d7/dfe/args_8hpp_source.html">args.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>

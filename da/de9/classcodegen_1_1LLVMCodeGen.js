@@ -1,6 +1,6 @@
 var classcodegen_1_1LLVMCodeGen =
 [
-    [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3c37317c537f2b09837a228fb0d801eb", null ],
+    [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0e55f3ad64e55c20f7d8fb17c16ad3fd", null ],
     [ "~LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html#a50cda3c6f1256764cb2b20b8db390610", null ],
     [ "buildFunctionType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0bd8f94bb6c33a9086f42dbfe60a5ec6", null ],
     [ "buildFunctionType", "da/de9/classcodegen_1_1LLVMCodeGen.html#a6dbe37ad4efc6ebc161a27f371ba5cdf", null ],
@@ -102,6 +102,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "currentZIRFunction_", "da/de9/classcodegen_1_1LLVMCodeGen.html#afd9cb4e5aca367546ef281c545a2f3f3", null ],
     [ "cyclicClasses_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a1a40d30d4fe32c1e3f171393015d9ee7", null ],
     [ "evaluateAsAddr_", "da/de9/classcodegen_1_1LLVMCodeGen.html#ab93bd134a171d808f77eff1e327b184a", null ],
+    [ "freestanding_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a71a10a8fead9d234c0c3671e5a193b73", null ],
     [ "functionMap_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a3bd4773dddb8a16d30bac5a889c0007b", null ],
     [ "globalValues_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a6e1d6e590a1b8f03305081c1ce493b2b", null ],
     [ "lastValue_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a0dd620b20baba3bb926dac1c8cfe9c16", null ],
@@ -113,6 +114,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "scopeClassLocals_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a7848b8f756f2e914508a51584b096702", null ],
     [ "scopeStringLocals_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a1781a39461c06f00ccde8fee9481ab8a", null ],
     [ "structCache_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a62f537e5a8ccb06c9f2a0f65344543a0", null ],
+    [ "targetTriple_", "da/de9/classcodegen_1_1LLVMCodeGen.html#ac998c611dfa127fd8baa958d44edc174", null ],
     [ "zirBlockExitMap_", "da/de9/classcodegen_1_1LLVMCodeGen.html#ac372b291be5222f25ba9260a9e856114", null ],
     [ "zirBlockMap_", "da/de9/classcodegen_1_1LLVMCodeGen.html#aaa6cd5845af4b940ad390cbd099d6d1a", null ],
     [ "zirClassParamAllocas_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a53bd56d4a3ff004e1428e0b8655be442", null ],
