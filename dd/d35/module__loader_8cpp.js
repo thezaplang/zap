@@ -1,9 +1,10 @@
 var module__loader_8cpp =
 [
-    [ "zap::frontend::computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a5f5c5dad013c86a7ffa5545a8a2f69bd", null ],
+    [ "zap::frontend::computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "zap::frontend::coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "zap::frontend::currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],
     [ "zap::frontend::hasImplicitImport", "df/ddd/namespacezap_1_1frontend.html#aff42f79bf04c5c4cd294c2936f7e3f9e", null ],
+    [ "zap::frontend::importPathMatchesAlias", "df/ddd/namespacezap_1_1frontend.html#a4b22c67e60df1a3489867db6b5953978", null ],
     [ "zap::frontend::injectImplicitPreludeImportIfNeeded", "df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab", null ],
     [ "zap::frontend::makeResolvedImport", "df/ddd/namespacezap_1_1frontend.html#a06b19cd0588a07f80f2b79e2d2414244", null ],
     [ "zap::frontend::resolveImportTargets", "df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8", null ],

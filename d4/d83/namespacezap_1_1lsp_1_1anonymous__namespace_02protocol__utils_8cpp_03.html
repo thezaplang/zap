@@ -100,8 +100,17 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">  143</span>  }</div>
 <div class="line"><span class="lineno">  144</span> </div>
 <div class="line"><span class="lineno">  145</span>  <a class="code hl_function" href="../../d3/d6f/namespacezap_1_1args.html#ac548785beec63f03fe8873350e7340c3">zap::args::parse</a>(<a class="code hl_function" href="../../db/dfa/stdlib_8c.html#ae944645c5876290769281c22603adbb7">argv</a>, <a class="code hl_namespace" href="../../d3/d6f/namespacezap_1_1args.html">args</a>);</div>
-<div class="line"><span class="lineno">  146</span>  <span class="keywordflow">return</span> <a class="code hl_namespace" href="../../d3/d6f/namespacezap_1_1args.html">args</a>;</div>
-<div class="line"><span class="lineno">  147</span>}</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>  <span class="keyword">auto</span> baseDir = path.parent_path();</div>
+<div class="line"><span class="lineno">  148</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[alias, target] : <a class="code hl_namespace" href="../../d3/d6f/namespacezap_1_1args.html">args</a>.importMap) {</div>
+<div class="line"><span class="lineno">  149</span>    std::filesystem::path targetPath(target);</div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">if</span> (!target.empty() &amp;&amp; !targetPath.is_absolute()) {</div>
+<div class="line"><span class="lineno">  151</span>      target = (baseDir / targetPath).lexically_normal().generic_string();</div>
+<div class="line"><span class="lineno">  152</span>    }</div>
+<div class="line"><span class="lineno">  153</span>  }</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>  <span class="keywordflow">return</span> args;</div>
+<div class="line"><span class="lineno">  156</span>}</div>
 <div class="ttc" id="anamespacezap_1_1args_html"><div class="ttname"><a href="../../d3/d6f/namespacezap_1_1args.html">zap::args</a></div><div class="ttdef"><b>Definition</b> <a href="../../dd/df9/argparse_8cpp_source.html#l00024">argparse.cpp:24</a></div></div>
 <div class="ttc" id="anamespacezap_1_1args_html_ac548785beec63f03fe8873350e7340c3"><div class="ttname"><a href="../../d3/d6f/namespacezap_1_1args.html#ac548785beec63f03fe8873350e7340c3">zap::args::parse</a></div><div class="ttdeci">ParseResult parse(const std::vector&lt; std::string_view &gt; &amp;cmdline, CmdlineArgs &amp;args)</div><div class="ttdoc">Parses command line arguments from provided vector of string views.</div><div class="ttdef"><b>Definition</b> <a href="../../dd/df9/argparse_8cpp_source.html#l00105">argparse.cpp:105</a></div></div>
 <div class="ttc" id="astdlib_8c_html_ae944645c5876290769281c22603adbb7"><div class="ttname"><a href="../../db/dfa/stdlib_8c.html#ae944645c5876290769281c22603adbb7">argv</a></div><div class="ttdeci">zap_string_t argv(long i)</div><div class="ttdef"><b>Definition</b> <a href="../../db/dfa/stdlib_8c_source.html#l00776">stdlib.c:776</a></div></div>

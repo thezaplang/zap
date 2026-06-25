@@ -2,7 +2,7 @@ var module__loader_8hpp =
 [
     [ "zap::frontend::RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
     [ "zap::frontend::ImportMap", "df/ddd/namespacezap_1_1frontend.html#ab337dddc502084630f5085e1c467d1e5", null ],
-    [ "zap::frontend::computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a5f5c5dad013c86a7ffa5545a8a2f69bd", null ],
+    [ "zap::frontend::computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "zap::frontend::coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "zap::frontend::currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],
     [ "zap::frontend::hasImplicitImport", "df/ddd/namespacezap_1_1frontend.html#aff42f79bf04c5c4cd294c2936f7e3f9e", null ],

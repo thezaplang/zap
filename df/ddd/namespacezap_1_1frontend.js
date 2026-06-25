@@ -2,10 +2,11 @@ var namespacezap_1_1frontend =
 [
     [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
     [ "ImportMap", "df/ddd/namespacezap_1_1frontend.html#ab337dddc502084630f5085e1c467d1e5", null ],
-    [ "computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a5f5c5dad013c86a7ffa5545a8a2f69bd", null ],
+    [ "computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],
     [ "hasImplicitImport", "df/ddd/namespacezap_1_1frontend.html#aff42f79bf04c5c4cd294c2936f7e3f9e", null ],
+    [ "importPathMatchesAlias", "df/ddd/namespacezap_1_1frontend.html#a4b22c67e60df1a3489867db6b5953978", null ],
     [ "injectImplicitPreludeImportIfNeeded", "df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab", null ],
     [ "makeResolvedImport", "df/ddd/namespacezap_1_1frontend.html#a06b19cd0588a07f80f2b79e2d2414244", null ],
     [ "resolveImportTargets", "df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8", null ],

@@ -91,7 +91,7 @@ var NAVTREEINDEX =
 "dc/de1/workspace_8hpp.html",
 "de/d56/classAstBuilder.html#ad598821f3c815f62e41b5798dd27cd7d",
 "df/d31/classzir_1_1CallInst.html#a3578bb2464fcc66fd3193958787ad83a",
-"functions_func_s.html"
+"functions_func_r.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
