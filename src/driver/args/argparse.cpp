@@ -240,7 +240,7 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
     std::string_view entry = arg->optional;
     auto eq = entry.find('=');
     if (eq == std::string_view::npos) {
-      reportError("--import-map requires format @alias=path, got: ", entry);
+      reportError("--import-map requires format alias=path, got: ", entry);
       ok = false;
       continue;
     }

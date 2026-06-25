@@ -86,8 +86,14 @@ std::string stripSourceExtension(const std::filesystem::path &path) {
   return normalized;
 }
 
+static bool importPathMatchesAlias(const std::string &importPath,
+                                   const std::string &alias) {
+  return importPath == alias || importPath.rfind(alias + "/", 0) == 0;
+}
+
 std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
-                                     const RuntimePaths &paths) {
+                                     const RuntimePaths &paths,
+                                     const ImportMap &importMap) {
   auto stdRoot = std::filesystem::weakly_canonical(stdlibRootPath(paths));
   auto coreRoot = std::filesystem::weakly_canonical(coreRootPath(paths));
   auto cwdRoot =
@@ -109,6 +115,17 @@ std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
     }
     return prefix + "/" + stripped;
   };
+
+  for (const auto &[alias, target] : importMap) {
+    std::error_code ec;
+    auto root = std::filesystem::weakly_canonical(target, ec);
+    if (ec) {
+      continue;
+    }
+    if (auto logical = buildRelative(root, alias)) {
+      return *logical;
+    }
+  }
 
   if (auto logical = buildRelative(coreRoot, "core")) {
     if (*logical == "core/core") {
@@ -173,7 +190,7 @@ bool resolveImportTargets(const std::filesystem::path &modulePath,
 
   bool resolvedViaMap = false;
   for (const auto &[alias, target] : importMap) {
-    if (importPath.rfind(alias, 0) == 0) {
+    if (importPathMatchesAlias(importPath, alias)) {
       std::string rest = importPath.substr(alias.size());
       if (!rest.empty() && rest[0] == '/') {
         rest = rest.substr(1);

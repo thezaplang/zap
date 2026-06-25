@@ -143,6 +143,15 @@ zap::args::CmdlineArgs readFlagsFromFile(const std::filesystem::path &path) {
   }
 
   zap::args::parse(argv, args);
+
+  auto baseDir = path.parent_path();
+  for (auto &[alias, target] : args.importMap) {
+    std::filesystem::path targetPath(target);
+    if (!target.empty() && !targetPath.is_absolute()) {
+      target = (baseDir / targetPath).lexically_normal().generic_string();
+    }
+  }
+
   return args;
 }
 

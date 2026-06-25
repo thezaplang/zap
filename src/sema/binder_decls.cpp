@@ -747,12 +747,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       --externTypeContextDepth_;
 
       auto linkName = extDecl->name_;
-      bool isStdFsModule =
-          module.info->moduleName == "fs" &&
-          module.info->sourceName.find("/std/fs.zp") != std::string::npos;
-      bool isStdIoModule =
-          module.info->moduleName == "io" &&
-          module.info->sourceName.find("/std/io.zp") != std::string::npos;
+      bool isStdFsModule = module.info->linkPath == "std/fs";
+      bool isStdIoModule = module.info->linkPath == "std/io";
       if (isStdFsModule && extDecl->name_ == "mkdir") {
         linkName = "zap_fs_mkdir";
       } else if (isStdFsModule && extDecl->name_ == "remove") {

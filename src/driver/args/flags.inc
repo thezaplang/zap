@@ -74,5 +74,5 @@ ZAP_FLAG(Target, "--target=", "Set LLVM target triple.", Joined)
 
 // --import-map
 ZAP_FLAG(ImportMap, "--import-map",
-         "Add an import alias mapping (@alias=path). May be repeated.",
+         "Add an import alias mapping (alias=path). May be repeated.",
          JoinedSeparate)

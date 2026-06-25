@@ -28,7 +28,8 @@ std::filesystem::path stdlibObjectPath(const RuntimePaths &paths);
 
 std::string stripSourceExtension(const std::filesystem::path &path);
 std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
-                                     const RuntimePaths &paths);
+                                     const RuntimePaths &paths,
+                                     const ImportMap &importMap = {});
 
 bool hasImplicitImport(const RootNode &root, std::string_view path);
 void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,

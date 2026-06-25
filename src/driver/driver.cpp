@@ -147,8 +147,8 @@ bool loadModuleGraph(
   auto module = std::make_unique<sema::ModuleInfo>();
   module->moduleId = moduleId;
   module->moduleName = canonicalPath.stem().string();
-  module->linkPath =
-      frontend::computeLogicalModulePath(canonicalPath, runtimePaths());
+  module->linkPath = frontend::computeLogicalModulePath(
+      canonicalPath, runtimePaths(), importMap);
   module->sourceName = canonicalPath.string();
   module->root = std::move(ast);
   frontend::injectImplicitPreludeImportIfNeeded(*module, incPrelude);

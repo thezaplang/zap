@@ -52,7 +52,7 @@ struct CmdlineArgs {
   std::vector<std::string>
       linkerArgs; ///< Extra linker arguments (e.g. -lSDL2, -L/path).
 
-  ImportMap importMap; ///< Import path aliases (@alias -> path).
+  ImportMap importMap; ///< Import path aliases (alias -> path).
 };
 
 } // namespace zap::args

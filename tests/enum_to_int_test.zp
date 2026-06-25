@@ -21,5 +21,22 @@ fun main() Int {
         return 3;
     }
 
+    var i8: Int8 = Bruh.Cos as Int8;
+    var i16: Int16 = Bruh.Cos as Int16;
+    var i32: Int32 = Bruh.Cos as Int32;
+    var i64: Int64 = Bruh.Cos as Int64;
+    var u: UInt = Bruh.Cos as UInt;
+    var u8: UInt8 = Bruh.Cos as UInt8;
+    var u16: UInt16 = Bruh.Cos as UInt16;
+    var u32: UInt32 = Bruh.Cos as UInt32;
+    var u64: UInt64 = Bruh.Cos as UInt64;
+
+    if i8 != 5 || i16 != 5 || i32 != 5 || i64 != 5 {
+        return 4;
+    }
+    if u != 5 || u8 != 5 || u16 != 5 || u32 != 5 || u64 != 5 {
+        return 5;
+    }
+
     return 0;
 }
