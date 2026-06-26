@@ -101,6 +101,7 @@ bool Workspace::loadModuleGraph(
   module->linkPath = zap::frontend::computeLogicalModulePath(
       canonicalPath, runtimePaths(), importMap);
   module->sourceName = canonicalPath.string();
+  module->sourceText = *source;
   module->root = std::move(ast);
 
   zap::frontend::injectImplicitPreludeImportIfNeeded(*module, true);
@@ -233,6 +234,7 @@ Workspace::loadProject(const std::string &uri, bool allowEntryErrors) const {
     std::vector<sema::ModuleInfo *> modules;
     modules.reserve(state.moduleMap.size());
     for (auto &[_, modulePtr] : state.moduleMap) {
+      diagnostics.registerSource(modulePtr->sourceName, modulePtr->sourceText);
       modules.push_back(modulePtr.get());
     }
 
@@ -281,6 +283,7 @@ AnalysisResult Workspace::analyze(const std::string &uri) const {
   std::vector<sema::ModuleInfo> modules;
   modules.reserve(moduleMap.size());
   for (auto &[_, modulePtr] : moduleMap) {
+    diagnostics.registerSource(modulePtr->sourceName, modulePtr->sourceText);
     modules.push_back(std::move(*modulePtr));
   }
 

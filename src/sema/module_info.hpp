@@ -28,6 +28,7 @@ struct ModuleInfo {
   std::string moduleName;
   std::string linkPath;
   std::string sourceName;
+  std::string sourceText;
   bool isEntry = false;
   std::unique_ptr<RootNode> root;
   std::vector<ResolvedImport> imports;

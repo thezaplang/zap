@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <ostream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace zap {
@@ -28,6 +29,7 @@ struct Diagnostic {
   std::string code;
   std::string message;
   std::string fileName;
+  std::string sourceText;
   SourceSpan span;
   DiagnosticRange range;
 };
@@ -278,24 +280,21 @@ inline Color levelToColor(DiagnosticLevel level) {
 
 class DiagnosticTextFormatter {
 public:
-  static void print(Stream &os, const std::vector<Diagnostic> &diagnostics,
-                    const std::string &source) {
+  static void print(Stream &os, const std::vector<Diagnostic> &diagnostics) {
     for (const auto &diagnostic : diagnostics) {
-      printDiagnostic(os, diagnostic, source);
+      printDiagnostic(os, diagnostic);
     }
   }
 
   static void print(std::ostream &os,
-                    const std::vector<Diagnostic> &diagnostics,
-                    const std::string &source) {
+                    const std::vector<Diagnostic> &diagnostics) {
     for (const auto &diagnostic : diagnostics) {
-      printDiagnostic(os, diagnostic, source);
+      printDiagnostic(os, diagnostic);
     }
   }
 
 private:
-  static void printDiagnostic(Stream &os, const Diagnostic &diagnostic,
-                              const std::string &source) {
+  static void printDiagnostic(Stream &os, const Diagnostic &diagnostic) {
     os.changeColor(detail::levelToColor(diagnostic.level), true);
     os << detail::levelToText(diagnostic.level);
     os.resetColor();
@@ -306,11 +305,10 @@ private:
     os << diagnostic.message << '\n';
     os << " --> " << diagnostic.fileName << ":" << diagnostic.range.start.line
        << ":" << diagnostic.range.start.column << '\n';
-    printContext(os, diagnostic, source);
+    printContext(os, diagnostic);
   }
 
-  static void printDiagnostic(std::ostream &os, const Diagnostic &diagnostic,
-                              const std::string &source) {
+  static void printDiagnostic(std::ostream &os, const Diagnostic &diagnostic) {
     os << detail::levelToText(diagnostic.level) << ": ";
     if (!diagnostic.code.empty()) {
       os << diagnostic.code << " ";
@@ -318,11 +316,11 @@ private:
     os << diagnostic.message << '\n';
     os << " --> " << diagnostic.fileName << ":" << diagnostic.range.start.line
        << ":" << diagnostic.range.start.column << '\n';
-    printContext(os, diagnostic, source);
+    printContext(os, diagnostic);
   }
 
-  static void printContext(Stream &os, const Diagnostic &diagnostic,
-                           const std::string &source) {
+  static void printContext(Stream &os, const Diagnostic &diagnostic) {
+    const std::string &source = diagnostic.sourceText;
     SourceSpan span = diagnostic.span;
 
     size_t lineStart = 0;
@@ -368,8 +366,8 @@ private:
     os << '\n';
   }
 
-  static void printContext(std::ostream &os, const Diagnostic &diagnostic,
-                           const std::string &source) {
+  static void printContext(std::ostream &os, const Diagnostic &diagnostic) {
+    const std::string &source = diagnostic.sourceText;
     SourceSpan span = diagnostic.span;
 
     size_t lineStart = 0;
@@ -406,6 +404,7 @@ class DiagnosticEngine {
 private:
   const std::string &source;
   std::string fileName;
+  std::unordered_map<std::string, std::string> sources_;
   std::vector<Diagnostic> diagnostics_;
   size_t errorCount = 0;
   bool errorCapReached_ = false;
@@ -415,7 +414,15 @@ private:
 
 public:
   DiagnosticEngine(const std::string &src, const std::string &fname = "input")
-      : source(src), fileName(fname) {}
+      : source(src), fileName(fname) {
+    sources_[fileName] = source;
+  }
+
+  void registerSource(const std::string &name, const std::string &text) {
+    if (!name.empty()) {
+      sources_[name] = text;
+    }
+  }
 
   void report(SourceSpan span, DiagnosticLevel level,
               const std::string &message) {
@@ -440,12 +447,14 @@ public:
       if (!errorCapReached_) {
         errorCapReached_ = true;
         const SourceSpan capSpan = span;
+        const auto &capSource = sourceFor(capSpan);
         diagnostics_.push_back(Diagnostic{
             DiagnosticLevel::Note, "N0001",
             "Too many errors emitted; stopping after " +
                 std::to_string(MAX_ERRORS) +
                 " errors. Fix the first errors and re-run for more details.",
-            fileName, capSpan, makeRange(capSpan)});
+            fileNameFor(capSpan), capSource, capSpan,
+            makeRange(capSpan, capSource)});
       }
       return;
     }
@@ -454,8 +463,10 @@ public:
       return;
     }
 
-    diagnostics_.push_back(
-        Diagnostic{level, code, message, fileName, span, makeRange(span)});
+    const auto &diagnosticSource = sourceFor(span);
+    diagnostics_.push_back(Diagnostic{level, code, message, fileNameFor(span),
+                                      diagnosticSource, span,
+                                      makeRange(span, diagnosticSource)});
 
     if (level == DiagnosticLevel::Error) {
       ++errorCount;
@@ -474,11 +485,11 @@ public:
   const std::string &sourceName() const { return fileName; }
 
   void printText(std::ostream &os) const {
-    DiagnosticTextFormatter::print(os, diagnostics_, source);
+    DiagnosticTextFormatter::print(os, diagnostics_);
   }
 
   void printText(Stream &os) const {
-    DiagnosticTextFormatter::print(os, diagnostics_, source);
+    DiagnosticTextFormatter::print(os, diagnostics_);
   }
 
   std::string toJson() const {
@@ -523,9 +534,11 @@ private:
       return;
     }
 
+    const auto &noteSource = sourceFor(span);
     diagnostics_.push_back(Diagnostic{
         DiagnosticLevel::Note, defaultCodeFor(DiagnosticLevel::Note, message),
-        message, fileName, span, makeRange(span)});
+        message, fileNameFor(span), noteSource, span,
+        makeRange(span, noteSource)});
   }
 
   void maybeAddHelpHint(SourceSpan span, const std::string &message) {
@@ -670,17 +683,32 @@ private:
     return "unknown";
   }
 
-  DiagnosticRange makeRange(SourceSpan span) const {
+  const std::string &sourceFor(const SourceSpan &span) const {
+    const std::string &name =
+        span.sourceName.empty() ? fileName : span.sourceName;
+    auto it = sources_.find(name);
+    if (it != sources_.end()) {
+      return it->second;
+    }
+    return source;
+  }
+
+  std::string fileNameFor(const SourceSpan &span) const {
+    return span.sourceName.empty() ? fileName : span.sourceName;
+  }
+
+  DiagnosticRange makeRange(SourceSpan span,
+                            const std::string &rangeSource) const {
     DiagnosticPosition start{span.line, span.column, span.offset};
 
-    size_t endOffset = std::min(span.offset, source.size());
+    size_t endOffset = std::min(span.offset, rangeSource.size());
     size_t remaining = span.length;
 
     size_t line = start.line;
     size_t column = start.column;
 
-    while (endOffset < source.size() && remaining > 0) {
-      if (source[endOffset] == '\n') {
+    while (endOffset < rangeSource.size() && remaining > 0) {
+      if (rangeSource[endOffset] == '\n') {
         ++line;
         column = 1;
       } else {

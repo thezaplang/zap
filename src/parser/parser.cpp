@@ -364,7 +364,8 @@ std::unique_ptr<ExtDecl> Parser::parseExtDecl() {
     const auto &nextToken = peek();
     _builder.setSpan(extDecl->returnType_.get(),
                      SourceSpan(nextToken.span.line, nextToken.span.column,
-                                nextToken.span.offset, 0));
+                                nextToken.span.offset, 0,
+                                nextToken.span.sourceName));
   }
 
   Token semiToken = eat(TokenType::SEMICOLON);
@@ -1769,7 +1770,7 @@ Token Parser::eat(TokenType expectedType) {
 SourceSpan Parser::pointAfter(const SourceSpan &span) const {
   size_t length = std::max<size_t>(span.length, 1);
   return SourceSpan(span.line, span.column + length, span.offset + span.length,
-                    1);
+                    1, span.sourceName);
 }
 
 void Parser::synchronize(SyncContext context) {

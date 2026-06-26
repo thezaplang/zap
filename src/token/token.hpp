@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <utility>
 
 /// @brief Determines the type the token will have.
 enum TokenType {
@@ -100,18 +101,21 @@ enum TokenType {
 /// @brief Contains in-file related information like line, column, offset, and
 /// length.
 struct SourceSpan {
-  size_t line;   ///< Line of the source in the file.
-  size_t column; ///< Column of the source in the file.
-  size_t offset; ///< Offset of the source in the file.
-  size_t length; ///< Length of the source.
+  size_t line;            ///< Line of the source in the file.
+  size_t column;          ///< Column of the source in the file.
+  size_t offset;          ///< Offset of the source in the file.
+  size_t length;          ///< Length of the source.
+  std::string sourceName; ///< Source file this span belongs to.
 
   /// @brief Basic constructor of the source span.
   /// @param l Line.
   /// @param c Column.
   /// @param o Offset.
   /// @param len Length.
-  SourceSpan(size_t l = 0, size_t c = 0, size_t o = 0, size_t len = 0) noexcept
-      : line(l), column(c), offset(o), length(len) {}
+  SourceSpan(size_t l = 0, size_t c = 0, size_t o = 0, size_t len = 0,
+             std::string source = "") noexcept
+      : line(l), column(c), offset(o), length(len),
+        sourceName(std::move(source)) {}
 
   /// @brief Merges two 'SourceSpan' classes.
   /// @param start From.
@@ -120,7 +124,8 @@ struct SourceSpan {
   static SourceSpan merge(const SourceSpan &start,
                           const SourceSpan &end) noexcept {
     size_t newLen = (end.offset + end.length) - start.offset;
-    return SourceSpan(start.line, start.column, start.offset, newLen);
+    return SourceSpan(start.line, start.column, start.offset, newLen,
+                      start.sourceName);
   }
 };
 

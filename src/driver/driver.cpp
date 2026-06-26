@@ -150,6 +150,7 @@ bool loadModuleGraph(
   module->linkPath = frontend::computeLogicalModulePath(
       canonicalPath, runtimePaths(), importMap);
   module->sourceName = canonicalPath.string();
+  module->sourceText = source;
   module->root = std::move(ast);
   frontend::injectImplicitPreludeImportIfNeeded(*module, incPrelude);
 
@@ -219,6 +220,7 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   std::vector<sema::ModuleInfo> modules;
   modules.reserve(moduleMap.size());
   for (auto &[_, module] : moduleMap) {
+    diagnostics.registerSource(module->sourceName, module->sourceText);
     modules.push_back(std::move(*module));
   }
 

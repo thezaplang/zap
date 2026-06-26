@@ -660,6 +660,9 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       ++_column;
     }
   }
+  for (auto &token : tokens) {
+    token.span.sourceName = _diag.sourceName();
+  }
   return tokens;
 }
 

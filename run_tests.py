@@ -31,6 +31,13 @@ SPECIAL_CASES = {
     "tests/import_cycle/main.zp": {"type": "compile", "exit": 1, "desc": "Cyclic imports are rejected"},
     "tests/import_private_fail/main.zp": {"type": "compile", "exit": 1, "desc": "Private module member access is rejected"},
     "tests/diagnostics/07_attributes_parser_sync.zp": {"type": "compile", "exit": 1, "desc": "Diagnostics: parser synchronization with malformed attributes"},
+    "tests/import_map_diagnostic/main.zp": {
+        "type": "compile",
+        "exit": 1,
+        "compile_flags": ["--import-map", "@lib=tests/import_map_diagnostic/src/lib"],
+        "stderr_pattern": "broken.zp:2:10",
+        "desc": "Diagnostics in import-map targets report the imported file"
+    },
 
     # Runtime with non-zero exit
     "tests/type_inference_test.zp": {"type": "runtime", "exit": 0, "desc": "Type inference: var/const without annotation, struct field type-directed binding"},
