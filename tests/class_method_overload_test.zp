@@ -1,0 +1,47 @@
+class Example {
+  pub fun test(value: Int) Int {
+    return value - 40;
+  }
+
+  pub fun test(value: String) Int {
+    if value == "hello" {
+      return 3;
+    }
+    return 99;
+  }
+}
+
+class StaticExample {
+  pub static fun test(value: Int) Int {
+    return value - 38;
+  }
+
+  pub static fun test(value: String) Int {
+    if value == "hello" {
+      return 5;
+    }
+    return 99;
+  }
+}
+
+fun main() Int {
+  var example = new Example();
+
+  if example.test(42) != 2 {
+    return 1;
+  }
+
+  if example.test("hello") != 3 {
+    return 2;
+  }
+
+  if StaticExample.test(42) != 4 {
+    return 3;
+  }
+
+  if StaticExample.test("hello") != 5 {
+    return 4;
+  }
+
+  return 0;
+}

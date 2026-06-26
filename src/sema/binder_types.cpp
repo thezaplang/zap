@@ -764,14 +764,8 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
       methodSymbol->ownerTypeName = instantiatedClassType->getName();
       if (methodSymbol->isMethod && !methodSymbol->isStatic &&
           !methodSymbol->isConstructor && !methodSymbol->isDestructor) {
-        auto existingIt = classInfo.methods.find(methodDecl->name_);
-        if (existingIt != classInfo.methods.end()) {
-          auto existingMethod =
-              std::dynamic_pointer_cast<FunctionSymbol>(existingIt->second);
-          if (existingMethod && existingMethod->vtableSlot >= 0) {
-            methodSymbol->vtableSlot = existingMethod->vtableSlot;
-          }
-        }
+        methodSymbol->vtableSlot =
+            findOverriddenVtableSlot(classInfo, *methodSymbol);
         if (methodSymbol->vtableSlot < 0) {
           methodSymbol->vtableSlot = classInfo.nextVirtualSlot++;
         }
@@ -787,9 +781,11 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
           moduleIt->second.info->moduleId;
       functionGenericParamNames_[methodSymbol.get()] =
           methodSymbol->genericParameterNames;
-      classInfo.methods[methodDecl->name_] = methodSymbol;
+      addClassMethodOverload(classInfo, methodSymbol);
       if (isCtor) {
-        classInfo.constructor = methodSymbol;
+        if (!classInfo.constructor) {
+          classInfo.constructor = methodSymbol;
+        }
       } else if (isDtor) {
         classInfo.destructor = methodSymbol;
       }

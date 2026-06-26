@@ -1,0 +1,29 @@
+class Example {
+  pub value: Int;
+
+  fun init(value: Int) {
+    self.value = value - 40;
+  }
+
+  fun init(value: String) {
+    if value == "hello" {
+      self.value = 3;
+      return;
+    }
+    self.value = 99;
+  }
+}
+
+fun main() Int {
+  var fromInt = new Example(42);
+  if fromInt.value != 2 {
+    return 1;
+  }
+
+  var fromString = new Example("hello");
+  if fromString.value != 3 {
+    return 2;
+  }
+
+  return 0;
+}

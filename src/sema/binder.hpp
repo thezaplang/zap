@@ -242,6 +242,11 @@ private:
   std::shared_ptr<FunctionSymbol>
   findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
                           const FunctionSymbol &prototype) const;
+  std::shared_ptr<OverloadSetSymbol>
+  addClassMethodOverload(ClassInfo &classInfo,
+                         const std::shared_ptr<FunctionSymbol> &method);
+  int findOverriddenVtableSlot(const ClassInfo &classInfo,
+                               const FunctionSymbol &method) const;
   std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(
       const std::shared_ptr<FunctionSymbol> &baseFunction,
       const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>

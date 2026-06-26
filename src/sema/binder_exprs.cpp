@@ -1047,24 +1047,10 @@ void Binder::visit(FunCall &node) {
                              "' has no method '" + member->member_ + "'.");
         return;
       }
-      auto funcSymbol =
-          std::dynamic_pointer_cast<FunctionSymbol>(methodIt->second);
-      if (!funcSymbol) {
+      auto candidates = collectOverloads(methodIt->second);
+      if (candidates.empty()) {
         error(node.span, "'" + member->member_ + "' is not a method.");
         return;
-      }
-      bool methodAllowed =
-          funcSymbol->visibility == Visibility::Public ||
-          (!currentClassStack_.empty() &&
-           currentClassStack_.back() == classType->getName()) ||
-          (funcSymbol->visibility == Visibility::Protected &&
-           !currentClassStack_.empty());
-      if (!methodAllowed) {
-        error(node.span, "Method '" + member->member_ + "' is not accessible.");
-        return;
-      }
-      if (funcSymbol->isUnsafe) {
-        requireUnsafeContext(node.span, "unsafe function calls");
       }
 
       std::vector<std::unique_ptr<BoundExpression>> rawArgs;
@@ -1078,7 +1064,41 @@ void Binder::visit(FunCall &node) {
         rawArgs.push_back(std::move(arg));
       }
 
-      if (!funcSymbol->genericParameterNames.empty()) {
+      struct MethodCandidate {
+        std::shared_ptr<FunctionSymbol> symbol;
+        std::vector<int> cost;
+      };
+
+      const bool calledOnType =
+          dynamic_cast<BoundLiteral *>(selfExpr.get()) != nullptr;
+      std::vector<MethodCandidate> matches;
+      bool inaccessibleMatch = false;
+      bool unsafeMatch = false;
+
+      for (auto funcSymbol : candidates) {
+        if (!funcSymbol) {
+          continue;
+        }
+
+        if (funcSymbol->isMethod && calledOnType) {
+          continue;
+        }
+
+        bool methodAllowed =
+            funcSymbol->visibility == Visibility::Public ||
+            (!currentClassStack_.empty() &&
+             currentClassStack_.back() == classType->getName()) ||
+            (funcSymbol->visibility == Visibility::Protected &&
+             !currentClassStack_.empty());
+        if (!methodAllowed) {
+          inaccessibleMatch = true;
+          continue;
+        }
+        if (funcSymbol->isUnsafe && !isUnsafeActive()) {
+          unsafeMatch = true;
+          continue;
+        }
+
         std::vector<std::unique_ptr<BoundExpression>> inferenceArgs;
         if (funcSymbol->isMethod) {
           inferenceArgs.push_back(selfExpr->clone());
@@ -1086,31 +1106,71 @@ void Binder::visit(FunCall &node) {
         for (const auto &rawArg : rawArgs) {
           inferenceArgs.push_back(rawArg->clone());
         }
-        std::string genericBindingFailure;
-        auto genericBindings =
-            buildGenericBindings(*funcSymbol, inferenceArgs, node.genericArgs_,
-                                 node.span, &genericBindingFailure);
-        if (genericBindings.empty()) {
+
+        std::unordered_map<std::string, std::shared_ptr<zir::Type>>
+            genericBindings;
+        if (!funcSymbol->genericParameterNames.empty()) {
+          genericBindings =
+              buildGenericBindings(*funcSymbol, inferenceArgs,
+                                   node.genericArgs_, node.span, nullptr);
+          if (genericBindings.empty()) {
+            continue;
+          }
+          funcSymbol = ensureGenericFunctionInstantiation(
+              funcSymbol, orderedGenericBindings(genericBindings), node.span);
+          if (!funcSymbol) {
+            continue;
+          }
+        } else if (!node.genericArgs_.empty()) {
+          continue;
+        }
+
+        size_t paramOffset = funcSymbol->isMethod ? 1 : 0;
+        if (node.params_.size() + paramOffset !=
+            funcSymbol->parameters.size()) {
+          continue;
+        }
+
+        MethodCandidate match;
+        match.symbol = funcSymbol;
+        bool failed = false;
+        for (size_t i = 0; i < rawArgs.size(); ++i) {
+          auto expectedType = funcSymbol->parameters[i + paramOffset]->type;
+          if (!canConvert(rawArgs[i]->type, expectedType)) {
+            failed = true;
+            break;
+          }
+          match.cost.push_back(conversionCost(rawArgs[i]->type, expectedType));
+        }
+        if (!failed) {
+          matches.push_back(std::move(match));
+        }
+      }
+
+      if (matches.empty()) {
+        if (inaccessibleMatch) {
           error(node.span,
-                "No matching overload for method '" + member->member_ + "'. " +
-                    (genericBindingFailure.empty()
-                         ? std::string("Generic type binding failed.")
-                         : genericBindingFailure));
-          return;
+                "Method '" + member->member_ + "' is not accessible.");
+        } else if (unsafeMatch) {
+          requireUnsafeContext(node.span, "unsafe function calls");
+        } else {
+          error(node.span,
+                "No matching overload for method '" + member->member_ + "'.");
         }
-        funcSymbol = ensureGenericFunctionInstantiation(
-            funcSymbol, orderedGenericBindings(genericBindings), node.span);
-        if (!funcSymbol) {
-          error(node.span, "Failed to instantiate generic method '" +
-                               member->member_ + "'.");
-          return;
-        }
-      } else if (!node.genericArgs_.empty()) {
-        error(node.span, "Method '" + member->member_ +
-                             "' does not accept generic arguments.");
         return;
       }
 
+      std::sort(matches.begin(), matches.end(),
+                [](const MethodCandidate &lhs, const MethodCandidate &rhs) {
+                  return lhs.cost < rhs.cost;
+                });
+      if (matches.size() > 1 && matches[0].cost == matches[1].cost) {
+        error(node.span,
+              "Ambiguous overload for method '" + member->member_ + "'.");
+        return;
+      }
+
+      auto funcSymbol = matches.front().symbol;
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
       if (funcSymbol->isMethod) {
@@ -1119,22 +1179,9 @@ void Binder::visit(FunCall &node) {
       }
 
       size_t paramOffset = funcSymbol->isMethod ? 1 : 0;
-      if (node.params_.size() + paramOffset != funcSymbol->parameters.size()) {
-        error(node.span,
-              "No matching overload for method '" + member->member_ + "'.");
-        return;
-      }
-
       for (size_t i = 0; i < node.params_.size(); ++i) {
         auto arg = rawArgs[i]->clone();
         auto expectedType = funcSymbol->parameters[i + paramOffset]->type;
-        if (!canConvert(arg->type, expectedType)) {
-          error(node.params_[i]->value->span,
-                "Cannot convert method argument from '" +
-                    renderTypeForUser(arg->type) + "' to '" +
-                    renderTypeForUser(expectedType) + "'");
-          return;
-        }
         arg = wrapInCast(std::move(arg), expectedType);
         args.push_back(std::move(arg));
         argIsRef.push_back(node.params_[i]->isRef);
@@ -1800,32 +1847,89 @@ void Binder::visit(NewExpr &node) {
 
   std::vector<std::unique_ptr<BoundExpression>> args;
   std::vector<bool> argRefs;
-  auto ctor = infoIt->second.constructor;
-  size_t ctorParamOffset = ctor && ctor->isMethod ? 1 : 0;
-  size_t expectedArgCount =
-      ctor ? (ctor->parameters.size() - ctorParamOffset) : 0;
-  if (node.args_.size() != expectedArgCount) {
-    error(node.span, "Constructor for class '" + concreteType->getName() +
-                         "' expects " + std::to_string(expectedArgCount) +
-                         " arguments, got " +
-                         std::to_string(node.args_.size()) + ".");
-    return;
-  }
-
+  std::vector<std::unique_ptr<BoundExpression>> rawArgs;
+  rawArgs.reserve(node.args_.size());
   for (size_t i = 0; i < node.args_.size(); ++i) {
-    auto expected =
-        ctor ? ctor->parameters[i + ctorParamOffset]->type : nullptr;
-    auto arg = bindExpressionWithExpected(node.args_[i]->value.get(), expected);
+    auto arg = bindExpressionWithExpected(node.args_[i]->value.get(), nullptr);
     if (!arg) {
       return;
     }
-    if (expected && !canConvert(arg->type, expected)) {
-      error(node.args_[i]->value->span,
-            "Cannot convert constructor argument from '" +
-                renderTypeForUser(arg->type) + "' to '" +
-                renderTypeForUser(expected) + "'");
+    rawArgs.push_back(std::move(arg));
+  }
+
+  auto ctor = infoIt->second.constructor;
+  auto ctorIt = infoIt->second.methods.find("init");
+  auto ctorCandidates = ctorIt == infoIt->second.methods.end()
+                            ? std::vector<std::shared_ptr<FunctionSymbol>>{}
+                            : collectOverloads(ctorIt->second);
+  if (ctorCandidates.empty() && ctor) {
+    ctorCandidates.push_back(ctor);
+  }
+
+  struct ConstructorCandidate {
+    std::shared_ptr<FunctionSymbol> symbol;
+    std::vector<int> cost;
+  };
+
+  std::vector<ConstructorCandidate> matches;
+  if (ctorCandidates.empty()) {
+    if (!node.args_.empty()) {
+      error(node.span, "Constructor for class '" + concreteType->getName() +
+                           "' expects 0 arguments, got " +
+                           std::to_string(node.args_.size()) + ".");
       return;
     }
+  } else {
+    for (const auto &candidate : ctorCandidates) {
+      if (!candidate) {
+        continue;
+      }
+      size_t ctorParamOffset = candidate->isMethod ? 1 : 0;
+      if (node.args_.size() + ctorParamOffset != candidate->parameters.size()) {
+        continue;
+      }
+
+      ConstructorCandidate match;
+      match.symbol = candidate;
+      bool failed = false;
+      for (size_t i = 0; i < rawArgs.size(); ++i) {
+        auto expected = candidate->parameters[i + ctorParamOffset]->type;
+        if (!canConvert(rawArgs[i]->type, expected)) {
+          failed = true;
+          break;
+        }
+        match.cost.push_back(conversionCost(rawArgs[i]->type, expected));
+      }
+      if (!failed) {
+        matches.push_back(std::move(match));
+      }
+    }
+
+    if (matches.empty()) {
+      error(node.span, "No matching constructor for class '" +
+                           concreteType->getName() + "'.");
+      return;
+    }
+
+    std::sort(
+        matches.begin(), matches.end(),
+        [](const ConstructorCandidate &lhs, const ConstructorCandidate &rhs) {
+          return lhs.cost < rhs.cost;
+        });
+    if (matches.size() > 1 && matches[0].cost == matches[1].cost) {
+      error(node.span, "Ambiguous constructor for class '" +
+                           concreteType->getName() + "'.");
+      return;
+    }
+
+    ctor = matches.front().symbol;
+  }
+
+  size_t ctorParamOffset = ctor && ctor->isMethod ? 1 : 0;
+  for (size_t i = 0; i < rawArgs.size(); ++i) {
+    auto arg = rawArgs[i]->clone();
+    auto expected =
+        ctor ? ctor->parameters[i + ctorParamOffset]->type : nullptr;
     if (expected) {
       arg = wrapInCast(std::move(arg), expected);
     }

@@ -687,14 +687,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         symbol->ownerTypeName = classType->getName();
         if (symbol->isMethod && !symbol->isStatic && !symbol->isConstructor &&
             !symbol->isDestructor) {
-          auto existingIt = classInfo.methods.find(methodDecl->name_);
-          if (existingIt != classInfo.methods.end()) {
-            auto existingMethod =
-                std::dynamic_pointer_cast<FunctionSymbol>(existingIt->second);
-            if (existingMethod && existingMethod->vtableSlot >= 0) {
-              symbol->vtableSlot = existingMethod->vtableSlot;
-            }
-          }
+          symbol->vtableSlot = findOverriddenVtableSlot(classInfo, *symbol);
           if (symbol->vtableSlot < 0) {
             symbol->vtableSlot = classInfo.nextVirtualSlot++;
           }
@@ -709,9 +702,11 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
         functionGenericParamNames_[symbol.get()] =
             symbol->genericParameterNames;
-        classInfo.methods[methodDecl->name_] = symbol;
+        addClassMethodOverload(classInfo, symbol);
         if (isCtor) {
-          classInfo.constructor = symbol;
+          if (!classInfo.constructor) {
+            classInfo.constructor = symbol;
+          }
         } else if (isDtor) {
           classInfo.destructor = symbol;
         }

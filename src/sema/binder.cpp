@@ -708,6 +708,73 @@ Binder::findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
   return nullptr;
 }
 
+bool sameMethodDispatchSignature(const FunctionSymbol &lhs,
+                                 const FunctionSymbol &rhs) {
+  const size_t lhsOffset = lhs.isMethod ? 1 : 0;
+  const size_t rhsOffset = rhs.isMethod ? 1 : 0;
+  if (lhs.parameters.size() < lhsOffset || rhs.parameters.size() < rhsOffset) {
+    return false;
+  }
+  if (lhs.parameters.size() - lhsOffset != rhs.parameters.size() - rhsOffset ||
+      lhs.isCVariadic != rhs.isCVariadic) {
+    return false;
+  }
+  for (size_t i = 0; i + lhsOffset < lhs.parameters.size(); ++i) {
+    const auto &left = lhs.parameters[i + lhsOffset];
+    const auto &right = rhs.parameters[i + rhsOffset];
+    if (left->is_ref != right->is_ref ||
+        left->is_variadic_pack != right->is_variadic_pack || !left->type ||
+        !right->type || left->type->toString() != right->type->toString()) {
+      return false;
+    }
+  }
+  return true;
+}
+
+std::shared_ptr<OverloadSetSymbol>
+Binder::addClassMethodOverload(ClassInfo &classInfo,
+                               const std::shared_ptr<FunctionSymbol> &method) {
+  if (!method) {
+    return nullptr;
+  }
+
+  auto &entry = classInfo.methods[method->name];
+  auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
+  auto updated = std::make_shared<OverloadSetSymbol>(
+      method->name, method->moduleName, method->visibility);
+  if (overloads) {
+    updated->overloads = overloads->overloads;
+  } else if (auto existing = std::dynamic_pointer_cast<FunctionSymbol>(entry)) {
+    updated->addOverload(existing);
+  }
+  updated->overloads.erase(
+      std::remove_if(updated->overloads.begin(), updated->overloads.end(),
+                     [&](const std::shared_ptr<FunctionSymbol> &candidate) {
+                       return candidate &&
+                              sameMethodDispatchSignature(*candidate, *method);
+                     }),
+      updated->overloads.end());
+  updated->addOverload(method);
+  entry = updated;
+  return updated;
+}
+
+int Binder::findOverriddenVtableSlot(const ClassInfo &classInfo,
+                                     const FunctionSymbol &method) const {
+  auto existingIt = classInfo.methods.find(method.name);
+  if (existingIt == classInfo.methods.end()) {
+    return -1;
+  }
+
+  for (const auto &candidate : collectOverloads(existingIt->second)) {
+    if (candidate && candidate->vtableSlot >= 0 &&
+        sameMethodDispatchSignature(*candidate, method)) {
+      return candidate->vtableSlot;
+    }
+  }
+  return -1;
+}
+
 std::string Binder::displayTypeName(const std::string &moduleName,
                                     const std::string &name) const {
   if (moduleName.empty() || moduleName == "__single_module__") {
