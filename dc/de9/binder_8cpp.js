@@ -19,6 +19,7 @@ var binder_8cpp =
     [ "sema::renderGenericCodegenName", "d7/d39/namespacesema.html#a0df647d0506c3bae84da718e8b5d45cc", null ],
     [ "sema::renderGenericTypeName", "d7/d39/namespacesema.html#aeb6d79784fbca497b1cfbc28733f83ba", null ],
     [ "sema::sameFunctionSignature", "d7/d39/namespacesema.html#ab5a73ae519850ffa766a9ca72ebc144f", null ],
+    [ "sema::sameMethodDispatchSignature", "d7/d39/namespacesema.html#a878589a3388ccc402729a8b1a133ef8c", null ],
     [ "sema::sanitizeTypeName", "d7/d39/namespacesema.html#ae1c1adc63a94d804617d53399c71d6be", null ],
     [ "sema::splitQualified", "d7/d39/namespacesema.html#a4a94bb1034064c1900bfb79268609cc0", null ],
     [ "sema::stmtAlwaysReturns", "d7/d39/namespacesema.html#ad3baf5fefd3d5b1f085cd0a0d7888a89", null ]

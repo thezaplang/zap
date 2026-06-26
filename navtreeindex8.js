@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"d8/d58/flags_8inc.html":[3,0,0,2,0,3],
 "d8/d58/flags_8inc_source.html":[3,0,0,2,0,3],
 "d8/d5e/classAssignNode.html":[2,0,8],
 "d8/d5e/classAssignNode.html#a3297c5b975e2651df75475fb04f02438":[2,0,8,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a277d04e94f6ac715b06b77866602a168":[1,0,0,5,6],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a277d04e94f6ac715b06b77866602a168":[2,0,0,0,6],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a6113c9252d1aa29f316e98f03eb7ae3b":[1,0,0,5,11],
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a6113c9252d1aa29f316e98f03eb7ae3b":[2,0,0,0,11],
-"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a70d6a6a5d820c90fe5abc21fe0061c8c":[1,0,0,5,2]
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a6113c9252d1aa29f316e98f03eb7ae3b":[2,0,0,0,11]
 };

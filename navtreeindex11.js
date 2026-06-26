@@ -1,5 +1,6 @@
 var NAVTREEINDEX11 =
 {
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a271b4b9de5359ec2f4ba1712f0dcf6d6":[2,0,0,1,38],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a2846efcd8ab803fe30e564283b615afa":[1,0,0,6,58],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a2846efcd8ab803fe30e564283b615afa":[2,0,0,1,58],
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a288e7a62a289cd11e7d6c521a9f9cda3":[1,0,0,6,29],
@@ -248,6 +249,5 @@ var NAVTREEINDEX11 =
 "db/d54/classsema_1_1BoundNewExpression.html":[1,0,2,20],
 "db/d54/classsema_1_1BoundNewExpression.html":[2,0,1,20],
 "db/d54/classsema_1_1BoundNewExpression.html#a4132d8799eb526fe045f2a7e6eb4f1a8":[1,0,2,20,4],
-"db/d54/classsema_1_1BoundNewExpression.html#a4132d8799eb526fe045f2a7e6eb4f1a8":[2,0,1,20,4],
-"db/d54/classsema_1_1BoundNewExpression.html#a5b56cec9e9ab7e8d84f745cd2a568573":[1,0,2,20,2]
+"db/d54/classsema_1_1BoundNewExpression.html#a4132d8799eb526fe045f2a7e6eb4f1a8":[2,0,1,20,4]
 };

@@ -166,6 +166,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ad3baf5fefd3d5b1f085cd0a0d7888a89" id="r_ad3baf5fefd3d5b1f085cd0a0d7888a89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3baf5fefd3d5b1f085cd0a0d7888a89">stmtAlwaysReturns</a> (const <a class="el" href="../../dd/d10/classsema_1_1BoundStatement.html">BoundStatement</a> *stmt)</td></tr>
 <tr class="memitem:ab834aafd43a3b57c67955ee465f01441" id="r_ab834aafd43a3b57c67955ee465f01441"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab834aafd43a3b57c67955ee465f01441">deriveValueExpressionFromIf</a> (const <a class="el" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> &amp;stmt)</td></tr>
 <tr class="memitem:ac4149da11ebd06d1de01c84ed4c76497" id="r_ac4149da11ebd06d1de01c84ed4c76497"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a> (const <a class="el" href="../../d1/d45/classsema_1_1BoundBlock.html">BoundBlock</a> &amp;block)</td></tr>
+<tr class="memitem:a878589a3388ccc402729a8b1a133ef8c" id="r_a878589a3388ccc402729a8b1a133ef8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a878589a3388ccc402729a8b1a133ef8c">sameMethodDispatchSignature</a> (const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;lhs, const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;rhs)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -370,7 +371,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">sema::BoundBlock::result</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">sema::BoundBlock::statements</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">stmtAlwaysReturns()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">stmtAlwaysReturns()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00945">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">stmtAlwaysReturns()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00940">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -403,7 +404,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  318</span>  <span class="keywordflow">return</span> {};</div>
 <div class="line"><span class="lineno">  319</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00701">sema::Binder::findFunctionBySignature()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00701">sema::Binder::findFunctionBySignature()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00762">sema::Binder::findOverriddenVtableSlot()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l01831">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -578,7 +579,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01626">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -608,7 +609,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01626">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -647,7 +648,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00020">kFailablePrefix</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01626">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -674,7 +675,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00035">zap::text::isStringType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00205">sema::Binder::buildBinaryExpression()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01626">sema::Binder::canConvert()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01161">sema::Binder::conversionCost()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00978">sema::Binder::foldConstantBinary()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01759">sema::Binder::getCVariadicArgumentType()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00708">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00447">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00205">sema::Binder::buildBinaryExpression()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01157">sema::Binder::conversionCost()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01045">sema::Binder::foldConstantBinary()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01755">sema::Binder::getCVariadicArgumentType()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00708">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00447">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -705,7 +706,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00162">zir::RecordType::getName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00884">sema::Binder::buildGenericBindings()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01626">sema::Binder::canConvert()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00352">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00880">sema::Binder::buildGenericBindings()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00352">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -770,7 +771,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00021">zir::Float</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00022">zir::Float32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00023">zir::Float64</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::NullPtr</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Void</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l01937">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l02041">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -844,7 +845,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00020">kFailablePrefix</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01424">sema::Binder::mapType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01420">sema::Binder::mapType()</a>.</p>
 
 </div>
 </div>
@@ -914,7 +915,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::Int</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01424">sema::Binder::mapType()</a>, <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00434">sema::Binder::predeclareModuleValues()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00352">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01420">sema::Binder::mapType()</a>, <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00434">sema::Binder::predeclareModuleValues()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00352">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -1040,6 +1041,55 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a878589a3388ccc402729a8b1a133ef8c" name="a878589a3388ccc402729a8b1a133ef8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a878589a3388ccc402729a8b1a133ef8c">&#9670;&#160;</a></span>sameMethodDispatchSignature()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sema::sameMethodDispatchSignature </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rhs</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00711">711</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  712</span>                                                            {</div>
+<div class="line"><span class="lineno">  713</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> lhsOffset = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
+<div class="line"><span class="lineno">  714</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> rhsOffset = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
+<div class="line"><span class="lineno">  715</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; lhsOffset || rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; rhsOffset) {</div>
+<div class="line"><span class="lineno">  716</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  717</span>  }</div>
+<div class="line"><span class="lineno">  718</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - lhsOffset != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - rhsOffset ||</div>
+<div class="line"><span class="lineno">  719</span>      lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>) {</div>
+<div class="line"><span class="lineno">  720</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  721</span>  }</div>
+<div class="line"><span class="lineno">  722</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i + lhsOffset &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  723</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + lhsOffset];</div>
+<div class="line"><span class="lineno">  724</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + rhsOffset];</div>
+<div class="line"><span class="lineno">  725</span>    <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
+<div class="line"><span class="lineno">  726</span>        left-&gt;is_variadic_pack != right-&gt;is_variadic_pack || !left-&gt;type ||</div>
+<div class="line"><span class="lineno">  727</span>        !right-&gt;type || left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString()) {</div>
+<div class="line"><span class="lineno">  728</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  729</span>    }</div>
+<div class="line"><span class="lineno">  730</span>  }</div>
+<div class="line"><span class="lineno">  731</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  732</span>}</div>
+<div class="ttc" id="aclasssema_1_1FunctionSymbol_html_aba7038104981a3674d72f2540c7dca58"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">sema::FunctionSymbol::isMethod</a></div><div class="ttdeci">bool isMethod</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00071">symbol.hpp:71</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00070">sema::FunctionSymbol::isCVariadic</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00071">sema::FunctionSymbol::isMethod</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">sema::FunctionSymbol::parameters</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00762">sema::Binder::findOverriddenVtableSlot()</a>.</p>
+
+</div>
+</div>
 <a id="ae1c1adc63a94d804617d53399c71d6be" name="ae1c1adc63a94d804617d53399c71d6be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1c1adc63a94d804617d53399c71d6be">&#9670;&#160;</a></span>sanitizeTypeName()</h2>
 
@@ -1101,7 +1151,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  286</span>  <span class="keywordflow">return</span> parts;</div>
 <div class="line"><span class="lineno">  287</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l01937">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l02041">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>

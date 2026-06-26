@@ -1,5 +1,6 @@
 var NAVTREEINDEX9 =
 {
+"d9/d1d/classcodegen_1_1ClassArcEmitter.html#a70d6a6a5d820c90fe5abc21fe0061c8c":[1,0,0,5,2],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a70d6a6a5d820c90fe5abc21fe0061c8c":[2,0,0,0,2],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a795956dc22f38520700c44c3dc46eb5e":[1,0,0,5,0],
 "d9/d1d/classcodegen_1_1ClassArcEmitter.html#a795956dc22f38520700c44c3dc46eb5e":[2,0,0,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX9 =
 "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a0ad8c3be61d602fec14acc3ba7d35842":[1,0,0,0,0],
 "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a12fd8eccc942fb96e9825f1e37390762":[1,0,0,0,1],
 "da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a314e68387d71b51806754ae306403d8d":[1,0,0,0,5],
-"da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac":[1,0,0,0,2],
-"da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a8445bdb720c26744ec9d2a83a064c53e":[1,0,0,0,4]
+"da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html#a380165df1f48789b28989b860e9b71ac":[1,0,0,0,2]
 };
