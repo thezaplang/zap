@@ -8,14 +8,17 @@ var classzap_1_1DiagnosticEngine =
     [ "defaultCodeFor", "d3/d28/classzap_1_1DiagnosticEngine.html#a91f60994d8377e18963e85f3ea0601f9", null ],
     [ "diagnostics", "d3/d28/classzap_1_1DiagnosticEngine.html#a9d9cf1310f3abb8bbe62d054bb9df182", null ],
     [ "empty", "d3/d28/classzap_1_1DiagnosticEngine.html#a59f1e63f0065b73c9a54449c2ae5ea57", null ],
+    [ "fileNameFor", "d3/d28/classzap_1_1DiagnosticEngine.html#a8a0df03093c84457f429ba35b2837959", null ],
     [ "hadErrors", "d3/d28/classzap_1_1DiagnosticEngine.html#a1a3b0561ab7f038c217fa1da0a0a514b", null ],
     [ "levelToString", "d3/d28/classzap_1_1DiagnosticEngine.html#ad02899a0bfdcc92f5f36b42b042a0417", null ],
-    [ "makeRange", "d3/d28/classzap_1_1DiagnosticEngine.html#a466bc4ebe5b86885f505645f7f5cc6f7", null ],
+    [ "makeRange", "d3/d28/classzap_1_1DiagnosticEngine.html#a8b2793e2c2bcc2c0960ca775dc4e6f72", null ],
     [ "maybeAddHelpHint", "d3/d28/classzap_1_1DiagnosticEngine.html#a888a8777539afb2fda609856f916295e", null ],
     [ "printText", "d3/d28/classzap_1_1DiagnosticEngine.html#af776eebf39ea982565836c36eeaa9784", null ],
     [ "printText", "d3/d28/classzap_1_1DiagnosticEngine.html#ab4485f2bc0035ea2a478e78867ad7dd0", null ],
+    [ "registerSource", "d3/d28/classzap_1_1DiagnosticEngine.html#af8eb058db77f91c8c65527ffade8a560", null ],
     [ "report", "d3/d28/classzap_1_1DiagnosticEngine.html#ac41e792d7dc4d9e219175e1fd5e9c16a", null ],
     [ "report", "d3/d28/classzap_1_1DiagnosticEngine.html#a174265ae28a3f7629b1fb39e112d357d", null ],
+    [ "sourceFor", "d3/d28/classzap_1_1DiagnosticEngine.html#a3ceb501d58b577daa261f8d9306e23d2", null ],
     [ "sourceName", "d3/d28/classzap_1_1DiagnosticEngine.html#ad223a3b03d9b85c6158f1cd74995fc4d", null ],
     [ "sourceText", "d3/d28/classzap_1_1DiagnosticEngine.html#ad30b40f9f398cd0a6ad01e051d26ca31", null ],
     [ "toJson", "d3/d28/classzap_1_1DiagnosticEngine.html#a10802d1824c25a52ba3cda352bbfd355", null ],
@@ -25,5 +28,6 @@ var classzap_1_1DiagnosticEngine =
     [ "fileName", "d3/d28/classzap_1_1DiagnosticEngine.html#ac5e219b41ca3de68683b966c680d9718", null ],
     [ "MAX_DIAGNOSTICS", "d3/d28/classzap_1_1DiagnosticEngine.html#ad694355ee3a800ab5e06f7ff236ff310", null ],
     [ "MAX_ERRORS", "d3/d28/classzap_1_1DiagnosticEngine.html#aea4fe669d87bd2ca70dcecc28ab698ca", null ],
-    [ "source", "d3/d28/classzap_1_1DiagnosticEngine.html#acc361fdacdc70e6a15095fcaaac7ced8", null ]
+    [ "source", "d3/d28/classzap_1_1DiagnosticEngine.html#acc361fdacdc70e6a15095fcaaac7ced8", null ],
+    [ "sources_", "d3/d28/classzap_1_1DiagnosticEngine.html#a82afecdce66f81022b58e36c31c8769d", null ]
 ];

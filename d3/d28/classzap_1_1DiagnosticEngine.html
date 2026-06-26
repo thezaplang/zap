@@ -69,6 +69,7 @@ $(function(){initNavTree('d3/d28/classzap_1_1DiagnosticEngine.html','../../','df
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a0cae44f134f0a6a1909161e3679a21" id="r_a2a0cae44f134f0a6a1909161e3679a21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a0cae44f134f0a6a1909161e3679a21">DiagnosticEngine</a> (const std::string &amp;src, const std::string &amp;fname=&quot;input&quot;)</td></tr>
+<tr class="memitem:af8eb058db77f91c8c65527ffade8a560" id="r_af8eb058db77f91c8c65527ffade8a560"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8eb058db77f91c8c65527ffade8a560">registerSource</a> (const std::string &amp;name, const std::string &amp;<a class="el" href="../../dc/db9/namespacezap_1_1text.html">text</a>)</td></tr>
 <tr class="memitem:a174265ae28a3f7629b1fb39e112d357d" id="r_a174265ae28a3f7629b1fb39e112d357d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a174265ae28a3f7629b1fb39e112d357d">report</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, <a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level, const std::string &amp;message)</td></tr>
 <tr class="memitem:ac41e792d7dc4d9e219175e1fd5e9c16a" id="r_ac41e792d7dc4d9e219175e1fd5e9c16a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac41e792d7dc4d9e219175e1fd5e9c16a">report</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, <a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level, const std::string &amp;code, const std::string &amp;message)</td></tr>
 <tr class="memitem:a1a3b0561ab7f038c217fa1da0a0a514b" id="r_a1a3b0561ab7f038c217fa1da0a0a514b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a3b0561ab7f038c217fa1da0a0a514b">hadErrors</a> () const</td></tr>
@@ -84,7 +85,9 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ac36d3b1bb030eced3829ca4b509a3821" id="r_ac36d3b1bb030eced3829ca4b509a3821"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, const std::string &amp;message)</td></tr>
 <tr class="memitem:a888a8777539afb2fda609856f916295e" id="r_a888a8777539afb2fda609856f916295e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a888a8777539afb2fda609856f916295e">maybeAddHelpHint</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, const std::string &amp;message)</td></tr>
-<tr class="memitem:a466bc4ebe5b86885f505645f7f5cc6f7" id="r_a466bc4ebe5b86885f505645f7f5cc6f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d67/structzap_1_1DiagnosticRange.html">DiagnosticRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a466bc4ebe5b86885f505645f7f5cc6f7">makeRange</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span) const</td></tr>
+<tr class="memitem:a3ceb501d58b577daa261f8d9306e23d2" id="r_a3ceb501d58b577daa261f8d9306e23d2"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ceb501d58b577daa261f8d9306e23d2">sourceFor</a> (const <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;span) const</td></tr>
+<tr class="memitem:a8a0df03093c84457f429ba35b2837959" id="r_a8a0df03093c84457f429ba35b2837959"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a0df03093c84457f429ba35b2837959">fileNameFor</a> (const <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;span) const</td></tr>
+<tr class="memitem:a8b2793e2c2bcc2c0960ca775dc4e6f72" id="r_a8b2793e2c2bcc2c0960ca775dc4e6f72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d67/structzap_1_1DiagnosticRange.html">DiagnosticRange</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">makeRange</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, const std::string &amp;rangeSource) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -98,6 +101,7 @@ Static Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:acc361fdacdc70e6a15095fcaaac7ced8" id="r_acc361fdacdc70e6a15095fcaaac7ced8"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a></td></tr>
 <tr class="memitem:ac5e219b41ca3de68683b966c680d9718" id="r_ac5e219b41ca3de68683b966c680d9718"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a></td></tr>
+<tr class="memitem:a82afecdce66f81022b58e36c31c8769d" id="r_a82afecdce66f81022b58e36c31c8769d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82afecdce66f81022b58e36c31c8769d">sources_</a></td></tr>
 <tr class="memitem:a8ca04806f1e27091b4206bb74f88c4c1" id="r_a8ca04806f1e27091b4206bb74f88c4c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../df/d01/structzap_1_1Diagnostic.html">Diagnostic</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a></td></tr>
 <tr class="memitem:a0c58e0c0341e64349a710df1eaa7aaa7" id="r_a0c58e0c0341e64349a710df1eaa7aaa7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a> = 0</td></tr>
 <tr class="memitem:af4f4ff71ac1a13aa3cb06db91969ccd2" id="r_af4f4ff71ac1a13aa3cb06db91969ccd2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4f4ff71ac1a13aa3cb06db91969ccd2">errorCapReached_</a> = false</td></tr>
@@ -109,7 +113,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00405">405</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00403">403</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2a0cae44f134f0a6a1909161e3679a21" name="a2a0cae44f134f0a6a1909161e3679a21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a0cae44f134f0a6a1909161e3679a21">&#9670;&#160;</a></span>DiagnosticEngine()</h2>
@@ -138,12 +142,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00417">417</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  418</span>      : <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>(src), <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>(fname) {}</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac5e219b41ca3de68683b966c680d9718"><div class="ttname"><a href="#ac5e219b41ca3de68683b966c680d9718">zap::DiagnosticEngine::fileName</a></div><div class="ttdeci">std::string fileName</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics.hpp:408</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_acc361fdacdc70e6a15095fcaaac7ced8"><div class="ttname"><a href="#acc361fdacdc70e6a15095fcaaac7ced8">zap::DiagnosticEngine::source</a></div><div class="ttdeci">const std::string &amp; source</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00407">diagnostics.hpp:407</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00416">416</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  417</span>      : <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>(src), <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>(fname) {</div>
+<div class="line"><span class="lineno">  418</span>    <a class="code hl_variable" href="#a82afecdce66f81022b58e36c31c8769d">sources_</a>[<a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>] = <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>;</div>
+<div class="line"><span class="lineno">  419</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a82afecdce66f81022b58e36c31c8769d"><div class="ttname"><a href="#a82afecdce66f81022b58e36c31c8769d">zap::DiagnosticEngine::sources_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; sources_</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00407">diagnostics.hpp:407</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac5e219b41ca3de68683b966c680d9718"><div class="ttname"><a href="#ac5e219b41ca3de68683b966c680d9718">zap::DiagnosticEngine::fileName</a></div><div class="ttdeci">std::string fileName</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00406">diagnostics.hpp:406</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_acc361fdacdc70e6a15095fcaaac7ced8"><div class="ttname"><a href="#acc361fdacdc70e6a15095fcaaac7ced8">zap::DiagnosticEngine::source</a></div><div class="ttdeci">const std::string &amp; source</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00405">diagnostics.hpp:405</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">fileName</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">source</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00406">fileName</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00405">source</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">sources_</a>.</p>
 
 </div>
 </div>
@@ -175,39 +182,43 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">511</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  511</span>                                                          {</div>
-<div class="line"><span class="lineno">  512</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;existing : <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>) {</div>
-<div class="line"><span class="lineno">  513</span>      <span class="keywordflow">if</span> (existing.level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  514</span>          existing.message == message &amp;&amp; existing.span.line == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  515</span>          existing.span.column == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  516</span>          existing.span.offset == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  517</span>          existing.span.length == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>) {</div>
-<div class="line"><span class="lineno">  518</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  519</span>      }</div>
-<div class="line"><span class="lineno">  520</span>    }</div>
-<div class="line"><span class="lineno">  521</span> </div>
-<div class="line"><span class="lineno">  522</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size() &gt;= <a class="code hl_variable" href="#ad694355ee3a800ab5e06f7ff236ff310">MAX_DIAGNOSTICS</a>) {</div>
-<div class="line"><span class="lineno">  523</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  524</span>    }</div>
-<div class="line"><span class="lineno">  525</span> </div>
-<div class="line"><span class="lineno">  526</span>    <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(Diagnostic{</div>
-<div class="line"><span class="lineno">  527</span>        <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, <a class="code hl_function" href="#a91f60994d8377e18963e85f3ea0601f9">defaultCodeFor</a>(<a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, message),</div>
-<div class="line"><span class="lineno">  528</span>        message, <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>, span, <a class="code hl_function" href="#a466bc4ebe5b86885f505645f7f5cc6f7">makeRange</a>(span)});</div>
-<div class="line"><span class="lineno">  529</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a466bc4ebe5b86885f505645f7f5cc6f7"><div class="ttname"><a href="#a466bc4ebe5b86885f505645f7f5cc6f7">zap::DiagnosticEngine::makeRange</a></div><div class="ttdeci">DiagnosticRange makeRange(SourceSpan span) const</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00673">diagnostics.hpp:673</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a8ca04806f1e27091b4206bb74f88c4c1"><div class="ttname"><a href="#a8ca04806f1e27091b4206bb74f88c4c1">zap::DiagnosticEngine::diagnostics_</a></div><div class="ttdeci">std::vector&lt; Diagnostic &gt; diagnostics_</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics.hpp:409</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a91f60994d8377e18963e85f3ea0601f9"><div class="ttname"><a href="#a91f60994d8377e18963e85f3ea0601f9">zap::DiagnosticEngine::defaultCodeFor</a></div><div class="ttdeci">static std::string defaultCodeFor(DiagnosticLevel level, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00571">diagnostics.hpp:571</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ad694355ee3a800ab5e06f7ff236ff310"><div class="ttname"><a href="#ad694355ee3a800ab5e06f7ff236ff310">zap::DiagnosticEngine::MAX_DIAGNOSTICS</a></div><div class="ttdeci">static constexpr size_t MAX_DIAGNOSTICS</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00414">diagnostics.hpp:414</a></div></div>
-<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">zap::DiagnosticLevel::Note</a></div><div class="ttdeci">@ Note</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00013">diagnostics.hpp:13</a></div></div>
-<div class="ttc" id="astructSourceSpan_html_a76076f46fe25b2d110eec75ce57b6ae2"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">SourceSpan::offset</a></div><div class="ttdeci">size_t offset</div><div class="ttdoc">Offset of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00105">token.hpp:105</a></div></div>
-<div class="ttc" id="astructSourceSpan_html_a826ce0c8c12a0d0e1e8d166f8ce4f888"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">SourceSpan::line</a></div><div class="ttdeci">size_t line</div><div class="ttdoc">Line of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00103">token.hpp:103</a></div></div>
-<div class="ttc" id="astructSourceSpan_html_ab9c82162d5b55ecec408216aa6fb6902"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">SourceSpan::length</a></div><div class="ttdeci">size_t length</div><div class="ttdoc">Length of the source.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00106">token.hpp:106</a></div></div>
-<div class="ttc" id="astructSourceSpan_html_ac4f9c14a5c0a558f5e150fe598475183"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">SourceSpan::column</a></div><div class="ttdeci">size_t column</div><div class="ttdoc">Column of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00104">token.hpp:104</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">522</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  522</span>                                                          {</div>
+<div class="line"><span class="lineno">  523</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;existing : <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>) {</div>
+<div class="line"><span class="lineno">  524</span>      <span class="keywordflow">if</span> (existing.level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  525</span>          existing.message == message &amp;&amp; existing.span.line == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  526</span>          existing.span.column == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  527</span>          existing.span.offset == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  528</span>          existing.span.length == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>) {</div>
+<div class="line"><span class="lineno">  529</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  530</span>      }</div>
+<div class="line"><span class="lineno">  531</span>    }</div>
+<div class="line"><span class="lineno">  532</span> </div>
+<div class="line"><span class="lineno">  533</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size() &gt;= <a class="code hl_variable" href="#ad694355ee3a800ab5e06f7ff236ff310">MAX_DIAGNOSTICS</a>) {</div>
+<div class="line"><span class="lineno">  534</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  535</span>    }</div>
+<div class="line"><span class="lineno">  536</span> </div>
+<div class="line"><span class="lineno">  537</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;noteSource = <a class="code hl_function" href="#a3ceb501d58b577daa261f8d9306e23d2">sourceFor</a>(span);</div>
+<div class="line"><span class="lineno">  538</span>    <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(Diagnostic{</div>
+<div class="line"><span class="lineno">  539</span>        <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, <a class="code hl_function" href="#a91f60994d8377e18963e85f3ea0601f9">defaultCodeFor</a>(<a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, message),</div>
+<div class="line"><span class="lineno">  540</span>        message, <a class="code hl_function" href="#a8a0df03093c84457f429ba35b2837959">fileNameFor</a>(span), noteSource, span,</div>
+<div class="line"><span class="lineno">  541</span>        <a class="code hl_function" href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">makeRange</a>(span, noteSource)});</div>
+<div class="line"><span class="lineno">  542</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a3ceb501d58b577daa261f8d9306e23d2"><div class="ttname"><a href="#a3ceb501d58b577daa261f8d9306e23d2">zap::DiagnosticEngine::sourceFor</a></div><div class="ttdeci">const std::string &amp; sourceFor(const SourceSpan &amp;span) const</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00686">diagnostics.hpp:686</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a8a0df03093c84457f429ba35b2837959"><div class="ttname"><a href="#a8a0df03093c84457f429ba35b2837959">zap::DiagnosticEngine::fileNameFor</a></div><div class="ttdeci">std::string fileNameFor(const SourceSpan &amp;span) const</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00696">diagnostics.hpp:696</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a8b2793e2c2bcc2c0960ca775dc4e6f72"><div class="ttname"><a href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">zap::DiagnosticEngine::makeRange</a></div><div class="ttdeci">DiagnosticRange makeRange(SourceSpan span, const std::string &amp;rangeSource) const</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00700">diagnostics.hpp:700</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a8ca04806f1e27091b4206bb74f88c4c1"><div class="ttname"><a href="#a8ca04806f1e27091b4206bb74f88c4c1">zap::DiagnosticEngine::diagnostics_</a></div><div class="ttdeci">std::vector&lt; Diagnostic &gt; diagnostics_</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics.hpp:408</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a91f60994d8377e18963e85f3ea0601f9"><div class="ttname"><a href="#a91f60994d8377e18963e85f3ea0601f9">zap::DiagnosticEngine::defaultCodeFor</a></div><div class="ttdeci">static std::string defaultCodeFor(DiagnosticLevel level, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00584">diagnostics.hpp:584</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ad694355ee3a800ab5e06f7ff236ff310"><div class="ttname"><a href="#ad694355ee3a800ab5e06f7ff236ff310">zap::DiagnosticEngine::MAX_DIAGNOSTICS</a></div><div class="ttdeci">static constexpr size_t MAX_DIAGNOSTICS</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00413">diagnostics.hpp:413</a></div></div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">zap::DiagnosticLevel::Note</a></div><div class="ttdeci">@ Note</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00014">diagnostics.hpp:14</a></div></div>
+<div class="ttc" id="astructSourceSpan_html_a76076f46fe25b2d110eec75ce57b6ae2"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">SourceSpan::offset</a></div><div class="ttdeci">size_t offset</div><div class="ttdoc">Offset of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00106">token.hpp:106</a></div></div>
+<div class="ttc" id="astructSourceSpan_html_a826ce0c8c12a0d0e1e8d166f8ce4f888"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">SourceSpan::line</a></div><div class="ttdeci">size_t line</div><div class="ttdoc">Line of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00104">token.hpp:104</a></div></div>
+<div class="ttc" id="astructSourceSpan_html_ab9c82162d5b55ecec408216aa6fb6902"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">SourceSpan::length</a></div><div class="ttdeci">size_t length</div><div class="ttdoc">Length of the source.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00107">token.hpp:107</a></div></div>
+<div class="ttc" id="astructSourceSpan_html_ac4f9c14a5c0a558f5e150fe598475183"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">SourceSpan::column</a></div><div class="ttdeci">size_t column</div><div class="ttdoc">Column of the source in the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00105">token.hpp:105</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00571">defaultCodeFor()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">fileName</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00103">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00673">makeRange()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00414">MAX_DIAGNOSTICS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Note</a>, and <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::offset</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00584">defaultCodeFor()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00696">fileNameFor()</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00107">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00700">makeRange()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00413">MAX_DIAGNOSTICS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Note</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::offset</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">sourceFor()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00531">maybeAddHelpHint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00544">maybeAddHelpHint()</a>.</p>
 
 </div>
 </div>
@@ -238,35 +249,35 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00700">700</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  700</span>                                                                         {</div>
-<div class="line"><span class="lineno">  701</span>    json += <span class="charliteral">&#39;&quot;&#39;</span>;</div>
-<div class="line"><span class="lineno">  702</span>    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> ch : value) {</div>
-<div class="line"><span class="lineno">  703</span>      <span class="keywordflow">switch</span> (ch) {</div>
-<div class="line"><span class="lineno">  704</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\\&#39;</span>:</div>
-<div class="line"><span class="lineno">  705</span>        json += <span class="stringliteral">&quot;\\\\&quot;</span>;</div>
-<div class="line"><span class="lineno">  706</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  707</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;&quot;&#39;</span>:</div>
-<div class="line"><span class="lineno">  708</span>        json += <span class="stringliteral">&quot;\\\&quot;&quot;</span>;</div>
-<div class="line"><span class="lineno">  709</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  710</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\n&#39;</span>:</div>
-<div class="line"><span class="lineno">  711</span>        json += <span class="stringliteral">&quot;\\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  712</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  713</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\r&#39;</span>:</div>
-<div class="line"><span class="lineno">  714</span>        json += <span class="stringliteral">&quot;\\r&quot;</span>;</div>
-<div class="line"><span class="lineno">  715</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  716</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\t&#39;</span>:</div>
-<div class="line"><span class="lineno">  717</span>        json += <span class="stringliteral">&quot;\\t&quot;</span>;</div>
-<div class="line"><span class="lineno">  718</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  719</span>      <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  720</span>        json += ch;</div>
-<div class="line"><span class="lineno">  721</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  722</span>      }</div>
-<div class="line"><span class="lineno">  723</span>    }</div>
-<div class="line"><span class="lineno">  724</span>    json += <span class="charliteral">&#39;&quot;&#39;</span>;</div>
-<div class="line"><span class="lineno">  725</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00728">728</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  728</span>                                                                         {</div>
+<div class="line"><span class="lineno">  729</span>    json += <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">  730</span>    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> ch : value) {</div>
+<div class="line"><span class="lineno">  731</span>      <span class="keywordflow">switch</span> (ch) {</div>
+<div class="line"><span class="lineno">  732</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\\&#39;</span>:</div>
+<div class="line"><span class="lineno">  733</span>        json += <span class="stringliteral">&quot;\\\\&quot;</span>;</div>
+<div class="line"><span class="lineno">  734</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  735</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;&quot;&#39;</span>:</div>
+<div class="line"><span class="lineno">  736</span>        json += <span class="stringliteral">&quot;\\\&quot;&quot;</span>;</div>
+<div class="line"><span class="lineno">  737</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  738</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\n&#39;</span>:</div>
+<div class="line"><span class="lineno">  739</span>        json += <span class="stringliteral">&quot;\\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  740</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  741</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\r&#39;</span>:</div>
+<div class="line"><span class="lineno">  742</span>        json += <span class="stringliteral">&quot;\\r&quot;</span>;</div>
+<div class="line"><span class="lineno">  743</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  744</span>      <span class="keywordflow">case</span> <span class="charliteral">&#39;\t&#39;</span>:</div>
+<div class="line"><span class="lineno">  745</span>        json += <span class="stringliteral">&quot;\\t&quot;</span>;</div>
+<div class="line"><span class="lineno">  746</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  747</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  748</span>        json += ch;</div>
+<div class="line"><span class="lineno">  749</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  750</span>      }</div>
+<div class="line"><span class="lineno">  751</span>    }</div>
+<div class="line"><span class="lineno">  752</span>    json += <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">  753</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00727">appendJsonField()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00755">appendJsonField()</a>.</p>
 
 </div>
 </div>
@@ -302,17 +313,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00727">727</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  728</span>                                                      {</div>
-<div class="line"><span class="lineno">  729</span>    <a class="code hl_function" href="#aeb088dbaf43eb33f261f9ee1e208dcaf">appendJsonEscaped</a>(json, key);</div>
-<div class="line"><span class="lineno">  730</span>    json += <span class="stringliteral">&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  731</span>    <a class="code hl_function" href="#aeb088dbaf43eb33f261f9ee1e208dcaf">appendJsonEscaped</a>(json, value);</div>
-<div class="line"><span class="lineno">  732</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_aeb088dbaf43eb33f261f9ee1e208dcaf"><div class="ttname"><a href="#aeb088dbaf43eb33f261f9ee1e208dcaf">zap::DiagnosticEngine::appendJsonEscaped</a></div><div class="ttdeci">static void appendJsonEscaped(std::string &amp;json, const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00700">diagnostics.hpp:700</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00755">755</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  756</span>                                                      {</div>
+<div class="line"><span class="lineno">  757</span>    <a class="code hl_function" href="#aeb088dbaf43eb33f261f9ee1e208dcaf">appendJsonEscaped</a>(json, key);</div>
+<div class="line"><span class="lineno">  758</span>    json += <span class="stringliteral">&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  759</span>    <a class="code hl_function" href="#aeb088dbaf43eb33f261f9ee1e208dcaf">appendJsonEscaped</a>(json, value);</div>
+<div class="line"><span class="lineno">  760</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_aeb088dbaf43eb33f261f9ee1e208dcaf"><div class="ttname"><a href="#aeb088dbaf43eb33f261f9ee1e208dcaf">zap::DiagnosticEngine::appendJsonEscaped</a></div><div class="ttdeci">static void appendJsonEscaped(std::string &amp;json, const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00728">diagnostics.hpp:728</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00700">appendJsonEscaped()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00728">appendJsonEscaped()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00484">toJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00495">toJson()</a>.</p>
 
 </div>
 </div>
@@ -343,21 +354,21 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00734">734</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  735</span>                                                              {</div>
-<div class="line"><span class="lineno">  736</span>    json += <span class="stringliteral">&quot;{&quot;</span>;</div>
-<div class="line"><span class="lineno">  737</span>    json += <span class="stringliteral">&quot;\&quot;line\&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  738</span>    json += std::to_string(p.line);</div>
-<div class="line"><span class="lineno">  739</span>    json += <span class="stringliteral">&quot;,\&quot;column\&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  740</span>    json += std::to_string(p.column);</div>
-<div class="line"><span class="lineno">  741</span>    json += <span class="stringliteral">&quot;,\&quot;offset\&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  742</span>    json += std::to_string(p.offset);</div>
-<div class="line"><span class="lineno">  743</span>    json += <span class="stringliteral">&quot;}&quot;</span>;</div>
-<div class="line"><span class="lineno">  744</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00762">762</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  763</span>                                                              {</div>
+<div class="line"><span class="lineno">  764</span>    json += <span class="stringliteral">&quot;{&quot;</span>;</div>
+<div class="line"><span class="lineno">  765</span>    json += <span class="stringliteral">&quot;\&quot;line\&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  766</span>    json += std::to_string(p.line);</div>
+<div class="line"><span class="lineno">  767</span>    json += <span class="stringliteral">&quot;,\&quot;column\&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  768</span>    json += std::to_string(p.column);</div>
+<div class="line"><span class="lineno">  769</span>    json += <span class="stringliteral">&quot;,\&quot;offset\&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  770</span>    json += std::to_string(p.offset);</div>
+<div class="line"><span class="lineno">  771</span>    json += <span class="stringliteral">&quot;}&quot;</span>;</div>
+<div class="line"><span class="lineno">  772</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00017">zap::DiagnosticPosition::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00016">zap::DiagnosticPosition::line</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00018">zap::DiagnosticPosition::offset</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00018">zap::DiagnosticPosition::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00017">zap::DiagnosticPosition::line</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00019">zap::DiagnosticPosition::offset</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00484">toJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00495">toJson()</a>.</p>
 
 </div>
 </div>
@@ -388,100 +399,100 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00571">571</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  572</span>                                                              {</div>
-<div class="line"><span class="lineno">  573</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">DiagnosticLevel::Warning</a>) {</div>
-<div class="line"><span class="lineno">  574</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;has non-void return type but no return&quot;</span>) !=</div>
-<div class="line"><span class="lineno">  575</span>          std::string::npos) {</div>
-<div class="line"><span class="lineno">  576</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;W1001&quot;</span>;</div>
-<div class="line"><span class="lineno">  577</span>      }</div>
-<div class="line"><span class="lineno">  578</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;W0000&quot;</span>;</div>
-<div class="line"><span class="lineno">  579</span>    }</div>
-<div class="line"><span class="lineno">  580</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>) {</div>
-<div class="line"><span class="lineno">  581</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;help:&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">  582</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;N1000&quot;</span>;</div>
-<div class="line"><span class="lineno">  583</span>      }</div>
-<div class="line"><span class="lineno">  584</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Too many errors emitted; stopping after&quot;</span>) !=</div>
-<div class="line"><span class="lineno">  585</span>          std::string::npos) {</div>
-<div class="line"><span class="lineno">  586</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;N1001&quot;</span>;</div>
-<div class="line"><span class="lineno">  587</span>      }</div>
-<div class="line"><span class="lineno">  588</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;N0000&quot;</span>;</div>
-<div class="line"><span class="lineno">  589</span>    }</div>
-<div class="line"><span class="lineno">  590</span> </div>
-<div class="line"><span class="lineno">  591</span>    <span class="comment">// More specific semantic diagnostics must be checked before generic parser</span></div>
-<div class="line"><span class="lineno">  592</span>    <span class="comment">// &quot;Expected ... but got ...&quot; classification.</span></div>
-<div class="line"><span class="lineno">  593</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Undefined identifier&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  594</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2001&quot;</span>;</div>
-<div class="line"><span class="lineno">  595</span>    }</div>
-<div class="line"><span class="lineno">  596</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot assign expression of type&quot;</span>) != std::string::npos ||</div>
-<div class="line"><span class="lineno">  597</span>        message.find(<span class="stringliteral">&quot;Cannot assign type&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  598</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2002&quot;</span>;</div>
-<div class="line"><span class="lineno">  599</span>    }</div>
-<div class="line"><span class="lineno">  600</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;If condition must be Bool&quot;</span>) != std::string::npos ||</div>
-<div class="line"><span class="lineno">  601</span>        message.find(<span class="stringliteral">&quot;While condition must be Bool&quot;</span>) != std::string::npos ||</div>
-<div class="line"><span class="lineno">  602</span>        message.find(<span class="stringliteral">&quot;Ternary condition must be Bool&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  603</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2003&quot;</span>;</div>
-<div class="line"><span class="lineno">  604</span>    }</div>
-<div class="line"><span class="lineno">  605</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot compare&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  606</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2004&quot;</span>;</div>
-<div class="line"><span class="lineno">  607</span>    }</div>
-<div class="line"><span class="lineno">  608</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Operator &#39;&quot;</span>) != std::string::npos &amp;&amp;</div>
-<div class="line"><span class="lineno">  609</span>        message.find(<span class="stringliteral">&quot;cannot be applied&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  610</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2005&quot;</span>;</div>
-<div class="line"><span class="lineno">  611</span>    }</div>
-<div class="line"><span class="lineno">  612</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot cast from &#39;&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  613</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2006&quot;</span>;</div>
-<div class="line"><span class="lineno">  614</span>    }</div>
-<div class="line"><span class="lineno">  615</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;does not support indexing&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  616</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2007&quot;</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00584">584</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  585</span>                                                              {</div>
+<div class="line"><span class="lineno">  586</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">DiagnosticLevel::Warning</a>) {</div>
+<div class="line"><span class="lineno">  587</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;has non-void return type but no return&quot;</span>) !=</div>
+<div class="line"><span class="lineno">  588</span>          std::string::npos) {</div>
+<div class="line"><span class="lineno">  589</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;W1001&quot;</span>;</div>
+<div class="line"><span class="lineno">  590</span>      }</div>
+<div class="line"><span class="lineno">  591</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;W0000&quot;</span>;</div>
+<div class="line"><span class="lineno">  592</span>    }</div>
+<div class="line"><span class="lineno">  593</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>) {</div>
+<div class="line"><span class="lineno">  594</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;help:&quot;</span>) == 0) {</div>
+<div class="line"><span class="lineno">  595</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;N1000&quot;</span>;</div>
+<div class="line"><span class="lineno">  596</span>      }</div>
+<div class="line"><span class="lineno">  597</span>      <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Too many errors emitted; stopping after&quot;</span>) !=</div>
+<div class="line"><span class="lineno">  598</span>          std::string::npos) {</div>
+<div class="line"><span class="lineno">  599</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;N1001&quot;</span>;</div>
+<div class="line"><span class="lineno">  600</span>      }</div>
+<div class="line"><span class="lineno">  601</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;N0000&quot;</span>;</div>
+<div class="line"><span class="lineno">  602</span>    }</div>
+<div class="line"><span class="lineno">  603</span> </div>
+<div class="line"><span class="lineno">  604</span>    <span class="comment">// More specific semantic diagnostics must be checked before generic parser</span></div>
+<div class="line"><span class="lineno">  605</span>    <span class="comment">// &quot;Expected ... but got ...&quot; classification.</span></div>
+<div class="line"><span class="lineno">  606</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Undefined identifier&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  607</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2001&quot;</span>;</div>
+<div class="line"><span class="lineno">  608</span>    }</div>
+<div class="line"><span class="lineno">  609</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot assign expression of type&quot;</span>) != std::string::npos ||</div>
+<div class="line"><span class="lineno">  610</span>        message.find(<span class="stringliteral">&quot;Cannot assign type&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  611</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2002&quot;</span>;</div>
+<div class="line"><span class="lineno">  612</span>    }</div>
+<div class="line"><span class="lineno">  613</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;If condition must be Bool&quot;</span>) != std::string::npos ||</div>
+<div class="line"><span class="lineno">  614</span>        message.find(<span class="stringliteral">&quot;While condition must be Bool&quot;</span>) != std::string::npos ||</div>
+<div class="line"><span class="lineno">  615</span>        message.find(<span class="stringliteral">&quot;Ternary condition must be Bool&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  616</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2003&quot;</span>;</div>
 <div class="line"><span class="lineno">  617</span>    }</div>
-<div class="line"><span class="lineno">  618</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Array index must be an integer&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  619</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2008&quot;</span>;</div>
+<div class="line"><span class="lineno">  618</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot compare&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  619</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2004&quot;</span>;</div>
 <div class="line"><span class="lineno">  620</span>    }</div>
-<div class="line"><span class="lineno">  621</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Array elements must have the same type&quot;</span>) !=</div>
-<div class="line"><span class="lineno">  622</span>        std::string::npos) {</div>
-<div class="line"><span class="lineno">  623</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2009&quot;</span>;</div>
+<div class="line"><span class="lineno">  621</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Operator &#39;&quot;</span>) != std::string::npos &amp;&amp;</div>
+<div class="line"><span class="lineno">  622</span>        message.find(<span class="stringliteral">&quot;cannot be applied&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  623</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2005&quot;</span>;</div>
 <div class="line"><span class="lineno">  624</span>    }</div>
-<div class="line"><span class="lineno">  625</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot dereference non-pointer type&quot;</span>) !=</div>
-<div class="line"><span class="lineno">  626</span>        std::string::npos) {</div>
-<div class="line"><span class="lineno">  627</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2010&quot;</span>;</div>
-<div class="line"><span class="lineno">  628</span>    }</div>
-<div class="line"><span class="lineno">  629</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Weak references cannot&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  630</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2011&quot;</span>;</div>
-<div class="line"><span class="lineno">  631</span>    }</div>
-<div class="line"><span class="lineno">  632</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;No matching overload for function&quot;</span>) !=</div>
-<div class="line"><span class="lineno">  633</span>        std::string::npos) {</div>
-<div class="line"><span class="lineno">  634</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2012&quot;</span>;</div>
-<div class="line"><span class="lineno">  635</span>    }</div>
-<div class="line"><span class="lineno">  636</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Call to function &#39;&quot;</span>) != std::string::npos &amp;&amp;</div>
-<div class="line"><span class="lineno">  637</span>        message.find(<span class="stringliteral">&quot;&#39; is ambiguous between &quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  638</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2013&quot;</span>;</div>
-<div class="line"><span class="lineno">  639</span>    }</div>
-<div class="line"><span class="lineno">  640</span> </div>
-<div class="line"><span class="lineno">  641</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &#39;;&#39;&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  642</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1001&quot;</span>;</div>
-<div class="line"><span class="lineno">  643</span>    }</div>
-<div class="line"><span class="lineno">  644</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected primary expression&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  645</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1002&quot;</span>;</div>
-<div class="line"><span class="lineno">  646</span>    }</div>
-<div class="line"><span class="lineno">  647</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Unexpected token&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  648</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1003&quot;</span>;</div>
-<div class="line"><span class="lineno">  649</span>    }</div>
-<div class="line"><span class="lineno">  650</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &quot;</span>) != std::string::npos &amp;&amp;</div>
-<div class="line"><span class="lineno">  651</span>        message.find(<span class="stringliteral">&quot; but got &quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  652</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1004&quot;</span>;</div>
-<div class="line"><span class="lineno">  653</span>    }</div>
-<div class="line"><span class="lineno">  654</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;reached end of file&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  655</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1005&quot;</span>;</div>
+<div class="line"><span class="lineno">  625</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot cast from &#39;&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  626</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2006&quot;</span>;</div>
+<div class="line"><span class="lineno">  627</span>    }</div>
+<div class="line"><span class="lineno">  628</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;does not support indexing&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  629</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2007&quot;</span>;</div>
+<div class="line"><span class="lineno">  630</span>    }</div>
+<div class="line"><span class="lineno">  631</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Array index must be an integer&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  632</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2008&quot;</span>;</div>
+<div class="line"><span class="lineno">  633</span>    }</div>
+<div class="line"><span class="lineno">  634</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Array elements must have the same type&quot;</span>) !=</div>
+<div class="line"><span class="lineno">  635</span>        std::string::npos) {</div>
+<div class="line"><span class="lineno">  636</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2009&quot;</span>;</div>
+<div class="line"><span class="lineno">  637</span>    }</div>
+<div class="line"><span class="lineno">  638</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot dereference non-pointer type&quot;</span>) !=</div>
+<div class="line"><span class="lineno">  639</span>        std::string::npos) {</div>
+<div class="line"><span class="lineno">  640</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2010&quot;</span>;</div>
+<div class="line"><span class="lineno">  641</span>    }</div>
+<div class="line"><span class="lineno">  642</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Weak references cannot&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  643</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2011&quot;</span>;</div>
+<div class="line"><span class="lineno">  644</span>    }</div>
+<div class="line"><span class="lineno">  645</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;No matching overload for function&quot;</span>) !=</div>
+<div class="line"><span class="lineno">  646</span>        std::string::npos) {</div>
+<div class="line"><span class="lineno">  647</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2012&quot;</span>;</div>
+<div class="line"><span class="lineno">  648</span>    }</div>
+<div class="line"><span class="lineno">  649</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Call to function &#39;&quot;</span>) != std::string::npos &amp;&amp;</div>
+<div class="line"><span class="lineno">  650</span>        message.find(<span class="stringliteral">&quot;&#39; is ambiguous between &quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  651</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;S2013&quot;</span>;</div>
+<div class="line"><span class="lineno">  652</span>    }</div>
+<div class="line"><span class="lineno">  653</span> </div>
+<div class="line"><span class="lineno">  654</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &#39;;&#39;&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  655</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1001&quot;</span>;</div>
 <div class="line"><span class="lineno">  656</span>    }</div>
-<div class="line"><span class="lineno">  657</span> </div>
-<div class="line"><span class="lineno">  658</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;E0000&quot;</span>;</div>
-<div class="line"><span class="lineno">  659</span>  }</div>
-<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">zap::DiagnosticLevel::Warning</a></div><div class="ttdeci">@ Warning</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00013">diagnostics.hpp:13</a></div></div>
+<div class="line"><span class="lineno">  657</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected primary expression&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  658</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1002&quot;</span>;</div>
+<div class="line"><span class="lineno">  659</span>    }</div>
+<div class="line"><span class="lineno">  660</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Unexpected token&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  661</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1003&quot;</span>;</div>
+<div class="line"><span class="lineno">  662</span>    }</div>
+<div class="line"><span class="lineno">  663</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &quot;</span>) != std::string::npos &amp;&amp;</div>
+<div class="line"><span class="lineno">  664</span>        message.find(<span class="stringliteral">&quot; but got &quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  665</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1004&quot;</span>;</div>
+<div class="line"><span class="lineno">  666</span>    }</div>
+<div class="line"><span class="lineno">  667</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;reached end of file&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  668</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;P1005&quot;</span>;</div>
+<div class="line"><span class="lineno">  669</span>    }</div>
+<div class="line"><span class="lineno">  670</span> </div>
+<div class="line"><span class="lineno">  671</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;E0000&quot;</span>;</div>
+<div class="line"><span class="lineno">  672</span>  }</div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">zap::DiagnosticLevel::Warning</a></div><div class="ttdeci">@ Warning</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00014">diagnostics.hpp:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Note</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Warning</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Note</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Warning</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00420">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00427">report()</a>.</p>
 
 </div>
 </div>
@@ -508,12 +519,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">470</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  470</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">481</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  481</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00246">zap::lsp::Workspace::analyze()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00248">zap::lsp::Workspace::analyze()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
 
 </div>
 </div>
@@ -540,10 +551,45 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00468">468</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  468</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.empty(); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00479">479</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  479</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.empty(); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>.</p>
+
+</div>
+</div>
+<a id="a8a0df03093c84457f429ba35b2837959" name="a8a0df03093c84457f429ba35b2837959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a0df03093c84457f429ba35b2837959">&#9670;&#160;</a></span>fileNameFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string zap::DiagnosticEngine::fileNameFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>span</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00696">696</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  696</span>                                                      {</div>
+<div class="line"><span class="lineno">  697</span>    <span class="keywordflow">return</span> span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac0e8b37ad00062c5f0b4948eec9c1a06">sourceName</a>.empty() ? <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a> : span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac0e8b37ad00062c5f0b4948eec9c1a06">sourceName</a>;</div>
+<div class="line"><span class="lineno">  698</span>  }</div>
+<div class="ttc" id="astructSourceSpan_html_ac0e8b37ad00062c5f0b4948eec9c1a06"><div class="ttname"><a href="../../d4/d5b/structSourceSpan.html#ac0e8b37ad00062c5f0b4948eec9c1a06">SourceSpan::sourceName</a></div><div class="ttdeci">std::string sourceName</div><div class="ttdoc">Source file this span belongs to.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d44/token_8hpp_source.html#l00108">token.hpp:108</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00406">fileName</a>, and <a class="el" href="../../d4/d44/token_8hpp_source.html#l00108">SourceSpan::sourceName</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -570,13 +616,13 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">466</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  466</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a> &gt; 0; }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a0c58e0c0341e64349a710df1eaa7aaa7"><div class="ttname"><a href="#a0c58e0c0341e64349a710df1eaa7aaa7">zap::DiagnosticEngine::errorCount</a></div><div class="ttdeci">size_t errorCount</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00410">diagnostics.hpp:410</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00477">477</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  477</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a> &gt; 0; }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a0c58e0c0341e64349a710df1eaa7aaa7"><div class="ttname"><a href="#a0c58e0c0341e64349a710df1eaa7aaa7">zap::DiagnosticEngine::errorCount</a></div><div class="ttdeci">size_t errorCount</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics.hpp:409</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00410">errorCount</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">errorCount</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00459">zap::driver::compileSourceFile()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00461">zap::driver::compileSourceFile()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
 
 </div>
 </div>
@@ -603,28 +649,28 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00661">661</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  661</span>                                                        {</div>
-<div class="line"><span class="lineno">  662</span>    <span class="keywordflow">switch</span> (level) {</div>
-<div class="line"><span class="lineno">  663</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>:</div>
-<div class="line"><span class="lineno">  664</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;note&quot;</span>;</div>
-<div class="line"><span class="lineno">  665</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">DiagnosticLevel::Warning</a>:</div>
-<div class="line"><span class="lineno">  666</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;warning&quot;</span>;</div>
-<div class="line"><span class="lineno">  667</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a>:</div>
-<div class="line"><span class="lineno">  668</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;error&quot;</span>;</div>
-<div class="line"><span class="lineno">  669</span>    }</div>
-<div class="line"><span class="lineno">  670</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
-<div class="line"><span class="lineno">  671</span>  }</div>
-<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">zap::DiagnosticLevel::Error</a></div><div class="ttdeci">@ Error</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00013">diagnostics.hpp:13</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00674">674</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  674</span>                                                        {</div>
+<div class="line"><span class="lineno">  675</span>    <span class="keywordflow">switch</span> (level) {</div>
+<div class="line"><span class="lineno">  676</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>:</div>
+<div class="line"><span class="lineno">  677</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;note&quot;</span>;</div>
+<div class="line"><span class="lineno">  678</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a0eaadb4fcb48a0a0ed7bc9868be9fbaa">DiagnosticLevel::Warning</a>:</div>
+<div class="line"><span class="lineno">  679</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;warning&quot;</span>;</div>
+<div class="line"><span class="lineno">  680</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a>:</div>
+<div class="line"><span class="lineno">  681</span>      <span class="keywordflow">return</span> <span class="stringliteral">&quot;error&quot;</span>;</div>
+<div class="line"><span class="lineno">  682</span>    }</div>
+<div class="line"><span class="lineno">  683</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line"><span class="lineno">  684</span>  }</div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">zap::DiagnosticLevel::Error</a></div><div class="ttdeci">@ Error</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00014">diagnostics.hpp:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Error</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Note</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Warning</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Error</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Note</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Warning</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00484">toJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00495">toJson()</a>.</p>
 
 </div>
 </div>
-<a id="a466bc4ebe5b86885f505645f7f5cc6f7" name="a466bc4ebe5b86885f505645f7f5cc6f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a466bc4ebe5b86885f505645f7f5cc6f7">&#9670;&#160;</a></span>makeRange()</h2>
+<a id="a8b2793e2c2bcc2c0960ca775dc4e6f72" name="a8b2793e2c2bcc2c0960ca775dc4e6f72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">&#9670;&#160;</a></span>makeRange()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -635,8 +681,12 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="../../d0/d67/structzap_1_1DiagnosticRange.html">DiagnosticRange</a> zap::DiagnosticEngine::makeRange </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a></td>          <td class="paramname"><span class="paramname"><em>span</em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a></td>          <td class="paramname"><span class="paramname"><em>span</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>rangeSource</em></span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -646,37 +696,37 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00673">673</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  673</span>                                                   {</div>
-<div class="line"><span class="lineno">  674</span>    DiagnosticPosition start{span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a>, span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a>, span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a>};</div>
-<div class="line"><span class="lineno">  675</span> </div>
-<div class="line"><span class="lineno">  676</span>    <span class="keywordtype">size_t</span> endOffset = std::min(span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a>, <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>.size());</div>
-<div class="line"><span class="lineno">  677</span>    <span class="keywordtype">size_t</span> remaining = span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>;</div>
-<div class="line"><span class="lineno">  678</span> </div>
-<div class="line"><span class="lineno">  679</span>    <span class="keywordtype">size_t</span> line = start.line;</div>
-<div class="line"><span class="lineno">  680</span>    <span class="keywordtype">size_t</span> column = start.column;</div>
-<div class="line"><span class="lineno">  681</span> </div>
-<div class="line"><span class="lineno">  682</span>    <span class="keywordflow">while</span> (endOffset &lt; <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>.size() &amp;&amp; remaining &gt; 0) {</div>
-<div class="line"><span class="lineno">  683</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>[endOffset] == <span class="charliteral">&#39;\n&#39;</span>) {</div>
-<div class="line"><span class="lineno">  684</span>        ++line;</div>
-<div class="line"><span class="lineno">  685</span>        column = 1;</div>
-<div class="line"><span class="lineno">  686</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  687</span>        ++column;</div>
-<div class="line"><span class="lineno">  688</span>      }</div>
-<div class="line"><span class="lineno">  689</span>      ++endOffset;</div>
-<div class="line"><span class="lineno">  690</span>      --remaining;</div>
-<div class="line"><span class="lineno">  691</span>    }</div>
-<div class="line"><span class="lineno">  692</span> </div>
-<div class="line"><span class="lineno">  693</span>    <span class="keywordflow">if</span> (span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a> == 0) {</div>
-<div class="line"><span class="lineno">  694</span>      ++column;</div>
-<div class="line"><span class="lineno">  695</span>    }</div>
-<div class="line"><span class="lineno">  696</span> </div>
-<div class="line"><span class="lineno">  697</span>    <span class="keywordflow">return</span> DiagnosticRange{start, DiagnosticPosition{line, column, endOffset}};</div>
-<div class="line"><span class="lineno">  698</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00700">700</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  701</span>                                                                {</div>
+<div class="line"><span class="lineno">  702</span>    DiagnosticPosition start{span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a>, span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a>, span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a>};</div>
+<div class="line"><span class="lineno">  703</span> </div>
+<div class="line"><span class="lineno">  704</span>    <span class="keywordtype">size_t</span> endOffset = std::min(span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a>, rangeSource.size());</div>
+<div class="line"><span class="lineno">  705</span>    <span class="keywordtype">size_t</span> remaining = span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>;</div>
+<div class="line"><span class="lineno">  706</span> </div>
+<div class="line"><span class="lineno">  707</span>    <span class="keywordtype">size_t</span> line = start.line;</div>
+<div class="line"><span class="lineno">  708</span>    <span class="keywordtype">size_t</span> column = start.column;</div>
+<div class="line"><span class="lineno">  709</span> </div>
+<div class="line"><span class="lineno">  710</span>    <span class="keywordflow">while</span> (endOffset &lt; rangeSource.size() &amp;&amp; remaining &gt; 0) {</div>
+<div class="line"><span class="lineno">  711</span>      <span class="keywordflow">if</span> (rangeSource[endOffset] == <span class="charliteral">&#39;\n&#39;</span>) {</div>
+<div class="line"><span class="lineno">  712</span>        ++line;</div>
+<div class="line"><span class="lineno">  713</span>        column = 1;</div>
+<div class="line"><span class="lineno">  714</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  715</span>        ++column;</div>
+<div class="line"><span class="lineno">  716</span>      }</div>
+<div class="line"><span class="lineno">  717</span>      ++endOffset;</div>
+<div class="line"><span class="lineno">  718</span>      --remaining;</div>
+<div class="line"><span class="lineno">  719</span>    }</div>
+<div class="line"><span class="lineno">  720</span> </div>
+<div class="line"><span class="lineno">  721</span>    <span class="keywordflow">if</span> (span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a> == 0) {</div>
+<div class="line"><span class="lineno">  722</span>      ++column;</div>
+<div class="line"><span class="lineno">  723</span>    }</div>
+<div class="line"><span class="lineno">  724</span> </div>
+<div class="line"><span class="lineno">  725</span>    <span class="keywordflow">return</span> DiagnosticRange{start, DiagnosticPosition{line, column, endOffset}};</div>
+<div class="line"><span class="lineno">  726</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00017">zap::DiagnosticPosition::column</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00103">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00016">zap::DiagnosticPosition::line</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::offset</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">source</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00018">zap::DiagnosticPosition::column</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00107">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00017">zap::DiagnosticPosition::line</a>, and <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::offset</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -707,51 +757,51 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00531">531</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  531</span>                                                                   {</div>
-<div class="line"><span class="lineno">  532</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &#39;;&#39;&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  533</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span, <span class="stringliteral">&quot;help: add &#39;;&#39; at the end of the statement.&quot;</span>);</div>
-<div class="line"><span class="lineno">  534</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  535</span>    }</div>
-<div class="line"><span class="lineno">  536</span> </div>
-<div class="line"><span class="lineno">  537</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected primary expression&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  538</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(</div>
-<div class="line"><span class="lineno">  539</span>          span,</div>
-<div class="line"><span class="lineno">  540</span>          <span class="stringliteral">&quot;help: insert an expression (identifier, literal, or call) here.&quot;</span>);</div>
-<div class="line"><span class="lineno">  541</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  542</span>    }</div>
-<div class="line"><span class="lineno">  543</span> </div>
-<div class="line"><span class="lineno">  544</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Undefined identifier&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  545</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span,</div>
-<div class="line"><span class="lineno">  546</span>              <span class="stringliteral">&quot;help: check spelling or declare the identifier before use.&quot;</span>);</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00544">544</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  544</span>                                                                   {</div>
+<div class="line"><span class="lineno">  545</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected &#39;;&#39;&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  546</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span, <span class="stringliteral">&quot;help: add &#39;;&#39; at the end of the statement.&quot;</span>);</div>
 <div class="line"><span class="lineno">  547</span>      <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  548</span>    }</div>
 <div class="line"><span class="lineno">  549</span> </div>
-<div class="line"><span class="lineno">  550</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot assign expression of type&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  551</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span, <span class="stringliteral">&quot;help: change the variable type or cast/convert the &quot;</span></div>
-<div class="line"><span class="lineno">  552</span>                    <span class="stringliteral">&quot;assigned expression.&quot;</span>);</div>
-<div class="line"><span class="lineno">  553</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  554</span>    }</div>
-<div class="line"><span class="lineno">  555</span> </div>
-<div class="line"><span class="lineno">  556</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;If condition must be Bool&quot;</span>) != std::string::npos ||</div>
-<div class="line"><span class="lineno">  557</span>        message.find(<span class="stringliteral">&quot;While condition must be Bool&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  550</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Expected primary expression&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  551</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(</div>
+<div class="line"><span class="lineno">  552</span>          span,</div>
+<div class="line"><span class="lineno">  553</span>          <span class="stringliteral">&quot;help: insert an expression (identifier, literal, or call) here.&quot;</span>);</div>
+<div class="line"><span class="lineno">  554</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  555</span>    }</div>
+<div class="line"><span class="lineno">  556</span> </div>
+<div class="line"><span class="lineno">  557</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Undefined identifier&quot;</span>) != std::string::npos) {</div>
 <div class="line"><span class="lineno">  558</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span,</div>
-<div class="line"><span class="lineno">  559</span>              <span class="stringliteral">&quot;help: use a Bool expression, e.g. comparison like &#39;x != 0&#39;.&quot;</span>);</div>
+<div class="line"><span class="lineno">  559</span>              <span class="stringliteral">&quot;help: check spelling or declare the identifier before use.&quot;</span>);</div>
 <div class="line"><span class="lineno">  560</span>      <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  561</span>    }</div>
 <div class="line"><span class="lineno">  562</span> </div>
-<div class="line"><span class="lineno">  563</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot compare&quot;</span>) != std::string::npos) {</div>
-<div class="line"><span class="lineno">  564</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(</div>
-<div class="line"><span class="lineno">  565</span>          span,</div>
-<div class="line"><span class="lineno">  566</span>          <span class="stringliteral">&quot;help: ensure both operands are comparable and of compatible types.&quot;</span>);</div>
-<div class="line"><span class="lineno">  567</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  568</span>    }</div>
-<div class="line"><span class="lineno">  569</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac36d3b1bb030eced3829ca4b509a3821"><div class="ttname"><a href="#ac36d3b1bb030eced3829ca4b509a3821">zap::DiagnosticEngine::addNote</a></div><div class="ttdeci">void addNote(SourceSpan span, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00511">diagnostics.hpp:511</a></div></div>
+<div class="line"><span class="lineno">  563</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot assign expression of type&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  564</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span, <span class="stringliteral">&quot;help: change the variable type or cast/convert the &quot;</span></div>
+<div class="line"><span class="lineno">  565</span>                    <span class="stringliteral">&quot;assigned expression.&quot;</span>);</div>
+<div class="line"><span class="lineno">  566</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  567</span>    }</div>
+<div class="line"><span class="lineno">  568</span> </div>
+<div class="line"><span class="lineno">  569</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;If condition must be Bool&quot;</span>) != std::string::npos ||</div>
+<div class="line"><span class="lineno">  570</span>        message.find(<span class="stringliteral">&quot;While condition must be Bool&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  571</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(span,</div>
+<div class="line"><span class="lineno">  572</span>              <span class="stringliteral">&quot;help: use a Bool expression, e.g. comparison like &#39;x != 0&#39;.&quot;</span>);</div>
+<div class="line"><span class="lineno">  573</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  574</span>    }</div>
+<div class="line"><span class="lineno">  575</span> </div>
+<div class="line"><span class="lineno">  576</span>    <span class="keywordflow">if</span> (message.find(<span class="stringliteral">&quot;Cannot compare&quot;</span>) != std::string::npos) {</div>
+<div class="line"><span class="lineno">  577</span>      <a class="code hl_function" href="#ac36d3b1bb030eced3829ca4b509a3821">addNote</a>(</div>
+<div class="line"><span class="lineno">  578</span>          span,</div>
+<div class="line"><span class="lineno">  579</span>          <span class="stringliteral">&quot;help: ensure both operands are comparable and of compatible types.&quot;</span>);</div>
+<div class="line"><span class="lineno">  580</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  581</span>    }</div>
+<div class="line"><span class="lineno">  582</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac36d3b1bb030eced3829ca4b509a3821"><div class="ttname"><a href="#ac36d3b1bb030eced3829ca4b509a3821">zap::DiagnosticEngine::addNote</a></div><div class="ttdeci">void addNote(SourceSpan span, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00522">diagnostics.hpp:522</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -778,15 +828,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00476">476</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  476</span>                                       {</div>
-<div class="line"><span class="lineno">  477</span>    <a class="code hl_function" href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a5298afdfa19b69328c5b30b6a6773bf3">DiagnosticTextFormatter::print</a>(os, <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>, <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>);</div>
-<div class="line"><span class="lineno">  478</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticTextFormatter_html_a5298afdfa19b69328c5b30b6a6773bf3"><div class="ttname"><a href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a5298afdfa19b69328c5b30b6a6773bf3">zap::DiagnosticTextFormatter::print</a></div><div class="ttdeci">static void print(Stream &amp;os, const std::vector&lt; Diagnostic &gt; &amp;diagnostics, const std::string &amp;source)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00281">diagnostics.hpp:281</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00487">487</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  487</span>                                       {</div>
+<div class="line"><span class="lineno">  488</span>    <a class="code hl_function" href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a9a7e90e7f95780a0f38b8b438fbe4c35">DiagnosticTextFormatter::print</a>(os, <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>);</div>
+<div class="line"><span class="lineno">  489</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticTextFormatter_html_a9a7e90e7f95780a0f38b8b438fbe4c35"><div class="ttname"><a href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a9a7e90e7f95780a0f38b8b438fbe4c35">zap::DiagnosticTextFormatter::print</a></div><div class="ttdeci">static void print(Stream &amp;os, const std::vector&lt; Diagnostic &gt; &amp;diagnostics)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00283">diagnostics.hpp:283</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00281">zap::DiagnosticTextFormatter::print()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">source</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00283">zap::DiagnosticTextFormatter::print()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00197">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00459">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00198">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00461">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>.</p>
 
 </div>
 </div>
@@ -813,12 +863,52 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00480">480</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  480</span>                                   {</div>
-<div class="line"><span class="lineno">  481</span>    <a class="code hl_function" href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a5298afdfa19b69328c5b30b6a6773bf3">DiagnosticTextFormatter::print</a>(os, <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>, <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>);</div>
-<div class="line"><span class="lineno">  482</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00491">491</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  491</span>                                   {</div>
+<div class="line"><span class="lineno">  492</span>    <a class="code hl_function" href="../../d8/dbe/classzap_1_1DiagnosticTextFormatter.html#a9a7e90e7f95780a0f38b8b438fbe4c35">DiagnosticTextFormatter::print</a>(os, <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>);</div>
+<div class="line"><span class="lineno">  493</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00281">zap::DiagnosticTextFormatter::print()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">source</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00283">zap::DiagnosticTextFormatter::print()</a>.</p>
+
+</div>
+</div>
+<a id="af8eb058db77f91c8c65527ffade8a560" name="af8eb058db77f91c8c65527ffade8a560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8eb058db77f91c8c65527ffade8a560">&#9670;&#160;</a></span>registerSource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zap::DiagnosticEngine::registerSource </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00421">421</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  421</span>                                                                    {</div>
+<div class="line"><span class="lineno">  422</span>    <span class="keywordflow">if</span> (!name.empty()) {</div>
+<div class="line"><span class="lineno">  423</span>      <a class="code hl_variable" href="#a82afecdce66f81022b58e36c31c8769d">sources_</a>[name] = text;</div>
+<div class="line"><span class="lineno">  424</span>    }</div>
+<div class="line"><span class="lineno">  425</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">sources_</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00248">zap::lsp::Workspace::analyze()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00198">zap::driver::compileLoadedModules</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00194">zap::lsp::Workspace::loadProject()</a>.</p>
 
 </div>
 </div>
@@ -859,51 +949,55 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">425</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  426</span>                                        {</div>
-<div class="line"><span class="lineno">  427</span>    <span class="comment">// Deduplicate identical diagnostics (same level, message and span).</span></div>
-<div class="line"><span class="lineno">  428</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;existing : <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>) {</div>
-<div class="line"><span class="lineno">  429</span>      <span class="keywordflow">if</span> (existing.level == level &amp;&amp; existing.message == message &amp;&amp;</div>
-<div class="line"><span class="lineno">  430</span>          existing.span.line == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  431</span>          existing.span.column == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  432</span>          existing.span.offset == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  433</span>          existing.span.length == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>) {</div>
-<div class="line"><span class="lineno">  434</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  435</span>      }</div>
-<div class="line"><span class="lineno">  436</span>    }</div>
-<div class="line"><span class="lineno">  437</span> </div>
-<div class="line"><span class="lineno">  438</span>    <span class="comment">// Stop flooding on errors, but emit one explanatory note once.</span></div>
-<div class="line"><span class="lineno">  439</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a> &amp;&amp; <a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a> &gt;= <a class="code hl_variable" href="#aea4fe669d87bd2ca70dcecc28ab698ca">MAX_ERRORS</a>) {</div>
-<div class="line"><span class="lineno">  440</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#af4f4ff71ac1a13aa3cb06db91969ccd2">errorCapReached_</a>) {</div>
-<div class="line"><span class="lineno">  441</span>        <a class="code hl_variable" href="#af4f4ff71ac1a13aa3cb06db91969ccd2">errorCapReached_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  442</span>        <span class="keyword">const</span> SourceSpan capSpan = span;</div>
-<div class="line"><span class="lineno">  443</span>        <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(Diagnostic{</div>
-<div class="line"><span class="lineno">  444</span>            <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, <span class="stringliteral">&quot;N0001&quot;</span>,</div>
-<div class="line"><span class="lineno">  445</span>            <span class="stringliteral">&quot;Too many errors emitted; stopping after &quot;</span> +</div>
-<div class="line"><span class="lineno">  446</span>                std::to_string(<a class="code hl_variable" href="#aea4fe669d87bd2ca70dcecc28ab698ca">MAX_ERRORS</a>) +</div>
-<div class="line"><span class="lineno">  447</span>                <span class="stringliteral">&quot; errors. Fix the first errors and re-run for more details.&quot;</span>,</div>
-<div class="line"><span class="lineno">  448</span>            <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>, capSpan, <a class="code hl_function" href="#a466bc4ebe5b86885f505645f7f5cc6f7">makeRange</a>(capSpan)});</div>
-<div class="line"><span class="lineno">  449</span>      }</div>
-<div class="line"><span class="lineno">  450</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  451</span>    }</div>
-<div class="line"><span class="lineno">  452</span> </div>
-<div class="line"><span class="lineno">  453</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size() &gt;= <a class="code hl_variable" href="#ad694355ee3a800ab5e06f7ff236ff310">MAX_DIAGNOSTICS</a>) {</div>
-<div class="line"><span class="lineno">  454</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  455</span>    }</div>
-<div class="line"><span class="lineno">  456</span> </div>
-<div class="line"><span class="lineno">  457</span>    <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(</div>
-<div class="line"><span class="lineno">  458</span>        Diagnostic{level, code, message, <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>, span, <a class="code hl_function" href="#a466bc4ebe5b86885f505645f7f5cc6f7">makeRange</a>(span)});</div>
-<div class="line"><span class="lineno">  459</span> </div>
-<div class="line"><span class="lineno">  460</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a>) {</div>
-<div class="line"><span class="lineno">  461</span>      ++<a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a>;</div>
-<div class="line"><span class="lineno">  462</span>      <a class="code hl_function" href="#a888a8777539afb2fda609856f916295e">maybeAddHelpHint</a>(span, message);</div>
-<div class="line"><span class="lineno">  463</span>    }</div>
-<div class="line"><span class="lineno">  464</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a888a8777539afb2fda609856f916295e"><div class="ttname"><a href="#a888a8777539afb2fda609856f916295e">zap::DiagnosticEngine::maybeAddHelpHint</a></div><div class="ttdeci">void maybeAddHelpHint(SourceSpan span, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00531">diagnostics.hpp:531</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_aea4fe669d87bd2ca70dcecc28ab698ca"><div class="ttname"><a href="#aea4fe669d87bd2ca70dcecc28ab698ca">zap::DiagnosticEngine::MAX_ERRORS</a></div><div class="ttdeci">static constexpr size_t MAX_ERRORS</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00413">diagnostics.hpp:413</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_af4f4ff71ac1a13aa3cb06db91969ccd2"><div class="ttname"><a href="#af4f4ff71ac1a13aa3cb06db91969ccd2">zap::DiagnosticEngine::errorCapReached_</a></div><div class="ttdeci">bool errorCapReached_</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00411">diagnostics.hpp:411</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">432</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  433</span>                                        {</div>
+<div class="line"><span class="lineno">  434</span>    <span class="comment">// Deduplicate identical diagnostics (same level, message and span).</span></div>
+<div class="line"><span class="lineno">  435</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;existing : <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>) {</div>
+<div class="line"><span class="lineno">  436</span>      <span class="keywordflow">if</span> (existing.level == level &amp;&amp; existing.message == message &amp;&amp;</div>
+<div class="line"><span class="lineno">  437</span>          existing.span.line == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a826ce0c8c12a0d0e1e8d166f8ce4f888">line</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  438</span>          existing.span.column == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac4f9c14a5c0a558f5e150fe598475183">column</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  439</span>          existing.span.offset == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#a76076f46fe25b2d110eec75ce57b6ae2">offset</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  440</span>          existing.span.length == span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ab9c82162d5b55ecec408216aa6fb6902">length</a>) {</div>
+<div class="line"><span class="lineno">  441</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  442</span>      }</div>
+<div class="line"><span class="lineno">  443</span>    }</div>
+<div class="line"><span class="lineno">  444</span> </div>
+<div class="line"><span class="lineno">  445</span>    <span class="comment">// Stop flooding on errors, but emit one explanatory note once.</span></div>
+<div class="line"><span class="lineno">  446</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a> &amp;&amp; <a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a> &gt;= <a class="code hl_variable" href="#aea4fe669d87bd2ca70dcecc28ab698ca">MAX_ERRORS</a>) {</div>
+<div class="line"><span class="lineno">  447</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#af4f4ff71ac1a13aa3cb06db91969ccd2">errorCapReached_</a>) {</div>
+<div class="line"><span class="lineno">  448</span>        <a class="code hl_variable" href="#af4f4ff71ac1a13aa3cb06db91969ccd2">errorCapReached_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  449</span>        <span class="keyword">const</span> SourceSpan capSpan = span;</div>
+<div class="line"><span class="lineno">  450</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;capSource = <a class="code hl_function" href="#a3ceb501d58b577daa261f8d9306e23d2">sourceFor</a>(capSpan);</div>
+<div class="line"><span class="lineno">  451</span>        <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(Diagnostic{</div>
+<div class="line"><span class="lineno">  452</span>            <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a3b0649c72650c313a357338dcdfb64ec">DiagnosticLevel::Note</a>, <span class="stringliteral">&quot;N0001&quot;</span>,</div>
+<div class="line"><span class="lineno">  453</span>            <span class="stringliteral">&quot;Too many errors emitted; stopping after &quot;</span> +</div>
+<div class="line"><span class="lineno">  454</span>                std::to_string(<a class="code hl_variable" href="#aea4fe669d87bd2ca70dcecc28ab698ca">MAX_ERRORS</a>) +</div>
+<div class="line"><span class="lineno">  455</span>                <span class="stringliteral">&quot; errors. Fix the first errors and re-run for more details.&quot;</span>,</div>
+<div class="line"><span class="lineno">  456</span>            <a class="code hl_function" href="#a8a0df03093c84457f429ba35b2837959">fileNameFor</a>(capSpan), capSource, capSpan,</div>
+<div class="line"><span class="lineno">  457</span>            <a class="code hl_function" href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">makeRange</a>(capSpan, capSource)});</div>
+<div class="line"><span class="lineno">  458</span>      }</div>
+<div class="line"><span class="lineno">  459</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  460</span>    }</div>
+<div class="line"><span class="lineno">  461</span> </div>
+<div class="line"><span class="lineno">  462</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size() &gt;= <a class="code hl_variable" href="#ad694355ee3a800ab5e06f7ff236ff310">MAX_DIAGNOSTICS</a>) {</div>
+<div class="line"><span class="lineno">  463</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  464</span>    }</div>
+<div class="line"><span class="lineno">  465</span> </div>
+<div class="line"><span class="lineno">  466</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;diagnosticSource = <a class="code hl_function" href="#a3ceb501d58b577daa261f8d9306e23d2">sourceFor</a>(span);</div>
+<div class="line"><span class="lineno">  467</span>    <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.push_back(Diagnostic{level, code, message, <a class="code hl_function" href="#a8a0df03093c84457f429ba35b2837959">fileNameFor</a>(span),</div>
+<div class="line"><span class="lineno">  468</span>                                      diagnosticSource, span,</div>
+<div class="line"><span class="lineno">  469</span>                                      <a class="code hl_function" href="#a8b2793e2c2bcc2c0960ca775dc4e6f72">makeRange</a>(span, diagnosticSource)});</div>
+<div class="line"><span class="lineno">  470</span> </div>
+<div class="line"><span class="lineno">  471</span>    <span class="keywordflow">if</span> (level == <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a>) {</div>
+<div class="line"><span class="lineno">  472</span>      ++<a class="code hl_variable" href="#a0c58e0c0341e64349a710df1eaa7aaa7">errorCount</a>;</div>
+<div class="line"><span class="lineno">  473</span>      <a class="code hl_function" href="#a888a8777539afb2fda609856f916295e">maybeAddHelpHint</a>(span, message);</div>
+<div class="line"><span class="lineno">  474</span>    }</div>
+<div class="line"><span class="lineno">  475</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a888a8777539afb2fda609856f916295e"><div class="ttname"><a href="#a888a8777539afb2fda609856f916295e">zap::DiagnosticEngine::maybeAddHelpHint</a></div><div class="ttdeci">void maybeAddHelpHint(SourceSpan span, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00544">diagnostics.hpp:544</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_aea4fe669d87bd2ca70dcecc28ab698ca"><div class="ttname"><a href="#aea4fe669d87bd2ca70dcecc28ab698ca">zap::DiagnosticEngine::MAX_ERRORS</a></div><div class="ttdeci">static constexpr size_t MAX_ERRORS</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00412">diagnostics.hpp:412</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_af4f4ff71ac1a13aa3cb06db91969ccd2"><div class="ttname"><a href="#af4f4ff71ac1a13aa3cb06db91969ccd2">zap::DiagnosticEngine::errorCapReached_</a></div><div class="ttdeci">bool errorCapReached_</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00410">diagnostics.hpp:410</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Error</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00411">errorCapReached_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00410">errorCount</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">fileName</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00103">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00673">makeRange()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00414">MAX_DIAGNOSTICS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00413">MAX_ERRORS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00531">maybeAddHelpHint()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00013">zap::Note</a>, and <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::offset</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d44/token_8hpp_source.html#l00105">SourceSpan::column</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Error</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00410">errorCapReached_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">errorCount</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00696">fileNameFor()</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00107">SourceSpan::length</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00104">SourceSpan::line</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00700">makeRange()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00413">MAX_DIAGNOSTICS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00412">MAX_ERRORS</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00544">maybeAddHelpHint()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Note</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00106">SourceSpan::offset</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">sourceFor()</a>.</p>
 
 </div>
 </div>
@@ -939,15 +1033,55 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00420">420</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  421</span>                                        {</div>
-<div class="line"><span class="lineno">  422</span>    <a class="code hl_function" href="#a174265ae28a3f7629b1fb39e112d357d">report</a>(span, level, <a class="code hl_function" href="#a91f60994d8377e18963e85f3ea0601f9">defaultCodeFor</a>(level, message), message);</div>
-<div class="line"><span class="lineno">  423</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a174265ae28a3f7629b1fb39e112d357d"><div class="ttname"><a href="#a174265ae28a3f7629b1fb39e112d357d">zap::DiagnosticEngine::report</a></div><div class="ttdeci">void report(SourceSpan span, DiagnosticLevel level, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00420">diagnostics.hpp:420</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00427">427</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  428</span>                                        {</div>
+<div class="line"><span class="lineno">  429</span>    <a class="code hl_function" href="#a174265ae28a3f7629b1fb39e112d357d">report</a>(span, level, <a class="code hl_function" href="#a91f60994d8377e18963e85f3ea0601f9">defaultCodeFor</a>(level, message), message);</div>
+<div class="line"><span class="lineno">  430</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_a174265ae28a3f7629b1fb39e112d357d"><div class="ttname"><a href="#a174265ae28a3f7629b1fb39e112d357d">zap::DiagnosticEngine::report</a></div><div class="ttdeci">void report(SourceSpan span, DiagnosticLevel level, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00427">diagnostics.hpp:427</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00571">defaultCodeFor()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00420">report()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00584">defaultCodeFor()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00427">report()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00420">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00427">report()</a>.</p>
+
+</div>
+</div>
+<a id="a3ceb501d58b577daa261f8d9306e23d2" name="a3ceb501d58b577daa261f8d9306e23d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ceb501d58b577daa261f8d9306e23d2">&#9670;&#160;</a></span>sourceFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; zap::DiagnosticEngine::sourceFor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>span</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">686</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  686</span>                                                           {</div>
+<div class="line"><span class="lineno">  687</span>    <span class="keyword">const</span> std::string &amp;name =</div>
+<div class="line"><span class="lineno">  688</span>        span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac0e8b37ad00062c5f0b4948eec9c1a06">sourceName</a>.empty() ? <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a> : span.<a class="code hl_variable" href="../../d4/d5b/structSourceSpan.html#ac0e8b37ad00062c5f0b4948eec9c1a06">sourceName</a>;</div>
+<div class="line"><span class="lineno">  689</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a82afecdce66f81022b58e36c31c8769d">sources_</a>.find(name);</div>
+<div class="line"><span class="lineno">  690</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="#a82afecdce66f81022b58e36c31c8769d">sources_</a>.end()) {</div>
+<div class="line"><span class="lineno">  691</span>      <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><span class="lineno">  692</span>    }</div>
+<div class="line"><span class="lineno">  693</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>;</div>
+<div class="line"><span class="lineno">  694</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00406">fileName</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00405">source</a>, <a class="el" href="../../d4/d44/token_8hpp_source.html#l00108">SourceSpan::sourceName</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">sources_</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -974,10 +1108,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00474">474</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  474</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00485">485</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  485</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ac5e219b41ca3de68683b966c680d9718">fileName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">fileName</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00406">fileName</a>.</p>
 
 </div>
 </div>
@@ -1004,10 +1138,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00472">472</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  472</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00483">483</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  483</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acc361fdacdc70e6a15095fcaaac7ced8">source</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">source</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00405">source</a>.</p>
 
 </div>
 </div>
@@ -1034,37 +1168,37 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00484">484</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  484</span>                           {</div>
-<div class="line"><span class="lineno">  485</span>    std::string json = <span class="stringliteral">&quot;[&quot;</span>;</div>
-<div class="line"><span class="lineno">  486</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  487</span>      <span class="keywordflow">if</span> (i &gt; 0)</div>
-<div class="line"><span class="lineno">  488</span>        json += <span class="charliteral">&#39;,&#39;</span>;</div>
-<div class="line"><span class="lineno">  489</span> </div>
-<div class="line"><span class="lineno">  490</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;d = <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>[i];</div>
-<div class="line"><span class="lineno">  491</span>      json += <span class="stringliteral">&quot;{&quot;</span>;</div>
-<div class="line"><span class="lineno">  492</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;level&quot;</span>, <a class="code hl_function" href="#ad02899a0bfdcc92f5f36b42b042a0417">levelToString</a>(d.level));</div>
-<div class="line"><span class="lineno">  493</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><span class="lineno">  494</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;message&quot;</span>, d.message);</div>
-<div class="line"><span class="lineno">  495</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><span class="lineno">  496</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;code&quot;</span>, d.code);</div>
-<div class="line"><span class="lineno">  497</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><span class="lineno">  498</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;fileName&quot;</span>, d.fileName);</div>
-<div class="line"><span class="lineno">  499</span>      json += <span class="stringliteral">&quot;,\&quot;range\&quot;:{&quot;</span>;</div>
-<div class="line"><span class="lineno">  500</span>      json += <span class="stringliteral">&quot;\&quot;start\&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  501</span>      <a class="code hl_function" href="#af2f1e3cd872532b84888ca3c4497d3ba">appendJsonPosition</a>(json, d.range.start);</div>
-<div class="line"><span class="lineno">  502</span>      json += <span class="stringliteral">&quot;,\&quot;end\&quot;:&quot;</span>;</div>
-<div class="line"><span class="lineno">  503</span>      <a class="code hl_function" href="#af2f1e3cd872532b84888ca3c4497d3ba">appendJsonPosition</a>(json, d.range.end);</div>
-<div class="line"><span class="lineno">  504</span>      json += <span class="stringliteral">&quot;}}&quot;</span>;</div>
-<div class="line"><span class="lineno">  505</span>    }</div>
-<div class="line"><span class="lineno">  506</span>    json += <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><span class="lineno">  507</span>    <span class="keywordflow">return</span> json;</div>
-<div class="line"><span class="lineno">  508</span>  }</div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac420b2ced708390b3f1096feba424a8a"><div class="ttname"><a href="#ac420b2ced708390b3f1096feba424a8a">zap::DiagnosticEngine::appendJsonField</a></div><div class="ttdeci">static void appendJsonField(std::string &amp;json, const std::string &amp;key, const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00727">diagnostics.hpp:727</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ad02899a0bfdcc92f5f36b42b042a0417"><div class="ttname"><a href="#ad02899a0bfdcc92f5f36b42b042a0417">zap::DiagnosticEngine::levelToString</a></div><div class="ttdeci">static std::string levelToString(DiagnosticLevel level)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00661">diagnostics.hpp:661</a></div></div>
-<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_af2f1e3cd872532b84888ca3c4497d3ba"><div class="ttname"><a href="#af2f1e3cd872532b84888ca3c4497d3ba">zap::DiagnosticEngine::appendJsonPosition</a></div><div class="ttdeci">static void appendJsonPosition(std::string &amp;json, const DiagnosticPosition &amp;p)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00734">diagnostics.hpp:734</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00495">495</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  495</span>                           {</div>
+<div class="line"><span class="lineno">  496</span>    std::string json = <span class="stringliteral">&quot;[&quot;</span>;</div>
+<div class="line"><span class="lineno">  497</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  498</span>      <span class="keywordflow">if</span> (i &gt; 0)</div>
+<div class="line"><span class="lineno">  499</span>        json += <span class="charliteral">&#39;,&#39;</span>;</div>
+<div class="line"><span class="lineno">  500</span> </div>
+<div class="line"><span class="lineno">  501</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;d = <a class="code hl_variable" href="#a8ca04806f1e27091b4206bb74f88c4c1">diagnostics_</a>[i];</div>
+<div class="line"><span class="lineno">  502</span>      json += <span class="stringliteral">&quot;{&quot;</span>;</div>
+<div class="line"><span class="lineno">  503</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;level&quot;</span>, <a class="code hl_function" href="#ad02899a0bfdcc92f5f36b42b042a0417">levelToString</a>(d.level));</div>
+<div class="line"><span class="lineno">  504</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><span class="lineno">  505</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;message&quot;</span>, d.message);</div>
+<div class="line"><span class="lineno">  506</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><span class="lineno">  507</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;code&quot;</span>, d.code);</div>
+<div class="line"><span class="lineno">  508</span>      json += <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><span class="lineno">  509</span>      <a class="code hl_function" href="#ac420b2ced708390b3f1096feba424a8a">appendJsonField</a>(json, <span class="stringliteral">&quot;fileName&quot;</span>, d.fileName);</div>
+<div class="line"><span class="lineno">  510</span>      json += <span class="stringliteral">&quot;,\&quot;range\&quot;:{&quot;</span>;</div>
+<div class="line"><span class="lineno">  511</span>      json += <span class="stringliteral">&quot;\&quot;start\&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  512</span>      <a class="code hl_function" href="#af2f1e3cd872532b84888ca3c4497d3ba">appendJsonPosition</a>(json, d.range.start);</div>
+<div class="line"><span class="lineno">  513</span>      json += <span class="stringliteral">&quot;,\&quot;end\&quot;:&quot;</span>;</div>
+<div class="line"><span class="lineno">  514</span>      <a class="code hl_function" href="#af2f1e3cd872532b84888ca3c4497d3ba">appendJsonPosition</a>(json, d.range.end);</div>
+<div class="line"><span class="lineno">  515</span>      json += <span class="stringliteral">&quot;}}&quot;</span>;</div>
+<div class="line"><span class="lineno">  516</span>    }</div>
+<div class="line"><span class="lineno">  517</span>    json += <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><span class="lineno">  518</span>    <span class="keywordflow">return</span> json;</div>
+<div class="line"><span class="lineno">  519</span>  }</div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ac420b2ced708390b3f1096feba424a8a"><div class="ttname"><a href="#ac420b2ced708390b3f1096feba424a8a">zap::DiagnosticEngine::appendJsonField</a></div><div class="ttdeci">static void appendJsonField(std::string &amp;json, const std::string &amp;key, const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00755">diagnostics.hpp:755</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_ad02899a0bfdcc92f5f36b42b042a0417"><div class="ttname"><a href="#ad02899a0bfdcc92f5f36b42b042a0417">zap::DiagnosticEngine::levelToString</a></div><div class="ttdeci">static std::string levelToString(DiagnosticLevel level)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00674">diagnostics.hpp:674</a></div></div>
+<div class="ttc" id="aclasszap_1_1DiagnosticEngine_html_af2f1e3cd872532b84888ca3c4497d3ba"><div class="ttname"><a href="#af2f1e3cd872532b84888ca3c4497d3ba">zap::DiagnosticEngine::appendJsonPosition</a></div><div class="ttdeci">static void appendJsonPosition(std::string &amp;json, const DiagnosticPosition &amp;p)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00762">diagnostics.hpp:762</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00727">appendJsonField()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00734">appendJsonPosition()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">diagnostics_</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00661">levelToString()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00755">appendJsonField()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00762">appendJsonPosition()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00674">levelToString()</a>.</p>
 
 </div>
 </div>
@@ -1089,9 +1223,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">409</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">408</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00470">diagnostics()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00468">empty()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00476">printText()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00480">printText()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00484">toJson()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">diagnostics()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00479">empty()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00487">printText()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00491">printText()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00495">toJson()</a>.</p>
 
 </div>
 </div>
@@ -1115,9 +1249,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00411">411</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00410">410</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -1141,9 +1275,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00410">410</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">409</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00466">hadErrors()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00477">hadErrors()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -1167,9 +1301,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">408</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00406">406</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00417">DiagnosticEngine()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00474">sourceName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00416">DiagnosticEngine()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00696">fileNameFor()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">sourceFor()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00485">sourceName()</a>.</p>
 
 </div>
 </div>
@@ -1193,9 +1327,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00414">414</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00413">413</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00511">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00522">addNote()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -1219,9 +1353,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00413">413</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00412">412</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00425">report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00432">report()</a>.</p>
 
 </div>
 </div>
@@ -1245,9 +1379,35 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00405">405</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00416">DiagnosticEngine()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">sourceFor()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00483">sourceText()</a>.</p>
+
+</div>
+</div>
+<a id="a82afecdce66f81022b58e36c31c8769d" name="a82afecdce66f81022b58e36c31c8769d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82afecdce66f81022b58e36c31c8769d">&#9670;&#160;</a></span>sources_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::string&gt; zap::DiagnosticEngine::sources_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 <p class="definition">Definition at line <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">407</a> of file <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html">diagnostics.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00417">DiagnosticEngine()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00673">makeRange()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00476">printText()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00480">printText()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00472">sourceText()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00416">DiagnosticEngine()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00421">registerSource()</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00686">sourceFor()</a>.</p>
 
 </div>
 </div>

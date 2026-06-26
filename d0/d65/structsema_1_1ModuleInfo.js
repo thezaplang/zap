@@ -6,5 +6,6 @@ var structsema_1_1ModuleInfo =
     [ "moduleId", "d0/d65/structsema_1_1ModuleInfo.html#a66c1ac0ec968d020be4a6e350569f2e0", null ],
     [ "moduleName", "d0/d65/structsema_1_1ModuleInfo.html#ad532574e72924d2e262bfa194f273547", null ],
     [ "root", "d0/d65/structsema_1_1ModuleInfo.html#a0d27c0d6b9922605fab2ae4a0c6c91fd", null ],
-    [ "sourceName", "d0/d65/structsema_1_1ModuleInfo.html#a62a03220f671c7a9ce38df10b2d212ce", null ]
+    [ "sourceName", "d0/d65/structsema_1_1ModuleInfo.html#a62a03220f671c7a9ce38df10b2d212ce", null ],
+    [ "sourceText", "d0/d65/structsema_1_1ModuleInfo.html#ad443992f3e6ec9b15e11dd4d407e9071", null ]
 ];
