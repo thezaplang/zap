@@ -141,6 +141,7 @@ var annotated_dup =
       [ "ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
       [ "FunctionPointerType", "d0/d48/classzir_1_1FunctionPointerType.html", "d0/d48/classzir_1_1FunctionPointerType" ],
       [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
+      [ "GlobalAddress", "db/d7b/classzir_1_1GlobalAddress.html", "db/d7b/classzir_1_1GlobalAddress" ],
       [ "Register", "da/d1e/classzir_1_1Register.html", "da/d1e/classzir_1_1Register" ],
       [ "Constant", "da/d2d/classzir_1_1Constant.html", "da/d2d/classzir_1_1Constant" ],
       [ "AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", "dd/de3/classzir_1_1AggregateConstant" ],

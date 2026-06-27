@@ -218,6 +218,7 @@ var hierarchy =
       [ "zir::ArrayConstant", "d1/dc9/classzir_1_1ArrayConstant.html", null ],
       [ "zir::Constant", "da/d2d/classzir_1_1Constant.html", null ],
       [ "zir::Global", "d0/d8c/classzir_1_1Global.html", null ],
+      [ "zir::GlobalAddress", "db/d7b/classzir_1_1GlobalAddress.html", null ],
       [ "zir::Register", "da/d1e/classzir_1_1Register.html", null ]
     ] ],
     [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", null ],

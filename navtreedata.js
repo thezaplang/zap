@@ -86,12 +86,12 @@ var NAVTREEINDEX =
 "d9/dff/classMemberAccessNode.html",
 "da/de9/classcodegen_1_1LLVMCodeGen.html#a0f07d70f216d99fc77539272f5028ad8",
 "db/d2f/classsema_1_1BoundCompoundTargetLoad.html#a760fbe5cbdf31a5caffe3b4fcd4a2a0e",
-"db/dfa/stdlib_8c.html#ab75d0e1259678af5b21021b10635ca34",
-"dc/d2c/classsema_1_1Binder.html#a73f4091d56632cc616ffe1e5c65932b6",
-"dc/db9/namespacezap_1_1text.html",
-"de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff",
-"df/d0a/classzir_1_1BinaryInst.html#af9c53f8f5f6acd322f8a07f73ec2f4c2",
-"dir_bf9f26469d00835ba20ff8d80ee5a804.html"
+"db/dfa/stdlib_8c.html#a76eac198d32546178be6bb118b6318a1",
+"dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295",
+"dc/dae/classzir_1_1ClassType.html#a0c7b59f769c2874b66e2676db548e327",
+"de/d3e/classsema_1_1BoundIndirectCall.html#ac6baccf5bb0d84f8e6de64a61ff26619",
+"df/d0a/classzir_1_1BinaryInst.html",
+"df/dee/classsema_1_1BoundBinaryExpression.html#a64f956c4540c2a3987b1b0149661a721"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
