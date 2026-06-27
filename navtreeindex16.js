@@ -1,6 +1,5 @@
 var NAVTREEINDEX16 =
 {
-"de/d3e/classsema_1_1BoundIndirectCall.html#ac6baccf5bb0d84f8e6de64a61ff26619":[2,0,1,17,4],
 "de/d3e/classsema_1_1BoundIndirectCall.html#ad0de9073109f732817a0c3bb1739bd44":[1,0,2,17,1],
 "de/d3e/classsema_1_1BoundIndirectCall.html#ad0de9073109f732817a0c3bb1739bd44":[2,0,1,17,1],
 "de/d45/classFailableHandleExpr.html":[2,0,29],
@@ -249,5 +248,6 @@ var NAVTREEINDEX16 =
 "df/d05/structzap_1_1lsp_1_1DocumentState.html#a8917735a1177fd9faa92551634ec893c":[1,0,3,3,11,2],
 "df/d05/structzap_1_1lsp_1_1DocumentState.html#a8917735a1177fd9faa92551634ec893c":[2,0,2,2,8,2],
 "df/d05/structzap_1_1lsp_1_1DocumentState.html#a895a26d34e519db70d76c78081f0dd51":[1,0,3,3,11,1],
-"df/d05/structzap_1_1lsp_1_1DocumentState.html#a895a26d34e519db70d76c78081f0dd51":[2,0,2,2,8,1]
+"df/d05/structzap_1_1lsp_1_1DocumentState.html#a895a26d34e519db70d76c78081f0dd51":[2,0,2,2,8,1],
+"df/d0a/classzir_1_1BinaryInst.html":[1,0,4,6]
 };
