@@ -7,3 +7,6 @@ src @funcieqDEV @thezaplang/Maintainers
 # AND maintainers
 src/driver @iDontHaveTime @thezaplang/Maintainers
 src/lsp @iDontHaveTime @thezaplang/Maintainers
+
+# GitHub config stuff
+.github @MrBisquit @thezaplang/Maintainers
