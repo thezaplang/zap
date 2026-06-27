@@ -1,6 +1,8 @@
 var dir_cbf4dfb252b991084670c33e10abc5c2 =
 [
     [ "basic_block.hpp", "df/dab/basic__block_8hpp.html", "df/dab/basic__block_8hpp" ],
+    [ "failable_type.cpp", "da/dd1/failable__type_8cpp.html", "da/dd1/failable__type_8cpp" ],
+    [ "failable_type.hpp", "d9/d2c/failable__type_8hpp.html", "d9/d2c/failable__type_8hpp" ],
     [ "function.hpp", "d7/d7c/function_8hpp.html", "d7/d7c/function_8hpp" ],
     [ "instruction.hpp", "d5/db2/instruction_8hpp.html", "d5/db2/instruction_8hpp" ],
     [ "ir_generator.cpp", "db/d34/ir__generator_8cpp.html", "db/d34/ir__generator_8cpp" ],

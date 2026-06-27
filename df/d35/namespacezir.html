@@ -66,11 +66,13 @@ $(function(){initNavTree('df/d35/namespacezir.html','../../',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
+<tr class="memitem:anonymous_5Fnamespace_7Bfailable_5Ftype_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bfailable_5Ftype_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html">anonymous_namespace{failable_type.cpp}</a></td></tr>
 <tr class="memitem:anonymous_5Fnamespace_7Bir_5Fgenerator_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bir_5Fgenerator_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html">anonymous_namespace{ir_generator.cpp}</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:BasicBlock" id="r_BasicBlock"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6e/classzir_1_1BasicBlock.html">BasicBlock</a></td></tr>
+<tr class="memitem:FailableTypeLayout" id="r_FailableTypeLayout"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3c/structzir_1_1FailableTypeLayout.html">FailableTypeLayout</a></td></tr>
 <tr class="memitem:Function" id="r_Function"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d90/classzir_1_1Function.html">Function</a></td></tr>
 <tr class="memitem:Instruction" id="r_Instruction"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dad/classzir_1_1Instruction.html">Instruction</a></td></tr>
 <tr class="memitem:BinaryInst" id="r_BinaryInst"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d0a/classzir_1_1BinaryInst.html">BinaryInst</a></td></tr>
@@ -239,6 +241,15 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">Global</a>
 <br />
  }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ac3fcfd7a3dc3e157f2efa1ceadb6d152" id="r_ac3fcfd7a3dc3e157f2efa1ceadb6d152"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="../../d4/d3c/structzir_1_1FailableTypeLayout.html">FailableTypeLayout</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3fcfd7a3dc3e157f2efa1ceadb6d152">getFailableTypeLayout</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;type)</td></tr>
+<tr class="memitem:acbfd65ffd533ef7640436c0fcec237aa" id="r_acbfd65ffd533ef7640436c0fcec237aa"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../da/de1/classzir_1_1RecordType.html">RecordType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbfd65ffd533ef7640436c0fcec237aa">makeFailableRecordType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;valueType, const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;errorType)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:abd7ffc745141f08c0748b2d185430660" id="r_abd7ffc745141f08c0748b2d185430660"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd7ffc745141f08c0748b2d185430660">kFailableTypePrefix</a> = &quot;__zap_failable_&quot;</td></tr>
 </table>
 <a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
 <a id="ab4e12cb1b0618e9ddeb42f32bacb847a" name="ab4e12cb1b0618e9ddeb42f32bacb847a"></a>
@@ -503,6 +514,107 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609acb17869fe51048b5a5c4c6106551a255">zir::ValueKind::Constant</a></div><div class="ttdeci">@ Constant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00011">value.hpp:11</a></div></div>
 <div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488"><div class="ttname"><a href="#a0b65443104b99920199d964de2b4a609ad883532025c290be343f0fb4a98d8488">zir::ValueKind::AggregateConstant</a></div><div class="ttdeci">@ AggregateConstant</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00012">value.hpp:12</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ac3fcfd7a3dc3e157f2efa1ceadb6d152" name="ac3fcfd7a3dc3e157f2efa1ceadb6d152"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3fcfd7a3dc3e157f2efa1ceadb6d152">&#9670;&#160;</a></span>getFailableTypeLayout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="../../d4/d3c/structzir_1_1FailableTypeLayout.html">FailableTypeLayout</a> &gt; zir::getFailableTypeLayout </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../da/dd1/failable__type_8cpp_source.html">failable_type.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>                                                       {</div>
+<div class="line"><span class="lineno">   45</span>  <span class="keyword">auto</span> record = asFailableRecord(type);</div>
+<div class="line"><span class="lineno">   46</span>  <span class="keywordflow">if</span> (!record) {</div>
+<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><span class="lineno">   48</span>  }</div>
+<div class="line"><span class="lineno">   49</span>  <span class="keywordflow">return</span> FailableTypeLayout{</div>
+<div class="line"><span class="lineno">   50</span>      record-&gt;getFields()[<a class="code hl_variable" href="../../d4/d3c/structzir_1_1FailableTypeLayout.html#a4294d2ea4367dfb4cb7eaad939d7d67e">FailableTypeLayout::ValueField</a>].type,</div>
+<div class="line"><span class="lineno">   51</span>      record-&gt;getFields()[<a class="code hl_variable" href="../../d4/d3c/structzir_1_1FailableTypeLayout.html#ac7a232d5787c1616be596e6fd889fb85">FailableTypeLayout::ErrorField</a>].type};</div>
+<div class="line"><span class="lineno">   52</span>}</div>
+<div class="ttc" id="astructzir_1_1FailableTypeLayout_html_a4294d2ea4367dfb4cb7eaad939d7d67e"><div class="ttname"><a href="../../d4/d3c/structzir_1_1FailableTypeLayout.html#a4294d2ea4367dfb4cb7eaad939d7d67e">zir::FailableTypeLayout::ValueField</a></div><div class="ttdeci">static constexpr int ValueField</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2c/failable__type_8hpp_source.html#l00013">failable_type.hpp:13</a></div></div>
+<div class="ttc" id="astructzir_1_1FailableTypeLayout_html_ac7a232d5787c1616be596e6fd889fb85"><div class="ttname"><a href="../../d4/d3c/structzir_1_1FailableTypeLayout.html#ac7a232d5787c1616be596e6fd889fb85">zir::FailableTypeLayout::ErrorField</a></div><div class="ttdeci">static constexpr int ErrorField</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2c/failable__type_8hpp_source.html#l00014">failable_type.hpp:14</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d9/d2c/failable__type_8hpp_source.html#l00014">zir::FailableTypeLayout::ErrorField</a>, and <a class="el" href="../../d9/d2c/failable__type_8hpp_source.html#l00013">zir::FailableTypeLayout::ValueField</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00122">zir::BoundIRGenerator::emitFailableError()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00115">zir::BoundIRGenerator::emitFailableValue()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00113">sema::failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00107">sema::failableValueType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00102">sema::isFailableType()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00343">zir::BoundIRGenerator::visit()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01155">zir::BoundIRGenerator::visit()</a>.</p>
+
+</div>
+</div>
+<a id="acbfd65ffd533ef7640436c0fcec237aa" name="acbfd65ffd533ef7640436c0fcec237aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbfd65ffd533ef7640436c0fcec237aa">&#9670;&#160;</a></span>makeFailableRecordType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../da/de1/classzir_1_1RecordType.html">RecordType</a> &gt; zir::makeFailableRecordType </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>valueType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>errorType</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00055">55</a> of file <a class="el" href="../../da/dd1/failable__type_8cpp_source.html">failable_type.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>                                                             {</div>
+<div class="line"><span class="lineno">   57</span>  <span class="keyword">auto</span> suffix = sanitizeFailableTypeName(</div>
+<div class="line"><span class="lineno">   58</span>      (valueType ? valueType-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>) + std::string(<span class="stringliteral">&quot;$&quot;</span>) +</div>
+<div class="line"><span class="lineno">   59</span>      (errorType ? errorType-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>));</div>
+<div class="line"><span class="lineno">   60</span>  <span class="keyword">auto</span> typeName = std::string(<a class="code hl_variable" href="#abd7ffc745141f08c0748b2d185430660">kFailableTypePrefix</a>) + suffix;</div>
+<div class="line"><span class="lineno">   61</span>  <span class="keyword">auto</span> type = std::make_shared&lt;RecordType&gt;(typeName, typeName);</div>
+<div class="line"><span class="lineno">   62</span>  type-&gt;addField(<span class="stringliteral">&quot;ok&quot;</span>, std::make_shared&lt;PrimitiveType&gt;(<a class="code hl_enumvalue" href="#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">TypeKind::Bool</a>));</div>
+<div class="line"><span class="lineno">   63</span>  type-&gt;addField(<span class="stringliteral">&quot;value&quot;</span>, valueType);</div>
+<div class="line"><span class="lineno">   64</span>  type-&gt;addField(<span class="stringliteral">&quot;error&quot;</span>, errorType);</div>
+<div class="line"><span class="lineno">   65</span>  <span class="keywordflow">return</span> type;</div>
+<div class="line"><span class="lineno">   66</span>}</div>
+<div class="ttc" id="anamespacezir_html_abd7ffc745141f08c0748b2d185430660"><div class="ttname"><a href="#abd7ffc745141f08c0748b2d185430660">zir::kFailableTypePrefix</a></div><div class="ttdeci">constexpr const char * kFailableTypePrefix</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2c/failable__type_8hpp_source.html#l00009">failable_type.hpp:9</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">Bool</a>, and <a class="el" href="../../d9/d2c/failable__type_8hpp_source.html#l00009">kFailableTypePrefix</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00119">sema::makeFailableType()</a>.</p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="abd7ffc745141f08c0748b2d185430660" name="abd7ffc745141f08c0748b2d185430660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd7ffc745141f08c0748b2d185430660">&#9670;&#160;</a></span>kFailableTypePrefix</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* zir::kFailableTypePrefix = &quot;__zap_failable_&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d2c/failable__type_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d9/d2c/failable__type_8hpp_source.html">failable_type.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00021">zir::anonymous_namespace{failable_type.cpp}::asFailableRecord()</a>, and <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00055">makeFailableRecordType()</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->

@@ -77,6 +77,7 @@ var hierarchy =
     [ "zap::lsp::DocumentState", "df/d05/structzap_1_1lsp_1_1DocumentState.html", null ],
     [ "zap::driver", "d9/d00/classzap_1_1driver.html", null ],
     [ "EnumDecl::Entry", "d9/de9/structEnumDecl_1_1Entry.html", null ],
+    [ "zir::FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", null ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", null ],
     [ "zir::AggregateConstant::FieldValue", "d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],

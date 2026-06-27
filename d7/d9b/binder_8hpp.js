@@ -25,6 +25,5 @@ var binder_8hpp =
     [ "sema::sameFunctionSignature", "d7/d39/namespacesema.html#ab5a73ae519850ffa766a9ca72ebc144f", null ],
     [ "sema::sanitizeTypeName", "d7/d39/namespacesema.html#ae1c1adc63a94d804617d53399c71d6be", null ],
     [ "sema::splitQualified", "d7/d39/namespacesema.html#a4a94bb1034064c1900bfb79268609cc0", null ],
-    [ "sema::stmtAlwaysReturns", "d7/d39/namespacesema.html#ad3baf5fefd3d5b1f085cd0a0d7888a89", null ],
-    [ "sema::kFailablePrefix", "d7/d39/namespacesema.html#ae8c3742fd851ade3da413f9586adafc7", null ]
+    [ "sema::stmtAlwaysReturns", "d7/d39/namespacesema.html#ad3baf5fefd3d5b1f085cd0a0d7888a89", null ]
 ];

@@ -167,10 +167,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ab834aafd43a3b57c67955ee465f01441" id="r_ab834aafd43a3b57c67955ee465f01441"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab834aafd43a3b57c67955ee465f01441">deriveValueExpressionFromIf</a> (const <a class="el" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> &amp;stmt)</td></tr>
 <tr class="memitem:ac4149da11ebd06d1de01c84ed4c76497" id="r_ac4149da11ebd06d1de01c84ed4c76497"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a> (const <a class="el" href="../../d1/d45/classsema_1_1BoundBlock.html">BoundBlock</a> &amp;block)</td></tr>
 <tr class="memitem:a878589a3388ccc402729a8b1a133ef8c" id="r_a878589a3388ccc402729a8b1a133ef8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a878589a3388ccc402729a8b1a133ef8c">sameMethodDispatchSignature</a> (const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;lhs, const <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &amp;rhs)</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ae8c3742fd851ade3da413f9586adafc7" id="r_ae8c3742fd851ade3da413f9586adafc7"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8c3742fd851ade3da413f9586adafc7">kFailablePrefix</a> = &quot;__zap_failable_&quot;</td></tr>
 </table>
 <a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
 <a id="afad4ec7cd453fbb66b936cf8a8f92524" name="afad4ec7cd453fbb66b936cf8a8f92524"></a>
@@ -226,87 +222,87 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>                                                         {</div>
-<div class="line"><span class="lineno">   19</span>  <span class="keywordflow">if</span> (!type) {</div>
-<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;void&quot;</span>;</div>
-<div class="line"><span class="lineno">   21</span>  }</div>
-<div class="line"><span class="lineno">   22</span> </div>
-<div class="line"><span class="lineno">   23</span>  <span class="keywordflow">switch</span> (type-&gt;getKind()) {</div>
-<div class="line"><span class="lineno">   24</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>:</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;v&quot;</span>;</div>
-<div class="line"><span class="lineno">   26</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>:</div>
-<div class="line"><span class="lineno">   27</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;b1&quot;</span>;</div>
-<div class="line"><span class="lineno">   28</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9">zir::TypeKind::Char</a>:</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;c8&quot;</span>;</div>
-<div class="line"><span class="lineno">   30</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a7d839b2c12bfd40ac121b4cc9e81c539">zir::TypeKind::Int8</a>:</div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i8&quot;</span>;</div>
-<div class="line"><span class="lineno">   32</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208">zir::TypeKind::Int16</a>:</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i16&quot;</span>;</div>
-<div class="line"><span class="lineno">   34</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac06129f6e6e15c09328365e553f1dc31">zir::TypeKind::Int32</a>:</div>
-<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i32&quot;</span>;</div>
-<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">zir::TypeKind::Int64</a>:</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i64&quot;</span>;</div>
-<div class="line"><span class="lineno">   38</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">zir::TypeKind::UInt8</a>:</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u8&quot;</span>;</div>
-<div class="line"><span class="lineno">   40</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">zir::TypeKind::UInt16</a>:</div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u16&quot;</span>;</div>
-<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">zir::TypeKind::UInt32</a>:</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u32&quot;</span>;</div>
-<div class="line"><span class="lineno">   44</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">zir::TypeKind::UInt64</a>:</div>
-<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u64&quot;</span>;</div>
-<div class="line"><span class="lineno">   46</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a>:</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;is&quot;</span>;</div>
-<div class="line"><span class="lineno">   48</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">zir::TypeKind::UInt</a>:</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;us&quot;</span>;</div>
-<div class="line"><span class="lineno">   50</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">zir::TypeKind::Float</a>:</div>
-<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a>:</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f32&quot;</span>;</div>
-<div class="line"><span class="lineno">   53</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">zir::TypeKind::Float64</a>:</div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f64&quot;</span>;</div>
-<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>:</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;np&quot;</span>;</div>
-<div class="line"><span class="lineno">   57</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a>: {</div>
-<div class="line"><span class="lineno">   58</span>    <span class="keyword">auto</span> p = std::static_pointer_cast&lt;zir::PointerType&gt;(type);</div>
-<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;p_&quot;</span> + <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(p-&gt;getBaseType());</div>
-<div class="line"><span class="lineno">   60</span>  }</div>
-<div class="line"><span class="lineno">   61</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a4410ec34d9e6c1a68100ca0ce033fb17">zir::TypeKind::Array</a>: {</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keyword">auto</span> a = std::static_pointer_cast&lt;zir::ArrayType&gt;(type);</div>
-<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;a&quot;</span> + std::to_string(a-&gt;getSize()) + <span class="stringliteral">&quot;_&quot;</span> +</div>
-<div class="line"><span class="lineno">   64</span>           <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(a-&gt;getBaseType());</div>
-<div class="line"><span class="lineno">   65</span>  }</div>
-<div class="line"><span class="lineno">   66</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a208adf8bf2acdb0d453083d29d6e7afb">zir::TypeKind::FunctionPointer</a>: {</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keyword">auto</span> fn = std::static_pointer_cast&lt;zir::FunctionPointerType&gt;(type);</div>
-<div class="line"><span class="lineno">   68</span>    std::string <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = <span class="stringliteral">&quot;fp_&quot;</span>;</div>
-<div class="line"><span class="lineno">   69</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(fn-&gt;getReturnType());</div>
-<div class="line"><span class="lineno">   70</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="stringliteral">&quot;_&quot;</span>;</div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; fn-&gt;getParams().size(); ++i) {</div>
-<div class="line"><span class="lineno">   72</span>      <span class="keywordflow">if</span> (i != 0) {</div>
-<div class="line"><span class="lineno">   73</span>        <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="stringliteral">&quot;_&quot;</span>;</div>
-<div class="line"><span class="lineno">   74</span>      }</div>
-<div class="line"><span class="lineno">   75</span>      <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(fn-&gt;getParams()[i]);</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
-<div class="line"><span class="lineno">   78</span>  }</div>
-<div class="line"><span class="lineno">   79</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a>: {</div>
-<div class="line"><span class="lineno">   80</span>    <span class="keyword">auto</span> r = std::static_pointer_cast&lt;zir::RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;r_&quot;</span> + <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(r-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">   82</span>  }</div>
-<div class="line"><span class="lineno">   83</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>: {</div>
-<div class="line"><span class="lineno">   84</span>    <span class="keyword">auto</span> c = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">return</span> std::string(c-&gt;isWeak() ? <span class="stringliteral">&quot;wc_&quot;</span> : <span class="stringliteral">&quot;c_&quot;</span>) +</div>
-<div class="line"><span class="lineno">   86</span>           <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(c-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">   87</span>  }</div>
-<div class="line"><span class="lineno">   88</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a>: {</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keyword">auto</span> e = std::static_pointer_cast&lt;zir::EnumType&gt;(type);</div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;e_&quot;</span> + <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(e-&gt;getCodegenName());</div>
-<div class="line"><span class="lineno">   91</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>                                                         {</div>
+<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (!type) {</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;void&quot;</span>;</div>
+<div class="line"><span class="lineno">   22</span>  }</div>
+<div class="line"><span class="lineno">   23</span> </div>
+<div class="line"><span class="lineno">   24</span>  <span class="keywordflow">switch</span> (type-&gt;getKind()) {</div>
+<div class="line"><span class="lineno">   25</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>:</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;v&quot;</span>;</div>
+<div class="line"><span class="lineno">   27</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>:</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;b1&quot;</span>;</div>
+<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9">zir::TypeKind::Char</a>:</div>
+<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;c8&quot;</span>;</div>
+<div class="line"><span class="lineno">   31</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a7d839b2c12bfd40ac121b4cc9e81c539">zir::TypeKind::Int8</a>:</div>
+<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i8&quot;</span>;</div>
+<div class="line"><span class="lineno">   33</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a39bc2ae44b184207f560ff8619823208">zir::TypeKind::Int16</a>:</div>
+<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i16&quot;</span>;</div>
+<div class="line"><span class="lineno">   35</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac06129f6e6e15c09328365e553f1dc31">zir::TypeKind::Int32</a>:</div>
+<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i32&quot;</span>;</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">zir::TypeKind::Int64</a>:</div>
+<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;i64&quot;</span>;</div>
+<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ab31df9c476d20e85ff898121efe11b5a">zir::TypeKind::UInt8</a>:</div>
+<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u8&quot;</span>;</div>
+<div class="line"><span class="lineno">   41</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8bd950a9d7779b83f5c30046c9aaf1cf">zir::TypeKind::UInt16</a>:</div>
+<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u16&quot;</span>;</div>
+<div class="line"><span class="lineno">   43</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ae7956ed7be1c5025a27ed3cb42a396bd">zir::TypeKind::UInt32</a>:</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u32&quot;</span>;</div>
+<div class="line"><span class="lineno">   45</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959aaf71234725f0470ccf993e263a8b820a">zir::TypeKind::UInt64</a>:</div>
+<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;u64&quot;</span>;</div>
+<div class="line"><span class="lineno">   47</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a>:</div>
+<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;is&quot;</span>;</div>
+<div class="line"><span class="lineno">   49</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">zir::TypeKind::UInt</a>:</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;us&quot;</span>;</div>
+<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">zir::TypeKind::Float</a>:</div>
+<div class="line"><span class="lineno">   52</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a>:</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f32&quot;</span>;</div>
+<div class="line"><span class="lineno">   54</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">zir::TypeKind::Float64</a>:</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;f64&quot;</span>;</div>
+<div class="line"><span class="lineno">   56</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>:</div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;np&quot;</span>;</div>
+<div class="line"><span class="lineno">   58</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a>: {</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keyword">auto</span> p = std::static_pointer_cast&lt;zir::PointerType&gt;(type);</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;p_&quot;</span> + <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(p-&gt;getBaseType());</div>
+<div class="line"><span class="lineno">   61</span>  }</div>
+<div class="line"><span class="lineno">   62</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a4410ec34d9e6c1a68100ca0ce033fb17">zir::TypeKind::Array</a>: {</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keyword">auto</span> a = std::static_pointer_cast&lt;zir::ArrayType&gt;(type);</div>
+<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;a&quot;</span> + std::to_string(a-&gt;getSize()) + <span class="stringliteral">&quot;_&quot;</span> +</div>
+<div class="line"><span class="lineno">   65</span>           <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(a-&gt;getBaseType());</div>
+<div class="line"><span class="lineno">   66</span>  }</div>
+<div class="line"><span class="lineno">   67</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a208adf8bf2acdb0d453083d29d6e7afb">zir::TypeKind::FunctionPointer</a>: {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keyword">auto</span> fn = std::static_pointer_cast&lt;zir::FunctionPointerType&gt;(type);</div>
+<div class="line"><span class="lineno">   69</span>    std::string <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> = <span class="stringliteral">&quot;fp_&quot;</span>;</div>
+<div class="line"><span class="lineno">   70</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(fn-&gt;getReturnType());</div>
+<div class="line"><span class="lineno">   71</span>    <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="stringliteral">&quot;_&quot;</span>;</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; fn-&gt;getParams().size(); ++i) {</div>
+<div class="line"><span class="lineno">   73</span>      <span class="keywordflow">if</span> (i != 0) {</div>
+<div class="line"><span class="lineno">   74</span>        <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <span class="stringliteral">&quot;_&quot;</span>;</div>
+<div class="line"><span class="lineno">   75</span>      }</div>
+<div class="line"><span class="lineno">   76</span>      <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a> += <a class="code hl_function" href="#a38e33d177dce5f7b28d53d171cfb62cb">abiTypeKey</a>(fn-&gt;getParams()[i]);</div>
+<div class="line"><span class="lineno">   77</span>    }</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
+<div class="line"><span class="lineno">   79</span>  }</div>
+<div class="line"><span class="lineno">   80</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a>: {</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keyword">auto</span> r = std::static_pointer_cast&lt;zir::RecordType&gt;(type);</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;r_&quot;</span> + <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(r-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">   83</span>  }</div>
+<div class="line"><span class="lineno">   84</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>: {</div>
+<div class="line"><span class="lineno">   85</span>    <span class="keyword">auto</span> c = std::static_pointer_cast&lt;zir::ClassType&gt;(type);</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keywordflow">return</span> std::string(c-&gt;isWeak() ? <span class="stringliteral">&quot;wc_&quot;</span> : <span class="stringliteral">&quot;c_&quot;</span>) +</div>
+<div class="line"><span class="lineno">   87</span>           <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(c-&gt;getCodegenName());</div>
+<div class="line"><span class="lineno">   88</span>  }</div>
+<div class="line"><span class="lineno">   89</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a>: {</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keyword">auto</span> e = std::static_pointer_cast&lt;zir::EnumType&gt;(type);</div>
+<div class="line"><span class="lineno">   91</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;e_&quot;</span> + <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(e-&gt;getCodegenName());</div>
 <div class="line"><span class="lineno">   92</span>  }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(type-&gt;toString());</div>
-<div class="line"><span class="lineno">   95</span>}</div>
-<div class="ttc" id="anamespacesema_html_a38e33d177dce5f7b28d53d171cfb62cb"><div class="ttname"><a href="#a38e33d177dce5f7b28d53d171cfb62cb">sema::abiTypeKey</a></div><div class="ttdeci">std::string abiTypeKey(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00018">binder.cpp:18</a></div></div>
-<div class="ttc" id="anamespacesema_html_ae1c1adc63a94d804617d53399c71d6be"><div class="ttname"><a href="#ae1c1adc63a94d804617d53399c71d6be">sema::sanitizeTypeName</a></div><div class="ttdeci">std::string sanitizeTypeName(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00150">binder.cpp:150</a></div></div>
+<div class="line"><span class="lineno">   93</span>  }</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(type-&gt;toString());</div>
+<div class="line"><span class="lineno">   96</span>}</div>
+<div class="ttc" id="anamespacesema_html_a38e33d177dce5f7b28d53d171cfb62cb"><div class="ttname"><a href="#a38e33d177dce5f7b28d53d171cfb62cb">sema::abiTypeKey</a></div><div class="ttdeci">std::string abiTypeKey(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00019">binder.cpp:19</a></div></div>
+<div class="ttc" id="anamespacesema_html_ae1c1adc63a94d804617d53399c71d6be"><div class="ttname"><a href="#ae1c1adc63a94d804617d53399c71d6be">sema::sanitizeTypeName</a></div><div class="ttdeci">std::string sanitizeTypeName(const std::string &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00124">binder.cpp:124</a></div></div>
 <div class="ttc" id="anamespacezap_html_ae6ad8e87b28adc8798a538d35a6f3e66"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">zap::out</a></div><div class="ttdeci">Stream &amp; out()</div><div class="ttdef"><b>Definition</b> <a href="../../da/d5f/stream_8cpp_source.html#l00110">stream.cpp:110</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a0b1291eded63143ac04709711274785a">zir::TypeKind::UInt</a></div><div class="ttdeci">@ UInt</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00020">type.hpp:20</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a></div><div class="ttdeci">@ Float32</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00022">type.hpp:22</a></div></div>
@@ -332,9 +328,9 @@ Variables</h2></td></tr>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a></div><div class="ttdeci">@ NullPtr</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00027">type.hpp:27</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959afbde23b11d7e59af7828e81144c8b487">zir::TypeKind::Int64</a></div><div class="ttdeci">@ Int64</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00014">type.hpp:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">abiTypeKey()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00030">zir::Array</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00025">zir::Char</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00021">zir::Float</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00022">zir::Float32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00023">zir::Float64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00033">zir::FunctionPointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::Int</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00012">zir::Int16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00013">zir::Int32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00014">zir::Int64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00011">zir::Int8</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::NullPtr</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00020">zir::UInt</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00016">zir::UInt16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00017">zir::UInt32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::UInt64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00015">zir::UInt8</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Void</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00019">abiTypeKey()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00030">zir::Array</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00025">zir::Char</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00021">zir::Float</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00022">zir::Float32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00023">zir::Float64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00033">zir::FunctionPointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::Int</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00012">zir::Int16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00013">zir::Int32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00014">zir::Int64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00011">zir::Int8</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::NullPtr</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">sanitizeTypeName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00020">zir::UInt</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00016">zir::UInt16</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00017">zir::UInt32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00018">zir::UInt64</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00015">zir::UInt8</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Void</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">abiTypeKey()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00619">sema::Binder::functionSignatureKey()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00019">abiTypeKey()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00593">sema::Binder::functionSignatureKey()</a>.</p>
 
 </div>
 </div>
@@ -353,25 +349,25 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">342</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  342</span>                                                 {</div>
-<div class="line"><span class="lineno">  343</span>  <span class="keywordflow">if</span> (!block)</div>
-<div class="line"><span class="lineno">  344</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  345</span>  <span class="keywordflow">if</span> (block-&gt;<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>)</div>
-<div class="line"><span class="lineno">  346</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  347</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;s : block-&gt;<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>) {</div>
-<div class="line"><span class="lineno">  348</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#ad3baf5fefd3d5b1f085cd0a0d7888a89">stmtAlwaysReturns</a>(s.get()))</div>
-<div class="line"><span class="lineno">  349</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  350</span>  }</div>
-<div class="line"><span class="lineno">  351</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  352</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00316">316</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  316</span>                                                 {</div>
+<div class="line"><span class="lineno">  317</span>  <span class="keywordflow">if</span> (!block)</div>
+<div class="line"><span class="lineno">  318</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  319</span>  <span class="keywordflow">if</span> (block-&gt;<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>)</div>
+<div class="line"><span class="lineno">  320</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  321</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;s : block-&gt;<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>) {</div>
+<div class="line"><span class="lineno">  322</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#ad3baf5fefd3d5b1f085cd0a0d7888a89">stmtAlwaysReturns</a>(s.get()))</div>
+<div class="line"><span class="lineno">  323</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  324</span>  }</div>
+<div class="line"><span class="lineno">  325</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  326</span>}</div>
 <div class="ttc" id="aclasssema_1_1BoundBlock_html_ad688e6dc9eab4af2d0f2f88ddbefdfef"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">sema::BoundBlock::result</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; result</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">bound_nodes.hpp:130</a></div></div>
 <div class="ttc" id="aclasssema_1_1BoundBlock_html_ae629e49ebd3264228a222cc12fbd2de0"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">sema::BoundBlock::statements</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundStatement &gt; &gt; statements</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">bound_nodes.hpp:129</a></div></div>
-<div class="ttc" id="anamespacesema_html_ad3baf5fefd3d5b1f085cd0a0d7888a89"><div class="ttname"><a href="#ad3baf5fefd3d5b1f085cd0a0d7888a89">sema::stmtAlwaysReturns</a></div><div class="ttdeci">bool stmtAlwaysReturns(const BoundStatement *stmt)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00354">binder.cpp:354</a></div></div>
+<div class="ttc" id="anamespacesema_html_ad3baf5fefd3d5b1f085cd0a0d7888a89"><div class="ttname"><a href="#ad3baf5fefd3d5b1f085cd0a0d7888a89">sema::stmtAlwaysReturns</a></div><div class="ttdeci">bool stmtAlwaysReturns(const BoundStatement *stmt)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00328">binder.cpp:328</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">sema::BoundBlock::result</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">sema::BoundBlock::statements</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">stmtAlwaysReturns()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">sema::BoundBlock::result</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">sema::BoundBlock::statements</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00328">stmtAlwaysReturns()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">stmtAlwaysReturns()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00940">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00328">stmtAlwaysReturns()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, and <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00940">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -390,21 +386,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00308">308</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  308</span>                                                      {</div>
-<div class="line"><span class="lineno">  309</span>  <span class="keywordflow">if</span> (!symbol) {</div>
-<div class="line"><span class="lineno">  310</span>    <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">  311</span>  }</div>
-<div class="line"><span class="lineno">  312</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> function = std::dynamic_pointer_cast&lt;FunctionSymbol&gt;(symbol)) {</div>
-<div class="line"><span class="lineno">  313</span>    <span class="keywordflow">return</span> {function};</div>
-<div class="line"><span class="lineno">  314</span>  }</div>
-<div class="line"><span class="lineno">  315</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> set = std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(symbol)) {</div>
-<div class="line"><span class="lineno">  316</span>    <span class="keywordflow">return</span> set-&gt;overloads;</div>
-<div class="line"><span class="lineno">  317</span>  }</div>
-<div class="line"><span class="lineno">  318</span>  <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">  319</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00282">282</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  282</span>                                                      {</div>
+<div class="line"><span class="lineno">  283</span>  <span class="keywordflow">if</span> (!symbol) {</div>
+<div class="line"><span class="lineno">  284</span>    <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  285</span>  }</div>
+<div class="line"><span class="lineno">  286</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> function = std::dynamic_pointer_cast&lt;FunctionSymbol&gt;(symbol)) {</div>
+<div class="line"><span class="lineno">  287</span>    <span class="keywordflow">return</span> {function};</div>
+<div class="line"><span class="lineno">  288</span>  }</div>
+<div class="line"><span class="lineno">  289</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> set = std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(symbol)) {</div>
+<div class="line"><span class="lineno">  290</span>    <span class="keywordflow">return</span> set-&gt;overloads;</div>
+<div class="line"><span class="lineno">  291</span>  }</div>
+<div class="line"><span class="lineno">  292</span>  <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">  293</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00701">sema::Binder::findFunctionBySignature()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00762">sema::Binder::findOverriddenVtableSlot()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l01831">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00675">sema::Binder::findFunctionBySignature()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00736">sema::Binder::findOverriddenVtableSlot()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l01831">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -423,39 +419,39 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00390">390</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  390</span>                                                        {</div>
-<div class="line"><span class="lineno">  391</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a> &amp;&amp; block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.empty()) {</div>
-<div class="line"><span class="lineno">  392</span>    <span class="keywordflow">return</span> block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>-&gt;clone();</div>
-<div class="line"><span class="lineno">  393</span>  }</div>
-<div class="line"><span class="lineno">  394</span> </div>
-<div class="line"><span class="lineno">  395</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>) {</div>
-<div class="line"><span class="lineno">  396</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  397</span>  }</div>
-<div class="line"><span class="lineno">  398</span> </div>
-<div class="line"><span class="lineno">  399</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.empty()) {</div>
-<div class="line"><span class="lineno">  400</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  401</span>  }</div>
-<div class="line"><span class="lineno">  402</span> </div>
-<div class="line"><span class="lineno">  403</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *tail = block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.back().get();</div>
-<div class="line"><span class="lineno">  404</span> </div>
-<div class="line"><span class="lineno">  405</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *exprStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../de/d88/classsema_1_1BoundExpressionStatement.html">BoundExpressionStatement</a> *<span class="keyword">&gt;</span>(tail)) {</div>
-<div class="line"><span class="lineno">  406</span>    <span class="keywordflow">return</span> exprStmt-&gt;expression ? exprStmt-&gt;expression-&gt;clone() : <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  407</span>  }</div>
-<div class="line"><span class="lineno">  408</span> </div>
-<div class="line"><span class="lineno">  409</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *ifStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> *<span class="keyword">&gt;</span>(tail)) {</div>
-<div class="line"><span class="lineno">  410</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ab834aafd43a3b57c67955ee465f01441">deriveValueExpressionFromIf</a>(*ifStmt);</div>
-<div class="line"><span class="lineno">  411</span>  }</div>
-<div class="line"><span class="lineno">  412</span> </div>
-<div class="line"><span class="lineno">  413</span>  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  414</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00364">364</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  364</span>                                                        {</div>
+<div class="line"><span class="lineno">  365</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a> &amp;&amp; block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.empty()) {</div>
+<div class="line"><span class="lineno">  366</span>    <span class="keywordflow">return</span> block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>-&gt;clone();</div>
+<div class="line"><span class="lineno">  367</span>  }</div>
+<div class="line"><span class="lineno">  368</span> </div>
+<div class="line"><span class="lineno">  369</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ad688e6dc9eab4af2d0f2f88ddbefdfef">result</a>) {</div>
+<div class="line"><span class="lineno">  370</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  371</span>  }</div>
+<div class="line"><span class="lineno">  372</span> </div>
+<div class="line"><span class="lineno">  373</span>  <span class="keywordflow">if</span> (block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.empty()) {</div>
+<div class="line"><span class="lineno">  374</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  375</span>  }</div>
+<div class="line"><span class="lineno">  376</span> </div>
+<div class="line"><span class="lineno">  377</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *tail = block.<a class="code hl_variable" href="../../d1/d45/classsema_1_1BoundBlock.html#ae629e49ebd3264228a222cc12fbd2de0">statements</a>.back().get();</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *exprStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../de/d88/classsema_1_1BoundExpressionStatement.html">BoundExpressionStatement</a> *<span class="keyword">&gt;</span>(tail)) {</div>
+<div class="line"><span class="lineno">  380</span>    <span class="keywordflow">return</span> exprStmt-&gt;expression ? exprStmt-&gt;expression-&gt;clone() : <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  381</span>  }</div>
+<div class="line"><span class="lineno">  382</span> </div>
+<div class="line"><span class="lineno">  383</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *ifStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> *<span class="keyword">&gt;</span>(tail)) {</div>
+<div class="line"><span class="lineno">  384</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ab834aafd43a3b57c67955ee465f01441">deriveValueExpressionFromIf</a>(*ifStmt);</div>
+<div class="line"><span class="lineno">  385</span>  }</div>
+<div class="line"><span class="lineno">  386</span> </div>
+<div class="line"><span class="lineno">  387</span>  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  388</span>}</div>
 <div class="ttc" id="aclasssema_1_1BoundExpressionStatement_html"><div class="ttname"><a href="../../de/d88/classsema_1_1BoundExpressionStatement.html">sema::BoundExpressionStatement</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00115">bound_nodes.hpp:115</a></div></div>
 <div class="ttc" id="aclasssema_1_1BoundIfStatement_html"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html">sema::BoundIfStatement</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00524">bound_nodes.hpp:524</a></div></div>
-<div class="ttc" id="anamespacesema_html_ab834aafd43a3b57c67955ee465f01441"><div class="ttname"><a href="#ab834aafd43a3b57c67955ee465f01441">sema::deriveValueExpressionFromIf</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; deriveValueExpressionFromIf(const BoundIfStatement &amp;stmt)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00368">binder.cpp:368</a></div></div>
+<div class="ttc" id="anamespacesema_html_ab834aafd43a3b57c67955ee465f01441"><div class="ttname"><a href="#ab834aafd43a3b57c67955ee465f01441">sema::deriveValueExpressionFromIf</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; deriveValueExpressionFromIf(const BoundIfStatement &amp;stmt)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00342">binder.cpp:342</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00368">deriveValueExpressionFromIf()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">sema::BoundBlock::result</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">sema::BoundBlock::statements</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">deriveValueExpressionFromIf()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00130">sema::BoundBlock::result</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00129">sema::BoundBlock::statements</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00368">deriveValueExpressionFromIf()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">deriveValueExpressionFromIf()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -474,35 +470,35 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00368">368</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  368</span>                                                          {</div>
-<div class="line"><span class="lineno">  369</span>  <span class="keywordflow">if</span> (!stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a> || !stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>) {</div>
-<div class="line"><span class="lineno">  370</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  371</span>  }</div>
-<div class="line"><span class="lineno">  372</span> </div>
-<div class="line"><span class="lineno">  373</span>  <span class="keyword">auto</span> thenExpr = <a class="code hl_function" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a>(*stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>);</div>
-<div class="line"><span class="lineno">  374</span>  <span class="keyword">auto</span> elseExpr = <a class="code hl_function" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a>(*stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>);</div>
-<div class="line"><span class="lineno">  375</span>  <span class="keywordflow">if</span> (!thenExpr || !elseExpr || !thenExpr-&gt;type || !elseExpr-&gt;type) {</div>
-<div class="line"><span class="lineno">  376</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  377</span>  }</div>
-<div class="line"><span class="lineno">  378</span> </div>
-<div class="line"><span class="lineno">  379</span>  <span class="keywordflow">if</span> (thenExpr-&gt;type-&gt;toString() != elseExpr-&gt;type-&gt;toString()) {</div>
-<div class="line"><span class="lineno">  380</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  381</span>  }</div>
-<div class="line"><span class="lineno">  382</span>  <span class="keyword">auto</span> resultType = thenExpr-&gt;type;</div>
-<div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  384</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundTernaryExpression&gt;(</div>
-<div class="line"><span class="lineno">  385</span>      stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">condition</a>-&gt;clone(), std::move(thenExpr), std::move(elseExpr),</div>
-<div class="line"><span class="lineno">  386</span>      resultType);</div>
-<div class="line"><span class="lineno">  387</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">342</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  342</span>                                                          {</div>
+<div class="line"><span class="lineno">  343</span>  <span class="keywordflow">if</span> (!stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a> || !stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>) {</div>
+<div class="line"><span class="lineno">  344</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  345</span>  }</div>
+<div class="line"><span class="lineno">  346</span> </div>
+<div class="line"><span class="lineno">  347</span>  <span class="keyword">auto</span> thenExpr = <a class="code hl_function" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a>(*stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">thenBody</a>);</div>
+<div class="line"><span class="lineno">  348</span>  <span class="keyword">auto</span> elseExpr = <a class="code hl_function" href="#ac4149da11ebd06d1de01c84ed4c76497">deriveValueExpressionFromBlock</a>(*stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">elseBody</a>);</div>
+<div class="line"><span class="lineno">  349</span>  <span class="keywordflow">if</span> (!thenExpr || !elseExpr || !thenExpr-&gt;type || !elseExpr-&gt;type) {</div>
+<div class="line"><span class="lineno">  350</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  351</span>  }</div>
+<div class="line"><span class="lineno">  352</span> </div>
+<div class="line"><span class="lineno">  353</span>  <span class="keywordflow">if</span> (thenExpr-&gt;type-&gt;toString() != elseExpr-&gt;type-&gt;toString()) {</div>
+<div class="line"><span class="lineno">  354</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  355</span>  }</div>
+<div class="line"><span class="lineno">  356</span>  <span class="keyword">auto</span> resultType = thenExpr-&gt;type;</div>
+<div class="line"><span class="lineno">  357</span> </div>
+<div class="line"><span class="lineno">  358</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundTernaryExpression&gt;(</div>
+<div class="line"><span class="lineno">  359</span>      stmt.<a class="code hl_variable" href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">condition</a>-&gt;clone(), std::move(thenExpr), std::move(elseExpr),</div>
+<div class="line"><span class="lineno">  360</span>      resultType);</div>
+<div class="line"><span class="lineno">  361</span>}</div>
 <div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a540703b417077859f149be894f93b024"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a540703b417077859f149be894f93b024">sema::BoundIfStatement::condition</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; condition</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00526">bound_nodes.hpp:526</a></div></div>
 <div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a87c9298a122721e367dde855fed4d90e"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a87c9298a122721e367dde855fed4d90e">sema::BoundIfStatement::thenBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; thenBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00527">bound_nodes.hpp:527</a></div></div>
 <div class="ttc" id="aclasssema_1_1BoundIfStatement_html_a8b8da77476dfddba9b5821b60c951419"><div class="ttname"><a href="../../d0/dec/classsema_1_1BoundIfStatement.html#a8b8da77476dfddba9b5821b60c951419">sema::BoundIfStatement::elseBody</a></div><div class="ttdeci">std::unique_ptr&lt; BoundBlock &gt; elseBody</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00528">bound_nodes.hpp:528</a></div></div>
-<div class="ttc" id="anamespacesema_html_ac4149da11ebd06d1de01c84ed4c76497"><div class="ttname"><a href="#ac4149da11ebd06d1de01c84ed4c76497">sema::deriveValueExpressionFromBlock</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; deriveValueExpressionFromBlock(const BoundBlock &amp;block)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00390">binder.cpp:390</a></div></div>
+<div class="ttc" id="anamespacesema_html_ac4149da11ebd06d1de01c84ed4c76497"><div class="ttname"><a href="#ac4149da11ebd06d1de01c84ed4c76497">sema::deriveValueExpressionFromBlock</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; deriveValueExpressionFromBlock(const BoundBlock &amp;block)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00364">binder.cpp:364</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00526">sema::BoundIfStatement::condition</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00390">deriveValueExpressionFromBlock()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00528">sema::BoundIfStatement::elseBody</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00527">sema::BoundIfStatement::thenBody</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00526">sema::BoundIfStatement::condition</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00364">deriveValueExpressionFromBlock()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00528">sema::BoundIfStatement::elseBody</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00527">sema::BoundIfStatement::thenBody</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00390">deriveValueExpressionFromBlock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00364">deriveValueExpressionFromBlock()</a>.</p>
 
 </div>
 </div>
@@ -525,30 +521,30 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00289">289</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  290</span>                                                       {</div>
-<div class="line"><span class="lineno">  291</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr)) {</div>
-<div class="line"><span class="lineno">  292</span>    parts.push_back(id-&gt;value_);</div>
-<div class="line"><span class="lineno">  293</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  294</span>  }</div>
-<div class="line"><span class="lineno">  295</span> </div>
-<div class="line"><span class="lineno">  296</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr)) {</div>
-<div class="line"><span class="lineno">  297</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#ad6d422293d0d470ef76a5dc8bdd57bec">extractQualifiedPath</a>(member-&gt;left_.get(), parts)) {</div>
-<div class="line"><span class="lineno">  298</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  299</span>    }</div>
-<div class="line"><span class="lineno">  300</span>    parts.push_back(member-&gt;member_);</div>
-<div class="line"><span class="lineno">  301</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  302</span>  }</div>
-<div class="line"><span class="lineno">  303</span> </div>
-<div class="line"><span class="lineno">  304</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  305</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00263">263</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  264</span>                                                       {</div>
+<div class="line"><span class="lineno">  265</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keywordtype">id</span> = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d3/d4c/classConstId.html">ConstId</a> *<span class="keyword">&gt;</span>(expr)) {</div>
+<div class="line"><span class="lineno">  266</span>    parts.push_back(id-&gt;value_);</div>
+<div class="line"><span class="lineno">  267</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  268</span>  }</div>
+<div class="line"><span class="lineno">  269</span> </div>
+<div class="line"><span class="lineno">  270</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> member = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a> *<span class="keyword">&gt;</span>(expr)) {</div>
+<div class="line"><span class="lineno">  271</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#ad6d422293d0d470ef76a5dc8bdd57bec">extractQualifiedPath</a>(member-&gt;left_.get(), parts)) {</div>
+<div class="line"><span class="lineno">  272</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  273</span>    }</div>
+<div class="line"><span class="lineno">  274</span>    parts.push_back(member-&gt;member_);</div>
+<div class="line"><span class="lineno">  275</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  276</span>  }</div>
+<div class="line"><span class="lineno">  277</span> </div>
+<div class="line"><span class="lineno">  278</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  279</span>}</div>
 <div class="ttc" id="aclassConstId_html"><div class="ttname"><a href="../../d3/d4c/classConstId.html">ConstId</a></div><div class="ttdef"><b>Definition</b> <a href="../../d5/df9/const__id_8hpp_source.html#l00004">const_id.hpp:4</a></div></div>
 <div class="ttc" id="aclassMemberAccessNode_html"><div class="ttname"><a href="../../d9/dff/classMemberAccessNode.html">MemberAccessNode</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d5f/member__access_8hpp_source.html#l00007">member_access.hpp:7</a></div></div>
-<div class="ttc" id="anamespacesema_html_ad6d422293d0d470ef76a5dc8bdd57bec"><div class="ttname"><a href="#ad6d422293d0d470ef76a5dc8bdd57bec">sema::extractQualifiedPath</a></div><div class="ttdeci">bool extractQualifiedPath(const ExpressionNode *expr, std::vector&lt; std::string &gt; &amp;parts)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00289">binder.cpp:289</a></div></div>
+<div class="ttc" id="anamespacesema_html_ad6d422293d0d470ef76a5dc8bdd57bec"><div class="ttname"><a href="#ad6d422293d0d470ef76a5dc8bdd57bec">sema::extractQualifiedPath</a></div><div class="ttdeci">bool extractQualifiedPath(const ExpressionNode *expr, std::vector&lt; std::string &gt; &amp;parts)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00263">binder.cpp:263</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00289">extractQualifiedPath()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00263">extractQualifiedPath()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00289">extractQualifiedPath()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00263">extractQualifiedPath()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -567,19 +563,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">127</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  127</span>                                                      {</div>
-<div class="line"><span class="lineno">  128</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6e5a160487786fb691ad516d91eae2f3">isFailableType</a>(type)) {</div>
-<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  130</span>  }</div>
-<div class="line"><span class="lineno">  131</span>  <span class="keyword">auto</span> record = std::static_pointer_cast&lt;zir::RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">  132</span>  <span class="keywordflow">return</span> record-&gt;getFields()[2].type;</div>
-<div class="line"><span class="lineno">  133</span>}</div>
-<div class="ttc" id="anamespacesema_html_a6e5a160487786fb691ad516d91eae2f3"><div class="ttname"><a href="#a6e5a160487786fb691ad516d91eae2f3">sema::isFailableType</a></div><div class="ttdeci">bool isFailableType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00101">binder.cpp:101</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00113">113</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>                                                      {</div>
+<div class="line"><span class="lineno">  114</span>  <span class="keyword">auto</span> layout = <a class="code hl_function" href="../../df/d35/namespacezir.html#ac3fcfd7a3dc3e157f2efa1ceadb6d152">zir::getFailableTypeLayout</a>(type);</div>
+<div class="line"><span class="lineno">  115</span>  <span class="keywordflow">return</span> layout ? layout-&gt;errorType : <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  116</span>}</div>
+<div class="ttc" id="anamespacezir_html_ac3fcfd7a3dc3e157f2efa1ceadb6d152"><div class="ttname"><a href="../../df/d35/namespacezir.html#ac3fcfd7a3dc3e157f2efa1ceadb6d152">zir::getFailableTypeLayout</a></div><div class="ttdeci">std::optional&lt; FailableTypeLayout &gt; getFailableTypeLayout(const std::shared_ptr&lt; Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../da/dd1/failable__type_8cpp_source.html#l00044">failable_type.cpp:44</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00044">zir::getFailableTypeLayout()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00225">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -598,18 +591,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">118</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>                                                      {</div>
-<div class="line"><span class="lineno">  119</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6e5a160487786fb691ad516d91eae2f3">isFailableType</a>(type)) {</div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  121</span>  }</div>
-<div class="line"><span class="lineno">  122</span>  <span class="keyword">auto</span> record = std::static_pointer_cast&lt;zir::RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">  123</span>  <span class="keywordflow">return</span> record-&gt;getFields()[1].type;</div>
-<div class="line"><span class="lineno">  124</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00107">107</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                                      {</div>
+<div class="line"><span class="lineno">  108</span>  <span class="keyword">auto</span> layout = <a class="code hl_function" href="../../df/d35/namespacezir.html#ac3fcfd7a3dc3e157f2efa1ceadb6d152">zir::getFailableTypeLayout</a>(type);</div>
+<div class="line"><span class="lineno">  109</span>  <span class="keywordflow">return</span> layout ? layout-&gt;valueType : <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  110</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00044">zir::getFailableTypeLayout()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00239">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00225">makeFailableValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -628,27 +618,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">101</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>                                                        {</div>
-<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">if</span> (!type || type-&gt;getKind() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a>) {</div>
-<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  104</span>  }</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>  <span class="keyword">auto</span> record = std::static_pointer_cast&lt;zir::RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">  107</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;name = record-&gt;getName();</div>
-<div class="line"><span class="lineno">  108</span>  <span class="keywordflow">if</span> (name.rfind(<a class="code hl_variable" href="#ae8c3742fd851ade3da413f9586adafc7">kFailablePrefix</a>, 0) != 0) {</div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  110</span>  }</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;fields = record-&gt;getFields();</div>
-<div class="line"><span class="lineno">  113</span>  <span class="keywordflow">return</span> fields.size() == 3 &amp;&amp; fields[0].name == <span class="stringliteral">&quot;ok&quot;</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  114</span>         fields[1].name == <span class="stringliteral">&quot;value&quot;</span> &amp;&amp; fields[2].name == <span class="stringliteral">&quot;error&quot;</span>;</div>
-<div class="line"><span class="lineno">  115</span>}</div>
-<div class="ttc" id="anamespacesema_html_ae8c3742fd851ade3da413f9586adafc7"><div class="ttname"><a href="#ae8c3742fd851ade3da413f9586adafc7">sema::kFailablePrefix</a></div><div class="ttdeci">constexpr const char * kFailablePrefix</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00020">binder.hpp:20</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00102">102</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>                                                        {</div>
+<div class="line"><span class="lineno">  103</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../df/d35/namespacezir.html#ac3fcfd7a3dc3e157f2efa1ceadb6d152">zir::getFailableTypeLayout</a>(type).has_value();</div>
+<div class="line"><span class="lineno">  104</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00020">kFailablePrefix</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>.</p>
+<p class="reference">References <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00044">zir::getFailableTypeLayout()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00577">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00188">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00541">sema::Binder::visit()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00501">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -667,15 +644,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00097">97</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   97</span>                                                      {</div>
-<div class="line"><span class="lineno">   98</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a>(type);</div>
-<div class="line"><span class="lineno">   99</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>                                                      {</div>
+<div class="line"><span class="lineno">   99</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a>(type);</div>
+<div class="line"><span class="lineno">  100</span>}</div>
 <div class="ttc" id="anamespacezap_1_1text_html_a80463f2bda983207e79303b56cdb4a1c"><div class="ttname"><a href="../../dc/db9/namespacezap_1_1text.html#a80463f2bda983207e79303b56cdb4a1c">zap::text::isStringType</a></div><div class="ttdeci">bool isStringType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../df/df8/string__type__utils_8hpp_source.html#l00035">string_type_utils.hpp:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../df/df8/string__type__utils_8hpp_source.html#l00035">zap::text::isStringType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00205">sema::Binder::buildBinaryExpression()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01157">sema::Binder::conversionCost()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01045">sema::Binder::foldConstantBinary()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01755">sema::Binder::getCVariadicArgumentType()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00708">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00447">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00205">sema::Binder::buildBinaryExpression()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01622">sema::Binder::canConvert()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01157">sema::Binder::conversionCost()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l01019">sema::Binder::foldConstantBinary()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01755">sema::Binder::getCVariadicArgumentType()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00708">sema::Binder::visit()</a>, <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00447">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00769">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -694,13 +671,13 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00202">202</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  202</span>                                                            {</div>
-<div class="line"><span class="lineno">  203</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
-<div class="line"><span class="lineno">  204</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())</div>
-<div class="line"><span class="lineno">  205</span>                 -&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>()</div>
-<div class="line"><span class="lineno">  206</span>                 .rfind(<span class="stringliteral">&quot;__zap_varargs_&quot;</span>, 0) == 0;</div>
-<div class="line"><span class="lineno">  207</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00176">176</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>                                                            {</div>
+<div class="line"><span class="lineno">  177</span>  <span class="keywordflow">return</span> type &amp;&amp; type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a> &amp;&amp;</div>
+<div class="line"><span class="lineno">  178</span>         <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a> *<span class="keyword">&gt;</span>(type.get())</div>
+<div class="line"><span class="lineno">  179</span>                 -&gt;<a class="code hl_function" href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">getName</a>()</div>
+<div class="line"><span class="lineno">  180</span>                 .rfind(<span class="stringliteral">&quot;__zap_varargs_&quot;</span>, 0) == 0;</div>
+<div class="line"><span class="lineno">  181</span>}</div>
 <div class="ttc" id="aclasszir_1_1RecordType_html"><div class="ttname"><a href="../../da/de1/classzir_1_1RecordType.html">zir::RecordType</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00126">type.hpp:126</a></div></div>
 <div class="ttc" id="aclasszir_1_1RecordType_html_a0bbbb00719716290a60850a809054510"><div class="ttname"><a href="../../da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510">zir::RecordType::getName</a></div><div class="ttdeci">const std::string &amp; getName() const</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00162">type.hpp:162</a></div></div>
 </div><!-- fragment -->
@@ -725,53 +702,54 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">210</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  210</span>                                                         {</div>
-<div class="line"><span class="lineno">  211</span>  <span class="keywordflow">if</span> (!type) {</div>
-<div class="line"><span class="lineno">  212</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
-<div class="line"><span class="lineno">  213</span>        <span class="stringliteral">&quot;0&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>));</div>
-<div class="line"><span class="lineno">  214</span>  }</div>
-<div class="line"><span class="lineno">  215</span> </div>
-<div class="line"><span class="lineno">  216</span>  <span class="keywordflow">switch</span> (type-&gt;getKind()) {</div>
-<div class="line"><span class="lineno">  217</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>:</div>
-<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
-<div class="line"><span class="lineno">  219</span>        <span class="stringliteral">&quot;false&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>));</div>
-<div class="line"><span class="lineno">  220</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">zir::TypeKind::Float</a>:</div>
-<div class="line"><span class="lineno">  221</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a>:</div>
-<div class="line"><span class="lineno">  222</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">zir::TypeKind::Float64</a>:</div>
-<div class="line"><span class="lineno">  223</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0.0&quot;</span>, type);</div>
-<div class="line"><span class="lineno">  224</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a>:</div>
-<div class="line"><span class="lineno">  225</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>:</div>
-<div class="line"><span class="lineno">  226</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>:</div>
-<div class="line"><span class="lineno">  227</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
-<div class="line"><span class="lineno">  228</span>        <span class="stringliteral">&quot;0&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>));</div>
-<div class="line"><span class="lineno">  229</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a>:</div>
-<div class="line"><span class="lineno">  230</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a6e5a160487786fb691ad516d91eae2f3">isFailableType</a>(type)) {</div>
-<div class="line"><span class="lineno">  231</span>      <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
-<div class="line"><span class="lineno">  232</span>      <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">failableValueType</a>(type);</div>
-<div class="line"><span class="lineno">  233</span>      <span class="keyword">auto</span> errorType = <a class="code hl_function" href="#a9b9ac55666aa5e79ceeaf47974d37750">failableErrorType</a>(type);</div>
-<div class="line"><span class="lineno">  234</span>      std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt;</div>
-<div class="line"><span class="lineno">  235</span>          fields;</div>
-<div class="line"><span class="lineno">  236</span>      fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;false&quot;</span>, okType)});</div>
-<div class="line"><span class="lineno">  237</span>      fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(valueType)});</div>
-<div class="line"><span class="lineno">  238</span>      fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(errorType)});</div>
-<div class="line"><span class="lineno">  239</span>      <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), type);</div>
-<div class="line"><span class="lineno">  240</span>    }</div>
-<div class="line"><span class="lineno">  241</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
-<div class="line"><span class="lineno">  242</span>  <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  243</span>    <span class="keywordflow">if</span> (type-&gt;isInteger() || type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a>) {</div>
-<div class="line"><span class="lineno">  244</span>      <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
-<div class="line"><span class="lineno">  245</span>    }</div>
-<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
-<div class="line"><span class="lineno">  247</span>  }</div>
-<div class="line"><span class="lineno">  248</span>}</div>
-<div class="ttc" id="anamespacesema_html_a3a2f25914014210aab9260b41491c847"><div class="ttname"><a href="#a3a2f25914014210aab9260b41491c847">sema::failableValueType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; failableValueType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00118">binder.cpp:118</a></div></div>
-<div class="ttc" id="anamespacesema_html_a9b9ac55666aa5e79ceeaf47974d37750"><div class="ttname"><a href="#a9b9ac55666aa5e79ceeaf47974d37750">sema::failableErrorType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; failableErrorType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00127">binder.cpp:127</a></div></div>
-<div class="ttc" id="anamespacesema_html_ac5487dc0b877139c2d8e8aeac0b991ca"><div class="ttname"><a href="#ac5487dc0b877139c2d8e8aeac0b991ca">sema::makeDefaultValueExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; makeDefaultValueExpr(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00210">binder.cpp:210</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">184</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>                                                         {</div>
+<div class="line"><span class="lineno">  185</span>  <span class="keywordflow">if</span> (!type) {</div>
+<div class="line"><span class="lineno">  186</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
+<div class="line"><span class="lineno">  187</span>        <span class="stringliteral">&quot;0&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>));</div>
+<div class="line"><span class="lineno">  188</span>  }</div>
+<div class="line"><span class="lineno">  189</span> </div>
+<div class="line"><span class="lineno">  190</span>  <span class="keywordflow">switch</span> (type-&gt;getKind()) {</div>
+<div class="line"><span class="lineno">  191</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>:</div>
+<div class="line"><span class="lineno">  192</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
+<div class="line"><span class="lineno">  193</span>        <span class="stringliteral">&quot;false&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>));</div>
+<div class="line"><span class="lineno">  194</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a22ae0e2b89e5e3d477f988cc36d3272b">zir::TypeKind::Float</a>:</div>
+<div class="line"><span class="lineno">  195</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a166495adc0d0f53bee6baecc577f5204">zir::TypeKind::Float32</a>:</div>
+<div class="line"><span class="lineno">  196</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad2b556d8a8f5c8ac323f51a4b82e79a0">zir::TypeKind::Float64</a>:</div>
+<div class="line"><span class="lineno">  197</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0.0&quot;</span>, type);</div>
+<div class="line"><span class="lineno">  198</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a>:</div>
+<div class="line"><span class="lineno">  199</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>:</div>
+<div class="line"><span class="lineno">  200</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>:</div>
+<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(</div>
+<div class="line"><span class="lineno">  202</span>        <span class="stringliteral">&quot;0&quot;</span>, std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959af359467a48f58ac449aed50254aa7f38">zir::TypeKind::NullPtr</a>));</div>
+<div class="line"><span class="lineno">  203</span>  <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a>:</div>
+<div class="line"><span class="lineno">  204</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a6e5a160487786fb691ad516d91eae2f3">sema::isFailableType</a>(type)) {</div>
+<div class="line"><span class="lineno">  205</span>      <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
+<div class="line"><span class="lineno">  206</span>      <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">sema::failableValueType</a>(type);</div>
+<div class="line"><span class="lineno">  207</span>      <span class="keyword">auto</span> errorType = <a class="code hl_function" href="#a9b9ac55666aa5e79ceeaf47974d37750">sema::failableErrorType</a>(type);</div>
+<div class="line"><span class="lineno">  208</span>      std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt;</div>
+<div class="line"><span class="lineno">  209</span>          fields;</div>
+<div class="line"><span class="lineno">  210</span>      fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;false&quot;</span>, okType)});</div>
+<div class="line"><span class="lineno">  211</span>      fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(valueType)});</div>
+<div class="line"><span class="lineno">  212</span>      fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(errorType)});</div>
+<div class="line"><span class="lineno">  213</span>      <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), type);</div>
+<div class="line"><span class="lineno">  214</span>    }</div>
+<div class="line"><span class="lineno">  215</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
+<div class="line"><span class="lineno">  216</span>  <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  217</span>    <span class="keywordflow">if</span> (type-&gt;isInteger() || type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a>) {</div>
+<div class="line"><span class="lineno">  218</span>      <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
+<div class="line"><span class="lineno">  219</span>    }</div>
+<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">return</span> std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;0&quot;</span>, type);</div>
+<div class="line"><span class="lineno">  221</span>  }</div>
+<div class="line"><span class="lineno">  222</span>}</div>
+<div class="ttc" id="anamespacesema_html_a3a2f25914014210aab9260b41491c847"><div class="ttname"><a href="#a3a2f25914014210aab9260b41491c847">sema::failableValueType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; failableValueType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00107">binder.cpp:107</a></div></div>
+<div class="ttc" id="anamespacesema_html_a6e5a160487786fb691ad516d91eae2f3"><div class="ttname"><a href="#a6e5a160487786fb691ad516d91eae2f3">sema::isFailableType</a></div><div class="ttdeci">bool isFailableType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00102">binder.cpp:102</a></div></div>
+<div class="ttc" id="anamespacesema_html_a9b9ac55666aa5e79ceeaf47974d37750"><div class="ttname"><a href="#a9b9ac55666aa5e79ceeaf47974d37750">sema::failableErrorType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; failableErrorType(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00113">binder.cpp:113</a></div></div>
+<div class="ttc" id="anamespacesema_html_ac5487dc0b877139c2d8e8aeac0b991ca"><div class="ttname"><a href="#ac5487dc0b877139c2d8e8aeac0b991ca">sema::makeDefaultValueExpr</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; makeDefaultValueExpr(const std::shared_ptr&lt; zir::Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00184">binder.cpp:184</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00021">zir::Float</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00022">zir::Float32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00023">zir::Float64</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::NullPtr</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Void</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00029">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00031">zir::Enum</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00113">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00107">failableValueType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00021">zir::Float</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00022">zir::Float32</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00023">zir::Float64</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00102">isFailableType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00027">zir::NullPtr</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00026">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00028">zir::Record</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00010">zir::Void</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">makeFailableValueExpr()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l02041">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00239">makeFailableErrorExpr()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00225">makeFailableValueExpr()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l02041">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -794,19 +772,19 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00265">265</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  266</span>                                                                  {</div>
-<div class="line"><span class="lineno">  267</span>  <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
-<div class="line"><span class="lineno">  268</span>  <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">failableValueType</a>(failableType);</div>
-<div class="line"><span class="lineno">  269</span> </div>
-<div class="line"><span class="lineno">  270</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt; fields;</div>
-<div class="line"><span class="lineno">  271</span>  fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;false&quot;</span>, okType)});</div>
-<div class="line"><span class="lineno">  272</span>  fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(valueType)});</div>
-<div class="line"><span class="lineno">  273</span>  fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, std::move(errorExpr)});</div>
-<div class="line"><span class="lineno">  274</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), failableType);</div>
-<div class="line"><span class="lineno">  275</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00239">239</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  240</span>                                                                  {</div>
+<div class="line"><span class="lineno">  241</span>  <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
+<div class="line"><span class="lineno">  242</span>  <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">sema::failableValueType</a>(failableType);</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt; fields;</div>
+<div class="line"><span class="lineno">  245</span>  fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;false&quot;</span>, okType)});</div>
+<div class="line"><span class="lineno">  246</span>  fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(valueType)});</div>
+<div class="line"><span class="lineno">  247</span>  fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, std::move(errorExpr)});</div>
+<div class="line"><span class="lineno">  248</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), failableType);</div>
+<div class="line"><span class="lineno">  249</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00107">failableValueType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>.</p>
 
 </div>
 </div>
@@ -829,21 +807,13 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  137</span>                                                          {</div>
-<div class="line"><span class="lineno">  138</span>  <span class="keyword">auto</span> suffix = <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>((valueType ? valueType-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>) +</div>
-<div class="line"><span class="lineno">  139</span>                                 std::string(<span class="stringliteral">&quot;$&quot;</span>) +</div>
-<div class="line"><span class="lineno">  140</span>                                 (errorType ? errorType-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>));</div>
-<div class="line"><span class="lineno">  141</span>  <span class="keyword">auto</span> typeName = std::string(<a class="code hl_variable" href="#ae8c3742fd851ade3da413f9586adafc7">kFailablePrefix</a>) + suffix;</div>
-<div class="line"><span class="lineno">  142</span>  <span class="keyword">auto</span> type = std::make_shared&lt;zir::RecordType&gt;(typeName, typeName);</div>
-<div class="line"><span class="lineno">  143</span>  type-&gt;addField(<span class="stringliteral">&quot;ok&quot;</span>,</div>
-<div class="line"><span class="lineno">  144</span>                 std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>));</div>
-<div class="line"><span class="lineno">  145</span>  type-&gt;addField(<span class="stringliteral">&quot;value&quot;</span>, valueType);</div>
-<div class="line"><span class="lineno">  146</span>  type-&gt;addField(<span class="stringliteral">&quot;error&quot;</span>, errorType);</div>
-<div class="line"><span class="lineno">  147</span>  <span class="keywordflow">return</span> type;</div>
-<div class="line"><span class="lineno">  148</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00119">119</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  120</span>                                                          {</div>
+<div class="line"><span class="lineno">  121</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../df/d35/namespacezir.html#acbfd65ffd533ef7640436c0fcec237aa">zir::makeFailableRecordType</a>(valueType, errorType);</div>
+<div class="line"><span class="lineno">  122</span>}</div>
+<div class="ttc" id="anamespacezir_html_acbfd65ffd533ef7640436c0fcec237aa"><div class="ttname"><a href="../../df/d35/namespacezir.html#acbfd65ffd533ef7640436c0fcec237aa">zir::makeFailableRecordType</a></div><div class="ttdeci">std::shared_ptr&lt; RecordType &gt; makeFailableRecordType(const std::shared_ptr&lt; Type &gt; &amp;valueType, const std::shared_ptr&lt; Type &gt; &amp;errorType)</div><div class="ttdef"><b>Definition</b> <a href="../../da/dd1/failable__type_8cpp_source.html#l00055">failable_type.cpp:55</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00020">kFailablePrefix</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/dd1/failable__type_8cpp_source.html#l00055">zir::makeFailableRecordType()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01420">sema::Binder::mapType()</a>.</p>
 
@@ -868,20 +838,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">251</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  252</span>                                                                  {</div>
-<div class="line"><span class="lineno">  253</span>  <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
-<div class="line"><span class="lineno">  254</span>  <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">failableValueType</a>(failableType);</div>
-<div class="line"><span class="lineno">  255</span>  <span class="keyword">auto</span> errorType = <a class="code hl_function" href="#a9b9ac55666aa5e79ceeaf47974d37750">failableErrorType</a>(failableType);</div>
-<div class="line"><span class="lineno">  256</span> </div>
-<div class="line"><span class="lineno">  257</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt; fields;</div>
-<div class="line"><span class="lineno">  258</span>  fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;true&quot;</span>, okType)});</div>
-<div class="line"><span class="lineno">  259</span>  fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, std::move(valueExpr)});</div>
-<div class="line"><span class="lineno">  260</span>  fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(errorType)});</div>
-<div class="line"><span class="lineno">  261</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), failableType);</div>
-<div class="line"><span class="lineno">  262</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00225">225</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>                                                                  {</div>
+<div class="line"><span class="lineno">  227</span>  <span class="keyword">auto</span> okType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ac26f15e86e3de4c398a8273272aba034">zir::TypeKind::Bool</a>);</div>
+<div class="line"><span class="lineno">  228</span>  <span class="keyword">auto</span> valueType = <a class="code hl_function" href="#a3a2f25914014210aab9260b41491c847">sema::failableValueType</a>(failableType);</div>
+<div class="line"><span class="lineno">  229</span>  <span class="keyword">auto</span> errorType = <a class="code hl_function" href="#a9b9ac55666aa5e79ceeaf47974d37750">sema::failableErrorType</a>(failableType);</div>
+<div class="line"><span class="lineno">  230</span> </div>
+<div class="line"><span class="lineno">  231</span>  std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;BoundExpression&gt;&gt;&gt; fields;</div>
+<div class="line"><span class="lineno">  232</span>  fields.push_back({<span class="stringliteral">&quot;ok&quot;</span>, std::make_unique&lt;BoundLiteral&gt;(<span class="stringliteral">&quot;true&quot;</span>, okType)});</div>
+<div class="line"><span class="lineno">  233</span>  fields.push_back({<span class="stringliteral">&quot;value&quot;</span>, std::move(valueExpr)});</div>
+<div class="line"><span class="lineno">  234</span>  fields.push_back({<span class="stringliteral">&quot;error&quot;</span>, <a class="code hl_function" href="#ac5487dc0b877139c2d8e8aeac0b991ca">makeDefaultValueExpr</a>(errorType)});</div>
+<div class="line"><span class="lineno">  235</span>  <span class="keywordflow">return</span> std::make_unique&lt;BoundStructLiteral&gt;(std::move(fields), failableType);</div>
+<div class="line"><span class="lineno">  236</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00127">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00118">failableValueType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00210">makeDefaultValueExpr()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00024">zir::Bool</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00113">failableErrorType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00107">failableValueType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00184">makeDefaultValueExpr()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00131">sema::Binder::visit()</a>.</p>
 
@@ -902,18 +872,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00192">192</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  192</span>                                                                {</div>
-<div class="line"><span class="lineno">  193</span>  <span class="keyword">auto</span> suffix = <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(elementType-&gt;toString());</div>
-<div class="line"><span class="lineno">  194</span>  <span class="keyword">auto</span> type = std::make_shared&lt;zir::RecordType&gt;(<span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix,</div>
-<div class="line"><span class="lineno">  195</span>                                                <span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix);</div>
-<div class="line"><span class="lineno">  196</span>  type-&gt;addField(<span class="stringliteral">&quot;data&quot;</span>, std::make_shared&lt;zir::PointerType&gt;(elementType));</div>
-<div class="line"><span class="lineno">  197</span>  type-&gt;addField(<span class="stringliteral">&quot;len&quot;</span>,</div>
-<div class="line"><span class="lineno">  198</span>                 std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a>));</div>
-<div class="line"><span class="lineno">  199</span>  <span class="keywordflow">return</span> type;</div>
-<div class="line"><span class="lineno">  200</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00166">166</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>                                                                {</div>
+<div class="line"><span class="lineno">  167</span>  <span class="keyword">auto</span> suffix = <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(elementType-&gt;toString());</div>
+<div class="line"><span class="lineno">  168</span>  <span class="keyword">auto</span> type = std::make_shared&lt;zir::RecordType&gt;(<span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix,</div>
+<div class="line"><span class="lineno">  169</span>                                                <span class="stringliteral">&quot;__zap_varargs_&quot;</span> + suffix);</div>
+<div class="line"><span class="lineno">  170</span>  type-&gt;addField(<span class="stringliteral">&quot;data&quot;</span>, std::make_shared&lt;zir::PointerType&gt;(elementType));</div>
+<div class="line"><span class="lineno">  171</span>  type-&gt;addField(<span class="stringliteral">&quot;len&quot;</span>,</div>
+<div class="line"><span class="lineno">  172</span>                 std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a>));</div>
+<div class="line"><span class="lineno">  173</span>  <span class="keywordflow">return</span> type;</div>
+<div class="line"><span class="lineno">  174</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::Int</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00019">zir::Int</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">sanitizeTypeName()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l01420">sema::Binder::mapType()</a>, <a class="el" href="../../d5/d78/binder__decls_8cpp_source.html#l00434">sema::Binder::predeclareModuleValues()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00352">sema::Binder::visit()</a>, and <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l00962">sema::Binder::visit()</a>.</p>
 
@@ -938,20 +908,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00177">177</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>                                                        {</div>
-<div class="line"><span class="lineno">  180</span>  std::string suffix;</div>
-<div class="line"><span class="lineno">  181</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; arguments.size(); ++i) {</div>
-<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">if</span> (i != 0) {</div>
-<div class="line"><span class="lineno">  183</span>      suffix += <span class="stringliteral">&quot;$&quot;</span>;</div>
-<div class="line"><span class="lineno">  184</span>    }</div>
-<div class="line"><span class="lineno">  185</span>    suffix += <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(arguments[i] ? arguments[i]-&gt;toString()</div>
-<div class="line"><span class="lineno">  186</span>                                            : std::string(<span class="stringliteral">&quot;&lt;?&gt;&quot;</span>));</div>
-<div class="line"><span class="lineno">  187</span>  }</div>
-<div class="line"><span class="lineno">  188</span>  <span class="keywordflow">return</span> baseName + <span class="stringliteral">&quot;$g$&quot;</span> + suffix;</div>
-<div class="line"><span class="lineno">  189</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00151">151</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                        {</div>
+<div class="line"><span class="lineno">  154</span>  std::string suffix;</div>
+<div class="line"><span class="lineno">  155</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; arguments.size(); ++i) {</div>
+<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">if</span> (i != 0) {</div>
+<div class="line"><span class="lineno">  157</span>      suffix += <span class="stringliteral">&quot;$&quot;</span>;</div>
+<div class="line"><span class="lineno">  158</span>    }</div>
+<div class="line"><span class="lineno">  159</span>    suffix += <a class="code hl_function" href="#ae1c1adc63a94d804617d53399c71d6be">sanitizeTypeName</a>(arguments[i] ? arguments[i]-&gt;toString()</div>
+<div class="line"><span class="lineno">  160</span>                                            : std::string(<span class="stringliteral">&quot;&lt;?&gt;&quot;</span>));</div>
+<div class="line"><span class="lineno">  161</span>  }</div>
+<div class="line"><span class="lineno">  162</span>  <span class="keywordflow">return</span> baseName + <span class="stringliteral">&quot;$g$&quot;</span> + suffix;</div>
+<div class="line"><span class="lineno">  163</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">sanitizeTypeName()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">sanitizeTypeName()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00258">sema::Binder::substituteGenericType()</a>.</p>
 
@@ -976,18 +946,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00163">163</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  165</span>                                                        {</div>
-<div class="line"><span class="lineno">  166</span>  std::string name = baseName + <span class="stringliteral">&quot;&lt;&quot;</span>;</div>
-<div class="line"><span class="lineno">  167</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; arguments.size(); ++i) {</div>
-<div class="line"><span class="lineno">  168</span>    <span class="keywordflow">if</span> (i != 0) {</div>
-<div class="line"><span class="lineno">  169</span>      name += <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><span class="lineno">  170</span>    }</div>
-<div class="line"><span class="lineno">  171</span>    name += arguments[i] ? arguments[i]-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>;</div>
-<div class="line"><span class="lineno">  172</span>  }</div>
-<div class="line"><span class="lineno">  173</span>  name += <span class="stringliteral">&quot;&gt;&quot;</span>;</div>
-<div class="line"><span class="lineno">  174</span>  <span class="keywordflow">return</span> name;</div>
-<div class="line"><span class="lineno">  175</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00137">137</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  139</span>                                                        {</div>
+<div class="line"><span class="lineno">  140</span>  std::string name = baseName + <span class="stringliteral">&quot;&lt;&quot;</span>;</div>
+<div class="line"><span class="lineno">  141</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; arguments.size(); ++i) {</div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">if</span> (i != 0) {</div>
+<div class="line"><span class="lineno">  143</span>      name += <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><span class="lineno">  144</span>    }</div>
+<div class="line"><span class="lineno">  145</span>    name += arguments[i] ? arguments[i]-&gt;toString() : <span class="stringliteral">&quot;&lt;?&gt;&quot;</span>;</div>
+<div class="line"><span class="lineno">  146</span>  }</div>
+<div class="line"><span class="lineno">  147</span>  name += <span class="stringliteral">&quot;&gt;&quot;</span>;</div>
+<div class="line"><span class="lineno">  148</span>  <span class="keywordflow">return</span> name;</div>
+<div class="line"><span class="lineno">  149</span>}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00258">sema::Binder::substituteGenericType()</a>.</p>
 
@@ -1012,32 +982,32 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00321">321</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  322</span>                                                      {</div>
-<div class="line"><span class="lineno">  323</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() ||</div>
-<div class="line"><span class="lineno">  324</span>      lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>) {</div>
-<div class="line"><span class="lineno">  325</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  326</span>  }</div>
-<div class="line"><span class="lineno">  327</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  328</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
-<div class="line"><span class="lineno">  329</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
-<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
-<div class="line"><span class="lineno">  331</span>        left-&gt;is_variadic_pack != right-&gt;is_variadic_pack) {</div>
-<div class="line"><span class="lineno">  332</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  333</span>    }</div>
-<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">if</span> (!left-&gt;type || !right-&gt;type ||</div>
-<div class="line"><span class="lineno">  335</span>        left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString()) {</div>
-<div class="line"><span class="lineno">  336</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  337</span>    }</div>
-<div class="line"><span class="lineno">  338</span>  }</div>
-<div class="line"><span class="lineno">  339</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  340</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00295">295</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  296</span>                                                      {</div>
+<div class="line"><span class="lineno">  297</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() ||</div>
+<div class="line"><span class="lineno">  298</span>      lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>) {</div>
+<div class="line"><span class="lineno">  299</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  300</span>  }</div>
+<div class="line"><span class="lineno">  301</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  302</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
+<div class="line"><span class="lineno">  303</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i];</div>
+<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
+<div class="line"><span class="lineno">  305</span>        left-&gt;is_variadic_pack != right-&gt;is_variadic_pack) {</div>
+<div class="line"><span class="lineno">  306</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  307</span>    }</div>
+<div class="line"><span class="lineno">  308</span>    <span class="keywordflow">if</span> (!left-&gt;type || !right-&gt;type ||</div>
+<div class="line"><span class="lineno">  309</span>        left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString()) {</div>
+<div class="line"><span class="lineno">  310</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  311</span>    }</div>
+<div class="line"><span class="lineno">  312</span>  }</div>
+<div class="line"><span class="lineno">  313</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  314</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7bdd63ef87dae33bb0edc0b04690b324"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">sema::FunctionSymbol::isCVariadic</a></div><div class="ttdeci">bool isCVariadic</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00070">symbol.hpp:70</a></div></div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7f8af1e428604f4eaa3460b07273aa25"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">sema::FunctionSymbol::parameters</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; VariableSymbol &gt; &gt; parameters</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00064">symbol.hpp:64</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00070">sema::FunctionSymbol::isCVariadic</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">sema::FunctionSymbol::parameters</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00701">sema::Binder::findFunctionBySignature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00675">sema::Binder::findFunctionBySignature()</a>.</p>
 
 </div>
 </div>
@@ -1060,33 +1030,33 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00711">711</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  712</span>                                                            {</div>
-<div class="line"><span class="lineno">  713</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> lhsOffset = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
-<div class="line"><span class="lineno">  714</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> rhsOffset = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
-<div class="line"><span class="lineno">  715</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; lhsOffset || rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; rhsOffset) {</div>
-<div class="line"><span class="lineno">  716</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  717</span>  }</div>
-<div class="line"><span class="lineno">  718</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - lhsOffset != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - rhsOffset ||</div>
-<div class="line"><span class="lineno">  719</span>      lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>) {</div>
-<div class="line"><span class="lineno">  720</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  721</span>  }</div>
-<div class="line"><span class="lineno">  722</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i + lhsOffset &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i) {</div>
-<div class="line"><span class="lineno">  723</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + lhsOffset];</div>
-<div class="line"><span class="lineno">  724</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + rhsOffset];</div>
-<div class="line"><span class="lineno">  725</span>    <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
-<div class="line"><span class="lineno">  726</span>        left-&gt;is_variadic_pack != right-&gt;is_variadic_pack || !left-&gt;type ||</div>
-<div class="line"><span class="lineno">  727</span>        !right-&gt;type || left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString()) {</div>
-<div class="line"><span class="lineno">  728</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  729</span>    }</div>
-<div class="line"><span class="lineno">  730</span>  }</div>
-<div class="line"><span class="lineno">  731</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  732</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00685">685</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  686</span>                                                            {</div>
+<div class="line"><span class="lineno">  687</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> lhsOffset = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
+<div class="line"><span class="lineno">  688</span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> rhsOffset = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">isMethod</a> ? 1 : 0;</div>
+<div class="line"><span class="lineno">  689</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; lhsOffset || rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() &lt; rhsOffset) {</div>
+<div class="line"><span class="lineno">  690</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  691</span>  }</div>
+<div class="line"><span class="lineno">  692</span>  <span class="keywordflow">if</span> (lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - lhsOffset != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size() - rhsOffset ||</div>
+<div class="line"><span class="lineno">  693</span>      lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a> != rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7bdd63ef87dae33bb0edc0b04690b324">isCVariadic</a>) {</div>
+<div class="line"><span class="lineno">  694</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  695</span>  }</div>
+<div class="line"><span class="lineno">  696</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i + lhsOffset &lt; lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size(); ++i) {</div>
+<div class="line"><span class="lineno">  697</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;left = lhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + lhsOffset];</div>
+<div class="line"><span class="lineno">  698</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;right = rhs.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[i + rhsOffset];</div>
+<div class="line"><span class="lineno">  699</span>    <span class="keywordflow">if</span> (left-&gt;is_ref != right-&gt;is_ref ||</div>
+<div class="line"><span class="lineno">  700</span>        left-&gt;is_variadic_pack != right-&gt;is_variadic_pack || !left-&gt;type ||</div>
+<div class="line"><span class="lineno">  701</span>        !right-&gt;type || left-&gt;type-&gt;toString() != right-&gt;type-&gt;toString()) {</div>
+<div class="line"><span class="lineno">  702</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  703</span>    }</div>
+<div class="line"><span class="lineno">  704</span>  }</div>
+<div class="line"><span class="lineno">  705</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  706</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_aba7038104981a3674d72f2540c7dca58"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#aba7038104981a3674d72f2540c7dca58">sema::FunctionSymbol::isMethod</a></div><div class="ttdeci">bool isMethod</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00071">symbol.hpp:71</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00070">sema::FunctionSymbol::isCVariadic</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00071">sema::FunctionSymbol::isMethod</a>, and <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00064">sema::FunctionSymbol::parameters</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00762">sema::Binder::findOverriddenVtableSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00736">sema::Binder::findOverriddenVtableSlot()</a>.</p>
 
 </div>
 </div>
@@ -1105,21 +1075,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00150">150</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  150</span>                                                   {</div>
-<div class="line"><span class="lineno">  151</span>  std::string out;</div>
-<div class="line"><span class="lineno">  152</span>  out.reserve(value.size());</div>
-<div class="line"><span class="lineno">  153</span>  <span class="keywordflow">for</span> (<span class="keywordtype">char</span> ch : value) {</div>
-<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">if</span> (std::isalnum(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(ch))) {</div>
-<div class="line"><span class="lineno">  155</span>      out.push_back(ch);</div>
-<div class="line"><span class="lineno">  156</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  157</span>      out.push_back(<span class="charliteral">&#39;_&#39;</span>);</div>
-<div class="line"><span class="lineno">  158</span>    }</div>
-<div class="line"><span class="lineno">  159</span>  }</div>
-<div class="line"><span class="lineno">  160</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
-<div class="line"><span class="lineno">  161</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                   {</div>
+<div class="line"><span class="lineno">  125</span>  std::string out;</div>
+<div class="line"><span class="lineno">  126</span>  out.reserve(value.size());</div>
+<div class="line"><span class="lineno">  127</span>  <span class="keywordflow">for</span> (<span class="keywordtype">char</span> ch : value) {</div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">if</span> (std::isalnum(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(ch))) {</div>
+<div class="line"><span class="lineno">  129</span>      out.push_back(ch);</div>
+<div class="line"><span class="lineno">  130</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  131</span>      out.push_back(<span class="charliteral">&#39;_&#39;</span>);</div>
+<div class="line"><span class="lineno">  132</span>    }</div>
+<div class="line"><span class="lineno">  133</span>  }</div>
+<div class="line"><span class="lineno">  134</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d7/d1a/namespacezap.html#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>;</div>
+<div class="line"><span class="lineno">  135</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00018">abiTypeKey()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00136">makeFailableType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00192">makeVariadicViewType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00693">sema::Binder::mangleFunctionName()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00177">renderGenericCodegenName()</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00258">sema::Binder::substituteGenericType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00019">abiTypeKey()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00018">sema::Binder::ensureGenericFunctionInstantiation()</a>, <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00433">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00166">makeVariadicViewType()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00667">sema::Binder::mangleFunctionName()</a>, <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00151">renderGenericCodegenName()</a>, and <a class="el" href="../../db/d50/binder__types_8cpp_source.html#l00258">sema::Binder::substituteGenericType()</a>.</p>
 
 </div>
 </div>
@@ -1138,18 +1108,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00277">277</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  277</span>                                                            {</div>
-<div class="line"><span class="lineno">  278</span>  std::vector&lt;std::string&gt; parts;</div>
-<div class="line"><span class="lineno">  279</span>  std::stringstream ss(value);</div>
-<div class="line"><span class="lineno">  280</span>  std::string item;</div>
-<div class="line"><span class="lineno">  281</span>  <span class="keywordflow">while</span> (std::getline(ss, item, <span class="charliteral">&#39;.&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  282</span>    <span class="keywordflow">if</span> (!item.empty()) {</div>
-<div class="line"><span class="lineno">  283</span>      parts.push_back(item);</div>
-<div class="line"><span class="lineno">  284</span>    }</div>
-<div class="line"><span class="lineno">  285</span>  }</div>
-<div class="line"><span class="lineno">  286</span>  <span class="keywordflow">return</span> parts;</div>
-<div class="line"><span class="lineno">  287</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00251">251</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  251</span>                                                            {</div>
+<div class="line"><span class="lineno">  252</span>  std::vector&lt;std::string&gt; parts;</div>
+<div class="line"><span class="lineno">  253</span>  std::stringstream ss(value);</div>
+<div class="line"><span class="lineno">  254</span>  std::string item;</div>
+<div class="line"><span class="lineno">  255</span>  <span class="keywordflow">while</span> (std::getline(ss, item, <span class="charliteral">&#39;.&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  256</span>    <span class="keywordflow">if</span> (!item.empty()) {</div>
+<div class="line"><span class="lineno">  257</span>      parts.push_back(item);</div>
+<div class="line"><span class="lineno">  258</span>    }</div>
+<div class="line"><span class="lineno">  259</span>  }</div>
+<div class="line"><span class="lineno">  260</span>  <span class="keywordflow">return</span> parts;</div>
+<div class="line"><span class="lineno">  261</span>}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d2/d6e/binder__exprs_8cpp_source.html#l02041">sema::Binder::visit()</a>.</p>
 
@@ -1170,53 +1140,26 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00354">354</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  354</span>                                                   {</div>
-<div class="line"><span class="lineno">  355</span>  <span class="keywordflow">if</span> (!stmt)</div>
-<div class="line"><span class="lineno">  356</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  357</span>  <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d2/d99/classsema_1_1BoundReturnStatement.html">BoundReturnStatement</a> *<span class="keyword">&gt;</span>(stmt))</div>
-<div class="line"><span class="lineno">  358</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  359</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *blk = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d1/d45/classsema_1_1BoundBlock.html">BoundBlock</a> *<span class="keyword">&gt;</span>(stmt))</div>
-<div class="line"><span class="lineno">  360</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(blk);</div>
-<div class="line"><span class="lineno">  361</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *ifStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> *<span class="keyword">&gt;</span>(stmt))</div>
-<div class="line"><span class="lineno">  362</span>    <span class="keywordflow">return</span> ifStmt-&gt;elseBody &amp;&amp; <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(ifStmt-&gt;thenBody.get()) &amp;&amp;</div>
-<div class="line"><span class="lineno">  363</span>           <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(ifStmt-&gt;elseBody.get());</div>
-<div class="line"><span class="lineno">  364</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  365</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00328">328</a> of file <a class="el" href="../../dc/de9/binder_8cpp_source.html">binder.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  328</span>                                                   {</div>
+<div class="line"><span class="lineno">  329</span>  <span class="keywordflow">if</span> (!stmt)</div>
+<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  331</span>  <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d2/d99/classsema_1_1BoundReturnStatement.html">BoundReturnStatement</a> *<span class="keyword">&gt;</span>(stmt))</div>
+<div class="line"><span class="lineno">  332</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  333</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *blk = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d1/d45/classsema_1_1BoundBlock.html">BoundBlock</a> *<span class="keyword">&gt;</span>(stmt))</div>
+<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(blk);</div>
+<div class="line"><span class="lineno">  335</span>  <span class="keywordflow">if</span> (<span class="keyword">auto</span> *ifStmt = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code hl_class" href="../../d0/dec/classsema_1_1BoundIfStatement.html">BoundIfStatement</a> *<span class="keyword">&gt;</span>(stmt))</div>
+<div class="line"><span class="lineno">  336</span>    <span class="keywordflow">return</span> ifStmt-&gt;elseBody &amp;&amp; <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(ifStmt-&gt;thenBody.get()) &amp;&amp;</div>
+<div class="line"><span class="lineno">  337</span>           <a class="code hl_function" href="#ac98ede0f3a0dc7b7646f742a92921351">blockAlwaysReturns</a>(ifStmt-&gt;elseBody.get());</div>
+<div class="line"><span class="lineno">  338</span>  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  339</span>}</div>
 <div class="ttc" id="aclasssema_1_1BoundBlock_html"><div class="ttname"><a href="../../d1/d45/classsema_1_1BoundBlock.html">sema::BoundBlock</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00127">bound_nodes.hpp:127</a></div></div>
 <div class="ttc" id="aclasssema_1_1BoundReturnStatement_html"><div class="ttname"><a href="../../d2/d99/classsema_1_1BoundReturnStatement.html">sema::BoundReturnStatement</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00475">bound_nodes.hpp:475</a></div></div>
-<div class="ttc" id="anamespacesema_html_ac98ede0f3a0dc7b7646f742a92921351"><div class="ttname"><a href="#ac98ede0f3a0dc7b7646f742a92921351">sema::blockAlwaysReturns</a></div><div class="ttdeci">bool blockAlwaysReturns(const BoundBlock *block)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00342">binder.cpp:342</a></div></div>
+<div class="ttc" id="anamespacesema_html_ac98ede0f3a0dc7b7646f742a92921351"><div class="ttname"><a href="#ac98ede0f3a0dc7b7646f742a92921351">sema::blockAlwaysReturns</a></div><div class="ttdeci">bool blockAlwaysReturns(const BoundBlock *block)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00316">binder.cpp:316</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">blockAlwaysReturns()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00316">blockAlwaysReturns()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00342">blockAlwaysReturns()</a>.</p>
-
-</div>
-</div>
-<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
-<a id="ae8c3742fd851ade3da413f9586adafc7" name="ae8c3742fd851ade3da413f9586adafc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8c3742fd851ade3da413f9586adafc7">&#9670;&#160;</a></span>kFailablePrefix</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* sema::kFailablePrefix = &quot;__zap_failable_&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00101">isFailableType()</a>, and <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00136">makeFailableType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00316">blockAlwaysReturns()</a>.</p>
 
 </div>
 </div>

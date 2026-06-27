@@ -1,9 +1,14 @@
 var namespacezir =
 [
+    [ "anonymous_namespace{failable_type.cpp}", "d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html", [
+      [ "asFailableRecord", "d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html#ac60dc893cce0a03277740b35d2c4b898", null ],
+      [ "sanitizeFailableTypeName", "d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html#a18a8f25d8c6f89c2a51e4cd2f9dea799", null ]
+    ] ],
     [ "anonymous_namespace{ir_generator.cpp}", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html", [
       [ "renderTypeForUser", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html#ad93ddfa64e7e1896d384a501109ee575", null ]
     ] ],
     [ "BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", "d7/d6e/classzir_1_1BasicBlock" ],
+    [ "FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", "d4/d3c/structzir_1_1FailableTypeLayout" ],
     [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
     [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
     [ "BinaryInst", "df/d0a/classzir_1_1BinaryInst.html", "df/d0a/classzir_1_1BinaryInst" ],
@@ -108,5 +113,8 @@ var namespacezir =
       [ "ArrayConstant", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a07059287708f94d11936e723869938fe", null ],
       [ "Argument", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb", null ],
       [ "Global", "df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8", null ]
-    ] ]
+    ] ],
+    [ "getFailableTypeLayout", "df/d35/namespacezir.html#ac3fcfd7a3dc3e157f2efa1ceadb6d152", null ],
+    [ "makeFailableRecordType", "df/d35/namespacezir.html#acbfd65ffd533ef7640436c0fcec237aa", null ],
+    [ "kFailableTypePrefix", "df/d35/namespacezir.html#abd7ffc745141f08c0748b2d185430660", null ]
 ];

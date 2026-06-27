@@ -70,7 +70,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00189">189</a> of file <a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00187">187</a> of file <a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ad332d0ae474bed47b45d30d9843ffddb" name="ad332d0ae474bed47b45d30d9843ffddb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad332d0ae474bed47b45d30d9843ffddb">&#9670;&#160;</a></span>operator()()</h2>
@@ -95,13 +95,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00190">190</a> of file <a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>                       {</div>
-<div class="line"><span class="lineno">  192</span>      <span class="keywordtype">size_t</span> h1 = std::hash&lt;const void *&gt;{}(p.first);</div>
-<div class="line"><span class="lineno">  193</span>      <span class="keywordtype">size_t</span> h2 = std::hash&lt;const void *&gt;{}(p.second);</div>
-<div class="line"><span class="lineno">  194</span>      <span class="keywordflow">return</span> h1 ^ (h2 * 2654435761u); <span class="comment">// Knuth&#39;s multiplicative constant,</span></div>
-<div class="line"><span class="lineno">  195</span>                                      <span class="comment">// spreads bits to reduce collisions</span></div>
-<div class="line"><span class="lineno">  196</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d9b/binder_8hpp_source.html#l00188">188</a> of file <a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  189</span>                       {</div>
+<div class="line"><span class="lineno">  190</span>      <span class="keywordtype">size_t</span> h1 = std::hash&lt;const void *&gt;{}(p.first);</div>
+<div class="line"><span class="lineno">  191</span>      <span class="keywordtype">size_t</span> h2 = std::hash&lt;const void *&gt;{}(p.second);</div>
+<div class="line"><span class="lineno">  192</span>      <span class="keywordflow">return</span> h1 ^ (h2 * 2654435761u); <span class="comment">// Knuth&#39;s multiplicative constant,</span></div>
+<div class="line"><span class="lineno">  193</span>                                      <span class="comment">// spreads bits to reduce collisions</span></div>
+<div class="line"><span class="lineno">  194</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

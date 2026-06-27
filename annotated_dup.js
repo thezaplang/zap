@@ -107,6 +107,7 @@ var annotated_dup =
     ] ],
     [ "zir", "df/d35/namespacezir.html", [
       [ "BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", "d7/d6e/classzir_1_1BasicBlock" ],
+      [ "FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", "d4/d3c/structzir_1_1FailableTypeLayout" ],
       [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
       [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
       [ "BinaryInst", "df/d0a/classzir_1_1BinaryInst.html", "df/d0a/classzir_1_1BinaryInst" ],

@@ -86,6 +86,5 @@ var namespacesema =
     [ "sameMethodDispatchSignature", "d7/d39/namespacesema.html#a878589a3388ccc402729a8b1a133ef8c", null ],
     [ "sanitizeTypeName", "d7/d39/namespacesema.html#ae1c1adc63a94d804617d53399c71d6be", null ],
     [ "splitQualified", "d7/d39/namespacesema.html#a4a94bb1034064c1900bfb79268609cc0", null ],
-    [ "stmtAlwaysReturns", "d7/d39/namespacesema.html#ad3baf5fefd3d5b1f085cd0a0d7888a89", null ],
-    [ "kFailablePrefix", "d7/d39/namespacesema.html#ae8c3742fd851ade3da413f9586adafc7", null ]
+    [ "stmtAlwaysReturns", "d7/d39/namespacesema.html#ad3baf5fefd3d5b1f085cd0a0d7888a89", null ]
 ];
