@@ -24,6 +24,7 @@ SPECIAL_CASES = {
     "tests/return_void.zp": {"type": "compile", "exit": 0, "desc": "Return in void function"},
     "tests/modulo_test.zp": {"type": "compile", "exit": 0, "desc": "Modulo operator test"},
     "tests/failable_error_class_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Failable: @error class can be used as error type E in T!E"},
+    "tests/global_numeric_pointer_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Numeric constants initialize global pointers"},
 
     # Compile-only exit 1 (non-matching filename)
     "tests/array_const_size.zp": {"type": "compile", "exit": 1, "desc": "Array size as a constant is currently rejected"},
@@ -51,6 +52,7 @@ SPECIAL_CASES = {
     "tests/compound_assign_test.zp": {"type": "runtime", "exit": 42, "desc": "Compound assignment (+= -= *= /= %= <<= >>= |= &= ^=) and ++/--"},
     "tests/compound_assign_eval_once_test.zp": {"type": "runtime", "exit": 1, "desc": "Compound assignment evaluates its target exactly once"},
     "tests/array_dynamic_index_test.zp": {"type": "runtime", "exit": 45, "desc": "Assigning through a runtime-computed array index"},
+    "tests/global_pointer_initializer_test.zp": {"type": "runtime", "exit": 74, "desc": "Global pointers preserve scalar and array-element addresses"},
     "tests/function_call_test.zp": {"type": "runtime", "exit": 1, "desc": "Function call tests"},
 
     # Runtime with custom run arguments

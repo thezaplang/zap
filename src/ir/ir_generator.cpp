@@ -48,6 +48,39 @@ std::shared_ptr<Value> BoundIRGenerator::lowerConstantExpression(
 std::shared_ptr<Value> BoundIRGenerator::lowerConstantExpression(
     const sema::BoundExpression &expression,
     std::set<const sema::VariableSymbol *> &resolvingConstants) {
+  if (auto unary =
+          dynamic_cast<const sema::BoundUnaryExpression *>(&expression)) {
+    if (unary->op != "&") {
+      return nullptr;
+    }
+
+    if (auto variable = dynamic_cast<const sema::BoundVariableExpression *>(
+            unary->expr.get())) {
+      return std::make_shared<GlobalAddress>(variable->symbol->linkName,
+                                             unary->type);
+    }
+
+    if (auto index =
+            dynamic_cast<const sema::BoundIndexAccess *>(unary->expr.get())) {
+      auto variable = dynamic_cast<const sema::BoundVariableExpression *>(
+          index->left.get());
+      auto indexValue =
+          lowerConstantExpression(*index->index, resolvingConstants);
+      auto constantIndex = std::dynamic_pointer_cast<Constant>(indexValue);
+      if (!variable || !constantIndex) {
+        return nullptr;
+      }
+      try {
+        return std::make_shared<GlobalAddress>(
+            variable->symbol->linkName, unary->type,
+            static_cast<size_t>(std::stoull(constantIndex->getLiteral())));
+      } catch (const std::exception &) {
+        return nullptr;
+      }
+    }
+    return nullptr;
+  }
+
   if (auto literal = dynamic_cast<const sema::BoundLiteral *>(&expression)) {
     return std::make_shared<Constant>(literal->value, literal->type);
   }

@@ -49,6 +49,15 @@ void LLVMCodeGen::generate(const zir::Module &module) {
   }
 
   for (const auto &global : module.getGlobals()) {
+    auto *valueTy = toLLVMType(*global->getValueType());
+    auto *gv = new llvm::GlobalVariable(*module_, valueTy, global->isConstant(),
+                                        llvm::GlobalVariable::ExternalLinkage,
+                                        llvm::Constant::getNullValue(valueTy),
+                                        global->getLinkName());
+    globalValues_[global->getLinkName()] = gv;
+  }
+
+  for (const auto &global : module.getGlobals()) {
     llvm::Constant *initializer = nullptr;
     if (global->getInitializer()) {
       if (global->getInitializer()->getKind() == zir::ValueKind::Constant) {
@@ -63,6 +72,23 @@ void LLVMCodeGen::generate(const zir::Module &module) {
                  zir::ValueKind::ArrayConstant) {
         initializer = lowerZIRArrayConstant(
             static_cast<const zir::ArrayConstant &>(*global->getInitializer()));
+      } else if (global->getInitializer()->getKind() ==
+                 zir::ValueKind::GlobalAddress) {
+        const auto &address =
+            static_cast<const zir::GlobalAddress &>(*global->getInitializer());
+        auto target = globalValues_.find(address.getLinkName());
+        if (target != globalValues_.end()) {
+          initializer = target->second;
+          if (address.getArrayIndex()) {
+            auto *zero =
+                llvm::ConstantInt::get(llvm::Type::getInt64Ty(ctx_), 0);
+            auto *index = llvm::ConstantInt::get(llvm::Type::getInt64Ty(ctx_),
+                                                 *address.getArrayIndex());
+            llvm::Constant *indices[] = {zero, index};
+            initializer = llvm::ConstantExpr::getInBoundsGetElementPtr(
+                target->second->getValueType(), target->second, indices);
+          }
+        }
       }
     }
     if (!initializer) {
@@ -70,11 +96,7 @@ void LLVMCodeGen::generate(const zir::Module &module) {
           llvm::Constant::getNullValue(toLLVMType(*global->getValueType()));
     }
 
-    auto *gv = new llvm::GlobalVariable(
-        *module_, toLLVMType(*global->getValueType()), global->isConstant(),
-        llvm::GlobalVariable::ExternalLinkage, initializer,
-        global->getLinkName());
-    globalValues_[global->getLinkName()] = gv;
+    globalValues_.at(global->getLinkName())->setInitializer(initializer);
   }
 
   for (const auto &func : module.getExternalFunctions()) {

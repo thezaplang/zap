@@ -1,0 +1,10 @@
+global var nums: [5]UInt32 = {1, 3, 9, 27, 81};
+global var num: UInt32 = 47;
+global var arrayPtr: *UInt32 = &nums[3];
+global var scalarPtr: *UInt32 = &num;
+
+fun main() Int {
+    unsafe {
+        return (*arrayPtr + *scalarPtr) as Int;
+    }
+}

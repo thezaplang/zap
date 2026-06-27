@@ -126,7 +126,13 @@ llvm::Constant *LLVMCodeGen::lowerZIRConstant(const zir::Constant &constant) {
     return llvm::ConstantFP::get(ty, std::stod(literal));
   }
   if (ty->isPointerTy()) {
-    return llvm::ConstantPointerNull::get(llvm::cast<llvm::PointerType>(ty));
+    if (literal == "null") {
+      return llvm::ConstantPointerNull::get(llvm::cast<llvm::PointerType>(ty));
+    }
+    auto *address =
+        llvm::ConstantInt::get(module_->getDataLayout().getIntPtrType(ctx_),
+                               parseIntegerLiteral(literal), false);
+    return llvm::ConstantExpr::getIntToPtr(address, ty);
   }
   return llvm::Constant::getNullValue(ty);
 }

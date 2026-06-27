@@ -1,6 +1,7 @@
 #pragma once
 #include "type.hpp"
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -11,6 +12,7 @@ enum class ValueKind {
   Constant,
   AggregateConstant,
   ArrayConstant,
+  GlobalAddress,
   Argument,
   Global
 };
@@ -22,6 +24,23 @@ public:
   virtual std::string getName() const = 0;
   virtual std::shared_ptr<Type> getType() const = 0;
   std::string getTypeName() const { return getType()->toString(); }
+};
+
+class GlobalAddress : public Value {
+  std::string linkName;
+  std::shared_ptr<Type> type;
+  std::optional<size_t> arrayIndex;
+
+public:
+  GlobalAddress(std::string ln, std::shared_ptr<Type> t,
+                std::optional<size_t> index = std::nullopt)
+      : linkName(std::move(ln)), type(std::move(t)), arrayIndex(index) {}
+
+  ValueKind getKind() const override { return ValueKind::GlobalAddress; }
+  std::string getName() const override { return "@" + linkName; }
+  std::shared_ptr<Type> getType() const override { return type; }
+  const std::string &getLinkName() const { return linkName; }
+  const std::optional<size_t> &getArrayIndex() const { return arrayIndex; }
 };
 
 class Register : public Value {

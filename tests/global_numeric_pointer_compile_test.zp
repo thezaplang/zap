@@ -1,0 +1,5 @@
+const vgaMemory: *UInt16 = 0xB8000 as *UInt16;
+
+fun main() Int {
+    return 0;
+}
