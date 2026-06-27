@@ -2,7 +2,7 @@ name: "Bug report comment"
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened]
 
 jobs:
   comment-on-title:
@@ -21,6 +21,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.issue.number,
-                body: "👋 Thanks for reporting a bug! Please edit the issue title with a short description of the bug so it is eaisier to identify."
+                body: "👋 Thanks for reporting a bug! Please edit the issue title with a short description of the bug so it is easier to identify, instead of just \"Bug report\"."
               });
             }
