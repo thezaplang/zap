@@ -20,45 +20,47 @@ fun main() Int {
         return 1;
     }
 
-    if fs.ensureDir(nestedDir) != 0 {
+    fs.ensureDir(nestedDir) or err {
         return 2;
-    }
+    };
 
     if !fs.isDir(nestedDir) {
         return 3;
     }
 
-    if fs.ensureDir(nestedDir) != 0 {
+    fs.ensureDir(nestedDir) or err {
         return 4;
-    }
+    };
 
-    if fs.writeFileSafe(srcFile, "alpha") != 0 {
+    fs.writeFileSafe(srcFile, "alpha") or err {
         return 5;
-    }
+    };
 
     if !fs.isFile(srcFile) {
         return 6;
     }
 
-    if !string.eq(fs.readFile(srcFile), "alpha") {
+    var srcContent: String = fs.readFile(srcFile) or err { return 7; };
+    if !string.eq(srcContent, "alpha") {
         return 7;
     }
 
-    if fs.copyFile(srcFile, copiedFile) != 0 {
+    fs.copyFile(srcFile, copiedFile) or err {
         return 8;
-    }
+    };
 
     if !fs.isFile(copiedFile) {
         return 9;
     }
 
-    if !string.eq(fs.readFile(copiedFile), "alpha") {
+    var copiedContent: String = fs.readFile(copiedFile) or err { return 10; };
+    if !string.eq(copiedContent, "alpha") {
         return 10;
     }
 
-    if fs.move(copiedFile, movedFile) != 0 {
+    fs.move(copiedFile, movedFile) or err {
         return 11;
-    }
+    };
 
     if fs.exists(copiedFile) {
         return 12;
@@ -68,45 +70,47 @@ fun main() Int {
         return 13;
     }
 
-    if fs.replaceFile(movedFile, "beta") != 0 {
+    fs.writeFileSafe(movedFile, "beta") or err {
         return 14;
-    }
+    };
 
-    if !string.eq(fs.readFile(movedFile), "beta") {
+    var movedContent: String = fs.readFile(movedFile) or err { return 15; };
+    if !string.eq(movedContent, "beta") {
         return 15;
     }
 
-    if fs.touch(touchFile) != 0 {
+    fs.touch(touchFile) or err {
         return 16;
-    }
+    };
 
     if !fs.isFile(touchFile) {
         return 17;
     }
 
-    if !string.eq(fs.readFile(touchFile), "") {
+    var touchContent: String = fs.readFile(touchFile) or err { return 18; };
+    if !string.eq(touchContent, "") {
         return 18;
     }
 
-    if fs.touch(touchFile) != 0 {
+    fs.touch(touchFile) or err {
         return 19;
-    }
+    };
 
-    if fs.removeIfExists(missingFile) != 0 {
+    if fs.exists(missingFile) {
         return 20;
     }
 
-    if fs.removeIfExists(movedFile) != 0 {
+    fs.remove(movedFile) or err {
         return 21;
-    }
+    };
 
     if fs.exists(movedFile) {
         return 22;
     }
 
-    if fs.removeIfExists(touchFile) != 0 {
+    fs.remove(touchFile) or err {
         return 23;
-    }
+    };
 
     if fs.exists(touchFile) {
         return 24;
@@ -117,15 +121,15 @@ fun main() Int {
     lines.push("second");
     lines.push("third");
 
-    if fs.writeLines(linesFile, lines) != 0 {
+    fs.writeLines(linesFile, lines) or err {
         return 25;
-    }
+    };
 
     if !fs.isFile(linesFile) {
         return 26;
     }
 
-    var readBack: collection.List<String> = fs.readLines(linesFile);
+    var readBack: collection.List<String> = fs.readLines(linesFile) or err { return 27; };
     if readBack.len() != 3 {
         return 27;
     }

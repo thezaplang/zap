@@ -1,4 +1,4 @@
-import "std/io" { println, printfln, getLn };
+import "std/io" { println, printfln, getln };
 import "std/random";
 import "std/string";
 import "std/convert";
@@ -51,7 +51,7 @@ fun main() Int {
 
     while true {
         printfln("Attempt %d - your guess:", attempts + 1);
-        var line: String = getLn();
+        var line: String = getln();
         var guess: Int = parsePositiveInt(line);
 
         if guess < 0 {

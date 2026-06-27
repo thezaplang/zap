@@ -153,7 +153,3 @@ pub fun parseInt(raw: String) Int!ParseIntError {
 
   return out * sign;
 }
-
-pub fun parseIntOr(raw: String, fallback: Int) Int {
-  return parseInt(raw) or fallback;
-}

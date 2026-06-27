@@ -12,31 +12,35 @@ fun main() Int {
         return 1;
     }
 
-    if fs.mkdir(root) != 0 {
+    fs.mkdir(root) or err {
         return 2;
-    }
+    };
 
     if !fs.isDir(root) {
         return 3;
     }
 
-    if fs.mkdirAll(nested) != 0 {
+    fs.mkdirAll(nested) or err {
         return 4;
-    }
+    };
 
     if !fs.isDir(nested) {
         return 5;
     }
 
-    if fs.mkdirAll(nested) != 0 {
+    fs.mkdirAll(nested) or err {
         return 6;
-    }
+    };
 
     if process.exec("sh -c 'printf x > \"" + filePath + "\"'") != 0 {
         return 7;
     }
 
-    if fs.mkdir(filePath) == 0 {
+    var rejectedFilePath: Bool = false;
+    fs.mkdir(filePath) or err {
+        rejectedFilePath = true;
+    };
+    if !rejectedFilePath {
         return 8;
     }
 

@@ -2,157 +2,215 @@ import "std/path";
 import "std/string";
 import "std/collection";
 
-pub ext fun exists(path: String) Bool;
-pub ext fun isFile(path: String) Bool;
-pub ext fun isDir(path: String) Bool;
-pub ext fun mkdir(path: String) Int;
-pub ext fun readFile(path: String) String;
-pub ext fun writeFile(path: String, content: String) Int;
-pub ext fun remove(path: String) Int;
-pub ext fun rename(from: String, to: String) Int;
+ext fun zap_fs_exists(path: String) Bool;
+ext fun zap_fs_is_file(path: String) Bool;
+ext fun zap_fs_is_dir(path: String) Bool;
+ext fun zap_fs_mkdir(path: String) Int;
+ext fun zap_fs_read_file(path: String) String;
+ext fun zap_fs_write_file(path: String, content: String) Int;
+ext fun zap_fs_remove(path: String) Int;
+ext fun zap_fs_rename(from: String, to: String) Int;
+ext fun zap_fs_last_error() Int;
 
-pub fun mkdirAll(target: String) Int {
+@error
+pub enum FsError {
+  PermissionDenied,
+  NotFound,
+  AlreadyExists,
+  NotDirectory,
+  IsDirectory,
+  InvalidPath,
+  OutOfMemory,
+  Io,
+}
+
+fun errorFromCode(code: Int) FsError {
+  if code == 2 {
+    return FsError.NotFound;
+  }
+  if code == 12 {
+    return FsError.OutOfMemory;
+  }
+  if code == 13 {
+    return FsError.PermissionDenied;
+  }
+  if code == 17 {
+    return FsError.AlreadyExists;
+  }
+  if code == 20 {
+    return FsError.NotDirectory;
+  }
+  if code == 21 {
+    return FsError.IsDirectory;
+  }
+  if code == 22 {
+    return FsError.InvalidPath;
+  }
+  return FsError.Io;
+}
+
+fun failOnCode(code: Int) Void!FsError {
+  if code != 0 {
+    fail errorFromCode(code);
+    return;
+  }
+  return;
+}
+
+pub fun exists(target: String) Bool {
+  return zap_fs_exists(target);
+}
+
+pub fun isFile(target: String) Bool {
+  return zap_fs_is_file(target);
+}
+
+pub fun isDir(target: String) Bool {
+  return zap_fs_is_dir(target);
+}
+
+pub fun mkdir(target: String) Void!FsError {
+  failOnCode(zap_fs_mkdir(target))?;
+  return;
+}
+
+pub fun readFile(filePath: String) String!FsError {
+  var content: String = zap_fs_read_file(filePath);
+  var code: Int = zap_fs_last_error();
+  if code != 0 {
+    fail errorFromCode(code);
+    return "";
+  }
+  return content;
+}
+
+pub fun writeFile(filePath: String, content: String) Void!FsError {
+  failOnCode(zap_fs_write_file(filePath, content))?;
+  return;
+}
+
+pub fun remove(target: String) Void!FsError {
+  failOnCode(zap_fs_remove(target))?;
+  return;
+}
+
+pub fun rename(from: String, to: String) Void!FsError {
+  failOnCode(zap_fs_rename(from, to))?;
+  return;
+}
+
+pub fun mkdirAll(target: String) Void!FsError {
   if string.len(target) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
 
   if isDir(target) {
-    return 0;
+    return;
   }
 
   var parentDir: String = path.parent(target);
   if !string.eq(parentDir, ".") && !string.eq(parentDir, target) {
-    var parentErr: Int = mkdirAll(parentDir);
-    if parentErr != 0 {
-      return parentErr;
+    mkdirAll(parentDir)?;
+  }
+
+  mkdir(target) or err {
+    if !isDir(target) {
+      fail err;
+      return;
     }
-  }
-
-  var err: Int = mkdir(target);
-  if err != 0 && isDir(target) {
-    return 0;
-  }
-  return err;
+  };
+  return;
 }
 
-pub fun ensureDir(target: String) Int {
+pub fun ensureDir(target: String) Void!FsError {
   if string.len(target) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
-
   if isDir(target) {
-    return 0;
+    return;
   }
-
   if exists(target) {
-    return 17;
+    fail FsError.AlreadyExists;
+    return;
   }
-
-  return mkdirAll(target);
+  mkdirAll(target)?;
+  return;
 }
 
-pub fun writeFileSafe(filePath: String, content: String) Int {
+pub fun writeFileSafe(filePath: String, content: String) Void!FsError {
   if string.len(filePath) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
 
   var parentDir: String = path.parent(filePath);
   if !string.eq(parentDir, ".") {
-    var mkErr: Int = ensureDir(parentDir);
-    if mkErr != 0 {
-      return mkErr;
-    }
+    ensureDir(parentDir)?;
   }
-
-  return writeFile(filePath, content);
+  writeFile(filePath, content)?;
+  return;
 }
 
-pub fun touch(filePath: String) Int {
+pub fun touch(filePath: String) Void!FsError {
   if string.len(filePath) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
-
   if isDir(filePath) {
-    return 21;
+    fail FsError.IsDirectory;
+    return;
   }
-
   if isFile(filePath) {
-    return 0;
+    return;
   }
-
-  return writeFileSafe(filePath, "");
+  writeFileSafe(filePath, "")?;
+  return;
 }
 
-pub fun removeIfExists(target: String) Int {
-  if string.len(target) == 0 {
-    return 22;
-  }
-
-  if !exists(target) {
-    return 0;
-  }
-
-  return remove(target);
-}
-
-pub fun replaceFile(pathToWrite: String, content: String) Int {
-  return writeFileSafe(pathToWrite, content);
-}
-
-pub fun move(from: String, to: String) Int {
+pub fun move(from: String, to: String) Void!FsError {
   if string.len(from) == 0 || string.len(to) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
 
   var parentDir: String = path.parent(to);
   if !string.eq(parentDir, ".") {
-    var mkErr: Int = ensureDir(parentDir);
-    if mkErr != 0 {
-      return mkErr;
-    }
+    ensureDir(parentDir)?;
   }
-
-  return rename(from, to);
+  rename(from, to)?;
+  return;
 }
 
-pub fun copyFile(from: String, to: String) Int {
+pub fun copyFile(from: String, to: String) Void!FsError {
   if string.len(from) == 0 || string.len(to) == 0 {
-    return 22;
+    fail FsError.InvalidPath;
+    return;
   }
-
   if !isFile(from) {
-    return 2;
+    fail FsError.NotFound;
+    return;
   }
 
   var parentDir: String = path.parent(to);
   if !string.eq(parentDir, ".") {
-    var mkErr: Int = ensureDir(parentDir);
-    if mkErr != 0 {
-      return mkErr;
-    }
+    ensureDir(parentDir)?;
   }
-
-  return writeFile(to, readFile(from));
+  var content: String = readFile(from)?;
+  writeFile(to, content)?;
+  return;
 }
 
-pub fun readLines(filePath: String) collection.List<String> {
-  var out: collection.List<String> = new collection.List<String>();
-
+pub fun readLines(filePath: String) collection.List<String>!FsError {
   if string.len(filePath) == 0 {
-    return out;
+    fail FsError.InvalidPath;
+    return new collection.List<String>();
   }
 
-  if !isFile(filePath) {
-    return out;
-  }
-
-  var content: String = readFile(filePath);
+  var content: String = readFile(filePath)?;
+  var out: collection.List<String> = new collection.List<String>();
   var n: Int = string.len(content);
-
-  if n == 0 {
-    return out;
-  }
-
   var start: Int = 0;
   var i: Int = 0;
   while i < n {
@@ -166,25 +224,16 @@ pub fun readLines(filePath: String) collection.List<String> {
     }
     i = i + 1;
   }
-
   if start < n {
     out.push(string.slice(content, start, n - start));
   }
-
   return out;
 }
 
-pub fun writeLines(filePath: String, lines: collection.List<String>) Int {
+pub fun writeLines(filePath: String, lines: collection.List<String>) Void!FsError {
   if string.len(filePath) == 0 {
-    return 22;
-  }
-
-  var parentDir: String = path.parent(filePath);
-  if !string.eq(parentDir, ".") {
-    var mkErr: Int = ensureDir(parentDir);
-    if mkErr != 0 {
-      return mkErr;
-    }
+    fail FsError.InvalidPath;
+    return;
   }
 
   var buf: string.TextBuf = new string.TextBuf();
@@ -197,6 +246,6 @@ pub fun writeLines(filePath: String, lines: collection.List<String>) Int {
     }
     i = i + 1;
   }
-
-  return writeFile(filePath, buf.build());
+  writeFileSafe(filePath, buf.build())?;
+  return;
 }

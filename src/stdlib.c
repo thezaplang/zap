@@ -75,6 +75,7 @@ static size_t zap_arc_root_count = 0;
 static size_t zap_arc_root_capacity = 0;
 static int zap_arc_collecting = 0;
 static int zap_net_last_error = 0;
+static long zap_fs_last_error_code = 0;
 
 void zap_arc_add_possible_root(void *object) {
   if (!object) {
@@ -443,15 +444,6 @@ void printChar(char v) {
   putchar('\n');
 }
 
-void printStringPtrLen(const char *ptr, long len) {
-  if (!ptr || len <= 0) {
-    printf("\n");
-    return;
-  }
-  fwrite(ptr, 1, (size_t)len, stdout);
-  printf("\n");
-}
-
 static void zap_string_register_owned_ptr(const char *ptr);
 static char *zap_string_alloc_owned(size_t len);
 
@@ -693,7 +685,10 @@ void __zap_process_set_args(int argc, char **argv) {
   zap_process_argv = argv;
 }
 
-void println(zap_string_t s) { printStringPtrLen(s.ptr, s.len); }
+void println(zap_string_t s) {
+  print(s);
+  fputc('\n', stdout);
+}
 
 long zap_printf(zap_string_t format, ...) {
   char *fmt = zap_string_to_cstr(format);
@@ -737,15 +732,7 @@ void eprintln(zap_string_t s) {
   fputc('\n', stderr);
 }
 
-void println_cstr(const char *s) {
-  if (!s) {
-    printf("\n");
-    return;
-  }
-  puts(s);
-}
-
-zap_string_t getLn() {
+zap_string_t getln() {
   char *line = NULL;
   size_t len = 0;
   size_t read = getline(&line, &len, stdin);
@@ -951,12 +938,12 @@ static int zap_net_bind_addrinfo(const char *host, long port, int socktype,
   return 0;
 }
 
-_Bool exists(zap_string_t path) {
+_Bool zap_fs_exists(zap_string_t path) {
   struct stat st;
   return zap_stat_path(path, &st) == 0;
 }
 
-_Bool isFile(zap_string_t path) {
+_Bool zap_fs_is_file(zap_string_t path) {
   struct stat st;
   if (zap_stat_path(path, &st) != 0) {
     return 0;
@@ -965,7 +952,7 @@ _Bool isFile(zap_string_t path) {
   return S_ISREG(st.st_mode);
 }
 
-_Bool isDir(zap_string_t path) {
+_Bool zap_fs_is_dir(zap_string_t path) {
   struct stat st;
   if (zap_stat_path(path, &st) != 0) {
     return 0;
@@ -1030,36 +1017,42 @@ long zap_fs_rename(zap_string_t from, zap_string_t to) {
   return err;
 }
 
-zap_string_t readFile(zap_string_t path) {
+zap_string_t zap_fs_read_file(zap_string_t path) {
   char *buffer = zap_copy_path(path);
   if (!buffer) {
+    zap_fs_last_error_code = ENOMEM;
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   FILE *file = fopen(buffer, "rb");
   free(buffer);
   if (!file) {
+    zap_fs_last_error_code = errno;
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   if (fseek(file, 0, SEEK_END) != 0) {
+    zap_fs_last_error_code = errno;
     fclose(file);
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   long size = ftell(file);
   if (size < 0) {
+    zap_fs_last_error_code = errno;
     fclose(file);
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   if (fseek(file, 0, SEEK_SET) != 0) {
+    zap_fs_last_error_code = errno;
     fclose(file);
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   char *content = zap_string_alloc_owned((size_t)size);
   if (!content) {
+    zap_fs_last_error_code = ENOMEM;
     fclose(file);
     return (zap_string_t){.ptr = "", .len = 0};
   }
@@ -1067,15 +1060,17 @@ zap_string_t readFile(zap_string_t path) {
   size_t read = fread(content, 1, (size_t)size, file);
   fclose(file);
   if (read != (size_t)size) {
+    zap_fs_last_error_code = EIO;
     zap_string_release_ptr(content);
     return (zap_string_t){.ptr = "", .len = 0};
   }
 
   content[size] = '\0';
+  zap_fs_last_error_code = 0;
   return (zap_string_t){.ptr = content, .len = size};
 }
 
-long writeFile(zap_string_t path, zap_string_t content) {
+long zap_fs_write_file(zap_string_t path, zap_string_t content) {
   char *buffer = zap_copy_path(path);
   if (!buffer) {
     return ENOMEM;
@@ -1099,18 +1094,7 @@ long writeFile(zap_string_t path, zap_string_t content) {
   return 0;
 }
 
-static zap_string_t zap_copy_string_range(const char *start, size_t len) {
-  char *out = zap_string_alloc_owned(len);
-  if (!out) {
-    return (zap_string_t){.ptr = "", .len = 0};
-  }
-
-  if (len > 0) {
-    memcpy(out, start, len);
-  }
-  out[len] = '\0';
-  return (zap_string_t){.ptr = out, .len = (long)len};
-}
+long zap_fs_last_error() { return zap_fs_last_error_code; }
 
 double zapMathSqrt(double x) { return sqrt(x); }
 
@@ -1360,7 +1344,7 @@ zap_string_t netResolve(zap_string_t host) {
   }
 
   zap_net_last_error = 0;
-  return zap_copy_string_range(ipbuf, strlen(ipbuf));
+  return zap_string_from_ptrlen(ipbuf, (long)strlen(ipbuf));
 }
 
 long netLastError() { return zap_net_last_error; }

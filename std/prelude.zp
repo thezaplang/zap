@@ -1,6 +1,6 @@
 pub import "core" { StringView, len, at, slice, eq, view, startsWith, indexOf };
 pub import "std/io" { print, println, eprintln };
 pub import "std/string" { stringLen, fromChar, pushChar, trim, splitOnce, SplitPair };
-pub import "std/convert" { toString, toInt, toBool, parseInt, parseIntOr, ParseIntError };
+pub import "std/convert" { toString, toInt, toBool, parseInt, ParseIntError };
 pub import "std/collection" { List, HashMap };
 pub import "std/strings" { split, splitN, splitTrimmed, join };

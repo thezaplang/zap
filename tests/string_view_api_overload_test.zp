@@ -9,21 +9,17 @@ fun main() Int {
   var name: string.StringView = string.view("zap_overload_test_file.txt");
   var p: String = path.join(base, name);
 
-  if fs.writeFile(p, string.view("abc")) != 0 {
-    return 1;
-  }
+  fs.writeFile(p, string.view("abc")) or err { return 1; };
   if !fs.exists(string.view(p)) {
     return 2;
   }
 
-  var content: String = fs.readFile(string.view(p));
+  var content: String = fs.readFile(string.view(p)) or err { return 3; };
   if !string.eq(content, "abc") {
     return 3;
   }
 
-  if fs.remove(string.view(p)) != 0 {
-    return 4;
-  }
+  fs.remove(string.view(p)) or err { return 4; };
 
   if process.exec(string.view("true")) != 0 {
     return 5;

@@ -1,4 +1,4 @@
-import "std/convert" { toString, toInt, toFloat, toFloat64, toBool, toChar, parseInt, parseIntOr, ParseIntError };
+import "std/convert" { toString, toInt, toFloat, toFloat64, toBool, toChar, parseInt, ParseIntError };
 import "std/string" { eq };
 
 fun main() Int {
@@ -51,7 +51,7 @@ fun main() Int {
     if parsed2 != -19 {
         return 14;
     }
-    if parseIntOr("abc", 77) != 77 {
+    if (parseInt("abc") or 77) != 77 {
         return 15;
     }
 

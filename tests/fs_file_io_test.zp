@@ -9,9 +9,9 @@ fun main() Int {
 
     process.exec("rm -f \"" + filePath + "\"");
 
-    if fs.writeFile(filePath, content) != 0 {
+    fs.writeFile(filePath, content) or err {
         return 1;
-    }
+    };
 
     if !fs.exists(filePath) {
         return 2;
@@ -21,18 +21,30 @@ fun main() Int {
         return 3;
     }
 
-    if !string.eq(fs.readFile(filePath), content) {
+    var firstRead: String = fs.readFile(filePath) or err { return 4; };
+    if !string.eq(firstRead, content) {
         return 4;
     }
 
-    if fs.writeFile(filePath, "rewritten") != 0 {
+    fs.writeFile(filePath, "rewritten") or err {
         return 5;
-    }
+    };
 
-    if !string.eq(fs.readFile(filePath), "rewritten") {
+    var secondRead: String = fs.readFile(filePath) or err { return 6; };
+    if !string.eq(secondRead, "rewritten") {
         return 6;
     }
 
     process.exec("rm -f \"" + filePath + "\"");
+
+    var missingFailed: Bool = false;
+    fs.readFile(filePath) or err {
+        missingFailed = err == fs.FsError.NotFound;
+        ""
+    };
+    if !missingFailed {
+        return 7;
+    }
+
     return 0;
 }

@@ -7,11 +7,11 @@ fun main() Int {
   var root: String = path.join("/tmp", "zap_showcase");
   var note: String = path.join(root, "note.txt");
 
-  fs.mkdirAll(root);
-  fs.writeFile(note, "cwd: " + process.cwd());
+  fs.mkdirAll(root) or err { return 1; };
+  fs.writeFile(note, "cwd: " + process.cwd()) or err { return 1; };
 
   println(path.basename(note));
   println(path.parent(note));
-  println(fs.readFile(note));
+  println(fs.readFile(note) or "");
   return 0;
 }

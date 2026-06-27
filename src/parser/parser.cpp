@@ -481,7 +481,10 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           body->addStatement(std::move(assign));
         } else if (peek().type == TokenType::SEMICOLON) {
           eat(TokenType::SEMICOLON);
-          if (!dynamic_cast<FunCall *>(expr.get())) {
+          if (!dynamic_cast<FunCall *>(expr.get()) &&
+              !dynamic_cast<TryExpr *>(expr.get()) &&
+              !dynamic_cast<FallbackExpr *>(expr.get()) &&
+              !dynamic_cast<FailableHandleExpr *>(expr.get())) {
             _diag.report(expr->span, DiagnosticLevel::Warning,
                          "Expression result is unused.");
           }

@@ -1,8 +1,8 @@
-ext fun getLn() String;
+ext fun getln() String;
 
 fun main(){
     var name: String;
     println("what's your name:");
-    name = getLn();
+    name = getln();
     println("nice to meet you " + name);
 }
