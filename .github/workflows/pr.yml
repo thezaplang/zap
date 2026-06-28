@@ -8,6 +8,8 @@ jobs:
   build-and-test:
     if: contains(github.event.pull_request.labels.*.name, 'run-ci')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
