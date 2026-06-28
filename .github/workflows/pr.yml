@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install CMake
+      - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake build-essential python3
 
       - name: Install LLVM
@@ -23,9 +23,11 @@ jobs:
           sudo ./llvm.sh 21
 
       - name: Build project
-        run: .\build.sh
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
 
       - name: Run test script
         run: |
           chmod +x ./run_tests.sh
-          ./run_tests.py
+          ./run_tests.sh
