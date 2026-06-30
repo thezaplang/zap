@@ -1,0 +1,29 @@
+@error
+class FsError {
+    code: Int,
+
+    fun init(code: Int) {
+        self.code = code;
+    }
+}
+
+fun check(code: Int) Void!FsError {
+    if code != 0 {
+        fail new FsError(code);
+        return;
+    }
+    return;
+}
+
+fun operation() Void!FsError {
+    check(0)?;
+    return;
+}
+
+fun main() Int {
+    operation() or err {
+        return 1;
+    };
+
+    return 0;
+}

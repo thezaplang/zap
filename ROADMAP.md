@@ -7,8 +7,8 @@
 - [x] new faster cycle collector
 - [x] ARC upgrade
 - ~~[ ] package registry~~
-- [ ] stdlib cleanup
+- [x] stdlib cleanup
 - ~~[ ] first ZIR optimalizations~~
 - [x] inline asm
-- [ ] Windows support
+- ~~[ ] Windows support~~
 - [x] mutation operators
