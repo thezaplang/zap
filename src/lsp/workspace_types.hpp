@@ -40,6 +40,7 @@ struct LspSignature {
 struct CallContext {
   std::string callee;
   int64_t activeParameter = 0;
+  bool isConstructor = false;
 };
 
 struct HoverInfo {

@@ -82,6 +82,21 @@ def completion_items(proc, uri, line, character, request_id):
     return response["result"]
 
 
+def signature_help(proc, uri, line, character, request_id):
+    response = request(
+        proc,
+        "textDocument/signatureHelp",
+        {
+            "textDocument": {"uri": uri},
+            "position": {"line": line, "character": character},
+        },
+        request_id,
+    )
+    if "error" in response:
+        raise AssertionError(response["error"])
+    return response["result"]
+
+
 def open_document(proc, path, text):
     uri = file_uri(path)
     pathlib.Path(path).write_text(text)
@@ -285,7 +300,43 @@ fun main() Int {
             labels = [item["label"] for item in items]
             assert labels.count("toInt") == 1, "overloaded imported member duplicated in completion"
 
-        request(proc, "shutdown", None, 12)
+            constructor_source = """class Counter {
+    fun init(value: Int) {
+    }
+
+    fun init(value: String, repeat: Int) {
+    }
+}
+
+fun newCounter(value: Float) Int {
+    return 0;
+}
+
+fun main() Int {
+    var counter = new Counter(1, );
+    var value = newCounter(1.0);
+    return 0;
+}
+"""
+            constructor_uri = open_document(
+                proc, temp / "constructor_signature.zp", constructor_source
+            )
+            signatures = signature_help(proc, constructor_uri, 13, 33, 12)
+            assert signatures is not None, "constructor signature help is missing"
+            labels = {item["label"] for item in signatures["signatures"]}
+            assert labels == {
+                "init(value: Int) Void",
+                "init(value: String, repeat: Int) Void",
+            }, "constructor overloads are missing from signature help"
+            assert signatures["activeParameter"] == 1
+
+            signatures = signature_help(proc, constructor_uri, 14, 27, 13)
+            assert signatures is not None, "newCounter signature help is missing"
+            assert [item["label"] for item in signatures["signatures"]] == [
+                "newCounter(value: Float) Int"
+            ], "newCounter was incorrectly resolved as a constructor"
+
+        request(proc, "shutdown", None, 14)
         notify(proc, "exit", {})
         proc.wait(timeout=5)
     finally:

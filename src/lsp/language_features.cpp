@@ -476,6 +476,35 @@ const FunDecl *findClassMethod(const ClassDecl *cls,
   return nullptr;
 }
 
+std::vector<LspSignature>
+findConstructorSignatures(const ClassDecl *cls, const ProjectState &project,
+                          const sema::ModuleInfo &module) {
+  if (!cls) {
+    return {};
+  }
+
+  std::vector<LspSignature> signatures;
+  for (const auto &method : cls->methods_) {
+    if (!method || method->name_ != "init") {
+      continue;
+    }
+    if (auto signature = signatureForNode(method.get())) {
+      signatures.push_back(*signature);
+    }
+  }
+  if (!signatures.empty()) {
+    return signatures;
+  }
+
+  if (cls->baseType_) {
+    if (auto base = resolveClassByTypeName(project, module,
+                                           cls->baseType_->qualifiedName())) {
+      return findConstructorSignatures(base, project, module);
+    }
+  }
+  return {};
+}
+
 std::optional<HoverInfo> hoverForClassMember(const ClassDecl *cls,
                                              const ProjectState &project,
                                              const sema::ModuleInfo &module,
@@ -549,8 +578,8 @@ std::optional<CallContext> callContextAtOffset(const std::string &source,
   size_t start = end;
   while (start > 0) {
     char ch = source[start - 1];
-    if (isIdentifierChar(ch) || ch == '.' ||
-        std::isspace(static_cast<unsigned char>(ch))) {
+    if (isIdentifierChar(ch) || ch == '.' || ch == '<' || ch == '>' ||
+        ch == ',' || std::isspace(static_cast<unsigned char>(ch))) {
       --start;
       continue;
     }
@@ -558,6 +587,15 @@ std::optional<CallContext> callContextAtOffset(const std::string &source,
   }
 
   std::string callee = source.substr(start, end - start);
+  bool isConstructor = false;
+  size_t newKeyword = callee.rfind("new");
+  if (newKeyword != std::string::npos &&
+      (newKeyword == 0 || !isIdentifierChar(callee[newKeyword - 1])) &&
+      newKeyword + 3 < callee.size() &&
+      std::isspace(static_cast<unsigned char>(callee[newKeyword + 3]))) {
+    callee = callee.substr(newKeyword + 3);
+    isConstructor = true;
+  }
   callee.erase(
       std::remove_if(callee.begin(), callee.end(),
                      [](unsigned char ch) { return std::isspace(ch); }),
@@ -566,7 +604,7 @@ std::optional<CallContext> callContextAtOffset(const std::string &source,
     return std::nullopt;
   }
 
-  return CallContext{std::move(callee), activeParameter};
+  return CallContext{std::move(callee), activeParameter, isConstructor};
 }
 
 std::optional<CallContext> callContextNearOffset(const std::string &source,
@@ -672,6 +710,11 @@ std::vector<LspSignature> resolveSignatures(const std::string &source,
     return {};
   }
   const sema::ModuleInfo &module = *moduleIt->second;
+
+  if (call->isConstructor) {
+    auto cls = resolveClassByTypeName(project, module, call->callee);
+    return findConstructorSignatures(cls, project, module);
+  }
 
   auto dot = call->callee.find('.');
   if (dot != std::string::npos) {
