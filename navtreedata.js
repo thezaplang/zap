@@ -80,18 +80,18 @@ var NAVTREEINDEX =
 "d3/d57/classzir_1_1Argument.html#a1547c6df5662eb69f940d35c2e554691",
 "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a8158fc7dd6dcf9c20a7a9f1e256ec0b5",
 "d5/d23/namespacezap_1_1lsp.html#a15c01a432bc7764c1cdd7f5aabb91935",
-"d6/d7b/classClassDecl.html#abff211c086e8e94927d4e0983bdd86f6",
-"d8/d4b/classsema_1_1BoundStructLiteral.html#a8e628c799d688bea36ad8b3dd934d7fb",
-"d9/d0d/classzap_1_1lsp_1_1Server.html#a8914da35827f80df1c97a29a01f3b5e2",
-"d9/dff/classMemberAccessNode.html",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#a0f07d70f216d99fc77539272f5028ad8",
-"db/d2f/classsema_1_1BoundCompoundTargetLoad.html#a760fbe5cbdf31a5caffe3b4fcd4a2a0e",
-"db/dfa/stdlib_8c.html#a768fbe26f8d9de5a5f64130f84be0d37",
-"dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295",
-"dc/dae/classzir_1_1ClassType.html#a0c7b59f769c2874b66e2676db548e327",
-"de/d3e/classsema_1_1BoundIndirectCall.html#ad0de9073109f732817a0c3bb1739bd44",
-"df/d0a/classzir_1_1BinaryInst.html",
-"df/dee/classsema_1_1BoundBinaryExpression.html#a712fca1a27f6668ce1b8edad8b1d49c8"
+"d6/d7b/classClassDecl.html#a9b8610ab2116a0aef67de773b556a5e0",
+"d8/d4b/classsema_1_1BoundStructLiteral.html#a6a1911f9bd3d33a2fec0d55c5d15469f",
+"d9/d0d/classzap_1_1lsp_1_1Server.html#a770f5775d9500e18c07047fd49729356",
+"d9/de9/structEnumDecl_1_1Entry.html#ad8cae6d6960094180d9837e0464211ff",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#a0dd620b20baba3bb926dac1c8cfe9c16",
+"db/d2f/classsema_1_1BoundCompoundTargetLoad.html",
+"db/dfa/stdlib_8c.html#a6e7f94aaff23d5d5b24c26fe80fd5ef4",
+"dc/d2c/classsema_1_1Binder.html#a5b96966b4abff7b0b7f6257f51eb897b",
+"dc/dae/classzir_1_1ClassType.html",
+"de/d3e/classsema_1_1BoundIndirectCall.html#a365253d08fad7a5e90e2ccc6f930a5e4",
+"df/d05/structzap_1_1lsp_1_1DocumentState.html#a895a26d34e519db70d76c78081f0dd51",
+"df/dee/classsema_1_1BoundBinaryExpression.html#a4afebdbdbeb5bb7b949bd47931996bd2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -58,6 +58,7 @@ var namespacezap_1_1lsp =
     [ "findClassDecl", "d5/d23/namespacezap_1_1lsp.html#a08f7bfebad7812220aee4dd0fa1a54e3", null ],
     [ "findClassField", "d5/d23/namespacezap_1_1lsp.html#a5da9c82ebcd9a0c8cd6e852a85dd5903", null ],
     [ "findClassMethod", "d5/d23/namespacezap_1_1lsp.html#a6b82354971c63d93a5d0e61feae80b8f", null ],
+    [ "findConstructorSignatures", "d5/d23/namespacezap_1_1lsp.html#a22b6b44e52561f22028451770145805e", null ],
     [ "findImportedModuleByAlias", "d5/d23/namespacezap_1_1lsp.html#a1c0ea95f0d8d37037c86c15ee919e880", null ],
     [ "findRecordLikeFields", "d5/d23/namespacezap_1_1lsp.html#a7c62f2a473226ce705bd4d55a490d42a", null ],
     [ "findTopLevelHover", "d5/d23/namespacezap_1_1lsp.html#a50c7cc0e76ab22732a35e33c11982c62", null ],

@@ -11,6 +11,7 @@ var language__features_8cpp =
     [ "zap::lsp::findClassDecl", "d5/d23/namespacezap_1_1lsp.html#a08f7bfebad7812220aee4dd0fa1a54e3", null ],
     [ "zap::lsp::findClassField", "d5/d23/namespacezap_1_1lsp.html#a5da9c82ebcd9a0c8cd6e852a85dd5903", null ],
     [ "zap::lsp::findClassMethod", "d5/d23/namespacezap_1_1lsp.html#a6b82354971c63d93a5d0e61feae80b8f", null ],
+    [ "zap::lsp::findConstructorSignatures", "d5/d23/namespacezap_1_1lsp.html#a22b6b44e52561f22028451770145805e", null ],
     [ "zap::lsp::findImportedModuleByAlias", "d5/d23/namespacezap_1_1lsp.html#a1c0ea95f0d8d37037c86c15ee919e880", null ],
     [ "zap::lsp::findTopLevelHover", "d5/d23/namespacezap_1_1lsp.html#a50c7cc0e76ab22732a35e33c11982c62", null ],
     [ "zap::lsp::findTopLevelSignatures", "d5/d23/namespacezap_1_1lsp.html#a4b9556be7a1faf84a82a393108b73c8a", null ],
