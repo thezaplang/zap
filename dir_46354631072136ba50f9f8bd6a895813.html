@@ -106,8 +106,8 @@ Zap LSP 0.1.0</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Build the server</h1>
 <p>From the repository root:</p>
-<div class="fragment"><div class="line">cmake -S . -B build</div>
-<div class="line">cmake --build build --target zap-lsp -j2</div>
+<div class="fragment"><div class="line">meson setup build -Dinclude_lsp=true</div>
+<div class="line">meson compile -C build zap-lsp</div>
 </div><!-- fragment --><p>The binary is written to <span class="tt">build/zap-lsp</span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Configure a workspace</h1>
