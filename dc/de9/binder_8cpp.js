@@ -1,6 +1,6 @@
 var binder_8cpp =
 [
-    [ "sema::abiTypeKey", "d7/d39/namespacesema.html#a38e33d177dce5f7b28d53d171cfb62cb", null ],
+    [ "sema::accessesImmutableRecordField", "d7/d39/namespacesema.html#a4fea647fc124663c1bed046fac55e9c5", null ],
     [ "sema::blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "sema::collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],
     [ "sema::deriveValueExpressionFromBlock", "d7/d39/namespacesema.html#ac4149da11ebd06d1de01c84ed4c76497", null ],
@@ -9,8 +9,8 @@ var binder_8cpp =
     [ "sema::failableErrorType", "d7/d39/namespacesema.html#a9b9ac55666aa5e79ceeaf47974d37750", null ],
     [ "sema::failableValueType", "d7/d39/namespacesema.html#a3a2f25914014210aab9260b41491c847", null ],
     [ "sema::isFailableType", "d7/d39/namespacesema.html#a6e5a160487786fb691ad516d91eae2f3", null ],
+    [ "sema::anonymous_namespace{binder.cpp}::isImmutableRecordStorage", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a446fa346a5d60d1ae112e0a53bf64369", null ],
     [ "sema::isStringType", "d7/d39/namespacesema.html#a4662f3ed0037f0750a99d40b87832862", null ],
-    [ "sema::isVariadicViewType", "d7/d39/namespacesema.html#a0d0cd7eb4e50cf28045b9aacd27af483", null ],
     [ "sema::makeDefaultValueExpr", "d7/d39/namespacesema.html#ac5487dc0b877139c2d8e8aeac0b991ca", null ],
     [ "sema::makeFailableErrorExpr", "d7/d39/namespacesema.html#ae3d979044b917c417a411cce3f91bab2", null ],
     [ "sema::makeFailableType", "d7/d39/namespacesema.html#ab49df89f8da682c412bcc1accc0042c2", null ],

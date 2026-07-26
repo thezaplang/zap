@@ -5,9 +5,6 @@ var annotated_dup =
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
     ] ],
     [ "sema", "d7/d39/namespacesema.html", [
-      [ "anonymous_namespace{binder_exprs.cpp}", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03.html", [
-        [ "TypeLayout", "de/d06/structsema_1_1anonymous__namespace_02binder__exprs_8cpp_03_1_1TypeLayout.html", "de/d06/structsema_1_1anonymous__namespace_02binder__exprs_8cpp_03_1_1TypeLayout" ]
-      ] ],
       [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
       [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
@@ -54,6 +51,9 @@ var annotated_dup =
       [ "BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
       [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
       [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+      [ "Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
+      [ "TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
+      [ "ConversionClassifier", "da/d5d/classsema_1_1ConversionClassifier.html", "da/d5d/classsema_1_1ConversionClassifier" ],
       [ "ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", "d9/ddd/structsema_1_1ResolvedImport" ],
       [ "ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", "d0/d65/structsema_1_1ModuleInfo" ],
       [ "SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", "dd/d4f/structsema_1_1SemanticInfo" ],
@@ -63,7 +63,9 @@ var annotated_dup =
       [ "OverloadSetSymbol", "de/d14/classsema_1_1OverloadSetSymbol.html", "de/d14/classsema_1_1OverloadSetSymbol" ],
       [ "TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", "d0/d06/classsema_1_1TypeSymbol" ],
       [ "ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", "d3/d56/classsema_1_1ModuleSymbol" ],
-      [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ]
+      [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ],
+      [ "TargetInfo", "d7/d08/structsema_1_1TargetInfo.html", "d7/d08/structsema_1_1TargetInfo" ],
+      [ "TypeLayout", "df/dfe/structsema_1_1TypeLayout.html", "df/dfe/structsema_1_1TypeLayout" ]
     ] ],
     [ "zap", "d7/d1a/namespacezap.html", [
       [ "args", "d3/d6f/namespacezap_1_1args.html", [
@@ -72,21 +74,40 @@ var annotated_dup =
         [ "ArgHolder", "d6/d1a/classzap_1_1args_1_1ArgHolder.html", "d6/d1a/classzap_1_1args_1_1ArgHolder" ],
         [ "CmdlineArgs", "d9/d45/structzap_1_1args_1_1CmdlineArgs.html", "d9/d45/structzap_1_1args_1_1CmdlineArgs" ]
       ] ],
+      [ "process", "d2/dc2/namespacezap_1_1process.html", [
+        [ "Result", "db/dd4/structzap_1_1process_1_1Result.html", "db/dd4/structzap_1_1process_1_1Result" ]
+      ] ],
       [ "frontend", "df/ddd/namespacezap_1_1frontend.html", [
+        [ "FrontendSessionConfig", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig.html", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig" ],
+        [ "FrontendProject", "df/d8d/structzap_1_1frontend_1_1FrontendProject.html", "df/d8d/structzap_1_1frontend_1_1FrontendProject" ],
+        [ "FrontendSession", "d0/d02/classzap_1_1frontend_1_1FrontendSession.html", "d0/d02/classzap_1_1frontend_1_1FrontendSession" ],
         [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ]
       ] ],
       [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
+        [ "anonymous_namespace{request_dispatcher.cpp}", "d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html", [
+          [ "RequestScheduler", "d8/d85/classzap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler.html", "d8/d85/classzap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler" ]
+        ] ],
         [ "StructLiteralCompletionContext", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext.html", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext" ],
+        [ "RuntimePathConfiguration", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration" ],
+        [ "DocumentRequestContext", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext.html", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext" ],
         [ "LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", "df/d17/structzap_1_1lsp_1_1LspSymbol" ],
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
         [ "JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", "d3/dfe/classzap_1_1lsp_1_1JsonParser" ],
         [ "JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", "d3/d6a/classzap_1_1lsp_1_1JsonRPC" ],
         [ "Server", "d9/d0d/classzap_1_1lsp_1_1Server.html", "d9/d0d/classzap_1_1lsp_1_1Server" ],
+        [ "LspPosition", "d3/d64/structzap_1_1lsp_1_1LspPosition.html", "d3/d64/structzap_1_1lsp_1_1LspPosition" ],
+        [ "TextDocumentPosition", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition.html", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition" ],
+        [ "OpenDocumentParams", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams.html", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams" ],
+        [ "ChangeDocumentParams", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams.html", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams" ],
+        [ "InitializeParams", "d6/d34/structzap_1_1lsp_1_1InitializeParams.html", "d6/d34/structzap_1_1lsp_1_1InitializeParams" ],
+        [ "SourceSnapshot", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot.html", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot" ],
+        [ "SourceManager", "df/d88/classzap_1_1lsp_1_1SourceManager.html", "df/d88/classzap_1_1lsp_1_1SourceManager" ],
         [ "VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo" ],
         [ "Workspace", "d1/dae/classzap_1_1lsp_1_1Workspace.html", "d1/dae/classzap_1_1lsp_1_1Workspace" ],
-        [ "DocumentState", "df/d05/structzap_1_1lsp_1_1DocumentState.html", "df/d05/structzap_1_1lsp_1_1DocumentState" ],
         [ "AnalysisResult", "d1/dff/structzap_1_1lsp_1_1AnalysisResult.html", "d1/dff/structzap_1_1lsp_1_1AnalysisResult" ],
         [ "ProjectState", "de/ddb/structzap_1_1lsp_1_1ProjectState.html", "de/ddb/structzap_1_1lsp_1_1ProjectState" ],
+        [ "SemanticSnapshot", "d3/df8/structzap_1_1lsp_1_1SemanticSnapshot.html", "d3/df8/structzap_1_1lsp_1_1SemanticSnapshot" ],
+        [ "SemanticQuery", "df/dd3/structzap_1_1lsp_1_1SemanticQuery.html", "df/dd3/structzap_1_1lsp_1_1SemanticQuery" ],
         [ "LspSignature", "d6/d68/structzap_1_1lsp_1_1LspSignature.html", "d6/d68/structzap_1_1lsp_1_1LspSignature" ],
         [ "CallContext", "d7/d3f/structzap_1_1lsp_1_1CallContext.html", "d7/d3f/structzap_1_1lsp_1_1CallContext" ],
         [ "HoverInfo", "d1/d23/structzap_1_1lsp_1_1HoverInfo.html", "d1/d23/structzap_1_1lsp_1_1HoverInfo" ]
@@ -106,7 +127,16 @@ var annotated_dup =
       [ "SFStream", "d2/d02/classzap_1_1SFStream.html", "d2/d02/classzap_1_1SFStream" ]
     ] ],
     [ "zir", "df/d35/namespacezir.html", [
+      [ "anonymous_namespace{ownership_lowering.cpp}", "dd/d79/namespacezir_1_1anonymous__namespace_02ownership__lowering_8cpp_03.html", [
+        [ "PendingEdgeClosure", "d1/d85/structzir_1_1anonymous__namespace_02ownership__lowering_8cpp_03_1_1PendingEdgeClosure.html", "d1/d85/structzir_1_1anonymous__namespace_02ownership__lowering_8cpp_03_1_1PendingEdgeClosure" ]
+      ] ],
+      [ "anonymous_namespace{zir_verifier_function.cpp}", "d1/da1/namespacezir_1_1anonymous__namespace_02zir__verifier__function_8cpp_03.html", [
+        [ "FunctionVerifier", "d7/dbd/classzir_1_1anonymous__namespace_02zir__verifier__function_8cpp_03_1_1FunctionVerifier.html", "d7/dbd/classzir_1_1anonymous__namespace_02zir__verifier__function_8cpp_03_1_1FunctionVerifier" ]
+      ] ],
       [ "BasicBlock", "d7/d6e/classzir_1_1BasicBlock.html", "d7/d6e/classzir_1_1BasicBlock" ],
+      [ "BorrowProvenance", "d2/d5d/classzir_1_1BorrowProvenance.html", "d2/d5d/classzir_1_1BorrowProvenance" ],
+      [ "CallParameterContract", "d0/d51/structzir_1_1CallParameterContract.html", "d0/d51/structzir_1_1CallParameterContract" ],
+      [ "ControlFlowGraph", "d6/de1/classzir_1_1ControlFlowGraph.html", "d6/de1/classzir_1_1ControlFlowGraph" ],
       [ "FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", "d4/d3c/structzir_1_1FailableTypeLayout" ],
       [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
       [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
@@ -118,8 +148,10 @@ var annotated_dup =
       [ "CondBranchInst", "d2/ddf/classzir_1_1CondBranchInst.html", "d2/ddf/classzir_1_1CondBranchInst" ],
       [ "CallInst", "df/d31/classzir_1_1CallInst.html", "df/d31/classzir_1_1CallInst" ],
       [ "ReturnInst", "d2/df1/classzir_1_1ReturnInst.html", "d2/df1/classzir_1_1ReturnInst" ],
-      [ "RetainInst", "da/db6/classzir_1_1RetainInst.html", "da/db6/classzir_1_1RetainInst" ],
-      [ "ReleaseInst", "d0/db2/classzir_1_1ReleaseInst.html", "d0/db2/classzir_1_1ReleaseInst" ],
+      [ "CopyInst", "d3/da5/classzir_1_1CopyInst.html", "d3/da5/classzir_1_1CopyInst" ],
+      [ "MoveInst", "d4/d8a/classzir_1_1MoveInst.html", "d4/d8a/classzir_1_1MoveInst" ],
+      [ "BorrowInst", "d6/d69/classzir_1_1BorrowInst.html", "d6/d69/classzir_1_1BorrowInst" ],
+      [ "DestroyInst", "d3/d6b/classzir_1_1DestroyInst.html", "d3/d6b/classzir_1_1DestroyInst" ],
       [ "AllocInst", "d1/dc3/classzir_1_1AllocInst.html", "d1/dc3/classzir_1_1AllocInst" ],
       [ "CmpInst", "d1/d56/classzir_1_1CmpInst.html", "d1/d56/classzir_1_1CmpInst" ],
       [ "GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", "db/dee/classzir_1_1GetElementPtrInst" ],
@@ -131,6 +163,14 @@ var annotated_dup =
       [ "InlineAsmInst", "da/d3e/classzir_1_1InlineAsmInst.html", "da/d3e/classzir_1_1InlineAsmInst" ],
       [ "BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", "d4/da0/classzir_1_1BoundIRGenerator" ],
       [ "Module", "d9/d68/classzir_1_1Module.html", "d9/d68/classzir_1_1Module" ],
+      [ "OwnershipTransferViolation", "d3/d5f/structzir_1_1OwnershipTransferViolation.html", "d3/d5f/structzir_1_1OwnershipTransferViolation" ],
+      [ "OwnershipExitObligation", "d2/d66/structzir_1_1OwnershipExitObligation.html", "d2/d66/structzir_1_1OwnershipExitObligation" ],
+      [ "OwnershipDefinitionSite", "d0/d3b/structzir_1_1OwnershipDefinitionSite.html", "d0/d3b/structzir_1_1OwnershipDefinitionSite" ],
+      [ "OwnershipDestroyPlacement", "d1/dab/structzir_1_1OwnershipDestroyPlacement.html", "d1/dab/structzir_1_1OwnershipDestroyPlacement" ],
+      [ "OwnershipClosurePlan", "de/d85/structzir_1_1OwnershipClosurePlan.html", "de/d85/structzir_1_1OwnershipClosurePlan" ],
+      [ "OwnershipFlowAnalysis", "d7/d0e/classzir_1_1OwnershipFlowAnalysis.html", "d7/d0e/classzir_1_1OwnershipFlowAnalysis" ],
+      [ "OwnershipLiveness", "dd/d4e/classzir_1_1OwnershipLiveness.html", "dd/d4e/classzir_1_1OwnershipLiveness" ],
+      [ "NumericTypeInfo", "d2/d16/structzir_1_1NumericTypeInfo.html", "d2/d16/structzir_1_1NumericTypeInfo" ],
       [ "Type", "d9/dd2/classzir_1_1Type.html", "d9/dd2/classzir_1_1Type" ],
       [ "PrimitiveType", "d0/d21/classzir_1_1PrimitiveType.html", "d0/d21/classzir_1_1PrimitiveType" ],
       [ "PointerType", "d4/d67/classzir_1_1PointerType.html", "d4/d67/classzir_1_1PointerType" ],
@@ -139,7 +179,12 @@ var annotated_dup =
       [ "EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
       [ "TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html", "dd/db3/classzir_1_1TaggedUnionType" ],
       [ "ArrayType", "d8/d68/classzir_1_1ArrayType.html", "d8/d68/classzir_1_1ArrayType" ],
+      [ "ResultBorrowContract", "d1/d3b/classzir_1_1ResultBorrowContract.html", "d1/d3b/classzir_1_1ResultBorrowContract" ],
       [ "FunctionPointerType", "d0/d48/classzir_1_1FunctionPointerType.html", "d0/d48/classzir_1_1FunctionPointerType" ],
+      [ "TypeIdentityBuilder", "da/dc3/classzir_1_1TypeIdentityBuilder.html", "da/dc3/classzir_1_1TypeIdentityBuilder" ],
+      [ "TypeId", "d2/d6a/classzir_1_1TypeId.html", "d2/d6a/classzir_1_1TypeId" ],
+      [ "TypeIdHash", "dd/de9/structzir_1_1TypeIdHash.html", "dd/de9/structzir_1_1TypeIdHash" ],
+      [ "TypeInterner", "da/dee/classzir_1_1TypeInterner.html", "da/dee/classzir_1_1TypeInterner" ],
       [ "Value", "da/d98/classzir_1_1Value.html", "da/d98/classzir_1_1Value" ],
       [ "GlobalAddress", "db/d7b/classzir_1_1GlobalAddress.html", "db/d7b/classzir_1_1GlobalAddress" ],
       [ "Register", "da/d1e/classzir_1_1Register.html", "da/d1e/classzir_1_1Register" ],
@@ -147,7 +192,11 @@ var annotated_dup =
       [ "AggregateConstant", "dd/de3/classzir_1_1AggregateConstant.html", "dd/de3/classzir_1_1AggregateConstant" ],
       [ "ArrayConstant", "d1/dc9/classzir_1_1ArrayConstant.html", "d1/dc9/classzir_1_1ArrayConstant" ],
       [ "Argument", "d3/d57/classzir_1_1Argument.html", "d3/d57/classzir_1_1Argument" ],
-      [ "Global", "d0/d8c/classzir_1_1Global.html", "d0/d8c/classzir_1_1Global" ]
+      [ "FunctionReference", "d3/dc1/classzir_1_1FunctionReference.html", "d3/dc1/classzir_1_1FunctionReference" ],
+      [ "Global", "d0/d8c/classzir_1_1Global.html", "d0/d8c/classzir_1_1Global" ],
+      [ "VerificationError", "dd/d08/structzir_1_1VerificationError.html", "dd/d08/structzir_1_1VerificationError" ],
+      [ "VerificationResult", "d0/d99/classzir_1_1VerificationResult.html", "d0/d99/classzir_1_1VerificationResult" ],
+      [ "ZirVerifier", "d2/d33/classzir_1_1ZirVerifier.html", "d2/d33/classzir_1_1ZirVerifier" ]
     ] ],
     [ "Argument", "dc/d8f/structArgument.html", "dc/d8f/structArgument" ],
     [ "ArrayLiteralNode", "d0/d85/classArrayLiteralNode.html", "d0/d85/classArrayLiteralNode" ],
@@ -211,10 +260,14 @@ var annotated_dup =
     [ "VarDecl", "d0/d3d/classVarDecl.html", "d0/d3d/classVarDecl" ],
     [ "Visitor", "dc/d13/structVisitor.html", "dc/d13/structVisitor" ],
     [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ],
+    [ "zap_arc_discover_context_t", "d9/ddf/structzap__arc__discover__context__t.html", "d9/ddf/structzap__arc__discover__context__t" ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", "d1/de8/structzap__arc__header__t" ],
+    [ "zap_arc_incoming_context_t", "db/d4f/structzap__arc__incoming__context__t.html", "db/d4f/structzap__arc__incoming__context__t" ],
     [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", "d4/d2c/structzap__arc__metadata__t" ],
     [ "zap_arc_ptrmap_t", "d3/d12/structzap__arc__ptrmap__t.html", "d3/d12/structzap__arc__ptrmap__t" ],
+    [ "zap_arc_reachable_context_t", "d0/dfb/structzap__arc__reachable__context__t.html", "d0/dfb/structzap__arc__reachable__context__t" ],
+    [ "zap_arc_runtime_context_t", "dc/dc2/structzap__arc__runtime__context__t.html", "dc/dc2/structzap__arc__runtime__context__t" ],
     [ "zap_string_header_t", "dd/dd3/structzap__string__header__t.html", "dd/dd3/structzap__string__header__t" ],
-    [ "zap_string_owner_entry_t", "db/de0/structzap__string__owner__entry__t.html", "db/de0/structzap__string__owner__entry__t" ],
-    [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ]
+    [ "zap_string_t", "dd/d2a/structzap__string__t.html", "dd/d2a/structzap__string__t" ],
+    [ "zap_tls_session_t", "dc/df4/structzap__tls__session__t.html", "dc/df4/structzap__tls__session__t" ]
 ];

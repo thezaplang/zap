@@ -1,6 +1,22 @@
 var namespacesema =
 [
-    [ "anonymous_namespace{binder_exprs.cpp}", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03.html", "da/d4b/namespacesema_1_1anonymous__namespace_02binder__exprs_8cpp_03" ],
+    [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
+      [ "isImmutableRecordStorage", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a446fa346a5d60d1ae112e0a53bf64369", null ]
+    ] ],
+    [ "anonymous_namespace{conversion.cpp}", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html", [
+      [ "bitWidth", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#a138bd86df29293735fd2de540217e68c", null ],
+      [ "conversion", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#a07529b6715cf0e64a1e6d1180723b1e6", null ],
+      [ "hasClassAncestor", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#ad6e1e1211ce6938cb894deaadae4f8b8", null ],
+      [ "isSignedInteger", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#a82ee63caa73bd22d40751f2ba16c10d9", null ],
+      [ "joinNumericTypes", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#a60af9af5fefc4d61859ad73bf2c94c33", null ],
+      [ "primitive", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#aab6971de1b0d5f93bcd5f2cf641151a6", null ]
+    ] ],
+    [ "anonymous_namespace{type_layout.cpp}", "de/d51/namespacesema_1_1anonymous__namespace_02type__layout_8cpp_03.html", [
+      [ "alignTo", "de/d51/namespacesema_1_1anonymous__namespace_02type__layout_8cpp_03.html#a7acba4f350dee8768ff6cc68a6529b1b", null ],
+      [ "layoutOfAggregateField", "de/d51/namespacesema_1_1anonymous__namespace_02type__layout_8cpp_03.html#ae0f87b14f427894f8f197285130761fe", null ],
+      [ "layoutOfRecord", "de/d51/namespacesema_1_1anonymous__namespace_02type__layout_8cpp_03.html#a436756486d52e17c05269652018e25db", null ],
+      [ "layoutOfTaggedUnion", "de/d51/namespacesema_1_1anonymous__namespace_02type__layout_8cpp_03.html#a2d63b37a694da6d763e4f0722ff27d8e", null ]
+    ] ],
     [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
     [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
     [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
@@ -47,6 +63,9 @@ var namespacesema =
     [ "BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
     [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+    [ "Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
+    [ "TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
+    [ "ConversionClassifier", "da/d5d/classsema_1_1ConversionClassifier.html", "da/d5d/classsema_1_1ConversionClassifier" ],
     [ "ResolvedImport", "d9/ddd/structsema_1_1ResolvedImport.html", "d9/ddd/structsema_1_1ResolvedImport" ],
     [ "ModuleInfo", "d0/d65/structsema_1_1ModuleInfo.html", "d0/d65/structsema_1_1ModuleInfo" ],
     [ "SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", "dd/d4f/structsema_1_1SemanticInfo" ],
@@ -57,6 +76,47 @@ var namespacesema =
     [ "TypeSymbol", "d0/d06/classsema_1_1TypeSymbol.html", "d0/d06/classsema_1_1TypeSymbol" ],
     [ "ModuleSymbol", "d3/d56/classsema_1_1ModuleSymbol.html", "d3/d56/classsema_1_1ModuleSymbol" ],
     [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ],
+    [ "TargetInfo", "d7/d08/structsema_1_1TargetInfo.html", "d7/d08/structsema_1_1TargetInfo" ],
+    [ "TypeLayout", "df/dfe/structsema_1_1TypeLayout.html", "df/dfe/structsema_1_1TypeLayout" ],
+    [ "ConversionKind", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955", [
+      [ "Identity", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ac9c5c65fb4af9cf90eb99b3b84424189", null ],
+      [ "StringToView", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a9fc2cf43b944166ce396aec8239c7eee", null ],
+      [ "StringToOwned", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a142ba15a4807b0c4127f6317bdba6422", null ],
+      [ "EnumToInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1e29b38d01736960dc458f7f2fae9814", null ],
+      [ "FloatingWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955abbdf4b82ce584ad47f8ba6a2cf3a139d", null ],
+      [ "FloatingNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a0ee0b1cfd0ea876f5ad20f6cbafee763", null ],
+      [ "SignedWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ad5a69752d7cfd6b59832c6360aded519", null ],
+      [ "SignedNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a2fd76a4efa6424b1feacd98c07a20fc8", null ],
+      [ "UnsignedWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955aa12538af78a095d5230d637dcd6c76d5", null ],
+      [ "UnsignedNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ab9f200cde162a5b0ffbdc70744eae323", null ],
+      [ "SignednessChange", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a0f7f551c0e4f6f6d318de93b9c03bc07", null ],
+      [ "IntegerToFloat", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a15f6a71f7882b99c99d02074c51eab06", null ],
+      [ "FloatToInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a7181fdb99a4c8fee0f7d88d531a46089", null ],
+      [ "NullToPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a051f4bca91e4af51613cfa6138d259f4", null ],
+      [ "NullToClass", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a8194ebb2161926b1dd225303a0816f04", null ],
+      [ "StringToCharPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955aadd207b01779e75db14e2256c7ee3513", null ],
+      [ "ClassUpcast", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1178fcb8b36cf2a6d538ad5292e6f6dc", null ],
+      [ "StrongToWeak", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ae42629e35cacdeec7ba6ac9354bee0f3", null ],
+      [ "ArrayToVariadicView", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955adc86e864e554ab4ec8a903dc0c7528e5", null ],
+      [ "Failable", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955af209137478906384a4d3729cce713208", null ],
+      [ "CVariadicPromotion", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a22f9b3b4ccebef14cfb543b70aa13f38", null ],
+      [ "ExplicitCharInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a3955938e2292d1e5a1550ec118ad2f8f", null ],
+      [ "ExplicitPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a516c204645de248b2bd65adddc0fea56", null ],
+      [ "ExplicitStringPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1822532006a6cb44c0c627f8ba5fc3e5", null ],
+      [ "ExplicitPointerString", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a4906e937a7c8147d2a30b94fa9abd943", null ],
+      [ "ExplicitPointerInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a90586eed2517bf0b8aa594c697bcf4bf", null ]
+    ] ],
+    [ "ConversionRank", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972", [
+      [ "Exact", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a1649aed298f99d587e2eb30c1db5946b", null ],
+      [ "Promotion", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a626a54d37d402d449d6d7541911e0952", null ],
+      [ "Numeric", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a87322391cc6e8948ce9fd5d6cb84fced", null ],
+      [ "NullPointer", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a260d92b2beff2bf345911077edcd3f3c", null ],
+      [ "Narrowing", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a8d7932c20f13bfea9b3b1242aebbc04f", null ],
+      [ "Lossy", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972ab71142391f68646086edeadddcf020dc", null ],
+      [ "FloatToInteger", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a7181fdb99a4c8fee0f7d88d531a46089", null ],
+      [ "Structural", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972aa9a0f8e36e7dcc2b446c20be15322dc9", null ],
+      [ "Explicit", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a9d71760e2dd451db2df354d0fd29cd7f", null ]
+    ] ],
     [ "SymbolKind", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524", [
       [ "Variable", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a47c14840d8e15331fa420b9b2f757cd9", null ],
       [ "Function", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524a86408593c34af77fdd90df932f8b5261", null ],
@@ -64,9 +124,10 @@ var namespacesema =
       [ "Type", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508", null ],
       [ "Module", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42", null ]
     ] ],
-    [ "abiTypeKey", "d7/d39/namespacesema.html#a38e33d177dce5f7b28d53d171cfb62cb", null ],
+    [ "accessesImmutableRecordField", "d7/d39/namespacesema.html#a4fea647fc124663c1bed046fac55e9c5", null ],
     [ "blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],
+    [ "computeTypeLayout", "d7/d39/namespacesema.html#af02797b26d5cde0453ccd3d807201ebc", null ],
     [ "deriveValueExpressionFromBlock", "d7/d39/namespacesema.html#ac4149da11ebd06d1de01c84ed4c76497", null ],
     [ "deriveValueExpressionFromIf", "d7/d39/namespacesema.html#ab834aafd43a3b57c67955ee465f01441", null ],
     [ "extractQualifiedPath", "d7/d39/namespacesema.html#ad6d422293d0d470ef76a5dc8bdd57bec", null ],

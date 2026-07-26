@@ -72,13 +72,14 @@ $(function(){initNavTree('da/d98/classzir_1_1Value.html','../../','d1/d7b/classz
  <div class="center">
   <img src="../../da/d98/classzir_1_1Value.png" usemap="#zir_3A_3AValue_map" alt=""/>
   <map id="zir_3A_3AValue_map" name="zir_3A_3AValue_map">
-<area href="../../dd/de3/classzir_1_1AggregateConstant.html" alt="zir::AggregateConstant" shape="rect" coords="0,56,140,80"/>
-<area href="../../d3/d57/classzir_1_1Argument.html" alt="zir::Argument" shape="rect" coords="150,56,290,80"/>
-<area href="../../d1/dc9/classzir_1_1ArrayConstant.html" alt="zir::ArrayConstant" shape="rect" coords="300,56,440,80"/>
-<area href="../../da/d2d/classzir_1_1Constant.html" alt="zir::Constant" shape="rect" coords="450,56,590,80"/>
-<area href="../../d0/d8c/classzir_1_1Global.html" alt="zir::Global" shape="rect" coords="600,56,740,80"/>
-<area href="../../db/d7b/classzir_1_1GlobalAddress.html" alt="zir::GlobalAddress" shape="rect" coords="750,56,890,80"/>
-<area href="../../da/d1e/classzir_1_1Register.html" alt="zir::Register" shape="rect" coords="900,56,1040,80"/>
+<area href="../../dd/de3/classzir_1_1AggregateConstant.html" alt="zir::AggregateConstant" shape="rect" coords="150,56,290,80"/>
+<area href="../../d3/d57/classzir_1_1Argument.html" alt="zir::Argument" shape="rect" coords="150,112,290,136"/>
+<area href="../../d1/dc9/classzir_1_1ArrayConstant.html" alt="zir::ArrayConstant" shape="rect" coords="150,168,290,192"/>
+<area href="../../da/d2d/classzir_1_1Constant.html" alt="zir::Constant" shape="rect" coords="150,224,290,248"/>
+<area href="../../d3/dc1/classzir_1_1FunctionReference.html" alt="zir::FunctionReference" shape="rect" coords="150,280,290,304"/>
+<area href="../../d0/d8c/classzir_1_1Global.html" alt="zir::Global" shape="rect" coords="150,336,290,360"/>
+<area href="../../db/d7b/classzir_1_1GlobalAddress.html" alt="zir::GlobalAddress" shape="rect" coords="150,392,290,416"/>
+<area href="../../da/d1e/classzir_1_1Register.html" alt="zir::Register" shape="rect" coords="150,448,290,472"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -89,10 +90,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a927d59ebbf31211b45917ebf498b23b9" id="r_a927d59ebbf31211b45917ebf498b23b9"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a927d59ebbf31211b45917ebf498b23b9">getName</a> () const =0</td></tr>
 <tr class="memitem:ac5081b3a03973a2c61346d58326e9733" id="r_ac5081b3a03973a2c61346d58326e9733"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5081b3a03973a2c61346d58326e9733">getType</a> () const =0</td></tr>
 <tr class="memitem:afcb33b8503c6c9e1f0d07112e2d5c6e8" id="r_afcb33b8503c6c9e1f0d07112e2d5c6e8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcb33b8503c6c9e1f0d07112e2d5c6e8">getTypeName</a> () const</td></tr>
+<tr class="memitem:a4fef6828d76b8fe82dc7219768971926" id="r_a4fef6828d76b8fe82dc7219768971926"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fef6828d76b8fe82dc7219768971926">getOwnership</a> () const</td></tr>
+<tr class="memitem:aa212797b17aeca1183706d603df38924" id="r_aa212797b17aeca1183706d603df38924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa212797b17aeca1183706d603df38924">setOwnership</a> (<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a> ownership)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:af5fbc6216e9f2f80ced42fd1603ca77a" id="r_af5fbc6216e9f2f80ced42fd1603ca77a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5fbc6216e9f2f80ced42fd1603ca77a">ownership_</a> = <a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00020">20</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00040">40</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a45b592dc4fc56daf3e8ae0e17e140b87" name="a45b592dc4fc56daf3e8ae0e17e140b87"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45b592dc4fc56daf3e8ae0e17e140b87">&#9670;&#160;</a></span>~Value()</h2>
@@ -143,7 +150,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#a1e59a92a2c384f5e481ae51816662c7e">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#ac0f46513cd089d5e717acb1ebb60c1c4">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#af31a70df37b4a1bf0350ec4497ce3f6f">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#adf7e3bb3efc51dc03a2f944d3cb889ee">zir::Constant</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#a1f28f6623651f4fa4673de01aea617e0">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#ad6fc168a5d2b028e73b65463cc2a1bd9">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#a882e860b5fa6e5fdbcfc6fbe8996e04a">zir::Register</a>.</p>
+<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#a1e59a92a2c384f5e481ae51816662c7e">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#ac0f46513cd089d5e717acb1ebb60c1c4">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#af31a70df37b4a1bf0350ec4497ce3f6f">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#adf7e3bb3efc51dc03a2f944d3cb889ee">zir::Constant</a>, <a class="el" href="../../d3/dc1/classzir_1_1FunctionReference.html#a7535ad8e860c0576f114e42a365d6800">zir::FunctionReference</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#a1f28f6623651f4fa4673de01aea617e0">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#ad6fc168a5d2b028e73b65463cc2a1bd9">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#a882e860b5fa6e5fdbcfc6fbe8996e04a">zir::Register</a>.</p>
 
 </div>
 </div>
@@ -170,7 +177,38 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#abd139f10eac911c8540e78f7f54a7584">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#a85060188253f282ba75041245a961735">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#a854b5a89cffa65d6cd9a18044f0031ca">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#ae52c02d26da2236c5528f1a903e65eca">zir::Constant</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#a9c091fd81dd25032ccd52fb071c9a4ac">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#a9199ec9f8e6a820951827a2932f397e0">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#abfac667e6eb03863fd99eb3c591803b4">zir::Register</a>.</p>
+<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#abd139f10eac911c8540e78f7f54a7584">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#a85060188253f282ba75041245a961735">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#a854b5a89cffa65d6cd9a18044f0031ca">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#ae52c02d26da2236c5528f1a903e65eca">zir::Constant</a>, <a class="el" href="../../d3/dc1/classzir_1_1FunctionReference.html#a44cc8fc0b6cdbd908ef22eb2d9f77636">zir::FunctionReference</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#a9c091fd81dd25032ccd52fb071c9a4ac">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#a9199ec9f8e6a820951827a2932f397e0">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#abfac667e6eb03863fd99eb3c591803b4">zir::Register</a>.</p>
+
+</div>
+</div>
+<a id="a4fef6828d76b8fe82dc7219768971926" name="a4fef6828d76b8fe82dc7219768971926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fef6828d76b8fe82dc7219768971926">&#9670;&#160;</a></span>getOwnership()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a> zir::Value::getOwnership </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00049">49</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#af5fbc6216e9f2f80ced42fd1603ca77a">ownership_</a>; }</div>
+<div class="ttc" id="aclasszir_1_1Value_html_af5fbc6216e9f2f80ced42fd1603ca77a"><div class="ttname"><a href="#af5fbc6216e9f2f80ced42fd1603ca77a">zir::Value::ownership_</a></div><div class="ttdeci">ValueOwnership ownership_</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00041">value.hpp:41</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00041">ownership_</a>.</p>
 
 </div>
 </div>
@@ -197,9 +235,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#ad8cc0243d6da96c0609fb12b3b96a980">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#ad5f2e1f50f687197da3a22fa15e2f611">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#a49d90c8817eaab21b1d88f2f3f308e9a">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#a770831bc5037304d5917d37b53642f04">zir::Constant</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#ac30ed9eb30af46ee10147156bbdc7b3f">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#a58640e280e8dd193fecb838a8ef3fd11">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#ab815b50066f14f7a4946380f067185f5">zir::Register</a>.</p>
+<p>Implemented in <a class="el" href="../../dd/de3/classzir_1_1AggregateConstant.html#ad8cc0243d6da96c0609fb12b3b96a980">zir::AggregateConstant</a>, <a class="el" href="../../d3/d57/classzir_1_1Argument.html#ad5f2e1f50f687197da3a22fa15e2f611">zir::Argument</a>, <a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html#a49d90c8817eaab21b1d88f2f3f308e9a">zir::ArrayConstant</a>, <a class="el" href="../../da/d2d/classzir_1_1Constant.html#a770831bc5037304d5917d37b53642f04">zir::Constant</a>, <a class="el" href="../../d3/dc1/classzir_1_1FunctionReference.html#ae2ca97e9fb50f6de75ab792b31ee9fe4">zir::FunctionReference</a>, <a class="el" href="../../d0/d8c/classzir_1_1Global.html#ac30ed9eb30af46ee10147156bbdc7b3f">zir::Global</a>, <a class="el" href="../../db/d7b/classzir_1_1GlobalAddress.html#a58640e280e8dd193fecb838a8ef3fd11">zir::GlobalAddress</a>, and <a class="el" href="../../da/d1e/classzir_1_1Register.html#ab815b50066f14f7a4946380f067185f5">zir::Register</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00026">getTypeName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00048">getTypeName()</a>.</p>
 
 </div>
 </div>
@@ -226,11 +264,68 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="#ac5081b3a03973a2c61346d58326e9733">getType</a>()-&gt;toString(); }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00048">48</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="#ac5081b3a03973a2c61346d58326e9733">getType</a>()-&gt;toString(); }</div>
 <div class="ttc" id="aclasszir_1_1Value_html_ac5081b3a03973a2c61346d58326e9733"><div class="ttname"><a href="#ac5081b3a03973a2c61346d58326e9733">zir::Value::getType</a></div><div class="ttdeci">virtual std::shared_ptr&lt; Type &gt; getType() const =0</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#ac5081b3a03973a2c61346d58326e9733">getType()</a>.</p>
+
+</div>
+</div>
+<a id="aa212797b17aeca1183706d603df38924" name="aa212797b17aeca1183706d603df38924"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa212797b17aeca1183706d603df38924">&#9670;&#160;</a></span>setOwnership()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::Value::setOwnership </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a></td>          <td class="paramname"><span class="paramname"><em>ownership</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{ <a class="code hl_variable" href="#af5fbc6216e9f2f80ced42fd1603ca77a">ownership_</a> = ownership; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00041">ownership_</a>.</p>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="af5fbc6216e9f2f80ced42fd1603ca77a" name="af5fbc6216e9f2f80ced42fd1603ca77a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5fbc6216e9f2f80ced42fd1603ca77a">&#9670;&#160;</a></span>ownership_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a> zir::Value::ownership_ = <a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00041">41</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00049">getOwnership()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00050">setOwnership()</a>.</p>
 
 </div>
 </div>

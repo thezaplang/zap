@@ -69,7 +69,6 @@ Namespaces</h2></td></tr>
 <tr class="memitem:anonymous_5Fnamespace_7Bllvm_5Fcodegen_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bllvm_5Fcodegen_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d10/namespacecodegen_1_1anonymous__namespace_02llvm__codegen_8cpp_03.html">anonymous_namespace{llvm_codegen.cpp}</a></td></tr>
 <tr class="memitem:anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Farc_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Farc_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d66/namespacecodegen_1_1anonymous__namespace_02llvm__codegen__arc_8cpp_03.html">anonymous_namespace{llvm_codegen_arc.cpp}</a></td></tr>
 <tr class="memitem:anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fconstants_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fconstants_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d50/namespacecodegen_1_1anonymous__namespace_02llvm__codegen__constants_8cpp_03.html">anonymous_namespace{llvm_codegen_constants.cpp}</a></td></tr>
-<tr class="memitem:anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fexpr_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fexpr_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d1c/namespacecodegen_1_1anonymous__namespace_02llvm__codegen__expr_8cpp_03.html">anonymous_namespace{llvm_codegen_expr.cpp}</a></td></tr>
 <tr class="memitem:anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fzir_2Ecpp_7D" id="r_anonymous_5Fnamespace_7Bllvm_5Fcodegen_5Fzir_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d4a/namespacecodegen_1_1anonymous__namespace_02llvm__codegen__zir_8cpp_03.html">anonymous_namespace{llvm_codegen_zir.cpp}</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -79,6 +78,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a529f587ed77af4923492a6def7b4657a" id="r_a529f587ed77af4923492a6def7b4657a"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a529f587ed77af4923492a6def7b4657a">kClassAbiVersion</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a99817e0fba19cb86b1cd7440e188544d">ZAP_ARC_ABI_VERSION</a></td></tr>
 <tr class="memitem:a4522bce13f5cca4a68bd098d5d43b498" id="r_a4522bce13f5cca4a68bd098d5d43b498"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4522bce13f5cca4a68bd098d5d43b498">kClassStrongCountIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a91eca29e96f13496effe95aa517a5859">ZAP_ARC_STRONG_COUNT_INDEX</a></td></tr>
 <tr class="memitem:a8e78b53468947438a6a015bff559645d" id="r_a8e78b53468947438a6a015bff559645d"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e78b53468947438a6a015bff559645d">kClassWeakCountIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a4f2205f89b1987d3d00c9c12f4982c5f">ZAP_ARC_WEAK_COUNT_INDEX</a></td></tr>
 <tr class="memitem:a2310f07ba73562b693ab290973b6786f" id="r_a2310f07ba73562b693ab290973b6786f"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2310f07ba73562b693ab290973b6786f">kClassAliveIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#aee04651543d8f42e8d168cd287bf2cec">ZAP_ARC_ALIVE_INDEX</a></td></tr>
@@ -88,10 +88,40 @@ Variables</h2></td></tr>
 <tr class="memitem:a387ddd125264b720b59d186e19390ebf" id="r_a387ddd125264b720b59d186e19390ebf"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a387ddd125264b720b59d186e19390ebf">kClassMetadataIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#aafee5303b52cab82215ce3f4d0a68b25">ZAP_ARC_METADATA_INDEX</a></td></tr>
 <tr class="memitem:aff82d8263f8af72a696579b244f8aa84" id="r_aff82d8263f8af72a696579b244f8aa84"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff82d8263f8af72a696579b244f8aa84">kClassVTableIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a31de6f1070bcddf4fb7092a9fc278a53">ZAP_ARC_VTABLE_INDEX</a></td></tr>
 <tr class="memitem:a41fd7a49481ad3317aa9625720325a42" id="r_a41fd7a49481ad3317aa9625720325a42"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#afc2720595b223026f509430292a6d2a2">ZAP_ARC_FIELD_START_INDEX</a></td></tr>
+<tr class="memitem:ae844f3d5adb58407260eb72182c7c9c2" id="r_ae844f3d5adb58407260eb72182c7c9c2"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae844f3d5adb58407260eb72182c7c9c2">kClassHeaderFieldCount</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#af4a1ba62ccafbfc24fcdbf1944787389">ZAP_ARC_HEADER_FIELD_COUNT</a></td></tr>
 <tr class="memitem:a751a0acc461653798fd84af9f4450e28" id="r_a751a0acc461653798fd84af9f4450e28"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a751a0acc461653798fd84af9f4450e28">kClassGcGarbageMask</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#aad22af68fe02c5ed3294fa0328d500a9">ZAP_ARC_GC_GARBAGE</a></td></tr>
 <tr class="memitem:ac11cc759d0ac89ab8520fc1c72ca3059" id="r_ac11cc759d0ac89ab8520fc1c72ca3059"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac11cc759d0ac89ab8520fc1c72ca3059">kClassGcBufferedMask</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a4aeda59f411243e80a3c7d4f78d53791">ZAP_ARC_GC_BUFFERED</a></td></tr>
+<tr class="memitem:a8344e51f8c3074aee194143607823af9" id="r_a8344e51f8c3074aee194143607823af9"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8344e51f8c3074aee194143607823af9">kClassGcFinalizingMask</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#ac2db960ac4ac45c1356c5b45cc8f0992">ZAP_ARC_GC_FINALIZING</a></td></tr>
+<tr class="memitem:ac3b50ef57e27d758f55fe6097c0365f9" id="r_ac3b50ef57e27d758f55fe6097c0365f9"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3b50ef57e27d758f55fe6097c0365f9">kStringRefCountIndex</a> = <a class="el" href="../../d7/db5/string__layout_8h.html#a34905c59a4dc19a04a21cf1b7276426e">ZAP_STRING_REFCOUNT_INDEX</a></td></tr>
+<tr class="memitem:aae02d45d00ddefce5efbb4676a96159f" id="r_aae02d45d00ddefce5efbb4676a96159f"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae02d45d00ddefce5efbb4676a96159f">kStringLengthIndex</a> = <a class="el" href="../../d7/db5/string__layout_8h.html#a45955d70e319a43e204a82cd19a5fda4">ZAP_STRING_LENGTH_INDEX</a></td></tr>
+<tr class="memitem:aab6ebb327853ae33ddbc8aeb99448194" id="r_aab6ebb327853ae33ddbc8aeb99448194"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab6ebb327853ae33ddbc8aeb99448194">kStringDataIndex</a> = <a class="el" href="../../d7/db5/string__layout_8h.html#a862d65ee6d2f711a6625c5919ec3c2b5">ZAP_STRING_DATA_INDEX</a></td></tr>
+<tr class="memitem:a94093d4a855c13820965dd0b6c09e87f" id="r_a94093d4a855c13820965dd0b6c09e87f"><td class="memItemLeft" align="right" valign="top">constexpr int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94093d4a855c13820965dd0b6c09e87f">kStringImmortalRefCount</a> = <a class="el" href="../../d7/db5/string__layout_8h.html#aac374408fb1e5677f81cfbea0220c95b">ZAP_STRING_IMMORTAL_REFCOUNT</a></td></tr>
 </table>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a529f587ed77af4923492a6def7b4657a" name="a529f587ed77af4923492a6def7b4657a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529f587ed77af4923492a6def7b4657a">&#9670;&#160;</a></span>kClassAbiVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kClassAbiVersion = <a class="el" href="../../d8/da7/arc__layout_8h.html#a99817e0fba19cb86b1cd7440e188544d">ZAP_ARC_ABI_VERSION</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">7</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a2310f07ba73562b693ab290973b6786f" name="a2310f07ba73562b693ab290973b6786f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2310f07ba73562b693ab290973b6786f">&#9670;&#160;</a></span>kClassAliveIndex</h2>
 
@@ -112,9 +142,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00269">codegen::ClassArcEmitter::emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00316">codegen::ClassArcEmitter::emitWeakLock()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00529">codegen::ClassArcEmitter::emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00576">codegen::ClassArcEmitter::emitWeakLock()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -138,9 +168,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -164,9 +194,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00296">codegen::LLVMCodeGen::emitZIRInstruction()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::ensureClassArcSupport()</a>, <a class="el" href="../../d1/d79/llvm__codegen__expr_8cpp_source.html#l00782">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../d1/d79/llvm__codegen__expr_8cpp_source.html#l01023">codegen::LLVMCodeGen::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00099">codegen::ClassArcEmitter::emitClassTraceFunction()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -190,7 +220,33 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8344e51f8c3074aee194143607823af9" name="a8344e51f8c3074aee194143607823af9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8344e51f8c3074aee194143607823af9">&#9670;&#160;</a></span>kClassGcFinalizingMask</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kClassGcFinalizingMask = <a class="el" href="../../d8/da7/arc__layout_8h.html#ac2db960ac4ac45c1356c5b45cc8f0992">ZAP_ARC_GC_FINALIZING</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -214,9 +270,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>.</p>
 
 </div>
 </div>
@@ -240,9 +296,35 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+
+</div>
+</div>
+<a id="ae844f3d5adb58407260eb72182c7c9c2" name="ae844f3d5adb58407260eb72182c7c9c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae844f3d5adb58407260eb72182c7c9c2">&#9670;&#160;</a></span>kClassHeaderFieldCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kClassHeaderFieldCount = <a class="el" href="../../d8/da7/arc__layout_8h.html#af4a1ba62ccafbfc24fcdbf1944787389">ZAP_ARC_HEADER_FIELD_COUNT</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00255">codegen::LLVMCodeGen::finalizeClassStruct()</a>.</p>
 
 </div>
 </div>
@@ -266,9 +348,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00296">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/d79/llvm__codegen__expr_8cpp_source.html#l01023">codegen::LLVMCodeGen::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -292,9 +374,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00085">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, and <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -318,9 +400,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00007">7</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00184">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00048">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -344,9 +426,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00296">codegen::LLVMCodeGen::emitZIRInstruction()</a>, <a class="el" href="../../d1/d79/llvm__codegen__expr_8cpp_source.html#l00486">codegen::LLVMCodeGen::visit()</a>, and <a class="el" href="../../d1/d79/llvm__codegen__expr_8cpp_source.html#l01023">codegen::LLVMCodeGen::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -370,9 +452,109 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00184">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00146">codegen::ClassArcEmitter::emitRetainWeakIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00379">codegen::ClassArcEmitter::emitRetainWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00317">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+
+</div>
+</div>
+<a id="aab6ebb327853ae33ddbc8aeb99448194" name="aab6ebb327853ae33ddbc8aeb99448194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6ebb327853ae33ddbc8aeb99448194">&#9670;&#160;</a></span>kStringDataIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kStringDataIndex = <a class="el" href="../../d7/db5/string__layout_8h.html#a862d65ee6d2f711a6625c5919ec3c2b5">ZAP_STRING_DATA_INDEX</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/df6/string__layout_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../da/df6/string__layout_8hpp_source.html">string_layout.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../da/d61/llvm__codegen__constants_8cpp_source.html#l00031">codegen::LLVMCodeGen::getOrCreateGlobalString()</a>.</p>
+
+</div>
+</div>
+<a id="a94093d4a855c13820965dd0b6c09e87f" name="a94093d4a855c13820965dd0b6c09e87f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94093d4a855c13820965dd0b6c09e87f">&#9670;&#160;</a></span>kStringImmortalRefCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t codegen::kStringImmortalRefCount = <a class="el" href="../../d7/db5/string__layout_8h.html#aac374408fb1e5677f81cfbea0220c95b">ZAP_STRING_IMMORTAL_REFCOUNT</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/df6/string__layout_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../da/df6/string__layout_8hpp_source.html">string_layout.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../da/d61/llvm__codegen__constants_8cpp_source.html#l00031">codegen::LLVMCodeGen::getOrCreateGlobalString()</a>.</p>
+
+</div>
+</div>
+<a id="aae02d45d00ddefce5efbb4676a96159f" name="aae02d45d00ddefce5efbb4676a96159f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae02d45d00ddefce5efbb4676a96159f">&#9670;&#160;</a></span>kStringLengthIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kStringLengthIndex = <a class="el" href="../../d7/db5/string__layout_8h.html#a45955d70e319a43e204a82cd19a5fda4">ZAP_STRING_LENGTH_INDEX</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/df6/string__layout_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../da/df6/string__layout_8hpp_source.html">string_layout.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac3b50ef57e27d758f55fe6097c0365f9" name="ac3b50ef57e27d758f55fe6097c0365f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3b50ef57e27d758f55fe6097c0365f9">&#9670;&#160;</a></span>kStringRefCountIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kStringRefCountIndex = <a class="el" href="../../d7/db5/string__layout_8h.html#a34905c59a4dc19a04a21cf1b7276426e">ZAP_STRING_REFCOUNT_INDEX</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/df6/string__layout_8hpp_source.html#l00007">7</a> of file <a class="el" href="../../da/df6/string__layout_8hpp_source.html">string_layout.hpp</a>.</p>
 
 </div>
 </div>

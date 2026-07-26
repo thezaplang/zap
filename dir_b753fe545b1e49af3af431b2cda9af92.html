@@ -64,38 +64,46 @@ $(function(){initNavTree('dir_b753fe545b1e49af3af431b2cda9af92.html','',''); });
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Zap VS Code Extension</h1>
 <p>Syntax highlighting and LSP support for Zap.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Requirements</h1>
 <ul>
 <li>A built <span class="tt">zap-lsp</span> binary when packaging the extension</li>
 <li>VS Code or VSCodium</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Default Behavior</h1>
 <p>The packaged <span class="tt">.vsix</span> bundles <span class="tt">zap-lsp</span>.</p>
-<p>The extension asks <span class="tt">zapc --print-core-path</span> and <span class="tt">zapc --print-stdlib-path</span> for the library directories used for imports like <span class="tt">core</span> and <span class="tt">std/io</span>. Set <span class="tt">zap-lsp.zapcPath</span> when the compiler is outside the workspace, or set <span class="tt">zap-lsp.corePath</span> / <span class="tt">zap-lsp.stdlibPath</span> to override discovery entirely.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<p>When a workspace has no <span class="tt">zaplsp.json</span>, the extension offers to create it from the detected Zap installation or lets you select the installation directory. The extension does not bundle its own copy of <span class="tt">core</span>, <span class="tt">stdlib</span>, or <span class="tt">zapc</span>.</p>
+<p>The server reads <span class="tt">zaplsp.json</span> directly, so the configuration is shared with other LSP clients:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;zapRoot&quot;: &quot;/opt/zap&quot;,</div>
+<div class="line">  &quot;corePath&quot;: &quot;core&quot;,</div>
+<div class="line">  &quot;stdlibPath&quot;: &quot;std&quot;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Relative <span class="tt">corePath</span> and <span class="tt">stdlibPath</span> values use <span class="tt">zapRoot</span> as their base. When <span class="tt">zapRoot</span> is omitted, they are resolved relative to <span class="tt">zaplsp.json</span>.</p>
+<p>For initial discovery, the extension asks <span class="tt">zapc --print-core-path</span> and <span class="tt">zapc --print-stdlib-path</span>. Set <span class="tt">zap-lsp.zapcPath</span> when the compiler is outside the workspace or <span class="tt">PATH</span>. The <span class="tt">zap-lsp.corePath</span> and <span class="tt">zap-lsp.stdlibPath</span> settings remain explicit editor-local overrides and take precedence over the workspace file.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Optional Server Override</h1>
 <p>If you want to use a different server binary, set <span class="tt">zap-lsp.path</span>.</p>
 <p>Example:</p>
 <div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;zap-lsp.path&quot;: &quot;/custom/path/to/zap-lsp&quot;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Example stdlib override setting (optional):</p>
+</div><!-- fragment --><p>Example editor-local override (optional):</p>
 <div class="fragment"><div class="line">{</div>
 <div class="line">  &quot;zap-lsp.corePath&quot;: &quot;/path/to/zap/core&quot;,</div>
 <div class="line">  &quot;zap-lsp.stdlibPath&quot;: &quot;/path/to/zap/std&quot;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Build the Extension</h1>
 <p>From this directory:</p>
 <div class="fragment"><div class="line">npm install</div>
 <div class="line">npm run package</div>
 </div><!-- fragment --><p>That produces a <span class="tt">.vsix</span> file in this directory.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Install the Extension</h1>
 <p>In VS Code:</p>
 <ol type="1">
@@ -104,7 +112,7 @@ Install the Extension</h1>
 <li>Choose <span class="tt">Install from VSIX...</span></li>
 <li>Select the generated <span class="tt">.vsix</span></li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Color Customization (Function vs Generics)</h1>
 <p>If your theme makes function names and generic parameters look too similar, add token color overrides in your VS Code settings:</p>
 <div class="fragment"><div class="line">{</div>
@@ -130,10 +138,11 @@ Color Customization (Function vs Generics)</h1>
 <div class="line">  }</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>After updating settings, run <b>Developer: Reload Window</b>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Notes</h1>
 <ul>
-<li>The server currently provides diagnostics.</li>
+<li>The server provides diagnostics, completion, definition, hover, and signature help.</li>
+<li>Requests can be cancelled while another analysis is running; cancelled requests return the standard LSP cancellation error.</li>
 <li>The extension starts the server over stdio, so it also works in VSCodium. </li>
 </ul>
 </div><!-- contents -->

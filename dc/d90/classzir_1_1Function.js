@@ -1,6 +1,6 @@
 var classzir_1_1Function =
 [
-    [ "Function", "dc/d90/classzir_1_1Function.html#a8dffcce7000420acc4f967d776076f69", null ],
+    [ "Function", "dc/d90/classzir_1_1Function.html#a1d99e65241652f2b5080830df10b0b50", null ],
     [ "addBlock", "dc/d90/classzir_1_1Function.html#a59a3a5d39cef7a8e0cf09bc88b5a0a83", null ],
     [ "findBlock", "dc/d90/classzir_1_1Function.html#aa04f7194612768e9ab808bff3c89ae9d", null ],
     [ "getArguments", "dc/d90/classzir_1_1Function.html#abfd3e6243e87cff9af75f56b2bead1f3", null ],
@@ -12,7 +12,8 @@ var classzir_1_1Function =
     [ "isCVariadic", "dc/d90/classzir_1_1Function.html#a94aaf3d5a0e7f2dcbd3954a094822d12", null ],
     [ "isDestructor", "dc/d90/classzir_1_1Function.html#abc2608208d72bd4e73ba7e31f8226cf3", null ],
     [ "name", "dc/d90/classzir_1_1Function.html#ab070dae2297e8915a88d7d31031c5555", null ],
-    [ "ownerTypeName", "dc/d90/classzir_1_1Function.html#a3b137bd70d674f0e406a5f7448ad730e", null ],
+    [ "ownerTypeCodegenName", "dc/d90/classzir_1_1Function.html#a632c99350160d9bce5a479c0eb4ca087", null ],
+    [ "resultBorrow", "dc/d90/classzir_1_1Function.html#a1675983291b60d72f9fdb0c9601a50ed", null ],
     [ "returnsRef", "dc/d90/classzir_1_1Function.html#ac2ebee588317d9386522efe8be4c1123", null ],
     [ "returnType", "dc/d90/classzir_1_1Function.html#a1838ae08bfdbf4fb65ac86319e8a7545", null ],
     [ "vtableSlot", "dc/d90/classzir_1_1Function.html#ad979e7722e3df26574d89fc273db6d90", null ]

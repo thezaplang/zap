@@ -69,7 +69,7 @@ $(function(){initNavTree('d3/d28/classzap_1_1DiagnosticEngine.html','../../','df
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a0cae44f134f0a6a1909161e3679a21" id="r_a2a0cae44f134f0a6a1909161e3679a21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a0cae44f134f0a6a1909161e3679a21">DiagnosticEngine</a> (const std::string &amp;src, const std::string &amp;fname=&quot;input&quot;)</td></tr>
-<tr class="memitem:af8eb058db77f91c8c65527ffade8a560" id="r_af8eb058db77f91c8c65527ffade8a560"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8eb058db77f91c8c65527ffade8a560">registerSource</a> (const std::string &amp;name, const std::string &amp;<a class="el" href="../../dc/db9/namespacezap_1_1text.html">text</a>)</td></tr>
+<tr class="memitem:af8eb058db77f91c8c65527ffade8a560" id="r_af8eb058db77f91c8c65527ffade8a560"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8eb058db77f91c8c65527ffade8a560">registerSource</a> (const std::string &amp;name, const std::string &amp;text)</td></tr>
 <tr class="memitem:a174265ae28a3f7629b1fb39e112d357d" id="r_a174265ae28a3f7629b1fb39e112d357d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a174265ae28a3f7629b1fb39e112d357d">report</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, <a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level, const std::string &amp;message)</td></tr>
 <tr class="memitem:ac41e792d7dc4d9e219175e1fd5e9c16a" id="r_ac41e792d7dc4d9e219175e1fd5e9c16a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac41e792d7dc4d9e219175e1fd5e9c16a">report</a> (<a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, <a class="el" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2">DiagnosticLevel</a> level, const std::string &amp;code, const std::string &amp;message)</td></tr>
 <tr class="memitem:a1a3b0561ab7f038c217fa1da0a0a514b" id="r_a1a3b0561ab7f038c217fa1da0a0a514b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a3b0561ab7f038c217fa1da0a0a514b">hadErrors</a> () const</td></tr>
@@ -524,7 +524,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00248">zap::lsp::Workspace::analyze()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00105">zap::frontend::FrontendSession::bind()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">zap::frontend::FrontendSession::loadModule()</a>.</p>
 
 </div>
 </div>
@@ -622,7 +622,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00409">errorCount</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00461">zap::driver::compileSourceFile()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00049">zap::lsp::Workspace::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00433">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">zap::frontend::FrontendSession::loadModule()</a>.</p>
 
 </div>
 </div>
@@ -836,7 +836,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00408">diagnostics_</a>, and <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00283">zap::DiagnosticTextFormatter::print()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00198">zap::driver::compileLoadedModules</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00461">zap::driver::compileSourceFile()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00111">zap::anonymous_namespace{driver.cpp}::loadModuleGraph()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00433">zap::driver::compileSourceFile()</a>.</p>
 
 </div>
 </div>
@@ -908,7 +908,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00407">sources_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00248">zap::lsp::Workspace::analyze()</a>, <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00198">zap::driver::compileLoadedModules</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00194">zap::lsp::Workspace::loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00105">zap::frontend::FrontendSession::bind()</a>.</p>
 
 </div>
 </div>

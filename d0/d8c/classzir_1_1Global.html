@@ -90,6 +90,8 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classzir_1_1Value"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classzir_1_1Value')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../da/d98/classzir_1_1Value.html">zir::Value</a></td></tr>
 <tr class="memitem:a45b592dc4fc56daf3e8ae0e17e140b87 inherit pub_methods_classzir_1_1Value" id="r_a45b592dc4fc56daf3e8ae0e17e140b87"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d98/classzir_1_1Value.html#a45b592dc4fc56daf3e8ae0e17e140b87">~Value</a> ()=default</td></tr>
 <tr class="memitem:afcb33b8503c6c9e1f0d07112e2d5c6e8 inherit pub_methods_classzir_1_1Value" id="r_afcb33b8503c6c9e1f0d07112e2d5c6e8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d98/classzir_1_1Value.html#afcb33b8503c6c9e1f0d07112e2d5c6e8">getTypeName</a> () const</td></tr>
+<tr class="memitem:a4fef6828d76b8fe82dc7219768971926 inherit pub_methods_classzir_1_1Value" id="r_a4fef6828d76b8fe82dc7219768971926"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d98/classzir_1_1Value.html#a4fef6828d76b8fe82dc7219768971926">getOwnership</a> () const</td></tr>
+<tr class="memitem:aa212797b17aeca1183706d603df38924 inherit pub_methods_classzir_1_1Value" id="r_aa212797b17aeca1183706d603df38924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d98/classzir_1_1Value.html#aa212797b17aeca1183706d603df38924">setOwnership</a> (<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a> ownership)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -101,7 +103,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00136">136</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00184">184</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a370871da3bceef0a7a038f59847df6b9" name="a370871da3bceef0a7a038f59847df6b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a370871da3bceef0a7a038f59847df6b9">&#9670;&#160;</a></span>Global()</h2>
@@ -145,17 +147,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">144</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  146</span>      : <a class="code hl_variable" href="#adc4d4b43a51b263f8ff947c7cf5ec939">name</a>(std::move(n)), <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>(std::move(ln)), <a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>(std::move(t)),</div>
-<div class="line"><span class="lineno">  147</span>        <a class="code hl_variable" href="#a41671f6ccb53720ade5d2a79be44b5e5">initializer</a>(std::move(init)), <a class="code hl_variable" href="#a6d684e6df0373b73240ee803638c447b">isConst</a>(<a class="code hl_function" href="#a82b40a6e9037e560b9be6bf55493c0dd">isConstant</a>) {}</div>
-<div class="ttc" id="aclasszir_1_1Global_html_a0323e3858588ad0923640080f392c1fc"><div class="ttname"><a href="#a0323e3858588ad0923640080f392c1fc">zir::Global::type</a></div><div class="ttdeci">std::shared_ptr&lt; Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00139">value.hpp:139</a></div></div>
-<div class="ttc" id="aclasszir_1_1Global_html_a11ef39ebbdcdd9351fb905efbecbeeb2"><div class="ttname"><a href="#a11ef39ebbdcdd9351fb905efbecbeeb2">zir::Global::linkName</a></div><div class="ttdeci">std::string linkName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00138">value.hpp:138</a></div></div>
-<div class="ttc" id="aclasszir_1_1Global_html_a41671f6ccb53720ade5d2a79be44b5e5"><div class="ttname"><a href="#a41671f6ccb53720ade5d2a79be44b5e5">zir::Global::initializer</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; initializer</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00140">value.hpp:140</a></div></div>
-<div class="ttc" id="aclasszir_1_1Global_html_a6d684e6df0373b73240ee803638c447b"><div class="ttname"><a href="#a6d684e6df0373b73240ee803638c447b">zir::Global::isConst</a></div><div class="ttdeci">bool isConst</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00141">value.hpp:141</a></div></div>
-<div class="ttc" id="aclasszir_1_1Global_html_a82b40a6e9037e560b9be6bf55493c0dd"><div class="ttname"><a href="#a82b40a6e9037e560b9be6bf55493c0dd">zir::Global::isConstant</a></div><div class="ttdeci">bool isConstant() const</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00157">value.hpp:157</a></div></div>
-<div class="ttc" id="aclasszir_1_1Global_html_adc4d4b43a51b263f8ff947c7cf5ec939"><div class="ttname"><a href="#adc4d4b43a51b263f8ff947c7cf5ec939">zir::Global::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00137">value.hpp:137</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">192</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  194</span>      : <a class="code hl_variable" href="#adc4d4b43a51b263f8ff947c7cf5ec939">name</a>(std::move(n)), <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>(std::move(ln)), <a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>(std::move(t)),</div>
+<div class="line"><span class="lineno">  195</span>        <a class="code hl_variable" href="#a41671f6ccb53720ade5d2a79be44b5e5">initializer</a>(std::move(init)), <a class="code hl_variable" href="#a6d684e6df0373b73240ee803638c447b">isConst</a>(<a class="code hl_function" href="#a82b40a6e9037e560b9be6bf55493c0dd">isConstant</a>) {}</div>
+<div class="ttc" id="aclasszir_1_1Global_html_a0323e3858588ad0923640080f392c1fc"><div class="ttname"><a href="#a0323e3858588ad0923640080f392c1fc">zir::Global::type</a></div><div class="ttdeci">std::shared_ptr&lt; Type &gt; type</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00187">value.hpp:187</a></div></div>
+<div class="ttc" id="aclasszir_1_1Global_html_a11ef39ebbdcdd9351fb905efbecbeeb2"><div class="ttname"><a href="#a11ef39ebbdcdd9351fb905efbecbeeb2">zir::Global::linkName</a></div><div class="ttdeci">std::string linkName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00186">value.hpp:186</a></div></div>
+<div class="ttc" id="aclasszir_1_1Global_html_a41671f6ccb53720ade5d2a79be44b5e5"><div class="ttname"><a href="#a41671f6ccb53720ade5d2a79be44b5e5">zir::Global::initializer</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; initializer</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00188">value.hpp:188</a></div></div>
+<div class="ttc" id="aclasszir_1_1Global_html_a6d684e6df0373b73240ee803638c447b"><div class="ttname"><a href="#a6d684e6df0373b73240ee803638c447b">zir::Global::isConst</a></div><div class="ttdeci">bool isConst</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00189">value.hpp:189</a></div></div>
+<div class="ttc" id="aclasszir_1_1Global_html_a82b40a6e9037e560b9be6bf55493c0dd"><div class="ttname"><a href="#a82b40a6e9037e560b9be6bf55493c0dd">zir::Global::isConstant</a></div><div class="ttdeci">bool isConstant() const</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00205">value.hpp:205</a></div></div>
+<div class="ttc" id="aclasszir_1_1Global_html_adc4d4b43a51b263f8ff947c7cf5ec939"><div class="ttname"><a href="#adc4d4b43a51b263f8ff947c7cf5ec939">zir::Global::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00185">value.hpp:185</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00140">initializer</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00141">isConst</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00157">isConstant()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00138">linkName</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00137">name</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00139">type</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00188">initializer</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00189">isConst</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00205">isConstant()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00186">linkName</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00185">name</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00187">type</a>.</p>
 
 </div>
 </div>
@@ -183,10 +185,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00156">156</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  156</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a41671f6ccb53720ade5d2a79be44b5e5">initializer</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00204">204</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  204</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a41671f6ccb53720ade5d2a79be44b5e5">initializer</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00140">initializer</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00188">initializer</a>.</p>
 
 </div>
 </div>
@@ -215,11 +217,11 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../da/d98/classzir_1_1Value.html#a44fc3a276dbe0aa6d9086e03a3bc9c20">zir::Value</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00148">148</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">ValueKind::Global</a>; }</div>
-<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"><div class="ttname"><a href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::ValueKind::Global</a></div><div class="ttdeci">@ Global</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00017">value.hpp:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00196">196</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  196</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">ValueKind::Global</a>; }</div>
+<div class="ttc" id="anamespacezir_html_a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8"><div class="ttname"><a href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::ValueKind::Global</a></div><div class="ttdeci">@ Global</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00018">value.hpp:18</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00017">zir::Global</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00018">zir::Global</a>.</p>
 
 </div>
 </div>
@@ -246,10 +248,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00154">154</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  154</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00202">202</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  202</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00138">linkName</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00186">linkName</a>.</p>
 
 </div>
 </div>
@@ -278,10 +280,10 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../da/d98/classzir_1_1Value.html#a927d59ebbf31211b45917ebf498b23b9">zir::Value</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00149">149</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  149</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;@&quot;</span> + <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00197">197</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  197</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;@&quot;</span> + <a class="code hl_variable" href="#a11ef39ebbdcdd9351fb905efbecbeeb2">linkName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00138">linkName</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00186">linkName</a>.</p>
 
 </div>
 </div>
@@ -308,10 +310,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00153">153</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  153</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#adc4d4b43a51b263f8ff947c7cf5ec939">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00201">201</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  201</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#adc4d4b43a51b263f8ff947c7cf5ec939">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00137">name</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00185">name</a>.</p>
 
 </div>
 </div>
@@ -340,12 +342,12 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../da/d98/classzir_1_1Value.html#ac5081b3a03973a2c61346d58326e9733">zir::Value</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00150">150</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  150</span>                                               {</div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">return</span> std::make_shared&lt;PointerType&gt;(<a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>);</div>
-<div class="line"><span class="lineno">  152</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00198">198</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  198</span>                                               {</div>
+<div class="line"><span class="lineno">  199</span>    <span class="keywordflow">return</span> std::make_shared&lt;PointerType&gt;(<a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>);</div>
+<div class="line"><span class="lineno">  200</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00139">type</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00187">type</a>.</p>
 
 </div>
 </div>
@@ -372,10 +374,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00155">155</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00203">203</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  203</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0323e3858588ad0923640080f392c1fc">type</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00139">type</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00187">type</a>.</p>
 
 </div>
 </div>
@@ -402,12 +404,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00157">157</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a6d684e6df0373b73240ee803638c447b">isConst</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00205">205</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  205</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a6d684e6df0373b73240ee803638c447b">isConst</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00141">isConst</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00189">isConst</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>.</p>
 
 </div>
 </div>
@@ -432,9 +434,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00140">140</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00188">188</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00156">getInitializer()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00204">getInitializer()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>.</p>
 
 </div>
 </div>
@@ -458,9 +460,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00141">141</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00189">189</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00157">isConstant()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00205">isConstant()</a>.</p>
 
 </div>
 </div>
@@ -484,9 +486,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00138">138</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00186">186</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00154">getLinkName()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00149">getName()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00202">getLinkName()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00197">getName()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>.</p>
 
 </div>
 </div>
@@ -510,9 +512,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00137">137</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00185">185</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00153">getRawName()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00201">getRawName()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>.</p>
 
 </div>
 </div>
@@ -536,9 +538,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00139">139</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dda/value_8hpp_source.html#l00187">187</a> of file <a class="el" href="../../d6/dda/value_8hpp_source.html">value.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00150">getType()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00155">getValueType()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00144">Global()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/dda/value_8hpp_source.html#l00198">getType()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00203">getValueType()</a>, and <a class="el" href="../../d6/dda/value_8hpp_source.html#l00192">Global()</a>.</p>
 
 </div>
 </div>

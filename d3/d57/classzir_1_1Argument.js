@@ -1,8 +1,10 @@
 var classzir_1_1Argument =
 [
-    [ "Argument", "d3/d57/classzir_1_1Argument.html#a677189dcce69f1e34f57ca796053f8f7", null ],
+    [ "Argument", "d3/d57/classzir_1_1Argument.html#abe1b0307fccc52eb6fbc2472eb827603", null ],
     [ "getKind", "d3/d57/classzir_1_1Argument.html#ac0f46513cd089d5e717acb1ebb60c1c4", null ],
     [ "getName", "d3/d57/classzir_1_1Argument.html#a85060188253f282ba75041245a961735", null ],
+    [ "getParameterEscape", "d3/d57/classzir_1_1Argument.html#a079c31b8fba19c3cf4cd6e4d18f7183b", null ],
+    [ "getParameterOwnership", "d3/d57/classzir_1_1Argument.html#a613ccc65809644f5d814f0a0420506bc", null ],
     [ "getRawName", "d3/d57/classzir_1_1Argument.html#a5dcff43372d1905543455ab24bd4bc52", null ],
     [ "getType", "d3/d57/classzir_1_1Argument.html#ad5f2e1f50f687197da3a22fa15e2f611", null ],
     [ "getVariadicElementType", "d3/d57/classzir_1_1Argument.html#aeed5d9a74847146d640e398ff9a4e69f", null ],
@@ -11,6 +13,8 @@ var classzir_1_1Argument =
     [ "isRef_", "d3/d57/classzir_1_1Argument.html#a69d91edabdeb4369e6d66705bfad204a", null ],
     [ "isVariadicPack_", "d3/d57/classzir_1_1Argument.html#adac5be1d0b497e77ca15cc6ca3374355", null ],
     [ "name", "d3/d57/classzir_1_1Argument.html#a052a6f4da405223b54ed50328c687879", null ],
+    [ "parameterEscape_", "d3/d57/classzir_1_1Argument.html#a91714ef2a338b9da50129a372408f436", null ],
+    [ "parameterOwnership_", "d3/d57/classzir_1_1Argument.html#a2d0344589422219e30cff98a8e28f0b7", null ],
     [ "type", "d3/d57/classzir_1_1Argument.html#a734171eef4f37c9c4e6f414426a2ae00", null ],
     [ "variadicElementType_", "d3/d57/classzir_1_1Argument.html#a1547c6df5662eb69f940d35c2e554691", null ]
 ];

@@ -66,22 +66,466 @@ $(function(){initNavTree('dd/d4f/structsema_1_1SemanticInfo.html','../../','da/d
 
 <p><code>#include &lt;<a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:ResolvedCall" id="r_ResolvedCall"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html">ResolvedCall</a></td></tr>
+<tr class="memitem:ImportedSymbol" id="r_ImportedSymbol"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html">ImportedSymbol</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a6097f09b6dd63e7680a837f00d25b333" id="r_a6097f09b6dd63e7680a837f00d25b333"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6097f09b6dd63e7680a837f00d25b333">recordCall</a> (const std::string &amp;moduleId, <a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a> span, std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt; symbol)</td></tr>
+<tr class="memitem:abb8e059df5e8c2f2f896fdc1e8cbf47f" id="r_abb8e059df5e8c2f2f896fdc1e8cbf47f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb8e059df5e8c2f2f896fdc1e8cbf47f">callAt</a> (const std::string &amp;moduleId, size_t offset) const</td></tr>
+<tr class="memitem:a17e6033e472c362a3b5e6929c9a8e6d0" id="r_a17e6033e472c362a3b5e6929c9a8e6d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17e6033e472c362a3b5e6929c9a8e6d0">recordImportedSymbol</a> (const std::string &amp;moduleId, const std::string &amp;localName, std::string targetModuleId, std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; symbol)</td></tr>
+<tr class="memitem:aa29e9c28a18bf289afb2b5ddc7f6546e" id="r_aa29e9c28a18bf289afb2b5ddc7f6546e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html">ImportedSymbol</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa29e9c28a18bf289afb2b5ddc7f6546e">importedSymbolFor</a> (const std::string &amp;moduleId, const std::string &amp;localName) const</td></tr>
+<tr class="memitem:a8d52bae3e9da3eaa86393108c96b05d3" id="r_a8d52bae3e9da3eaa86393108c96b05d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d52bae3e9da3eaa86393108c96b05d3">recordImportedModule</a> (const std::string &amp;moduleId, const std::string &amp;localName, std::string targetModuleId)</td></tr>
+<tr class="memitem:a158baf9e78cc88c4f01193fda9dedc85" id="r_a158baf9e78cc88c4f01193fda9dedc85"><td class="memItemLeft" align="right" valign="top">const std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a158baf9e78cc88c4f01193fda9dedc85">importedModuleFor</a> (const std::string &amp;moduleId, const std::string &amp;localName) const</td></tr>
 <tr class="memitem:abfe7d3e3b04883dc7f68e133b1290b16" id="r_abfe7d3e3b04883dc7f68e133b1290b16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfe7d3e3b04883dc7f68e133b1290b16">recordSymbol</a> (const <a class="el" href="../../df/dd0/classNode.html">Node</a> *node, std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; symbol)</td></tr>
+<tr class="memitem:a6d55c0f47a6322e7f47ae89649018631" id="r_a6d55c0f47a6322e7f47ae89649018631"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d55c0f47a6322e7f47ae89649018631">recordDeclaration</a> (const <a class="el" href="../../df/dd0/classNode.html">Node</a> *node, const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;symbol)</td></tr>
+<tr class="memitem:aa06772a657b72cb94fb1bb30ab96a1d5" id="r_aa06772a657b72cb94fb1bb30ab96a1d5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa06772a657b72cb94fb1bb30ab96a1d5">declarationNamed</a> (const std::string &amp;name, const std::string &amp;moduleName) const</td></tr>
+<tr class="memitem:ab966385ff7a5ff5a780fc878d6acf338" id="r_ab966385ff7a5ff5a780fc878d6acf338"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/dd0/classNode.html">Node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab966385ff7a5ff5a780fc878d6acf338">declarationFor</a> (const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;symbol) const</td></tr>
 <tr class="memitem:ab53f71f09d871ae6f37a0cd83af8e8c7" id="r_ab53f71f09d871ae6f37a0cd83af8e8c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab53f71f09d871ae6f37a0cd83af8e8c7">recordType</a> (const <a class="el" href="../../df/dd0/classNode.html">Node</a> *node, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; type)</td></tr>
 <tr class="memitem:acaecb4aa4893a769efc2560b14f79c56" id="r_acaecb4aa4893a769efc2560b14f79c56"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acaecb4aa4893a769efc2560b14f79c56">symbolFor</a> (const <a class="el" href="../../df/dd0/classNode.html">Node</a> *node) const</td></tr>
 <tr class="memitem:ae6dbc2312b9e525d7fb872b5b56b65e7" id="r_ae6dbc2312b9e525d7fb872b5b56b65e7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6dbc2312b9e525d7fb872b5b56b65e7">typeFor</a> (const <a class="el" href="../../df/dd0/classNode.html">Node</a> *node) const</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af4e0d5f0771a260d9828d45d5a1f2157" id="r_af4e0d5f0771a260d9828d45d5a1f2157"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4e0d5f0771a260d9828d45d5a1f2157">importKey</a> (const std::string &amp;moduleId, const std::string &amp;localName)</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a8d9209f70cae25a364d08e80f6c74f92" id="r_a8d9209f70cae25a364d08e80f6c74f92"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; const <a class="el" href="../../df/dd0/classNode.html">Node</a> *, std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a></td></tr>
+<tr class="memitem:a0ce3192bd5efe49a5e6b16b6cd7ce440" id="r_a0ce3192bd5efe49a5e6b16b6cd7ce440"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; const <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> *, const <a class="el" href="../../df/dd0/classNode.html">Node</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">declarationsBySymbol</a></td></tr>
 <tr class="memitem:a1031c049dc03a349475f7cff86656138" id="r_a1031c049dc03a349475f7cff86656138"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; const <a class="el" href="../../df/dd0/classNode.html">Node</a> *, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a></td></tr>
+<tr class="memitem:ac6074da9c032eec92d8e4fd08869c018" id="r_ac6074da9c032eec92d8e4fd08869c018"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="../../d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html">ImportedSymbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6074da9c032eec92d8e4fd08869c018">importedSymbols</a></td></tr>
+<tr class="memitem:a21a8cea2e97e7d0c33be7088311fff1e" id="r_a21a8cea2e97e7d0c33be7088311fff1e"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21a8cea2e97e7d0c33be7088311fff1e">importedModules</a></td></tr>
+<tr class="memitem:ae312b19faa784e11ec4d7de90f14b546" id="r_ae312b19faa784e11ec4d7de90f14b546"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="../../de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html">ResolvedCall</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae312b19faa784e11ec4d7de90f14b546">resolvedCalls</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="abb8e059df5e8c2f2f896fdc1e8cbf47f" name="abb8e059df5e8c2f2f896fdc1e8cbf47f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb8e059df5e8c2f2f896fdc1e8cbf47f">&#9670;&#160;</a></span>callAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt; sema::SemanticInfo::callAt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>offset</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>                                                         {</div>
+<div class="line"><span class="lineno">   38</span>    <span class="keyword">auto</span> calls = <a class="code hl_variable" href="#ae312b19faa784e11ec4d7de90f14b546">resolvedCalls</a>.find(moduleId);</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">if</span> (calls == <a class="code hl_variable" href="#ae312b19faa784e11ec4d7de90f14b546">resolvedCalls</a>.end()) {</div>
+<div class="line"><span class="lineno">   40</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   41</span>    }</div>
+<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;call : calls-&gt;second) {</div>
+<div class="line"><span class="lineno">   43</span>      <span class="keywordflow">if</span> (offset &gt;= call.span.offset &amp;&amp; offset &lt;= call.span.offset + call.span.length) {</div>
+<div class="line"><span class="lineno">   44</span>        <span class="keywordflow">return</span> call.symbol;</div>
+<div class="line"><span class="lineno">   45</span>      }</div>
+<div class="line"><span class="lineno">   46</span>    }</div>
+<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   48</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_ae312b19faa784e11ec4d7de90f14b546"><div class="ttname"><a href="#ae312b19faa784e11ec4d7de90f14b546">sema::SemanticInfo::resolvedCalls</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::vector&lt; ResolvedCall &gt; &gt; resolvedCalls</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00027">semantic_info.hpp:27</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00027">resolvedCalls</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00703">zap::lsp::resolveSignatures()</a>.</p>
+
+</div>
+</div>
+<a id="ab966385ff7a5ff5a780fc878d6acf338" name="ab966385ff7a5ff5a780fc878d6acf338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab966385ff7a5ff5a780fc878d6acf338">&#9670;&#160;</a></span>declarationFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../df/dd0/classNode.html">Node</a> * sema::SemanticInfo::declarationFor </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00107">107</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                                                        {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">if</span> (!symbol) {</div>
+<div class="line"><span class="lineno">  109</span>      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  110</span>    }</div>
+<div class="line"><span class="lineno">  111</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">declarationsBySymbol</a>.find(symbol.get());</div>
+<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">declarationsBySymbol</a>.end() ? nullptr : it-&gt;second;</div>
+<div class="line"><span class="lineno">  113</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_a0ce3192bd5efe49a5e6b16b6cd7ce440"><div class="ttname"><a href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">sema::SemanticInfo::declarationsBySymbol</a></div><div class="ttdeci">std::unordered_map&lt; const Symbol *, const Node * &gt; declarationsBySymbol</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00023">semantic_info.hpp:23</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00023">declarationsBySymbol</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00097">declarationNamed()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01215">zap::lsp::resolveDefinition()</a>, and <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00703">zap::lsp::resolveSignatures()</a>.</p>
+
+</div>
+</div>
+<a id="aa06772a657b72cb94fb1bb30ab96a1d5" name="aa06772a657b72cb94fb1bb30ab96a1d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa06772a657b72cb94fb1bb30ab96a1d5">&#9670;&#160;</a></span>declarationNamed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; sema::SemanticInfo::declarationNamed </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>                                                                             {</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[node, symbol] : <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>) {</div>
+<div class="line"><span class="lineno">   99</span>      <span class="keywordflow">if</span> (symbol &amp;&amp; symbol-&gt;name == name &amp;&amp; symbol-&gt;moduleName == moduleName &amp;&amp;</div>
+<div class="line"><span class="lineno">  100</span>          <a class="code hl_function" href="#ab966385ff7a5ff5a780fc878d6acf338">declarationFor</a>(symbol) == node) {</div>
+<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">return</span> symbol;</div>
+<div class="line"><span class="lineno">  102</span>      }</div>
+<div class="line"><span class="lineno">  103</span>    }</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  105</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_a8d9209f70cae25a364d08e80f6c74f92"><div class="ttname"><a href="#a8d9209f70cae25a364d08e80f6c74f92">sema::SemanticInfo::symbolsByNode</a></div><div class="ttdeci">std::unordered_map&lt; const Node *, std::shared_ptr&lt; Symbol &gt; &gt; symbolsByNode</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00022">semantic_info.hpp:22</a></div></div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_ab966385ff7a5ff5a780fc878d6acf338"><div class="ttname"><a href="#ab966385ff7a5ff5a780fc878d6acf338">sema::SemanticInfo::declarationFor</a></div><div class="ttdeci">const Node * declarationFor(const std::shared_ptr&lt; Symbol &gt; &amp;symbol) const</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00107">semantic_info.hpp:107</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00107">declarationFor()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00022">symbolsByNode</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01215">zap::lsp::resolveDefinition()</a>.</p>
+
+</div>
+</div>
+<a id="a158baf9e78cc88c4f01193fda9dedc85" name="a158baf9e78cc88c4f01193fda9dedc85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a158baf9e78cc88c4f01193fda9dedc85">&#9670;&#160;</a></span>importedModuleFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string * sema::SemanticInfo::importedModuleFor </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>localName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00077">77</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   78</span>                                                                         {</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a21a8cea2e97e7d0c33be7088311fff1e">importedModules</a>.find(<a class="code hl_function" href="#af4e0d5f0771a260d9828d45d5a1f2157">importKey</a>(moduleId, localName));</div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a21a8cea2e97e7d0c33be7088311fff1e">importedModules</a>.end() ? nullptr : &amp;it-&gt;second;</div>
+<div class="line"><span class="lineno">   81</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_a21a8cea2e97e7d0c33be7088311fff1e"><div class="ttname"><a href="#a21a8cea2e97e7d0c33be7088311fff1e">sema::SemanticInfo::importedModules</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; importedModules</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00026">semantic_info.hpp:26</a></div></div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_af4e0d5f0771a260d9828d45d5a1f2157"><div class="ttname"><a href="#af4e0d5f0771a260d9828d45d5a1f2157">sema::SemanticInfo::importKey</a></div><div class="ttdeci">static std::string importKey(const std::string &amp;moduleId, const std::string &amp;localName)</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00050">semantic_info.hpp:50</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00026">importedModules</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00050">importKey()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01215">zap::lsp::resolveDefinition()</a>.</p>
+
+</div>
+</div>
+<a id="aa29e9c28a18bf289afb2b5ddc7f6546e" name="aa29e9c28a18bf289afb2b5ddc7f6546e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29e9c28a18bf289afb2b5ddc7f6546e">&#9670;&#160;</a></span>importedSymbolFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html">ImportedSymbol</a> * sema::SemanticInfo::importedSymbolFor </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>localName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00065">65</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>                                                                             {</div>
+<div class="line"><span class="lineno">   67</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#ac6074da9c032eec92d8e4fd08869c018">importedSymbols</a>.find(<a class="code hl_function" href="#af4e0d5f0771a260d9828d45d5a1f2157">importKey</a>(moduleId, localName));</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#ac6074da9c032eec92d8e4fd08869c018">importedSymbols</a>.end() ? nullptr : &amp;it-&gt;second;</div>
+<div class="line"><span class="lineno">   69</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_ac6074da9c032eec92d8e4fd08869c018"><div class="ttname"><a href="#ac6074da9c032eec92d8e4fd08869c018">sema::SemanticInfo::importedSymbols</a></div><div class="ttdeci">std::unordered_map&lt; std::string, ImportedSymbol &gt; importedSymbols</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00025">semantic_info.hpp:25</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00025">importedSymbols</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00050">importKey()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01215">zap::lsp::resolveDefinition()</a>.</p>
+
+</div>
+</div>
+<a id="af4e0d5f0771a260d9828d45d5a1f2157" name="af4e0d5f0771a260d9828d45d5a1f2157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4e0d5f0771a260d9828d45d5a1f2157">&#9670;&#160;</a></span>importKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sema::SemanticInfo::importKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>localName</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00050">50</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                           {</div>
+<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> moduleId + <span class="charliteral">&#39;\n&#39;</span> + localName;</div>
+<div class="line"><span class="lineno">   53</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00077">importedModuleFor()</a>, <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00065">importedSymbolFor()</a>, <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00071">recordImportedModule()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00055">recordImportedSymbol()</a>.</p>
+
+</div>
+</div>
+<a id="a6097f09b6dd63e7680a837f00d25b333" name="a6097f09b6dd63e7680a837f00d25b333"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6097f09b6dd63e7680a837f00d25b333">&#9670;&#160;</a></span>recordCall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sema::SemanticInfo::recordCall </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/d5b/structSourceSpan.html">SourceSpan</a></td>          <td class="paramname"><span class="paramname"><em>span</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../db/db1/classsema_1_1FunctionSymbol.html">FunctionSymbol</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00029">29</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                                        {</div>
+<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">if</span> (symbol) {</div>
+<div class="line"><span class="lineno">   32</span>      <a class="code hl_variable" href="#ae312b19faa784e11ec4d7de90f14b546">resolvedCalls</a>[moduleId].push_back({span, std::move(symbol)});</div>
+<div class="line"><span class="lineno">   33</span>    }</div>
+<div class="line"><span class="lineno">   34</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00027">resolvedCalls</a>.</p>
+
+</div>
+</div>
+<a id="a6d55c0f47a6322e7f47ae89649018631" name="a6d55c0f47a6322e7f47ae89649018631"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d55c0f47a6322e7f47ae89649018631">&#9670;&#160;</a></span>recordDeclaration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sema::SemanticInfo::recordDeclaration </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../df/dd0/classNode.html">Node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00089">89</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>                                                                                {</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">if</span> (node &amp;&amp; symbol) {</div>
+<div class="line"><span class="lineno">   91</span>      <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>[node] = symbol;</div>
+<div class="line"><span class="lineno">   92</span>      <a class="code hl_variable" href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">declarationsBySymbol</a>[symbol.get()] = node;</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00023">declarationsBySymbol</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00022">symbolsByNode</a>.</p>
+
+</div>
+</div>
+<a id="a8d52bae3e9da3eaa86393108c96b05d3" name="a8d52bae3e9da3eaa86393108c96b05d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d52bae3e9da3eaa86393108c96b05d3">&#9670;&#160;</a></span>recordImportedModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sema::SemanticInfo::recordImportedModule </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>localName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>targetModuleId</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00071">71</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                      {</div>
+<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="#a21a8cea2e97e7d0c33be7088311fff1e">importedModules</a>[<a class="code hl_function" href="#af4e0d5f0771a260d9828d45d5a1f2157">importKey</a>(moduleId, localName)] = std::move(targetModuleId);</div>
+<div class="line"><span class="lineno">   75</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00026">importedModules</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00050">importKey()</a>.</p>
+
+</div>
+</div>
+<a id="a17e6033e472c362a3b5e6929c9a8e6d0" name="a17e6033e472c362a3b5e6929c9a8e6d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e6033e472c362a3b5e6929c9a8e6d0">&#9670;&#160;</a></span>recordImportedSymbol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sema::SemanticInfo::recordImportedSymbol </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>moduleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>localName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>targetModuleId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                          {</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">if</span> (symbol) {</div>
+<div class="line"><span class="lineno">   60</span>      <a class="code hl_variable" href="#ac6074da9c032eec92d8e4fd08869c018">importedSymbols</a>[<a class="code hl_function" href="#af4e0d5f0771a260d9828d45d5a1f2157">importKey</a>(moduleId, localName)] =</div>
+<div class="line"><span class="lineno">   61</span>          {std::move(targetModuleId), std::move(symbol)};</div>
+<div class="line"><span class="lineno">   62</span>    }</div>
+<div class="line"><span class="lineno">   63</span>  }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00025">importedSymbols</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00050">importKey()</a>.</p>
+
+</div>
+</div>
 <a id="abfe7d3e3b04883dc7f68e133b1290b16" name="abfe7d3e3b04883dc7f68e133b1290b16"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abfe7d3e3b04883dc7f68e133b1290b16">&#9670;&#160;</a></span>recordSymbol()</h2>
 
@@ -109,15 +553,14 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>                                                                    {</div>
-<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">if</span> (node &amp;&amp; symbol) {</div>
-<div class="line"><span class="lineno">   17</span>      <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>[node] = std::move(symbol);</div>
-<div class="line"><span class="lineno">   18</span>    }</div>
-<div class="line"><span class="lineno">   19</span>  }</div>
-<div class="ttc" id="astructsema_1_1SemanticInfo_html_a8d9209f70cae25a364d08e80f6c74f92"><div class="ttname"><a href="#a8d9209f70cae25a364d08e80f6c74f92">sema::SemanticInfo::symbolsByNode</a></div><div class="ttdeci">std::unordered_map&lt; const Node *, std::shared_ptr&lt; Symbol &gt; &gt; symbolsByNode</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00012">semantic_info.hpp:12</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00083">83</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>                                                                    {</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">if</span> (node &amp;&amp; symbol) {</div>
+<div class="line"><span class="lineno">   85</span>      <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>[node] = std::move(symbol);</div>
+<div class="line"><span class="lineno">   86</span>    }</div>
+<div class="line"><span class="lineno">   87</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00012">symbolsByNode</a>.</p>
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00022">symbolsByNode</a>.</p>
 
 </div>
 </div>
@@ -148,15 +591,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00021">21</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>                                                                 {</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">if</span> (node &amp;&amp; type) {</div>
-<div class="line"><span class="lineno">   23</span>      <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>[node] = std::move(type);</div>
-<div class="line"><span class="lineno">   24</span>    }</div>
-<div class="line"><span class="lineno">   25</span>  }</div>
-<div class="ttc" id="astructsema_1_1SemanticInfo_html_a1031c049dc03a349475f7cff86656138"><div class="ttname"><a href="#a1031c049dc03a349475f7cff86656138">sema::SemanticInfo::typesByNode</a></div><div class="ttdeci">std::unordered_map&lt; const Node *, std::shared_ptr&lt; zir::Type &gt; &gt; typesByNode</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00013">semantic_info.hpp:13</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00115">115</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                                                                 {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span> (node &amp;&amp; type) {</div>
+<div class="line"><span class="lineno">  117</span>      <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>[node] = std::move(type);</div>
+<div class="line"><span class="lineno">  118</span>    }</div>
+<div class="line"><span class="lineno">  119</span>  }</div>
+<div class="ttc" id="astructsema_1_1SemanticInfo_html_a1031c049dc03a349475f7cff86656138"><div class="ttname"><a href="#a1031c049dc03a349475f7cff86656138">sema::SemanticInfo::typesByNode</a></div><div class="ttdeci">std::unordered_map&lt; const Node *, std::shared_ptr&lt; zir::Type &gt; &gt; typesByNode</div><div class="ttdef"><b>Definition</b> <a href="../../db/de8/semantic__info_8hpp_source.html#l00024">semantic_info.hpp:24</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00013">typesByNode</a>.</p>
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00024">typesByNode</a>.</p>
 
 </div>
 </div>
@@ -183,13 +626,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00027">27</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>                                                          {</div>
-<div class="line"><span class="lineno">   28</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>.find(node);</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>.end() ? nullptr : it-&gt;second;</div>
-<div class="line"><span class="lineno">   30</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00121">121</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  121</span>                                                          {</div>
+<div class="line"><span class="lineno">  122</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>.find(node);</div>
+<div class="line"><span class="lineno">  123</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a8d9209f70cae25a364d08e80f6c74f92">symbolsByNode</a>.end() ? nullptr : it-&gt;second;</div>
+<div class="line"><span class="lineno">  124</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00012">symbolsByNode</a>.</p>
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00022">symbolsByNode</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01215">zap::lsp::resolveDefinition()</a>, and <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00900">zap::lsp::semanticHoverFor()</a>.</p>
 
 </div>
 </div>
@@ -216,19 +661,91 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00032">32</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>                                                         {</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>.find(node);</div>
-<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>.end() ? nullptr : it-&gt;second;</div>
-<div class="line"><span class="lineno">   35</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00126">126</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  126</span>                                                         {</div>
+<div class="line"><span class="lineno">  127</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>.find(node);</div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="#a1031c049dc03a349475f7cff86656138">typesByNode</a>.end() ? nullptr : it-&gt;second;</div>
+<div class="line"><span class="lineno">  129</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00013">typesByNode</a>.</p>
+<p class="reference">References <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00024">typesByNode</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00392">zap::lsp::resolveVariableClassType()</a>, and <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00414">zap::lsp::resolveVariableRecordType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00404">zap::lsp::resolveVariableClassType()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00426">zap::lsp::resolveVariableRecordType()</a>, and <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00900">zap::lsp::semanticHoverFor()</a>.</p>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a0ce3192bd5efe49a5e6b16b6cd7ce440" name="a0ce3192bd5efe49a5e6b16b6cd7ce440"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ce3192bd5efe49a5e6b16b6cd7ce440">&#9670;&#160;</a></span>declarationsBySymbol</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;const <a class="el" href="../../d1/df6/classsema_1_1Symbol.html">Symbol</a> *, const <a class="el" href="../../df/dd0/classNode.html">Node</a> *&gt; sema::SemanticInfo::declarationsBySymbol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00107">declarationFor()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00089">recordDeclaration()</a>.</p>
+
+</div>
+</div>
+<a id="a21a8cea2e97e7d0c33be7088311fff1e" name="a21a8cea2e97e7d0c33be7088311fff1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21a8cea2e97e7d0c33be7088311fff1e">&#9670;&#160;</a></span>importedModules</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::string&gt; sema::SemanticInfo::importedModules</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00026">26</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00077">importedModuleFor()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00071">recordImportedModule()</a>.</p>
+
+</div>
+</div>
+<a id="ac6074da9c032eec92d8e4fd08869c018" name="ac6074da9c032eec92d8e4fd08869c018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6074da9c032eec92d8e4fd08869c018">&#9670;&#160;</a></span>importedSymbols</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, <a class="el" href="../../d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html">ImportedSymbol</a>&gt; sema::SemanticInfo::importedSymbols</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00065">importedSymbolFor()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00055">recordImportedSymbol()</a>.</p>
+
+</div>
+</div>
+<a id="ae312b19faa784e11ec4d7de90f14b546" name="ae312b19faa784e11ec4d7de90f14b546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae312b19faa784e11ec4d7de90f14b546">&#9670;&#160;</a></span>resolvedCalls</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::vector&lt;<a class="el" href="../../de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html">ResolvedCall</a>&gt; &gt; sema::SemanticInfo::resolvedCalls</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00027">27</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00037">callAt()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00029">recordCall()</a>.</p>
+
+</div>
+</div>
 <a id="a8d9209f70cae25a364d08e80f6c74f92" name="a8d9209f70cae25a364d08e80f6c74f92"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d9209f70cae25a364d08e80f6c74f92">&#9670;&#160;</a></span>symbolsByNode</h2>
 
@@ -241,9 +758,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00015">recordSymbol()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00027">symbolFor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00097">declarationNamed()</a>, <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00089">recordDeclaration()</a>, <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00083">recordSymbol()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00121">symbolFor()</a>.</p>
 
 </div>
 </div>
@@ -259,9 +776,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../db/de8/semantic__info_8hpp_source.html">semantic_info.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00021">recordType()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00032">typeFor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00115">recordType()</a>, and <a class="el" href="../../db/de8/semantic__info_8hpp_source.html#l00126">typeFor()</a>.</p>
 
 </div>
 </div>

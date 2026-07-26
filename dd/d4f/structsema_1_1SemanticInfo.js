@@ -1,9 +1,25 @@
 var structsema_1_1SemanticInfo =
 [
+    [ "ResolvedCall", "de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html", "de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall" ],
+    [ "ImportedSymbol", "d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html", "d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol" ],
+    [ "callAt", "dd/d4f/structsema_1_1SemanticInfo.html#abb8e059df5e8c2f2f896fdc1e8cbf47f", null ],
+    [ "declarationFor", "dd/d4f/structsema_1_1SemanticInfo.html#ab966385ff7a5ff5a780fc878d6acf338", null ],
+    [ "declarationNamed", "dd/d4f/structsema_1_1SemanticInfo.html#aa06772a657b72cb94fb1bb30ab96a1d5", null ],
+    [ "importedModuleFor", "dd/d4f/structsema_1_1SemanticInfo.html#a158baf9e78cc88c4f01193fda9dedc85", null ],
+    [ "importedSymbolFor", "dd/d4f/structsema_1_1SemanticInfo.html#aa29e9c28a18bf289afb2b5ddc7f6546e", null ],
+    [ "importKey", "dd/d4f/structsema_1_1SemanticInfo.html#af4e0d5f0771a260d9828d45d5a1f2157", null ],
+    [ "recordCall", "dd/d4f/structsema_1_1SemanticInfo.html#a6097f09b6dd63e7680a837f00d25b333", null ],
+    [ "recordDeclaration", "dd/d4f/structsema_1_1SemanticInfo.html#a6d55c0f47a6322e7f47ae89649018631", null ],
+    [ "recordImportedModule", "dd/d4f/structsema_1_1SemanticInfo.html#a8d52bae3e9da3eaa86393108c96b05d3", null ],
+    [ "recordImportedSymbol", "dd/d4f/structsema_1_1SemanticInfo.html#a17e6033e472c362a3b5e6929c9a8e6d0", null ],
     [ "recordSymbol", "dd/d4f/structsema_1_1SemanticInfo.html#abfe7d3e3b04883dc7f68e133b1290b16", null ],
     [ "recordType", "dd/d4f/structsema_1_1SemanticInfo.html#ab53f71f09d871ae6f37a0cd83af8e8c7", null ],
     [ "symbolFor", "dd/d4f/structsema_1_1SemanticInfo.html#acaecb4aa4893a769efc2560b14f79c56", null ],
     [ "typeFor", "dd/d4f/structsema_1_1SemanticInfo.html#ae6dbc2312b9e525d7fb872b5b56b65e7", null ],
+    [ "declarationsBySymbol", "dd/d4f/structsema_1_1SemanticInfo.html#a0ce3192bd5efe49a5e6b16b6cd7ce440", null ],
+    [ "importedModules", "dd/d4f/structsema_1_1SemanticInfo.html#a21a8cea2e97e7d0c33be7088311fff1e", null ],
+    [ "importedSymbols", "dd/d4f/structsema_1_1SemanticInfo.html#ac6074da9c032eec92d8e4fd08869c018", null ],
+    [ "resolvedCalls", "dd/d4f/structsema_1_1SemanticInfo.html#ae312b19faa784e11ec4d7de90f14b546", null ],
     [ "symbolsByNode", "dd/d4f/structsema_1_1SemanticInfo.html#a8d9209f70cae25a364d08e80f6c74f92", null ],
     [ "typesByNode", "dd/d4f/structsema_1_1SemanticInfo.html#a1031c049dc03a349475f7cff86656138", null ]
 ];

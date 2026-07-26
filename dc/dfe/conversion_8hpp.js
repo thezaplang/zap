@@ -1,0 +1,48 @@
+var conversion_8hpp =
+[
+    [ "sema::Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
+    [ "sema::TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
+    [ "sema::ConversionClassifier", "da/d5d/classsema_1_1ConversionClassifier.html", "da/d5d/classsema_1_1ConversionClassifier" ],
+    [ "sema::ConversionClassifier::TypePair", "de/dce/structsema_1_1ConversionClassifier_1_1TypePair.html", "de/dce/structsema_1_1ConversionClassifier_1_1TypePair" ],
+    [ "sema::ConversionClassifier::TypePairHash", "d0/dd0/structsema_1_1ConversionClassifier_1_1TypePairHash.html", "d0/dd0/structsema_1_1ConversionClassifier_1_1TypePairHash" ],
+    [ "sema::ConversionKind", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955", [
+      [ "sema::ConversionKind::Identity", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ac9c5c65fb4af9cf90eb99b3b84424189", null ],
+      [ "sema::ConversionKind::StringToView", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a9fc2cf43b944166ce396aec8239c7eee", null ],
+      [ "sema::ConversionKind::StringToOwned", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a142ba15a4807b0c4127f6317bdba6422", null ],
+      [ "sema::ConversionKind::EnumToInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1e29b38d01736960dc458f7f2fae9814", null ],
+      [ "sema::ConversionKind::FloatingWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955abbdf4b82ce584ad47f8ba6a2cf3a139d", null ],
+      [ "sema::ConversionKind::FloatingNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a0ee0b1cfd0ea876f5ad20f6cbafee763", null ],
+      [ "sema::ConversionKind::SignedWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ad5a69752d7cfd6b59832c6360aded519", null ],
+      [ "sema::ConversionKind::SignedNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a2fd76a4efa6424b1feacd98c07a20fc8", null ],
+      [ "sema::ConversionKind::UnsignedWidening", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955aa12538af78a095d5230d637dcd6c76d5", null ],
+      [ "sema::ConversionKind::UnsignedNarrowing", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ab9f200cde162a5b0ffbdc70744eae323", null ],
+      [ "sema::ConversionKind::SignednessChange", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a0f7f551c0e4f6f6d318de93b9c03bc07", null ],
+      [ "sema::ConversionKind::IntegerToFloat", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a15f6a71f7882b99c99d02074c51eab06", null ],
+      [ "sema::ConversionKind::FloatToInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a7181fdb99a4c8fee0f7d88d531a46089", null ],
+      [ "sema::ConversionKind::NullToPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a051f4bca91e4af51613cfa6138d259f4", null ],
+      [ "sema::ConversionKind::NullToClass", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a8194ebb2161926b1dd225303a0816f04", null ],
+      [ "sema::ConversionKind::StringToCharPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955aadd207b01779e75db14e2256c7ee3513", null ],
+      [ "sema::ConversionKind::ClassUpcast", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1178fcb8b36cf2a6d538ad5292e6f6dc", null ],
+      [ "sema::ConversionKind::StrongToWeak", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ae42629e35cacdeec7ba6ac9354bee0f3", null ],
+      [ "sema::ConversionKind::ArrayToVariadicView", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955adc86e864e554ab4ec8a903dc0c7528e5", null ],
+      [ "sema::ConversionKind::Failable", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955af209137478906384a4d3729cce713208", null ],
+      [ "sema::ConversionKind::CVariadicPromotion", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a22f9b3b4ccebef14cfb543b70aa13f38", null ],
+      [ "sema::ConversionKind::ExplicitCharInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a3955938e2292d1e5a1550ec118ad2f8f", null ],
+      [ "sema::ConversionKind::ExplicitPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a516c204645de248b2bd65adddc0fea56", null ],
+      [ "sema::ConversionKind::ExplicitStringPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1822532006a6cb44c0c627f8ba5fc3e5", null ],
+      [ "sema::ConversionKind::ExplicitPointerString", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a4906e937a7c8147d2a30b94fa9abd943", null ],
+      [ "sema::ConversionKind::ExplicitPointerInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a90586eed2517bf0b8aa594c697bcf4bf", null ]
+    ] ],
+    [ "sema::ConversionRank", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972", [
+      [ "sema::ConversionRank::Exact", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a1649aed298f99d587e2eb30c1db5946b", null ],
+      [ "sema::ConversionRank::Promotion", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a626a54d37d402d449d6d7541911e0952", null ],
+      [ "sema::ConversionRank::Numeric", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a87322391cc6e8948ce9fd5d6cb84fced", null ],
+      [ "sema::ConversionRank::NullPointer", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a260d92b2beff2bf345911077edcd3f3c", null ],
+      [ "sema::ConversionRank::Narrowing", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a8d7932c20f13bfea9b3b1242aebbc04f", null ],
+      [ "sema::ConversionRank::Lossy", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972ab71142391f68646086edeadddcf020dc", null ],
+      [ "sema::ConversionRank::FloatToInteger", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a7181fdb99a4c8fee0f7d88d531a46089", null ],
+      [ "sema::ConversionRank::Structural", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972aa9a0f8e36e7dcc2b446c20be15322dc9", null ],
+      [ "sema::ConversionRank::Explicit", "d7/d39/namespacesema.html#a24eb816059fb37d39daa5ac27079c972a9d71760e2dd451db2df354d0fd29cd7f", null ]
+    ] ],
+    [ "sema::isVariadicViewType", "d7/d39/namespacesema.html#a0d0cd7eb4e50cf28045b9aacd27af483", null ]
+];

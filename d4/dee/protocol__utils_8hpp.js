@@ -10,7 +10,6 @@ var protocol__utils_8hpp =
     [ "zap::lsp::isIdentifierChar", "d5/d23/namespacezap_1_1lsp.html#a1120684c06c72d01175a22c7457cb3ce", null ],
     [ "zap::lsp::memberAccessAtCursor", "d5/d23/namespacezap_1_1lsp.html#abe33711317e7ecf7db1ed42304cecea2", null ],
     [ "zap::lsp::memberAccessBeforeCursor", "d5/d23/namespacezap_1_1lsp.html#a571744758c915972f9718f54cfc3ac1b", null ],
-    [ "zap::lsp::offsetFromPosition", "d5/d23/namespacezap_1_1lsp.html#aa5a408eb8dd9e95540be1739d435a397", null ],
     [ "zap::lsp::pathToUri", "d5/d23/namespacezap_1_1lsp.html#ae1ef66bd36274b643247cd505ea42bbe", null ],
     [ "zap::lsp::qualifiedIdentifierAtOffset", "d5/d23/namespacezap_1_1lsp.html#a855f382c0435b7d2d0766e15b1e31bc9", null ],
     [ "zap::lsp::readSourceFile", "d5/d23/namespacezap_1_1lsp.html#a59883f0d22c276fe51ce60aaec655921", null ],

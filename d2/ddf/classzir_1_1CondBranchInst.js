@@ -5,6 +5,7 @@ var classzir_1_1CondBranchInst =
     [ "getFalseLabel", "d2/ddf/classzir_1_1CondBranchInst.html#a2a36c453b3f545d2db33e345c43c6c16", null ],
     [ "getOpCode", "d2/ddf/classzir_1_1CondBranchInst.html#a44d6152c905c6f50945df1508b5ce406", null ],
     [ "getTrueLabel", "d2/ddf/classzir_1_1CondBranchInst.html#aa7b5ca8c7ed26b149ece1324d78c169b", null ],
+    [ "replaceTarget", "d2/ddf/classzir_1_1CondBranchInst.html#a517901fe8b573e9590159f8d59a53cb4", null ],
     [ "toString", "d2/ddf/classzir_1_1CondBranchInst.html#a8383e80d2ec0a3b354911b4841cd2183", null ],
     [ "cond", "d2/ddf/classzir_1_1CondBranchInst.html#a84da0bd750ac3da0c60c81b0e692c412", null ],
     [ "falseL", "d2/ddf/classzir_1_1CondBranchInst.html#a3337be32e5d4714cd52c0180d239d4ea", null ],

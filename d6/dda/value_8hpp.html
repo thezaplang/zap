@@ -81,6 +81,7 @@ Classes</h2></td></tr>
 <tr class="memitem:zir_3A_3AAggregateConstant_3A_3AFieldValue" id="r_zir_3A_3AAggregateConstant_3A_3AFieldValue"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfa/structzir_1_1AggregateConstant_1_1FieldValue.html">zir::AggregateConstant::FieldValue</a></td></tr>
 <tr class="memitem:zir_3A_3AArrayConstant" id="r_zir_3A_3AArrayConstant"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classzir_1_1ArrayConstant.html">zir::ArrayConstant</a></td></tr>
 <tr class="memitem:zir_3A_3AArgument" id="r_zir_3A_3AArgument"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d57/classzir_1_1Argument.html">zir::Argument</a></td></tr>
+<tr class="memitem:zir_3A_3AFunctionReference" id="r_zir_3A_3AFunctionReference"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dc1/classzir_1_1FunctionReference.html">zir::FunctionReference</a></td></tr>
 <tr class="memitem:zir_3A_3AGlobal" id="r_zir_3A_3AGlobal"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/classzir_1_1Global.html">zir::Global</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -102,9 +103,26 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a1853680a6d666b9fea2d789dd00bc7eb">zir::Argument</a>
 , <br />
+&#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a6ed2de250afae1344ac84efd5bb72c54">zir::FunctionReference</a>
+, <br />
 &#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a0b65443104b99920199d964de2b4a609a4cc6684df7b4a92b1dec6fce3264fac8">zir::Global</a>
 <br />
  }</td></tr>
+<tr class="memitem:a8a221b28ff6d092bc1fb4930af999606" id="r_a8a221b28ff6d092bc1fb4930af999606"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">zir::ValueOwnership</a> { <br />
+&#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">zir::Borrowed</a>
+, <br />
+&#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a444d5e3cc7edfb0ebb90ba2028c007b8">zir::OwnedStrong</a>
+, <br />
+&#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a5a808eb40ea1cdf31d89fea47160f59a">zir::OwnedWeak</a>
+, <br />
+&#160;&#160;<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a60848c692f8ddb0363e500da44563bae">zir::Owned</a> = OwnedStrong
+<br />
+ }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a18437619633ae4a858b016883ee3c68a" id="r_a18437619633ae4a858b016883ee3c68a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">zir::isOwned</a> (<a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a> ownership)</td></tr>
+<tr class="memitem:a3a71e603394a9dc056f76acc7b38fc43" id="r_a3a71e603394a9dc056f76acc7b38fc43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606">ValueOwnership</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d35/namespacezir.html#a3a71e603394a9dc056f76acc7b38fc43">zir::ownedForType</a> (const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">Type</a> &gt; &amp;type)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

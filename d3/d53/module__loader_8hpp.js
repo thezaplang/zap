@@ -2,6 +2,10 @@ var module__loader_8hpp =
 [
     [ "zap::frontend::RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
     [ "zap::frontend::ImportMap", "df/ddd/namespacezap_1_1frontend.html#ab337dddc502084630f5085e1c467d1e5", null ],
+    [ "zap::frontend::EnvironmentOverrides", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fb", [
+      [ "zap::frontend::EnvironmentOverrides::Allow", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fba45f0fb72a0defdfdb01de4b5a5a6876b", null ],
+      [ "zap::frontend::EnvironmentOverrides::Ignore", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fbafd038fc7f319e48f3115d92bf5bdbef9", null ]
+    ] ],
     [ "zap::frontend::computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "zap::frontend::coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "zap::frontend::currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],

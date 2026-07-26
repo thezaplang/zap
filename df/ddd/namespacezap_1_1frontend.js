@@ -1,7 +1,15 @@
 var namespacezap_1_1frontend =
 [
+    [ "FrontendSessionConfig", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig.html", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig" ],
+    [ "FrontendProject", "df/d8d/structzap_1_1frontend_1_1FrontendProject.html", "df/d8d/structzap_1_1frontend_1_1FrontendProject" ],
+    [ "FrontendSession", "d0/d02/classzap_1_1frontend_1_1FrontendSession.html", "d0/d02/classzap_1_1frontend_1_1FrontendSession" ],
     [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
     [ "ImportMap", "df/ddd/namespacezap_1_1frontend.html#ab337dddc502084630f5085e1c467d1e5", null ],
+    [ "SourceLoader", "df/ddd/namespacezap_1_1frontend.html#affff75658f9f64ce5f0dde98b6dce8d5", null ],
+    [ "EnvironmentOverrides", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fb", [
+      [ "Allow", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fba45f0fb72a0defdfdb01de4b5a5a6876b", null ],
+      [ "Ignore", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fbafd038fc7f319e48f3115d92bf5bdbef9", null ]
+    ] ],
     [ "computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],
