@@ -90,6 +90,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa41fb70d2bd96c53d6609a48756d7749" id="r_aa41fb70d2bd96c53d6609a48756d7749"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa41fb70d2bd96c53d6609a48756d7749">getCodegenName</a> () const</td></tr>
 <tr class="memitem:a58ae8592fd1f70c70a555f5805c67dbb" id="r_a58ae8592fd1f70c70a555f5805c67dbb"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html">Variant</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58ae8592fd1f70c70a555f5805c67dbb">getVariants</a> () const</td></tr>
 <tr class="memitem:ac45c88d41e77945b454cba891b61756d" id="r_ac45c88d41e77945b454cba891b61756d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac45c88d41e77945b454cba891b61756d">setVariants</a> (std::vector&lt; <a class="el" href="../../df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html">Variant</a> &gt; v)</td></tr>
+<tr class="memitem:a7aede6be308ae86f54963e52b44201bd" id="r_a7aede6be308ae86f54963e52b44201bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7aede6be308ae86f54963e52b44201bd">clearVariants</a> ()</td></tr>
 <tr class="memitem:ad0ea772eb981ed06e67a6d71a81bd9d2" id="r_ad0ea772eb981ed06e67a6d71a81bd9d2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html">Variant</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0ea772eb981ed06e67a6d71a81bd9d2">findVariant</a> (const std::string &amp;variantName) const</td></tr>
 <tr class="inherit_header pub_methods_classzir_1_1Type"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classzir_1_1Type')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a></td></tr>
 <tr class="memitem:abe32a959bde0e2bc5435294cae74fbfc inherit pub_methods_classzir_1_1Type" id="r_abe32a959bde0e2bc5435294cae74fbfc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classzir_1_1Type.html#abe32a959bde0e2bc5435294cae74fbfc">~Type</a> ()=default</td></tr>
@@ -112,7 +113,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00285">285</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00286">286</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0ff16d62339045b4d8142c7eedaddde2" name="a0ff16d62339045b4d8142c7eedaddde2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ff16d62339045b4d8142c7eedaddde2">&#9670;&#160;</a></span>TaggedUnionType()</h2>
@@ -146,19 +147,49 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00299">299</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  301</span>      : <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>(std::move(n)),</div>
-<div class="line"><span class="lineno">  302</span>        <a class="code hl_variable" href="#a7eb2095546d87cb6096e07510442c3ab">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a> : std::move(codegen)),</div>
-<div class="line"><span class="lineno">  303</span>        <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>(std::move(v)) {}</div>
-<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a03ac9f37ad4fabb66bf5ff5821f93dbc"><div class="ttname"><a href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">zir::TaggedUnionType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00294">type.hpp:294</a></div></div>
-<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a345b528262a9dc25a7e2c5d3cb3ab41d"><div class="ttname"><a href="#a345b528262a9dc25a7e2c5d3cb3ab41d">zir::TaggedUnionType::variants</a></div><div class="ttdeci">std::vector&lt; Variant &gt; variants</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00296">type.hpp:296</a></div></div>
-<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a7eb2095546d87cb6096e07510442c3ab"><div class="ttname"><a href="#a7eb2095546d87cb6096e07510442c3ab">zir::TaggedUnionType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00295">type.hpp:295</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00300">300</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  302</span>      : <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>(std::move(n)),</div>
+<div class="line"><span class="lineno">  303</span>        <a class="code hl_variable" href="#a7eb2095546d87cb6096e07510442c3ab">codegenName</a>(codegen.empty() ? <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a> : std::move(codegen)),</div>
+<div class="line"><span class="lineno">  304</span>        <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>(std::move(v)) {}</div>
+<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a03ac9f37ad4fabb66bf5ff5821f93dbc"><div class="ttname"><a href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">zir::TaggedUnionType::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00295">type.hpp:295</a></div></div>
+<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a345b528262a9dc25a7e2c5d3cb3ab41d"><div class="ttname"><a href="#a345b528262a9dc25a7e2c5d3cb3ab41d">zir::TaggedUnionType::variants</a></div><div class="ttdeci">std::vector&lt; Variant &gt; variants</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00297">type.hpp:297</a></div></div>
+<div class="ttc" id="aclasszir_1_1TaggedUnionType_html_a7eb2095546d87cb6096e07510442c3ab"><div class="ttname"><a href="#a7eb2095546d87cb6096e07510442c3ab">zir::TaggedUnionType::codegenName</a></div><div class="ttdeci">std::string codegenName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00296">type.hpp:296</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">codegenName</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00294">name</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">codegenName</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">name</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">variants</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a7aede6be308ae86f54963e52b44201bd" name="a7aede6be308ae86f54963e52b44201bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aede6be308ae86f54963e52b44201bd">&#9670;&#160;</a></span>clearVariants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::TaggedUnionType::clearVariants </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00314">314</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  314</span>{ <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>.clear(); }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">variants</a>.</p>
+
+</div>
+</div>
 <a id="ad0ea772eb981ed06e67a6d71a81bd9d2" name="ad0ea772eb981ed06e67a6d71a81bd9d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad0ea772eb981ed06e67a6d71a81bd9d2">&#9670;&#160;</a></span>findVariant()</h2>
 
@@ -182,16 +213,16 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00314">314</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  314</span>                                                                 {</div>
-<div class="line"><span class="lineno">  315</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;variant : <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>) {</div>
-<div class="line"><span class="lineno">  316</span>      <span class="keywordflow">if</span> (variant.name == variantName)</div>
-<div class="line"><span class="lineno">  317</span>        <span class="keywordflow">return</span> &amp;variant;</div>
-<div class="line"><span class="lineno">  318</span>    }</div>
-<div class="line"><span class="lineno">  319</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  320</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00316">316</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  316</span>                                                                 {</div>
+<div class="line"><span class="lineno">  317</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;variant : <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>) {</div>
+<div class="line"><span class="lineno">  318</span>      <span class="keywordflow">if</span> (variant.name == variantName)</div>
+<div class="line"><span class="lineno">  319</span>        <span class="keywordflow">return</span> &amp;variant;</div>
+<div class="line"><span class="lineno">  320</span>    }</div>
+<div class="line"><span class="lineno">  321</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  322</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">variants</a>.</p>
 
 </div>
 </div>
@@ -218,10 +249,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00310">310</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  310</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a7eb2095546d87cb6096e07510442c3ab">codegenName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00311">311</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  311</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a7eb2095546d87cb6096e07510442c3ab">codegenName</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">codegenName</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">codegenName</a>.</p>
 
 </div>
 </div>
@@ -250,8 +281,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a2f9d7e4e67cf2a4f3fdd98d21a9b22d9">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00305">305</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  305</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743">TypeKind::TaggedUnion</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00306">306</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  306</span>{ <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743">TypeKind::TaggedUnion</a>; }</div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959ad3f47562e66b3b6ebc17a6a56d762743">zir::TypeKind::TaggedUnion</a></div><div class="ttdeci">@ TaggedUnion</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00036">type.hpp:36</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00036">zir::TaggedUnion</a>.</p>
@@ -281,10 +312,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00309">309</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  309</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00310">310</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  310</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00294">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">name</a>.</p>
 
 </div>
 </div>
@@ -311,10 +342,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00311">311</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  311</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00312">312</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  312</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">variants</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d1/da5/type__layout_8cpp_source.html#l00050">sema::anonymous_namespace{type_layout.cpp}::layoutOfTaggedUnion()</a>.</p>
 
@@ -345,8 +376,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a0df5d6f9acac147ffcb2906eab0918b0">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00307">307</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  307</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00308">308</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  308</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -373,10 +404,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00312">312</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  312</span>{ <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a> = std::move(v); }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00313">313</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  313</span>{ <a class="code hl_variable" href="#a345b528262a9dc25a7e2c5d3cb3ab41d">variants</a> = std::move(v); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">variants</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">variants</a>.</p>
 
 </div>
 </div>
@@ -405,10 +436,10 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a1551f8a18c1f267c3f77b0f151645a14">zir::Type</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00306">306</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  306</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;enum &quot;</span> + <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00307">307</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  307</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;enum &quot;</span> + <a class="code hl_variable" href="#a03ac9f37ad4fabb66bf5ff5821f93dbc">name</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00294">name</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">name</a>.</p>
 
 </div>
 </div>
@@ -433,9 +464,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">295</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">296</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00310">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00299">TaggedUnionType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00311">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00300">TaggedUnionType()</a>.</p>
 
 </div>
 </div>
@@ -459,9 +490,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00294">294</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00295">295</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00309">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00299">TaggedUnionType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00306">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00310">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00300">TaggedUnionType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00307">toString()</a>.</p>
 
 </div>
 </div>
@@ -485,9 +516,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00296">296</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00297">297</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00314">findVariant()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00311">getVariants()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00312">setVariants()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00299">TaggedUnionType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00314">clearVariants()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00316">findVariant()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00312">getVariants()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00313">setVariants()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00300">TaggedUnionType()</a>.</p>
 
 </div>
 </div>

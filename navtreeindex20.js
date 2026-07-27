@@ -1,5 +1,13 @@
 var NAVTREEINDEX20 =
 {
+"de/d32/classStructLiteralNode.html#a13ef5eb5ad1ed7a0af7d8d53b8bc86a7":[2,0,54,0],
+"de/d32/classStructLiteralNode.html#a668dfa0d66228d219b1bc46d28060e90":[2,0,54,2],
+"de/d32/classStructLiteralNode.html#a6df9660deed1bf26cf9c498ff3b662d1":[2,0,54,3],
+"de/d32/classStructLiteralNode.html#ae244fcee9ff5276441a7ee880fb11b01":[2,0,54,1],
+"de/d35/classStructDeclarationNode.html":[2,0,52],
+"de/d35/classStructDeclarationNode.html#a1d010f0c5074255c0463be6508985e85":[2,0,52,7],
+"de/d35/classStructDeclarationNode.html#a429cdc359b9ac3ee52533789db62e5fa":[2,0,52,5],
+"de/d35/classStructDeclarationNode.html#a4347e6f2a6aa704fc58427b27c582eb4":[2,0,52,4],
 "de/d35/classStructDeclarationNode.html#a5519f61a187dacaa475648150965f6ee":[2,0,52,2],
 "de/d35/classStructDeclarationNode.html#a7939cb16a0d5e5691bc25509bc4a5702":[2,0,52,6],
 "de/d35/classStructDeclarationNode.html#aad13fbc394d0485859b8b0d0d7a661ad":[2,0,52,0],
@@ -241,13 +249,5 @@ var NAVTREEINDEX20 =
 "de/d85/structzir_1_1OwnershipClosurePlan.html#a156f75e613f41487f1cf455a8888ac7e":[2,0,3,36,0],
 "de/d85/structzir_1_1OwnershipClosurePlan.html#a1cf420504e82f56b477ce50563de4393":[1,0,4,46,1],
 "de/d85/structzir_1_1OwnershipClosurePlan.html#a1cf420504e82f56b477ce50563de4393":[2,0,3,36,1],
-"de/d85/structzir_1_1OwnershipClosurePlan.html#a74844d2c945170b1c34d9f6f6d6a6771":[1,0,4,46,3],
-"de/d85/structzir_1_1OwnershipClosurePlan.html#a74844d2c945170b1c34d9f6f6d6a6771":[2,0,3,36,3],
-"de/d85/structzir_1_1OwnershipClosurePlan.html#acba65d356f0fa84230dad6c66d63fc22":[1,0,4,46,2],
-"de/d85/structzir_1_1OwnershipClosurePlan.html#acba65d356f0fa84230dad6c66d63fc22":[2,0,3,36,2],
-"de/d88/classsema_1_1BoundExpressionStatement.html":[1,0,2,8],
-"de/d88/classsema_1_1BoundExpressionStatement.html":[2,0,1,5],
-"de/d88/classsema_1_1BoundExpressionStatement.html#a90a211415842ae5f5cec7cc19f317c1b":[1,0,2,8,2],
-"de/d88/classsema_1_1BoundExpressionStatement.html#a90a211415842ae5f5cec7cc19f317c1b":[2,0,1,5,2],
-"de/d88/classsema_1_1BoundExpressionStatement.html#a93296adf1c84905a47291e26b0dad910":[1,0,2,8,1]
+"de/d85/structzir_1_1OwnershipClosurePlan.html#a74844d2c945170b1c34d9f6f6d6a6771":[1,0,4,46,3]
 };

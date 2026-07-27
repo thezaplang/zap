@@ -90,6 +90,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a366d2dce5a511dd096d26fa3a1fe8256" id="r_a366d2dce5a511dd096d26fa3a1fe8256"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a366d2dce5a511dd096d26fa3a1fe8256">addField</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a45ff21b8b8e6c78801607c578453d378">Type</a> &gt; t)</td></tr>
 <tr class="memitem:acabd57192206346ce4460d42b014139a" id="r_acabd57192206346ce4460d42b014139a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acabd57192206346ce4460d42b014139a">addField</a> (std::string n, std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html#a45ff21b8b8e6c78801607c578453d378">Type</a> &gt; t, int visibility)</td></tr>
 <tr class="memitem:acec119b3f75180788156f86dca6fba8b" id="r_acec119b3f75180788156f86dca6fba8b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d3/dc7/structzir_1_1RecordType_1_1Field.html">Field</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acec119b3f75180788156f86dca6fba8b">getFields</a> () const</td></tr>
+<tr class="memitem:a0235d1cd8f27ac71f31fe4a69670deeb" id="r_a0235d1cd8f27ac71f31fe4a69670deeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0235d1cd8f27ac71f31fe4a69670deeb">clearFields</a> ()</td></tr>
 <tr class="memitem:a0bbbb00719716290a60850a809054510" id="r_a0bbbb00719716290a60850a809054510"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bbbb00719716290a60850a809054510">getName</a> () const</td></tr>
 <tr class="memitem:ae6314d160618f733727b7c2bc9825cf5" id="r_ae6314d160618f733727b7c2bc9825cf5"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6314d160618f733727b7c2bc9825cf5">getCodegenName</a> () const</td></tr>
 <tr class="memitem:aee6c17ee50bf30f3ba099632ffad0754" id="r_aee6c17ee50bf30f3ba099632ffad0754"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee6c17ee50bf30f3ba099632ffad0754">getGenericBaseName</a> () const</td></tr>
@@ -188,7 +189,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00137">codegenName</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">mutability</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00072">zir::Mutable</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00136">name</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00057">zir::None</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">role</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00080">zir::Type::Type()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00065">zir::User</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00205">zir::ClassType::ClassType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00206">zir::ClassType::ClassType()</a>.</p>
 
 </div>
 </div>
@@ -271,6 +272,36 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a0235d1cd8f27ac71f31fe4a69670deeb" name="a0235d1cd8f27ac71f31fe4a69670deeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0235d1cd8f27ac71f31fe4a69670deeb">&#9670;&#160;</a></span>clearFields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zir::RecordType::clearFields </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00169">169</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  169</span>{ <a class="code hl_variable" href="#abeebac58447c3ef06d16eaefac0eb170">fields</a>.clear(); }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00138">fields</a>.</p>
+
+</div>
+</div>
 <a id="ae6314d160618f733727b7c2bc9825cf5" name="ae6314d160618f733727b7c2bc9825cf5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae6314d160618f733727b7c2bc9825cf5">&#9670;&#160;</a></span>getCodegenName()</h2>
 
@@ -294,8 +325,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00170">170</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  170</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00171">171</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  171</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#ad6dcdc541634befd52df3cbe2574f3ae">codegenName</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00137">codegenName</a>.</p>
 
@@ -358,10 +389,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00175">175</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  175</span>                                                                    {</div>
-<div class="line"><span class="lineno">  176</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a7dfea1a79b08bac40a3041229f8d9f94">genericArguments</a>;</div>
-<div class="line"><span class="lineno">  177</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00176">176</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>                                                                    {</div>
+<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a7dfea1a79b08bac40a3041229f8d9f94">genericArguments</a>;</div>
+<div class="line"><span class="lineno">  178</span>  }</div>
 <div class="ttc" id="aclasszir_1_1RecordType_html_a7dfea1a79b08bac40a3041229f8d9f94"><div class="ttname"><a href="#a7dfea1a79b08bac40a3041229f8d9f94">zir::RecordType::genericArguments</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; Type &gt; &gt; genericArguments</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00141">type.hpp:141</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00141">genericArguments</a>.</p>
@@ -391,8 +422,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00171">171</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00172">172</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  172</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a>; }</div>
 <div class="ttc" id="aclasszir_1_1RecordType_html_a9717d9730840503f756ed69880c6532e"><div class="ttname"><a href="#a9717d9730840503f756ed69880c6532e">zir::RecordType::genericBaseName</a></div><div class="ttdeci">std::string genericBaseName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00139">type.hpp:139</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">genericBaseName</a>.</p>
@@ -422,10 +453,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00172">172</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                     {</div>
-<div class="line"><span class="lineno">  173</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0bbf365ab48d7faae5a2c06bdba4622c">genericCodegenBaseName</a>;</div>
-<div class="line"><span class="lineno">  174</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00173">173</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  173</span>                                                     {</div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a0bbf365ab48d7faae5a2c06bdba4622c">genericCodegenBaseName</a>;</div>
+<div class="line"><span class="lineno">  175</span>  }</div>
 <div class="ttc" id="aclasszir_1_1RecordType_html_a0bbf365ab48d7faae5a2c06bdba4622c"><div class="ttname"><a href="#a0bbf365ab48d7faae5a2c06bdba4622c">zir::RecordType::genericCodegenBaseName</a></div><div class="ttdeci">std::string genericCodegenBaseName</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00140">type.hpp:140</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00140">genericCodegenBaseName</a>.</p>
@@ -488,8 +519,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00179">179</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00180">180</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  180</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">mutability</a>.</p>
 
@@ -518,8 +549,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00169">169</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  169</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00170">170</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a936f8a075123ef83e837a8f5abe7248d">name</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00136">name</a>.</p>
 
@@ -548,8 +579,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00178">178</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  178</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a3b7f83f1c73f679cbf1101b7a332625f">role</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00179">179</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  179</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a3b7f83f1c73f679cbf1101b7a332625f">role</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">role</a>.</p>
 
@@ -580,10 +611,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00180">180</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  180</span>                                  {</div>
-<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a> == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#acc36654dc27d065ce5db0fb1d3ee2349a11efd9ae6f76e706e3f1b34d97584ebc">RecordMutability::Immutable</a>;</div>
-<div class="line"><span class="lineno">  182</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00181">181</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  181</span>                                  {</div>
+<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a> == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#acc36654dc27d065ce5db0fb1d3ee2349a11efd9ae6f76e706e3f1b34d97584ebc">RecordMutability::Immutable</a>;</div>
+<div class="line"><span class="lineno">  183</span>  }</div>
 <div class="ttc" id="anamespacezir_html_acc36654dc27d065ce5db0fb1d3ee2349a11efd9ae6f76e706e3f1b34d97584ebc"><div class="ttname"><a href="../../df/d35/namespacezir.html#acc36654dc27d065ce5db0fb1d3ee2349a11efd9ae6f76e706e3f1b34d97584ebc">zir::RecordMutability::Immutable</a></div><div class="ttdeci">@ Immutable</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00073">type.hpp:73</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00073">zir::Immutable</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">mutability</a>.</p>
@@ -613,8 +644,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00183">183</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  183</span>{ <span class="keywordflow">return</span> !<a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a>.empty(); }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00184">184</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>{ <span class="keywordflow">return</span> !<a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a>.empty(); }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">genericBaseName</a>.</p>
 
@@ -682,12 +713,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00187">187</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>                                                               {</div>
-<div class="line"><span class="lineno">  189</span>    <a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a> = std::move(baseName);</div>
-<div class="line"><span class="lineno">  190</span>    <a class="code hl_variable" href="#a0bbf365ab48d7faae5a2c06bdba4622c">genericCodegenBaseName</a> = std::move(codegenBaseName);</div>
-<div class="line"><span class="lineno">  191</span>    <a class="code hl_variable" href="#a7dfea1a79b08bac40a3041229f8d9f94">genericArguments</a> = std::move(args);</div>
-<div class="line"><span class="lineno">  192</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00188">188</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  189</span>                                                               {</div>
+<div class="line"><span class="lineno">  190</span>    <a class="code hl_variable" href="#a9717d9730840503f756ed69880c6532e">genericBaseName</a> = std::move(baseName);</div>
+<div class="line"><span class="lineno">  191</span>    <a class="code hl_variable" href="#a0bbf365ab48d7faae5a2c06bdba4622c">genericCodegenBaseName</a> = std::move(codegenBaseName);</div>
+<div class="line"><span class="lineno">  192</span>    <a class="code hl_variable" href="#a7dfea1a79b08bac40a3041229f8d9f94">genericArguments</a> = std::move(args);</div>
+<div class="line"><span class="lineno">  193</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00141">genericArguments</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">genericBaseName</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00140">genericCodegenBaseName</a>.</p>
 
@@ -716,8 +747,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00185">185</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  185</span>{ <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a> = value; }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00186">186</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>{ <a class="code hl_variable" href="#aeeb36fb31b9fae02ffc72801254be0f2">mutability</a> = value; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">mutability</a>.</p>
 
@@ -778,7 +809,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00137">137</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00170">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00171">getCodegenName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>.</p>
 
 </div>
 </div>
@@ -804,7 +835,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00138">138</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00160">addField()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00164">addField()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00168">getFields()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00160">addField()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00164">addField()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00169">clearFields()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00168">getFields()</a>.</p>
 
 </div>
 </div>
@@ -830,7 +861,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00141">141</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00175">getGenericArguments()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00187">setGenericInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00176">getGenericArguments()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00188">setGenericInstance()</a>.</p>
 
 </div>
 </div>
@@ -856,7 +887,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00139">139</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00171">getGenericBaseName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00183">isGenericInstance()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00187">setGenericInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00172">getGenericBaseName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00184">isGenericInstance()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00188">setGenericInstance()</a>.</p>
 
 </div>
 </div>
@@ -882,7 +913,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00140">140</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00172">getGenericCodegenBaseName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00187">setGenericInstance()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00173">getGenericCodegenBaseName()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00188">setGenericInstance()</a>.</p>
 
 </div>
 </div>
@@ -942,7 +973,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00143">143</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00179">getMutability()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00180">hasImmutableFields()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00185">setMutability()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00180">getMutability()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00181">hasImmutableFields()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00186">setMutability()</a>.</p>
 
 </div>
 </div>
@@ -968,7 +999,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00136">136</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00169">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00209">zir::ClassType::toString()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00157">toString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00170">getName()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00210">zir::ClassType::toString()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00157">toString()</a>.</p>
 
 </div>
 </div>
@@ -994,7 +1025,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d72/type_8hpp_source.html#l00142">142</a> of file <a class="el" href="../../da/d72/type_8hpp_source.html">type.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00178">getRole()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d72/type_8hpp_source.html#l00179">getRole()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00149">RecordType()</a>.</p>
 
 </div>
 </div>

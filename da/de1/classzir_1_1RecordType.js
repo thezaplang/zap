@@ -4,6 +4,7 @@ var classzir_1_1RecordType =
     [ "RecordType", "da/de1/classzir_1_1RecordType.html#aec228a512cbdf878b7e3f94fbee352c0", null ],
     [ "addField", "da/de1/classzir_1_1RecordType.html#a366d2dce5a511dd096d26fa3a1fe8256", null ],
     [ "addField", "da/de1/classzir_1_1RecordType.html#acabd57192206346ce4460d42b014139a", null ],
+    [ "clearFields", "da/de1/classzir_1_1RecordType.html#a0235d1cd8f27ac71f31fe4a69670deeb", null ],
     [ "getCodegenName", "da/de1/classzir_1_1RecordType.html#ae6314d160618f733727b7c2bc9825cf5", null ],
     [ "getFields", "da/de1/classzir_1_1RecordType.html#acec119b3f75180788156f86dca6fba8b", null ],
     [ "getGenericArguments", "da/de1/classzir_1_1RecordType.html#a23eb1992007fb74d2ef4b503eacb762e", null ],

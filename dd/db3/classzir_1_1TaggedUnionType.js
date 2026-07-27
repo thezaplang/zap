@@ -2,6 +2,7 @@ var classzir_1_1TaggedUnionType =
 [
     [ "Variant", "df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html", "df/d7f/structzir_1_1TaggedUnionType_1_1Variant" ],
     [ "TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html#a0ff16d62339045b4d8142c7eedaddde2", null ],
+    [ "clearVariants", "dd/db3/classzir_1_1TaggedUnionType.html#a7aede6be308ae86f54963e52b44201bd", null ],
     [ "findVariant", "dd/db3/classzir_1_1TaggedUnionType.html#ad0ea772eb981ed06e67a6d71a81bd9d2", null ],
     [ "getCodegenName", "dd/db3/classzir_1_1TaggedUnionType.html#aa41fb70d2bd96c53d6609a48756d7749", null ],
     [ "getKind", "dd/db3/classzir_1_1TaggedUnionType.html#ade065b42367f65acf710a2550014779b", null ],

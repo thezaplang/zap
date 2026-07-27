@@ -91,16 +91,16 @@ var NAVTREEINDEX =
 "d8/d68/classzir_1_1ArrayType.html#a2937fde18a0a9c1a4dd8903e76f3dce8",
 "d9/d00/classzap_1_1driver.html#a88e905f0756ebadcfa2c847ca730a2dc",
 "d9/db2/if__type__node_8hpp_source.html",
-"da/d6b/classsema_1_1BoundFunctionReference.html#a64a225b877b95fccd0ecacd68d0cdf50",
-"da/de9/classcodegen_1_1LLVMCodeGen.html#abae49b5634971184707d0e51e5af4ff0",
-"db/dd4/structzap_1_1process_1_1Result.html",
-"dc/d2c/classsema_1_1Binder.html#a043ebbadcf881806afe9e15a0197dbdf",
-"dc/d2c/classsema_1_1Binder.html#aee5cadd41ffd4646a7b86e51a0fe0f50",
-"dd/d08/structzir_1_1VerificationError.html#a810fcb7ff51e0667ab54ab5d68eead96",
-"de/d35/classStructDeclarationNode.html#a5519f61a187dacaa475648150965f6ee",
-"de/d88/classsema_1_1BoundExpressionStatement.html#a93296adf1c84905a47291e26b0dad910",
-"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd",
-"functions_e.html"
+"da/d6b/classsema_1_1BoundFunctionReference.html",
+"da/de9/classcodegen_1_1LLVMCodeGen.html#aaa6cd5845af4b940ad390cbd099d6d1a",
+"db/dcc/classsema_1_1BoundForStatement.html#a6fc67093566bdb3c3575f22f11475b47",
+"dc/d2c/classsema_1_1Binder.html#a01b4915c8ce786bdbb0276ac007c0d11",
+"dc/d2c/classsema_1_1Binder.html#ae7a58bd4b321e7ced17d0797e7beed46",
+"dd/d08/structzir_1_1VerificationError.html",
+"de/d32/classStructLiteralNode.html#a13ef5eb5ad1ed7a0af7d8d53b8bc86a7",
+"de/d85/structzir_1_1OwnershipClosurePlan.html#a74844d2c945170b1c34d9f6f6d6a6771",
+"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa624f2b7ef7aa5811e332ca41d0ba1dc8",
+"dir_e2f8bd6e879a04eaf689f0e2c38684f2.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
