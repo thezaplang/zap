@@ -77,7 +77,7 @@ void Binder::visit(ClassDecl &node) {
     classType->addField(field->name, fieldType,
                         static_cast<int>(field->visibility_));
     classInfo.fields[field->name] = std::make_shared<VariableSymbol>(
-        field->name, fieldType, false, false, field->name,
+        field->name, fieldType, BindingKind::Mutable, false, field->name,
         modules_[currentModuleId_].info->moduleName, field->visibility_);
   }
 
@@ -260,14 +260,16 @@ void Binder::visit(ExtDecl &node) {
       std::make_unique<BoundExternalFunctionDeclaration>(symbol));
 }
 
-void Binder::visit(VarDecl &node) {
+void Binder::visit(BindingDecl &node) {
   auto existing = currentScope_->lookupLocal(node.name_);
   std::shared_ptr<VariableSymbol> symbol;
   if (existing) {
     symbol = std::dynamic_pointer_cast<VariableSymbol>(existing);
   }
 
-  bool isRef = node.type_ && node.type_->isReference;
+  const bool isConstant = node.kind_ == BindingKind::CompileTimeConstant;
+  const bool isRef = !isConstant && node.type_ && node.type_->isReference;
+  const std::string declarationKind = isConstant ? "constant" : "variable";
 
   std::shared_ptr<zir::Type> type;
   std::unique_ptr<BoundExpression> initializer = nullptr;
@@ -287,20 +289,27 @@ void Binder::visit(VarDecl &node) {
         if (!conversion) {
           error(node.initializer_->span,
                 "Cannot assign expression of type '" +
-                    renderTypeForUser(initializer->type) +
-                    "' to variable of type '" + renderTypeForUser(type) + "'");
+                    renderTypeForUser(initializer->type) + "' to " +
+                    declarationKind + " of type '" + renderTypeForUser(type) +
+                    "'");
         } else {
           initializer = applyConversion(std::move(initializer), *conversion);
         }
       }
+    } else if (isConstant) {
+      error(node.span, "Constant '" + node.name_ + "' must be initialized.");
     } else if (isRef) {
       error(node.span,
             "Reference variable '" + node.name_ + "' must be initialized.");
     }
   } else {
     if (!node.initializer_) {
-      error(node.span, "Variable '" + node.name_ +
-                           "' needs a type annotation or an initializer.");
+      if (isConstant) {
+        error(node.span, "Constant '" + node.name_ + "' must be initialized.");
+      } else {
+        error(node.span, "Variable '" + node.name_ +
+                             "' needs a type annotation or an initializer.");
+      }
       type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
     } else {
       initializer =
@@ -309,8 +318,8 @@ void Binder::visit(VarDecl &node) {
           initializer->type->getKind() != zir::TypeKind::Void) {
         type = initializer->type;
       } else {
-        error(node.initializer_->span, "Cannot infer type of variable '" +
-                                           node.name_ +
+        error(node.initializer_->span, "Cannot infer type of " +
+                                           declarationKind + " '" + node.name_ +
                                            "' from a void expression.");
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       }
@@ -323,103 +332,31 @@ void Binder::visit(VarDecl &node) {
   }
 
   if (!symbol) {
+    std::string linkName = node.name_;
+    if (isConstant || node.isGlobal_) {
+      linkName = node.isExternal_
+                     ? node.name_
+                     : mangleName(currentModuleLinkPath(), node.name_);
+    }
     symbol = std::make_shared<VariableSymbol>(
-        node.name_, type, false, isRef,
-        node.isGlobal_ ? (node.isExternal_
-                              ? node.name_
-                              : mangleName(currentModuleLinkPath(), node.name_))
-                       : node.name_,
+        node.name_, type, node.kind_, isRef, std::move(linkName),
         modules_[currentModuleId_].info->moduleName, node.visibility_);
     symbol->is_external = node.isExternal_;
     if (!currentScope_->declare(node.name_, symbol)) {
-      error(node.span, "Variable '" + node.name_ + "' already declared.");
+      if (isConstant) {
+        error(node.span, "Identifier '" + node.name_ + "' already declared.");
+      } else {
+        error(node.span, "Variable '" + node.name_ + "' already declared.");
+      }
     }
   } else if (!node.type_ && type) {
     symbol->type = type;
   }
   symbol->is_ref = isRef;
-  if (semanticInfo_) {
-    semanticInfo_->recordSymbol(&node, symbol);
-    semanticInfo_->recordDeclaration(&node, symbol);
-    semanticInfo_->recordType(&node, symbol->type);
-  }
+  symbol->binding_kind = node.kind_;
+  symbol->is_external = node.isExternal_;
 
-  auto boundDecl = std::make_unique<BoundVariableDeclaration>(
-      symbol, std::move(initializer));
-
-  if (currentBlock_ && !node.isGlobal_) {
-    statementStack_.push(std::move(boundDecl));
-  } else {
-    boundRoot_->globals.push_back(std::move(boundDecl));
-  }
-}
-
-void Binder::visit(ConstDecl &node) {
-  auto existing = currentScope_->lookupLocal(node.name_);
-  std::shared_ptr<VariableSymbol> symbol;
-  if (existing) {
-    symbol = std::dynamic_pointer_cast<VariableSymbol>(existing);
-  }
-
-  std::shared_ptr<zir::Type> type;
-  std::unique_ptr<BoundExpression> initializer = nullptr;
-
-  if (node.type_) {
-    type = mapType(*node.type_);
-    if (!type) {
-      error(node.span, "Unknown type: " + node.type_->qualifiedName());
-      type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
-    }
-
-    if (node.initializer_) {
-      initializer = bindExpressionWithExpected(node.initializer_.get(), type);
-      if (initializer) {
-        auto conversion =
-            conversions_.classifyImplicit(initializer->type, type);
-        if (!conversion) {
-          error(node.initializer_->span,
-                "Cannot assign expression of type '" +
-                    renderTypeForUser(initializer->type) +
-                    "' to constant of type '" + renderTypeForUser(type) + "'");
-        } else {
-          initializer = applyConversion(std::move(initializer), *conversion);
-        }
-      }
-    } else {
-      error(node.span, "Constant '" + node.name_ + "' must be initialized.");
-    }
-  } else {
-    if (!node.initializer_) {
-      error(node.span, "Constant '" + node.name_ + "' must be initialized.");
-      type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
-    } else {
-      initializer =
-          bindExpressionWithExpected(node.initializer_.get(), nullptr);
-      if (initializer && initializer->type &&
-          initializer->type->getKind() != zir::TypeKind::Void) {
-        type = initializer->type;
-      } else {
-        error(node.initializer_->span, "Cannot infer type of constant '" +
-                                           node.name_ +
-                                           "' from a void expression.");
-        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
-      }
-    }
-  }
-
-  if (!symbol) {
-    symbol = std::make_shared<VariableSymbol>(
-        node.name_, type, true, false,
-        mangleName(currentModuleLinkPath(), node.name_),
-        modules_[currentModuleId_].info->moduleName, node.visibility_);
-    if (!currentScope_->declare(node.name_, symbol)) {
-      error(node.span, "Identifier '" + node.name_ + "' already declared.");
-    }
-  } else if (!node.type_ && type) {
-    symbol->type = type;
-  }
-
-  if (initializer) {
+  if (isConstant && initializer) {
     symbol->constant_value =
         std::shared_ptr<BoundExpression>(initializer->clone());
   }
@@ -432,7 +369,7 @@ void Binder::visit(ConstDecl &node) {
   auto boundDecl = std::make_unique<BoundVariableDeclaration>(
       symbol, std::move(initializer));
 
-  if (currentBlock_) {
+  if (currentBlock_ && !node.isGlobal_) {
     statementStack_.push(std::move(boundDecl));
   } else {
     boundRoot_->globals.push_back(std::move(boundDecl));

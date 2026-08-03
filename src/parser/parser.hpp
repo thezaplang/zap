@@ -4,6 +4,7 @@
 #include "../ast/assign_node.hpp"
 #include "../ast/attribute.hpp"
 #include "../ast/bin_expr.hpp"
+#include "../ast/binding_decl.hpp"
 #include "../ast/body_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/cast_expr.hpp"
@@ -28,7 +29,6 @@
 #include "../ast/struct_decl.hpp"
 #include "../ast/struct_literal.hpp"
 #include "../ast/unsafe_block_node.hpp"
-#include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
@@ -78,8 +78,7 @@ private:
   std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
   std::unique_ptr<AsmStmtNode> parseAsm();
   std::vector<AsmOperandNode> parseAsmOperandList();
-  std::unique_ptr<VarDecl> parseVarDecl();
-  std::unique_ptr<ConstDecl> parseConstDecl();
+  std::unique_ptr<BindingDecl> parseBindingDecl(BindingKind kind);
   std::unique_ptr<AssignNode> parseAssign();
   std::unique_ptr<TypeNode> parseType();
   std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
@@ -91,7 +90,7 @@ private:
   std::unique_ptr<WhileNode> parseWhile();
   std::unique_ptr<ForNode> parseFor();
   std::unique_ptr<ForInNode> parseForIn();
-  std::unique_ptr<VarDecl> parseForInitVarDecl();
+  std::unique_ptr<BindingDecl> parseForInitBindingDecl();
   std::unique_ptr<AssignNode> parseForIncrementAssign();
   std::unique_ptr<ReturnNode> parseReturnStmt();
   std::unique_ptr<ExpressionNode> parseExpression();

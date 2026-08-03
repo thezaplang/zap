@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sema/bound_nodes.hpp"
 #include "sema/module_info.hpp"
 #include "sema/semantic_info.hpp"
 #include "lsp/source_manager.hpp"
@@ -22,6 +23,7 @@ struct AnalysisResult {
 
 struct ProjectState {
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> moduleMap;
+  std::unique_ptr<sema::BoundRootNode> boundRoot;
   std::unordered_map<std::string, std::string> uriByModuleId;
   std::unordered_set<std::string> dependencyModuleIds;
   sema::SemanticInfo semanticInfo;

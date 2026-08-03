@@ -70,18 +70,14 @@ void collectFromStatement(const Node *node, size_t offset,
     return;
   }
 
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    if (var->span.offset <= offset) {
-      addSymbol(symbols, uri, var->name_, var->span, 6, var->visibility_);
+  if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
+    if (binding->span.offset <= offset) {
+      const int64_t symbolKind =
+          binding->kind_ == BindingKind::CompileTimeConstant ? 21 : 6;
+      addSymbol(symbols, uri, binding->name_, binding->span, symbolKind,
+                binding->visibility_);
     }
-    collectFromExpression(var->initializer_.get(), offset, uri, symbols);
-    return;
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    if (cnst->span.offset <= offset) {
-      addSymbol(symbols, uri, cnst->name_, cnst->span, 21, cnst->visibility_);
-    }
-    collectFromExpression(cnst->initializer_.get(), offset, uri, symbols);
+    collectFromExpression(binding->initializer_.get(), offset, uri, symbols);
     return;
   }
   if (auto body = dynamic_cast<const BodyNode *>(node)) {
@@ -203,17 +199,11 @@ VisibleSymbolInfo findInfoInStatement(const Node *node, size_t offset,
     return {};
   }
 
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    if (var->name_ == name && var->span.offset <= offset) {
-      return {var, var->type_.get()};
+  if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
+    if (binding->name_ == name && binding->span.offset <= offset) {
+      return {binding, binding->type_.get()};
     }
-    return findInfoInExpression(var->initializer_.get(), offset, name);
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    if (cnst->name_ == name && cnst->span.offset <= offset) {
-      return {cnst, cnst->type_.get()};
-    }
-    return findInfoInExpression(cnst->initializer_.get(), offset, name);
+    return findInfoInExpression(binding->initializer_.get(), offset, name);
   }
   if (auto body = dynamic_cast<const BodyNode *>(node)) {
     return findInfoInBody(body, offset, name);
@@ -432,15 +422,9 @@ VisibleSymbolInfo findVisibleSymbolInfo(const RootNode &root, size_t offset,
     if (!child) {
       continue;
     }
-    if (auto var = dynamic_cast<const VarDecl *>(child.get())) {
-      if (var->name_ == name && var->span.offset <= offset) {
-        return {var, var->type_.get()};
-      }
-      continue;
-    }
-    if (auto cnst = dynamic_cast<const ConstDecl *>(child.get())) {
-      if (cnst->name_ == name && cnst->span.offset <= offset) {
-        return {cnst, cnst->type_.get()};
+    if (auto binding = dynamic_cast<const BindingDecl *>(child.get())) {
+      if (binding->name_ == name && binding->span.offset <= offset) {
+        return {binding, binding->type_.get()};
       }
       continue;
     }

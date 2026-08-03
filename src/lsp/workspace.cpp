@@ -140,6 +140,7 @@ Workspace::buildSnapshot(const SourceSnapshot &document,
   session.bind(project);
   appendDiagnostics(snapshot->project.analysis, project.diagnostics,
                     sourceManager_.uriForPath(document.path));
+  snapshot->project.boundRoot = std::move(project.boundRoot);
   snapshot->project.semanticInfo = std::move(project.semanticInfo);
   snapshot->project.moduleMap = std::move(project.modules);
   for (const auto &[moduleId, _] : snapshot->project.moduleMap) {

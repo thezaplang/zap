@@ -104,7 +104,7 @@ void Binder::visit(AsmStmtNode &node) {
       return;
     }
     if (auto varExpr = dynamic_cast<BoundVariableExpression *>(bound.get())) {
-      if (varExpr->symbol->is_const) {
+      if (varExpr->symbol->isCompileTimeConstant()) {
         error(node.span, "Cannot assign to constant '" + varExpr->symbol->name +
                              "' through inline 'asm'.");
         return;
@@ -391,13 +391,13 @@ void Binder::visit(ForInNode &node) {
 
   auto iterableName = makeSyntheticLoopName("iter");
   auto iterableSymbol = std::make_shared<VariableSymbol>(
-      iterableName, iterableValue->type, false, false, iterableName, moduleName,
-      Visibility::Private);
+      iterableName, iterableValue->type, BindingKind::Mutable, false,
+      iterableName, moduleName, Visibility::Private);
   currentScope_->declare(iterableName, iterableSymbol);
 
   auto indexName = makeSyntheticLoopName("idx");
   auto indexSymbol = std::make_shared<VariableSymbol>(
-      indexName, intType, false, false, indexName, moduleName,
+      indexName, intType, BindingKind::Mutable, false, indexName, moduleName,
       Visibility::Private);
   currentScope_->declare(indexName, indexSymbol);
 
@@ -421,8 +421,8 @@ void Binder::visit(ForInNode &node) {
     auto sliceName = makeSyntheticLoopName("slice");
     auto sliceType = makeVariadicViewType(arr->getBaseType());
     auto sliceSymbol = std::make_shared<VariableSymbol>(
-        sliceName, sliceType, false, false, sliceName, moduleName,
-        Visibility::Private);
+        sliceName, sliceType, BindingKind::Mutable, false, sliceName,
+        moduleName, Visibility::Private);
     currentScope_->declare(sliceName, sliceSymbol);
     initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
         sliceSymbol,
@@ -492,8 +492,8 @@ void Binder::visit(ForInNode &node) {
 
   pushScope();
   auto itemSymbol = std::make_shared<VariableSymbol>(
-      node.itemName_, elementValue->type, false, false, node.itemName_,
-      moduleName, Visibility::Private);
+      node.itemName_, elementValue->type, BindingKind::Mutable, false,
+      node.itemName_, moduleName, Visibility::Private);
   if (!currentScope_->declare(node.itemName_, itemSymbol)) {
     error(node.span, "Variable '" + node.itemName_ + "' already declared.");
   }
@@ -506,8 +506,8 @@ void Binder::visit(ForInNode &node) {
   std::shared_ptr<VariableSymbol> indexUserSymbol = nullptr;
   if (!node.indexName_.empty()) {
     indexUserSymbol = std::make_shared<VariableSymbol>(
-        node.indexName_, intType, false, false, node.indexName_, moduleName,
-        Visibility::Private);
+        node.indexName_, intType, BindingKind::Mutable, false, node.indexName_,
+        moduleName, Visibility::Private);
     if (!currentScope_->declare(node.indexName_, indexUserSymbol)) {
       error(node.span, "Variable '" + node.indexName_ + "' already declared.");
     }

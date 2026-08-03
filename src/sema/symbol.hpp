@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../binding_kind.hpp"
 #include "../ir/type.hpp"
 #include "../visibility.hpp"
 #include <map>
@@ -43,7 +44,7 @@ protected:
 
 class VariableSymbol : public Symbol {
 public:
-  bool is_const = false;
+  BindingKind binding_kind = BindingKind::Mutable;
   bool is_ref = false;
   bool is_sink = false;
   bool is_noescape = false;
@@ -52,13 +53,25 @@ public:
   std::shared_ptr<zir::Type> variadic_element_type = nullptr;
   std::shared_ptr<BoundExpression> constant_value = nullptr;
   VariableSymbol(std::string n, std::shared_ptr<zir::Type> t,
-                 bool isConst = false, bool isRef = false,
+                 BindingKind kind = BindingKind::Mutable, bool isRef = false,
                  std::string link = "", std::string module = "",
                  Visibility vis = Visibility::Private)
       : Symbol(std::move(n), std::move(t), std::move(link), std::move(module),
                vis),
-        is_const(isConst), is_ref(isRef) {}
+        binding_kind(kind), is_ref(isRef) {}
   SymbolKind getKind() const noexcept override { return SymbolKind::Variable; }
+
+  bool isMutableBinding() const noexcept {
+    return binding_kind == BindingKind::Mutable;
+  }
+
+  bool isImmutableBinding() const noexcept {
+    return binding_kind == BindingKind::Immutable;
+  }
+
+  bool isCompileTimeConstant() const noexcept {
+    return binding_kind == BindingKind::CompileTimeConstant;
+  }
 };
 
 class FunctionSymbol : public Symbol {

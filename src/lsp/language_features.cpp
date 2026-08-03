@@ -189,11 +189,8 @@ std::optional<std::string> topLevelNameForNode(const Node *node) {
   if (auto ext = dynamic_cast<const ExtDecl *>(node)) {
     return ext->name_;
   }
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    return var->name_;
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    return cnst->name_;
+  if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
+    return binding->name_;
   }
   if (auto record = dynamic_cast<const RecordDecl *>(node)) {
     return record->name_;
@@ -790,13 +787,11 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
       return HoverInfo{"zap", "ext fun " + signature->label};
     }
   }
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    return HoverInfo{"zap",
-                     "var " + var->name_ + ": " + renderType(var->type_.get())};
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    return HoverInfo{"zap", "const " + cnst->name_ + ": " +
-                                renderType(cnst->type_.get())};
+  if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
+    const std::string kind =
+        binding->kind_ == BindingKind::CompileTimeConstant ? "const" : "var";
+    return HoverInfo{"zap", kind + " " + binding->name_ + ": " +
+                                renderType(binding->type_.get())};
   }
   if (auto record = dynamic_cast<const RecordDecl *>(node)) {
     std::string hover = "record " + record->name_;
@@ -912,7 +907,7 @@ std::optional<HoverInfo> semanticHoverFor(const sema::SemanticInfo &semanticInfo
   }
   const char *kind = "var";
   if (auto variable = std::dynamic_pointer_cast<sema::VariableSymbol>(symbol)) {
-    kind = variable->is_const ? "const" : "var";
+    kind = variable->isCompileTimeConstant() ? "const" : "var";
   }
   return HoverInfo{"zap", std::string(kind) + " " + symbol->name + ": " +
                                type->toString()};
@@ -1067,11 +1062,11 @@ std::optional<LspSymbol> topLevelSymbolForNode(const Node *node,
   if (auto ext = dynamic_cast<const ExtDecl *>(node)) {
     return makeSymbol(uri, ext->name_, ext->span, 3, ext->visibility_);
   }
-  if (auto var = dynamic_cast<const VarDecl *>(node)) {
-    return makeSymbol(uri, var->name_, var->span, 6, var->visibility_);
-  }
-  if (auto cnst = dynamic_cast<const ConstDecl *>(node)) {
-    return makeSymbol(uri, cnst->name_, cnst->span, 21, cnst->visibility_);
+  if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
+    const int64_t symbolKind =
+        binding->kind_ == BindingKind::CompileTimeConstant ? 21 : 6;
+    return makeSymbol(uri, binding->name_, binding->span, symbolKind,
+                      binding->visibility_);
   }
   if (auto record = dynamic_cast<const RecordDecl *>(node)) {
     return makeSymbol(uri, record->name_, record->span, 22,

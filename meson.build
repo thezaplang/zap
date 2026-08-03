@@ -63,6 +63,7 @@ zap_type_layout_dep = declare_dependency(link_with : zap_type_layout, include_di
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
                             'src/parser/parser.cpp',
+                            'src/parser/parser_declarations.cpp',
                             include_directories : inc
 )
 zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories : inc)

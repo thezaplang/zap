@@ -157,7 +157,7 @@ std::shared_ptr<Value> BoundIRGenerator::lowerConstantExpression(
   if (auto variable =
           dynamic_cast<const sema::BoundVariableExpression *>(&expression)) {
     auto symbol = variable->symbol;
-    if (symbol && symbol->is_const && symbol->constant_value) {
+    if (symbol && symbol->isCompileTimeConstant() && symbol->constant_value) {
       if (!resolvingConstants.insert(symbol.get()).second) {
         return nullptr;
       }
@@ -411,9 +411,9 @@ void BoundIRGenerator::visit(sema::BoundVariableDeclaration &node) {
         }
       }
     }
-    auto global =
-        std::make_shared<Global>(node.symbol->name, node.symbol->linkName, type,
-                                 initializer, node.symbol->is_const);
+    auto global = std::make_shared<Global>(
+        node.symbol->name, node.symbol->linkName, type, initializer,
+        node.symbol->isCompileTimeConstant());
     module_->addGlobal(global);
     globalSymbolMap_[node.symbol] = global;
     return;

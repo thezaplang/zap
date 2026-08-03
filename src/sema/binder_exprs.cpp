@@ -437,7 +437,7 @@ void Binder::visit(FailableHandleExpr &node) {
 
   pushScope();
   auto errorSymbol = std::make_shared<VariableSymbol>(
-      node.errorName_, errorType, false, false, node.errorName_,
+      node.errorName_, errorType, BindingKind::Mutable, false, node.errorName_,
       modules_[currentModuleId_].info->moduleName, Visibility::Private);
   if (!currentScope_->declare(node.errorName_, errorSymbol)) {
     error(node.span, "Handler variable '" + node.errorName_ +
@@ -603,7 +603,7 @@ void Binder::visit(AssignNode &node) {
   }
 
   if (auto varExpr = targetAsVar) {
-    if (varExpr->symbol->is_const) {
+    if (varExpr->symbol->isCompileTimeConstant()) {
       error(node.span,
             "Cannot assign to constant '" + varExpr->symbol->name + "'.");
       return;

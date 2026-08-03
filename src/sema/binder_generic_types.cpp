@@ -249,7 +249,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
           std::static_pointer_cast<zir::ClassType>(instantiatedType);
       auto &classInfo = classInfos_[instantiatedClassType->getCodegenName()];
       classInfo.fields[field->name] = std::make_shared<VariableSymbol>(
-          field->name, fieldType, false, false, field->name,
+          field->name, fieldType, BindingKind::Mutable, false, field->name,
           moduleIt->second.info->moduleName, field->visibility_);
     }
   }
@@ -288,7 +288,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
       std::vector<std::shared_ptr<VariableSymbol>> params;
       if (!methodDecl->isStatic_) {
         params.push_back(std::make_shared<VariableSymbol>(
-            "self", instantiatedClassType, false, false, "self",
+            "self", instantiatedClassType, BindingKind::Mutable, false, "self",
             moduleIt->second.info->moduleName, Visibility::Private));
       }
 
@@ -326,7 +326,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
                          "parameter.");
         }
         auto parameter = std::make_shared<VariableSymbol>(
-            p->name, mappedType, false, p->isRef, p->name,
+            p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
             moduleIt->second.info->moduleName, Visibility::Private);
         parameter->is_sink = p->isSink;
         parameter->is_noescape = p->isNoEscape;

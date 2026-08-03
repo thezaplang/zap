@@ -520,7 +520,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
                          "parameter.");
         }
         auto symbol = std::make_shared<VariableSymbol>(
-            p->name, mappedType, false, p->isRef, p->name,
+            p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
             module.info->moduleName, Visibility::Private);
         symbol->is_sink = p->isSink;
         symbol->is_noescape = p->isNoEscape;
@@ -690,8 +690,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         std::vector<std::shared_ptr<VariableSymbol>> params;
         if (!methodDecl->isStatic_) {
           params.push_back(std::make_shared<VariableSymbol>(
-              "self", classType, false, false, "self", module.info->moduleName,
-              Visibility::Private));
+              "self", classType, BindingKind::Mutable, false, "self",
+              module.info->moduleName, Visibility::Private));
         }
 
         for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
@@ -725,7 +725,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
                   "parameter.");
           }
           auto parameter = std::make_shared<VariableSymbol>(
-              p->name, mappedType, false, p->isRef, p->name,
+              p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
               module.info->moduleName, Visibility::Private);
           parameter->is_sink = p->isSink;
           parameter->is_noescape = p->isNoEscape;
@@ -836,7 +836,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
                          "parameter.");
         }
         auto parameter = std::make_shared<VariableSymbol>(
-            p->name, mappedType, false, p->isRef, p->name,
+            p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
             module.info->moduleName, Visibility::Private);
         parameter->is_sink = p->isSink;
         parameter->is_noescape = p->isNoEscape;
@@ -907,64 +907,45 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           exportSet->addOverload(symbol);
         }
       }
-    } else if (auto varDecl = dynamic_cast<VarDecl *>(child.get())) {
-      if (!varDecl->isGlobal_) {
+    } else if (auto bindingDecl = dynamic_cast<BindingDecl *>(child.get())) {
+      const bool isConstant =
+          bindingDecl->kind_ == BindingKind::CompileTimeConstant;
+      if (!isConstant && !bindingDecl->isGlobal_) {
         continue;
       }
       std::shared_ptr<zir::Type> type;
-      if (varDecl->type_) {
-        type = mapType(*varDecl->type_);
+      if (bindingDecl->type_) {
+        type = mapType(*bindingDecl->type_);
         if (!type) {
-          error(varDecl->span,
-                "Unknown type: " + varDecl->type_->qualifiedName());
+          error(bindingDecl->span,
+                "Unknown type: " + bindingDecl->type_->qualifiedName());
           type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
         }
       } else {
         type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       }
-      auto linkName = varDecl->isExternal_
-                          ? varDecl->name_
+      auto linkName = bindingDecl->isExternal_
+                          ? bindingDecl->name_
                           : mangleName(module.info->linkPath.empty()
                                            ? module.info->moduleId
                                            : module.info->linkPath,
-                                       varDecl->name_);
+                                       bindingDecl->name_);
       auto symbol = std::make_shared<VariableSymbol>(
-          varDecl->name_, type, false, false, linkName, module.info->moduleName,
-          varDecl->visibility_);
-      symbol->is_external = varDecl->isExternal_;
-      if (!module.scope->declare(varDecl->name_, symbol)) {
-        error(varDecl->span,
-              "Variable '" + varDecl->name_ + "' already declared.");
-      }
-      module.symbol->members[varDecl->name_] = symbol;
-      if (varDecl->visibility_ == Visibility::Public) {
-        module.symbol->exports[varDecl->name_] = symbol;
-      }
-    } else if (auto constDecl = dynamic_cast<ConstDecl *>(child.get())) {
-      std::shared_ptr<zir::Type> type;
-      if (constDecl->type_) {
-        type = mapType(*constDecl->type_);
-        if (!type) {
-          error(constDecl->span,
-                "Unknown type: " + constDecl->type_->qualifiedName());
-          type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+          bindingDecl->name_, type, bindingDecl->kind_, false, linkName,
+          module.info->moduleName, bindingDecl->visibility_);
+      symbol->is_external = bindingDecl->isExternal_;
+      if (!module.scope->declare(bindingDecl->name_, symbol)) {
+        if (isConstant) {
+          error(bindingDecl->span,
+                "Identifier '" + bindingDecl->name_ + "' already declared.");
+        } else {
+          error(bindingDecl->span,
+                "Variable '" + bindingDecl->name_ + "' already declared.");
         }
-      } else {
-        type = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
       }
-      auto symbol = std::make_shared<VariableSymbol>(
-          constDecl->name_, type, true, false,
-          mangleName(module.info->linkPath.empty() ? module.info->moduleId
-                                                   : module.info->linkPath,
-                     constDecl->name_),
-          module.info->moduleName, constDecl->visibility_);
-      if (!module.scope->declare(constDecl->name_, symbol)) {
-        error(constDecl->span,
-              "Identifier '" + constDecl->name_ + "' already declared.");
-      }
-      module.symbol->members[constDecl->name_] = symbol;
-      if (constDecl->visibility_ == Visibility::Public) {
-        module.symbol->exports[constDecl->name_] = symbol;
+      module.symbol->members[bindingDecl->name_] = symbol;
+      if (bindingDecl->visibility_ == Visibility::Public) {
+        module.symbol->exports[bindingDecl->name_] = symbol;
       }
     }
   }

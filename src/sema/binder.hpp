@@ -75,8 +75,7 @@ public:
   void visit(FunDecl &node) override;
   void visit(ExtDecl &node) override;
   void visit(BodyNode &node) override;
-  void visit(VarDecl &node) override;
-  void visit(ConstDecl &node) override;
+  void visit(BindingDecl &node) override;
   void visit(ReturnNode &node) override;
   void visit(BinExpr &node) override;
   void visit(TernaryExpr &node) override;

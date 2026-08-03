@@ -7,6 +7,7 @@
 #include "../ast/asm_stmt_node.hpp"
 #include "../ast/assign_node.hpp"
 #include "../ast/bin_expr.hpp"
+#include "../ast/binding_decl.hpp"
 #include "../ast/body_node.hpp"
 #include "../ast/break_node.hpp"
 #include "../ast/cast_expr.hpp"
@@ -18,7 +19,6 @@
 #include "../ast/const/const_int.hpp"
 #include "../ast/const/const_null.hpp"
 #include "../ast/const/const_string.hpp"
-#include "../ast/const_decl.hpp"
 #include "../ast/continue_node.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/failable_nodes.hpp"
@@ -41,7 +41,6 @@
 #include "../ast/type_node.hpp"
 #include "../ast/unary_expr.hpp"
 #include "../ast/unsafe_block_node.hpp"
-#include "../ast/var_decl.hpp"
 #include "../ast/while_node.hpp"
 
 class AstBuilder {
@@ -116,7 +115,7 @@ public:
     return std::make_unique<WhileNode>(std::move(condition), std::move(body));
   }
 
-  std::unique_ptr<ForNode> makeFor(std::unique_ptr<VarDecl> initializer,
+  std::unique_ptr<ForNode> makeFor(std::unique_ptr<BindingDecl> initializer,
                                    std::unique_ptr<ExpressionNode> condition,
                                    std::unique_ptr<AssignNode> increment,
                                    std::unique_ptr<BodyNode> body) {
@@ -133,16 +132,11 @@ public:
                                        std::move(body));
   }
 
-  std::unique_ptr<VarDecl> makeVarDecl(const std::string &name,
-                                       std::unique_ptr<TypeNode> type,
-                                       std::unique_ptr<ExpressionNode> init) {
-    return std::make_unique<VarDecl>(name, std::move(type), std::move(init));
-  }
-
-  std::unique_ptr<ConstDecl>
-  makeConstDecl(const std::string &name, std::unique_ptr<TypeNode> type,
-                std::unique_ptr<ExpressionNode> init) {
-    return std::make_unique<ConstDecl>(name, std::move(type), std::move(init));
+  std::unique_ptr<BindingDecl>
+  makeBindingDecl(const std::string &name, std::unique_ptr<TypeNode> type,
+                  std::unique_ptr<ExpressionNode> init, BindingKind kind) {
+    return std::make_unique<BindingDecl>(name, std::move(type), std::move(init),
+                                         kind);
   }
 
   std::unique_ptr<ReturnNode>

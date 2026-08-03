@@ -169,8 +169,9 @@ std::unique_ptr<RootNode> Parser::parse() {
           eat(TokenType::COLON);
           auto typeNode = parseType();
           Token semiToken = eat(TokenType::SEMICOLON);
-          auto varDecl = _builder.makeVarDecl(nameToken.value,
-                                              std::move(typeNode), nullptr);
+          auto varDecl =
+              _builder.makeBindingDecl(nameToken.value, std::move(typeNode),
+                                       nullptr, BindingKind::Mutable);
           varDecl->isGlobal_ = true;
           varDecl->isExternal_ = true;
           _builder.setSpan(varDecl.get(),
@@ -209,13 +210,13 @@ std::unique_ptr<RootNode> Parser::parse() {
         applyMetadata(decl.get(), std::move(attributes));
         root->addChild(std::move(decl));
       } else if (peek().type == TokenType::CONST) {
-        auto decl = parseConstDecl();
+        auto decl = parseBindingDecl(BindingKind::CompileTimeConstant);
         applyMetadata(decl.get(), std::move(attributes));
         root->addChild(std::move(decl));
       } else if (peek().type == TokenType::GLOBAL) {
         Token globalToken = eat(TokenType::GLOBAL);
         if (peek().type == TokenType::VAR) {
-          auto varDecl = parseVarDecl();
+          auto varDecl = parseBindingDecl(BindingKind::Mutable);
           varDecl->isGlobal_ = true;
           applyMetadata(varDecl.get(), std::move(attributes));
           _builder.setSpan(varDecl.get(),
@@ -399,9 +400,9 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
   while (!isAtEnd() && peek().type != TokenType::RBRACE) {
     try {
       if (peek().type == TokenType::VAR) {
-        body->addStatement(parseVarDecl());
+        body->addStatement(parseBindingDecl(BindingKind::Mutable));
       } else if (peek().type == TokenType::CONST) {
-        body->addStatement(parseConstDecl());
+        body->addStatement(parseBindingDecl(BindingKind::CompileTimeConstant));
       } else if (peek().type == TokenType::RETURN) {
         body->addStatement(parseReturnStmt());
       } else if (peek().type == TokenType::FAIL) {
@@ -558,66 +559,6 @@ std::unique_ptr<ParameterNode> Parser::parseParameter(bool allowDefault) {
   _builder.setSpan(paramNode.get(),
                    SourceSpan::merge(paramNameToken.span, endSpan));
   return paramNode;
-}
-
-std::unique_ptr<VarDecl> Parser::parseVarDecl() {
-  Token varKeyword = eat(TokenType::VAR);
-  Token varNameToken = eat(TokenType::ID);
-
-  if (peek().type == TokenType::ASSIGN) {
-    // var x = expr  (type inferred from initializer)
-    eat(TokenType::ASSIGN);
-    auto expr = parseExpression();
-    Token semicolonToken = eat(TokenType::SEMICOLON);
-    auto varDecl =
-        _builder.makeVarDecl(varNameToken.value, nullptr, std::move(expr));
-    _builder.setSpan(varDecl.get(),
-                     SourceSpan::merge(varKeyword.span, semicolonToken.span));
-    return varDecl;
-  }
-
-  eat(TokenType::COLON);
-  auto typeNode = parseType();
-
-  if (peek().type == TokenType::ASSIGN) {
-    eat(TokenType::ASSIGN);
-    auto expr = parseExpression();
-    Token semicolonToken = eat(TokenType::SEMICOLON);
-
-    auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
-                                        std::move(expr));
-    _builder.setSpan(varDecl.get(),
-                     SourceSpan::merge(varKeyword.span, semicolonToken.span));
-    return varDecl;
-  } else {
-    Token semicolonToken = eat(TokenType::SEMICOLON);
-    auto varDecl =
-        _builder.makeVarDecl(varNameToken.value, std::move(typeNode), nullptr);
-    _builder.setSpan(varDecl.get(),
-                     SourceSpan::merge(varKeyword.span, semicolonToken.span));
-    return varDecl;
-  }
-}
-
-std::unique_ptr<ConstDecl> Parser::parseConstDecl() {
-  Token constKeyword = eat(TokenType::CONST);
-  Token constNameToken = eat(TokenType::ID);
-
-  std::unique_ptr<TypeNode> typeNode = nullptr;
-  if (peek().type == TokenType::COLON) {
-    eat(TokenType::COLON);
-    typeNode = parseType();
-  }
-
-  eat(TokenType::ASSIGN);
-  auto expr = parseExpression();
-  Token semicolonToken = eat(TokenType::SEMICOLON);
-
-  auto constDecl = _builder.makeConstDecl(constNameToken.value,
-                                          std::move(typeNode), std::move(expr));
-  _builder.setSpan(constDecl.get(),
-                   SourceSpan::merge(constKeyword.span, semicolonToken.span));
-  return constDecl;
 }
 
 std::unique_ptr<AssignNode> Parser::parseAssign() {
@@ -1094,27 +1035,6 @@ std::unique_ptr<WhileNode> Parser::parseWhile() {
   return whileNode;
 }
 
-std::unique_ptr<VarDecl> Parser::parseForInitVarDecl() {
-  Token varKeyword = eat(TokenType::VAR);
-  Token varNameToken = eat(TokenType::ID);
-  eat(TokenType::COLON);
-
-  auto typeNode = parseType();
-
-  std::unique_ptr<ExpressionNode> initializer = nullptr;
-  SourceSpan endSpan = typeNode ? typeNode->span : varNameToken.span;
-  if (peek().type == TokenType::ASSIGN) {
-    eat(TokenType::ASSIGN);
-    initializer = parseExpression();
-    endSpan = initializer->span;
-  }
-
-  auto varDecl = _builder.makeVarDecl(varNameToken.value, std::move(typeNode),
-                                      std::move(initializer));
-  _builder.setSpan(varDecl.get(), SourceSpan::merge(varKeyword.span, endSpan));
-  return varDecl;
-}
-
 std::unique_ptr<AssignNode> Parser::parseForIncrementAssign() {
   auto target = parseExpression();
 
@@ -1164,7 +1084,7 @@ std::unique_ptr<ForNode> Parser::parseFor() {
                  "For initializer must be a variable declaration.");
     throw ParseError();
   }
-  auto initializer = parseForInitVarDecl();
+  auto initializer = parseForInitBindingDecl();
   eat(TokenType::SEMICOLON);
 
   bool oldAllow = _allowStructLiteral;
