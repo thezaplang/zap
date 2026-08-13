@@ -1,7 +1,8 @@
 var namespacesema =
 [
-    [ "anonymous_namespace{binder.cpp}", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html", [
-      [ "isImmutableRecordStorage", "d0/dc5/namespacesema_1_1anonymous__namespace_02binder_8cpp_03.html#a446fa346a5d60d1ae112e0a53bf64369", null ]
+    [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03" ],
+    [ "anonymous_namespace{constant_evaluator.cpp}", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html", [
+      [ "isConstantExpression", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html#a6ed229df46fc4a0c12f155785cf0e0f6", null ]
     ] ],
     [ "anonymous_namespace{conversion.cpp}", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html", [
       [ "bitWidth", "d7/d50/namespacesema_1_1anonymous__namespace_02conversion_8cpp_03.html#a138bd86df29293735fd2de540217e68c", null ],
@@ -63,6 +64,7 @@ var namespacesema =
     [ "BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
     [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+    [ "ConstantEvaluator", "d9/d63/classsema_1_1ConstantEvaluator.html", "d9/d63/classsema_1_1ConstantEvaluator" ],
     [ "Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
     [ "TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
     [ "ConversionClassifier", "da/d5d/classsema_1_1ConversionClassifier.html", "da/d5d/classsema_1_1ConversionClassifier" ],
@@ -124,7 +126,6 @@ var namespacesema =
       [ "Type", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524aa1fa27779242b4902f7ae3bdd5c6d508", null ],
       [ "Module", "d7/d39/namespacesema.html#afad4ec7cd453fbb66b936cf8a8f92524ae55f75a29310d7b60f7ac1d390c8ae42", null ]
     ] ],
-    [ "accessesImmutableRecordField", "d7/d39/namespacesema.html#a4fea647fc124663c1bed046fac55e9c5", null ],
     [ "blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],
     [ "computeTypeLayout", "d7/d39/namespacesema.html#af02797b26d5cde0453ccd3d807201ebc", null ],

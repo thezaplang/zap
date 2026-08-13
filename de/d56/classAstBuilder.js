@@ -3,6 +3,7 @@ var classAstBuilder =
     [ "makeArrayLiteral", "de/d56/classAstBuilder.html#adc49af93510eb83a2e28e7e145864c97", null ],
     [ "makeAsm", "de/d56/classAstBuilder.html#a97c1145b34a2918e8cb066e495303ebe", null ],
     [ "makeAssign", "de/d56/classAstBuilder.html#a2ec0551bdfa44848335dafa1481e03a7", null ],
+    [ "makeBindingDecl", "de/d56/classAstBuilder.html#ae828967977228964f778efa9e123fa22", null ],
     [ "makeBinExpr", "de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed", null ],
     [ "makeBody", "de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218", null ],
     [ "makeBreak", "de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281", null ],
@@ -10,7 +11,6 @@ var classAstBuilder =
     [ "makeClassDecl", "de/d56/classAstBuilder.html#a2ced994c8d502ecf6becbf2185ea34cc", null ],
     [ "makeConstBool", "de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b", null ],
     [ "makeConstChar", "de/d56/classAstBuilder.html#a475df4c7fe3dfa4e13ecf50612ddae1b", null ],
-    [ "makeConstDecl", "de/d56/classAstBuilder.html#a3c90f430c4f3361e1ac584b171bb251f", null ],
     [ "makeConstFloat", "de/d56/classAstBuilder.html#a59be3be3368a68dcdbdb215ecd7e6850", null ],
     [ "makeConstId", "de/d56/classAstBuilder.html#a6d3d6fd45f588edd20ac26149d07586e", null ],
     [ "makeConstInt", "de/d56/classAstBuilder.html#a53421c33d6e9727c21286f26f03b82ee", null ],
@@ -22,7 +22,7 @@ var classAstBuilder =
     [ "makeFail", "de/d56/classAstBuilder.html#aba2f4079de73ac6b54f597f9923fbd98", null ],
     [ "makeFailableHandleExpr", "de/d56/classAstBuilder.html#ad598821f3c815f62e41b5798dd27cd7d", null ],
     [ "makeFallbackExpr", "de/d56/classAstBuilder.html#af8353e63ce2040284732d86655c14de3", null ],
-    [ "makeFor", "de/d56/classAstBuilder.html#a2275511bc429bb7f8b6458dd80da6764", null ],
+    [ "makeFor", "de/d56/classAstBuilder.html#a5f7e7953efea391301451000821f8312", null ],
     [ "makeForIn", "de/d56/classAstBuilder.html#af5ed6f120488303936f2e92ce4254d1e", null ],
     [ "makeFunCall", "de/d56/classAstBuilder.html#a34ee5c93eb19d1b3cf8568fbadd9a191", null ],
     [ "makeFunDecl", "de/d56/classAstBuilder.html#a9f89f87faa5a8a2282053caa42598cd0", null ],
@@ -42,7 +42,6 @@ var classAstBuilder =
     [ "makeTypeAliasDecl", "de/d56/classAstBuilder.html#ac775564386a6ab1120f918e8ee7a171b", null ],
     [ "makeUnaryExpr", "de/d56/classAstBuilder.html#a44d9093a4b7bbd8722645ac31548540e", null ],
     [ "makeUnsafeBlock", "de/d56/classAstBuilder.html#a9faa921e18701dd8ca80c1b647ae8981", null ],
-    [ "makeVarDecl", "de/d56/classAstBuilder.html#a536efab66b2dbb77e05bb8d0050ddba1", null ],
     [ "makeWhile", "de/d56/classAstBuilder.html#ab0658306e6876ee0de3b69e54debde94", null ],
     [ "setSpan", "de/d56/classAstBuilder.html#a79a5fad7ecec3cf8622e4e8b87721fae", null ]
 ];

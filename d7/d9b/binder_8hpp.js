@@ -3,7 +3,6 @@ var binder_8hpp =
     [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
     [ "sema::Binder::ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "sema::Binder::ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
-    [ "sema::accessesImmutableRecordField", "d7/d39/namespacesema.html#a4fea647fc124663c1bed046fac55e9c5", null ],
     [ "sema::blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "sema::collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],
     [ "sema::deriveValueExpressionFromBlock", "d7/d39/namespacesema.html#ac4149da11ebd06d1de01c84ed4c76497", null ],

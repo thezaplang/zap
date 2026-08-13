@@ -143,30 +143,30 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00180">180</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  180</span>                                                      {</div>
-<div class="line"><span class="lineno">  181</span>  AnalysisResult result;</div>
-<div class="line"><span class="lineno">  182</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = this-&gt;<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>(uri);</div>
-<div class="line"><span class="lineno">  183</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>) {</div>
-<div class="line"><span class="lineno">  184</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  185</span>  }</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>  <span class="keyword">auto</span> project = <a class="code hl_function" href="#a67a37c101dc6dd15c1f871c321e9d227">loadProject</a>(uri);</div>
-<div class="line"><span class="lineno">  188</span>  <span class="keywordflow">if</span> (!project) {</div>
-<div class="line"><span class="lineno">  189</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  190</span>  }</div>
-<div class="line"><span class="lineno">  191</span>  result = project-&gt;analysis;</div>
-<div class="line"><span class="lineno">  192</span>  <span class="keywordflow">if</span> (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {</div>
-<div class="line"><span class="lineno">  193</span>    result.diagnosticsByUri[uri] = {};</div>
-<div class="line"><span class="lineno">  194</span>  }</div>
-<div class="line"><span class="lineno">  195</span>  <a class="code hl_function" href="#a2b1729864f8c186d0504fe98f4a6cde5">clearStaleDiagnostics</a>(result);</div>
-<div class="line"><span class="lineno">  196</span>  <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  197</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00181">181</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  181</span>                                                      {</div>
+<div class="line"><span class="lineno">  182</span>  AnalysisResult result;</div>
+<div class="line"><span class="lineno">  183</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = this-&gt;<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>(uri);</div>
+<div class="line"><span class="lineno">  184</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>) {</div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  186</span>  }</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>  <span class="keyword">auto</span> project = <a class="code hl_function" href="#a67a37c101dc6dd15c1f871c321e9d227">loadProject</a>(uri);</div>
+<div class="line"><span class="lineno">  189</span>  <span class="keywordflow">if</span> (!project) {</div>
+<div class="line"><span class="lineno">  190</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  191</span>  }</div>
+<div class="line"><span class="lineno">  192</span>  result = project-&gt;analysis;</div>
+<div class="line"><span class="lineno">  193</span>  <span class="keywordflow">if</span> (result.diagnosticsByUri.find(uri) == result.diagnosticsByUri.end()) {</div>
+<div class="line"><span class="lineno">  194</span>    result.diagnosticsByUri[uri] = {};</div>
+<div class="line"><span class="lineno">  195</span>  }</div>
+<div class="line"><span class="lineno">  196</span>  <a class="code hl_function" href="#a2b1729864f8c186d0504fe98f4a6cde5">clearStaleDiagnostics</a>(result);</div>
+<div class="line"><span class="lineno">  197</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  198</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a2b1729864f8c186d0504fe98f4a6cde5"><div class="ttname"><a href="#a2b1729864f8c186d0504fe98f4a6cde5">zap::lsp::Workspace::clearStaleDiagnostics</a></div><div class="ttdeci">void clearStaleDiagnostics(AnalysisResult &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00086">workspace.cpp:86</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a67a37c101dc6dd15c1f871c321e9d227"><div class="ttname"><a href="#a67a37c101dc6dd15c1f871c321e9d227">zap::lsp::Workspace::loadProject</a></div><div class="ttdeci">std::shared_ptr&lt; const ProjectState &gt; loadProject(const std::string &amp;uri, bool allowEntryErrors=false)</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00152">workspace.cpp:152</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a67a37c101dc6dd15c1f871c321e9d227"><div class="ttname"><a href="#a67a37c101dc6dd15c1f871c321e9d227">zap::lsp::Workspace::loadProject</a></div><div class="ttdeci">std::shared_ptr&lt; const ProjectState &gt; loadProject(const std::string &amp;uri, bool allowEntryErrors=false)</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00153">workspace.cpp:153</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a76abf28fa6b3bdf1f918b9f80022f97f"><div class="ttname"><a href="#a76abf28fa6b3bdf1f918b9f80022f97f">zap::lsp::Workspace::document</a></div><div class="ttdeci">const SourceSnapshot * document(const std::string &amp;uri) const</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00033">workspace.cpp:33</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00086">clearStaleDiagnostics()</a>, <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00020">zap::lsp::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00086">clearStaleDiagnostics()</a>, <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00021">zap::lsp::AnalysisResult::diagnosticsByUri</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>.</p>
 
 </div>
 </div>
@@ -214,7 +214,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   84</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a06db3e869b7dedb27aa2b2a97478aaae"><div class="ttname"><a href="#a06db3e869b7dedb27aa2b2a97478aaae">zap::lsp::Workspace::sourceManager_</a></div><div class="ttdeci">SourceManager sourceManager_</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de1/workspace_8hpp_source.html#l00019">workspace.hpp:19</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00020">zap::lsp::AnalysisResult::diagnosticsByUri</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00021">zap::lsp::AnalysisResult::diagnosticsByUri</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>.</p>
 
@@ -270,19 +270,20 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  140</span>  session.bind(project);</div>
 <div class="line"><span class="lineno">  141</span>  <a class="code hl_function" href="#a3ed1a809dda246b53eb9b41f1b22aaf3">appendDiagnostics</a>(snapshot-&gt;project.analysis, project.diagnostics,</div>
 <div class="line"><span class="lineno">  142</span>                    <a class="code hl_variable" href="#a06db3e869b7dedb27aa2b2a97478aaae">sourceManager_</a>.uriForPath(<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>.path));</div>
-<div class="line"><span class="lineno">  143</span>  snapshot-&gt;project.semanticInfo = std::move(project.semanticInfo);</div>
-<div class="line"><span class="lineno">  144</span>  snapshot-&gt;project.moduleMap = std::move(project.modules);</div>
-<div class="line"><span class="lineno">  145</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[moduleId, _] : snapshot-&gt;project.moduleMap) {</div>
-<div class="line"><span class="lineno">  146</span>    snapshot-&gt;project.uriByModuleId[moduleId] = <a class="code hl_variable" href="#a06db3e869b7dedb27aa2b2a97478aaae">sourceManager_</a>.uriForPath(moduleId);</div>
-<div class="line"><span class="lineno">  147</span>  }</div>
-<div class="line"><span class="lineno">  148</span>  <span class="keywordflow">return</span> snapshot;</div>
-<div class="line"><span class="lineno">  149</span>}</div>
+<div class="line"><span class="lineno">  143</span>  snapshot-&gt;project.boundRoot = std::move(project.boundRoot);</div>
+<div class="line"><span class="lineno">  144</span>  snapshot-&gt;project.semanticInfo = std::move(project.semanticInfo);</div>
+<div class="line"><span class="lineno">  145</span>  snapshot-&gt;project.moduleMap = std::move(project.modules);</div>
+<div class="line"><span class="lineno">  146</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[moduleId, _] : snapshot-&gt;project.moduleMap) {</div>
+<div class="line"><span class="lineno">  147</span>    snapshot-&gt;project.uriByModuleId[moduleId] = <a class="code hl_variable" href="#a06db3e869b7dedb27aa2b2a97478aaae">sourceManager_</a>.uriForPath(moduleId);</div>
+<div class="line"><span class="lineno">  148</span>  }</div>
+<div class="line"><span class="lineno">  149</span>  <span class="keywordflow">return</span> snapshot;</div>
+<div class="line"><span class="lineno">  150</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a3ed1a809dda246b53eb9b41f1b22aaf3"><div class="ttname"><a href="#a3ed1a809dda246b53eb9b41f1b22aaf3">zap::lsp::Workspace::appendDiagnostics</a></div><div class="ttdeci">void appendDiagnostics(AnalysisResult &amp;result, const std::vector&lt; zap::Diagnostic &gt; &amp;diagnostics, const std::string &amp;fallbackUri) const</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00074">workspace.cpp:74</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a8552bbdc606f256b530b0a2cf572e870"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a8552bbdc606f256b530b0a2cf572e870">zap::lsp::findAndReadFlags</a></div><div class="ttdeci">zap::args::CmdlineArgs findAndReadFlags(std::filesystem::path startPath)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00162">protocol_utils.cpp:162</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00074">appendDiagnostics()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00162">zap::lsp::findAndReadFlags()</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00014">zap::frontend::FrontendSession::load()</a>, <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00021">runtimePaths_</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>.</p>
 
 </div>
 </div>
@@ -324,9 +325,9 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   97</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_a92bfc2e3d9568672b40ad017e8733bd1"><div class="ttname"><a href="#a92bfc2e3d9568672b40ad017e8733bd1">zap::lsp::Workspace::publishedDiagnosticUris_</a></div><div class="ttdeci">std::set&lt; std::string &gt; publishedDiagnosticUris_</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de1/workspace_8hpp_source.html#l00020">workspace.hpp:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00020">zap::lsp::AnalysisResult::diagnosticsByUri</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00020">publishedDiagnosticUris_</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d0e/workspace__types_8hpp_source.html#l00021">zap::lsp::AnalysisResult::diagnosticsByUri</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00020">publishedDiagnosticUris_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00180">analyze()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00181">analyze()</a>.</p>
 
 </div>
 </div>
@@ -452,7 +453,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00180">analyze()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00053">close()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00037">open()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00170">query()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00045">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00181">analyze()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00053">close()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00037">open()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00171">query()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00045">update()</a>.</p>
 
 </div>
 </div>
@@ -557,29 +558,29 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">152</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  152</span>                                                                  {</div>
-<div class="line"><span class="lineno">  153</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = this-&gt;<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>(uri);</div>
-<div class="line"><span class="lineno">  154</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>) {</div>
-<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  156</span>  }</div>
-<div class="line"><span class="lineno">  157</span>  <span class="keyword">auto</span> &amp;snapshots = allowEntryErrors ? <a class="code hl_variable" href="#a6aecca3946d08a32531943adf7a44b46">tolerantSnapshots_</a> : <a class="code hl_variable" href="#aec8ae34dfde115bc7c0ec9b58404d572">strictSnapshots_</a>;</div>
-<div class="line"><span class="lineno">  158</span>  <span class="keyword">auto</span> snapshot = snapshots.find(uri);</div>
-<div class="line"><span class="lineno">  159</span>  <span class="keywordflow">if</span> (snapshot != snapshots.end() &amp;&amp;</div>
-<div class="line"><span class="lineno">  160</span>      snapshot-&gt;second-&gt;documentVersion == <a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>-&gt;version) {</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> std::shared_ptr&lt;const ProjectState&gt;(snapshot-&gt;second,</div>
-<div class="line"><span class="lineno">  162</span>                                               &amp;snapshot-&gt;second-&gt;project);</div>
-<div class="line"><span class="lineno">  163</span>  }</div>
-<div class="line"><span class="lineno">  164</span>  <span class="keyword">auto</span> built = <a class="code hl_function" href="#ae3c36de6860c4d207074c3dbd0794994">buildSnapshot</a>(*<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>, allowEntryErrors);</div>
-<div class="line"><span class="lineno">  165</span>  snapshots[uri] = std::move(built);</div>
-<div class="line"><span class="lineno">  166</span>  <span class="keywordflow">return</span> std::shared_ptr&lt;const ProjectState&gt;(snapshots[uri],</div>
-<div class="line"><span class="lineno">  167</span>                                             &amp;snapshots[uri]-&gt;project);</div>
-<div class="line"><span class="lineno">  168</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">153</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                                  {</div>
+<div class="line"><span class="lineno">  154</span>  <span class="keyword">const</span> <span class="keyword">auto</span> *<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = this-&gt;<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>(uri);</div>
+<div class="line"><span class="lineno">  155</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>) {</div>
+<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  157</span>  }</div>
+<div class="line"><span class="lineno">  158</span>  <span class="keyword">auto</span> &amp;snapshots = allowEntryErrors ? <a class="code hl_variable" href="#a6aecca3946d08a32531943adf7a44b46">tolerantSnapshots_</a> : <a class="code hl_variable" href="#aec8ae34dfde115bc7c0ec9b58404d572">strictSnapshots_</a>;</div>
+<div class="line"><span class="lineno">  159</span>  <span class="keyword">auto</span> snapshot = snapshots.find(uri);</div>
+<div class="line"><span class="lineno">  160</span>  <span class="keywordflow">if</span> (snapshot != snapshots.end() &amp;&amp;</div>
+<div class="line"><span class="lineno">  161</span>      snapshot-&gt;second-&gt;documentVersion == <a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>-&gt;version) {</div>
+<div class="line"><span class="lineno">  162</span>    <span class="keywordflow">return</span> std::shared_ptr&lt;const ProjectState&gt;(snapshot-&gt;second,</div>
+<div class="line"><span class="lineno">  163</span>                                               &amp;snapshot-&gt;second-&gt;project);</div>
+<div class="line"><span class="lineno">  164</span>  }</div>
+<div class="line"><span class="lineno">  165</span>  <span class="keyword">auto</span> built = <a class="code hl_function" href="#ae3c36de6860c4d207074c3dbd0794994">buildSnapshot</a>(*<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>, allowEntryErrors);</div>
+<div class="line"><span class="lineno">  166</span>  snapshots[uri] = std::move(built);</div>
+<div class="line"><span class="lineno">  167</span>  <span class="keywordflow">return</span> std::shared_ptr&lt;const ProjectState&gt;(snapshots[uri],</div>
+<div class="line"><span class="lineno">  168</span>                                             &amp;snapshots[uri]-&gt;project);</div>
+<div class="line"><span class="lineno">  169</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1Workspace_html_ae3c36de6860c4d207074c3dbd0794994"><div class="ttname"><a href="#ae3c36de6860c4d207074c3dbd0794994">zap::lsp::Workspace::buildSnapshot</a></div><div class="ttdeci">std::shared_ptr&lt; const SemanticSnapshot &gt; buildSnapshot(const SourceSnapshot &amp;document, bool allowEntryErrors)</div><div class="ttdef"><b>Definition</b> <a href="../../d8/dad/workspace_8cpp_source.html#l00120">workspace.cpp:120</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00023">strictSnapshots_</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00025">tolerantSnapshots_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00180">analyze()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00170">query()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00181">analyze()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00171">query()</a>.</p>
 
 </div>
 </div>
@@ -644,17 +645,17 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00170">170</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>                                                                      {</div>
-<div class="line"><span class="lineno">  172</span>  <span class="keyword">auto</span> <a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = <a class="code hl_variable" href="#a06db3e869b7dedb27aa2b2a97478aaae">sourceManager_</a>.sourceForUri(uri);</div>
-<div class="line"><span class="lineno">  173</span>  <span class="keyword">auto</span> project = <a class="code hl_function" href="#a67a37c101dc6dd15c1f871c321e9d227">loadProject</a>(uri, allowEntryErrors);</div>
-<div class="line"><span class="lineno">  174</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> || !project) {</div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><span class="lineno">  176</span>  }</div>
-<div class="line"><span class="lineno">  177</span>  <span class="keywordflow">return</span> SemanticQuery{*<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>, std::move(project)};</div>
-<div class="line"><span class="lineno">  178</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00171">171</a> of file <a class="el" href="../../d8/dad/workspace_8cpp_source.html">workspace.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                                      {</div>
+<div class="line"><span class="lineno">  173</span>  <span class="keyword">auto</span> <a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> = <a class="code hl_variable" href="#a06db3e869b7dedb27aa2b2a97478aaae">sourceManager_</a>.sourceForUri(uri);</div>
+<div class="line"><span class="lineno">  174</span>  <span class="keyword">auto</span> project = <a class="code hl_function" href="#a67a37c101dc6dd15c1f871c321e9d227">loadProject</a>(uri, allowEntryErrors);</div>
+<div class="line"><span class="lineno">  175</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a> || !project) {</div>
+<div class="line"><span class="lineno">  176</span>    <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><span class="lineno">  177</span>  }</div>
+<div class="line"><span class="lineno">  178</span>  <span class="keywordflow">return</span> SemanticQuery{*<a class="code hl_function" href="#a76abf28fa6b3bdf1f918b9f80022f97f">document</a>, std::move(project)};</div>
+<div class="line"><span class="lineno">  179</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>, and <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">sourceManager_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../de/d4a/document__request_8cpp_source.html#l00009">zap::lsp::documentRequestContext()</a>.</p>
 
@@ -796,7 +797,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00019">19</a> of file <a class="el" href="../../dc/de1/workspace_8hpp_source.html">workspace.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00074">appendDiagnostics()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00053">close()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00065">contains()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00037">open()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00170">query()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00069">sourceForUri()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00045">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00074">appendDiagnostics()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">buildSnapshot()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00053">close()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00065">contains()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00033">document()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00037">open()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00171">query()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00069">sourceForUri()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00045">update()</a>.</p>
 
 </div>
 </div>
@@ -822,7 +823,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../dc/de1/workspace_8hpp_source.html">workspace.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00099">invalidateSnapshots()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00104">invalidateSnapshotsForPath()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00099">invalidateSnapshots()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00104">invalidateSnapshotsForPath()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>.</p>
 
 </div>
 </div>
@@ -848,7 +849,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dc/de1/workspace_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../dc/de1/workspace_8hpp_source.html">workspace.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00099">invalidateSnapshots()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00104">invalidateSnapshotsForPath()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00152">loadProject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00099">invalidateSnapshots()</a>, <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00104">invalidateSnapshotsForPath()</a>, and <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00153">loadProject()</a>.</p>
 
 </div>
 </div>

@@ -4,6 +4,7 @@ var structVisitor =
     [ "visit", "dc/d13/structVisitor.html#a269cdcc9b90a8892c27a798da5427ade", null ],
     [ "visit", "dc/d13/structVisitor.html#a51f056ee46496b5ef6fca0b9fa883ad8", null ],
     [ "visit", "dc/d13/structVisitor.html#a86abfe2c8b5b2d5e23eb9e37e287bedf", null ],
+    [ "visit", "dc/d13/structVisitor.html#aacf80fde74530c329eba6ad2bd23685b", null ],
     [ "visit", "dc/d13/structVisitor.html#a75dd3a055360d8d4b438879e53236324", null ],
     [ "visit", "dc/d13/structVisitor.html#a4911bd33272f1d05306edf365500786f", null ],
     [ "visit", "dc/d13/structVisitor.html#a9387abe442a5eea74859d0495ab87274", null ],
@@ -11,7 +12,6 @@ var structVisitor =
     [ "visit", "dc/d13/structVisitor.html#a2eb41897797fd62db4e9b0c703ce7425", null ],
     [ "visit", "dc/d13/structVisitor.html#ac6aee0e72e44d9e79081bcc3672747a7", null ],
     [ "visit", "dc/d13/structVisitor.html#a0c8108a23af4c633ceab290dcc3cfcee", null ],
-    [ "visit", "dc/d13/structVisitor.html#a4523f3d31dab24c9d80b356e7af52a56", null ],
     [ "visit", "dc/d13/structVisitor.html#a784dfc018ee543dfd8a56c50ce11b736", null ],
     [ "visit", "dc/d13/structVisitor.html#a60e071e7a273ea8990aa170f384e207a", null ],
     [ "visit", "dc/d13/structVisitor.html#ad8a6bc0df65e7fcc734c8b034f72f634", null ],
@@ -49,6 +49,5 @@ var structVisitor =
     [ "visit", "dc/d13/structVisitor.html#a69c98026240b0f527159961aac88ce3b", null ],
     [ "visit", "dc/d13/structVisitor.html#aeda296ed69350c8df2002e32bcdae177", null ],
     [ "visit", "dc/d13/structVisitor.html#a312d3b30b181e27e9c86b536046d4577", null ],
-    [ "visit", "dc/d13/structVisitor.html#ab9d7c68fc7a196784873e527d832c650", null ],
     [ "visit", "dc/d13/structVisitor.html#ae83544ec62a179c7446ce8b867678fbe", null ]
 ];

@@ -5,6 +5,9 @@ var annotated_dup =
       [ "LLVMCodeGen", "da/de9/classcodegen_1_1LLVMCodeGen.html", "da/de9/classcodegen_1_1LLVMCodeGen" ]
     ] ],
     [ "sema", "d7/d39/namespacesema.html", [
+      [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", [
+        [ "MutablePlaceResult", "d3/d96/structsema_1_1anonymous__namespace_02binder__mutability_8cpp_03_1_1MutablePlaceResult.html", "d3/d96/structsema_1_1anonymous__namespace_02binder__mutability_8cpp_03_1_1MutablePlaceResult" ]
+      ] ],
       [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
       [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
@@ -51,6 +54,7 @@ var annotated_dup =
       [ "BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
       [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
       [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+      [ "ConstantEvaluator", "d9/d63/classsema_1_1ConstantEvaluator.html", "d9/d63/classsema_1_1ConstantEvaluator" ],
       [ "Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
       [ "TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
       [ "ConversionClassifier", "da/d5d/classsema_1_1ConversionClassifier.html", "da/d5d/classsema_1_1ConversionClassifier" ],
@@ -206,6 +210,7 @@ var annotated_dup =
     [ "AstBuilder", "de/d56/classAstBuilder.html", "de/d56/classAstBuilder" ],
     [ "AttributeArgument", "dc/dc4/structAttributeArgument.html", "dc/dc4/structAttributeArgument" ],
     [ "AttributeNode", "d7/da3/structAttributeNode.html", "d7/da3/structAttributeNode" ],
+    [ "BindingDecl", "d2/dcc/classBindingDecl.html", "d2/dcc/classBindingDecl" ],
     [ "BinExpr", "da/d53/classBinExpr.html", "da/d53/classBinExpr" ],
     [ "BodyNode", "de/df0/classBodyNode.html", "de/df0/classBodyNode" ],
     [ "BreakNode", "d7/db8/classBreakNode.html", "d7/db8/classBreakNode" ],
@@ -213,7 +218,6 @@ var annotated_dup =
     [ "ClassDecl", "d6/d7b/classClassDecl.html", "d6/d7b/classClassDecl" ],
     [ "ConstBool", "d4/d03/classConstBool.html", "d4/d03/classConstBool" ],
     [ "ConstChar", "db/d12/classConstChar.html", "db/d12/classConstChar" ],
-    [ "ConstDecl", "d2/def/classConstDecl.html", "d2/def/classConstDecl" ],
     [ "ConstFloat", "dd/db3/classConstFloat.html", "dd/db3/classConstFloat" ],
     [ "ConstId", "d3/d4c/classConstId.html", "d3/d4c/classConstId" ],
     [ "ConstInt", "d5/de1/classConstInt.html", "d5/de1/classConstInt" ],
@@ -257,7 +261,6 @@ var annotated_dup =
     [ "TypeNode", "d7/d9f/classTypeNode.html", "d7/d9f/classTypeNode" ],
     [ "UnaryExpr", "dd/d97/classUnaryExpr.html", "dd/d97/classUnaryExpr" ],
     [ "UnsafeBlockNode", "d5/dff/classUnsafeBlockNode.html", "d5/dff/classUnsafeBlockNode" ],
-    [ "VarDecl", "d0/d3d/classVarDecl.html", "d0/d3d/classVarDecl" ],
     [ "Visitor", "dc/d13/structVisitor.html", "dc/d13/structVisitor" ],
     [ "WhileNode", "d2/df8/classWhileNode.html", "d2/df8/classWhileNode" ],
     [ "zap_arc_discover_context_t", "d9/ddf/structzap__arc__discover__context__t.html", "d9/ddf/structzap__arc__discover__context__t" ],
