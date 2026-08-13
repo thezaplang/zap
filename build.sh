@@ -13,19 +13,31 @@ NC='\033[0m' # No Color
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BUILD_TYPE="release"
 BUILD_DIR="$SCRIPT_DIR/build"
+MESON_ARGS=()
 
-if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-  echo "Usage: ./build.sh [args...]"
-  echo ""
-  echo "Builds the Zap compiler using Meson."
-  echo "Any additional arguments are passed directly to 'meson compile'."
-  echo "Examples:"
-  echo "  ./build.sh          (Standard build)"
-  echo "  ./build.sh --clean  (Clean the build directory)"
-  echo "  ./build.sh zapc     (Build only the zapc target)"
-  exit 0
-fi
+for arg in "$@"; do
+  case "$arg" in
+    --debug)
+      BUILD_TYPE="debug"
+      BUILD_DIR="$SCRIPT_DIR/build-debug"
+      ;;
+    --help|-h)
+      echo "Usage: ./build.sh [--debug] [meson-compile-args...]"
+      echo ""
+      echo "Builds the Zap compiler using Meson."
+      echo "--debug uses a separate build-debug directory with debug symbols."
+      echo "Other arguments are passed directly to 'meson compile'."
+      echo "Examples:"
+      echo "  ./build.sh                (Release build in build/)"
+      echo "  ./build.sh --debug        (Debug build in build-debug/)"
+      echo "  ./build.sh --debug zapc   (Build only the zapc target)"
+      exit 0
+      ;;
+    *) MESON_ARGS+=("$arg") ;;
+  esac
+done
 
 echo -e "${YELLOW}Building Zap compiler...${NC}"
 
@@ -34,12 +46,35 @@ echo -e "${YELLOW}Building Zap compiler...${NC}"
 # which prevents failures if an empty 'build' folder was created manually.
 if [ ! -f "$BUILD_DIR/build.ninja" ]; then
   echo -e "${YELLOW}Setting up build directory...${NC}"
-  meson setup "$BUILD_DIR" "$SCRIPT_DIR" --buildtype=release
+  meson setup "$BUILD_DIR" "$SCRIPT_DIR" "--buildtype=$BUILD_TYPE"
+elif ! python3 - "$BUILD_DIR/meson-info/meson-info.json" "$BUILD_DIR/meson-info/intro-buildoptions.json" "$SCRIPT_DIR" "$BUILD_TYPE" <<'PY'
+import json
+import os
+import sys
+
+try:
+    with open(sys.argv[1], encoding="utf-8") as info_file:
+        info = json.load(info_file)
+    with open(sys.argv[2], encoding="utf-8") as options_file:
+        options = json.load(options_file)
+    configured_source = info["directories"]["source"]
+    configured_buildtype = next(option["value"] for option in options if option["name"] == "buildtype")
+    valid = not info.get("error", False) and (
+        os.path.realpath(configured_source) == os.path.realpath(sys.argv[3])
+    ) and configured_buildtype == sys.argv[4]
+except (OSError, KeyError, StopIteration, TypeError, json.JSONDecodeError):
+    valid = False
+
+raise SystemExit(0 if valid else 1)
+PY
+then
+  echo -e "${YELLOW}Build directory is stale; reconfiguring it...${NC}"
+  meson setup "$BUILD_DIR" "$SCRIPT_DIR" --wipe "--buildtype=$BUILD_TYPE"
 fi
 
 # Build the project
 echo -e "${YELLOW}Compiling...${NC}"
-meson compile -C "$BUILD_DIR" "$@"
+meson compile -C "$BUILD_DIR" "${MESON_ARGS[@]}"
 
 # Check if build was successful
 if [ -f "$BUILD_DIR/zapc" ]; then
