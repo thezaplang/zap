@@ -50,6 +50,7 @@ public:
   bool is_noescape = false;
   bool is_variadic_pack = false;
   bool is_external = false;
+  bool is_global = false;
   std::shared_ptr<zir::Type> variadic_element_type = nullptr;
   std::shared_ptr<BoundExpression> constant_value = nullptr;
   VariableSymbol(std::string n, std::shared_ptr<zir::Type> t,

@@ -1,0 +1,17 @@
+const BASE: Int = 20;
+const ANSWER: Int = BASE + 22;
+const VALUES: [3]Int = {BASE, ANSWER, 1};
+const SCALE: Float = 1.5 * 2.0;
+
+fun main() Int {
+    if VALUES[0] != 20 {
+        return 1;
+    }
+    if VALUES[1] != 42 {
+        return 2;
+    }
+    if SCALE != 3.0 {
+        return 3;
+    }
+    return 0;
+}

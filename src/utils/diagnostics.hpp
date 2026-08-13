@@ -654,6 +654,10 @@ private:
         message.find("Immutable binding") != std::string::npos) {
       return "S2014";
     }
+    if (message.find("must be initialized with a compile-time expression") !=
+        std::string::npos) {
+      return "S2015";
+    }
 
     if (message.find("Expected ';'") != std::string::npos) {
       return "P1001";

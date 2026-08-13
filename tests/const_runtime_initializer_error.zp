@@ -1,0 +1,10 @@
+fun runtimeValue() Int {
+    return 42;
+}
+
+fun main() Int {
+    let runtime = runtimeValue();
+    const FROM_LET: Int = runtime;
+    const FROM_CALL: Int = runtimeValue();
+    return 0;
+}

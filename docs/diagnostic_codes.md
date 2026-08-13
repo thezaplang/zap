@@ -196,6 +196,14 @@ Typical messages:
 
 ---
 
+### `S2015` — Invalid constant initializer
+Emitted when a `const` initializer needs runtime evaluation.
+
+Typical messages:
+- `Constant '...' must be initialized with a compile-time expression: ...`
+
+---
+
 ## Warnings (`W1xxx`)
 
 ### `W1001` — Non-void function may not return on all paths

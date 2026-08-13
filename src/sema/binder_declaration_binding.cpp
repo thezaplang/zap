@@ -3,6 +3,7 @@
 #include "../ast/record_decl.hpp"
 #include "../ir/string_type.hpp"
 #include "binder.hpp"
+#include "constant_evaluator.hpp"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -362,10 +363,19 @@ void Binder::visit(BindingDecl &node) {
   }
   symbol->is_ref = isRef;
   symbol->is_external = node.isExternal_;
+  symbol->is_global = !currentBlock_;
 
   if (isConstant && initializer) {
-    symbol->constant_value =
-        std::shared_ptr<BoundExpression>(initializer->clone());
+    std::string failureReason;
+    if (!ConstantEvaluator::isConstant(*initializer, &failureReason)) {
+      error(node.initializer_->span,
+            "Constant '" + node.name_ +
+                "' must be initialized with a compile-time expression: " +
+                failureReason + ".");
+    } else {
+      symbol->constant_value =
+          std::shared_ptr<BoundExpression>(initializer->clone());
+    }
   }
   if (semanticInfo_) {
     semanticInfo_->recordSymbol(&node, symbol);

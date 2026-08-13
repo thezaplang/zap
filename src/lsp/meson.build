@@ -19,6 +19,7 @@ lsp_sources = [
     '../sema/binder_declaration_binding.cpp',
     '../sema/binder_module_predeclare.cpp',
     '../sema/binder_mutability.cpp',
+    '../sema/constant_evaluator.cpp',
     '../sema/binder_stmts.cpp',
     '../sema/binder_exprs.cpp',
     '../sema/binder_generic_functions.cpp',

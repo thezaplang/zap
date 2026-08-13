@@ -110,6 +110,7 @@ zapc_sources = [
     'src/sema/binder_declaration_binding.cpp', 'src/sema/binder_module_predeclare.cpp',
     'src/sema/binder_stmts.cpp', 'src/sema/binder_exprs.cpp',
     'src/sema/binder_mutability.cpp',
+    'src/sema/constant_evaluator.cpp',
     'src/sema/binder_generic_functions.cpp', 'src/sema/binder_generic_types.cpp',
     'src/sema/binder_types.cpp', 'src/codegen/llvm_codegen.cpp',
     'src/codegen/llvm_codegen_constants.cpp', 'src/codegen/llvm_codegen_zir.cpp',

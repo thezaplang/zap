@@ -929,6 +929,14 @@ void Binder::popScope() {
 
 std::optional<int64_t>
 Binder::evaluateConstantInt(const BoundExpression *expr) {
+  if (auto variable = dynamic_cast<const BoundVariableExpression *>(expr)) {
+    const auto &symbol = variable->symbol;
+    if (symbol && symbol->isCompileTimeConstant() && symbol->constant_value) {
+      return evaluateConstantInt(symbol->constant_value.get());
+    }
+    return std::nullopt;
+  }
+
   if (auto lit = dynamic_cast<const BoundLiteral *>(expr)) {
     try {
       const std::string &v = lit->value;

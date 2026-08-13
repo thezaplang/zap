@@ -43,9 +43,14 @@ SPECIAL_CASES = {
         "diagnostics": ["S2014"],
         "desc": "For-in bindings are immutable"
     },
+    "tests/const_runtime_initializer_error.zp": {
+        "type": "diagnostic",
+        "exit": 1,
+        "diagnostics": ["S2015"],
+        "desc": "Const bindings reject runtime initializers"
+    },
 
     # Compile-only exit 1 (non-matching filename)
-    "tests/array_const_size.zp": {"type": "compile", "exit": 1, "desc": "Array size as a constant is currently rejected"},
     "tests/import_module_alias_conflict/main.zp": {"type": "compile", "exit": 1, "desc": "Different modules cannot reuse the same alias"},
     "tests/import_cycle/main.zp": {"type": "compile", "exit": 1, "desc": "Cyclic imports are rejected"},
     "tests/import_private_fail/main.zp": {"type": "compile", "exit": 1, "desc": "Private module member access is rejected"},

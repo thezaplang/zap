@@ -24,7 +24,8 @@ x = "hello";  // error: type mismatch
 
 ## Constants (`const`)
 
-Constants must be initialized at declaration time and cannot be reassigned.
+Constants must be initialized with a compile-time expression and cannot be
+reassigned. Use `let` for an immutable value computed at runtime.
 
 ```/dev/null/examples.zp#L1-6
 const PI: Float = 3.14159;
@@ -36,6 +37,19 @@ fun main() {
 ```
 
 Constants can be declared globally and locally.
+
+```/dev/null/examples.zp#L1-4
+const MAX_RETRIES: Int = 3 * 2;
+let request = receive();
+// const invalid = receive(); // error: runtime call
+```
+
+Verified integer constants can also define array lengths:
+
+```/dev/null/examples.zp#L1-2
+const BUFFER_SIZE: Int = 256;
+var buffer: [BUFFER_SIZE]UInt8 = {0};
+```
 
 ---
 
