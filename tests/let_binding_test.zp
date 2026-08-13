@@ -1,0 +1,64 @@
+global var destroyed: Int = 0;
+
+struct Point {
+    x: Int,
+    y: Int
+}
+
+class Counter {
+    priv value: Int;
+
+    fun init(value: Int) {
+        self.value = value;
+    }
+
+    fun deinit() {
+        destroyed = destroyed + self.value;
+    }
+
+    pub fun add(amount: Int) {
+        self.value = self.value + amount;
+    }
+
+    pub fun current() Int {
+        return self.value;
+    }
+}
+
+fun exerciseLetBindings() Int {
+    let inferred = 2;
+    let annotated: Int = 3;
+    let point = Point{x: 5, y: 7};
+    let values: [2]Int = {11, 13};
+    let counter = new Counter(17);
+
+    counter.add(6);
+    if inferred + annotated != 5 || point.x + point.y != 12 {
+        return 1;
+    }
+    if values[0] + values[1] != 24 || counter.current() != 23 {
+        return 2;
+    }
+
+    var mutableValue = 1;
+    mutableValue++;
+    var mutablePoint = Point{x: 1, y: 2};
+    mutablePoint.x = 3;
+    var mutableValues: [2]Int = {1, 2};
+    mutableValues[0] = 4;
+    if mutableValue != 2 || mutablePoint.x != 3 || mutableValues[0] != 4 {
+        return 3;
+    }
+    return 0;
+}
+
+fun main() Int {
+    var result = exerciseLetBindings();
+    if result != 0 {
+        return result;
+    }
+    if destroyed != 23 {
+        return 4;
+    }
+    return 0;
+}

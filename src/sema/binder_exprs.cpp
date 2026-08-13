@@ -587,30 +587,7 @@ void Binder::visit(AssignNode &node) {
   auto target = std::move(expressionStack_.top());
   expressionStack_.pop();
 
-  auto *targetAsVar = dynamic_cast<BoundVariableExpression *>(target.get());
-  auto *targetAsIndex = dynamic_cast<BoundIndexAccess *>(target.get());
-  auto *targetAsMember = dynamic_cast<BoundMemberAccess *>(target.get());
-  auto *targetAsUnary = dynamic_cast<BoundUnaryExpression *>(target.get());
-  auto *targetAsCall = dynamic_cast<BoundFunctionCall *>(target.get());
-
-  bool isLValue = targetAsVar || targetAsIndex || targetAsMember ||
-                  (targetAsUnary && targetAsUnary->op == "*") ||
-                  (targetAsCall && targetAsCall->symbol->returnsRef);
-
-  if (!isLValue) {
-    error(node.span, "Target of assignment must be an l-value.");
-    return;
-  }
-
-  if (auto varExpr = targetAsVar) {
-    if (varExpr->symbol->isCompileTimeConstant()) {
-      error(node.span,
-            "Cannot assign to constant '" + varExpr->symbol->name + "'.");
-      return;
-    }
-  }
-  if (accessesImmutableRecordField(*target)) {
-    error(node.span, "Cannot assign to a field of immutable record.");
+  if (!requireMutablePlace(*target, node.span, MutablePlaceUse::Assignment)) {
     return;
   }
 
@@ -963,6 +940,11 @@ void Binder::visit(NewExpr &node) {
   size_t ctorParamOffset = ctor && ctor->isMethod ? 1 : 0;
   for (size_t i = 0; i < rawArgs.size(); ++i) {
     auto arg = rawArgs[i]->clone();
+    if (node.args_[i]->isRef &&
+        !requireMutablePlace(*arg, node.args_[i]->value->span,
+                             MutablePlaceUse::MutableReference)) {
+      return;
+    }
     auto expected =
         ctor ? ctor->parameters[i + ctorParamOffset]->type : nullptr;
     if (expected) {
@@ -997,21 +979,7 @@ void Binder::visit(UnaryExpr &node) {
 
   auto type = expr->type;
   if (node.op_ == "&") {
-    auto *exprAsVar = dynamic_cast<BoundVariableExpression *>(expr.get());
-    auto *exprAsIndex = dynamic_cast<BoundIndexAccess *>(expr.get());
-    auto *exprAsMember = dynamic_cast<BoundMemberAccess *>(expr.get());
-    auto *exprAsUnary = dynamic_cast<BoundUnaryExpression *>(expr.get());
-    auto *exprAsCall = dynamic_cast<BoundFunctionCall *>(expr.get());
-    bool isLValue = exprAsVar || exprAsIndex || exprAsMember ||
-                    (exprAsUnary && exprAsUnary->op == "*") ||
-                    (exprAsCall && exprAsCall->symbol->returnsRef);
-    if (!isLValue) {
-      error(node.span, "Cannot take the address of a non-lvalue expression.");
-    }
-    if (accessesImmutableRecordField(*expr)) {
-      error(node.span,
-            "Cannot take the address of a field of immutable record.");
-    }
+    requireMutablePlace(*expr, node.span, MutablePlaceUse::Address);
 
     type = std::make_shared<zir::PointerType>(expr->type);
   } else if (node.op_ == "*") {

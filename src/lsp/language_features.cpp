@@ -788,9 +788,8 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
     }
   }
   if (auto binding = dynamic_cast<const BindingDecl *>(node)) {
-    const std::string kind =
-        binding->kind_ == BindingKind::CompileTimeConstant ? "const" : "var";
-    return HoverInfo{"zap", kind + " " + binding->name_ + ": " +
+    return HoverInfo{"zap", std::string(bindingKindKeyword(binding->kind_)) +
+                                " " + binding->name_ + ": " +
                                 renderType(binding->type_.get())};
   }
   if (auto record = dynamic_cast<const RecordDecl *>(node)) {
@@ -905,9 +904,9 @@ std::optional<HoverInfo> semanticHoverFor(const sema::SemanticInfo &semanticInfo
   if (!type) {
     return std::nullopt;
   }
-  const char *kind = "var";
+  std::string_view kind = "var";
   if (auto variable = std::dynamic_pointer_cast<sema::VariableSymbol>(symbol)) {
-    kind = variable->isCompileTimeConstant() ? "const" : "var";
+    kind = bindingKindKeyword(variable->binding_kind);
   }
   return HoverInfo{"zap", std::string(kind) + " " + symbol->name + ": " +
                                type->toString()};

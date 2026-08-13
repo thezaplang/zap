@@ -1,0 +1,8 @@
+fun main() Int {
+    var values: [2]Int = {1, 2};
+    for index, value in values {
+        index = 3;
+        value = 4;
+    }
+    return 0;
+}

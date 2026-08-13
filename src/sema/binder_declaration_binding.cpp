@@ -268,8 +268,11 @@ void Binder::visit(BindingDecl &node) {
   }
 
   const bool isConstant = node.kind_ == BindingKind::CompileTimeConstant;
+  const bool isImmutable = node.kind_ == BindingKind::Immutable;
   const bool isRef = !isConstant && node.type_ && node.type_->isReference;
-  const std::string declarationKind = isConstant ? "constant" : "variable";
+  const std::string declarationKind =
+      isConstant ? "constant"
+                 : (isImmutable ? "immutable binding" : "variable");
 
   std::shared_ptr<zir::Type> type;
   std::unique_ptr<BoundExpression> initializer = nullptr;
@@ -296,16 +299,20 @@ void Binder::visit(BindingDecl &node) {
           initializer = applyConversion(std::move(initializer), *conversion);
         }
       }
-    } else if (isConstant) {
-      error(node.span, "Constant '" + node.name_ + "' must be initialized.");
+    } else if (isConstant || isImmutable) {
+      error(node.span,
+            std::string(isConstant ? "Constant '" : "Immutable binding '") +
+                node.name_ + "' must be initialized.");
     } else if (isRef) {
       error(node.span,
             "Reference variable '" + node.name_ + "' must be initialized.");
     }
   } else {
     if (!node.initializer_) {
-      if (isConstant) {
-        error(node.span, "Constant '" + node.name_ + "' must be initialized.");
+      if (isConstant || isImmutable) {
+        error(node.span,
+              std::string(isConstant ? "Constant '" : "Immutable binding '") +
+                  node.name_ + "' must be initialized.");
       } else {
         error(node.span, "Variable '" + node.name_ +
                              "' needs a type annotation or an initializer.");
@@ -326,9 +333,10 @@ void Binder::visit(BindingDecl &node) {
     }
   }
 
-  if (isRef && initializer && accessesImmutableRecordField(*initializer)) {
-    error(node.span,
-          "Cannot bind a mutable reference to a field of immutable record.");
+  if (isRef && initializer &&
+      !requireMutablePlace(*initializer, node.span,
+                           MutablePlaceUse::MutableReference)) {
+    initializer.reset();
   }
 
   if (!symbol) {
@@ -353,7 +361,6 @@ void Binder::visit(BindingDecl &node) {
     symbol->type = type;
   }
   symbol->is_ref = isRef;
-  symbol->binding_kind = node.kind_;
   symbol->is_external = node.isExternal_;
 
   if (isConstant && initializer) {

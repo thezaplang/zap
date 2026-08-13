@@ -481,12 +481,12 @@ JsonObject::List makeCompletionItems(const std::string &uri,
       collectCompletionSymbols(uri, project, offset);
   std::set<std::string> seen;
   static constexpr const char *keywords[] = {
-      "fun",    "return", "if",       "else", "iftype", "while",  "var",
-      "const",  "import", "pub",      "priv", "prot",   "struct", "record",
-      "class",  "enum",   "alias",    "ext",  "global", "break",  "continue",
-      "ref",     "sink",   "noescape", "borrows", "as",     "new",
-      "self",    "where",  "unsafe",   "weak",    "fail",   "or",
-      "for",     "match",  "module",   "impl",    "static"};
+      "fun",      "return", "if",     "else",     "iftype",  "while",  "var",
+      "let",      "const",  "import", "pub",      "priv",    "prot",   "struct",
+      "record",   "class",  "enum",   "alias",    "ext",     "global", "break",
+      "continue", "ref",    "sink",   "noescape", "borrows", "as",     "new",
+      "self",     "where",  "unsafe", "weak",     "fail",    "or",     "for",
+      "match",    "module", "impl",   "static"};
   for (const char *keyword : keywords) {
     if (seen.insert(keyword).second) {
       items.push_back(makeCompletionItem(

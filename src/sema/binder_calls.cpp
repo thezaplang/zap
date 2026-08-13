@@ -139,6 +139,11 @@ void Binder::visit(FunCall &node) {
         if (!arg) {
           return;
         }
+        if (node.params_[i]->isRef &&
+            !requireMutablePlace(*arg, node.params_[i]->value->span,
+                                 MutablePlaceUse::MutableReference)) {
+          return;
+        }
         rawArgs.push_back(std::move(arg));
       }
 
@@ -352,6 +357,11 @@ void Binder::visit(FunCall &node) {
         bindExpressionWithExpected(node.params_[i]->value.get(), nullptr);
     if (!arg)
       return;
+    if (node.params_[i]->isRef &&
+        !requireMutablePlace(*arg, node.params_[i]->value->span,
+                             MutablePlaceUse::MutableReference)) {
+      return;
+    }
     rawArgNames.push_back(node.params_[i]->name);
     rawArgIsRef.push_back(node.params_[i]->isRef);
     rawArgIsSpread.push_back(node.params_[i]->isSpread);

@@ -16,55 +16,6 @@
 
 namespace sema {
 
-namespace {
-
-bool isImmutableRecordStorage(const std::shared_ptr<zir::Type> &type) {
-  if (!type) {
-    return false;
-  }
-
-  auto aggregateType = type;
-  if (aggregateType->getKind() == zir::TypeKind::Pointer) {
-    aggregateType = std::static_pointer_cast<zir::PointerType>(aggregateType)
-                        ->getBaseType();
-  }
-
-  return aggregateType && aggregateType->getKind() == zir::TypeKind::Record &&
-         std::static_pointer_cast<zir::RecordType>(aggregateType)
-             ->hasImmutableFields();
-}
-
-} // namespace
-
-bool accessesImmutableRecordField(const BoundExpression &expression) {
-  if (const auto *member =
-          dynamic_cast<const BoundMemberAccess *>(&expression)) {
-    if (isImmutableRecordStorage(member->left->type)) {
-      return true;
-    }
-    if (member->left->type &&
-        (member->left->type->getKind() == zir::TypeKind::Class ||
-         member->left->type->getKind() == zir::TypeKind::Pointer)) {
-      return false;
-    }
-    return accessesImmutableRecordField(*member->left);
-  }
-  if (const auto *index = dynamic_cast<const BoundIndexAccess *>(&expression)) {
-    return accessesImmutableRecordField(*index->left);
-  }
-  if (const auto *unary =
-          dynamic_cast<const BoundUnaryExpression *>(&expression)) {
-    if (unary->op == "*") {
-      return false;
-    }
-    return accessesImmutableRecordField(*unary->expr);
-  }
-  if (const auto *cast = dynamic_cast<const BoundCast *>(&expression)) {
-    return accessesImmutableRecordField(*cast->expression);
-  }
-  return false;
-}
-
 bool isStringType(const std::shared_ptr<zir::Type> &type) {
   return zir::isIntrinsicStringType(type);
 }

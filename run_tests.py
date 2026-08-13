@@ -25,6 +25,24 @@ SPECIAL_CASES = {
     "tests/modulo_test.zp": {"type": "compile", "exit": 0, "desc": "Modulo operator test"},
     "tests/failable_error_class_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Failable: @error class can be used as error type E in T!E"},
     "tests/global_numeric_pointer_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Numeric constants initialize global pointers"},
+    "tests/let_mutation_error.zp": {
+        "type": "diagnostic",
+        "exit": 1,
+        "diagnostics": ["S2014"],
+        "desc": "Immutable let storage rejects every mutation path"
+    },
+    "tests/let_missing_initializer_error.zp": {
+        "type": "diagnostic",
+        "exit": 1,
+        "diagnostics": ["S2014"],
+        "desc": "Let bindings require an initializer"
+    },
+    "tests/for_in_immutable_error.zp": {
+        "type": "diagnostic",
+        "exit": 1,
+        "diagnostics": ["S2014"],
+        "desc": "For-in bindings are immutable"
+    },
 
     # Compile-only exit 1 (non-matching filename)
     "tests/array_const_size.zp": {"type": "compile", "exit": 1, "desc": "Array size as a constant is currently rejected"},

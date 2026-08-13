@@ -3,9 +3,12 @@
 namespace zap {
 
 std::unique_ptr<BindingDecl> Parser::parseBindingDecl(BindingKind kind) {
-  const TokenType keywordType = kind == BindingKind::CompileTimeConstant
-                                    ? TokenType::CONST
-                                    : TokenType::VAR;
+  TokenType keywordType = TokenType::VAR;
+  if (kind == BindingKind::Immutable) {
+    keywordType = TokenType::LET;
+  } else if (kind == BindingKind::CompileTimeConstant) {
+    keywordType = TokenType::CONST;
+  }
   Token keyword = eat(keywordType);
   Token name = eat(TokenType::ID);
 

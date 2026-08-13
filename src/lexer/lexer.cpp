@@ -19,6 +19,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"import", TokenType::IMPORT},
     {"match", TokenType::MATCH},
     {"var", TokenType::VAR},
+    {"let", TokenType::LET},
     {"ext", TokenType::EXTERN},
     {"module", TokenType::MODULE},
     {"pub", TokenType::PUB},

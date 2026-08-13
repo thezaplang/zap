@@ -401,6 +401,8 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
     try {
       if (peek().type == TokenType::VAR) {
         body->addStatement(parseBindingDecl(BindingKind::Mutable));
+      } else if (peek().type == TokenType::LET) {
+        body->addStatement(parseBindingDecl(BindingKind::Immutable));
       } else if (peek().type == TokenType::CONST) {
         body->addStatement(parseBindingDecl(BindingKind::CompileTimeConstant));
       } else if (peek().type == TokenType::RETURN) {
@@ -1796,6 +1798,7 @@ void Parser::synchronize(SyncContext context) {
       break;
 
     case TokenType::VAR:
+    case TokenType::LET:
     case TokenType::IF:
     case TokenType::WHILE:
     case TokenType::FOR:

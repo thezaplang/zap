@@ -298,6 +298,19 @@ fun main() Int {
             labels = completion_labels(proc, loop_uri, 3, 9, 2)
             assert "v" in labels, "for-in item variable missing from completion"
 
+            let_source = """fun main() Int {
+    let value = 1;
+    return value;
+}
+"""
+            let_uri = open_document(proc, temp / "let_binding.zp", let_source)
+            labels = completion_labels(proc, let_uri, 2, 4, 19)
+            assert "let" in labels, "let keyword missing from completion"
+            let_hover = hover(proc, let_uri, 2, 11, 20)
+            assert "let value: isize" in let_hover["contents"]["value"], (
+                "let hover returned unexpected information: " f"{let_hover}"
+            )
+
             unicode_prefix = '    var note: String = "😀"; '
             unicode_source = f"""fun main() Int {{
 {unicode_prefix}ret

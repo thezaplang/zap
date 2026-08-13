@@ -1,0 +1,35 @@
+struct Point {
+    x: Int,
+    y: Int
+}
+
+fun mutate(ref value: Int) {
+    value = value + 1;
+}
+
+fun exposeImmutableBinding() ref Int {
+    let value = 1;
+    return value;
+}
+
+fun main() Int {
+    let scalar = 1;
+    scalar = 2;
+    scalar += 1;
+    scalar++;
+
+    let point = Point{x: 1, y: 2};
+    point.x = 3;
+
+    let values: [2]Int = {1, 2};
+    values[0] = 3;
+
+    mutate(ref scalar);
+    var reference: ref Int = scalar;
+    var pointer = &scalar;
+
+    unsafe {
+        asm("nop" : "=r"(scalar) : "r"(scalar));
+    }
+    return 0;
+}

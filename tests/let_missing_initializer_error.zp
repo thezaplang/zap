@@ -1,0 +1,4 @@
+fun main() Int {
+    let value: Int;
+    return 0;
+}

@@ -1,0 +1,5 @@
+fun main() Int {
+    for (let index: Int = 0; index < 2; index++) {
+    }
+    return 0;
+}

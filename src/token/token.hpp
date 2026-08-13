@@ -96,6 +96,7 @@ enum TokenType {
   INCREMENT,      ///< '++' symbol.
   DECREMENT,      ///< '--' symbol.
   ASM,            ///< "asm" keyword.
+  LET,            ///< "let" keyword.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -168,6 +169,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "for";
   case TokenType::VAR:
     return "var";
+  case TokenType::LET:
+    return "let";
   case TokenType::RECORD:
     return "record";
   case TokenType::ENUM:
