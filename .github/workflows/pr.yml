@@ -36,6 +36,10 @@ jobs:
       - name: Run test script
         run: |
           chmod +x ./run_tests.sh
+          export PATH="/usr/lib/llvm-21/bin:$PATH"
+          export CC=clang-21
+          export CXX=clang++-21
+          export LLVM_DIR=/usr/lib/llvm-21/lib/cmake/llvm
           ./run_tests.sh
 
   sanitizers:
