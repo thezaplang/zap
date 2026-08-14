@@ -602,12 +602,6 @@ __attribute__((destructor)) static void zap_arc_shutdown(void) {
   zap_arc_context_release_storage(zap_arc_default_context());
 }
 
-void printInt(long v) { printf("%ld\n", v); }
-
-void printFloat(float v) { printf("%f\n", v); }
-
-void printFloat64(double v) { printf("%f\n", v); }
-
 long zap_sum_variadic(long count, ...) {
   va_list args;
   va_start(args, count);
@@ -617,13 +611,6 @@ long zap_sum_variadic(long count, ...) {
   }
   va_end(args);
   return sum;
-}
-
-void printBool(_Bool v) { printf("%s\n", v ? "true" : "false"); }
-
-void printChar(char v) {
-  putchar(v);
-  putchar('\n');
 }
 
 static char *zap_string_alloc_owned(size_t len);
@@ -682,13 +669,6 @@ static void zap_string_release_ptr(const char *ptr) {
   if (header->refs <= 0) {
     free(header);
   }
-}
-
-void print(zap_string_t s) {
-  if (!s.ptr || s.len <= 0) {
-    return;
-  }
-  fwrite(s.ptr, 1, (size_t)s.len, stdout);
 }
 
 static char *zap_string_to_cstr(zap_string_t s) {
@@ -793,13 +773,6 @@ void __zap_process_set_args(int argc, char **argv) {
   zap_process_argv = argv;
 }
 
-void println(zap_string_t s) {
-  print(s);
-  fputc('\n', stdout);
-}
-
-void zap_flush_stdout(void) { fflush(stdout); }
-
 long zap_printf(zap_string_t format, ...) {
   char *fmt = zap_string_to_cstr(format);
   if (!fmt)
@@ -831,15 +804,6 @@ long zap_printfln(zap_string_t format, ...) {
   if (printf("\n") < 0)
     return -1;
   return written + 1;
-}
-
-void eprintln(zap_string_t s) {
-  if (!s.ptr || s.len <= 0) {
-    fputc('\n', stderr);
-    return;
-  }
-  fwrite(s.ptr, 1, (size_t)s.len, stderr);
-  fputc('\n', stderr);
 }
 
 zap_string_t getln() {

@@ -1,16 +1,38 @@
-pub ext fun print(s: String) Void;
-pub ext fun println(s: String) Void;
-pub ext fun printInt(i: Int) Void;
-pub ext fun printFloat(f: Float) Void;
-pub ext fun printFloat64(f: Float64) Void;
-pub ext fun printBool(b: Bool) Void;
-pub ext fun printChar(c: Char) Void;
-pub ext fun eprintln(s: String) Void;
-pub ext fun zap_flush_stdout() Void;
 pub ext fun getln() String;
 pub ext fun printf(format: String, ...) Int;
 pub ext fun printfln(format: String, ...) Int;
 
-pub fun flush() {
-    zap_flush_stdout();
+import "core" { StringView, getDataPtr, len };
+
+alias File = Void;
+ext var stdout: *File;
+ext var stderr: *File;
+
+ext fun fwrite(ptr: *Void, size: UInt, n: UInt, f: *File) UInt;
+ext fun fflush(f: *File) Int32;
+
+pub fun print(str: String) Void {
+    unsafe { fwrite(getDataPtr(str) as *Void, 1, len(str), stdout); }
 }
+pub fun eprint(str: String) Void {
+    unsafe { fwrite(getDataPtr(str) as *Void, 1, len(str), stderr); }
+}
+
+pub fun println(str: String) Void {
+    print(str);
+    print("\n");
+}
+pub fun eprintln(str: String) Void {
+    eprint(str);
+    eprint("\n");
+}
+
+pub fun printInt(v: Int) Void         { printf("%ld\n", v); }
+pub fun printFloat(v: Float) Void     { printf("%f\n", v); }
+pub fun printFloat64(v: Float64) Void { printf("%f\n", v); }
+pub fun printChar(v: Char) Void       { printf("%c\n", v); }
+
+pub fun printBool(v: Bool) Void { printf("%s\n", v ? "true" : "false"); }
+
+pub fun flush() Void  { fflush(stdout); }
+pub fun eflush() Void { fflush(stderr); }

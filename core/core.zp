@@ -110,3 +110,7 @@ pub fun indexOf(s: noescape StringView,
 
   return -1;
 }
+
+pub unsafe fun getDataPtr(s: noescape StringView) *Char {
+    return s.ptr;
+}
