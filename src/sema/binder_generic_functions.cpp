@@ -132,6 +132,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
   instantiated->isStatic = baseFunction->isStatic;
   instantiated->isConstructor = baseFunction->isConstructor;
   instantiated->isDestructor = baseFunction->isDestructor;
+  instantiated->isEntryModule = baseFunction->isEntryModule;
+  instantiated->hasNoMangle = baseFunction->hasNoMangle;
+  instantiated->hasEntry = baseFunction->hasEntry;
   instantiated->vtableSlot = -1;
   instantiated->ownerTypeCodegenName = baseFunction->ownerTypeCodegenName;
   instantiated->resultBorrow = baseFunction->resultBorrow;
@@ -154,8 +157,8 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       error(callSpan, "Missing binding for generic parameter '" + name + "'.");
       return nullptr;
     }
-    genericSuffix += sanitizeTypeName(name) + "_" +
-                     typeInterner_.mangleKey(it->second);
+    genericSuffix +=
+        sanitizeTypeName(name) + "_" + typeInterner_.mangleKey(it->second);
   }
   instantiated->linkName = baseFunction->linkName + "$g$" + genericSuffix;
 

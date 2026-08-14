@@ -89,6 +89,7 @@ public:
   bool isConstructor = false;
   bool isDestructor = false;
   bool isExternal = false;
+  bool isEntryModule = false;
   bool returnsRef = false;
   bool hasEntry = false; // @entry on a callable function
   zir::ResultBorrowContract resultBorrow;

@@ -364,6 +364,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
           methodDecl->name_, std::move(params), std::move(retType), "",
           moduleIt->second.info->moduleName, methodDecl->visibility_,
           methodDecl->isUnsafe_);
+      methodSymbol->isEntryModule = moduleIt->second.info->isEntry;
       for (const auto &genericParam : methodDecl->genericParams_) {
         if (genericParam) {
           methodSymbol->genericParameterNames.push_back(genericParam->typeName);

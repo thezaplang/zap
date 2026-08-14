@@ -564,6 +564,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
       auto symbol = std::make_shared<FunctionSymbol>(
           funDecl->name_, std::move(params), std::move(retType), "",
           module.info->moduleName, funDecl->visibility_, funDecl->isUnsafe_);
+      symbol->isEntryModule = module.info->isEntry;
       symbol->returnsRef = funDecl->returnsRef_;
       symbol->resultBorrow = resolveResultBorrowContract(
           funDecl->resultBorrowSource_, symbol->parameters, symbol->returnType,
@@ -764,6 +765,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
             methodDecl->name_, std::move(params), std::move(retType), "",
             module.info->moduleName, methodDecl->visibility_,
             methodDecl->isUnsafe_);
+        symbol->isEntryModule = module.info->isEntry;
         for (const auto &genericParam : methodDecl->genericParams_) {
           if (genericParam) {
             symbol->genericParameterNames.push_back(genericParam->typeName);
@@ -873,6 +875,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           module.info->moduleName, extDecl->visibility_, false,
           extDecl->isCVariadic_);
       symbol->isExternal = true;
+      symbol->isEntryModule = module.info->isEntry;
       symbol->resultBorrow = resolveResultBorrowContract(
           extDecl->resultBorrowSource_, symbol->parameters, symbol->returnType,
           false, extDecl->span);
