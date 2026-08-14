@@ -1,5 +1,6 @@
 #pragma once
 #include "../sema/bound_nodes.hpp"
+#include "function_reachability.hpp"
 #include "module.hpp"
 #include <map>
 #include <memory>
@@ -57,6 +58,7 @@ public:
 
 private:
   std::unique_ptr<Module> module_;
+  FunctionReachability reachability_;
   Function *currentFunction_ = nullptr;
   BasicBlock *currentBlock_ = nullptr;
 

@@ -152,6 +152,17 @@ if get_option('build_testing')
     test('ownership-lowering', executable('zap-ownership-lowering-tests', 'tests/cpp/ownership_lowering_test.cpp', dependencies : zap_zir_verifier_dep))
     test('borrow-analysis', executable('zap-borrow-analysis-tests', 'tests/cpp/borrow_analysis_test.cpp', dependencies : zap_zir_verifier_dep))
     test('function-reachability', executable('zap-function-reachability-tests', ['tests/cpp/function_reachability_test.cpp', 'src/ir/function_reachability.cpp'], dependencies : zap_type_system_dep))
+    test('zir-reachability',
+         files('tests/scripts/check_zir_reachability.sh'),
+         args : [
+             zapc.full_path(),
+             meson.current_source_dir() / 'tests/zir_reachability/main.zp',
+             meson.current_source_dir() / 'tests/zir_reachability/caller.c',
+             meson.current_source_dir() / 'tests/zir_reachability/library.zp',
+             meson.current_build_dir() / 'zir-reachability-test'
+         ],
+         depends : zapc
+    )
 
     runtime_test = executable('zap-runtime-instrumentation-tests',
                               'tests/cpp/runtime_instrumentation_test.c', 'src/stdlib.c',

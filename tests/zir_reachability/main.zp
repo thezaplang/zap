@@ -1,0 +1,8 @@
+import "library.zp" { used };
+
+fun main() Int {
+    if used() != 42 {
+        return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,23 @@
+pub fun used() Int {
+    return used_dependency();
+}
+
+priv fun used_dependency() Int {
+    return 42;
+}
+
+pub fun unused_imported() Int {
+    return 1;
+}
+
+@noMangle
+pub fun retained_c_api() Int {
+    return 42;
+}
+
+@entry
+pub fun retained_entry() Int {
+    return 0;
+}
+
+ext fun unused_external() Int;

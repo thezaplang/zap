@@ -51,6 +51,10 @@ bool testReachabilityRootsAndDependencies() {
   noMangle->hasNoMangle = true;
   auto attributedEntry = makeFunction("explicit_entry");
   attributedEntry->hasEntry = true;
+  auto virtualMethod = makeFunction("virtual_method");
+  virtualMethod->ownerTypeCodegenName = "test.Virtual";
+  virtualMethod->vtableSlot = 4;
+  auto virtualDependency = makeFunction("virtual_dependency");
   auto unreachable = makeFunction("unreachable");
   auto external = makeFunction("puts");
   external->isExternal = true;
@@ -83,6 +87,12 @@ bool testReachabilityRootsAndDependencies() {
       attributedEntry,
       std::make_unique<sema::BoundFunctionCall>(
           external, std::vector<std::unique_ptr<sema::BoundExpression>>{})));
+  root.functions.push_back(functionWithExpression(
+      virtualMethod,
+      std::make_unique<sema::BoundFunctionCall>(
+          virtualDependency,
+          std::vector<std::unique_ptr<sema::BoundExpression>>{})));
+  root.functions.push_back(functionWithExpression(virtualDependency, nullptr));
   root.functions.push_back(functionWithExpression(unreachable, nullptr));
   root.functions.push_back(functionWithExpression(globalTarget, nullptr));
   root.externalFunctions.push_back(
@@ -111,6 +121,10 @@ bool testReachabilityRootsAndDependencies() {
                 "noMangle function is not a root") &&
          expect(contains(result.functions, attributedEntry),
                 "@entry function is not a root") &&
+         expect(contains(result.functions, virtualMethod),
+                "virtual method is not retained") &&
+         expect(contains(result.functions, virtualDependency),
+                "dependency of a virtual method is not live") &&
          expect(!contains(result.functions, unreachable),
                 "unreachable function is live") &&
          expect(vtableSlots != result.liveVtableSlots.end() &&

@@ -332,6 +332,7 @@ BoundIRGenerator::emitFailableError(const std::shared_ptr<Value> &value) {
 std::unique_ptr<Module> BoundIRGenerator::generate(sema::BoundRootNode &root) {
   module_ = std::make_unique<Module>("zap_module");
   globalSymbolMap_.clear();
+  reachability_ = FunctionReachabilityAnalyzer{}.analyze(root);
   root.accept(*this);
   return std::move(module_);
 }
@@ -350,10 +351,20 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
     global->accept(*this);
   }
   for (const auto &extFunc : node.externalFunctions) {
-    extFunc->accept(*this);
+    const auto &symbol = extFunc->symbol;
+    if (symbol && (reachability_.externalFunctions.count(symbol.get()) != 0 ||
+                   symbol->hasNoMangle || symbol->hasEntry)) {
+      extFunc->accept(*this);
+    }
   }
   for (const auto &func : node.functions) {
-    func->accept(*this);
+    const auto &symbol = func->symbol;
+    if (symbol &&
+        (symbol->isEntryModule || symbol->hasNoMangle || symbol->hasEntry ||
+         symbol->isDestructor || symbol->vtableSlot >= 0 ||
+         reachability_.functions.count(symbol.get()) != 0)) {
+      func->accept(*this);
+    }
   }
 }
 

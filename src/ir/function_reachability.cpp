@@ -192,7 +192,8 @@ FunctionReachabilityAnalyzer::analyze(sema::BoundRootNode &root) {
   for (const auto &function : root.functions) {
     const auto &symbol = function->symbol;
     if (symbol && (symbol->isEntryModule || symbol->name == "main" ||
-                   symbol->hasEntry || symbol->hasNoMangle)) {
+                   symbol->hasEntry || symbol->hasNoMangle ||
+                   symbol->isDestructor || symbol->vtableSlot >= 0)) {
       if (result.functions.insert(symbol.get()).second)
         pending.push_back(symbol.get());
     }
