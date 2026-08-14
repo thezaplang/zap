@@ -63,6 +63,7 @@ var classzir_1_1BoundIRGenerator =
     [ "module_", "d4/da0/classzir_1_1BoundIRGenerator.html#a6f4dc9fe3389e2df321acb83917e6912", null ],
     [ "nextBlockId_", "d4/da0/classzir_1_1BoundIRGenerator.html#a90aec8c572fe1ccc5641b0322f83515f", null ],
     [ "nextRegisterId_", "d4/da0/classzir_1_1BoundIRGenerator.html#a6faa8e516073a281ad62101206891e18", null ],
+    [ "reachability_", "d4/da0/classzir_1_1BoundIRGenerator.html#ab690bf4ba4974f223237ab7ee312cbd9", null ],
     [ "symbolMap_", "d4/da0/classzir_1_1BoundIRGenerator.html#a7e94129151ed9095a91bca695953dc60", null ],
     [ "valueStack_", "d4/da0/classzir_1_1BoundIRGenerator.html#af54372f2f252aa081e39f30aa09d4c22", null ]
 ];

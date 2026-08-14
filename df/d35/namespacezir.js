@@ -29,6 +29,7 @@ var namespacezir =
     [ "anonymous_namespace{failable_type.cpp}", "d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html", [
       [ "asFailableRecord", "d5/dbd/namespacezir_1_1anonymous__namespace_02failable__type_8cpp_03.html#ac60dc893cce0a03277740b35d2c4b898", null ]
     ] ],
+    [ "anonymous_namespace{function_reachability.cpp}", "d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html", "d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03" ],
     [ "anonymous_namespace{ir_generator.cpp}", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html", [
       [ "isTerminated", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html#a7a49b539be9da056c4afc82d0469aca2", null ],
       [ "ownershipForCast", "d5/d7d/namespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03.html#ae06c02595c20e82f8e34734320754e53", null ],
@@ -84,6 +85,8 @@ var namespacezir =
     [ "ControlFlowGraph", "d6/de1/classzir_1_1ControlFlowGraph.html", "d6/de1/classzir_1_1ControlFlowGraph" ],
     [ "FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", "d4/d3c/structzir_1_1FailableTypeLayout" ],
     [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
+    [ "FunctionReachability", "d9/d35/structzir_1_1FunctionReachability.html", "d9/d35/structzir_1_1FunctionReachability" ],
+    [ "FunctionReachabilityAnalyzer", "dd/d82/classzir_1_1FunctionReachabilityAnalyzer.html", "dd/d82/classzir_1_1FunctionReachabilityAnalyzer" ],
     [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
     [ "BinaryInst", "df/d0a/classzir_1_1BinaryInst.html", "df/d0a/classzir_1_1BinaryInst" ],
     [ "StoreInst", "dc/d2e/classzir_1_1StoreInst.html", "dc/d2e/classzir_1_1StoreInst" ],

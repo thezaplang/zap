@@ -63,7 +63,8 @@ var hierarchy =
       [ "sema::BoundTaggedUnionDeclaration", "dc/da0/classsema_1_1BoundTaggedUnionDeclaration.html", null ]
     ] ],
     [ "sema::BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", [
-      [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ]
+      [ "zir::BoundIRGenerator", "d4/da0/classzir_1_1BoundIRGenerator.html", null ],
+      [ "zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor", "da/dbd/classzir_1_1anonymous__namespace_02function__reachability_8cpp_03_1_1ReachabilityVisitor.html", null ]
     ] ],
     [ "zap::lsp::SourceManager::CachedFile", "d8/d32/structzap_1_1lsp_1_1SourceManager_1_1CachedFile.html", null ],
     [ "zap::lsp::CallContext", "d7/d3f/structzap_1_1lsp_1_1CallContext.html", null ],
@@ -92,6 +93,8 @@ var hierarchy =
     [ "zap::frontend::FrontendSession", "d0/d02/classzap_1_1frontend_1_1FrontendSession.html", null ],
     [ "zap::frontend::FrontendSessionConfig", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig.html", null ],
     [ "zir::Function", "dc/d90/classzir_1_1Function.html", null ],
+    [ "zir::FunctionReachability", "d9/d35/structzir_1_1FunctionReachability.html", null ],
+    [ "zir::FunctionReachabilityAnalyzer", "dd/d82/classzir_1_1FunctionReachabilityAnalyzer.html", null ],
     [ "zir::anonymous_namespace{zir_verifier_function.cpp}::FunctionVerifier", "d7/dbd/classzir_1_1anonymous__namespace_02zir__verifier__function_8cpp_03_1_1FunctionVerifier.html", null ],
     [ "GenericConstraint", "d2/d6f/structGenericConstraint.html", null ],
     [ "zap::HandleColors", "d4/d3e/structzap_1_1HandleColors.html", null ],

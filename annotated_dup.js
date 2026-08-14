@@ -131,6 +131,9 @@ var annotated_dup =
       [ "SFStream", "d2/d02/classzap_1_1SFStream.html", "d2/d02/classzap_1_1SFStream" ]
     ] ],
     [ "zir", "df/d35/namespacezir.html", [
+      [ "anonymous_namespace{function_reachability.cpp}", "d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html", [
+        [ "ReachabilityVisitor", "da/dbd/classzir_1_1anonymous__namespace_02function__reachability_8cpp_03_1_1ReachabilityVisitor.html", "da/dbd/classzir_1_1anonymous__namespace_02function__reachability_8cpp_03_1_1ReachabilityVisitor" ]
+      ] ],
       [ "anonymous_namespace{ownership_lowering.cpp}", "dd/d79/namespacezir_1_1anonymous__namespace_02ownership__lowering_8cpp_03.html", [
         [ "PendingEdgeClosure", "d1/d85/structzir_1_1anonymous__namespace_02ownership__lowering_8cpp_03_1_1PendingEdgeClosure.html", "d1/d85/structzir_1_1anonymous__namespace_02ownership__lowering_8cpp_03_1_1PendingEdgeClosure" ]
       ] ],
@@ -143,6 +146,8 @@ var annotated_dup =
       [ "ControlFlowGraph", "d6/de1/classzir_1_1ControlFlowGraph.html", "d6/de1/classzir_1_1ControlFlowGraph" ],
       [ "FailableTypeLayout", "d4/d3c/structzir_1_1FailableTypeLayout.html", "d4/d3c/structzir_1_1FailableTypeLayout" ],
       [ "Function", "dc/d90/classzir_1_1Function.html", "dc/d90/classzir_1_1Function" ],
+      [ "FunctionReachability", "d9/d35/structzir_1_1FunctionReachability.html", "d9/d35/structzir_1_1FunctionReachability" ],
+      [ "FunctionReachabilityAnalyzer", "dd/d82/classzir_1_1FunctionReachabilityAnalyzer.html", "dd/d82/classzir_1_1FunctionReachabilityAnalyzer" ],
       [ "Instruction", "d0/dad/classzir_1_1Instruction.html", "d0/dad/classzir_1_1Instruction" ],
       [ "BinaryInst", "df/d0a/classzir_1_1BinaryInst.html", "df/d0a/classzir_1_1BinaryInst" ],
       [ "StoreInst", "dc/d2e/classzir_1_1StoreInst.html", "dc/d2e/classzir_1_1StoreInst" ],

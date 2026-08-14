@@ -14,6 +14,8 @@ var dir_cbf4dfb252b991084670c33e10abc5c2 =
     [ "failable_type.cpp", "da/dd1/failable__type_8cpp.html", "da/dd1/failable__type_8cpp" ],
     [ "failable_type.hpp", "d9/d2c/failable__type_8hpp.html", "d9/d2c/failable__type_8hpp" ],
     [ "function.hpp", "d7/d7c/function_8hpp.html", "d7/d7c/function_8hpp" ],
+    [ "function_reachability.cpp", "da/d7e/function__reachability_8cpp.html", "da/d7e/function__reachability_8cpp" ],
+    [ "function_reachability.hpp", "dc/dbe/function__reachability_8hpp.html", "dc/dbe/function__reachability_8hpp" ],
     [ "instruction.hpp", "d5/db2/instruction_8hpp.html", "d5/db2/instruction_8hpp" ],
     [ "ir_generator.cpp", "db/d34/ir__generator_8cpp.html", "db/d34/ir__generator_8cpp" ],
     [ "ir_generator.hpp", "df/d31/ir__generator_8hpp.html", "df/d31/ir__generator_8hpp" ],

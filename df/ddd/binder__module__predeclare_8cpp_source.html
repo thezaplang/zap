@@ -638,394 +638,403 @@ $(function(){initNavTree('df/ddd/binder__module__predeclare_8cpp_source.html','.
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>      <span class="keyword">auto</span> symbol = std::make_shared&lt;FunctionSymbol&gt;(</div>
 <div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>          funDecl-&gt;name_, std::move(params), std::move(retType), <span class="stringliteral">&quot;&quot;</span>,</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>          module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#ad532574e72924d2e262bfa194f273547">moduleName</a>, funDecl-&gt;visibility_, funDecl-&gt;isUnsafe_);</div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>      symbol-&gt;returnsRef = funDecl-&gt;returnsRef_;</div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>      symbol-&gt;resultBorrow = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#ad1be0bb0d6d6ae260d7d03298aa22adc">resolveResultBorrowContract</a>(</div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>          funDecl-&gt;resultBorrowSource_, symbol-&gt;parameters, symbol-&gt;returnType,</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>          symbol-&gt;returnsRef, funDecl-&gt;span);</div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : funDecl-&gt;genericParams_) {</div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>        <span class="keywordflow">if</span> (genericParam) {</div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>          symbol-&gt;genericParameterNames.push_back(genericParam-&gt;typeName);</div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>        }</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>      }</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a24315b2a409c86d431330a691875a80f">functionGenericParamNames_</a>[symbol.get()] = symbol-&gt;genericParameterNames;</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#adbbd6d09a6ad3c38ac86aa3d818af204">functionDeclarationNodes_</a>[symbol.get()] = funDecl;</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a98f65e7ebdbe8029aebc8cf1d2b3e1c4">semanticInfo_</a>) {</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>        <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a98f65e7ebdbe8029aebc8cf1d2b3e1c4">semanticInfo_</a>-&gt;recordDeclaration(funDecl, symbol);</div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>      }</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a05731070bbde13d7cd8effe30682331f">functionDeclarationModuleIds_</a>[symbol.get()] = <span class="keyword">module</span>.info-&gt;moduleId;</div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>      <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295">validateAndApplyFunctionAttributes</a>(*funDecl, symbol, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span> </div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>      <span class="keywordflow">if</span> (symbol-&gt;hasNoMangle ||</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>          (symbol-&gt;hasExternC &amp;&amp; symbol-&gt;externAbi == <span class="stringliteral">&quot;C&quot;</span>)) {</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>        symbol-&gt;linkName = symbol-&gt;name;</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (linkName != <span class="stringliteral">&quot;main&quot;</span>) {</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>        symbol-&gt;linkName = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#ae7def500fdd66aa36d6586934c676ce2">mangleFunctionName</a>(module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>.empty()</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>                                                  ? module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a66c1ac0ec968d020be4a6e350569f2e0">moduleId</a></div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>                                                  : module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>,</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>                                              *symbol);</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>        symbol-&gt;linkName = linkName;</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>      }</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span> </div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>      <span class="keyword">auto</span> existing = <span class="keyword">module</span>.scope-&gt;lookupLocal(funDecl-&gt;name_);</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#aab445f6144c2318a1aac8086e13d1c8a">findFunctionBySignature</a>(existing, *symbol)) {</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span,</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>              <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>      }</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      <span class="keyword">auto</span> overloads = <span class="keyword">module</span>.scope-&gt;declareFunction(funDecl-&gt;name_, symbol);</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>      <span class="keywordflow">if</span> (!overloads) {</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span, <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ +</div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>                                 <span class="stringliteral">&quot;&#39; conflicts with an existing declaration.&quot;</span>);</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>      }</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a307b86efbb82a0aafcab783cf95c1724">declaredFunctionSymbols_</a>[funDecl] = symbol;</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>      <span class="keywordflow">if</span> (module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a> == <span class="stringliteral">&quot;core&quot;</span> &amp;&amp; symbol-&gt;name == <span class="stringliteral">&quot;at&quot;</span> &amp;&amp;</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>          symbol-&gt;parameters.size() == 2 &amp;&amp; symbol-&gt;returnType &amp;&amp;</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>          <a class="code hl_function" href="../../df/d35/namespacezir.html#ac13d74f28ecbc5b502941710c4d6555d">zir::isIntrinsicStringViewType</a>(symbol-&gt;parameters[0]-&gt;type) &amp;&amp;</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>          symbol-&gt;parameters[1]-&gt;type &amp;&amp;</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>          symbol-&gt;parameters[1]-&gt;type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a> &amp;&amp;</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>          symbol-&gt;returnType-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9">zir::TypeKind::Char</a>) {</div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>        <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a5feb57753decbf6911eb9e5a57d20f85">stringIndexFunction_</a> = symbol;</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>      }</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>      <span class="keyword">module</span>.symbol-&gt;members[funDecl-&gt;name_] = overloads;</div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>      <span class="keywordflow">if</span> (funDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>        <span class="keyword">auto</span> exportIt = <span class="keyword">module</span>.symbol-&gt;exports.find(funDecl-&gt;name_);</div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>        std::shared_ptr&lt;OverloadSetSymbol&gt; exportSet;</div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        <span class="keywordflow">if</span> (exportIt == module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#a374282f30279977b65d314bfa089fd45">symbol</a>-&gt;exports.end()) {</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>          exportSet = std::make_shared&lt;OverloadSetSymbol&gt;(</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>              funDecl-&gt;name_, module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#ad532574e72924d2e262bfa194f273547">moduleName</a>, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>);</div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>          <span class="keyword">module</span>.symbol-&gt;exports[funDecl-&gt;name_] = exportSet;</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>          exportSet =</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>              std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(exportIt-&gt;second);</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>        }</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>        <span class="keywordflow">if</span> (!exportSet) {</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>          <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span, <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ +</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>                                   <span class="stringliteral">&quot;&#39; conflicts with an exported declaration.&quot;</span>);</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>          exportSet-&gt;addOverload(symbol);</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>        }</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>      }</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> classDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d6/d7b/classClassDecl.html">ClassDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>      auto classSymbol = std::dynamic_pointer_cast&lt;TypeSymbol&gt;(</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>          module.scope-&gt;lookup(classDecl-&gt;name_));</div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>      if (!classSymbol || !classSymbol-&gt;isClass ||</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>          !classSymbol-&gt;genericParameterNames.empty()) {</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>        continue;</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>      }</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>      <span class="keyword">auto</span> classType =</div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>          std::static_pointer_cast&lt;zir::ClassType&gt;(classSymbol-&gt;type);</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>      <span class="keyword">auto</span> &amp;classInfo = <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a257667b2ab492554ecb7d2d66cf430d2">classInfos_</a>[classType-&gt;getCodegenName()];</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span> </div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>      if (classDecl-&gt;baseType_) {</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>        bool hasOwnCtor = false;</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        bool hasOwnDtor = false;</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>        for (const auto &amp;methodDecl : classDecl-&gt;methods_) {</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>          hasOwnCtor = hasOwnCtor || methodDecl-&gt;name_ == <span class="stringliteral">&quot;init&quot;</span>;</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>          hasOwnDtor = hasOwnDtor || methodDecl-&gt;name_ == <span class="stringliteral">&quot;deinit&quot;</span>;</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>        }</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        <span class="keyword">auto</span> baseType = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a23d9f2a69d183d0701368853e1098274">mapType</a>(*classDecl-&gt;baseType_);</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>        if (baseType &amp;&amp; baseType-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>          auto baseClass = std::static_pointer_cast&lt;zir::ClassType&gt;(baseType);</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>          auto baseIt = classInfos_.find(baseClass-&gt;getCodegenName());</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>          if (baseIt != classInfos_.end()) {</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            if (!hasOwnCtor) {</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>              classInfo.constructor = baseIt-&gt;second.constructor;</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            }</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            if (!hasOwnDtor) {</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>              classInfo.destructor = baseIt-&gt;second.destructor;</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>            }</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            classInfo.methods.insert(baseIt-&gt;second.methods.begin(),</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                                     baseIt-&gt;second.methods.end());</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            classInfo.nextVirtualSlot = baseIt-&gt;second.nextVirtualSlot;</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>          }</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>        }</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>      }</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span> </div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;methodDecl : classDecl-&gt;methods_) {</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>        <span class="keywordflow">if</span> (methodDecl-&gt;isUnsafe_) {</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>          ++unsafeTypeContextDepth_;</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>        }</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span> </div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>        std::unordered_map&lt;std::string, std::shared_ptr&lt;zir::Type&gt;&gt;</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            methodGenericBindings;</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : methodDecl-&gt;genericParams_) {</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>          <span class="keywordflow">if</span> (genericParam) {</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            <span class="keyword">auto</span> placeholder =</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                <a class="code hl_function" href="../../df/d35/namespacezir.html#a9162ca02bc908202070536787e7677d4">zir::makeGenericParameterType</a>(genericParam-&gt;typeName);</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>            methodGenericBindings[genericParam-&gt;typeName] = placeholder;</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>          }</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        }</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        <span class="keywordflow">if</span> (!methodGenericBindings.empty()) {</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>          activeGenericBindingsStack_.push_back(methodGenericBindings);</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        }</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>        std::vector&lt;std::shared_ptr&lt;VariableSymbol&gt;&gt; params;</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>        <span class="keywordflow">if</span> (!methodDecl-&gt;isStatic_) {</div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>          params.push_back(std::make_shared&lt;VariableSymbol&gt;(</div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>              <span class="stringliteral">&quot;self&quot;</span>, classType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, <span class="keyword">false</span>, <span class="stringliteral">&quot;self&quot;</span>,</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>              module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>));</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>        }</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span> </div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; methodDecl-&gt;params_.size(); ++i) {</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;p = methodDecl-&gt;params_[i];</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>          <span class="keywordflow">if</span> (p-&gt;isRef &amp;&amp; p-&gt;isSink) {</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            error(p-&gt;span,</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                  <span class="stringliteral">&quot;Parameter cannot be passed by both &#39;ref&#39; and &#39;sink&#39;.&quot;</span>);</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>          }</div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>          <span class="keywordflow">if</span> (p-&gt;isSink &amp;&amp; p-&gt;isNoEscape) {</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            error(p-&gt;span,</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>                  <span class="stringliteral">&quot;A &#39;sink&#39; parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
-<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>          }</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>          <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isSink) {</div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            error(p-&gt;span, <span class="stringliteral">&quot;Variadic parameter cannot be passed by &#39;sink&#39;.&quot;</span>);</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>          }</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>          <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isNoEscape) {</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            error(p-&gt;span,</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>                  <span class="stringliteral">&quot;Variadic parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>          }</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>          <span class="keyword">auto</span> mappedType = mapType(*p-&gt;type);</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>          <span class="keywordflow">if</span> (!mappedType) {</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            error(p-&gt;span, <span class="stringliteral">&quot;Unknown type: &quot;</span> + p-&gt;type-&gt;qualifiedName());</div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            mappedType =</div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>                std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>          }</div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>          <span class="keywordflow">if</span> (p-&gt;isNoEscape &amp;&amp;</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>              (p-&gt;isRef || mappedType-&gt;getIntrinsicKind() !=</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                               <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591abe7da51d54c0bc9fe8ed72ba7808f256">zir::IntrinsicTypeKind::StringView</a>)) {</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>            error(p-&gt;span,</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                  <span class="stringliteral">&quot;&#39;noescape&#39; currently requires a by-value StringView &quot;</span></div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                  <span class="stringliteral">&quot;parameter.&quot;</span>);</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>          }</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>          <span class="keyword">auto</span> parameter = std::make_shared&lt;VariableSymbol&gt;(</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>              p-&gt;name, mappedType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, p-&gt;isRef, p-&gt;name,</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>              module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>);</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>          parameter-&gt;is_sink = p-&gt;isSink;</div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>          parameter-&gt;is_noescape = p-&gt;isNoEscape;</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>          params.push_back(std::move(parameter));</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>        }</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span> </div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>        std::shared_ptr&lt;zir::Type&gt; retType;</div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>        <span class="keywordtype">bool</span> isCtor = methodDecl-&gt;name_ == <span class="stringliteral">&quot;init&quot;</span>;</div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>        <span class="keywordtype">bool</span> isDtor = methodDecl-&gt;name_ == <span class="stringliteral">&quot;deinit&quot;</span>;</div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>        <span class="keywordflow">if</span> (isDtor &amp;&amp;</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>            (!methodDecl-&gt;params_.empty() || methodDecl-&gt;returnType_)) {</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>          error(methodDecl-&gt;span,</div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                <span class="stringliteral">&quot;Destructor &#39;deinit&#39; cannot have parameters or a return type.&quot;</span>);</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>        }</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>        <span class="keywordflow">if</span> (isCtor) {</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isDtor) {</div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (methodDecl-&gt;returnType_) {</div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>          retType = mapType(*methodDecl-&gt;returnType_);</div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>        }</div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>        <span class="keywordflow">if</span> (!methodGenericBindings.empty()) {</div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>          activeGenericBindingsStack_.pop_back();</div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>        }</div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>        <span class="keywordflow">if</span> (!retType) {</div>
-<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>        }</div>
-<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span> </div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>        <span class="keywordflow">if</span> (methodDecl-&gt;isUnsafe_) {</div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>          --unsafeTypeContextDepth_;</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>        }</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>        <span class="keyword">auto</span> symbol = std::make_shared&lt;FunctionSymbol&gt;(</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>            methodDecl-&gt;name_, std::move(params), std::move(retType), <span class="stringliteral">&quot;&quot;</span>,</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>            module.info-&gt;moduleName, methodDecl-&gt;visibility_,</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>            methodDecl-&gt;isUnsafe_);</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : methodDecl-&gt;genericParams_) {</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>          <span class="keywordflow">if</span> (genericParam) {</div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>            symbol-&gt;genericParameterNames.push_back(genericParam-&gt;typeName);</div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>          }</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>        }</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>        symbol-&gt;isMethod = !methodDecl-&gt;isStatic_;</div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>        symbol-&gt;isStatic = methodDecl-&gt;isStatic_;</div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>        symbol-&gt;returnsRef = methodDecl-&gt;returnsRef_;</div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>        symbol-&gt;isConstructor = isCtor;</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>        symbol-&gt;isDestructor = isDtor;</div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>        symbol-&gt;ownerTypeCodegenName = classType-&gt;getCodegenName();</div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>        symbol-&gt;resultBorrow = resolveResultBorrowContract(</div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>            methodDecl-&gt;resultBorrowSource_, symbol-&gt;parameters,</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>            symbol-&gt;returnType, symbol-&gt;returnsRef, methodDecl-&gt;span);</div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>        <span class="keywordflow">if</span> (symbol-&gt;isMethod &amp;&amp; !symbol-&gt;isStatic &amp;&amp; !symbol-&gt;isConstructor &amp;&amp;</div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>            !symbol-&gt;isDestructor) {</div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>          symbol-&gt;vtableSlot = findOverriddenVtableSlot(classInfo, *symbol);</div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>          <span class="keywordflow">if</span> (symbol-&gt;vtableSlot &lt; 0) {</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>            symbol-&gt;vtableSlot = classInfo.nextVirtualSlot++;</div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>          }</div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>        }</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>        symbol-&gt;linkName =</div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>            mangleName(module.info-&gt;linkPath.empty() ? module.info-&gt;moduleId</div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>                                                     : module.info-&gt;linkPath,</div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>                       classDecl-&gt;name_ + <span class="stringliteral">&quot;$&quot;</span> + methodDecl-&gt;name_ + <span class="stringliteral">&quot;$&quot;</span> +</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>                           functionSignatureKey(*symbol));</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>        declaredFunctionSymbols_[methodDecl.get()] = symbol;</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>        functionDeclarationNodes_[symbol.get()] = methodDecl.get();</div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>        <span class="keywordflow">if</span> (semanticInfo_) {</div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>          semanticInfo_-&gt;recordDeclaration(methodDecl.get(), symbol);</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>        }</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>        functionDeclarationModuleIds_[symbol.get()] = <span class="keyword">module</span>.info-&gt;moduleId;</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>        functionGenericParamNames_[symbol.get()] =</div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>            symbol-&gt;genericParameterNames;</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>        addClassMethodOverload(classInfo, symbol);</div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>        <span class="keywordflow">if</span> (isCtor) {</div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>          <span class="keywordflow">if</span> (!classInfo.constructor) {</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>            classInfo.constructor = symbol;</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>          }</div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isDtor) {</div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>          classInfo.destructor = symbol;</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>        }</div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>      }</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> extDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d3/df9/classExtDecl.html">ExtDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>      ++externTypeContextDepth_;</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>      std::vector&lt;std::shared_ptr&lt;VariableSymbol&gt;&gt; params;</div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;p : extDecl-&gt;params_) {</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>        <span class="keywordflow">if</span> (p-&gt;isSink) {</div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>          error(p-&gt;span,</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>                <span class="stringliteral">&quot;External function parameter cannot be passed by &#39;sink&#39;.&quot;</span>);</div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>        }</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>        <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isNoEscape) {</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>          error(p-&gt;span,</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>                <span class="stringliteral">&quot;Variadic parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>        }</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>        <span class="keywordflow">if</span> (p-&gt;isVariadic) {</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>          error(p-&gt;span, <span class="stringliteral">&quot;Variadic parameters are only supported in Zap &quot;</span></div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>                         <span class="stringliteral">&quot;function declarations.&quot;</span>);</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>      symbol-&gt;isEntryModule = <span class="keyword">module</span>.info-&gt;isEntry;</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>      symbol-&gt;returnsRef = funDecl-&gt;returnsRef_;</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>      symbol-&gt;resultBorrow = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#ad1be0bb0d6d6ae260d7d03298aa22adc">resolveResultBorrowContract</a>(</div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>          funDecl-&gt;resultBorrowSource_, symbol-&gt;parameters, symbol-&gt;returnType,</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>          symbol-&gt;returnsRef, funDecl-&gt;span);</div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : funDecl-&gt;genericParams_) {</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>        <span class="keywordflow">if</span> (genericParam) {</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>          symbol-&gt;genericParameterNames.push_back(genericParam-&gt;typeName);</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>        }</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>      }</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a24315b2a409c86d431330a691875a80f">functionGenericParamNames_</a>[symbol.get()] = symbol-&gt;genericParameterNames;</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#adbbd6d09a6ad3c38ac86aa3d818af204">functionDeclarationNodes_</a>[symbol.get()] = funDecl;</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a98f65e7ebdbe8029aebc8cf1d2b3e1c4">semanticInfo_</a>) {</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>        <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a98f65e7ebdbe8029aebc8cf1d2b3e1c4">semanticInfo_</a>-&gt;recordDeclaration(funDecl, symbol);</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>      }</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a05731070bbde13d7cd8effe30682331f">functionDeclarationModuleIds_</a>[symbol.get()] = <span class="keyword">module</span>.info-&gt;moduleId;</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>      <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295">validateAndApplyFunctionAttributes</a>(*funDecl, symbol, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span> </div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>      <span class="keywordflow">if</span> (symbol-&gt;hasNoMangle ||</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>          (symbol-&gt;hasExternC &amp;&amp; symbol-&gt;externAbi == <span class="stringliteral">&quot;C&quot;</span>)) {</div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>        symbol-&gt;linkName = symbol-&gt;name;</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (linkName != <span class="stringliteral">&quot;main&quot;</span>) {</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>        symbol-&gt;linkName = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#ae7def500fdd66aa36d6586934c676ce2">mangleFunctionName</a>(module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>.empty()</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>                                                  ? module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a66c1ac0ec968d020be4a6e350569f2e0">moduleId</a></div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>                                                  : module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a>,</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>                                              *symbol);</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>        symbol-&gt;linkName = linkName;</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>      }</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span> </div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>      <span class="keyword">auto</span> existing = <span class="keyword">module</span>.scope-&gt;lookupLocal(funDecl-&gt;name_);</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#aab445f6144c2318a1aac8086e13d1c8a">findFunctionBySignature</a>(existing, *symbol)) {</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span,</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>              <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      }</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>      <span class="keyword">auto</span> overloads = <span class="keyword">module</span>.scope-&gt;declareFunction(funDecl-&gt;name_, symbol);</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>      <span class="keywordflow">if</span> (!overloads) {</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>        <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span, <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ +</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                                 <span class="stringliteral">&quot;&#39; conflicts with an existing declaration.&quot;</span>);</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>      }</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>      <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a307b86efbb82a0aafcab783cf95c1724">declaredFunctionSymbols_</a>[funDecl] = symbol;</div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>      <span class="keywordflow">if</span> (module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#a23750b94548941e6b36a18945a43d89d">linkPath</a> == <span class="stringliteral">&quot;core&quot;</span> &amp;&amp; symbol-&gt;name == <span class="stringliteral">&quot;at&quot;</span> &amp;&amp;</div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>          symbol-&gt;parameters.size() == 2 &amp;&amp; symbol-&gt;returnType &amp;&amp;</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>          <a class="code hl_function" href="../../df/d35/namespacezir.html#ac13d74f28ecbc5b502941710c4d6555d">zir::isIntrinsicStringViewType</a>(symbol-&gt;parameters[0]-&gt;type) &amp;&amp;</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>          symbol-&gt;parameters[1]-&gt;type &amp;&amp;</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>          symbol-&gt;parameters[1]-&gt;type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a1686a6c336b71b36d77354cea19a8b52">zir::TypeKind::Int</a> &amp;&amp;</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>          symbol-&gt;returnType-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a8e95e84813830072b7516cfaa7dbc1a9">zir::TypeKind::Char</a>) {</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>        <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a5feb57753decbf6911eb9e5a57d20f85">stringIndexFunction_</a> = symbol;</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>      }</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>      <span class="keyword">module</span>.symbol-&gt;members[funDecl-&gt;name_] = overloads;</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>      <span class="keywordflow">if</span> (funDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>        <span class="keyword">auto</span> exportIt = <span class="keyword">module</span>.symbol-&gt;exports.find(funDecl-&gt;name_);</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        std::shared_ptr&lt;OverloadSetSymbol&gt; exportSet;</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        <span class="keywordflow">if</span> (exportIt == module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#a374282f30279977b65d314bfa089fd45">symbol</a>-&gt;exports.end()) {</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>          exportSet = std::make_shared&lt;OverloadSetSymbol&gt;(</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>              funDecl-&gt;name_, module.<a class="code hl_variable" href="../../d2/dbd/structsema_1_1Binder_1_1ModuleState.html#ab4d6b329d987c9273e11fc1d726ba1dc">info</a>-&gt;<a class="code hl_variable" href="../../d0/d65/structsema_1_1ModuleInfo.html#ad532574e72924d2e262bfa194f273547">moduleName</a>, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>);</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>          <span class="keyword">module</span>.symbol-&gt;exports[funDecl-&gt;name_] = exportSet;</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>          exportSet =</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>              std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(exportIt-&gt;second);</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>        }</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>        <span class="keywordflow">if</span> (!exportSet) {</div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>          <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a835fc89ff3d0983dcffde07ae535da3a">error</a>(funDecl-&gt;span, <span class="stringliteral">&quot;Function &#39;&quot;</span> + funDecl-&gt;name_ +</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                                   <span class="stringliteral">&quot;&#39; conflicts with an exported declaration.&quot;</span>);</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>          exportSet-&gt;addOverload(symbol);</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>        }</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>      }</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> classDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d6/d7b/classClassDecl.html">ClassDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>      auto classSymbol = std::dynamic_pointer_cast&lt;TypeSymbol&gt;(</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>          module.scope-&gt;lookup(classDecl-&gt;name_));</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>      if (!classSymbol || !classSymbol-&gt;isClass ||</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>          !classSymbol-&gt;genericParameterNames.empty()) {</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>        continue;</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>      }</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>      <span class="keyword">auto</span> classType =</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>          std::static_pointer_cast&lt;zir::ClassType&gt;(classSymbol-&gt;type);</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>      <span class="keyword">auto</span> &amp;classInfo = <a class="code hl_variable" href="../../dc/d2c/classsema_1_1Binder.html#a257667b2ab492554ecb7d2d66cf430d2">classInfos_</a>[classType-&gt;getCodegenName()];</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>      if (classDecl-&gt;baseType_) {</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        bool hasOwnCtor = false;</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>        bool hasOwnDtor = false;</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        for (const auto &amp;methodDecl : classDecl-&gt;methods_) {</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>          hasOwnCtor = hasOwnCtor || methodDecl-&gt;name_ == <span class="stringliteral">&quot;init&quot;</span>;</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>          hasOwnDtor = hasOwnDtor || methodDecl-&gt;name_ == <span class="stringliteral">&quot;deinit&quot;</span>;</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        }</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>        <span class="keyword">auto</span> baseType = <a class="code hl_function" href="../../dc/d2c/classsema_1_1Binder.html#a23d9f2a69d183d0701368853e1098274">mapType</a>(*classDecl-&gt;baseType_);</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>        if (baseType &amp;&amp; baseType-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a>) {</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>          auto baseClass = std::static_pointer_cast&lt;zir::ClassType&gt;(baseType);</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>          auto baseIt = classInfos_.find(baseClass-&gt;getCodegenName());</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>          if (baseIt != classInfos_.end()) {</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>            if (!hasOwnCtor) {</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>              classInfo.constructor = baseIt-&gt;second.constructor;</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            }</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            if (!hasOwnDtor) {</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>              classInfo.destructor = baseIt-&gt;second.destructor;</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            }</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>            classInfo.methods.insert(baseIt-&gt;second.methods.begin(),</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                                     baseIt-&gt;second.methods.end());</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            classInfo.nextVirtualSlot = baseIt-&gt;second.nextVirtualSlot;</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>          }</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>        }</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>      }</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span> </div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;methodDecl : classDecl-&gt;methods_) {</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>        <span class="keywordflow">if</span> (methodDecl-&gt;isUnsafe_) {</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>          ++unsafeTypeContextDepth_;</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        }</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span> </div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>        std::unordered_map&lt;std::string, std::shared_ptr&lt;zir::Type&gt;&gt;</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            methodGenericBindings;</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : methodDecl-&gt;genericParams_) {</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>          <span class="keywordflow">if</span> (genericParam) {</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>            <span class="keyword">auto</span> placeholder =</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                <a class="code hl_function" href="../../df/d35/namespacezir.html#a9162ca02bc908202070536787e7677d4">zir::makeGenericParameterType</a>(genericParam-&gt;typeName);</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            methodGenericBindings[genericParam-&gt;typeName] = placeholder;</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>          }</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        }</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        <span class="keywordflow">if</span> (!methodGenericBindings.empty()) {</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>          activeGenericBindingsStack_.push_back(methodGenericBindings);</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>        }</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span> </div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>        std::vector&lt;std::shared_ptr&lt;VariableSymbol&gt;&gt; params;</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>        <span class="keywordflow">if</span> (!methodDecl-&gt;isStatic_) {</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>          params.push_back(std::make_shared&lt;VariableSymbol&gt;(</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>              <span class="stringliteral">&quot;self&quot;</span>, classType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, <span class="keyword">false</span>, <span class="stringliteral">&quot;self&quot;</span>,</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>              module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>));</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>        }</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span> </div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; methodDecl-&gt;params_.size(); ++i) {</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;p = methodDecl-&gt;params_[i];</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>          <span class="keywordflow">if</span> (p-&gt;isRef &amp;&amp; p-&gt;isSink) {</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>            error(p-&gt;span,</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                  <span class="stringliteral">&quot;Parameter cannot be passed by both &#39;ref&#39; and &#39;sink&#39;.&quot;</span>);</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>          }</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>          <span class="keywordflow">if</span> (p-&gt;isSink &amp;&amp; p-&gt;isNoEscape) {</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            error(p-&gt;span,</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>                  <span class="stringliteral">&quot;A &#39;sink&#39; parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>          }</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>          <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isSink) {</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            error(p-&gt;span, <span class="stringliteral">&quot;Variadic parameter cannot be passed by &#39;sink&#39;.&quot;</span>);</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>          }</div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>          <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isNoEscape) {</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            error(p-&gt;span,</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>                  <span class="stringliteral">&quot;Variadic parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>          }</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>          <span class="keyword">auto</span> mappedType = mapType(*p-&gt;type);</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>          <span class="keywordflow">if</span> (!mappedType) {</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            error(p-&gt;span, <span class="stringliteral">&quot;Unknown type: &quot;</span> + p-&gt;type-&gt;qualifiedName());</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>            mappedType =</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>                std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>          }</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>          <span class="keywordflow">if</span> (p-&gt;isNoEscape &amp;&amp;</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>              (p-&gt;isRef || mappedType-&gt;getIntrinsicKind() !=</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                               <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591abe7da51d54c0bc9fe8ed72ba7808f256">zir::IntrinsicTypeKind::StringView</a>)) {</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>            error(p-&gt;span,</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                  <span class="stringliteral">&quot;&#39;noescape&#39; currently requires a by-value StringView &quot;</span></div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                  <span class="stringliteral">&quot;parameter.&quot;</span>);</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>          }</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>          <span class="keyword">auto</span> parameter = std::make_shared&lt;VariableSymbol&gt;(</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>              p-&gt;name, mappedType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, p-&gt;isRef, p-&gt;name,</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>              module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>);</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>          parameter-&gt;is_sink = p-&gt;isSink;</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>          parameter-&gt;is_noescape = p-&gt;isNoEscape;</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>          params.push_back(std::move(parameter));</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>        }</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span> </div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>        std::shared_ptr&lt;zir::Type&gt; retType;</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>        <span class="keywordtype">bool</span> isCtor = methodDecl-&gt;name_ == <span class="stringliteral">&quot;init&quot;</span>;</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>        <span class="keywordtype">bool</span> isDtor = methodDecl-&gt;name_ == <span class="stringliteral">&quot;deinit&quot;</span>;</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>        <span class="keywordflow">if</span> (isDtor &amp;&amp;</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>            (!methodDecl-&gt;params_.empty() || methodDecl-&gt;returnType_)) {</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>          error(methodDecl-&gt;span,</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                <span class="stringliteral">&quot;Destructor &#39;deinit&#39; cannot have parameters or a return type.&quot;</span>);</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>        }</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>        <span class="keywordflow">if</span> (isCtor) {</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isDtor) {</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (methodDecl-&gt;returnType_) {</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>          retType = mapType(*methodDecl-&gt;returnType_);</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>        }</div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>        <span class="keywordflow">if</span> (!methodGenericBindings.empty()) {</div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>          activeGenericBindingsStack_.pop_back();</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>        }</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>        <span class="keywordflow">if</span> (!retType) {</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>          retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>        }</div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span> </div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>        <span class="keywordflow">if</span> (methodDecl-&gt;isUnsafe_) {</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>          --unsafeTypeContextDepth_;</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>        }</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span> </div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>        <span class="keyword">auto</span> symbol = std::make_shared&lt;FunctionSymbol&gt;(</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>            methodDecl-&gt;name_, std::move(params), std::move(retType), <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>            module.info-&gt;moduleName, methodDecl-&gt;visibility_,</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>            methodDecl-&gt;isUnsafe_);</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>        symbol-&gt;isEntryModule = <span class="keyword">module</span>.info-&gt;isEntry;</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;genericParam : methodDecl-&gt;genericParams_) {</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>          <span class="keywordflow">if</span> (genericParam) {</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>            symbol-&gt;genericParameterNames.push_back(genericParam-&gt;typeName);</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>          }</div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>        }</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>        symbol-&gt;isMethod = !methodDecl-&gt;isStatic_;</div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>        symbol-&gt;isStatic = methodDecl-&gt;isStatic_;</div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>        symbol-&gt;returnsRef = methodDecl-&gt;returnsRef_;</div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>        symbol-&gt;isConstructor = isCtor;</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>        symbol-&gt;isDestructor = isDtor;</div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>        symbol-&gt;ownerTypeCodegenName = classType-&gt;getCodegenName();</div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>        symbol-&gt;resultBorrow = resolveResultBorrowContract(</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>            methodDecl-&gt;resultBorrowSource_, symbol-&gt;parameters,</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>            symbol-&gt;returnType, symbol-&gt;returnsRef, methodDecl-&gt;span);</div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>        validateAndApplyFunctionAttributes(*methodDecl, symbol, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>        <span class="keywordflow">if</span> (symbol-&gt;isMethod &amp;&amp; !symbol-&gt;isStatic &amp;&amp; !symbol-&gt;isConstructor &amp;&amp;</div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>            !symbol-&gt;isDestructor) {</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>          symbol-&gt;vtableSlot = findOverriddenVtableSlot(classInfo, *symbol);</div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>          <span class="keywordflow">if</span> (symbol-&gt;vtableSlot &lt; 0) {</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>            symbol-&gt;vtableSlot = classInfo.nextVirtualSlot++;</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>          }</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>        }</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>        <span class="keywordflow">if</span> (symbol-&gt;hasNoMangle ||</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>            (symbol-&gt;hasExternC &amp;&amp; symbol-&gt;externAbi == <span class="stringliteral">&quot;C&quot;</span>)) {</div>
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>          symbol-&gt;linkName = symbol-&gt;name;</div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>          symbol-&gt;linkName =</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>              mangleName(module.info-&gt;linkPath.empty() ? module.info-&gt;moduleId</div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>                                                       : module.info-&gt;linkPath,</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>                         classDecl-&gt;name_ + <span class="stringliteral">&quot;$&quot;</span> + methodDecl-&gt;name_ + <span class="stringliteral">&quot;$&quot;</span> +</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>                             functionSignatureKey(*symbol));</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>        }</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>        declaredFunctionSymbols_[methodDecl.get()] = symbol;</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>        functionDeclarationNodes_[symbol.get()] = methodDecl.get();</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>        <span class="keywordflow">if</span> (semanticInfo_) {</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>          semanticInfo_-&gt;recordDeclaration(methodDecl.get(), symbol);</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>        }</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>        functionDeclarationModuleIds_[symbol.get()] = <span class="keyword">module</span>.info-&gt;moduleId;</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>        functionGenericParamNames_[symbol.get()] =</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>            symbol-&gt;genericParameterNames;</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>        addClassMethodOverload(classInfo, symbol);</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>        <span class="keywordflow">if</span> (isCtor) {</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>          <span class="keywordflow">if</span> (!classInfo.constructor) {</div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>            classInfo.constructor = symbol;</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>          }</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isDtor) {</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>          classInfo.destructor = symbol;</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>        }</div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>      }</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> extDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d3/df9/classExtDecl.html">ExtDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>      ++externTypeContextDepth_;</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>      std::vector&lt;std::shared_ptr&lt;VariableSymbol&gt;&gt; params;</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;p : extDecl-&gt;params_) {</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>        <span class="keywordflow">if</span> (p-&gt;isSink) {</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>          error(p-&gt;span,</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>                <span class="stringliteral">&quot;External function parameter cannot be passed by &#39;sink&#39;.&quot;</span>);</div>
 <div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>        }</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>        <span class="keyword">auto</span> mappedType = mapType(*p-&gt;type);</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>        <span class="keywordflow">if</span> (!mappedType) {</div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>          error(p-&gt;span, <span class="stringliteral">&quot;Unknown type: &quot;</span> + p-&gt;type-&gt;qualifiedName());</div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>          mappedType =</div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>              std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>        }</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>        <span class="keywordflow">if</span> (p-&gt;isNoEscape &amp;&amp;</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>            (p-&gt;isRef || mappedType-&gt;getIntrinsicKind() !=</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>                             <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591abe7da51d54c0bc9fe8ed72ba7808f256">zir::IntrinsicTypeKind::StringView</a>)) {</div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>          error(p-&gt;span, <span class="stringliteral">&quot;&#39;noescape&#39; currently requires a by-value StringView &quot;</span></div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>                         <span class="stringliteral">&quot;parameter.&quot;</span>);</div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>        }</div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>        <span class="keyword">auto</span> parameter = std::make_shared&lt;VariableSymbol&gt;(</div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>            p-&gt;name, mappedType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, p-&gt;isRef, p-&gt;name,</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>            module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>);</div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>        parameter-&gt;is_sink = p-&gt;isSink;</div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>        parameter-&gt;is_noescape = p-&gt;isNoEscape;</div>
-<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>        params.push_back(std::move(parameter));</div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>      }</div>
-<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span> </div>
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>      <span class="keyword">auto</span> retType =</div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>          extDecl-&gt;returnType_</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>              ? mapType(*extDecl-&gt;returnType_)</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>              : std::make_shared&lt;<a class="code hl_namespace" href="../../df/d35/namespacezir.html">zir</a>::PrimitiveType&gt;(<a class="code hl_namespace" href="../../df/d35/namespacezir.html">zir</a>::<a class="code hl_enumeration" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959">TypeKind</a>::<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">Void</a>);</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>      <span class="keywordflow">if</span> (!retType) {</div>
-<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>        error(extDecl-&gt;span, <span class="stringliteral">&quot;Unknown return type in external function &#39;&quot;</span> +</div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>                                 extDecl-&gt;name_ + <span class="stringliteral">&quot;&#39;.&quot;</span>);</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>        retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>      }</div>
-<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>      --externTypeContextDepth_;</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span> </div>
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>      <span class="keyword">auto</span> linkName = extDecl-&gt;name_;</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>      <span class="keywordtype">bool</span> isStdIoModule = <span class="keyword">module</span>.info-&gt;linkPath == &quot;std/io&quot;;</div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>      <span class="keywordflow">if</span> (isStdIoModule &amp;&amp; extDecl-&gt;name_ == <span class="stringliteral">&quot;printf&quot;</span>) {</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>        linkName = <span class="stringliteral">&quot;zap_printf&quot;</span>;</div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>      } <span class="keywordflow">else</span> if (isStdIoModule &amp;&amp; extDecl-&gt;name_ == <span class="stringliteral">&quot;printfln&quot;</span>) {</div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>        linkName = <span class="stringliteral">&quot;zap_printfln&quot;</span>;</div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>      }</div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>        <span class="keywordflow">if</span> (p-&gt;isVariadic &amp;&amp; p-&gt;isNoEscape) {</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>          error(p-&gt;span,</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>                <span class="stringliteral">&quot;Variadic parameter cannot have a &#39;noescape&#39; contract.&quot;</span>);</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>        }</div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>        <span class="keywordflow">if</span> (p-&gt;isVariadic) {</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>          error(p-&gt;span, <span class="stringliteral">&quot;Variadic parameters are only supported in Zap &quot;</span></div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>                         <span class="stringliteral">&quot;function declarations.&quot;</span>);</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>        }</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>        <span class="keyword">auto</span> mappedType = mapType(*p-&gt;type);</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>        <span class="keywordflow">if</span> (!mappedType) {</div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>          error(p-&gt;span, <span class="stringliteral">&quot;Unknown type: &quot;</span> + p-&gt;type-&gt;qualifiedName());</div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>          mappedType =</div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>              std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>        }</div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>        <span class="keywordflow">if</span> (p-&gt;isNoEscape &amp;&amp;</div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>            (p-&gt;isRef || mappedType-&gt;getIntrinsicKind() !=</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>                             <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591abe7da51d54c0bc9fe8ed72ba7808f256">zir::IntrinsicTypeKind::StringView</a>)) {</div>
+<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>          error(p-&gt;span, <span class="stringliteral">&quot;&#39;noescape&#39; currently requires a by-value StringView &quot;</span></div>
+<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>                         <span class="stringliteral">&quot;parameter.&quot;</span>);</div>
+<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>        }</div>
+<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>        <span class="keyword">auto</span> parameter = std::make_shared&lt;VariableSymbol&gt;(</div>
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>            p-&gt;name, mappedType, <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a>, p-&gt;isRef, p-&gt;name,</div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>            module.info-&gt;moduleName, <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a47f9082fc380ca62d531096aa1d110f1">Visibility::Private</a>);</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>        parameter-&gt;is_sink = p-&gt;isSink;</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        parameter-&gt;is_noescape = p-&gt;isNoEscape;</div>
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>        params.push_back(std::move(parameter));</div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>      }</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span> </div>
+<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>      <span class="keyword">auto</span> retType =</div>
+<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>          extDecl-&gt;returnType_</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>              ? mapType(*extDecl-&gt;returnType_)</div>
+<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>              : std::make_shared&lt;<a class="code hl_namespace" href="../../df/d35/namespacezir.html">zir</a>::PrimitiveType&gt;(<a class="code hl_namespace" href="../../df/d35/namespacezir.html">zir</a>::<a class="code hl_enumeration" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959">TypeKind</a>::<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">Void</a>);</div>
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>      <span class="keywordflow">if</span> (!retType) {</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>        error(extDecl-&gt;span, <span class="stringliteral">&quot;Unknown return type in external function &#39;&quot;</span> +</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>                                 extDecl-&gt;name_ + <span class="stringliteral">&quot;&#39;.&quot;</span>);</div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>        retType = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>      }</div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>      --externTypeContextDepth_;</div>
 <div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span> </div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>      <span class="keyword">auto</span> symbol = std::make_shared&lt;FunctionSymbol&gt;(</div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>          extDecl-&gt;name_, std::move(params), std::move(retType), linkName,</div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>          module.info-&gt;moduleName, extDecl-&gt;visibility_, <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>          extDecl-&gt;isCVariadic_);</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>      symbol-&gt;isExternal = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>      symbol-&gt;resultBorrow = resolveResultBorrowContract(</div>
-<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>          extDecl-&gt;resultBorrowSource_, symbol-&gt;parameters, symbol-&gt;returnType,</div>
-<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>          <span class="keyword">false</span>, extDecl-&gt;span);</div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>      validateAndApplyFunctionAttributes(*extDecl, symbol, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>      <span class="keywordflow">if</span> (symbol-&gt;hasNoMangle ||</div>
-<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>          (symbol-&gt;hasExternC &amp;&amp; symbol-&gt;externAbi == <span class="stringliteral">&quot;C&quot;</span>)) {</div>
-<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>        symbol-&gt;linkName = symbol-&gt;name;</div>
-<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>      }</div>
-<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>      <span class="keyword">auto</span> existing = module.scope-&gt;lookupLocal(extDecl-&gt;name_);</div>
-<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>      if (findFunctionBySignature(existing, *symbol)) {</div>
-<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>        error(extDecl-&gt;span,</div>
-<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>              <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
-<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>      }</div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>      <span class="keyword">auto</span> overloads = <span class="keyword">module</span>.scope-&gt;declareFunction(extDecl-&gt;name_, symbol);</div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>      <span class="keywordflow">if</span> (!overloads) {</div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>        error(extDecl-&gt;span, <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ +</div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>                                 <span class="stringliteral">&quot;&#39; conflicts with an existing declaration.&quot;</span>);</div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>      }</div>
-<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>      declaredFunctionSymbols_[extDecl] = symbol;</div>
-<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>      <span class="keyword">module</span>.symbol-&gt;members[extDecl-&gt;name_] = overloads;</div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>      <span class="keywordflow">if</span> (extDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>        auto exportIt = module.symbol-&gt;exports.find(extDecl-&gt;name_);</div>
-<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>        std::shared_ptr&lt;OverloadSetSymbol&gt; exportSet;</div>
-<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>        if (exportIt == module.symbol-&gt;exports.end()) {</div>
-<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>          exportSet = std::make_shared&lt;OverloadSetSymbol&gt;(</div>
-<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>              extDecl-&gt;name_, module.info-&gt;moduleName, Visibility::Public);</div>
-<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>          module.symbol-&gt;exports[extDecl-&gt;name_] = exportSet;</div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>          exportSet =</div>
-<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>              std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(exportIt-&gt;second);</div>
-<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>        }</div>
-<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>        if (!exportSet) {</div>
-<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>          error(extDecl-&gt;span, <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ +</div>
-<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>                                   <span class="stringliteral">&quot;&#39; conflicts with an exported declaration.&quot;</span>);</div>
-<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>          exportSet-&gt;addOverload(symbol);</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>        }</div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>      }</div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> bindingDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d2/dcc/classBindingDecl.html">BindingDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
-<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>      <span class="keyword">const</span> <span class="keywordtype">bool</span> isConstant =</div>
-<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>          bindingDecl-&gt;kind_ == <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dac58dd82dfd2b912158cdab1f5d488b33">BindingKind::CompileTimeConstant</a>;</div>
-<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>      <span class="keywordflow">if</span> (!isConstant &amp;&amp; !bindingDecl-&gt;isGlobal_) {</div>
-<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>      }</div>
-<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>      std::shared_ptr&lt;zir::Type&gt; type;</div>
-<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>      <span class="keywordflow">if</span> (bindingDecl-&gt;type_) {</div>
-<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>        type = mapType(*bindingDecl-&gt;type_);</div>
-<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>        <span class="keywordflow">if</span> (!type) {</div>
-<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>          error(bindingDecl-&gt;span,</div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>                <span class="stringliteral">&quot;Unknown type: &quot;</span> + bindingDecl-&gt;type_-&gt;qualifiedName());</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>          type = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>        }</div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>        type = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
-<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>      }</div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>      <span class="keyword">auto</span> linkName = bindingDecl-&gt;isExternal_</div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>                          ? bindingDecl-&gt;name_</div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>                          : mangleName(module.info-&gt;linkPath.empty()</div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                                           ? module.info-&gt;moduleId</div>
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>                                           : module.info-&gt;linkPath,</div>
-<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>                                       bindingDecl-&gt;name_);</div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>      <span class="keyword">auto</span> symbol = std::make_shared&lt;VariableSymbol&gt;(</div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>          bindingDecl-&gt;name_, type, bindingDecl-&gt;kind_, <span class="keyword">false</span>, linkName,</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>          module.info-&gt;moduleName, bindingDecl-&gt;visibility_);</div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>      symbol-&gt;is_external = bindingDecl-&gt;isExternal_;</div>
-<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>      <span class="keywordflow">if</span> (!module.scope-&gt;declare(bindingDecl-&gt;name_, symbol)) {</div>
-<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>        <span class="keywordflow">if</span> (isConstant) {</div>
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>          error(bindingDecl-&gt;span,</div>
-<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>                <span class="stringliteral">&quot;Identifier &#39;&quot;</span> + bindingDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>          error(bindingDecl-&gt;span,</div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>                <span class="stringliteral">&quot;Variable &#39;&quot;</span> + bindingDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>        }</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>      }</div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>      <span class="keyword">module</span>.symbol-&gt;members[bindingDecl-&gt;name_] = symbol;</div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>      <span class="keywordflow">if</span> (bindingDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>        <span class="keyword">module</span>.symbol-&gt;exports[bindingDecl-&gt;name_] = symbol;</div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>      }</div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>    }</div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>  }</div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>}</div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>      <span class="keyword">auto</span> linkName = extDecl-&gt;name_;</div>
+<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>      <span class="keywordtype">bool</span> isStdIoModule = <span class="keyword">module</span>.info-&gt;linkPath == &quot;std/io&quot;;</div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>      <span class="keywordflow">if</span> (isStdIoModule &amp;&amp; extDecl-&gt;name_ == <span class="stringliteral">&quot;printf&quot;</span>) {</div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>        linkName = <span class="stringliteral">&quot;zap_printf&quot;</span>;</div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>      } <span class="keywordflow">else</span> if (isStdIoModule &amp;&amp; extDecl-&gt;name_ == <span class="stringliteral">&quot;printfln&quot;</span>) {</div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>        linkName = <span class="stringliteral">&quot;zap_printfln&quot;</span>;</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>      }</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span> </div>
+<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>      <span class="keyword">auto</span> symbol = std::make_shared&lt;FunctionSymbol&gt;(</div>
+<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>          extDecl-&gt;name_, std::move(params), std::move(retType), linkName,</div>
+<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>          module.info-&gt;moduleName, extDecl-&gt;visibility_, <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>          extDecl-&gt;isCVariadic_);</div>
+<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>      symbol-&gt;isExternal = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>      symbol-&gt;isEntryModule = module.info-&gt;isEntry;</div>
+<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>      symbol-&gt;resultBorrow = resolveResultBorrowContract(</div>
+<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>          extDecl-&gt;resultBorrowSource_, symbol-&gt;parameters, symbol-&gt;returnType,</div>
+<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>          <span class="keyword">false</span>, extDecl-&gt;span);</div>
+<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>      validateAndApplyFunctionAttributes(*extDecl, symbol, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>      <span class="keywordflow">if</span> (symbol-&gt;hasNoMangle ||</div>
+<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>          (symbol-&gt;hasExternC &amp;&amp; symbol-&gt;externAbi == <span class="stringliteral">&quot;C&quot;</span>)) {</div>
+<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>        symbol-&gt;linkName = symbol-&gt;name;</div>
+<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>      }</div>
+<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>      <span class="keyword">auto</span> existing = module.scope-&gt;lookupLocal(extDecl-&gt;name_);</div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>      if (findFunctionBySignature(existing, *symbol)) {</div>
+<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>        error(extDecl-&gt;span,</div>
+<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>              <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
+<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>      }</div>
+<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>      <span class="keyword">auto</span> overloads = <span class="keyword">module</span>.scope-&gt;declareFunction(extDecl-&gt;name_, symbol);</div>
+<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>      <span class="keywordflow">if</span> (!overloads) {</div>
+<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>        error(extDecl-&gt;span, <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ +</div>
+<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>                                 <span class="stringliteral">&quot;&#39; conflicts with an existing declaration.&quot;</span>);</div>
+<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>      }</div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>      declaredFunctionSymbols_[extDecl] = symbol;</div>
+<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>      <span class="keyword">module</span>.symbol-&gt;members[extDecl-&gt;name_] = overloads;</div>
+<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>      <span class="keywordflow">if</span> (extDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>        auto exportIt = module.symbol-&gt;exports.find(extDecl-&gt;name_);</div>
+<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>        std::shared_ptr&lt;OverloadSetSymbol&gt; exportSet;</div>
+<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>        if (exportIt == module.symbol-&gt;exports.end()) {</div>
+<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>          exportSet = std::make_shared&lt;OverloadSetSymbol&gt;(</div>
+<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>              extDecl-&gt;name_, module.info-&gt;moduleName, Visibility::Public);</div>
+<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>          module.symbol-&gt;exports[extDecl-&gt;name_] = exportSet;</div>
+<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>          exportSet =</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>              std::dynamic_pointer_cast&lt;OverloadSetSymbol&gt;(exportIt-&gt;second);</div>
+<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>        }</div>
+<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>        if (!exportSet) {</div>
+<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>          error(extDecl-&gt;span, <span class="stringliteral">&quot;External function &#39;&quot;</span> + extDecl-&gt;name_ +</div>
+<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>                                   <span class="stringliteral">&quot;&#39; conflicts with an exported declaration.&quot;</span>);</div>
+<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>          exportSet-&gt;addOverload(symbol);</div>
+<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>        }</div>
+<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>      }</div>
+<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">auto</span> bindingDecl = <span class="keyword">dynamic_cast&lt;</span><a class="code hl_class" href="../../d2/dcc/classBindingDecl.html">BindingDecl</a> *<span class="keyword">&gt;</span>(child.get())) {</div>
+<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>      <span class="keyword">const</span> <span class="keywordtype">bool</span> isConstant =</div>
+<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>          bindingDecl-&gt;kind_ == <a class="code hl_enumvalue" href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dac58dd82dfd2b912158cdab1f5d488b33">BindingKind::CompileTimeConstant</a>;</div>
+<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>      <span class="keywordflow">if</span> (!isConstant &amp;&amp; !bindingDecl-&gt;isGlobal_) {</div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>      }</div>
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>      std::shared_ptr&lt;zir::Type&gt; type;</div>
+<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>      <span class="keywordflow">if</span> (bindingDecl-&gt;type_) {</div>
+<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>        type = mapType(*bindingDecl-&gt;type_);</div>
+<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>        <span class="keywordflow">if</span> (!type) {</div>
+<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>          error(bindingDecl-&gt;span,</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>                <span class="stringliteral">&quot;Unknown type: &quot;</span> + bindingDecl-&gt;type_-&gt;qualifiedName());</div>
+<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>          type = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>        }</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>        type = std::make_shared&lt;zir::PrimitiveType&gt;(<a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a81ceb48a978444906d80119200aa358d">zir::TypeKind::Void</a>);</div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>      }</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>      <span class="keyword">auto</span> linkName = bindingDecl-&gt;isExternal_</div>
+<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>                          ? bindingDecl-&gt;name_</div>
+<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>                          : mangleName(module.info-&gt;linkPath.empty()</div>
+<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>                                           ? module.info-&gt;moduleId</div>
+<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>                                           : module.info-&gt;linkPath,</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>                                       bindingDecl-&gt;name_);</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>      <span class="keyword">auto</span> symbol = std::make_shared&lt;VariableSymbol&gt;(</div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>          bindingDecl-&gt;name_, type, bindingDecl-&gt;kind_, <span class="keyword">false</span>, linkName,</div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>          module.info-&gt;moduleName, bindingDecl-&gt;visibility_);</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>      symbol-&gt;is_external = bindingDecl-&gt;isExternal_;</div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>      <span class="keywordflow">if</span> (!module.scope-&gt;declare(bindingDecl-&gt;name_, symbol)) {</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>        <span class="keywordflow">if</span> (isConstant) {</div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>          error(bindingDecl-&gt;span,</div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>                <span class="stringliteral">&quot;Identifier &#39;&quot;</span> + bindingDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>          error(bindingDecl-&gt;span,</div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>                <span class="stringliteral">&quot;Variable &#39;&quot;</span> + bindingDecl-&gt;name_ + <span class="stringliteral">&quot;&#39; already declared.&quot;</span>);</div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>        }</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>      }</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>      <span class="keyword">module</span>.symbol-&gt;members[bindingDecl-&gt;name_] = symbol;</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>      <span class="keywordflow">if</span> (bindingDecl-&gt;visibility_ == <a class="code hl_enumvalue" href="../../d0/d21/visibility_8hpp.html#a53d6f8ccb0015ea020228de41cfd2162a3d067bedfe2f4677470dd6ccf64d05ed">Visibility::Public</a>) {</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>        <span class="keyword">module</span>.symbol-&gt;exports[bindingDecl-&gt;name_] = symbol;</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>      }</div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>    }</div>
+<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>  }</div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>}</div>
 </div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>} <span class="comment">// namespace sema</span></div>
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>} <span class="comment">// namespace sema</span></div>
 <div class="ttc" id="abinder_8hpp_html"><div class="ttname"><a href="../../d7/d9b/binder_8hpp.html">binder.hpp</a></div></div>
 <div class="ttc" id="abinding__kind_8hpp_html_a93530db508f68c57859f00701c25680dac58dd82dfd2b912158cdab1f5d488b33"><div class="ttname"><a href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dac58dd82dfd2b912158cdab1f5d488b33">BindingKind::CompileTimeConstant</a></div><div class="ttdeci">@ CompileTimeConstant</div><div class="ttdef"><b>Definition</b> <a href="../../d2/dea/binding__kind_8hpp_source.html#l00005">binding_kind.hpp:5</a></div></div>
 <div class="ttc" id="abinding__kind_8hpp_html_a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d"><div class="ttname"><a href="../../d2/dea/binding__kind_8hpp.html#a93530db508f68c57859f00701c25680dad924522d30d6615e9f71e91504364a9d">BindingKind::Mutable</a></div><div class="ttdeci">@ Mutable</div><div class="ttdef"><b>Definition</b> <a href="../../d2/dea/binding__kind_8hpp_source.html#l00005">binding_kind.hpp:5</a></div></div>
@@ -1042,7 +1051,7 @@ $(function(){initNavTree('df/ddd/binder__module__predeclare_8cpp_source.html','.
 <div class="ttc" id="aclasssema_1_1Binder_html_a05731070bbde13d7cd8effe30682331f"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a05731070bbde13d7cd8effe30682331f">sema::Binder::functionDeclarationModuleIds_</a></div><div class="ttdeci">std::unordered_map&lt; const FunctionSymbol *, std::string &gt; functionDeclarationModuleIds_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00175">binder.hpp:175</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a0a3be65e5e9136aaeda9e5b44e76ac17"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a0a3be65e5e9136aaeda9e5b44e76ac17">sema::Binder::ensureModuleValuesReady</a></div><div class="ttdeci">void ensureModuleValuesReady(ModuleState &amp;module)</div><div class="ttdef"><b>Definition</b> <a href="#l00429">binder_module_predeclare.cpp:429</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a1b5988ad8a5654ac23fd7d10675da16b"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a1b5988ad8a5654ac23fd7d10675da16b">sema::Binder::classTypeDeclarationNodes_</a></div><div class="ttdeci">std::unordered_map&lt; const TypeSymbol *, const ClassDecl * &gt; classTypeDeclarationNodes_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00170">binder.hpp:170</a></div></div>
-<div class="ttc" id="aclasssema_1_1Binder_html_a23d9f2a69d183d0701368853e1098274"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a23d9f2a69d183d0701368853e1098274">sema::Binder::mapType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; mapType(const TypeNode &amp;typeNode)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d50/binder__types_8cpp_source.html#l00195">binder_types.cpp:195</a></div></div>
+<div class="ttc" id="aclasssema_1_1Binder_html_a23d9f2a69d183d0701368853e1098274"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a23d9f2a69d183d0701368853e1098274">sema::Binder::mapType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; mapType(const TypeNode &amp;typeNode)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d50/binder__types_8cpp_source.html#l00219">binder_types.cpp:219</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a24315b2a409c86d431330a691875a80f"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a24315b2a409c86d431330a691875a80f">sema::Binder::functionGenericParamNames_</a></div><div class="ttdeci">std::unordered_map&lt; const FunctionSymbol *, std::vector&lt; std::string &gt; &gt; functionGenericParamNames_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00177">binder.hpp:177</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a257667b2ab492554ecb7d2d66cf430d2"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a257667b2ab492554ecb7d2d66cf430d2">sema::Binder::classInfos_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, ClassInfo &gt; classInfos_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00198">binder.hpp:198</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a307b86efbb82a0aafcab783cf95c1724"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a307b86efbb82a0aafcab783cf95c1724">sema::Binder::declaredFunctionSymbols_</a></div><div class="ttdeci">std::unordered_map&lt; const Node *, std::shared_ptr&lt; FunctionSymbol &gt; &gt; declaredFunctionSymbols_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00164">binder.hpp:164</a></div></div>
@@ -1050,7 +1059,7 @@ $(function(){initNavTree('df/ddd/binder__module__predeclare_8cpp_source.html','.
 <div class="ttc" id="aclasssema_1_1Binder_html_a43f3a9bf6f66c2feb771b8c658dec078"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a43f3a9bf6f66c2feb771b8c658dec078">sema::Binder::predeclareModuleTypes</a></div><div class="ttdeci">void predeclareModuleTypes(ModuleState &amp;module)</div><div class="ttdef"><b>Definition</b> <a href="#l00018">binder_module_predeclare.cpp:18</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a4ae59f769e95ea5eae0dbe807d6b1628"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a4ae59f769e95ea5eae0dbe807d6b1628">sema::Binder::typeDeclarationModuleIds_</a></div><div class="ttdeci">std::unordered_map&lt; const TypeSymbol *, std::string &gt; typeDeclarationModuleIds_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00171">binder.hpp:171</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a5071cb0b50fe58f4f31a0e9910144ac2"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a5071cb0b50fe58f4f31a0e9910144ac2">sema::Binder::currentModuleId_</a></div><div class="ttdeci">std::string currentModuleId_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00152">binder.hpp:152</a></div></div>
-<div class="ttc" id="aclasssema_1_1Binder_html_a5e4cdf252a1ed16bc63855daf6b8c295"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295">sema::Binder::validateAndApplyFunctionAttributes</a></div><div class="ttdeci">void validateAndApplyFunctionAttributes(const TopLevel &amp;node, const std::shared_ptr&lt; FunctionSymbol &gt; &amp;symbol, bool isExternalDeclaration)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d50/binder__types_8cpp_source.html#l00127">binder_types.cpp:127</a></div></div>
+<div class="ttc" id="aclasssema_1_1Binder_html_a5e4cdf252a1ed16bc63855daf6b8c295"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a5e4cdf252a1ed16bc63855daf6b8c295">sema::Binder::validateAndApplyFunctionAttributes</a></div><div class="ttdeci">void validateAndApplyFunctionAttributes(const TopLevel &amp;node, const std::shared_ptr&lt; FunctionSymbol &gt; &amp;symbol, bool isExternalDeclaration)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d50/binder__types_8cpp_source.html#l00128">binder_types.cpp:128</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a5feb57753decbf6911eb9e5a57d20f85"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a5feb57753decbf6911eb9e5a57d20f85">sema::Binder::stringIndexFunction_</a></div><div class="ttdeci">std::shared_ptr&lt; FunctionSymbol &gt; stringIndexFunction_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00151">binder.hpp:151</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a6c6cfd6f33a27e1acba8a2f9bd4e5cfa"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a6c6cfd6f33a27e1acba8a2f9bd4e5cfa">sema::Binder::activeGenericBindingsStack_</a></div><div class="ttdeci">std::vector&lt; std::unordered_map&lt; std::string, std::shared_ptr&lt; zir::Type &gt; &gt; &gt; activeGenericBindingsStack_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00186">binder.hpp:186</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_a71ba24348fe77d9c037048223fd35f1d"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#a71ba24348fe77d9c037048223fd35f1d">sema::Binder::validateAndApplyTypeAttributes</a></div><div class="ttdeci">void validateAndApplyTypeAttributes(const TopLevel &amp;node, const std::shared_ptr&lt; TypeSymbol &gt; &amp;symbol, bool allowErrorAttribute)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d50/binder__types_8cpp_source.html#l00033">binder_types.cpp:33</a></div></div>
@@ -1069,7 +1078,7 @@ $(function(){initNavTree('df/ddd/binder__module__predeclare_8cpp_source.html','.
 <div class="ttc" id="aclasssema_1_1Binder_html_aee5cadd41ffd4646a7b86e51a0fe0f50"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#aee5cadd41ffd4646a7b86e51a0fe0f50">sema::Binder::currentScope_</a></div><div class="ttdeci">std::shared_ptr&lt; SymbolTable &gt; currentScope_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00127">binder.hpp:127</a></div></div>
 <div class="ttc" id="aclasssema_1_1Binder_html_af208e7b64446fc953c6e6876f0319848"><div class="ttname"><a href="../../dc/d2c/classsema_1_1Binder.html#af208e7b64446fc953c6e6876f0319848">sema::Binder::unsafeTypeContextDepth_</a></div><div class="ttdeci">int unsafeTypeContextDepth_</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d9b/binder_8hpp_source.html#l00141">binder.hpp:141</a></div></div>
 <div class="ttc" id="aconst__char_8hpp_html"><div class="ttname"><a href="../../d9/d61/const__char_8hpp.html">const_char.hpp</a></div></div>
-<div class="ttc" id="anamespacesema_html"><div class="ttname"><a href="../../d7/d39/namespacesema.html">sema</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00017">binder.cpp:17</a></div></div>
+<div class="ttc" id="anamespacesema_html"><div class="ttname"><a href="../../d7/d39/namespacesema.html">sema</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/dbe/function__reachability_8hpp_source.html#l00007">function_reachability.hpp:7</a></div></div>
 <div class="ttc" id="anamespacesema_html_a6ebb0074016f46039eee599baf2c94ef"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a6ebb0074016f46039eee599baf2c94ef">sema::makeVariadicViewType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::RecordType &gt; makeVariadicViewType(const std::shared_ptr&lt; zir::Type &gt; &amp;elementType)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/de9/binder_8cpp_source.html#l00086">binder.cpp:86</a></div></div>
 <div class="ttc" id="anamespacezir_html"><div class="ttname"><a href="../../df/d35/namespacezir.html">zir</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/dab/basic__block_8hpp_source.html#l00007">basic_block.hpp:7</a></div></div>
 <div class="ttc" id="anamespacezir_html_a063768e004c19d408dfccd5ac4af742ba8f9bfe9d1345237cb3b2b205864da075"><div class="ttname"><a href="../../df/d35/namespacezir.html#a063768e004c19d408dfccd5ac4af742ba8f9bfe9d1345237cb3b2b205864da075">zir::RecordRole::User</a></div><div class="ttdeci">@ User</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00065">type.hpp:65</a></div></div>
