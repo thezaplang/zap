@@ -1182,24 +1182,6 @@ long zap_fs_write_file(zap_string_t path, zap_string_t content) {
 
 long zap_fs_last_error() { return zap_fs_last_error_code; }
 
-double zapMathFloor(double x) { return floor(x); }
-double zapMathCeil(double x) { return ceil(x); }
-double zapMathRound(double x) { return round(x); }
-double zapMathTrunc(double x) { return trunc(x); }
-double zapMathPow(double x, double y) { return pow(x, y); }
-double zapMathSqrt(double x) { return sqrt(x); }
-double zapMathSin(double x) { return sin(x); }
-double zapMathCos(double x) { return cos(x); }
-double zapMathTan(double x) { return tan(x); }
-double zapMathAsin(double x) { return asin(x); }
-double zapMathAcos(double x) { return acos(x); }
-double zapMathAtan(double x) { return atan(x); }
-double zapMathAtan2(double y, double x) { return atan2(y, x); }
-double zapMathExp(double x) { return exp(x); }
-double zapMathLog(double x) { return log(x); }
-double zapMathLog10(double x) { return log10(x); }
-double zapMathLog2(double x) { return log2(x); }
-
 long netConnect(zap_string_t host, long port) {
   if (!host.ptr || port <= 0 || port > 65535) {
     zap_net_last_error = EINVAL;

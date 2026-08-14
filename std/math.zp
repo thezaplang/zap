@@ -5,23 +5,23 @@ pub const SQRT2: Float64 = 1.41421356237309504880;
 pub const DEG_TO_RAD: Float64 = 0.01745329251994329577;
 pub const RAD_TO_DEG: Float64 = 57.2957795130823208768;
 
-ext fun zapMathSqrt(x: Float64) Float64;
-ext fun zapMathFloor(x: Float64) Float64;
-ext fun zapMathCeil(x: Float64) Float64;
-ext fun zapMathRound(x: Float64) Float64;
-ext fun zapMathTrunc(x: Float64) Float64;
-ext fun zapMathPow(x: Float64, y: Float64) Float64;
-ext fun zapMathSin(x: Float64) Float64;
-ext fun zapMathCos(x: Float64) Float64;
-ext fun zapMathTan(x: Float64) Float64;
-ext fun zapMathAsin(x: Float64) Float64;
-ext fun zapMathAcos(x: Float64) Float64;
-ext fun zapMathAtan(x: Float64) Float64;
-ext fun zapMathAtan2(y: Float64, x: Float64) Float64;
-ext fun zapMathExp(x: Float64) Float64;
-ext fun zapMathLog(x: Float64) Float64;
-ext fun zapMathLog10(x: Float64) Float64;
-ext fun zapMathLog2(x: Float64) Float64;
+pub ext fun sqrt(x: Float64) Float64;
+pub ext fun floor(x: Float64) Float64;
+pub ext fun ceil(x: Float64) Float64;
+pub ext fun round(x: Float64) Float64;
+pub ext fun trunc(x: Float64) Float64;
+pub ext fun pow(x: Float64, y: Float64) Float64;
+pub ext fun sin(x: Float64) Float64;
+pub ext fun cos(x: Float64) Float64;
+pub ext fun tan(x: Float64) Float64;
+pub ext fun asin(x: Float64) Float64;
+pub ext fun acos(x: Float64) Float64;
+pub ext fun atan(x: Float64) Float64;
+pub ext fun atan2(y: Float64, x: Float64) Float64;
+pub ext fun exp(x: Float64) Float64;
+pub ext fun log(x: Float64) Float64;
+pub ext fun log10(x: Float64) Float64;
+pub ext fun log2(x: Float64) Float64;
 
 pub fun abs(x: Int) Int {
     if x < 0 {
@@ -94,74 +94,6 @@ pub fun sign(x: Float64) Float64 {
     if x < 0.0 { return -1.0; }
     if x > 0.0 { return 1.0; }
     return 0.0;
-}
-
-pub fun sqrt(x: Float64) Float64 {
-    return zapMathSqrt(x);
-}
-
-pub fun floor(x: Float64) Float64 {
-    return zapMathFloor(x);
-}
-
-pub fun ceil(x: Float64) Float64 {
-    return zapMathCeil(x);
-}
-
-pub fun round(x: Float64) Float64 {
-     return zapMathRound(x);
-}
-
-pub fun trunc(x: Float64) Float64 {
-    return zapMathTrunc(x);
-}
-
-pub fun pow(base: Float64, exp: Float64) Float64 {
-    return zapMathPow(base, exp);
-}
-
-pub fun exp(x: Float64) Float64 {
-    return zapMathExp(x);
-}
-
-pub fun log(x: Float64) Float64 {
-    return zapMathLog(x);
-}
-
-pub fun log10(x: Float64) Float64 {
-    return zapMathLog10(x);
-}
-
-pub fun log2(x: Float64) Float64 {
-    return zapMathLog2(x);
-}
-
-pub fun sin(x: Float64) Float64 {
-    return zapMathSin(x);
-}
-
-pub fun cos(x: Float64) Float64 {
-    return zapMathCos(x);
-}
-
-pub fun tan(x: Float64) Float64 {
-    return zapMathTan(x);
-}
-
-pub fun asin(x: Float64) Float64 {
-    return zapMathAsin(x);
-}
-
-pub fun acos(x: Float64) Float64 {
-    return zapMathAcos(x);
-}
-
-pub fun atan(x: Float64) Float64 {
-    return zapMathAtan(x);
-}
-
-pub fun atan2(y: Float64, x: Float64) Float64 {
-    return zapMathAtan2(y, x);
 }
 
 pub fun radToDeg(rad: Float64) Float64 {
