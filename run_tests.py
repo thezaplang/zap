@@ -25,6 +25,14 @@ SPECIAL_CASES = {
     "tests/modulo_test.zp": {"type": "compile", "exit": 0, "desc": "Modulo operator test"},
     "tests/failable_error_class_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Failable: @error class can be used as error type E in T!E"},
     "tests/global_numeric_pointer_compile_test.zp": {"type": "compile", "exit": 0, "desc": "Numeric constants initialize global pointers"},
+    "tests/attribute_entry_test.zp": {
+        "type": "compile",
+        "exit": 0,
+        "compile_flags": ["-S", "-emit-llvm"],
+        "output_file": "/tmp/zap-attribute-entry.ll",
+        "output_pattern": "define i64 @entry_export",
+        "desc": "@entry accepts static methods and preserves @noMangle ABI names"
+    },
     "tests/let_mutation_error.zp": {
         "type": "diagnostic",
         "exit": 1,

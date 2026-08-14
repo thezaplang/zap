@@ -90,6 +90,7 @@ public:
   bool isDestructor = false;
   bool isExternal = false;
   bool returnsRef = false;
+  bool hasEntry = false; // @entry on a callable function
   zir::ResultBorrowContract resultBorrow;
   int vtableSlot = -1;
   std::string ownerTypeCodegenName;

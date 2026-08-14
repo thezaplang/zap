@@ -778,6 +778,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         symbol->resultBorrow = resolveResultBorrowContract(
             methodDecl->resultBorrowSource_, symbol->parameters,
             symbol->returnType, symbol->returnsRef, methodDecl->span);
+        validateAndApplyFunctionAttributes(*methodDecl, symbol, false);
         if (symbol->isMethod && !symbol->isStatic && !symbol->isConstructor &&
             !symbol->isDestructor) {
           symbol->vtableSlot = findOverriddenVtableSlot(classInfo, *symbol);
@@ -785,11 +786,16 @@ void Binder::predeclareModuleValues(ModuleState &module) {
             symbol->vtableSlot = classInfo.nextVirtualSlot++;
           }
         }
-        symbol->linkName =
-            mangleName(module.info->linkPath.empty() ? module.info->moduleId
-                                                     : module.info->linkPath,
-                       classDecl->name_ + "$" + methodDecl->name_ + "$" +
-                           functionSignatureKey(*symbol));
+        if (symbol->hasNoMangle ||
+            (symbol->hasExternC && symbol->externAbi == "C")) {
+          symbol->linkName = symbol->name;
+        } else {
+          symbol->linkName =
+              mangleName(module.info->linkPath.empty() ? module.info->moduleId
+                                                       : module.info->linkPath,
+                         classDecl->name_ + "$" + methodDecl->name_ + "$" +
+                             functionSignatureKey(*symbol));
+        }
         declaredFunctionSymbols_[methodDecl.get()] = symbol;
         functionDeclarationNodes_[symbol.get()] = methodDecl.get();
         if (semanticInfo_) {

@@ -1,0 +1,16 @@
+@entry
+@noMangle
+fun entry_export() Int {
+    return 40;
+}
+
+class Hooks {
+    @entry
+    pub static fun callback() Int {
+        return 2;
+    }
+}
+
+fun main() Int {
+    return entry_export() + Hooks.callback() - 42;
+}

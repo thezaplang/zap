@@ -1,0 +1,8 @@
+@entry
+fun identity<T>(value: T) T {
+    return value;
+}
+
+fun main() Int {
+    return 0;
+}

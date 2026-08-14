@@ -1,0 +1,9 @@
+class Hooks {
+    @entry
+    fun callback() {
+    }
+}
+
+fun main() Int {
+    return 0;
+}

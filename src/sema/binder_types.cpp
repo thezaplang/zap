@@ -17,7 +17,7 @@ namespace sema {
 
 bool Binder::isSupportedBuiltInAttribute(const std::string &name) const {
   static const std::unordered_set<std::string> builtIns = {
-      "error", "repr", "packed", "extern", "noMangle"};
+      "error", "repr", "packed", "extern", "noMangle", "entry"};
   return builtIns.find(name) != builtIns.end();
 }
 
@@ -116,7 +116,8 @@ void Binder::validateAndApplyTypeAttributes(
       continue;
     }
 
-    if (attr.name == "extern" || attr.name == "noMangle") {
+    if (attr.name == "extern" || attr.name == "noMangle" ||
+        attr.name == "entry") {
       error(attr.span, "attribute '" + attr.name +
                            "' cannot be applied to type declarations");
       continue;
@@ -136,6 +137,7 @@ void Binder::validateAndApplyFunctionAttributes(
 
   bool seenExtern = false;
   bool seenNoMangle = false;
+  bool seenEntry = false;
 
   for (const auto &attr : node.attributes_) {
     if (attr.name == "extern") {
@@ -181,6 +183,28 @@ void Binder::validateAndApplyFunctionAttributes(
       }
       seenNoMangle = true;
       symbol->hasNoMangle = true;
+      continue;
+    }
+
+    if (attr.name == "entry") {
+      if (seenEntry) {
+        error(attr.span, "duplicate attribute 'entry'");
+        continue;
+      }
+      if (attr.hasArguments()) {
+        error(attr.span, "attribute 'entry' does not accept arguments");
+        continue;
+      }
+      if (isExternalDeclaration || symbol->isConstructor ||
+          symbol->isDestructor || (symbol->isMethod && !symbol->isStatic) ||
+          (!symbol->genericParameterNames.empty() &&
+           !symbol->isGenericInstantiation)) {
+        error(attr.span, "attribute 'entry' can only be applied to non-generic "
+                         "functions with a body or static methods");
+        continue;
+      }
+      seenEntry = true;
+      symbol->hasEntry = true;
       continue;
     }
 

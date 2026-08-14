@@ -1,0 +1,8 @@
+@entry
+struct NotAFunction {
+    value: Int,
+}
+
+fun main() Int {
+    return 0;
+}

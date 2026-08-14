@@ -1989,6 +1989,7 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
   eat(TokenType::LBRACE);
 
   while (peek().type != TokenType::RBRACE) {
+    auto attributes = parseAttributes();
     Visibility memberVisibility = Visibility::Private;
     if (peek().type == TokenType::PUB || peek().type == TokenType::PRIV ||
         peek().type == TokenType::PROT) {
@@ -2004,8 +2005,13 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
         peek().type == TokenType::UNSAFE) {
       auto method = parseFunDecl();
       method->visibility_ = memberVisibility;
+      method->attributes_ = std::move(attributes);
       classDecl->methods_.push_back(std::move(method));
     } else {
+      for (const auto &attribute : attributes) {
+        _diag.report(attribute.span, DiagnosticLevel::Error,
+                     "attributes can only be applied to class methods");
+      }
       auto field = parseParameter();
       field->visibility_ = memberVisibility;
       classDecl->fields_.push_back(std::move(field));

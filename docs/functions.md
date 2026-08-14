@@ -222,6 +222,28 @@ fun fact(n: Int) Int {
 
 ---
 
+## Entry Points and C ABI
+
+Use `@entry` for a function called by code outside Zap, such as a boot hook or
+interrupt handler. It keeps the function as an explicit compiler entry point;
+it does not change the linker name.
+
+```zap
+@entry
+@noMangle
+pub fun interrupt_handler() {
+    // Called from C or assembly.
+}
+```
+
+`@noMangle` keeps the declared ABI name and also preserves the function. Use
+both attributes when external code must refer to the function by name. `@entry`
+accepts no arguments and is valid on non-generic functions with bodies and
+static methods, but not on `extern` declarations, instance methods,
+constructors, or destructors.
+
+---
+
 ## Methods (Class Member Functions)
 
 Inside classes, methods are declared with `fun`. Instance methods receive `self` implicitly.

@@ -1,0 +1,7 @@
+@entry("boot")
+fun boot() {
+}
+
+fun main() Int {
+    return 0;
+}

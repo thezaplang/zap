@@ -1,0 +1,6 @@
+@entry
+ext fun startup();
+
+fun main() Int {
+    return 0;
+}
