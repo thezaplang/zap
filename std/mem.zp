@@ -2,3 +2,11 @@ pub ext fun malloc(size: Int) *Void;
 pub ext fun calloc(count: Int, size: Int) *Void;
 pub ext fun realloc(ptr: *Void, size: Int) *Void;
 pub ext fun free(ptr: *Void) Void;
+
+ext fun memcpy (dst: *Void, src: *Void, n: UInt)  *Void;
+ext fun memmove(dst: *Void, src: *Void, n: UInt)  *Void;
+ext fun memset (dst: *Void, ch: Int, count: UInt) *Void;
+
+pub unsafe fun copy(dst: *Void, src: *Void, n: UInt) Void { memcpy(dst, src, n);  }
+pub unsafe fun move(dst: *Void, src: *Void, n: UInt) Void { memmove(dst, src, n); }
+pub unsafe fun fill(dst: *Void, val: UInt8, n: UInt) Void { memset(dst, val, n);  }

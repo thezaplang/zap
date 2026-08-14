@@ -1,6 +1,11 @@
 import "std/string" as string;
 import "std/collection";
 
+import "std/mem";
+import "core" { getDataPtr };
+
+ext fun zap_string_from_cstr(cs: *Char) String;
+
 pub fun split(s: noescape string.StringView,
               delim: Char) collection.List<String> {
   var out: collection.List<String> = new collection.List<String>();
@@ -72,4 +77,20 @@ pub fun splitTrimmed(s: noescape string.StringView,
   }
 
   return out;
+}
+
+pub fun makeNullTerm(str: noescape string.StringView) *Char {
+    var len = string.len(str);
+    var ptr = mem.malloc(len + 1);
+    if ptr != null {
+        unsafe {
+            mem.copy(ptr, getDataPtr(str) as *Void, len);
+            *((ptr as *Char) + len) = '\0';
+        }
+    }
+    return ptr as *Char;
+}
+
+pub unsafe fun fromNullTerm(cs: *Char) String {
+    return zap_string_from_cstr(cs);
 }

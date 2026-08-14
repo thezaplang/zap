@@ -1,17 +1,37 @@
-import "std/io" { eprintln };
+import "std/strings";
+
+import "std/mem";
+import "std/io";
 
 pub ext fun exit(code: Int) Void;
 pub ext fun argc() Int;
 pub ext fun argv(i: Int) String;
 pub ext fun exec(cmd: String) Int;
 pub ext fun cwd() String;
-pub ext fun zap_process_getenv(name: String) String;
 
-pub fun getenv(name: String) String {
-  return zap_process_getenv(name);
+ext fun getenv(name: *Char) *Char;
+
+pub fun getEnv(name: String) String {
+  var nameBuf = strings.makeNullTerm(name);
+  if (nameBuf == null) {
+    return "";
+  }
+
+  var value = getenv(nameBuf);
+  if (value == null) {
+    return "";
+  }
+
+  var result: String;
+  unsafe {
+    result = strings.fromNullTerm(value);
+  }
+
+  mem.free(nameBuf as *Void);
+  return result;
 }
 
 pub fun panic(message: String) Void {
-  eprintln(message);
+  io.eprintln(message);
   exit(1);
 }

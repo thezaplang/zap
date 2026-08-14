@@ -1,0 +1,10 @@
+import "std/process";
+import "std/io";
+
+fun main() Int {
+  var val = process.getEnv("TIP");
+  if (val == "#define struct union") {
+    return 0;
+  }
+  return 1;
+}

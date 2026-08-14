@@ -844,18 +844,6 @@ zap_string_t argv(long i) {
   return zap_string_from_cstr(arg);
 }
 
-zap_string_t zap_process_getenv(zap_string_t name) {
-  char *name_buffer = zap_string_to_cstr(name);
-  if (!name_buffer) {
-    return (zap_string_t){.ptr = NULL, .len = 0};
-  }
-
-  const char *value = getenv(name_buffer);
-  zap_string_t result = zap_string_from_cstr(value);
-  free(name_buffer);
-  return result;
-}
-
 long len(zap_string_t s) { return s.len; }
 
 char at(zap_string_t s, long i) {
