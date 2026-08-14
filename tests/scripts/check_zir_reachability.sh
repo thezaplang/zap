@@ -17,7 +17,7 @@ OBJECT_OUTPUT="${OUTPUT}.o"
 
 "$ZAPC" "$INPUT" -emit-zir -o "$ZIR_OUTPUT"
 
-for required_symbol in 'library$used_24' used_5Fdependency retained_c_api retained_5Fentry; do
+for required_symbol in 'library$used_24' used_5Fdependency retained_c_api retained_5Fentry 'extern @exit'; do
     if ! grep -Fq "$required_symbol" "$ZIR_OUTPUT"; then
         echo "Expected reachable symbol '$required_symbol' is absent from ZIR." >&2
         exit 1

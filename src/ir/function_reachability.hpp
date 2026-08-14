@@ -14,6 +14,7 @@ namespace zir {
 struct FunctionReachability {
   std::unordered_set<const sema::FunctionSymbol *> functions;
   std::unordered_set<const sema::FunctionSymbol *> externalFunctions;
+  std::unordered_set<std::string> referencedFunctionLinkNames;
   std::unordered_set<std::string> liveClassCodegenNames;
   std::unordered_map<std::string, std::unordered_set<int>> liveVtableSlots;
 };

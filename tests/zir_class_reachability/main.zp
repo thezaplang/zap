@@ -1,0 +1,10 @@
+import "library.zp";
+
+fun main() Int {
+    var derived: library.Derived = new library.Derived();
+    var base: library.Base = derived;
+    if base.run() != 2 {
+        return 1;
+    }
+    return 0;
+}

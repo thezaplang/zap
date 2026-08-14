@@ -4,6 +4,7 @@
 
 #include <deque>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace zir {
 namespace {
@@ -152,6 +153,7 @@ private:
   void markFunction(const std::shared_ptr<sema::FunctionSymbol> &symbol) {
     if (!symbol)
       return;
+    result_.referencedFunctionLinkNames.insert(symbol->linkName);
     if (!symbol->ownerTypeCodegenName.empty()) {
       result_.liveClassCodegenNames.insert(symbol->ownerTypeCodegenName);
       if (symbol->vtableSlot >= 0)
@@ -168,6 +170,88 @@ private:
   FunctionReachability &result_;
   std::deque<const sema::FunctionSymbol *> *pending_ = nullptr;
 };
+
+using ClassTypes =
+    std::unordered_map<std::string, std::shared_ptr<zir::ClassType>>;
+
+void collectClassTypes(const sema::BoundRootNode &root, ClassTypes &classes) {
+  const auto addClass = [&](const std::shared_ptr<zir::Type> &type) {
+    if (type && type->getKind() == zir::TypeKind::Class) {
+      auto classType = std::static_pointer_cast<zir::ClassType>(type);
+      classes.emplace(classType->getCodegenName(), std::move(classType));
+    }
+  };
+
+  for (const auto &record : root.records) {
+    if (record)
+      addClass(record->type);
+  }
+  for (const auto &type : root.genericTypes)
+    addClass(type);
+}
+
+void collectClassesInType(const std::shared_ptr<zir::Type> &type,
+                          FunctionReachability &result,
+                          std::unordered_set<const zir::Type *> &visited) {
+  if (!type || !visited.insert(type.get()).second)
+    return;
+
+  switch (type->getKind()) {
+  case zir::TypeKind::Class: {
+    auto classType = std::static_pointer_cast<zir::ClassType>(type);
+    result.liveClassCodegenNames.insert(classType->getCodegenName());
+    for (const auto &field : classType->getFields())
+      collectClassesInType(field.type, result, visited);
+    return;
+  }
+  case zir::TypeKind::Record: {
+    auto recordType = std::static_pointer_cast<zir::RecordType>(type);
+    for (const auto &field : recordType->getFields())
+      collectClassesInType(field.type, result, visited);
+    return;
+  }
+  case zir::TypeKind::Array:
+    collectClassesInType(
+        std::static_pointer_cast<zir::ArrayType>(type)->getBaseType(), result,
+        visited);
+    return;
+  case zir::TypeKind::Pointer:
+    collectClassesInType(
+        std::static_pointer_cast<zir::PointerType>(type)->getBaseType(), result,
+        visited);
+    return;
+  default:
+    return;
+  }
+}
+
+bool isSubclassOf(const std::shared_ptr<zir::ClassType> &classType,
+                  const std::string &baseCodegenName) {
+  for (auto current = classType; current; current = current->getBase()) {
+    if (current->getCodegenName() == baseCodegenName)
+      return true;
+  }
+  return false;
+}
+
+bool addLiveBaseClasses(const ClassTypes &classes,
+                        FunctionReachability &result) {
+  bool changed = false;
+  std::vector<std::string> liveClasses(result.liveClassCodegenNames.begin(),
+                                       result.liveClassCodegenNames.end());
+  for (const auto &className : liveClasses) {
+    const auto classIt = classes.find(className);
+    if (classIt == classes.end())
+      continue;
+    for (auto current = classIt->second->getBase(); current;
+         current = current->getBase()) {
+      changed = result.liveClassCodegenNames.insert(current->getCodegenName())
+                    .second ||
+                changed;
+    }
+  }
+  return changed;
+}
 
 } // namespace
 
@@ -186,25 +270,60 @@ FunctionReachabilityAnalyzer::analyze(sema::BoundRootNode &root) {
   ReachabilityVisitor visitor(result);
   visitor.setPending(&pending);
 
-  for (const auto &global : root.globals)
+  ClassTypes classes;
+  collectClassTypes(root, classes);
+
+  std::unordered_set<const zir::Type *> globalTypes;
+  for (const auto &global : root.globals) {
     visitor.visit(*global);
+    if (global && global->symbol)
+      collectClassesInType(global->symbol->type, result, globalTypes);
+  }
 
   for (const auto &function : root.functions) {
     const auto &symbol = function->symbol;
     if (symbol && (symbol->isEntryModule || symbol->name == "main" ||
-                   symbol->hasEntry || symbol->hasNoMangle ||
-                   symbol->isDestructor || symbol->vtableSlot >= 0)) {
+                   symbol->hasEntry || symbol->hasNoMangle)) {
       if (result.functions.insert(symbol.get()).second)
         pending.push_back(symbol.get());
     }
   }
 
-  while (!pending.empty()) {
-    const auto *symbol = pending.front();
-    pending.pop_front();
-    const auto declaration = declarations.find(symbol);
-    if (declaration != declarations.end())
-      visitor.visit(*declaration->second);
+  bool changed = true;
+  while (changed) {
+    changed = false;
+    while (!pending.empty()) {
+      const auto *symbol = pending.front();
+      pending.pop_front();
+      const auto declaration = declarations.find(symbol);
+      if (declaration != declarations.end())
+        visitor.visit(*declaration->second);
+    }
+
+    changed = addLiveBaseClasses(classes, result) || changed;
+    for (const auto &function : root.functions) {
+      const auto &symbol = function->symbol;
+      if (!symbol || symbol->ownerTypeCodegenName.empty() ||
+          result.liveClassCodegenNames.count(symbol->ownerTypeCodegenName) == 0)
+        continue;
+
+      bool mustKeep = symbol->isConstructor || symbol->isDestructor;
+      if (symbol->vtableSlot >= 0) {
+        for (const auto &[dispatchClass, slots] : result.liveVtableSlots) {
+          const auto classIt = classes.find(symbol->ownerTypeCodegenName);
+          if (classIt != classes.end() &&
+              isSubclassOf(classIt->second, dispatchClass) &&
+              slots.count(symbol->vtableSlot) != 0) {
+            mustKeep = true;
+            break;
+          }
+        }
+      }
+      if (mustKeep && result.functions.insert(symbol.get()).second) {
+        pending.push_back(symbol.get());
+        changed = true;
+      }
+    }
   }
 
   return result;

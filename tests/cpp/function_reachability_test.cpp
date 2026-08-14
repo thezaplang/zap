@@ -121,10 +121,10 @@ bool testReachabilityRootsAndDependencies() {
                 "noMangle function is not a root") &&
          expect(contains(result.functions, attributedEntry),
                 "@entry function is not a root") &&
-         expect(contains(result.functions, virtualMethod),
-                "virtual method is not retained") &&
-         expect(contains(result.functions, virtualDependency),
-                "dependency of a virtual method is not live") &&
+         expect(!contains(result.functions, virtualMethod),
+                "unreachable virtual method is live") &&
+         expect(!contains(result.functions, virtualDependency),
+                "dependency of an unreachable virtual method is live") &&
          expect(!contains(result.functions, unreachable),
                 "unreachable function is live") &&
          expect(vtableSlots != result.liveVtableSlots.end() &&
@@ -132,6 +132,75 @@ bool testReachabilityRootsAndDependencies() {
                 "live virtual method slot is missing") &&
          expect(contains(result.externalFunctions, external),
                 "external dependency is not live");
+}
+
+bool testLiveClassRetainsVirtualOverridesAndDestructors() {
+  auto base = std::make_shared<zir::ClassType>("Base", "test.Base");
+  auto derived = std::make_shared<zir::ClassType>("Derived", "test.Derived");
+  derived->setBase(base);
+
+  auto entry = makeFunction("main");
+  entry->isEntryModule = true;
+  auto baseMethod = makeFunction("run");
+  baseMethod->ownerTypeCodegenName = "test.Base";
+  baseMethod->vtableSlot = 0;
+  auto derivedOverride = makeFunction("run");
+  derivedOverride->ownerTypeCodegenName = "test.Derived";
+  derivedOverride->vtableSlot = 0;
+  auto unusedMethod = makeFunction("unused");
+  unusedMethod->ownerTypeCodegenName = "test.Derived";
+  unusedMethod->vtableSlot = 1;
+  auto baseDestructor = makeFunction("deinit");
+  baseDestructor->ownerTypeCodegenName = "test.Base";
+  baseDestructor->isDestructor = true;
+  auto derivedDestructor = makeFunction("deinit");
+  derivedDestructor->ownerTypeCodegenName = "test.Derived";
+  derivedDestructor->isDestructor = true;
+  auto constructor = makeFunction("init");
+  constructor->ownerTypeCodegenName = "test.Derived";
+  constructor->isConstructor = true;
+
+  auto entryBody = std::make_unique<sema::BoundBlock>();
+  entryBody->statements.push_back(
+      std::make_unique<sema::BoundExpressionStatement>(
+          std::make_unique<sema::BoundNewExpression>(
+              derived, constructor,
+              std::vector<std::unique_ptr<sema::BoundExpression>>{})));
+  entryBody->statements.push_back(
+      std::make_unique<sema::BoundExpressionStatement>(
+          std::make_unique<sema::BoundFunctionCall>(
+              baseMethod,
+              std::vector<std::unique_ptr<sema::BoundExpression>>{})));
+
+  sema::BoundRootNode root;
+  auto baseRecord = std::make_unique<sema::BoundRecordDeclaration>();
+  baseRecord->type = base;
+  root.records.push_back(std::move(baseRecord));
+  auto derivedRecord = std::make_unique<sema::BoundRecordDeclaration>();
+  derivedRecord->type = derived;
+  root.records.push_back(std::move(derivedRecord));
+  root.functions.push_back(std::make_unique<sema::BoundFunctionDeclaration>(
+      entry, std::move(entryBody)));
+  root.functions.push_back(functionWithExpression(baseMethod, nullptr));
+  root.functions.push_back(functionWithExpression(derivedOverride, nullptr));
+  root.functions.push_back(functionWithExpression(unusedMethod, nullptr));
+  root.functions.push_back(functionWithExpression(baseDestructor, nullptr));
+  root.functions.push_back(functionWithExpression(derivedDestructor, nullptr));
+  root.functions.push_back(functionWithExpression(constructor, nullptr));
+
+  const auto result = zir::FunctionReachabilityAnalyzer{}.analyze(root);
+  return expect(contains(result.functions, baseMethod),
+                "live vtable slot is not retained for its base class") &&
+         expect(contains(result.functions, derivedOverride),
+                "live vtable slot is not retained for a derived class") &&
+         expect(!contains(result.functions, unusedMethod),
+                "unused vtable slot is live") &&
+         expect(contains(result.functions, baseDestructor),
+                "base destructor is not retained for a live derived class") &&
+         expect(contains(result.functions, derivedDestructor),
+                "derived destructor is not retained") &&
+         expect(contains(result.functions, constructor),
+                "constructor is not retained for a live class");
 }
 
 bool testNewExpressionMarksClassAndConstructor() {
@@ -162,5 +231,6 @@ int main() {
   bool ok = true;
   ok = testReachabilityRootsAndDependencies() && ok;
   ok = testNewExpressionMarksClassAndConstructor() && ok;
+  ok = testLiveClassRetainsVirtualOverridesAndDestructors() && ok;
   return ok ? 0 : 1;
 }

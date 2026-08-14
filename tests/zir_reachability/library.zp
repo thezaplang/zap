@@ -15,9 +15,11 @@ pub fun retained_c_api() Int {
     return 42;
 }
 
+ext fun exit(code: Int) Void;
+
 @entry
-pub fun retained_entry() Int {
-    return 0;
+pub fun retained_entry() Void {
+    exit(0);
 }
 
 ext fun unused_external() Int;

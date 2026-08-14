@@ -163,6 +163,15 @@ if get_option('build_testing')
          ],
          depends : zapc
     )
+    test('zir-class-reachability',
+         files('tests/scripts/check_zir_class_reachability.sh'),
+         args : [
+             zapc.full_path(),
+             meson.current_source_dir() / 'tests/zir_class_reachability/main.zp',
+             meson.current_build_dir() / 'zir-class-reachability-test.zir'
+         ],
+         depends : zapc
+    )
 
     runtime_test = executable('zap-runtime-instrumentation-tests',
                               'tests/cpp/runtime_instrumentation_test.c', 'src/stdlib.c',

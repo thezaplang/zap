@@ -1,0 +1,25 @@
+pub class Base {
+    pub fun run() Int {
+        return 1;
+    }
+
+    pub fun unused_base_method() Int {
+        return 10;
+    }
+
+    fun deinit() {
+    }
+}
+
+pub class Derived : Base {
+    pub fun run() Int {
+        return 2;
+    }
+
+    pub fun unused_derived_method() Int {
+        return 20;
+    }
+
+    fun deinit() {
+    }
+}

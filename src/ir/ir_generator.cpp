@@ -353,6 +353,8 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
   for (const auto &extFunc : node.externalFunctions) {
     const auto &symbol = extFunc->symbol;
     if (symbol && (reachability_.externalFunctions.count(symbol.get()) != 0 ||
+                   reachability_.referencedFunctionLinkNames.count(
+                       symbol->linkName) != 0 ||
                    symbol->hasNoMangle || symbol->hasEntry)) {
       extFunc->accept(*this);
     }
@@ -361,7 +363,6 @@ void BoundIRGenerator::visit(sema::BoundRootNode &node) {
     const auto &symbol = func->symbol;
     if (symbol &&
         (symbol->isEntryModule || symbol->hasNoMangle || symbol->hasEntry ||
-         symbol->isDestructor || symbol->vtableSlot >= 0 ||
          reachability_.functions.count(symbol.get()) != 0)) {
       func->accept(*this);
     }
