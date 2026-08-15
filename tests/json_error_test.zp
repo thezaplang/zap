@@ -1,54 +1,54 @@
 import "std/json";
 
-fun parseFailsWith(text: String, kind: json.JsonErrorKind) Bool {
-    var value: json.JsonValue = json.parse(text) or err {
+fun parseFailsWith(text: String, kind: json.ErrorKind) Bool {
+    var value: json.Value = json.parse(text) or err {
         return err.kind == kind && err.position >= 0;
     };
     return false;
 }
 
 fun parseDepthFails() Bool {
-    var value: json.JsonValue = json.parse("[[]]", 1) or err {
-        return err.kind == json.JsonErrorKind.NestingTooDeep;
+    var value: json.Value = json.parse("[[]]", 1) or err {
+        return err.kind == json.ErrorKind.NestingTooDeep;
     };
     return false;
 }
 
 fun invalidDepthFails() Bool {
-    var value: json.JsonValue = json.parse("null", 0) or err {
-        return err.kind == json.JsonErrorKind.InvalidDepth;
+    var value: json.Value = json.parse("null", 0) or err {
+        return err.kind == json.ErrorKind.InvalidDepth;
     };
     return false;
 }
 
 fun missingKeyFails() Bool {
-    var object: json.JsonObject = new json.JsonObject();
-    var value: json.JsonValue = object.get("missing") or err {
-        return err.kind == json.JsonErrorKind.MissingKey && err.position == -1;
+    var object: json.Object = new json.Object();
+    var value: json.Value = object.get("missing") or err {
+        return err.kind == json.ErrorKind.MissingKey && err.position == -1;
     };
     return false;
 }
 
-fun typeMismatchFails() Bool!json.JsonError {
-    var value: json.JsonValue = json.parse("true")?;
+fun typeMismatchFails() Bool!json.Error {
+    var value: json.Value = json.parse("true")?;
     var text: String = value.asString() or err {
-        return err.kind == json.JsonErrorKind.TypeMismatch;
+        return err.kind == json.ErrorKind.TypeMismatch;
     };
     return false;
 }
 
 fun boundsFail() Bool {
-    var array: json.JsonArray = new json.JsonArray();
-    var value: json.JsonValue = array.at(0) or err {
-        return err.kind == json.JsonErrorKind.IndexOutOfBounds;
+    var array: json.Array = new json.Array();
+    var value: json.Value = array.at(0) or err {
+        return err.kind == json.ErrorKind.IndexOutOfBounds;
     };
     return false;
 }
 
-fun integerConversionFails() Bool!json.JsonError {
-    var value: json.JsonValue = json.parse("1e2")?;
+fun integerConversionFails() Bool!json.Error {
+    var value: json.Value = json.parse("1e2")?;
     var number: Int = value.asInt() or err {
-        return err.kind == json.JsonErrorKind.NumberConversion;
+        return err.kind == json.ErrorKind.NumberConversion;
     };
     return false;
 }
@@ -56,28 +56,28 @@ fun integerConversionFails() Bool!json.JsonError {
 fun nonFiniteFails() Bool {
     var zero: Float64 = 0.0;
     var notANumber: Float64 = zero / zero;
-    var value: json.JsonValue = json.JsonValue.number(notANumber) or err {
-        return err.kind == json.JsonErrorKind.NonFiniteNumber;
+    var value: json.Value = json.Value.number(notANumber) or err {
+        return err.kind == json.ErrorKind.NonFiniteNumber;
     };
     return false;
 }
 
 fun cycleFails() Bool {
-    var object: json.JsonObject = new json.JsonObject();
+    var object: json.Object = new json.Object();
     object.put("self", object);
     var text: String = object.stringify(4) or err {
-        return err.kind == json.JsonErrorKind.NestingTooDeep;
+        return err.kind == json.ErrorKind.NestingTooDeep;
     };
     return false;
 }
 
 fun main() Int {
-    if !parseFailsWith("", json.JsonErrorKind.UnexpectedEnd) { return 1; }
-    if !parseFailsWith("01", json.JsonErrorKind.TrailingCharacters) { return 2; }
-    if !parseFailsWith("1.", json.JsonErrorKind.InvalidNumber) { return 3; }
-    if !parseFailsWith("true false", json.JsonErrorKind.TrailingCharacters) { return 4; }
-    if !parseFailsWith("\"\\x\"", json.JsonErrorKind.InvalidEscape) { return 5; }
-    if !parseFailsWith("\"\\ud800\"", json.JsonErrorKind.InvalidUnicodeEscape) { return 6; }
+    if !parseFailsWith("", json.ErrorKind.UnexpectedEnd) { return 1; }
+    if !parseFailsWith("01", json.ErrorKind.TrailingCharacters) { return 2; }
+    if !parseFailsWith("1.", json.ErrorKind.InvalidNumber) { return 3; }
+    if !parseFailsWith("true false", json.ErrorKind.TrailingCharacters) { return 4; }
+    if !parseFailsWith("\"\\x\"", json.ErrorKind.InvalidEscape) { return 5; }
+    if !parseFailsWith("\"\\ud800\"", json.ErrorKind.InvalidUnicodeEscape) { return 6; }
     if !parseDepthFails() || !invalidDepthFails() { return 7; }
     if !missingKeyFails() || !boundsFail() { return 8; }
     var mismatch: Bool = typeMismatchFails() or false;

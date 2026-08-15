@@ -4,7 +4,7 @@ import "std/convert" as convert;
 
 const DEFAULT_MAX_DEPTH: Int = 128;
 
-pub enum JsonKind {
+pub enum Kind {
     String,
     Number,
     Boolean,
@@ -13,7 +13,7 @@ pub enum JsonKind {
     Array,
 }
 
-pub enum JsonErrorKind {
+pub enum ErrorKind {
     UnexpectedEnd,
     UnexpectedToken,
     InvalidEscape,
@@ -30,17 +30,17 @@ pub enum JsonErrorKind {
 }
 
 @error
-pub struct JsonError {
-    kind: JsonErrorKind,
+pub struct Error {
+    kind: ErrorKind,
     position: Int,
     message: String,
 }
 
-fun errorAt(kind: JsonErrorKind, position: Int, message: String) JsonError {
-    return JsonError{kind: kind, position: position, message: message};
+fun errorAt(kind: ErrorKind, position: Int, message: String) Error {
+    return Error{kind: kind, position: position, message: message};
 }
 
-fun accessError(kind: JsonErrorKind, message: String) JsonError {
+fun accessError(kind: ErrorKind, message: String) Error {
     return errorAt(kind, -1, message);
 }
 
@@ -59,17 +59,17 @@ fun hexValue(c: Char) Int {
     return -1;
 }
 
-fun kindName(kind: JsonKind) String {
-    if kind == JsonKind.String { return "string"; }
-    if kind == JsonKind.Number { return "number"; }
-    if kind == JsonKind.Boolean { return "boolean"; }
-    if kind == JsonKind.Null { return "null"; }
-    if kind == JsonKind.Object { return "object"; }
+fun kindName(kind: Kind) String {
+    if kind == Kind.String { return "string"; }
+    if kind == Kind.Number { return "number"; }
+    if kind == Kind.Boolean { return "boolean"; }
+    if kind == Kind.Null { return "null"; }
+    if kind == Kind.Object { return "object"; }
     return "array";
 }
 
-fun typeError(expected: String, actual: JsonKind) JsonError {
-    return accessError(JsonErrorKind.TypeMismatch, "Expected " + expected + ", got " + kindName(actual));
+fun typeError(expected: String, actual: Kind) Error {
+    return accessError(ErrorKind.TypeMismatch, "Expected " + expected + ", got " + kindName(actual));
 }
 
 fun isFinite(value: Float64) Bool {
@@ -141,15 +141,15 @@ fun magnitudeFits(raw: String, start: Int, limit: String) Bool {
     return true;
 }
 
-pub class JsonValue {
-    priv valueKind: JsonKind;
+pub class Value {
+    priv valueKind: Kind;
     priv stringValue: String;
     priv numberValue: String;
     priv boolValue: Bool;
-    priv objectValue: JsonObject;
-    priv arrayValue: JsonArray;
+    priv objectValue: Object;
+    priv arrayValue: Array;
 
-    fun init(kind: JsonKind, stringValue: String, numberValue: String, boolValue: Bool, objectValue: JsonObject, arrayValue: JsonArray) {
+    fun init(kind: Kind, stringValue: String, numberValue: String, boolValue: Bool, objectValue: Object, arrayValue: Array) {
         self.valueKind = kind;
         self.stringValue = stringValue;
         self.numberValue = numberValue;
@@ -158,82 +158,82 @@ pub class JsonValue {
         self.arrayValue = arrayValue;
     }
 
-    pub static fun string(value: String) JsonValue {
-        return new JsonValue(JsonKind.String, value, "", false, null, null);
+    pub static fun string(value: String) Value {
+        return new Value(Kind.String, value, "", false, null, null);
     }
 
-    pub static fun number(value: Int) JsonValue {
-        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+    pub static fun number(value: Int) Value {
+        return new Value(Kind.Number, "", convert.toString(value), false, null, null);
     }
 
-    pub static fun number(value: UInt) JsonValue {
-        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+    pub static fun number(value: UInt) Value {
+        return new Value(Kind.Number, "", convert.toString(value), false, null, null);
     }
 
-    pub static fun number(value: Float) JsonValue!JsonError {
-        return JsonValue.number(convert.toFloat64(value))?;
+    pub static fun number(value: Float) Value!Error {
+        return Value.number(convert.toFloat64(value))?;
     }
 
-    pub static fun number(value: Float64) JsonValue!JsonError {
+    pub static fun number(value: Float64) Value!Error {
         if !isFinite(value) {
-            fail accessError(JsonErrorKind.NonFiniteNumber, "JSON numbers must be finite");
+            fail accessError(ErrorKind.NonFiniteNumber, "JSON numbers must be finite");
         }
-        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+        return new Value(Kind.Number, "", convert.toString(value), false, null, null);
     }
 
-    pub static fun numberText(value: String) JsonValue!JsonError {
+    pub static fun numberText(value: String) Value!Error {
         if !validNumberText(value) {
-            fail accessError(JsonErrorKind.InvalidNumber, "Invalid JSON number");
+            fail accessError(ErrorKind.InvalidNumber, "Invalid JSON number");
         }
-        return new JsonValue(JsonKind.Number, "", value, false, null, null);
+        return new Value(Kind.Number, "", value, false, null, null);
     }
 
-    pub static fun boolean(value: Bool) JsonValue {
-        return new JsonValue(JsonKind.Boolean, "", "", value, null, null);
+    pub static fun boolean(value: Bool) Value {
+        return new Value(Kind.Boolean, "", "", value, null, null);
     }
 
-    pub static fun nullValue() JsonValue {
-        return new JsonValue(JsonKind.Null, "", "", false, null, null);
+    pub static fun nullValue() Value {
+        return new Value(Kind.Null, "", "", false, null, null);
     }
 
-    pub static fun object(value: JsonObject) JsonValue {
-        return new JsonValue(JsonKind.Object, "", "", false, value, null);
+    pub static fun object(value: Object) Value {
+        return new Value(Kind.Object, "", "", false, value, null);
     }
 
-    pub static fun array(value: JsonArray) JsonValue {
-        return new JsonValue(JsonKind.Array, "", "", false, null, value);
+    pub static fun array(value: Array) Value {
+        return new Value(Kind.Array, "", "", false, null, value);
     }
 
-    pub fun kind() JsonKind { return self.valueKind; }
-    pub fun isString() Bool { return self.valueKind == JsonKind.String; }
-    pub fun isNumber() Bool { return self.valueKind == JsonKind.Number; }
-    pub fun isBoolean() Bool { return self.valueKind == JsonKind.Boolean; }
-    pub fun isNull() Bool { return self.valueKind == JsonKind.Null; }
-    pub fun isObject() Bool { return self.valueKind == JsonKind.Object; }
-    pub fun isArray() Bool { return self.valueKind == JsonKind.Array; }
+    pub fun kind() Kind { return self.valueKind; }
+    pub fun isString() Bool { return self.valueKind == Kind.String; }
+    pub fun isNumber() Bool { return self.valueKind == Kind.Number; }
+    pub fun isBoolean() Bool { return self.valueKind == Kind.Boolean; }
+    pub fun isNull() Bool { return self.valueKind == Kind.Null; }
+    pub fun isObject() Bool { return self.valueKind == Kind.Object; }
+    pub fun isArray() Bool { return self.valueKind == Kind.Array; }
 
-    pub fun asString() String!JsonError {
+    pub fun asString() String!Error {
         if !self.isString() { fail typeError("string", self.valueKind); }
         return self.stringValue;
     }
 
-    pub fun asNumberText() String!JsonError {
+    pub fun asNumberText() String!Error {
         if !self.isNumber() { fail typeError("number", self.valueKind); }
         return self.numberValue;
     }
 
-    pub fun asInt() Int!JsonError {
+    pub fun asInt() Int!Error {
         if !self.isNumber() { fail typeError("number", self.valueKind); }
         var raw: String = self.numberValue;
         if !isPlainInteger(raw) {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is not a plain integer");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is not a plain integer");
         }
 
         var negative: Bool = string.at(raw, 0) == '-';
         var start: Int = negative ? 1 : 0;
         var limit: String = negative ? "9223372036854775808" : "9223372036854775807";
         if !magnitudeFits(raw, start, limit) {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Int range");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is outside the Int range");
         }
 
         var result: Int = 0;
@@ -247,14 +247,14 @@ pub class JsonValue {
         return result;
     }
 
-    pub fun asUInt() UInt!JsonError {
+    pub fun asUInt() UInt!Error {
         if !self.isNumber() { fail typeError("number", self.valueKind); }
         var raw: String = self.numberValue;
         if !isPlainInteger(raw) || string.at(raw, 0) == '-' {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is not an unsigned integer");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is not an unsigned integer");
         }
         if !magnitudeFits(raw, 0, "18446744073709551615") {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the UInt range");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is outside the UInt range");
         }
 
         var result: UInt = 0;
@@ -267,7 +267,7 @@ pub class JsonValue {
         return result;
     }
 
-    pub fun asFloat64() Float64!JsonError {
+    pub fun asFloat64() Float64!Error {
         if !self.isNumber() { fail typeError("number", self.valueKind); }
         var raw: String = self.numberValue;
         var n: Int = string.len(raw);
@@ -319,13 +319,13 @@ pub class JsonValue {
         }
 
         if explicitExponent > 1000 {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is outside the Float64 range");
         }
         if exponentNegative { explicitExponent = -explicitExponent; }
 
         var exponent: Int = digitsBeforeDecimal - firstSignificant - significantDigits + explicitExponent;
         if exponent > 400 || exponent < -400 {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is outside the Float64 range");
         }
         var step: Int = 0;
         var scaleSteps: Int = exponent;
@@ -337,144 +337,144 @@ pub class JsonValue {
         }
         if negative { significand = -significand; }
         if !isFinite(significand) || significand == 0.0 {
-            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+            fail accessError(ErrorKind.NumberConversion, "JSON number is outside the Float64 range");
         }
         return significand;
     }
 
-    pub fun asBool() Bool!JsonError {
+    pub fun asBool() Bool!Error {
         if !self.isBoolean() { fail typeError("boolean", self.valueKind); }
         return self.boolValue;
     }
 
-    pub fun asObject() JsonObject!JsonError {
+    pub fun asObject() Object!Error {
         if !self.isObject() { fail typeError("object", self.valueKind); }
         return self.objectValue;
     }
 
-    pub fun asArray() JsonArray!JsonError {
+    pub fun asArray() Array!Error {
         if !self.isArray() { fail typeError("array", self.valueKind); }
         return self.arrayValue;
     }
 
-    pub fun stringify() String!JsonError {
+    pub fun stringify() String!Error {
         return stringifyValue(self, 1, DEFAULT_MAX_DEPTH)?;
     }
 
-    pub fun stringify(maxDepth: Int) String!JsonError {
-        if maxDepth <= 0 { fail accessError(JsonErrorKind.InvalidDepth, "Maximum JSON depth must be positive"); }
+    pub fun stringify(maxDepth: Int) String!Error {
+        if maxDepth <= 0 { fail accessError(ErrorKind.InvalidDepth, "Maximum JSON depth must be positive"); }
         return stringifyValue(self, 1, maxDepth)?;
     }
 }
 
-pub class JsonObject {
-    priv values: collection.HashMap<JsonValue>;
+pub class Object {
+    priv values: collection.HashMap<Value>;
     priv keys: collection.List<String>;
 
     fun init() {
-        self.values = new collection.HashMap<JsonValue>();
+        self.values = new collection.HashMap<Value>();
         self.keys = new collection.List<String>();
     }
 
-    fun putStored(key: String, value: JsonValue) {
+    fun putStored(key: String, value: Value) {
         if !self.values.contains(key) { self.keys.push(key); }
         self.values.put(key, value);
     }
 
-    pub fun put(key: String, value: JsonValue) { self.putStored(key, value); }
-    pub fun put(key: String, value: String) { self.putStored(key, JsonValue.string(value)); }
-    pub fun put(key: String, value: Bool) { self.putStored(key, JsonValue.boolean(value)); }
-    pub fun put(key: String, value: Int) { self.putStored(key, JsonValue.number(value)); }
-    pub fun put(key: String, value: UInt) { self.putStored(key, JsonValue.number(value)); }
-    pub fun put(key: String, value: JsonObject) { self.putStored(key, JsonValue.object(value)); }
-    pub fun put(key: String, value: JsonArray) { self.putStored(key, JsonValue.array(value)); }
+    pub fun put(key: String, value: Value) { self.putStored(key, value); }
+    pub fun put(key: String, value: String) { self.putStored(key, Value.string(value)); }
+    pub fun put(key: String, value: Bool) { self.putStored(key, Value.boolean(value)); }
+    pub fun put(key: String, value: Int) { self.putStored(key, Value.number(value)); }
+    pub fun put(key: String, value: UInt) { self.putStored(key, Value.number(value)); }
+    pub fun put(key: String, value: Object) { self.putStored(key, Value.object(value)); }
+    pub fun put(key: String, value: Array) { self.putStored(key, Value.array(value)); }
 
-    pub fun put(key: String, value: Float) Void!JsonError {
-        var stored: JsonValue = JsonValue.number(value)?;
+    pub fun put(key: String, value: Float) Void!Error {
+        var stored: Value = Value.number(value)?;
         self.putStored(key, stored);
         return;
     }
 
-    pub fun put(key: String, value: Float64) Void!JsonError {
-        var stored: JsonValue = JsonValue.number(value)?;
+    pub fun put(key: String, value: Float64) Void!Error {
+        var stored: Value = Value.number(value)?;
         self.putStored(key, stored);
         return;
     }
 
-    pub fun putNull(key: String) { self.putStored(key, JsonValue.nullValue()); }
+    pub fun putNull(key: String) { self.putStored(key, Value.nullValue()); }
     pub fun has(key: String) Bool { return self.values.contains(key); }
     pub fun size() Int { return self.keys.len(); }
 
-    pub fun get(key: String) JsonValue!JsonError {
+    pub fun get(key: String) Value!Error {
         if !self.values.contains(key) {
-            fail accessError(JsonErrorKind.MissingKey, "Missing JSON object key: " + key);
+            fail accessError(ErrorKind.MissingKey, "Missing JSON object key: " + key);
         }
         return self.values.get(key);
     }
 
-    pub fun keyAt(index: Int) String!JsonError {
+    pub fun keyAt(index: Int) String!Error {
         if index < 0 || index >= self.keys.len() {
-            fail accessError(JsonErrorKind.IndexOutOfBounds, "JSON object key index is out of bounds");
+            fail accessError(ErrorKind.IndexOutOfBounds, "JSON object key index is out of bounds");
         }
         return self.keys.at(index);
     }
 
-    pub fun getString(key: String) String!JsonError { var value: JsonValue = self.get(key)?; return value.asString()?; }
-    pub fun getInt(key: String) Int!JsonError { var value: JsonValue = self.get(key)?; return value.asInt()?; }
-    pub fun getUInt(key: String) UInt!JsonError { var value: JsonValue = self.get(key)?; return value.asUInt()?; }
-    pub fun getFloat64(key: String) Float64!JsonError { var value: JsonValue = self.get(key)?; return value.asFloat64()?; }
-    pub fun getBool(key: String) Bool!JsonError { var value: JsonValue = self.get(key)?; return value.asBool()?; }
-    pub fun getObject(key: String) JsonObject!JsonError { var value: JsonValue = self.get(key)?; return value.asObject()?; }
-    pub fun getArray(key: String) JsonArray!JsonError { var value: JsonValue = self.get(key)?; return value.asArray()?; }
+    pub fun getString(key: String) String!Error { var value: Value = self.get(key)?; return value.asString()?; }
+    pub fun getInt(key: String) Int!Error { var value: Value = self.get(key)?; return value.asInt()?; }
+    pub fun getUInt(key: String) UInt!Error { var value: Value = self.get(key)?; return value.asUInt()?; }
+    pub fun getFloat64(key: String) Float64!Error { var value: Value = self.get(key)?; return value.asFloat64()?; }
+    pub fun getBool(key: String) Bool!Error { var value: Value = self.get(key)?; return value.asBool()?; }
+    pub fun getObject(key: String) Object!Error { var value: Value = self.get(key)?; return value.asObject()?; }
+    pub fun getArray(key: String) Array!Error { var value: Value = self.get(key)?; return value.asArray()?; }
 
-    pub fun stringify() String!JsonError { return JsonValue.object(self).stringify()?; }
-    pub fun stringify(maxDepth: Int) String!JsonError { return JsonValue.object(self).stringify(maxDepth)?; }
+    pub fun stringify() String!Error { return Value.object(self).stringify()?; }
+    pub fun stringify(maxDepth: Int) String!Error { return Value.object(self).stringify(maxDepth)?; }
 }
 
-pub class JsonArray {
-    priv values: collection.List<JsonValue>;
+pub class Array {
+    priv values: collection.List<Value>;
 
-    fun init() { self.values = new collection.List<JsonValue>(); }
+    fun init() { self.values = new collection.List<Value>(); }
 
-    pub fun push(value: JsonValue) { self.values.push(value); }
-    pub fun push(value: String) { self.values.push(JsonValue.string(value)); }
-    pub fun push(value: Bool) { self.values.push(JsonValue.boolean(value)); }
-    pub fun push(value: Int) { self.values.push(JsonValue.number(value)); }
-    pub fun push(value: UInt) { self.values.push(JsonValue.number(value)); }
-    pub fun push(value: JsonObject) { self.values.push(JsonValue.object(value)); }
-    pub fun push(value: JsonArray) { self.values.push(JsonValue.array(value)); }
+    pub fun push(value: Value) { self.values.push(value); }
+    pub fun push(value: String) { self.values.push(Value.string(value)); }
+    pub fun push(value: Bool) { self.values.push(Value.boolean(value)); }
+    pub fun push(value: Int) { self.values.push(Value.number(value)); }
+    pub fun push(value: UInt) { self.values.push(Value.number(value)); }
+    pub fun push(value: Object) { self.values.push(Value.object(value)); }
+    pub fun push(value: Array) { self.values.push(Value.array(value)); }
 
-    pub fun push(value: Float) Void!JsonError {
-        var stored: JsonValue = JsonValue.number(value)?;
+    pub fun push(value: Float) Void!Error {
+        var stored: Value = Value.number(value)?;
         self.values.push(stored);
         return;
     }
 
-    pub fun push(value: Float64) Void!JsonError {
-        var stored: JsonValue = JsonValue.number(value)?;
+    pub fun push(value: Float64) Void!Error {
+        var stored: Value = Value.number(value)?;
         self.values.push(stored);
         return;
     }
-    pub fun pushNull() { self.values.push(JsonValue.nullValue()); }
+    pub fun pushNull() { self.values.push(Value.nullValue()); }
     pub fun size() Int { return self.values.len(); }
 
-    pub fun at(index: Int) JsonValue!JsonError {
+    pub fun at(index: Int) Value!Error {
         if index < 0 || index >= self.values.len() {
-            fail accessError(JsonErrorKind.IndexOutOfBounds, "JSON array index is out of bounds");
+            fail accessError(ErrorKind.IndexOutOfBounds, "JSON array index is out of bounds");
         }
         return self.values.at(index);
     }
 
-    pub fun getString(index: Int) String!JsonError { var value: JsonValue = self.at(index)?; return value.asString()?; }
-    pub fun getInt(index: Int) Int!JsonError { var value: JsonValue = self.at(index)?; return value.asInt()?; }
-    pub fun getUInt(index: Int) UInt!JsonError { var value: JsonValue = self.at(index)?; return value.asUInt()?; }
-    pub fun getFloat64(index: Int) Float64!JsonError { var value: JsonValue = self.at(index)?; return value.asFloat64()?; }
-    pub fun getBool(index: Int) Bool!JsonError { var value: JsonValue = self.at(index)?; return value.asBool()?; }
-    pub fun getObject(index: Int) JsonObject!JsonError { var value: JsonValue = self.at(index)?; return value.asObject()?; }
-    pub fun getArray(index: Int) JsonArray!JsonError { var value: JsonValue = self.at(index)?; return value.asArray()?; }
+    pub fun getString(index: Int) String!Error { var value: Value = self.at(index)?; return value.asString()?; }
+    pub fun getInt(index: Int) Int!Error { var value: Value = self.at(index)?; return value.asInt()?; }
+    pub fun getUInt(index: Int) UInt!Error { var value: Value = self.at(index)?; return value.asUInt()?; }
+    pub fun getFloat64(index: Int) Float64!Error { var value: Value = self.at(index)?; return value.asFloat64()?; }
+    pub fun getBool(index: Int) Bool!Error { var value: Value = self.at(index)?; return value.asBool()?; }
+    pub fun getObject(index: Int) Object!Error { var value: Value = self.at(index)?; return value.asObject()?; }
+    pub fun getArray(index: Int) Array!Error { var value: Value = self.at(index)?; return value.asArray()?; }
 
-    pub fun stringify() String!JsonError { return JsonValue.array(self).stringify()?; }
-    pub fun stringify(maxDepth: Int) String!JsonError { return JsonValue.array(self).stringify(maxDepth)?; }
+    pub fun stringify() String!Error { return Value.array(self).stringify()?; }
+    pub fun stringify(maxDepth: Int) String!Error { return Value.array(self).stringify(maxDepth)?; }
 }
 
 fun escapedString(value: String) String {
@@ -503,9 +503,9 @@ fun escapedString(value: String) String {
     return out.build();
 }
 
-fun stringifyValue(value: JsonValue, depth: Int, maxDepth: Int) String!JsonError {
+fun stringifyValue(value: Value, depth: Int, maxDepth: Int) String!Error {
     if depth > maxDepth {
-        fail accessError(JsonErrorKind.NestingTooDeep, "Maximum JSON nesting depth exceeded");
+        fail accessError(ErrorKind.NestingTooDeep, "Maximum JSON nesting depth exceeded");
     }
     if value.isString() { return escapedString(value.asString()?); }
     if value.isNumber() { return value.asNumberText()?; }
@@ -518,12 +518,12 @@ fun stringifyValue(value: JsonValue, depth: Int, maxDepth: Int) String!JsonError
 
     var out: string.TextBuf = new string.TextBuf();
     if value.isArray() {
-        var array: JsonArray = value.asArray()?;
+        var array: Array = value.asArray()?;
         out.pushChar('[');
         var i: Int = 0;
         while i < array.size() {
             if i > 0 { out.pushChar(','); }
-            var item: JsonValue = array.at(i)?;
+            var item: Value = array.at(i)?;
             out.push(stringifyValue(item, depth + 1, maxDepth)?);
             i = i + 1;
         }
@@ -531,13 +531,13 @@ fun stringifyValue(value: JsonValue, depth: Int, maxDepth: Int) String!JsonError
         return out.build();
     }
 
-    var object: JsonObject = value.asObject()?;
+    var object: Object = value.asObject()?;
     out.pushChar('{');
     var i: Int = 0;
     while i < object.size() {
         if i > 0 { out.pushChar(','); }
         var key: String = object.keyAt(i)?;
-        var item: JsonValue = object.get(key)?;
+        var item: Value = object.get(key)?;
         out.push(escapedString(key));
         out.pushChar(':');
         out.push(stringifyValue(item, depth + 1, maxDepth)?);
@@ -570,16 +570,16 @@ class Parser {
         }
     }
 
-    fun parseHex4() Int!JsonError {
+    fun parseHex4() Int!Error {
         var value: Int = 0;
         var i: Int = 0;
         while i < 4 {
             if self.isAtEnd() {
-                fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Incomplete Unicode escape");
+                fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Incomplete Unicode escape");
             }
             var digit: Int = hexValue(self.consume());
             if digit < 0 {
-                fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 1, "Invalid hexadecimal digit in Unicode escape");
+                fail errorAt(ErrorKind.InvalidUnicodeEscape, self.position - 1, "Invalid hexadecimal digit in Unicode escape");
             }
             value = value * 16 + digit;
             i = i + 1;
@@ -606,20 +606,20 @@ class Parser {
         out.pushChar(convert.toChar(128 + codepoint % 64));
     }
 
-    fun parseString() String!JsonError {
+    fun parseString() String!Error {
         var start: Int = self.position;
-        if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected JSON string"); }
-        if self.consume() != '"' { fail errorAt(JsonErrorKind.UnexpectedToken, start, "Expected JSON string"); }
+        if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Expected JSON string"); }
+        if self.consume() != '"' { fail errorAt(ErrorKind.UnexpectedToken, start, "Expected JSON string"); }
 
         var out: string.TextBuf = new string.TextBuf();
         while !self.isAtEnd() {
             var c: Char = self.consume();
             if c == '"' { return out.build(); }
             if convert.toInt(c) < 32 {
-                fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Unescaped control character in JSON string");
+                fail errorAt(ErrorKind.UnexpectedToken, self.position - 1, "Unescaped control character in JSON string");
             }
             if c != '\\' { out.pushChar(c); continue; }
-            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Incomplete JSON escape"); }
+            if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Incomplete JSON escape"); }
 
             var escaped: Char = self.consume();
             if escaped == '"' || escaped == '\\' || escaped == '/' { out.pushChar(escaped); }
@@ -632,41 +632,41 @@ class Parser {
                 var codepoint: Int = self.parseHex4()?;
                 if codepoint >= 55296 && codepoint <= 56319 {
                     if self.position + 6 > string.len(self.text) || self.consume() != '\\' || self.consume() != 'u' {
-                        fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position, "High surrogate must be followed by a low surrogate");
+                        fail errorAt(ErrorKind.InvalidUnicodeEscape, self.position, "High surrogate must be followed by a low surrogate");
                     }
                     var low: Int = self.parseHex4()?;
                     if low < 56320 || low > 57343 {
-                        fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 4, "Invalid low surrogate");
+                        fail errorAt(ErrorKind.InvalidUnicodeEscape, self.position - 4, "Invalid low surrogate");
                     }
                     codepoint = 65536 + (codepoint - 55296) * 1024 + (low - 56320);
                 } else if codepoint >= 56320 && codepoint <= 57343 {
-                    fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 4, "Unexpected low surrogate");
+                    fail errorAt(ErrorKind.InvalidUnicodeEscape, self.position - 4, "Unexpected low surrogate");
                 }
                 self.appendUtf8(out, codepoint);
             } else {
-                fail errorAt(JsonErrorKind.InvalidEscape, self.position - 1, "Invalid JSON escape");
+                fail errorAt(ErrorKind.InvalidEscape, self.position - 1, "Invalid JSON escape");
             }
         }
-        fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON string");
+        fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Unterminated JSON string");
         return "";
     }
 
-    fun parseNumber() JsonValue!JsonError {
+    fun parseNumber() Value!Error {
         var start: Int = self.position;
         if self.peek() == '-' { self.position = self.position + 1; }
-        if self.isAtEnd() { fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Incomplete JSON number"); }
+        if self.isAtEnd() { fail errorAt(ErrorKind.InvalidNumber, self.position, "Incomplete JSON number"); }
 
         if self.peek() == '0' {
             self.position = self.position + 1;
         } else {
-            if !isDigit(self.peek()) { fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Invalid JSON number"); }
+            if !isDigit(self.peek()) { fail errorAt(ErrorKind.InvalidNumber, self.position, "Invalid JSON number"); }
             while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
 
         if !self.isAtEnd() && self.peek() == '.' {
             self.position = self.position + 1;
             if self.isAtEnd() || !isDigit(self.peek()) {
-                fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Expected digit after decimal point");
+                fail errorAt(ErrorKind.InvalidNumber, self.position, "Expected digit after decimal point");
             }
             while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
@@ -675,13 +675,13 @@ class Parser {
             self.position = self.position + 1;
             if !self.isAtEnd() && (self.peek() == '+' || self.peek() == '-') { self.position = self.position + 1; }
             if self.isAtEnd() || !isDigit(self.peek()) {
-                fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Expected exponent digits");
+                fail errorAt(ErrorKind.InvalidNumber, self.position, "Expected exponent digits");
             }
             while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
 
         var raw: String = string.owned(string.slice(self.text, start, self.position - start));
-        return new JsonValue(JsonKind.Number, "", raw, false, null, null);
+        return new Value(Kind.Number, "", raw, false, null, null);
     }
 
     fun consumeLiteral(literal: String) Bool {
@@ -692,86 +692,86 @@ class Parser {
         return true;
     }
 
-    fun parseArray(depth: Int) JsonValue!JsonError {
+    fun parseArray(depth: Int) Value!Error {
         self.consume();
-        var array: JsonArray = new JsonArray();
+        var array: Array = new Array();
         self.skipWhitespace();
-        if !self.isAtEnd() && self.peek() == ']' { self.consume(); return JsonValue.array(array); }
+        if !self.isAtEnd() && self.peek() == ']' { self.consume(); return Value.array(array); }
 
         while true {
             array.push(self.parseValue(depth + 1)?);
             self.skipWhitespace();
-            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON array"); }
+            if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Unterminated JSON array"); }
             var delimiter: Char = self.consume();
-            if delimiter == ']' { return JsonValue.array(array); }
-            if delimiter != ',' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or ']' in JSON array"); }
+            if delimiter == ']' { return Value.array(array); }
+            if delimiter != ',' { fail errorAt(ErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or ']' in JSON array"); }
             self.skipWhitespace();
         }
-        return JsonValue.array(array);
+        return Value.array(array);
     }
 
-    fun parseObject(depth: Int) JsonValue!JsonError {
+    fun parseObject(depth: Int) Value!Error {
         self.consume();
-        var object: JsonObject = new JsonObject();
+        var object: Object = new Object();
         self.skipWhitespace();
-        if !self.isAtEnd() && self.peek() == '}' { self.consume(); return JsonValue.object(object); }
+        if !self.isAtEnd() && self.peek() == '}' { self.consume(); return Value.object(object); }
 
         while true {
-            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
-            if self.peek() != '"' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position, "JSON object keys must be strings"); }
+            if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
+            if self.peek() != '"' { fail errorAt(ErrorKind.UnexpectedToken, self.position, "JSON object keys must be strings"); }
             var key: String = self.parseString()?;
             self.skipWhitespace();
-            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected ':' after JSON object key"); }
-            if self.consume() != ':' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ':' after JSON object key"); }
+            if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Expected ':' after JSON object key"); }
+            if self.consume() != ':' { fail errorAt(ErrorKind.UnexpectedToken, self.position - 1, "Expected ':' after JSON object key"); }
             self.skipWhitespace();
-            var item: JsonValue = self.parseValue(depth + 1)?;
+            var item: Value = self.parseValue(depth + 1)?;
             object.put(key, item);
             self.skipWhitespace();
-            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
+            if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
             var delimiter: Char = self.consume();
-            if delimiter == '}' { return JsonValue.object(object); }
-            if delimiter != ',' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or '}' in JSON object"); }
+            if delimiter == '}' { return Value.object(object); }
+            if delimiter != ',' { fail errorAt(ErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or '}' in JSON object"); }
             self.skipWhitespace();
         }
-        return JsonValue.object(object);
+        return Value.object(object);
     }
 
-    fun parseValue(depth: Int) JsonValue!JsonError {
+    fun parseValue(depth: Int) Value!Error {
         if depth > self.maxDepth {
-            fail errorAt(JsonErrorKind.NestingTooDeep, self.position, "Maximum JSON nesting depth exceeded");
+            fail errorAt(ErrorKind.NestingTooDeep, self.position, "Maximum JSON nesting depth exceeded");
         }
         self.skipWhitespace();
-        if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected JSON value"); }
+        if self.isAtEnd() { fail errorAt(ErrorKind.UnexpectedEnd, self.position, "Expected JSON value"); }
 
         var c: Char = self.peek();
-        if c == '"' { return JsonValue.string(self.parseString()?); }
+        if c == '"' { return Value.string(self.parseString()?); }
         if c == '{' { return self.parseObject(depth)?; }
         if c == '[' { return self.parseArray(depth)?; }
         if c == '-' || isDigit(c) { return self.parseNumber()?; }
-        if c == 't' && self.consumeLiteral("true") { return JsonValue.boolean(true); }
-        if c == 'f' && self.consumeLiteral("false") { return JsonValue.boolean(false); }
-        if c == 'n' && self.consumeLiteral("null") { return JsonValue.nullValue(); }
-        fail errorAt(JsonErrorKind.UnexpectedToken, self.position, "Unexpected token while parsing JSON value");
-        return JsonValue.nullValue();
+        if c == 't' && self.consumeLiteral("true") { return Value.boolean(true); }
+        if c == 'f' && self.consumeLiteral("false") { return Value.boolean(false); }
+        if c == 'n' && self.consumeLiteral("null") { return Value.nullValue(); }
+        fail errorAt(ErrorKind.UnexpectedToken, self.position, "Unexpected token while parsing JSON value");
+        return Value.nullValue();
     }
 
-    pub fun parseDocument() JsonValue!JsonError {
-        var value: JsonValue = self.parseValue(1)?;
+    pub fun parseDocument() Value!Error {
+        var value: Value = self.parseValue(1)?;
         self.skipWhitespace();
         if !self.isAtEnd() {
-            fail errorAt(JsonErrorKind.TrailingCharacters, self.position, "Unexpected characters after JSON value");
+            fail errorAt(ErrorKind.TrailingCharacters, self.position, "Unexpected characters after JSON value");
         }
         return value;
     }
 }
 
-pub fun parse(text: String) JsonValue!JsonError {
+pub fun parse(text: String) Value!Error {
     return parse(text, DEFAULT_MAX_DEPTH)?;
 }
 
-pub fun parse(text: String, maxDepth: Int) JsonValue!JsonError {
+pub fun parse(text: String, maxDepth: Int) Value!Error {
     if maxDepth <= 0 {
-        fail errorAt(JsonErrorKind.InvalidDepth, 0, "Maximum JSON depth must be positive");
+        fail errorAt(ErrorKind.InvalidDepth, 0, "Maximum JSON depth must be positive");
     }
     var parser: Parser = new Parser(text, maxDepth);
     return parser.parseDocument()?;

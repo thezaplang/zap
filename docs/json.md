@@ -6,19 +6,19 @@ structured errors.
 
 ## Building JSON
 
-Use `JsonObject` and `JsonArray` to build a document without manually escaping
+Use `Object` and `Array` to build a document without manually escaping
 strings:
 
 ```zap
 import "std/json";
 
-fun payload() String!json.JsonError {
-    var user: json.JsonObject = new json.JsonObject();
+fun payload() String!json.Error {
+    var user: json.Object = new json.Object();
     user.put("id", 42);
     user.put("name", "Ada");
     user.put("active", true);
 
-    var roles: json.JsonArray = new json.JsonArray();
+    var roles: json.Array = new json.Array();
     roles.push("admin");
     roles.push("author");
     user.put("roles", roles);
@@ -28,7 +28,7 @@ fun payload() String!json.JsonError {
 ```
 
 `put` and `push` are overloaded for strings, booleans, signed and unsigned
-integers, objects, arrays, and `JsonValue`. Use `putNull` or `pushNull` for a
+integers, objects, arrays, and `Value`. Use `putNull` or `pushNull` for a
 JSON null.
 
 Floating-point overloads are failable because JSON cannot represent NaN or
@@ -43,17 +43,17 @@ changes its value without moving the key.
 
 ## Parsing and typed access
 
-`parse` accepts any top-level JSON value and returns `JsonValue!JsonError`:
+`parse` accepts any top-level JSON value and returns `Value!Error`:
 
 ```zap
-fun readName(source: String) String!json.JsonError {
-    var root: json.JsonValue = json.parse(source)?;
-    var object: json.JsonObject = root.asObject()?;
+fun readName(source: String) String!json.Error {
+    var root: json.Value = json.parse(source)?;
+    var object: json.Object = root.asObject()?;
     return object.getString("name")?;
 }
 ```
 
-`JsonValue` exposes `kind`, `isString`, `isNumber`, `isBoolean`, `isNull`,
+`Value` exposes `kind`, `isString`, `isNumber`, `isBoolean`, `isNull`,
 `isObject`, and `isArray`. Its `as...` methods return a typed value or a
 `TypeMismatch` error. Objects provide typed `get...` methods; arrays provide
 the same operations by index.
@@ -66,7 +66,7 @@ Parsed numbers retain their original, validated JSON spelling. This makes the
 following round trip lossless even when the value is larger than `UInt`:
 
 ```zap
-var value: json.JsonValue = json.parse("123456789012345678901234567890")?;
+var value: json.Value = json.parse("123456789012345678901234567890")?;
 var text: String = value.stringify()?;
 ```
 
@@ -74,14 +74,14 @@ Use `asNumberText` to obtain that spelling. `asInt` and `asUInt` accept plain
 integer notation and check the target range. `asFloat64` accepts decimal and
 exponent notation and reports values outside the finite `Float64` range.
 
-`JsonValue.numberText(text)` constructs a number from an already formatted
+`Value.numberText(text)` constructs a number from an already formatted
 string and validates the JSON number grammar.
 
 ## Errors and depth limits
 
-`JsonError` contains:
+`Error` contains:
 
-- `kind`: a `JsonErrorKind` describing the failure;
+- `kind`: a `ErrorKind` describing the failure;
 - `position`: the byte offset for parser errors, or `-1` for access and
   serialization errors;
 - `message`: a human-readable explanation.
@@ -89,7 +89,7 @@ string and validates the JSON number grammar.
 Handle errors locally with `or err` or propagate them with `?`:
 
 ```zap
-var root: json.JsonValue = json.parse(source) or err {
+var root: json.Value = json.parse(source) or err {
     eprintln("Invalid JSON at byte " + toString(err.position) + ": " + err.message);
     return 1;
 };

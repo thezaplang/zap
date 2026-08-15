@@ -1,12 +1,12 @@
 import "std/json";
 
-fun buildProjectManifest() String!json.JsonError {
-    var dependencies: json.JsonArray = new json.JsonArray();
+fun buildProjectManifest() String!json.Error {
+    var dependencies: json.Array = new json.Array();
     dependencies.push("http");
     dependencies.push("json");
     dependencies.push("tls");
 
-    var release: json.JsonObject = new json.JsonObject();
+    var release: json.Object = new json.Object();
     release.put("name", "zapup");
     release.put("version", "0.4.1");
     release.put("dependencies", dependencies);
@@ -17,12 +17,12 @@ fun buildProjectManifest() String!json.JsonError {
     return release.stringify()?;
 }
 
-fun summary(manifest: String) String!json.JsonError {
-    var document: json.JsonValue = json.parse(manifest)?;
-    var release: json.JsonObject = document.asObject()?;
+fun summary(manifest: String) String!json.Error {
+    var document: json.Value = json.parse(manifest)?;
+    var release: json.Object = document.asObject()?;
     var name: String = release.getString("name")?;
     var version: String = release.getString("version")?;
-    var dependencies: json.JsonArray = release.getArray("dependencies")?;
+    var dependencies: json.Array = release.getArray("dependencies")?;
 
     return name + " " + version + " has " + toString(dependencies.size()) + " dependencies.";
 }

@@ -1,10 +1,10 @@
 import "std/json";
 
-fun inspectDocument() Int!json.JsonError {
-    var value: json.JsonValue = json.parse("{\"tag_name\":\"v1.2\\n0\",\"draft\":false,\"score\":-1.25e2,\"assets\":[null,true,{\"name\":\"zap\"}]}")?;
+fun inspectDocument() Int!json.Error {
+    var value: json.Value = json.parse("{\"tag_name\":\"v1.2\\n0\",\"draft\":false,\"score\":-1.25e2,\"assets\":[null,true,{\"name\":\"zap\"}]}")?;
     if !value.isObject() { return 1; }
 
-    var object: json.JsonObject = value.asObject()?;
+    var object: json.Object = value.asObject()?;
     var tagName: String = object.getString("tag_name")?;
     if tagName != "v1.2\n0" { return 2; }
     var draft: Bool = object.getBool("draft")?;
@@ -13,41 +13,41 @@ fun inspectDocument() Int!json.JsonError {
     var score: Float64 = object.getFloat64("score")?;
     if score < -125.1 || score > -124.9 { return 4; }
 
-    var assets: json.JsonArray = object.getArray("assets")?;
-    var first: json.JsonValue = assets.at(0)?;
+    var assets: json.Array = object.getArray("assets")?;
+    var first: json.Value = assets.at(0)?;
     var second: Bool = assets.getBool(1)?;
     if assets.size() != 3 || !first.isNull() || !second { return 5; }
-    var nested: json.JsonObject = assets.getObject(2)?;
+    var nested: json.Object = assets.getObject(2)?;
     var nestedName: String = nested.getString("name")?;
     if nestedName != "zap" { return 6; }
 
     var encoded: String = value.stringify()?;
     if encoded != "{\"tag_name\":\"v1.2\\n0\",\"draft\":false,\"score\":-1.25e2,\"assets\":[null,true,{\"name\":\"zap\"}]}" { return 7; }
 
-    var unicode: json.JsonValue = json.parse("{\"bmp\":\"\\u017b\",\"emoji\":\"\\ud83d\\ude00\"}")?;
-    var unicodeObject: json.JsonObject = unicode.asObject()?;
+    var unicode: json.Value = json.parse("{\"bmp\":\"\\u017b\",\"emoji\":\"\\ud83d\\ude00\"}")?;
+    var unicodeObject: json.Object = unicode.asObject()?;
     var bmp: String = unicodeObject.getString("bmp")?;
     var emoji: String = unicodeObject.getString("emoji")?;
     if bmp != "Ż" || emoji != "😀" { return 8; }
 
-    var duplicate: json.JsonValue = json.parse("{\"value\":1,\"value\":2}")?;
-    var duplicateObject: json.JsonObject = duplicate.asObject()?;
+    var duplicate: json.Value = json.parse("{\"value\":1,\"value\":2}")?;
+    var duplicateObject: json.Object = duplicate.asObject()?;
     var duplicateValue: Int = duplicateObject.getInt("value")?;
     if duplicateObject.size() != 1 || duplicateValue != 2 { return 9; }
 
-    var huge: json.JsonValue = json.parse("123456789012345678901234567890")?;
+    var huge: json.Value = json.parse("123456789012345678901234567890")?;
     var hugeText: String = huge.asNumberText()?;
     if hugeText != "123456789012345678901234567890" { return 10; }
 
-    var minInt: json.JsonValue = json.parse("-9223372036854775808")?;
+    var minInt: json.Value = json.parse("-9223372036854775808")?;
     var minValue: Int = minInt.asInt()?;
     if minValue != -9223372036854775807 - 1 { return 11; }
 
-    var maxUInt: json.JsonValue = json.parse("18446744073709551615")?;
+    var maxUInt: json.Value = json.parse("18446744073709551615")?;
     var maxUnsigned: UInt = maxUInt.asUInt()?;
     if maxUnsigned != 18446744073709551615 { return 12; }
 
-    var compensated: json.JsonValue = json.parse("123456789012345678901234567890e-29")?;
+    var compensated: json.Value = json.parse("123456789012345678901234567890e-29")?;
     var compensatedValue: Float64 = compensated.asFloat64()?;
     if compensatedValue < 1.2345 || compensatedValue > 1.2346 { return 13; }
     return 0;

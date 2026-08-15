@@ -1,25 +1,25 @@
 import "std/json";
 import "std/convert" as convert;
 
-fun buildDocument() String!json.JsonError {
-    var user: json.JsonObject = new json.JsonObject();
+fun buildDocument() String!json.Error {
+    var user: json.Object = new json.Object();
     user.put("id", 42);
     user.put("name", "Ada");
     user.put("name", "Grace");
     user.put("active", true);
     user.putNull("deleted_at");
 
-    var tags: json.JsonArray = new json.JsonArray();
+    var tags: json.Array = new json.Array();
     tags.push("zap");
     tags.push("compiler");
     tags.pushNull();
     tags.push(1.5)?;
     user.put("tags", tags);
 
-    var metadata: json.JsonObject = new json.JsonObject();
+    var metadata: json.Object = new json.Object();
     metadata.put("escaped", "quote=\" slash=\\ line=\n tab=\t");
     metadata.put("control", "" + convert.toChar(1));
-    var exact: json.JsonValue = json.JsonValue.numberText("1.2300e+40")?;
+    var exact: json.Value = json.Value.numberText("1.2300e+40")?;
     metadata.put("exact", exact);
     user.put("metadata", metadata);
 
