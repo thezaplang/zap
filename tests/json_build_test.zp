@@ -1,0 +1,34 @@
+import "std/json";
+import "std/convert" as convert;
+
+fun buildDocument() String!json.JsonError {
+    var user: json.JsonObject = new json.JsonObject();
+    user.put("id", 42);
+    user.put("name", "Ada");
+    user.put("name", "Grace");
+    user.put("active", true);
+    user.putNull("deleted_at");
+
+    var tags: json.JsonArray = new json.JsonArray();
+    tags.push("zap");
+    tags.push("compiler");
+    tags.pushNull();
+    tags.push(1.5)?;
+    user.put("tags", tags);
+
+    var metadata: json.JsonObject = new json.JsonObject();
+    metadata.put("escaped", "quote=\" slash=\\ line=\n tab=\t");
+    metadata.put("control", "" + convert.toChar(1));
+    var exact: json.JsonValue = json.JsonValue.numberText("1.2300e+40")?;
+    metadata.put("exact", exact);
+    user.put("metadata", metadata);
+
+    return user.stringify()?;
+}
+
+fun main() Int {
+    var encoded: String = buildDocument() or err { return 1; };
+    var expected: String = "{\"id\":42,\"name\":\"Grace\",\"active\":true,\"deleted_at\":null,\"tags\":[\"zap\",\"compiler\",null,1.5],\"metadata\":{\"escaped\":\"quote=\\\" slash=\\\\ line=\\n tab=\\t\",\"control\":\"\\u0001\",\"exact\":1.2300e+40}}";
+    if encoded != expected { return 2; }
+    return 0;
+}

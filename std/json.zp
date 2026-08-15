@@ -1,310 +1,778 @@
-import "std/string" { pushChar, stringLen as len, slice, at };
-import "std/collection";
-import "std/convert";
+import "std/string" as string;
+import "std/collection" as collection;
+import "std/convert" as convert;
 
-pub enum JsonType {
-    STRING,
-    NUMBER,
-    BOOL,
-    NULLTYPE,
-    OBJECT,
-    ARRAY
+const DEFAULT_MAX_DEPTH: Int = 128;
+
+pub enum JsonKind {
+    String,
+    Number,
+    Boolean,
+    Null,
+    Object,
+    Array,
 }
 
-pub struct JsonValue {
-    type: JsonType,
-    stringVal: String,
-    numberVal: Float64,
-    boolVal: Bool,
-    objectSource: String,
-    arrayVal: collection.List<JsonValue>,
-    valid: Bool
+pub enum JsonErrorKind {
+    UnexpectedEnd,
+    UnexpectedToken,
+    InvalidEscape,
+    InvalidUnicodeEscape,
+    InvalidNumber,
+    TrailingCharacters,
+    InvalidDepth,
+    NestingTooDeep,
+    MissingKey,
+    IndexOutOfBounds,
+    TypeMismatch,
+    NumberConversion,
+    NonFiniteNumber,
+}
+
+@error
+pub struct JsonError {
+    kind: JsonErrorKind,
+    position: Int,
+    message: String,
+}
+
+fun errorAt(kind: JsonErrorKind, position: Int, message: String) JsonError {
+    return JsonError{kind: kind, position: position, message: message};
+}
+
+fun accessError(kind: JsonErrorKind, message: String) JsonError {
+    return errorAt(kind, -1, message);
+}
+
+fun digitValue(c: Char) Int {
+    return convert.toInt(c) - convert.toInt('0');
+}
+
+fun isDigit(c: Char) Bool {
+    return c >= '0' && c <= '9';
+}
+
+fun hexValue(c: Char) Int {
+    if c >= '0' && c <= '9' { return convert.toInt(c) - convert.toInt('0'); }
+    if c >= 'a' && c <= 'f' { return convert.toInt(c) - convert.toInt('a') + 10; }
+    if c >= 'A' && c <= 'F' { return convert.toInt(c) - convert.toInt('A') + 10; }
+    return -1;
+}
+
+fun kindName(kind: JsonKind) String {
+    if kind == JsonKind.String { return "string"; }
+    if kind == JsonKind.Number { return "number"; }
+    if kind == JsonKind.Boolean { return "boolean"; }
+    if kind == JsonKind.Null { return "null"; }
+    if kind == JsonKind.Object { return "object"; }
+    return "array";
+}
+
+fun typeError(expected: String, actual: JsonKind) JsonError {
+    return accessError(JsonErrorKind.TypeMismatch, "Expected " + expected + ", got " + kindName(actual));
+}
+
+fun isFinite(value: Float64) Bool {
+    return value == value && value - value == 0.0;
+}
+
+fun validNumberText(raw: String) Bool {
+    var n: Int = string.len(raw);
+    if n == 0 { return false; }
+
+    var i: Int = 0;
+    if string.at(raw, i) == '-' {
+        i = i + 1;
+        if i >= n { return false; }
+    }
+
+    if string.at(raw, i) == '0' {
+        i = i + 1;
+    } else {
+        if !isDigit(string.at(raw, i)) { return false; }
+        while i < n && isDigit(string.at(raw, i)) { i = i + 1; }
+    }
+
+    if i < n && string.at(raw, i) == '.' {
+        i = i + 1;
+        if i >= n || !isDigit(string.at(raw, i)) { return false; }
+        while i < n && isDigit(string.at(raw, i)) { i = i + 1; }
+    }
+
+    if i < n && (string.at(raw, i) == 'e' || string.at(raw, i) == 'E') {
+        i = i + 1;
+        if i < n && (string.at(raw, i) == '+' || string.at(raw, i) == '-') { i = i + 1; }
+        if i >= n || !isDigit(string.at(raw, i)) { return false; }
+        while i < n && isDigit(string.at(raw, i)) { i = i + 1; }
+    }
+
+    return i == n;
+}
+
+fun isPlainInteger(raw: String) Bool {
+    var n: Int = string.len(raw);
+    if n == 0 { return false; }
+    var i: Int = 0;
+    if string.at(raw, 0) == '-' {
+        i = 1;
+        if n == 1 { return false; }
+    }
+    while i < n {
+        if !isDigit(string.at(raw, i)) { return false; }
+        i = i + 1;
+    }
+    return true;
+}
+
+fun magnitudeFits(raw: String, start: Int, limit: String) Bool {
+    var digits: Int = string.len(raw) - start;
+    var limitDigits: Int = string.len(limit);
+    if digits < limitDigits { return true; }
+    if digits > limitDigits { return false; }
+
+    var i: Int = 0;
+    while i < digits {
+        var actual: Char = string.at(raw, start + i);
+        var maximum: Char = string.at(limit, i);
+        if actual < maximum { return true; }
+        if actual > maximum { return false; }
+        i = i + 1;
+    }
+    return true;
+}
+
+pub class JsonValue {
+    priv valueKind: JsonKind;
+    priv stringValue: String;
+    priv numberValue: String;
+    priv boolValue: Bool;
+    priv objectValue: JsonObject;
+    priv arrayValue: JsonArray;
+
+    fun init(kind: JsonKind, stringValue: String, numberValue: String, boolValue: Bool, objectValue: JsonObject, arrayValue: JsonArray) {
+        self.valueKind = kind;
+        self.stringValue = stringValue;
+        self.numberValue = numberValue;
+        self.boolValue = boolValue;
+        self.objectValue = objectValue;
+        self.arrayValue = arrayValue;
+    }
+
+    pub static fun string(value: String) JsonValue {
+        return new JsonValue(JsonKind.String, value, "", false, null, null);
+    }
+
+    pub static fun number(value: Int) JsonValue {
+        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+    }
+
+    pub static fun number(value: UInt) JsonValue {
+        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+    }
+
+    pub static fun number(value: Float) JsonValue!JsonError {
+        return JsonValue.number(convert.toFloat64(value))?;
+    }
+
+    pub static fun number(value: Float64) JsonValue!JsonError {
+        if !isFinite(value) {
+            fail accessError(JsonErrorKind.NonFiniteNumber, "JSON numbers must be finite");
+        }
+        return new JsonValue(JsonKind.Number, "", convert.toString(value), false, null, null);
+    }
+
+    pub static fun numberText(value: String) JsonValue!JsonError {
+        if !validNumberText(value) {
+            fail accessError(JsonErrorKind.InvalidNumber, "Invalid JSON number");
+        }
+        return new JsonValue(JsonKind.Number, "", value, false, null, null);
+    }
+
+    pub static fun boolean(value: Bool) JsonValue {
+        return new JsonValue(JsonKind.Boolean, "", "", value, null, null);
+    }
+
+    pub static fun nullValue() JsonValue {
+        return new JsonValue(JsonKind.Null, "", "", false, null, null);
+    }
+
+    pub static fun object(value: JsonObject) JsonValue {
+        return new JsonValue(JsonKind.Object, "", "", false, value, null);
+    }
+
+    pub static fun array(value: JsonArray) JsonValue {
+        return new JsonValue(JsonKind.Array, "", "", false, null, value);
+    }
+
+    pub fun kind() JsonKind { return self.valueKind; }
+    pub fun isString() Bool { return self.valueKind == JsonKind.String; }
+    pub fun isNumber() Bool { return self.valueKind == JsonKind.Number; }
+    pub fun isBoolean() Bool { return self.valueKind == JsonKind.Boolean; }
+    pub fun isNull() Bool { return self.valueKind == JsonKind.Null; }
+    pub fun isObject() Bool { return self.valueKind == JsonKind.Object; }
+    pub fun isArray() Bool { return self.valueKind == JsonKind.Array; }
+
+    pub fun asString() String!JsonError {
+        if !self.isString() { fail typeError("string", self.valueKind); }
+        return self.stringValue;
+    }
+
+    pub fun asNumberText() String!JsonError {
+        if !self.isNumber() { fail typeError("number", self.valueKind); }
+        return self.numberValue;
+    }
+
+    pub fun asInt() Int!JsonError {
+        if !self.isNumber() { fail typeError("number", self.valueKind); }
+        var raw: String = self.numberValue;
+        if !isPlainInteger(raw) {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is not a plain integer");
+        }
+
+        var negative: Bool = string.at(raw, 0) == '-';
+        var start: Int = negative ? 1 : 0;
+        var limit: String = negative ? "9223372036854775808" : "9223372036854775807";
+        if !magnitudeFits(raw, start, limit) {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Int range");
+        }
+
+        var result: Int = 0;
+        var i: Int = start;
+        while i < string.len(raw) {
+            var digit: Int = digitValue(string.at(raw, i));
+            if negative { result = result * 10 - digit; }
+            else { result = result * 10 + digit; }
+            i = i + 1;
+        }
+        return result;
+    }
+
+    pub fun asUInt() UInt!JsonError {
+        if !self.isNumber() { fail typeError("number", self.valueKind); }
+        var raw: String = self.numberValue;
+        if !isPlainInteger(raw) || string.at(raw, 0) == '-' {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is not an unsigned integer");
+        }
+        if !magnitudeFits(raw, 0, "18446744073709551615") {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the UInt range");
+        }
+
+        var result: UInt = 0;
+        var i: Int = 0;
+        while i < string.len(raw) {
+            var digit: UInt = digitValue(string.at(raw, i)) as UInt;
+            result = result * 10 + digit;
+            i = i + 1;
+        }
+        return result;
+    }
+
+    pub fun asFloat64() Float64!JsonError {
+        if !self.isNumber() { fail typeError("number", self.valueKind); }
+        var raw: String = self.numberValue;
+        var n: Int = string.len(raw);
+        var i: Int = 0;
+        var negative: Bool = false;
+        if string.at(raw, i) == '-' { negative = true; i = i + 1; }
+
+        var significand: Float64 = 0.0;
+        var digitsBeforeDecimal: Int = 0;
+        var digitIndex: Int = 0;
+        var firstSignificant: Int = -1;
+        var significantDigits: Int = 0;
+        var decimalSeen: Bool = false;
+        while i < n && string.at(raw, i) != 'e' && string.at(raw, i) != 'E' {
+            if string.at(raw, i) == '.' {
+                decimalSeen = true;
+            } else {
+                var digit: Int = digitValue(string.at(raw, i));
+                if !decimalSeen { digitsBeforeDecimal = digitsBeforeDecimal + 1; }
+                if firstSignificant < 0 && digit != 0 { firstSignificant = digitIndex; }
+                if firstSignificant >= 0 && significantDigits < 17 {
+                    significand = significand * 10.0 + convert.toFloat64(digit);
+                    significantDigits = significantDigits + 1;
+                }
+                digitIndex = digitIndex + 1;
+            }
+            i = i + 1;
+        }
+
+        if firstSignificant < 0 {
+            if negative { return -0.0; }
+            return 0.0;
+        }
+
+        var explicitExponent: Int = 0;
+        var exponentNegative: Bool = false;
+        if i < n && (string.at(raw, i) == 'e' || string.at(raw, i) == 'E') {
+            i = i + 1;
+            if string.at(raw, i) == '+' || string.at(raw, i) == '-' {
+                exponentNegative = string.at(raw, i) == '-';
+                i = i + 1;
+            }
+            while i < n && isDigit(string.at(raw, i)) {
+                if explicitExponent <= 1000 {
+                    explicitExponent = explicitExponent * 10 + digitValue(string.at(raw, i));
+                }
+                i = i + 1;
+            }
+        }
+
+        if explicitExponent > 1000 {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+        }
+        if exponentNegative { explicitExponent = -explicitExponent; }
+
+        var exponent: Int = digitsBeforeDecimal - firstSignificant - significantDigits + explicitExponent;
+        if exponent > 400 || exponent < -400 {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+        }
+        var step: Int = 0;
+        var scaleSteps: Int = exponent;
+        if scaleSteps < 0 { scaleSteps = -scaleSteps; }
+        while step < scaleSteps {
+            if exponent < 0 { significand = significand / 10.0; }
+            else { significand = significand * 10.0; }
+            step = step + 1;
+        }
+        if negative { significand = -significand; }
+        if !isFinite(significand) || significand == 0.0 {
+            fail accessError(JsonErrorKind.NumberConversion, "JSON number is outside the Float64 range");
+        }
+        return significand;
+    }
+
+    pub fun asBool() Bool!JsonError {
+        if !self.isBoolean() { fail typeError("boolean", self.valueKind); }
+        return self.boolValue;
+    }
+
+    pub fun asObject() JsonObject!JsonError {
+        if !self.isObject() { fail typeError("object", self.valueKind); }
+        return self.objectValue;
+    }
+
+    pub fun asArray() JsonArray!JsonError {
+        if !self.isArray() { fail typeError("array", self.valueKind); }
+        return self.arrayValue;
+    }
+
+    pub fun stringify() String!JsonError {
+        return stringifyValue(self, 1, DEFAULT_MAX_DEPTH)?;
+    }
+
+    pub fun stringify(maxDepth: Int) String!JsonError {
+        if maxDepth <= 0 { fail accessError(JsonErrorKind.InvalidDepth, "Maximum JSON depth must be positive"); }
+        return stringifyValue(self, 1, maxDepth)?;
+    }
 }
 
 pub class JsonObject {
-    pub map: collection.HashMap<JsonValue>;
-    pub valid: Bool;
+    priv values: collection.HashMap<JsonValue>;
+    priv keys: collection.List<String>;
 
     fun init() {
-        self.map = new collection.HashMap<JsonValue>();
-        self.valid = true;
+        self.values = new collection.HashMap<JsonValue>();
+        self.keys = new collection.List<String>();
     }
 
-    pub fun put(key: String, value: JsonValue) {
-        self.map.put(key, value);
+    fun putStored(key: String, value: JsonValue) {
+        if !self.values.contains(key) { self.keys.push(key); }
+        self.values.put(key, value);
     }
 
-    pub fun get(key: String) JsonValue {
-        return self.map.getOr(key, JsonValue{
-            type: JsonType.NULLTYPE,
-            stringVal: "",
-            numberVal: 0.0,
-            boolVal: false,
-            objectSource: "",
-            arrayVal: new collection.List<JsonValue>(),
-            valid: false
-        });
+    pub fun put(key: String, value: JsonValue) { self.putStored(key, value); }
+    pub fun put(key: String, value: String) { self.putStored(key, JsonValue.string(value)); }
+    pub fun put(key: String, value: Bool) { self.putStored(key, JsonValue.boolean(value)); }
+    pub fun put(key: String, value: Int) { self.putStored(key, JsonValue.number(value)); }
+    pub fun put(key: String, value: UInt) { self.putStored(key, JsonValue.number(value)); }
+    pub fun put(key: String, value: JsonObject) { self.putStored(key, JsonValue.object(value)); }
+    pub fun put(key: String, value: JsonArray) { self.putStored(key, JsonValue.array(value)); }
+
+    pub fun put(key: String, value: Float) Void!JsonError {
+        var stored: JsonValue = JsonValue.number(value)?;
+        self.putStored(key, stored);
+        return;
     }
 
-    pub fun has(key: String) Bool { return self.map.contains(key); }
-    pub fun size() Int { return self.map.len(); }
+    pub fun put(key: String, value: Float64) Void!JsonError {
+        var stored: JsonValue = JsonValue.number(value)?;
+        self.putStored(key, stored);
+        return;
+    }
+
+    pub fun putNull(key: String) { self.putStored(key, JsonValue.nullValue()); }
+    pub fun has(key: String) Bool { return self.values.contains(key); }
+    pub fun size() Int { return self.keys.len(); }
+
+    pub fun get(key: String) JsonValue!JsonError {
+        if !self.values.contains(key) {
+            fail accessError(JsonErrorKind.MissingKey, "Missing JSON object key: " + key);
+        }
+        return self.values.get(key);
+    }
+
+    pub fun keyAt(index: Int) String!JsonError {
+        if index < 0 || index >= self.keys.len() {
+            fail accessError(JsonErrorKind.IndexOutOfBounds, "JSON object key index is out of bounds");
+        }
+        return self.keys.at(index);
+    }
+
+    pub fun getString(key: String) String!JsonError { var value: JsonValue = self.get(key)?; return value.asString()?; }
+    pub fun getInt(key: String) Int!JsonError { var value: JsonValue = self.get(key)?; return value.asInt()?; }
+    pub fun getUInt(key: String) UInt!JsonError { var value: JsonValue = self.get(key)?; return value.asUInt()?; }
+    pub fun getFloat64(key: String) Float64!JsonError { var value: JsonValue = self.get(key)?; return value.asFloat64()?; }
+    pub fun getBool(key: String) Bool!JsonError { var value: JsonValue = self.get(key)?; return value.asBool()?; }
+    pub fun getObject(key: String) JsonObject!JsonError { var value: JsonValue = self.get(key)?; return value.asObject()?; }
+    pub fun getArray(key: String) JsonArray!JsonError { var value: JsonValue = self.get(key)?; return value.asArray()?; }
+
+    pub fun stringify() String!JsonError { return JsonValue.object(self).stringify()?; }
+    pub fun stringify(maxDepth: Int) String!JsonError { return JsonValue.object(self).stringify(maxDepth)?; }
 }
 
-pub class JsonParser {
-    pub str: String;
-    pub pos: Int;
-    pub valid: Bool;
+pub class JsonArray {
+    priv values: collection.List<JsonValue>;
 
-    pub fun init(text: String) {
-        self.str = text;
-        self.pos = 0;
-        self.valid = true;
+    fun init() { self.values = new collection.List<JsonValue>(); }
+
+    pub fun push(value: JsonValue) { self.values.push(value); }
+    pub fun push(value: String) { self.values.push(JsonValue.string(value)); }
+    pub fun push(value: Bool) { self.values.push(JsonValue.boolean(value)); }
+    pub fun push(value: Int) { self.values.push(JsonValue.number(value)); }
+    pub fun push(value: UInt) { self.values.push(JsonValue.number(value)); }
+    pub fun push(value: JsonObject) { self.values.push(JsonValue.object(value)); }
+    pub fun push(value: JsonArray) { self.values.push(JsonValue.array(value)); }
+
+    pub fun push(value: Float) Void!JsonError {
+        var stored: JsonValue = JsonValue.number(value)?;
+        self.values.push(stored);
+        return;
     }
 
-    pub fun isAtEnd() Bool { return self.pos >= len(self.str); }
+    pub fun push(value: Float64) Void!JsonError {
+        var stored: JsonValue = JsonValue.number(value)?;
+        self.values.push(stored);
+        return;
+    }
+    pub fun pushNull() { self.values.push(JsonValue.nullValue()); }
+    pub fun size() Int { return self.values.len(); }
 
-    pub fun peek() Char {
-        if self.isAtEnd() { return ' '; }
-        return at(self.str, self.pos);
+    pub fun at(index: Int) JsonValue!JsonError {
+        if index < 0 || index >= self.values.len() {
+            fail accessError(JsonErrorKind.IndexOutOfBounds, "JSON array index is out of bounds");
+        }
+        return self.values.at(index);
     }
 
-    pub fun consume() Char {
-        var c: Char = self.peek();
-        self.pos = self.pos + 1;
-        return c;
+    pub fun getString(index: Int) String!JsonError { var value: JsonValue = self.at(index)?; return value.asString()?; }
+    pub fun getInt(index: Int) Int!JsonError { var value: JsonValue = self.at(index)?; return value.asInt()?; }
+    pub fun getUInt(index: Int) UInt!JsonError { var value: JsonValue = self.at(index)?; return value.asUInt()?; }
+    pub fun getFloat64(index: Int) Float64!JsonError { var value: JsonValue = self.at(index)?; return value.asFloat64()?; }
+    pub fun getBool(index: Int) Bool!JsonError { var value: JsonValue = self.at(index)?; return value.asBool()?; }
+    pub fun getObject(index: Int) JsonObject!JsonError { var value: JsonValue = self.at(index)?; return value.asObject()?; }
+    pub fun getArray(index: Int) JsonArray!JsonError { var value: JsonValue = self.at(index)?; return value.asArray()?; }
+
+    pub fun stringify() String!JsonError { return JsonValue.array(self).stringify()?; }
+    pub fun stringify(maxDepth: Int) String!JsonError { return JsonValue.array(self).stringify(maxDepth)?; }
+}
+
+fun escapedString(value: String) String {
+    var out: string.TextBuf = new string.TextBuf();
+    out.pushChar('"');
+    var i: Int = 0;
+    while i < string.len(value) {
+        var c: Char = string.at(value, i);
+        var code: Int = convert.toInt(c);
+        if c == '"' { out.push("\\\""); }
+        else if c == '\\' { out.push("\\\\"); }
+        else if code == 8 { out.push("\\b"); }
+        else if code == 12 { out.push("\\f"); }
+        else if c == '\n' { out.push("\\n"); }
+        else if c == '\r' { out.push("\\r"); }
+        else if c == '\t' { out.push("\\t"); }
+        else if code < 32 {
+            var digits: String = "0123456789abcdef";
+            out.push("\\u00");
+            out.pushChar(string.at(digits, code / 16));
+            out.pushChar(string.at(digits, code % 16));
+        } else { out.pushChar(c); }
+        i = i + 1;
+    }
+    out.pushChar('"');
+    return out.build();
+}
+
+fun stringifyValue(value: JsonValue, depth: Int, maxDepth: Int) String!JsonError {
+    if depth > maxDepth {
+        fail accessError(JsonErrorKind.NestingTooDeep, "Maximum JSON nesting depth exceeded");
+    }
+    if value.isString() { return escapedString(value.asString()?); }
+    if value.isNumber() { return value.asNumberText()?; }
+    if value.isBoolean() {
+        var boolean: Bool = value.asBool()?;
+        if boolean { return "true"; }
+        return "false";
+    }
+    if value.isNull() { return "null"; }
+
+    var out: string.TextBuf = new string.TextBuf();
+    if value.isArray() {
+        var array: JsonArray = value.asArray()?;
+        out.pushChar('[');
+        var i: Int = 0;
+        while i < array.size() {
+            if i > 0 { out.pushChar(','); }
+            var item: JsonValue = array.at(i)?;
+            out.push(stringifyValue(item, depth + 1, maxDepth)?);
+            i = i + 1;
+        }
+        out.pushChar(']');
+        return out.build();
     }
 
-    pub fun skipWhitespace() {
+    var object: JsonObject = value.asObject()?;
+    out.pushChar('{');
+    var i: Int = 0;
+    while i < object.size() {
+        if i > 0 { out.pushChar(','); }
+        var key: String = object.keyAt(i)?;
+        var item: JsonValue = object.get(key)?;
+        out.push(escapedString(key));
+        out.pushChar(':');
+        out.push(stringifyValue(item, depth + 1, maxDepth)?);
+        i = i + 1;
+    }
+    out.pushChar('}');
+    return out.build();
+}
+
+class Parser {
+    priv text: String;
+    priv position: Int;
+    priv maxDepth: Int;
+
+    fun init(text: String, maxDepth: Int) {
+        self.text = text;
+        self.position = 0;
+        self.maxDepth = maxDepth;
+    }
+
+    fun isAtEnd() Bool { return self.position >= string.len(self.text); }
+    fun peek() Char { return string.at(self.text, self.position); }
+    fun consume() Char { var c: Char = self.peek(); self.position = self.position + 1; return c; }
+
+    fun skipWhitespace() {
         while !self.isAtEnd() {
             var c: Char = self.peek();
-            if c == ' ' || c == '\n' || c == '\r' || c == '\t' {
-                self.pos = self.pos + 1;
-            } else { return; }
+            if c == ' ' || c == '\n' || c == '\r' || c == '\t' { self.position = self.position + 1; }
+            else { return; }
         }
     }
 
-    fun invalid() JsonValue {
-        self.valid = false;
-        return JsonValue{
-            type: JsonType.NULLTYPE,
-            stringVal: "",
-            numberVal: 0.0,
-            boolVal: false,
-            objectSource: "",
-            arrayVal: new collection.List<JsonValue>(),
-            valid: false
-        };
-    }
-
-    pub fun makeNull() JsonValue { return self.value(JsonType.NULLTYPE, "", 0.0, false); }
-    pub fun makeInvalidNull() JsonValue { return self.invalid(); }
-    pub fun makeString(text: String) JsonValue { return self.value(JsonType.STRING, text, 0.0, false); }
-    pub fun makeObject(source: String) JsonValue {
-        return JsonValue{type: JsonType.OBJECT, stringVal: "", numberVal: 0.0, boolVal: false, objectSource: source, arrayVal: new collection.List<JsonValue>(), valid: self.valid};
-    }
-
-    fun value(t: JsonType, text: String, number: Float64, boolean: Bool) JsonValue {
-        return JsonValue{
-            type: t,
-            stringVal: text,
-            numberVal: number,
-            boolVal: boolean,
-            objectSource: "",
-            arrayVal: new collection.List<JsonValue>(),
-            valid: true
-        };
-    }
-
-    fun hex(c: Char) Int {
-        if c >= '0' && c <= '9' { return convert.toInt(c) - convert.toInt('0'); }
-        if c >= 'a' && c <= 'f' { return convert.toInt(c) - convert.toInt('a') + 10; }
-        if c >= 'A' && c <= 'F' { return convert.toInt(c) - convert.toInt('A') + 10; }
-        return -1;
-    }
-
-    fun appendCodepoint(out: String, code: Int) String {
-        if code < 128 { return pushChar(out, convert.toChar(code)); }
-        if code < 2048 {
-            return pushChar(pushChar(out, convert.toChar(192 + code / 64)), convert.toChar(128 + code % 64));
+    fun parseHex4() Int!JsonError {
+        var value: Int = 0;
+        var i: Int = 0;
+        while i < 4 {
+            if self.isAtEnd() {
+                fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Incomplete Unicode escape");
+            }
+            var digit: Int = hexValue(self.consume());
+            if digit < 0 {
+                fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 1, "Invalid hexadecimal digit in Unicode escape");
+            }
+            value = value * 16 + digit;
+            i = i + 1;
         }
-        return pushChar(pushChar(pushChar(out, convert.toChar(224 + code / 4096)), convert.toChar(128 + (code / 64) % 64)), convert.toChar(128 + code % 64));
+        return value;
     }
 
-    pub fun isDigit(c: Char) Bool { return c >= '0' && c <= '9'; }
-
-    pub fun parseIdentifier() String {
-        var out: String = "";
-        while !self.isAtEnd() {
-            var c: Char = self.peek();
-            if c == ':' || c == ',' || c == '}' || c == '{' || c == '[' || c == ']' || c == ' ' || c == '\n' || c == '\r' || c == '\t' { return out; }
-            out = pushChar(out, self.consume());
+    fun appendUtf8(out: string.TextBuf, codepoint: Int) {
+        if codepoint <= 127 { out.pushChar(convert.toChar(codepoint)); return; }
+        if codepoint <= 2047 {
+            out.pushChar(convert.toChar(192 + codepoint / 64));
+            out.pushChar(convert.toChar(128 + codepoint % 64));
+            return;
         }
-        return out;
+        if codepoint <= 65535 {
+            out.pushChar(convert.toChar(224 + codepoint / 4096));
+            out.pushChar(convert.toChar(128 + (codepoint / 64) % 64));
+            out.pushChar(convert.toChar(128 + codepoint % 64));
+            return;
+        }
+        out.pushChar(convert.toChar(240 + codepoint / 262144));
+        out.pushChar(convert.toChar(128 + (codepoint / 4096) % 64));
+        out.pushChar(convert.toChar(128 + (codepoint / 64) % 64));
+        out.pushChar(convert.toChar(128 + codepoint % 64));
     }
 
-    pub fun parseKey() String {
-        self.skipWhitespace();
-        if self.isAtEnd() { self.valid = false; return ""; }
-        if self.peek() == '"' { return self.parseStringRaw(); }
-        return self.parseIdentifier();
-    }
+    fun parseString() String!JsonError {
+        var start: Int = self.position;
+        if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected JSON string"); }
+        if self.consume() != '"' { fail errorAt(JsonErrorKind.UnexpectedToken, start, "Expected JSON string"); }
 
-    fun parseStringRaw() String {
-        if self.isAtEnd() || self.consume() != '"' { self.valid = false; return ""; }
-        var out: String = "";
+        var out: string.TextBuf = new string.TextBuf();
         while !self.isAtEnd() {
             var c: Char = self.consume();
-            if c == '"' { return out; }
-            if c == '\\' {
-                if self.isAtEnd() { self.valid = false; return out; }
-                var escaped: Char = self.consume();
-                if escaped == '"' || escaped == '\\' || escaped == '/' { out = pushChar(out, escaped); }
-                else if escaped == 'b' { out = pushChar(out, '\b'); }
-                else if escaped == 'f' { out = pushChar(out, '\f'); }
-                else if escaped == 'n' { out = pushChar(out, '\n'); }
-                else if escaped == 'r' { out = pushChar(out, '\r'); }
-                else if escaped == 't' { out = pushChar(out, '\t'); }
-                else if escaped == 'u' {
-                    var code: Int = 0;
-                    var i: Int = 0;
-                    while i < 4 {
-                        if self.isAtEnd() { self.valid = false; return out; }
-                        var digit: Int = self.hex(self.consume());
-                        if digit < 0 { self.valid = false; return out; }
-                        code = code * 16 + digit;
-                        i = i + 1;
+            if c == '"' { return out.build(); }
+            if convert.toInt(c) < 32 {
+                fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Unescaped control character in JSON string");
+            }
+            if c != '\\' { out.pushChar(c); continue; }
+            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Incomplete JSON escape"); }
+
+            var escaped: Char = self.consume();
+            if escaped == '"' || escaped == '\\' || escaped == '/' { out.pushChar(escaped); }
+            else if escaped == 'b' { out.pushChar(convert.toChar(8)); }
+            else if escaped == 'f' { out.pushChar(convert.toChar(12)); }
+            else if escaped == 'n' { out.pushChar('\n'); }
+            else if escaped == 'r' { out.pushChar('\r'); }
+            else if escaped == 't' { out.pushChar('\t'); }
+            else if escaped == 'u' {
+                var codepoint: Int = self.parseHex4()?;
+                if codepoint >= 55296 && codepoint <= 56319 {
+                    if self.position + 6 > string.len(self.text) || self.consume() != '\\' || self.consume() != 'u' {
+                        fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position, "High surrogate must be followed by a low surrogate");
                     }
-                    out = self.appendCodepoint(out, code);
-                } else { self.valid = false; return out; }
+                    var low: Int = self.parseHex4()?;
+                    if low < 56320 || low > 57343 {
+                        fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 4, "Invalid low surrogate");
+                    }
+                    codepoint = 65536 + (codepoint - 55296) * 1024 + (low - 56320);
+                } else if codepoint >= 56320 && codepoint <= 57343 {
+                    fail errorAt(JsonErrorKind.InvalidUnicodeEscape, self.position - 4, "Unexpected low surrogate");
+                }
+                self.appendUtf8(out, codepoint);
             } else {
-                if convert.toInt(c) < 32 { self.valid = false; return out; }
-                out = pushChar(out, c);
+                fail errorAt(JsonErrorKind.InvalidEscape, self.position - 1, "Invalid JSON escape");
             }
         }
-        self.valid = false;
-        return out;
+        fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON string");
+        return "";
     }
 
-    pub fun parseString() String { return self.parseStringRaw(); }
+    fun parseNumber() JsonValue!JsonError {
+        var start: Int = self.position;
+        if self.peek() == '-' { self.position = self.position + 1; }
+        if self.isAtEnd() { fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Incomplete JSON number"); }
 
-    fun parseNumber() JsonValue {
-        var start: Int = self.pos;
-        if self.peek() == '-' { self.pos = self.pos + 1; }
-        if self.isAtEnd() || self.peek() < '0' || self.peek() > '9' { return self.invalid(); }
         if self.peek() == '0' {
-            self.pos = self.pos + 1;
+            self.position = self.position + 1;
         } else {
-            while !self.isAtEnd() && self.peek() >= '0' && self.peek() <= '9' { self.pos = self.pos + 1; }
+            if !isDigit(self.peek()) { fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Invalid JSON number"); }
+            while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
+
         if !self.isAtEnd() && self.peek() == '.' {
-            self.pos = self.pos + 1;
-            if self.isAtEnd() || self.peek() < '0' || self.peek() > '9' { return self.invalid(); }
-            while !self.isAtEnd() && self.peek() >= '0' && self.peek() <= '9' { self.pos = self.pos + 1; }
+            self.position = self.position + 1;
+            if self.isAtEnd() || !isDigit(self.peek()) {
+                fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Expected digit after decimal point");
+            }
+            while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
+
         if !self.isAtEnd() && (self.peek() == 'e' || self.peek() == 'E') {
-            self.pos = self.pos + 1;
-            if !self.isAtEnd() && (self.peek() == '+' || self.peek() == '-') { self.pos = self.pos + 1; }
-            if self.isAtEnd() || self.peek() < '0' || self.peek() > '9' { return self.invalid(); }
-            while !self.isAtEnd() && self.peek() >= '0' && self.peek() <= '9' { self.pos = self.pos + 1; }
-        }
-        var raw: String = slice(self.str, start, self.pos - start);
-        var number: Float64 = 0.0;
-        var i: Int = 0;
-        var sign: Float64 = 1.0;
-        if at(raw, 0) == '-' { sign = -1.0; i = 1; }
-        while i < len(raw) && at(raw, i) >= '0' && at(raw, i) <= '9' { number = number * 10.0 + convert.toFloat64(convert.toInt(at(raw, i)) - convert.toInt('0')); i = i + 1; }
-        if i < len(raw) && at(raw, i) == '.' {
-            i = i + 1;
-            var place: Float64 = 0.1;
-            while i < len(raw) && at(raw, i) >= '0' && at(raw, i) <= '9' { number = number + convert.toFloat64(convert.toInt(at(raw, i)) - convert.toInt('0')) * place; place = place / 10.0; i = i + 1; }
-        }
-        if i < len(raw) && (at(raw, i) == 'e' || at(raw, i) == 'E') {
-            i = i + 1;
-            var exponentSign: Int = 1;
-            if at(raw, i) == '+' || at(raw, i) == '-' {
-                if at(raw, i) == '-' { exponentSign = -1; }
-                i = i + 1;
+            self.position = self.position + 1;
+            if !self.isAtEnd() && (self.peek() == '+' || self.peek() == '-') { self.position = self.position + 1; }
+            if self.isAtEnd() || !isDigit(self.peek()) {
+                fail errorAt(JsonErrorKind.InvalidNumber, self.position, "Expected exponent digits");
             }
-            var exponent: Int = 0;
-            while i < len(raw) && at(raw, i) >= '0' && at(raw, i) <= '9' {
-                exponent = exponent * 10 + convert.toInt(at(raw, i)) - convert.toInt('0');
-                i = i + 1;
-            }
-            var step: Int = 0;
-            while step < exponent {
-                if exponentSign > 0 { number = number * 10.0; }
-                else { number = number / 10.0; }
-                step = step + 1;
-            }
+            while !self.isAtEnd() && isDigit(self.peek()) { self.position = self.position + 1; }
         }
-        return self.value(JsonType.NUMBER, raw, number * sign, false);
+
+        var raw: String = string.owned(string.slice(self.text, start, self.position - start));
+        return new JsonValue(JsonKind.Number, "", raw, false, null, null);
     }
 
-    pub fun parseValue() JsonValue {
-        self.skipWhitespace();
-        if self.isAtEnd() { return self.invalid(); }
-        if self.peek() == '"' { return self.value(JsonType.STRING, self.parseStringRaw(), 0.0, false); }
-        if self.peek() == '{' { return self.parseObject(); }
-        if self.peek() == '[' { return self.parseArray(); }
-        if self.peek() == 't' && slice(self.str, self.pos, 4) == "true" { self.pos = self.pos + 4; return self.value(JsonType.BOOL, "", 0.0, true); }
-        if self.peek() == 'f' && slice(self.str, self.pos, 5) == "false" { self.pos = self.pos + 5; return self.value(JsonType.BOOL, "", 0.0, false); }
-        if self.peek() == 'n' && slice(self.str, self.pos, 4) == "null" { self.pos = self.pos + 4; return self.value(JsonType.NULLTYPE, "", 0.0, false); }
-        if self.peek() == '-' || (self.peek() >= '0' && self.peek() <= '9') { return self.parseNumber(); }
-        return self.invalid();
+    fun consumeLiteral(literal: String) Bool {
+        var n: Int = string.len(literal);
+        if self.position + n > string.len(self.text) { return false; }
+        if !string.eq(string.slice(self.text, self.position, n), literal) { return false; }
+        self.position = self.position + n;
+        return true;
     }
 
-    pub fun parseArray() JsonValue {
-        var items: collection.List<JsonValue> = new collection.List<JsonValue>();
+    fun parseArray(depth: Int) JsonValue!JsonError {
         self.consume();
+        var array: JsonArray = new JsonArray();
         self.skipWhitespace();
-        if !self.isAtEnd() && self.peek() == ']' { self.consume(); return JsonValue{type: JsonType.ARRAY, stringVal: "", numberVal: 0.0, boolVal: false, objectSource: "", arrayVal: items, valid: true}; }
-        while !self.isAtEnd() {
-            var item: JsonValue = self.parseValue();
-            if !self.valid || !item.valid { return self.invalid(); }
-            items.push(item);
+        if !self.isAtEnd() && self.peek() == ']' { self.consume(); return JsonValue.array(array); }
+
+        while true {
+            array.push(self.parseValue(depth + 1)?);
             self.skipWhitespace();
-            if !self.isAtEnd() && self.peek() == ']' { self.consume(); return JsonValue{type: JsonType.ARRAY, stringVal: "", numberVal: 0.0, boolVal: false, objectSource: "", arrayVal: items, valid: true}; }
-            if self.isAtEnd() || self.consume() != ',' { return self.invalid(); }
+            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON array"); }
+            var delimiter: Char = self.consume();
+            if delimiter == ']' { return JsonValue.array(array); }
+            if delimiter != ',' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or ']' in JSON array"); }
             self.skipWhitespace();
         }
-        return self.invalid();
+        return JsonValue.array(array);
     }
 
-    pub fun parseObjectFields() JsonObject {
+    fun parseObject(depth: Int) JsonValue!JsonError {
+        self.consume();
         var object: JsonObject = new JsonObject();
-        self.consume();
         self.skipWhitespace();
-        if !self.isAtEnd() && self.peek() == '}' { self.consume(); return object; }
-        while !self.isAtEnd() {
-            if self.peek() != '"' { self.valid = false; object.valid = false; return object; }
-            var key: String = self.parseStringRaw();
+        if !self.isAtEnd() && self.peek() == '}' { self.consume(); return JsonValue.object(object); }
+
+        while true {
+            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
+            if self.peek() != '"' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position, "JSON object keys must be strings"); }
+            var key: String = self.parseString()?;
             self.skipWhitespace();
-            if self.isAtEnd() || self.consume() != ':' { self.valid = false; object.valid = false; return object; }
-            var item: JsonValue = self.parseValue();
-            if !self.valid || !item.valid { object.valid = false; return object; }
+            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected ':' after JSON object key"); }
+            if self.consume() != ':' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ':' after JSON object key"); }
+            self.skipWhitespace();
+            var item: JsonValue = self.parseValue(depth + 1)?;
             object.put(key, item);
             self.skipWhitespace();
-            if !self.isAtEnd() && self.peek() == '}' { self.consume(); return object; }
-            if self.isAtEnd() || self.consume() != ',' { self.valid = false; object.valid = false; return object; }
+            if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Unterminated JSON object"); }
+            var delimiter: Char = self.consume();
+            if delimiter == '}' { return JsonValue.object(object); }
+            if delimiter != ',' { fail errorAt(JsonErrorKind.UnexpectedToken, self.position - 1, "Expected ',' or '}' in JSON object"); }
             self.skipWhitespace();
         }
-        self.valid = false;
-        object.valid = false;
-        return object;
+        return JsonValue.object(object);
     }
 
-    pub fun parseObject() JsonValue {
-        var start: Int = self.pos;
-        var object: JsonObject = self.parseObjectFields();
-        if !self.valid || !object.valid { return self.invalid(); }
-        return JsonValue{type: JsonType.OBJECT, stringVal: "", numberVal: 0.0, boolVal: false, objectSource: slice(self.str, start, self.pos - start), arrayVal: new collection.List<JsonValue>(), valid: true};
+    fun parseValue(depth: Int) JsonValue!JsonError {
+        if depth > self.maxDepth {
+            fail errorAt(JsonErrorKind.NestingTooDeep, self.position, "Maximum JSON nesting depth exceeded");
+        }
+        self.skipWhitespace();
+        if self.isAtEnd() { fail errorAt(JsonErrorKind.UnexpectedEnd, self.position, "Expected JSON value"); }
+
+        var c: Char = self.peek();
+        if c == '"' { return JsonValue.string(self.parseString()?); }
+        if c == '{' { return self.parseObject(depth)?; }
+        if c == '[' { return self.parseArray(depth)?; }
+        if c == '-' || isDigit(c) { return self.parseNumber()?; }
+        if c == 't' && self.consumeLiteral("true") { return JsonValue.boolean(true); }
+        if c == 'f' && self.consumeLiteral("false") { return JsonValue.boolean(false); }
+        if c == 'n' && self.consumeLiteral("null") { return JsonValue.nullValue(); }
+        fail errorAt(JsonErrorKind.UnexpectedToken, self.position, "Unexpected token while parsing JSON value");
+        return JsonValue.nullValue();
     }
 
-    pub fun parse() JsonValue {
+    pub fun parseDocument() JsonValue!JsonError {
+        var value: JsonValue = self.parseValue(1)?;
         self.skipWhitespace();
-        var result: JsonValue = self.parseValue();
-        self.skipWhitespace();
-        if !self.valid || !result.valid || !self.isAtEnd() { return self.invalid(); }
-        return result;
+        if !self.isAtEnd() {
+            fail errorAt(JsonErrorKind.TrailingCharacters, self.position, "Unexpected characters after JSON value");
+        }
+        return value;
     }
+}
+
+pub fun parse(text: String) JsonValue!JsonError {
+    return parse(text, DEFAULT_MAX_DEPTH)?;
+}
+
+pub fun parse(text: String, maxDepth: Int) JsonValue!JsonError {
+    if maxDepth <= 0 {
+        fail errorAt(JsonErrorKind.InvalidDepth, 0, "Maximum JSON depth must be positive");
+    }
+    var parser: Parser = new Parser(text, maxDepth);
+    return parser.parseDocument()?;
 }

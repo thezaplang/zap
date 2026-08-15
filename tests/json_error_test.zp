@@ -1,0 +1,89 @@
+import "std/json";
+
+fun parseFailsWith(text: String, kind: json.JsonErrorKind) Bool {
+    var value: json.JsonValue = json.parse(text) or err {
+        return err.kind == kind && err.position >= 0;
+    };
+    return false;
+}
+
+fun parseDepthFails() Bool {
+    var value: json.JsonValue = json.parse("[[]]", 1) or err {
+        return err.kind == json.JsonErrorKind.NestingTooDeep;
+    };
+    return false;
+}
+
+fun invalidDepthFails() Bool {
+    var value: json.JsonValue = json.parse("null", 0) or err {
+        return err.kind == json.JsonErrorKind.InvalidDepth;
+    };
+    return false;
+}
+
+fun missingKeyFails() Bool {
+    var object: json.JsonObject = new json.JsonObject();
+    var value: json.JsonValue = object.get("missing") or err {
+        return err.kind == json.JsonErrorKind.MissingKey && err.position == -1;
+    };
+    return false;
+}
+
+fun typeMismatchFails() Bool!json.JsonError {
+    var value: json.JsonValue = json.parse("true")?;
+    var text: String = value.asString() or err {
+        return err.kind == json.JsonErrorKind.TypeMismatch;
+    };
+    return false;
+}
+
+fun boundsFail() Bool {
+    var array: json.JsonArray = new json.JsonArray();
+    var value: json.JsonValue = array.at(0) or err {
+        return err.kind == json.JsonErrorKind.IndexOutOfBounds;
+    };
+    return false;
+}
+
+fun integerConversionFails() Bool!json.JsonError {
+    var value: json.JsonValue = json.parse("1e2")?;
+    var number: Int = value.asInt() or err {
+        return err.kind == json.JsonErrorKind.NumberConversion;
+    };
+    return false;
+}
+
+fun nonFiniteFails() Bool {
+    var zero: Float64 = 0.0;
+    var notANumber: Float64 = zero / zero;
+    var value: json.JsonValue = json.JsonValue.number(notANumber) or err {
+        return err.kind == json.JsonErrorKind.NonFiniteNumber;
+    };
+    return false;
+}
+
+fun cycleFails() Bool {
+    var object: json.JsonObject = new json.JsonObject();
+    object.put("self", object);
+    var text: String = object.stringify(4) or err {
+        return err.kind == json.JsonErrorKind.NestingTooDeep;
+    };
+    return false;
+}
+
+fun main() Int {
+    if !parseFailsWith("", json.JsonErrorKind.UnexpectedEnd) { return 1; }
+    if !parseFailsWith("01", json.JsonErrorKind.TrailingCharacters) { return 2; }
+    if !parseFailsWith("1.", json.JsonErrorKind.InvalidNumber) { return 3; }
+    if !parseFailsWith("true false", json.JsonErrorKind.TrailingCharacters) { return 4; }
+    if !parseFailsWith("\"\\x\"", json.JsonErrorKind.InvalidEscape) { return 5; }
+    if !parseFailsWith("\"\\ud800\"", json.JsonErrorKind.InvalidUnicodeEscape) { return 6; }
+    if !parseDepthFails() || !invalidDepthFails() { return 7; }
+    if !missingKeyFails() || !boundsFail() { return 8; }
+    var mismatch: Bool = typeMismatchFails() or false;
+    var conversion: Bool = integerConversionFails() or false;
+    if !mismatch || !conversion { return 9; }
+    if !nonFiniteFails() { return 10; }
+    if !cycleFails() { return 11; }
+    return 0;
+}

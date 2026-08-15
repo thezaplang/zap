@@ -1,0 +1,45 @@
+import "std/json";
+
+fun buildProjectManifest() String!json.JsonError {
+    var dependencies: json.JsonArray = new json.JsonArray();
+    dependencies.push("http");
+    dependencies.push("json");
+    dependencies.push("tls");
+
+    var release: json.JsonObject = new json.JsonObject();
+    release.put("name", "zapup");
+    release.put("version", "0.4.1");
+    release.put("dependencies", dependencies);
+    release.put("published", true);
+    release.put("download_count", 1280);
+    release.put("test_coverage", 99.5)?;
+
+    return release.stringify()?;
+}
+
+fun summary(manifest: String) String!json.JsonError {
+    var document: json.JsonValue = json.parse(manifest)?;
+    var release: json.JsonObject = document.asObject()?;
+    var name: String = release.getString("name")?;
+    var version: String = release.getString("version")?;
+    var dependencies: json.JsonArray = release.getArray("dependencies")?;
+
+    return name + " " + version + " has " + toString(dependencies.size()) + " dependencies.";
+}
+
+fun main() Int {
+    var manifest: String = buildProjectManifest() or err {
+        eprintln("Could not build JSON: " + err.message);
+        return 1;
+    };
+
+    println(manifest);
+
+    var message: String = summary(manifest) or err {
+        eprintln("Could not read JSON at byte " + toString(err.position) + ": " + err.message);
+        return 2;
+    };
+
+    println(message);
+    return 0;
+}
