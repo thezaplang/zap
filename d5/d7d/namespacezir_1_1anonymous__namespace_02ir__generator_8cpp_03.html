@@ -215,22 +215,22 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">102</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>                                                          {</div>
-<div class="line"><span class="lineno">  104</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
-<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
-<div class="line"><span class="lineno">  106</span>  }</div>
-<div class="line"><span class="lineno">  107</span>  <span class="keywordflow">return</span> function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex]-&gt;is_noescape</div>
-<div class="line"><span class="lineno">  108</span>             ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">ParameterEscape::NoEscape</a></div>
-<div class="line"><span class="lineno">  109</span>             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
-<div class="line"><span class="lineno">  110</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">101</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>                                                          {</div>
+<div class="line"><span class="lineno">  103</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
+<div class="line"><span class="lineno">  105</span>  }</div>
+<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">return</span> function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex]-&gt;is_noescape</div>
+<div class="line"><span class="lineno">  107</span>             ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">ParameterEscape::NoEscape</a></div>
+<div class="line"><span class="lineno">  108</span>             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
+<div class="line"><span class="lineno">  109</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7f8af1e428604f4eaa3460b07273aa25"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">sema::FunctionSymbol::parameters</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; VariableSymbol &gt; &gt; parameters</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00080">symbol.hpp:80</a></div></div>
 <div class="ttc" id="anamespacezir_html_ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be"><div class="ttname"><a href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">zir::ParameterEscape::NoEscape</a></div><div class="ttdeci">@ NoEscape</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00347">type.hpp:347</a></div></div>
 <div class="ttc" id="anamespacezir_html_ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5"><div class="ttname"><a href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">zir::ParameterEscape::Unspecified</a></div><div class="ttdeci">@ Unspecified</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00346">type.hpp:346</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00347">zir::NoEscape</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">parameterEscapeFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00346">zir::Unspecified</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00347">zir::NoEscape</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">parameterEscapeFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00346">zir::Unspecified</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">parameterEscapeFor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">parameterEscapeFor()</a>.</p>
 
 </div>
 </div>
@@ -254,22 +254,21 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>                                                               {</div>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>                                                                {</div>
 <div class="line"><span class="lineno">   86</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
 <div class="line"><span class="lineno">   87</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
 <div class="line"><span class="lineno">   88</span>  }</div>
 <div class="line"><span class="lineno">   89</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;parameter = function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex];</div>
-<div class="line"><span class="lineno">   90</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> borrowedSelf =</div>
-<div class="line"><span class="lineno">   91</span>      parameterIndex == 0 &amp;&amp; !function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">ownerTypeCodegenName</a>.empty() &amp;&amp;</div>
-<div class="line"><span class="lineno">   92</span>      parameter-&gt;name == <span class="stringliteral">&quot;self&quot;</span>;</div>
-<div class="line"><span class="lineno">   93</span>  <span class="keywordflow">if</span> (function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">isExternal</a> || parameter-&gt;is_ref ||</div>
-<div class="line"><span class="lineno">   94</span>      parameter-&gt;is_variadic_pack || borrowedSelf ||</div>
-<div class="line"><span class="lineno">   95</span>      !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(parameter-&gt;type)) {</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
-<div class="line"><span class="lineno">   97</span>  }</div>
-<div class="line"><span class="lineno">   98</span>  <span class="keywordflow">return</span> parameter-&gt;is_sink ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">ParameterOwnership::Sink</a></div>
-<div class="line"><span class="lineno">   99</span>                            : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e">ParameterOwnership::Transfer</a>;</div>
-<div class="line"><span class="lineno">  100</span>}</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> borrowedSelf = parameterIndex == 0 &amp;&amp;</div>
+<div class="line"><span class="lineno">   91</span>                            !function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">ownerTypeCodegenName</a>.empty() &amp;&amp;</div>
+<div class="line"><span class="lineno">   92</span>                            parameter-&gt;name == <span class="stringliteral">&quot;self&quot;</span>;</div>
+<div class="line"><span class="lineno">   93</span>  <span class="keywordflow">if</span> (function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">isExternal</a> || parameter-&gt;is_ref || parameter-&gt;is_variadic_pack ||</div>
+<div class="line"><span class="lineno">   94</span>      borrowedSelf || !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(parameter-&gt;type)) {</div>
+<div class="line"><span class="lineno">   95</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
+<div class="line"><span class="lineno">   96</span>  }</div>
+<div class="line"><span class="lineno">   97</span>  <span class="keywordflow">return</span> parameter-&gt;is_sink ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">ParameterOwnership::Sink</a></div>
+<div class="line"><span class="lineno">   98</span>                            : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e">ParameterOwnership::Transfer</a>;</div>
+<div class="line"><span class="lineno">   99</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a670a4caddd543afe1aa5d47be2eba3eb"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">sema::FunctionSymbol::isExternal</a></div><div class="ttdeci">bool isExternal</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00091">symbol.hpp:91</a></div></div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a6f4d1e070d40200be3504bc522152863"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">sema::FunctionSymbol::ownerTypeCodegenName</a></div><div class="ttdeci">std::string ownerTypeCodegenName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00097">symbol.hpp:97</a></div></div>
 <div class="ttc" id="anamespacezir_html_a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599"><div class="ttname"><a href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">zir::ParameterOwnership::Sink</a></div><div class="ttdeci">@ Sink</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00342">type.hpp:342</a></div></div>

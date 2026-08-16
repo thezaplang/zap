@@ -15,6 +15,7 @@ var instruction_8hpp =
     [ "zir::DestroyInst", "d3/d6b/classzir_1_1DestroyInst.html", "d3/d6b/classzir_1_1DestroyInst" ],
     [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", "d1/dc3/classzir_1_1AllocInst" ],
     [ "zir::CmpInst", "d1/d56/classzir_1_1CmpInst.html", "d1/d56/classzir_1_1CmpInst" ],
+    [ "zir::ClassIsInst", "d1/d05/classzir_1_1ClassIsInst.html", "d1/d05/classzir_1_1ClassIsInst" ],
     [ "zir::GetElementPtrInst", "db/dee/classzir_1_1GetElementPtrInst.html", "db/dee/classzir_1_1GetElementPtrInst" ],
     [ "zir::PhiInst", "d7/de6/classzir_1_1PhiInst.html", "d7/de6/classzir_1_1PhiInst" ],
     [ "zir::CastInst", "d8/d42/classzir_1_1CastInst.html", "d8/d42/classzir_1_1CastInst" ],
@@ -54,6 +55,7 @@ var instruction_8hpp =
       [ "zir::OpCode::Cast", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa4cd9f3996d60790cd11c04f842ebc43c", null ],
       [ "zir::OpCode::WeakLock", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aac6ac0837d2c489cbc30e0670ff970d47", null ],
       [ "zir::OpCode::WeakAlive", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aad0a98cdd30a9fb21eee7e12be36a541c", null ],
+      [ "zir::OpCode::ClassIs", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa148149fdad124659480a05952a44999", null ],
       [ "zir::OpCode::InlineAsm", "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa17ad1a14b4b00de404f75cf67a4e25c4", null ]
     ] ],
     [ "zir::StoreMode", "df/d35/namespacezir.html#afc840fdd1961274a656718b2287cac5a", [

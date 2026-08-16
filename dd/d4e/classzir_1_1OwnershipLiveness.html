@@ -196,21 +196,21 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00259">259</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  261</span>                                                                           {</div>
-<div class="line"><span class="lineno">  262</span>  <span class="keywordflow">if</span> (!value || instructionIndex &gt;= block.getInstructions().size() ||</div>
-<div class="line"><span class="lineno">  263</span>      !block.getInstructions()[instructionIndex]) {</div>
-<div class="line"><span class="lineno">  264</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  265</span>  }</div>
-<div class="line"><span class="lineno">  266</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#acc35e5b9e7a0e5a56e5799797ac62f49">instructionUsesValue</a>(*block.getInstructions()[instructionIndex],</div>
-<div class="line"><span class="lineno">  267</span>                              value.get(), <a class="code hl_variable" href="#a1dc37020d1c601c8c0779394f660d450">borrowProvenance_</a>) &amp;&amp;</div>
-<div class="line"><span class="lineno">  268</span>         !<a class="code hl_function" href="#a8c883fdb7680480d688fd90c304a59e8">isLiveAfter</a>(block, instructionIndex, value);</div>
-<div class="line"><span class="lineno">  269</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00265">265</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  267</span>                                                                           {</div>
+<div class="line"><span class="lineno">  268</span>  <span class="keywordflow">if</span> (!value || instructionIndex &gt;= block.getInstructions().size() ||</div>
+<div class="line"><span class="lineno">  269</span>      !block.getInstructions()[instructionIndex]) {</div>
+<div class="line"><span class="lineno">  270</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  271</span>  }</div>
+<div class="line"><span class="lineno">  272</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#acc35e5b9e7a0e5a56e5799797ac62f49">instructionUsesValue</a>(*block.getInstructions()[instructionIndex],</div>
+<div class="line"><span class="lineno">  273</span>                              value.get(), <a class="code hl_variable" href="#a1dc37020d1c601c8c0779394f660d450">borrowProvenance_</a>) &amp;&amp;</div>
+<div class="line"><span class="lineno">  274</span>         !<a class="code hl_function" href="#a8c883fdb7680480d688fd90c304a59e8">isLiveAfter</a>(block, instructionIndex, value);</div>
+<div class="line"><span class="lineno">  275</span>}</div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_a1dc37020d1c601c8c0779394f660d450"><div class="ttname"><a href="#a1dc37020d1c601c8c0779394f660d450">zir::OwnershipLiveness::borrowProvenance_</a></div><div class="ttdeci">BorrowProvenance borrowProvenance_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00037">ownership_liveness.hpp:37</a></div></div>
-<div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_a8c883fdb7680480d688fd90c304a59e8"><div class="ttname"><a href="#a8c883fdb7680480d688fd90c304a59e8">zir::OwnershipLiveness::isLiveAfter</a></div><div class="ttdeci">bool isLiveAfter(const BasicBlock &amp;block, size_t instructionIndex, const std::shared_ptr&lt; Value &gt; &amp;value) const</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00247">ownership_liveness.cpp:247</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_acc35e5b9e7a0e5a56e5799797ac62f49"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#acc35e5b9e7a0e5a56e5799797ac62f49">zir::anonymous_namespace{ownership_liveness.cpp}::instructionUsesValue</a></div><div class="ttdeci">bool instructionUsesValue(const Instruction &amp;instruction, const Value *value, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00139">ownership_liveness.cpp:139</a></div></div>
+<div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_a8c883fdb7680480d688fd90c304a59e8"><div class="ttname"><a href="#a8c883fdb7680480d688fd90c304a59e8">zir::OwnershipLiveness::isLiveAfter</a></div><div class="ttdeci">bool isLiveAfter(const BasicBlock &amp;block, size_t instructionIndex, const std::shared_ptr&lt; Value &gt; &amp;value) const</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00253">ownership_liveness.cpp:253</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_acc35e5b9e7a0e5a56e5799797ac62f49"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#acc35e5b9e7a0e5a56e5799797ac62f49">zir::anonymous_namespace{ownership_liveness.cpp}::instructionUsesValue</a></div><div class="ttdeci">bool instructionUsesValue(const Instruction &amp;instruction, const Value *value, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00143">ownership_liveness.cpp:143</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00037">borrowProvenance_</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">zir::BasicBlock::getInstructions()</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00247">isLiveAfter()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00037">borrowProvenance_</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00020">zir::BasicBlock::getInstructions()</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00253">isLiveAfter()</a>.</p>
 
 </div>
 </div>
@@ -238,21 +238,21 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00247">247</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  249</span>                                                                             {</div>
-<div class="line"><span class="lineno">  250</span>  <span class="keyword">const</span> <span class="keyword">auto</span> blockStates = <a class="code hl_variable" href="#af482433b29a74088d00b23db23eaf935">afterStates_</a>.find(&amp;block);</div>
-<div class="line"><span class="lineno">  251</span>  <span class="keywordflow">if</span> (!value || blockStates == <a class="code hl_variable" href="#af482433b29a74088d00b23db23eaf935">afterStates_</a>.end()) {</div>
-<div class="line"><span class="lineno">  252</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  253</span>  }</div>
-<div class="line"><span class="lineno">  254</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = blockStates-&gt;second.find(instructionIndex);</div>
-<div class="line"><span class="lineno">  255</span>  <span class="keywordflow">return</span> states != blockStates-&gt;second.end() &amp;&amp;</div>
-<div class="line"><span class="lineno">  256</span>         states-&gt;second.count(value.get()) != 0;</div>
-<div class="line"><span class="lineno">  257</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00253">253</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  255</span>                                                                             {</div>
+<div class="line"><span class="lineno">  256</span>  <span class="keyword">const</span> <span class="keyword">auto</span> blockStates = <a class="code hl_variable" href="#af482433b29a74088d00b23db23eaf935">afterStates_</a>.find(&amp;block);</div>
+<div class="line"><span class="lineno">  257</span>  <span class="keywordflow">if</span> (!value || blockStates == <a class="code hl_variable" href="#af482433b29a74088d00b23db23eaf935">afterStates_</a>.end()) {</div>
+<div class="line"><span class="lineno">  258</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  259</span>  }</div>
+<div class="line"><span class="lineno">  260</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = blockStates-&gt;second.find(instructionIndex);</div>
+<div class="line"><span class="lineno">  261</span>  <span class="keywordflow">return</span> states != blockStates-&gt;second.end() &amp;&amp;</div>
+<div class="line"><span class="lineno">  262</span>         states-&gt;second.count(value.get()) != 0;</div>
+<div class="line"><span class="lineno">  263</span>}</div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_af482433b29a74088d00b23db23eaf935"><div class="ttname"><a href="#af482433b29a74088d00b23db23eaf935">zir::OwnershipLiveness::afterStates_</a></div><div class="ttdeci">std::unordered_map&lt; const BasicBlock *, InstructionStates &gt; afterStates_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00035">ownership_liveness.hpp:35</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00035">afterStates_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00259">isLastUse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00265">isLastUse()</a>.</p>
 
 </div>
 </div>
@@ -275,12 +275,12 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00240">240</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  241</span>                                                                      {</div>
-<div class="line"><span class="lineno">  242</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = <a class="code hl_variable" href="#a62a6d1bc45f122ab1543d75cda4323b8">entryStates_</a>.find(&amp;block);</div>
-<div class="line"><span class="lineno">  243</span>  <span class="keywordflow">return</span> value &amp;&amp; states != <a class="code hl_variable" href="#a62a6d1bc45f122ab1543d75cda4323b8">entryStates_</a>.end() &amp;&amp;</div>
-<div class="line"><span class="lineno">  244</span>         states-&gt;second.count(value.get()) != 0;</div>
-<div class="line"><span class="lineno">  245</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00246">246</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  247</span>                                                                      {</div>
+<div class="line"><span class="lineno">  248</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = <a class="code hl_variable" href="#a62a6d1bc45f122ab1543d75cda4323b8">entryStates_</a>.find(&amp;block);</div>
+<div class="line"><span class="lineno">  249</span>  <span class="keywordflow">return</span> value &amp;&amp; states != <a class="code hl_variable" href="#a62a6d1bc45f122ab1543d75cda4323b8">entryStates_</a>.end() &amp;&amp;</div>
+<div class="line"><span class="lineno">  250</span>         states-&gt;second.count(value.get()) != 0;</div>
+<div class="line"><span class="lineno">  251</span>}</div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_a62a6d1bc45f122ab1543d75cda4323b8"><div class="ttname"><a href="#a62a6d1bc45f122ab1543d75cda4323b8">zir::OwnershipLiveness::entryStates_</a></div><div class="ttdeci">std::unordered_map&lt; const BasicBlock *, ValueSet &gt; entryStates_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00034">ownership_liveness.hpp:34</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00034">entryStates_</a>.</p>
@@ -311,16 +311,16 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00271">271</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  273</span>                                             {</div>
-<div class="line"><span class="lineno">  274</span>  <span class="keyword">const</span> <span class="keyword">auto</span> sourceStates = <a class="code hl_variable" href="#aa9fa292db791a5005240302302576a16">edgeStates_</a>.find(&amp;source);</div>
-<div class="line"><span class="lineno">  275</span>  <span class="keywordflow">if</span> (!value || sourceStates == <a class="code hl_variable" href="#aa9fa292db791a5005240302302576a16">edgeStates_</a>.end()) {</div>
-<div class="line"><span class="lineno">  276</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  277</span>  }</div>
-<div class="line"><span class="lineno">  278</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = sourceStates-&gt;second.find(&amp;destination);</div>
-<div class="line"><span class="lineno">  279</span>  <span class="keywordflow">return</span> states != sourceStates-&gt;second.end() &amp;&amp;</div>
-<div class="line"><span class="lineno">  280</span>         states-&gt;second.count(value.get()) != 0;</div>
-<div class="line"><span class="lineno">  281</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00277">277</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  279</span>                                             {</div>
+<div class="line"><span class="lineno">  280</span>  <span class="keyword">const</span> <span class="keyword">auto</span> sourceStates = <a class="code hl_variable" href="#aa9fa292db791a5005240302302576a16">edgeStates_</a>.find(&amp;source);</div>
+<div class="line"><span class="lineno">  281</span>  <span class="keywordflow">if</span> (!value || sourceStates == <a class="code hl_variable" href="#aa9fa292db791a5005240302302576a16">edgeStates_</a>.end()) {</div>
+<div class="line"><span class="lineno">  282</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  283</span>  }</div>
+<div class="line"><span class="lineno">  284</span>  <span class="keyword">const</span> <span class="keyword">auto</span> states = sourceStates-&gt;second.find(&amp;destination);</div>
+<div class="line"><span class="lineno">  285</span>  <span class="keywordflow">return</span> states != sourceStates-&gt;second.end() &amp;&amp;</div>
+<div class="line"><span class="lineno">  286</span>         states-&gt;second.count(value.get()) != 0;</div>
+<div class="line"><span class="lineno">  287</span>}</div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_aa9fa292db791a5005240302302576a16"><div class="ttname"><a href="#aa9fa292db791a5005240302302576a16">zir::OwnershipLiveness::edgeStates_</a></div><div class="ttdeci">EdgeStates edgeStates_</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00036">ownership_liveness.hpp:36</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00036">edgeStates_</a>.</p>
@@ -355,14 +355,14 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00283">283</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  284</span>                                                                     {</div>
-<div class="line"><span class="lineno">  285</span>  <span class="keyword">const</span> ControlFlowGraph cfg(function);</div>
-<div class="line"><span class="lineno">  286</span>  <span class="keywordflow">return</span> <a class="code hl_friend" href="#aecdf37905d933a75eb2f74b8d902da96">analyzeOwnershipLiveness</a>(module, function, cfg);</div>
-<div class="line"><span class="lineno">  287</span>}</div>
-<div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_aecdf37905d933a75eb2f74b8d902da96"><div class="ttname"><a href="#aecdf37905d933a75eb2f74b8d902da96">zir::OwnershipLiveness::analyzeOwnershipLiveness</a></div><div class="ttdeci">friend OwnershipLiveness analyzeOwnershipLiveness(const Module &amp;module, const Function &amp;function)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00283">ownership_liveness.cpp:283</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">289</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  290</span>                                                                     {</div>
+<div class="line"><span class="lineno">  291</span>  <span class="keyword">const</span> ControlFlowGraph cfg(function);</div>
+<div class="line"><span class="lineno">  292</span>  <span class="keywordflow">return</span> <a class="code hl_friend" href="#aecdf37905d933a75eb2f74b8d902da96">analyzeOwnershipLiveness</a>(module, function, cfg);</div>
+<div class="line"><span class="lineno">  293</span>}</div>
+<div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_aecdf37905d933a75eb2f74b8d902da96"><div class="ttname"><a href="#aecdf37905d933a75eb2f74b8d902da96">zir::OwnershipLiveness::analyzeOwnershipLiveness</a></div><div class="ttdeci">friend OwnershipLiveness analyzeOwnershipLiveness(const Module &amp;module, const Function &amp;function)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">ownership_liveness.cpp:289</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00283">zir::analyzeOwnershipLiveness()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">zir::analyzeOwnershipLiveness()</a>.</p>
 
 </div>
 </div>
@@ -398,86 +398,86 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">289</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  291</span>                                                                        {</div>
-<div class="line"><span class="lineno">  292</span>  OwnershipLiveness result;</div>
-<div class="line"><span class="lineno">  293</span>  result.borrowProvenance_ = <a class="code hl_function" href="../../df/d35/namespacezir.html#a567a7c9ccc9c86e5c116623e76ef3ff9">analyzeBorrowProvenance</a>(module, function, cfg);</div>
-<div class="line"><span class="lineno">  294</span> </div>
-<div class="line"><span class="lineno">  295</span>  <span class="keywordtype">bool</span> changed = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  296</span>  <span class="keywordflow">while</span> (changed) {</div>
-<div class="line"><span class="lineno">  297</span>    changed = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  298</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> blockIt = function.getBlocks().rbegin();</div>
-<div class="line"><span class="lineno">  299</span>         blockIt != function.getBlocks().rend(); ++blockIt) {</div>
-<div class="line"><span class="lineno">  300</span>      <span class="keywordflow">if</span> (!*blockIt) {</div>
-<div class="line"><span class="lineno">  301</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  302</span>      }</div>
-<div class="line"><span class="lineno">  303</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;block = **blockIt;</div>
-<div class="line"><span class="lineno">  304</span>      <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> liveOut;</div>
-<div class="line"><span class="lineno">  305</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *successor : cfg.successors().at(&amp;block)) {</div>
-<div class="line"><span class="lineno">  306</span>        <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> edgeState = result.entryStates_[successor];</div>
-<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction : successor-&gt;getInstructions()) {</div>
-<div class="line"><span class="lineno">  308</span>          <span class="keywordflow">if</span> (!instruction || instruction-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">OpCode::Phi</a>) {</div>
-<div class="line"><span class="lineno">  309</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  310</span>          }</div>
-<div class="line"><span class="lineno">  311</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;phi = <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>PhiInst &amp;<span class="keyword">&gt;</span>(*instruction);</div>
-<div class="line"><span class="lineno">  312</span>          <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[label, value] : phi.getIncoming()) {</div>
-<div class="line"><span class="lineno">  313</span>            <span class="keywordflow">if</span> (label == block.label) {</div>
-<div class="line"><span class="lineno">  314</span>              <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a7b11d6f6534e43b1f0eb04e2e6ceaa5f">replacePhiResultWithIncoming</a>(edgeState, phi.getResult(), value,</div>
-<div class="line"><span class="lineno">  315</span>                                           result.borrowProvenance_);</div>
-<div class="line"><span class="lineno">  316</span>              <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  317</span>            }</div>
-<div class="line"><span class="lineno">  318</span>          }</div>
-<div class="line"><span class="lineno">  319</span>        }</div>
-<div class="line"><span class="lineno">  320</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction : successor-&gt;getInstructions()) {</div>
-<div class="line"><span class="lineno">  321</span>          <span class="keywordflow">if</span> (!instruction || instruction-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb">OpCode::Load</a>) {</div>
-<div class="line"><span class="lineno">  322</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  323</span>          }</div>
-<div class="line"><span class="lineno">  324</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;load = <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>LoadInst &amp;<span class="keyword">&gt;</span>(*instruction);</div>
-<div class="line"><span class="lineno">  325</span>          <span class="keywordflow">if</span> (result.borrowProvenance_.isEntryLoad(*successor,</div>
-<div class="line"><span class="lineno">  326</span>                                                   load.getResult())) {</div>
-<div class="line"><span class="lineno">  327</span>            <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#aadc24da8d36fbfcc7a946c7d7d5794ce">replaceLoadResultWithStorage</a>(edgeState, load, block, *successor,</div>
-<div class="line"><span class="lineno">  328</span>                                         result.borrowProvenance_);</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00295">295</a> of file <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html">ownership_liveness.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>                                                                        {</div>
+<div class="line"><span class="lineno">  298</span>  OwnershipLiveness result;</div>
+<div class="line"><span class="lineno">  299</span>  result.borrowProvenance_ = <a class="code hl_function" href="../../df/d35/namespacezir.html#a567a7c9ccc9c86e5c116623e76ef3ff9">analyzeBorrowProvenance</a>(module, function, cfg);</div>
+<div class="line"><span class="lineno">  300</span> </div>
+<div class="line"><span class="lineno">  301</span>  <span class="keywordtype">bool</span> changed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  302</span>  <span class="keywordflow">while</span> (changed) {</div>
+<div class="line"><span class="lineno">  303</span>    changed = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> blockIt = function.getBlocks().rbegin();</div>
+<div class="line"><span class="lineno">  305</span>         blockIt != function.getBlocks().rend(); ++blockIt) {</div>
+<div class="line"><span class="lineno">  306</span>      <span class="keywordflow">if</span> (!*blockIt) {</div>
+<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  308</span>      }</div>
+<div class="line"><span class="lineno">  309</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;block = **blockIt;</div>
+<div class="line"><span class="lineno">  310</span>      <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> liveOut;</div>
+<div class="line"><span class="lineno">  311</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *successor : cfg.successors().at(&amp;block)) {</div>
+<div class="line"><span class="lineno">  312</span>        <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> edgeState = result.entryStates_[successor];</div>
+<div class="line"><span class="lineno">  313</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction : successor-&gt;getInstructions()) {</div>
+<div class="line"><span class="lineno">  314</span>          <span class="keywordflow">if</span> (!instruction || instruction-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">OpCode::Phi</a>) {</div>
+<div class="line"><span class="lineno">  315</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  316</span>          }</div>
+<div class="line"><span class="lineno">  317</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;phi = <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>PhiInst &amp;<span class="keyword">&gt;</span>(*instruction);</div>
+<div class="line"><span class="lineno">  318</span>          <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[label, value] : phi.getIncoming()) {</div>
+<div class="line"><span class="lineno">  319</span>            <span class="keywordflow">if</span> (label == block.label) {</div>
+<div class="line"><span class="lineno">  320</span>              <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a7b11d6f6534e43b1f0eb04e2e6ceaa5f">replacePhiResultWithIncoming</a>(edgeState, phi.getResult(), value,</div>
+<div class="line"><span class="lineno">  321</span>                                           result.borrowProvenance_);</div>
+<div class="line"><span class="lineno">  322</span>              <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  323</span>            }</div>
+<div class="line"><span class="lineno">  324</span>          }</div>
+<div class="line"><span class="lineno">  325</span>        }</div>
+<div class="line"><span class="lineno">  326</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction : successor-&gt;getInstructions()) {</div>
+<div class="line"><span class="lineno">  327</span>          <span class="keywordflow">if</span> (!instruction || instruction-&gt;getOpCode() != <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb">OpCode::Load</a>) {</div>
+<div class="line"><span class="lineno">  328</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  329</span>          }</div>
-<div class="line"><span class="lineno">  330</span>        }</div>
-<div class="line"><span class="lineno">  331</span>        <span class="keywordflow">if</span> (result.edgeStates_[&amp;block][successor] != edgeState) {</div>
-<div class="line"><span class="lineno">  332</span>          result.edgeStates_[&amp;block][successor] = edgeState;</div>
-<div class="line"><span class="lineno">  333</span>          changed = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  334</span>        }</div>
-<div class="line"><span class="lineno">  335</span>        <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#af89ea6e6cd3ef6572fd8b0b533ea8cdf">unionInto</a>(liveOut, edgeState);</div>
-<div class="line"><span class="lineno">  336</span>      }</div>
-<div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>      <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> <a class="code hl_variable" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#aaab2f05e1c242f1fa0a4f85a58b73e63">live</a> = std::move(liveOut);</div>
-<div class="line"><span class="lineno">  339</span>      <a class="code hl_typedef" href="#aef21945d7550c2630a0c4561ae070014">OwnershipLiveness::InstructionStates</a> afterStates;</div>
-<div class="line"><span class="lineno">  340</span>      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = block.getInstructions().size(); i-- &gt; 0;) {</div>
-<div class="line"><span class="lineno">  341</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction = block.getInstructions()[i];</div>
-<div class="line"><span class="lineno">  342</span>        <span class="keywordflow">if</span> (!instruction) {</div>
-<div class="line"><span class="lineno">  343</span>          <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  344</span>        }</div>
-<div class="line"><span class="lineno">  345</span>        afterStates.emplace(i, live);</div>
-<div class="line"><span class="lineno">  346</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> value = <a class="code hl_function" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#a350252cd7cbbdb020fa1bf64565e698b">instructionResult</a>(*instruction);</div>
-<div class="line"><span class="lineno">  347</span>            <a class="code hl_function" href="../../de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ac162a88e1dabee8d628a6b7f95c06cbb">tracksOwnership</a>(value)) {</div>
-<div class="line"><span class="lineno">  348</span>          <a class="code hl_variable" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#aaab2f05e1c242f1fa0a4f85a58b73e63">live</a>.erase(value.get());</div>
-<div class="line"><span class="lineno">  349</span>        }</div>
-<div class="line"><span class="lineno">  350</span>        <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a3ef0ab42fb3e99071d1679f29e04abeb">addInstructionUses</a>(live, *instruction, result.borrowProvenance_);</div>
-<div class="line"><span class="lineno">  351</span>      }</div>
-<div class="line"><span class="lineno">  352</span>      <span class="keywordflow">if</span> (result.entryStates_[&amp;block] != live) {</div>
-<div class="line"><span class="lineno">  353</span>        result.entryStates_[&amp;block] = std::move(live);</div>
-<div class="line"><span class="lineno">  354</span>        changed = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  355</span>      }</div>
-<div class="line"><span class="lineno">  356</span>      result.afterStates_[&amp;block] = std::move(afterStates);</div>
-<div class="line"><span class="lineno">  357</span>    }</div>
-<div class="line"><span class="lineno">  358</span>  }</div>
-<div class="line"><span class="lineno">  359</span>  <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  360</span>}</div>
+<div class="line"><span class="lineno">  330</span>          <span class="keyword">const</span> <span class="keyword">auto</span> &amp;load = <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>LoadInst &amp;<span class="keyword">&gt;</span>(*instruction);</div>
+<div class="line"><span class="lineno">  331</span>          <span class="keywordflow">if</span> (result.borrowProvenance_.isEntryLoad(*successor,</div>
+<div class="line"><span class="lineno">  332</span>                                                   load.getResult())) {</div>
+<div class="line"><span class="lineno">  333</span>            <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#aadc24da8d36fbfcc7a946c7d7d5794ce">replaceLoadResultWithStorage</a>(edgeState, load, block, *successor,</div>
+<div class="line"><span class="lineno">  334</span>                                         result.borrowProvenance_);</div>
+<div class="line"><span class="lineno">  335</span>          }</div>
+<div class="line"><span class="lineno">  336</span>        }</div>
+<div class="line"><span class="lineno">  337</span>        <span class="keywordflow">if</span> (result.edgeStates_[&amp;block][successor] != edgeState) {</div>
+<div class="line"><span class="lineno">  338</span>          result.edgeStates_[&amp;block][successor] = edgeState;</div>
+<div class="line"><span class="lineno">  339</span>          changed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  340</span>        }</div>
+<div class="line"><span class="lineno">  341</span>        <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#af89ea6e6cd3ef6572fd8b0b533ea8cdf">unionInto</a>(liveOut, edgeState);</div>
+<div class="line"><span class="lineno">  342</span>      }</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  344</span>      <a class="code hl_typedef" href="#a29a61f015f1e4fa900928789cf75e8ae">ValueSet</a> <a class="code hl_variable" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#aaab2f05e1c242f1fa0a4f85a58b73e63">live</a> = std::move(liveOut);</div>
+<div class="line"><span class="lineno">  345</span>      <a class="code hl_typedef" href="#aef21945d7550c2630a0c4561ae070014">OwnershipLiveness::InstructionStates</a> afterStates;</div>
+<div class="line"><span class="lineno">  346</span>      <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = block.getInstructions().size(); i-- &gt; 0;) {</div>
+<div class="line"><span class="lineno">  347</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;instruction = block.getInstructions()[i];</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">if</span> (!instruction) {</div>
+<div class="line"><span class="lineno">  349</span>          <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  350</span>        }</div>
+<div class="line"><span class="lineno">  351</span>        afterStates.emplace(i, live);</div>
+<div class="line"><span class="lineno">  352</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> value = <a class="code hl_function" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#a350252cd7cbbdb020fa1bf64565e698b">instructionResult</a>(*instruction);</div>
+<div class="line"><span class="lineno">  353</span>            <a class="code hl_function" href="../../de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ac162a88e1dabee8d628a6b7f95c06cbb">tracksOwnership</a>(value)) {</div>
+<div class="line"><span class="lineno">  354</span>          <a class="code hl_variable" href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#aaab2f05e1c242f1fa0a4f85a58b73e63">live</a>.erase(value.get());</div>
+<div class="line"><span class="lineno">  355</span>        }</div>
+<div class="line"><span class="lineno">  356</span>        <a class="code hl_function" href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a3ef0ab42fb3e99071d1679f29e04abeb">addInstructionUses</a>(live, *instruction, result.borrowProvenance_);</div>
+<div class="line"><span class="lineno">  357</span>      }</div>
+<div class="line"><span class="lineno">  358</span>      <span class="keywordflow">if</span> (result.entryStates_[&amp;block] != live) {</div>
+<div class="line"><span class="lineno">  359</span>        result.entryStates_[&amp;block] = std::move(live);</div>
+<div class="line"><span class="lineno">  360</span>        changed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  361</span>      }</div>
+<div class="line"><span class="lineno">  362</span>      result.afterStates_[&amp;block] = std::move(afterStates);</div>
+<div class="line"><span class="lineno">  363</span>    }</div>
+<div class="line"><span class="lineno">  364</span>  }</div>
+<div class="line"><span class="lineno">  365</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  366</span>}</div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_a29a61f015f1e4fa900928789cf75e8ae"><div class="ttname"><a href="#a29a61f015f1e4fa900928789cf75e8ae">zir::OwnershipLiveness::ValueSet</a></div><div class="ttdeci">std::unordered_set&lt; const Value * &gt; ValueSet</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00028">ownership_liveness.hpp:28</a></div></div>
 <div class="ttc" id="aclasszir_1_1OwnershipLiveness_html_aef21945d7550c2630a0c4561ae070014"><div class="ttname"><a href="#aef21945d7550c2630a0c4561ae070014">zir::OwnershipLiveness::InstructionStates</a></div><div class="ttdeci">std::unordered_map&lt; size_t, ValueSet &gt; InstructionStates</div><div class="ttdef"><b>Definition</b> <a href="../../d8/da3/ownership__liveness_8hpp_source.html#l00029">ownership_liveness.hpp:29</a></div></div>
 <div class="ttc" id="anamespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03_html_ac162a88e1dabee8d628a6b7f95c06cbb"><div class="ttname"><a href="../../de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ac162a88e1dabee8d628a6b7f95c06cbb">zir::anonymous_namespace{borrow_provenance.cpp}::tracksOwnership</a></div><div class="ttdeci">bool tracksOwnership(const std::shared_ptr&lt; Value &gt; &amp;value)</div><div class="ttdef"><b>Definition</b> <a href="../../da/dfc/borrow__provenance_8cpp_source.html#l00020">borrow_provenance.cpp:20</a></div></div>
 <div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03_html_a350252cd7cbbdb020fa1bf64565e698b"><div class="ttname"><a href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#a350252cd7cbbdb020fa1bf64565e698b">zir::anonymous_namespace{ownership_flow.cpp}::instructionResult</a></div><div class="ttdeci">std::shared_ptr&lt; Value &gt; instructionResult(const Instruction &amp;instruction)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/dbd/ownership__flow_8cpp_source.html#l00027">ownership_flow.cpp:27</a></div></div>
 <div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03_html_aaab2f05e1c242f1fa0a4f85a58b73e63"><div class="ttname"><a href="../../d7/ddd/namespacezir_1_1anonymous__namespace_02ownership__flow_8cpp_03.html#aaab2f05e1c242f1fa0a4f85a58b73e63">zir::anonymous_namespace{ownership_flow.cpp}::live</a></div><div class="ttdeci">constexpr unsigned char live</div><div class="ttdef"><b>Definition</b> <a href="../../dd/dbd/ownership__flow_8cpp_source.html#l00013">ownership_flow.cpp:13</a></div></div>
 <div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_a3ef0ab42fb3e99071d1679f29e04abeb"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a3ef0ab42fb3e99071d1679f29e04abeb">zir::anonymous_namespace{ownership_liveness.cpp}::addInstructionUses</a></div><div class="ttdeci">void addInstructionUses(ValueSet &amp;values, const Instruction &amp;instruction, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00030">ownership_liveness.cpp:30</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_a7b11d6f6534e43b1f0eb04e2e6ceaa5f"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a7b11d6f6534e43b1f0eb04e2e6ceaa5f">zir::anonymous_namespace{ownership_liveness.cpp}::replacePhiResultWithIncoming</a></div><div class="ttdeci">void replacePhiResultWithIncoming(ValueSet &amp;live, const std::shared_ptr&lt; Value &gt; &amp;result, const std::shared_ptr&lt; Value &gt; &amp;incoming, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00206">ownership_liveness.cpp:206</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_aadc24da8d36fbfcc7a946c7d7d5794ce"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#aadc24da8d36fbfcc7a946c7d7d5794ce">zir::anonymous_namespace{ownership_liveness.cpp}::replaceLoadResultWithStorage</a></div><div class="ttdeci">void replaceLoadResultWithStorage(ValueSet &amp;live, const LoadInst &amp;load, const BasicBlock &amp;source, const BasicBlock &amp;destination, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00223">ownership_liveness.cpp:223</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_af89ea6e6cd3ef6572fd8b0b533ea8cdf"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#af89ea6e6cd3ef6572fd8b0b533ea8cdf">zir::anonymous_namespace{ownership_liveness.cpp}::unionInto</a></div><div class="ttdeci">void unionInto(ValueSet &amp;destination, const ValueSet &amp;source)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00202">ownership_liveness.cpp:202</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_a7b11d6f6534e43b1f0eb04e2e6ceaa5f"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#a7b11d6f6534e43b1f0eb04e2e6ceaa5f">zir::anonymous_namespace{ownership_liveness.cpp}::replacePhiResultWithIncoming</a></div><div class="ttdeci">void replacePhiResultWithIncoming(ValueSet &amp;live, const std::shared_ptr&lt; Value &gt; &amp;result, const std::shared_ptr&lt; Value &gt; &amp;incoming, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00212">ownership_liveness.cpp:212</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_aadc24da8d36fbfcc7a946c7d7d5794ce"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#aadc24da8d36fbfcc7a946c7d7d5794ce">zir::anonymous_namespace{ownership_liveness.cpp}::replaceLoadResultWithStorage</a></div><div class="ttdeci">void replaceLoadResultWithStorage(ValueSet &amp;live, const LoadInst &amp;load, const BasicBlock &amp;source, const BasicBlock &amp;destination, const BorrowProvenance &amp;provenance)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00229">ownership_liveness.cpp:229</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03_html_af89ea6e6cd3ef6572fd8b0b533ea8cdf"><div class="ttname"><a href="../../d4/d42/namespacezir_1_1anonymous__namespace_02ownership__liveness_8cpp_03.html#af89ea6e6cd3ef6572fd8b0b533ea8cdf">zir::anonymous_namespace{ownership_liveness.cpp}::unionInto</a></div><div class="ttdeci">void unionInto(ValueSet &amp;destination, const ValueSet &amp;source)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d18/ownership__liveness_8cpp_source.html#l00208">ownership_liveness.cpp:208</a></div></div>
 <div class="ttc" id="anamespacezir_html_a567a7c9ccc9c86e5c116623e76ef3ff9"><div class="ttname"><a href="../../df/d35/namespacezir.html#a567a7c9ccc9c86e5c116623e76ef3ff9">zir::analyzeBorrowProvenance</a></div><div class="ttdeci">BorrowProvenance analyzeBorrowProvenance(const Module &amp;module, const Function &amp;function, const ControlFlowGraph &amp;cfg)</div><div class="ttdef"><b>Definition</b> <a href="../../da/dfc/borrow__provenance_8cpp_source.html#l00420">borrow_provenance.cpp:420</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa5a82bece4586ad7cb17ba739a2db7f67">zir::OpCode::Phi</a></div><div class="ttdeci">@ Phi</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00037">instruction.hpp:37</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb">zir::OpCode::Load</a></div><div class="ttdeci">@ Load</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00011">instruction.hpp:11</a></div></div>
@@ -509,7 +509,7 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00035">35</a> of file <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html">ownership_liveness.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00247">isLiveAfter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00295">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00253">isLiveAfter()</a>.</p>
 
 </div>
 </div>
@@ -535,7 +535,7 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00037">37</a> of file <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html">ownership_liveness.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00259">isLastUse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00295">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00265">isLastUse()</a>.</p>
 
 </div>
 </div>
@@ -561,7 +561,7 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00036">36</a> of file <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html">ownership_liveness.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00271">isLiveOnEdge()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00295">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00277">isLiveOnEdge()</a>.</p>
 
 </div>
 </div>
@@ -587,7 +587,7 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../d8/da3/ownership__liveness_8hpp_source.html">ownership_liveness.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00289">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00240">isLiveAtBlockEntry()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00295">analyzeOwnershipLiveness</a>, and <a class="el" href="../../d2/d18/ownership__liveness_8cpp_source.html#l00246">isLiveAtBlockEntry()</a>.</p>
 
 </div>
 </div>

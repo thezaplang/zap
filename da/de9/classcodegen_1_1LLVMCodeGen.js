@@ -61,6 +61,7 @@ var classcodegen_1_1LLVMCodeGen =
     [ "classReleaseFns_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a7ce91e512a1cdbc9a542be66a711eab2", null ],
     [ "classRetainFns_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a7e67d1645fad05514fdeb2b1161e062a", null ],
     [ "classTraceFns_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a9eb23da099508ca9582e5a663c33fe89", null ],
+    [ "classTypes_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a7d32de86242ee5e7bf9769850523a558", null ],
     [ "classVirtualMethodFns_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a48f5016b7cbc80bb2a4ae8f95ec633e4", null ],
     [ "classVTables_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a47c55e140f1ae9ed8b8cf71cc525f5e2", null ],
     [ "ctx_", "da/de9/classcodegen_1_1LLVMCodeGen.html#a9da3a4000add7774bd7de42b5ddc1c43", null ],

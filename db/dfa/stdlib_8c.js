@@ -65,6 +65,7 @@ var stdlib_8c =
     [ "zap_fs_exists", "db/dfa/stdlib_8c.html#a0b5aa0d787a393b4cbb740320bb31acd", null ],
     [ "zap_fs_is_dir", "db/dfa/stdlib_8c.html#a5abbbd7ff73e51f908e44ca9154a852d", null ],
     [ "zap_fs_is_file", "db/dfa/stdlib_8c.html#a16fe24e00f7406a51e6309dd283bec53", null ],
+    [ "zap_fs_is_symlink", "db/dfa/stdlib_8c.html#aaeebef94026517c875f226b181531eec", null ],
     [ "zap_fs_last_error", "db/dfa/stdlib_8c.html#a4f2ec9fced12c0847476f3b90b3ada46", null ],
     [ "zap_fs_mkdir", "db/dfa/stdlib_8c.html#a3f33e88f5e22588aa7ceac746049bf06", null ],
     [ "zap_fs_read_file", "db/dfa/stdlib_8c.html#aafc9540f4fa222c1ed9373586adedb0c", null ],
