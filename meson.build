@@ -37,6 +37,13 @@ openssl_dep = dependency('openssl', required : true)
 m_dep = c.find_library('m', required : false)
 
 inc = include_directories('src')
+tomlc17_inc = include_directories('third_party/tomlc17/src')
+
+tomlc17 = static_library('tomlc17',
+                         'third_party/tomlc17/src/tomlc17.c',
+                         include_directories : tomlc17_inc)
+tomlc17_dep = declare_dependency(link_with : tomlc17,
+                                 include_directories : tomlc17_inc)
 
 zap_type_system = static_library('zap_type_system',
                                  'src/ir/failable_type.cpp',
@@ -71,7 +78,8 @@ zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories 
 zap_frontend = static_library('zap_frontend',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/module_loader.cpp',
-                              dependencies : zap_syntax_dep,
+                              'src/frontend/project_configuration.cpp',
+                              dependencies : [zap_syntax_dep, tomlc17_dep],
                               include_directories : inc
 )
 zap_frontend_dep = declare_dependency(link_with : zap_frontend, include_directories : inc)
@@ -151,6 +159,9 @@ if get_option('build_testing')
     test('zir-verifier', executable('zap-zir-verifier-tests', 'tests/cpp/zir_verifier_test.cpp', dependencies : zap_zir_verifier_dep))
     test('ownership-lowering', executable('zap-ownership-lowering-tests', 'tests/cpp/ownership_lowering_test.cpp', dependencies : zap_zir_verifier_dep))
     test('borrow-analysis', executable('zap-borrow-analysis-tests', 'tests/cpp/borrow_analysis_test.cpp', dependencies : zap_zir_verifier_dep))
+    test('project-configuration', executable('zap-project-configuration-tests',
+                                              'tests/cpp/project_configuration_test.cpp',
+                                              dependencies : zap_frontend_dep))
     test('function-reachability', executable('zap-function-reachability-tests', ['tests/cpp/function_reachability_test.cpp', 'src/ir/function_reachability.cpp'], dependencies : zap_type_system_dep))
     test('zir-reachability',
          files('tests/scripts/check_zir_reachability.sh'),
