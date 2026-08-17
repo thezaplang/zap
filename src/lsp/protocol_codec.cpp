@@ -59,4 +59,22 @@ std::optional<InitializeParams> decodeInitialize(const JsonObject &request) {
   };
 }
 
+std::optional<std::vector<WatchedFileChange>>
+decodeWatchedFiles(const JsonObject &request) {
+  const JsonObject *changes = getPath(request, {"params", "changes"});
+  if (!changes || !changes->isList()) {
+    return std::nullopt;
+  }
+  std::vector<WatchedFileChange> result;
+  result.reserve(changes->getAsList().size());
+  for (const auto &change : changes->getAsList()) {
+    auto uri = getStringField(change, {"uri"});
+    if (!uri) {
+      return std::nullopt;
+    }
+    result.push_back({std::move(*uri)});
+  }
+  return result;
+}
+
 } // namespace zap::lsp

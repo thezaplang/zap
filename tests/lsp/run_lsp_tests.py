@@ -60,6 +60,19 @@ def notify(proc, method, params):
     send(proc, {"jsonrpc": "2.0", "method": method, "params": params})
 
 
+def watched_files_changed(proc, paths):
+    notify(
+        proc,
+        "workspace/didChangeWatchedFiles",
+        {
+            "changes": [
+                {"uri": file_uri(path), "type": 2}
+                for path in paths
+            ]
+        },
+    )
+
+
 def read_diagnostics(proc, expected_uri):
     while True:
         message = read_message(proc)
@@ -319,6 +332,41 @@ fun main() Int {
             alias_uri = open_document(proc, temp / "thor_import_map.zp", alias_source)
             assert read_diagnostics(proc, alias_uri) == [], (
                 "thor.toml import map produced diagnostics"
+            )
+
+            (temp / "thor.toml").write_text("not valid TOML")
+            watched_files_changed(proc, [temp / "thor.toml"])
+            assert read_diagnostics(proc, alias_uri), (
+                "changing thor.toml did not refresh dependent diagnostics"
+            )
+
+            (temp / "thor.toml").write_text(
+                """entry = "src/main.zp"
+
+[imports]
+"@vendor" = "./vendor/package"
+"""
+            )
+            watched_files_changed(proc, [temp / "thor.toml"])
+            assert read_diagnostics(proc, alias_uri) == [], (
+                "restoring thor.toml did not clear dependent diagnostics"
+            )
+
+            alias_module_path.write_text("fun answer() Int {\n")
+            watched_files_changed(proc, [alias_module_path])
+            assert read_diagnostics(proc, file_uri(alias_module_path)), (
+                "changing an unopened imported file did not refresh diagnostics"
+            )
+
+            alias_module_path.write_text(
+                """pub fun answer() Int {
+    return 42;
+}
+"""
+            )
+            watched_files_changed(proc, [alias_module_path])
+            assert read_diagnostics(proc, file_uri(alias_module_path)) == [], (
+                "repairing an unopened imported file did not clear diagnostics"
             )
 
             alternate_module_path = (

@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace zap::lsp {
 
@@ -45,6 +46,8 @@ public:
             std::string text, int64_t version);
   void update(const std::string &uri, std::string text, int64_t version);
   void close(const std::string &uri);
+  void invalidatePath(const std::filesystem::path &path);
+  std::vector<std::string> openUris() const;
   std::optional<Snapshot> sourceForPath(const std::filesystem::path &path);
   std::optional<Snapshot> sourceForUri(const std::string &uri);
   std::string uriForPath(const std::filesystem::path &path) const;

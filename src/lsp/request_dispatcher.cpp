@@ -17,6 +17,7 @@
 #include <thread>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 namespace zap::lsp {
 namespace {
@@ -168,6 +169,19 @@ class RequestScheduler {
       if (auto uri = decodeCloseDocument(request)) {
         workspace_.close(*uri);
         server_.sendMessage(makePublishDiagnostics(*uri, {}));
+      }
+    } else if (*method == "workspace/didChangeWatchedFiles") {
+      if (auto changes = decodeWatchedFiles(request)) {
+        std::vector<std::filesystem::path> paths;
+        paths.reserve(changes->size());
+        for (const auto &change : *changes) {
+          if (auto path = uriToPath(change.uri)) {
+            paths.push_back(std::move(*path));
+          }
+        }
+        for (const auto &analysis : workspace_.watchedFilesChanged(paths)) {
+          publishAnalysis(server_, analysis);
+        }
       }
     } else if (*method == "textDocument/completion") {
       if (id) {

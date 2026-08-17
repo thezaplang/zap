@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace zap::lsp {
 
@@ -32,6 +33,10 @@ struct InitializeParams {
   std::optional<std::string> stdlibPath;
 };
 
+struct WatchedFileChange {
+  std::string uri;
+};
+
 std::optional<TextDocumentPosition>
 decodeTextDocumentPosition(const JsonObject &request);
 std::optional<OpenDocumentParams> decodeOpenDocument(const JsonObject &request);
@@ -39,5 +44,7 @@ std::optional<ChangeDocumentParams>
 decodeChangeDocument(const JsonObject &request);
 std::optional<std::string> decodeCloseDocument(const JsonObject &request);
 std::optional<InitializeParams> decodeInitialize(const JsonObject &request);
+std::optional<std::vector<WatchedFileChange>>
+decodeWatchedFiles(const JsonObject &request);
 
 } // namespace zap::lsp

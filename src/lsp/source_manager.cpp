@@ -66,6 +66,19 @@ void SourceManager::close(const std::string &uri) {
   sourcesByUri_.erase(source);
 }
 
+void SourceManager::invalidatePath(const std::filesystem::path &path) {
+  fileContentCache_.erase(canonicalPath(path).string());
+}
+
+std::vector<std::string> SourceManager::openUris() const {
+  std::vector<std::string> uris;
+  uris.reserve(sourcesByUri_.size());
+  for (const auto &[uri, _] : sourcesByUri_) {
+    uris.push_back(uri);
+  }
+  return uris;
+}
+
 std::optional<SourceManager::Snapshot>
 SourceManager::sourceForPath(const std::filesystem::path &path) {
   const auto canonical = canonicalPath(path);

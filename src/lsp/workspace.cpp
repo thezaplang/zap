@@ -92,6 +92,50 @@ std::optional<std::string> Workspace::sourceForUri(const std::string &uri) {
   return source ? std::optional<std::string>((*source)->text) : std::nullopt;
 }
 
+std::vector<AnalysisResult> Workspace::watchedFilesChanged(
+    const std::vector<std::filesystem::path> &paths) {
+  std::set<std::string> changedProjects;
+  bool changedUnconfiguredFile = false;
+  for (const auto &path : paths) {
+    const auto canonical = std::filesystem::weakly_canonical(path).string();
+    sourceManager_.invalidatePath(path);
+    invalidateSnapshotsForPath(path);
+    if (path.filename() == "thor.toml") {
+      projectConfigurations_.erase(canonical);
+      changedProjects.insert(canonical);
+      continue;
+    }
+    if (const auto manifest =
+            zap::frontend::findProjectConfigurationManifest(path)) {
+      changedProjects.insert(manifest->string());
+    } else {
+      changedUnconfiguredFile = true;
+    }
+  }
+
+  std::vector<std::string> affectedUris;
+  for (const auto &uri : sourceManager_.openUris()) {
+    const auto *document = this->document(uri);
+    if (!document) {
+      continue;
+    }
+    const auto manifest =
+        zap::frontend::findProjectConfigurationManifest(document->path);
+    if ((manifest && changedProjects.count(manifest->string()) != 0) ||
+        (!manifest && changedUnconfiguredFile)) {
+      invalidateSnapshots(uri);
+      affectedUris.push_back(uri);
+    }
+  }
+
+  std::vector<AnalysisResult> analyses;
+  analyses.reserve(affectedUris.size());
+  for (const auto &uri : affectedUris) {
+    analyses.push_back(analyze(uri));
+  }
+  return analyses;
+}
+
 void Workspace::appendDiagnostics(
     AnalysisResult &result, const std::vector<zap::Diagnostic> &diagnostics,
     const std::string &fallbackUri) const {
