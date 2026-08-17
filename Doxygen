@@ -4,7 +4,7 @@
 DOXYFILE_ENCODING                           = UTF-8
 
 PROJECT_NAME                                = ZAP
-PROJECT_NUMBER                              = 1.0
+PROJECT_NUMBER                              = 0.4.0
 
 CREATE_SUBDIRS                              = YES
 
