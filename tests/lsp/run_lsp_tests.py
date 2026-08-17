@@ -193,6 +193,13 @@ def main():
                 }
             )
         )
+        (workspace_root / "thor.toml").write_text(
+            """entry = "src/main.zp"
+
+[imports]
+"@vendor" = "./vendor/package"
+"""
+        )
         proc = subprocess.Popen(
             [str(SERVER)],
             stdin=subprocess.PIPE,
@@ -284,6 +291,25 @@ fun main() Int {
             )
             assert read_diagnostics(proc, imported_uri) == [], (
                 "resolved diagnostics were not cleared for the imported file"
+            )
+
+            alias_module_path = temp / "vendor" / "package" / "answer.zp"
+            alias_module_path.parent.mkdir(parents=True, exist_ok=True)
+            alias_module_path.write_text(
+                """pub fun answer() Int {
+    return 42;
+}
+"""
+            )
+            alias_source = """import "@vendor/answer";
+
+fun main() Int {
+    return answer();
+}
+"""
+            alias_uri = open_document(proc, temp / "thor_import_map.zp", alias_source)
+            assert read_diagnostics(proc, alias_uri) == [], (
+                "thor.toml import map produced diagnostics"
             )
 
             loop_source = """fun main() Int {

@@ -1,6 +1,7 @@
 #include "lsp/workspace.hpp"
 
 #include "frontend/frontend_session.hpp"
+#include "frontend/project_configuration.hpp"
 #include "lsp/configuration.hpp"
 #include "lsp/protocol_utils.hpp"
 #include "sema/binder.hpp"
@@ -8,6 +9,25 @@
 #include <vector>
 
 namespace zap::lsp {
+
+namespace {
+
+void appendConfigurationDiagnostics(AnalysisResult &analysis,
+                                    const SourceSnapshot &document,
+                                    const std::vector<std::string> &errors) {
+  auto &diagnostics = analysis.diagnosticsByUri[document.uri];
+  for (const auto &error : errors) {
+    diagnostics.push_back({zap::DiagnosticLevel::Error,
+                           "",
+                           error,
+                           document.path.string(),
+                           document.text,
+                           {},
+                           {}});
+  }
+}
+
+} // namespace
 
 Workspace::Workspace()
     : runtimePaths_{
@@ -121,10 +141,15 @@ Workspace::buildSnapshot(const SourceSnapshot &document,
                          bool allowEntryErrors) {
   auto snapshot = std::make_shared<SemanticSnapshot>();
   snapshot->documentVersion = document.version;
-  auto flags = findAndReadFlags(document.path);
+  auto configuration = zap::frontend::loadProjectConfiguration(document.path);
+  const auto importMap = configuration.configuration
+                             ? configuration.configuration->importMap
+                             : findAndReadFlags(document.path).importMap;
+  appendConfigurationDiagnostics(snapshot->project.analysis, document,
+                                 configuration.errors);
 
   zap::frontend::FrontendSession session(
-      {runtimePaths_, flags.importMap, true, allowEntryErrors},
+      {runtimePaths_, importMap, true, allowEntryErrors},
       [this](const std::filesystem::path &path) -> std::optional<std::string> {
         auto source = sourceManager_.sourceForPath(path);
         return source ? std::optional<std::string>((*source)->text)
