@@ -95,13 +95,13 @@ var NAVTREEINDEX =
 "da/de1/classzir_1_1RecordType.html",
 "da/df6/string__layout_8hpp.html",
 "db/dee/classzir_1_1GetElementPtrInst.html#a7ba42d73a0e2f37a157dfd762ab7e5c0",
-"dc/d2c/classsema_1_1Binder.html#a14c4a17037cb9fc3d646604bbcc15184",
-"dc/d2c/classsema_1_1Binder.html#afbda7d5bbd300e2ccf2e77e283f1de06add7bf230fde8d4836917806aff6a6b27",
-"dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md5",
-"de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#a64daa1845839c31120f5808c7f434b29",
-"de/ddb/structzap_1_1lsp_1_1ProjectState.html#a2c6459cf44db6ebe355b51f93a89e6f7",
-"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9",
-"functions_func_f.html"
+"dc/d2c/classsema_1_1Binder.html#a24315b2a409c86d431330a691875a80f",
+"dc/d41/statement__node_8hpp.html",
+"dd/d4e/classzir_1_1OwnershipLiveness.html#aed6680d66f855433dc5e679864959da8",
+"de/d45/classFailableHandleExpr.html#a9530e92ac41b1fe1625857ffe3dc5c37",
+"de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html#ab3713979e82be63f979a3f4742725828",
+"df/d35/namespacezir.html#afaf347a30fa4e54013027745f2c90c2a",
+"functions_p.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
