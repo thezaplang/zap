@@ -47,6 +47,7 @@ Workspace::configure(const std::filesystem::path &workspaceRoot,
   if (configuration.stdlibDir) {
     runtimePaths_.stdlibDirOverride = std::move(*configuration.stdlibDir);
   }
+  projectConfigurations_.clear();
   return configuration.errors;
 }
 
@@ -136,17 +137,38 @@ void Workspace::invalidateSnapshotsForPath(const std::filesystem::path &path) {
   invalidate(tolerantSnapshots_);
 }
 
+const zap::frontend::ProjectConfigurationResult *
+Workspace::projectConfigurationFor(const std::filesystem::path &documentPath) {
+  const auto manifest =
+      zap::frontend::findProjectConfigurationManifest(documentPath);
+  if (!manifest) {
+    return nullptr;
+  }
+  const auto key = manifest->string();
+  auto configuration = projectConfigurations_.find(key);
+  if (configuration == projectConfigurations_.end()) {
+    configuration = projectConfigurations_
+                        .emplace(key,
+                                 zap::frontend::loadProjectConfiguration(
+                                     *manifest))
+                        .first;
+  }
+  return &configuration->second;
+}
+
 std::shared_ptr<const SemanticSnapshot>
 Workspace::buildSnapshot(const SourceSnapshot &document,
                          bool allowEntryErrors) {
   auto snapshot = std::make_shared<SemanticSnapshot>();
   snapshot->documentVersion = document.version;
-  auto configuration = zap::frontend::loadProjectConfiguration(document.path);
-  const auto importMap = configuration.configuration
-                             ? configuration.configuration->importMap
+  const auto configuration = projectConfigurationFor(document.path);
+  const auto importMap = configuration && configuration->configuration
+                             ? configuration->configuration->importMap
                              : findAndReadFlags(document.path).importMap;
-  appendConfigurationDiagnostics(snapshot->project.analysis, document,
-                                 configuration.errors);
+  if (configuration) {
+    appendConfigurationDiagnostics(snapshot->project.analysis, document,
+                                   configuration->errors);
+  }
 
   zap::frontend::FrontendSession session(
       {runtimePaths_, importMap, true, allowEntryErrors},

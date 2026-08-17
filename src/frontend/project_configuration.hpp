@@ -21,7 +21,10 @@ struct ProjectConfigurationResult {
   std::vector<std::string> errors;
 };
 
+std::optional<std::filesystem::path>
+findProjectConfigurationManifest(const std::filesystem::path &sourcePath);
+
 ProjectConfigurationResult
-loadProjectConfiguration(const std::filesystem::path &sourcePath);
+loadProjectConfiguration(const std::filesystem::path &manifestPath);
 
 } // namespace zap::frontend

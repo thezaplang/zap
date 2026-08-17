@@ -68,34 +68,34 @@ std::string stringValue(const toml_datum_t &datum) {
 
 } // namespace
 
-ProjectConfigurationResult
-loadProjectConfiguration(const std::filesystem::path &sourcePath) {
-  ProjectConfigurationResult result;
-  const auto manifestPath = findManifestPath(sourcePath);
-  if (!manifestPath) {
-    return result;
-  }
+std::optional<std::filesystem::path>
+findProjectConfigurationManifest(const std::filesystem::path &sourcePath) {
+  return findManifestPath(sourcePath);
+}
 
-  ParsedToml document(*manifestPath);
+ProjectConfigurationResult
+loadProjectConfiguration(const std::filesystem::path &manifestPath) {
+  ProjectConfigurationResult result;
+  ParsedToml document(manifestPath);
   if (!document.ok()) {
-    result.errors.push_back("Could not parse " + manifestPath->string() +
+    result.errors.push_back("Could not parse " + manifestPath.string() +
                             ": " + std::string(document.error()));
     return result;
   }
   if (document.root().type != TOML_TABLE) {
-    result.errors.push_back(manifestPath->string() +
+    result.errors.push_back(manifestPath.string() +
                             " must contain a TOML table");
     return result;
   }
 
   ProjectConfiguration configuration;
-  configuration.manifestPath = *manifestPath;
-  configuration.rootDirectory = manifestPath->parent_path();
+  configuration.manifestPath = manifestPath;
+  configuration.rootDirectory = manifestPath.parent_path();
 
   const toml_datum_t entry = toml_get(document.root(), "entry");
   if (entry.type != TOML_UNKNOWN) {
     if (entry.type != TOML_STRING || entry.u.str.len == 0) {
-      result.errors.push_back("Property 'entry' in " + manifestPath->string() +
+      result.errors.push_back("Property 'entry' in " + manifestPath.string() +
                               datumLocation(entry) +
                               " must be a non-empty string");
     } else {
@@ -111,7 +111,7 @@ loadProjectConfiguration(const std::filesystem::path &sourcePath) {
   if (imports.type != TOML_UNKNOWN) {
     if (imports.type != TOML_TABLE) {
       result.errors.push_back("Property 'imports' in " +
-                              manifestPath->string() + datumLocation(imports) +
+                              manifestPath.string() + datumLocation(imports) +
                               " must be a table");
     } else {
       for (int32_t i = 0; i < imports.u.tab.size; ++i) {
@@ -120,7 +120,7 @@ loadProjectConfiguration(const std::filesystem::path &sourcePath) {
         const toml_datum_t &target = imports.u.tab.value[i];
         if (target.type != TOML_STRING || target.u.str.len == 0) {
           result.errors.push_back("Import '" + alias + "' in " +
-                                  manifestPath->string() + datumLocation(target) +
+                                  manifestPath.string() + datumLocation(target) +
                                   " must have a non-empty string path");
           continue;
         }

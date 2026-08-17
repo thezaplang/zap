@@ -53,10 +53,12 @@ int main() {
 local = "../shared"
 )");
 
-  auto configured = zap::frontend::loadProjectConfiguration(source);
-  require(configured.errors.empty(), "valid project configuration was rejected");
-  require(configured.configuration.has_value(),
+  const auto manifest = zap::frontend::findProjectConfigurationManifest(source);
+  require(manifest.has_value(),
           "project configuration was not discovered from a nested source file");
+  auto configured = zap::frontend::loadProjectConfiguration(*manifest);
+  require(configured.errors.empty(), "valid project configuration was rejected");
+  require(configured.configuration.has_value(), "valid configuration was not loaded");
   const auto &configuration = *configured.configuration;
   require(configuration.manifestPath == project / "thor.toml",
           "manifest path was not canonicalized");
@@ -74,14 +76,12 @@ local = "../shared"
   writeFile(project / "thor.toml", R"([imports]
 invalid = 42
 )");
-  auto invalid = zap::frontend::loadProjectConfiguration(source);
+  auto invalid = zap::frontend::loadProjectConfiguration(*manifest);
   require(!invalid.configuration.has_value(),
           "invalid import configuration was accepted");
   require(!invalid.errors.empty(), "invalid import configuration was silent");
 
-  auto absent = zap::frontend::loadProjectConfiguration(
+  auto absent = zap::frontend::findProjectConfigurationManifest(
       temporary.path / "standalone" / "main.zp");
-  require(absent.errors.empty(), "missing thor.toml is not a configuration error");
-  require(!absent.configuration.has_value(),
-          "missing thor.toml unexpectedly produced configuration");
+  require(!absent.has_value(), "missing thor.toml unexpectedly produced configuration");
 }

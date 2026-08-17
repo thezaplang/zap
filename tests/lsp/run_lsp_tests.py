@@ -198,6 +198,15 @@ def main():
 
 [imports]
 "@vendor" = "./vendor/package"
+            """
+        )
+        alternate_project = workspace_root / "alternate"
+        alternate_project.mkdir()
+        (alternate_project / "thor.toml").write_text(
+            """entry = "src/main.zp"
+
+[imports]
+"@alternate" = "./packages/alternate"
 """
         )
         proc = subprocess.Popen(
@@ -310,6 +319,30 @@ fun main() Int {
             alias_uri = open_document(proc, temp / "thor_import_map.zp", alias_source)
             assert read_diagnostics(proc, alias_uri) == [], (
                 "thor.toml import map produced diagnostics"
+            )
+
+            alternate_module_path = (
+                alternate_project / "packages" / "alternate" / "answer.zp"
+            )
+            alternate_module_path.parent.mkdir(parents=True)
+            alternate_module_path.write_text(
+                """pub fun answer() Int {
+    return 7;
+}
+"""
+            )
+            alternate_source = """import "@alternate/answer";
+
+fun main() Int {
+    return answer();
+}
+"""
+            (alternate_project / "src").mkdir()
+            alternate_uri = open_document(
+                proc, alternate_project / "src" / "main.zp", alternate_source
+            )
+            assert read_diagnostics(proc, alternate_uri) == [], (
+                "nested Thor project did not use its own import map"
             )
 
             loop_source = """fun main() Int {
