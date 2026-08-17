@@ -342,9 +342,15 @@ export async function activate(context: ExtensionContext) {
     const configuredStdlibPath = (
         config.get<string>("stdlibPath") || ""
     ).trim();
+    const thorConfigWatcher = workspace.createFileSystemWatcher("**/thor.toml");
+    const zapSourceWatcher = workspace.createFileSystemWatcher("**/*.zp");
+    context.subscriptions.push(thorConfigWatcher, zapSourceWatcher);
     const clientOptions: LanguageClientOptions = {
         documentSelector: [{ scheme: "file", language: "zap" }],
         outputChannel,
+        synchronize: {
+            fileEvents: [thorConfigWatcher, zapSourceWatcher],
+        },
         initializationOptions: {
             corePath:
                 configuredCorePath ||

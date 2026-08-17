@@ -293,9 +293,15 @@ function activate(context) {
         };
         const configuredCorePath = (config.get("corePath") || "").trim();
         const configuredStdlibPath = (config.get("stdlibPath") || "").trim();
+        const thorConfigWatcher = vscode_1.workspace.createFileSystemWatcher("**/thor.toml");
+        const zapSourceWatcher = vscode_1.workspace.createFileSystemWatcher("**/*.zp");
+        context.subscriptions.push(thorConfigWatcher, zapSourceWatcher);
         const clientOptions = {
             documentSelector: [{ scheme: "file", language: "zap" }],
             outputChannel,
+            synchronize: {
+                fileEvents: [thorConfigWatcher, zapSourceWatcher],
+            },
             initializationOptions: {
                 corePath: configuredCorePath ||
                     (!hasWorkspaceConfiguration ? corePath : undefined),
