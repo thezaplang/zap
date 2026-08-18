@@ -38,6 +38,30 @@ void Workspace::configure() {
   projectConfigurations_.clear();
 }
 
+AnalysisResult Workspace::workspaceFoldersChanged() {
+  projectConfigurations_.clear();
+  strictSnapshots_.clear();
+  tolerantSnapshots_.clear();
+
+  AnalysisResult result;
+  for (const auto &uri : sourceManager_.openUris()) {
+    auto project = loadProject(uri);
+    if (!project) {
+      continue;
+    }
+    for (const auto &[diagnosticUri, diagnostics] :
+         project->analysis.diagnosticsByUri) {
+      auto &merged = result.diagnosticsByUri[diagnosticUri];
+      merged.insert(merged.end(), diagnostics.begin(), diagnostics.end());
+    }
+    if (result.diagnosticsByUri.count(uri) == 0) {
+      result.diagnosticsByUri[uri] = {};
+    }
+  }
+  clearStaleDiagnostics(result);
+  return result;
+}
+
 const SourceSnapshot *Workspace::document(const std::string &uri) const {
   return sourceManager_.document(uri);
 }

@@ -73,6 +73,19 @@ def watched_files_changed(proc, paths):
     )
 
 
+def workspace_folders_changed(proc, folder):
+    notify(
+        proc,
+        "workspace/didChangeWorkspaceFolders",
+        {
+            "event": {
+                "added": [{"uri": file_uri(folder), "name": folder.name}],
+                "removed": [],
+            }
+        },
+    )
+
+
 def read_diagnostics(proc, expected_uri):
     while True:
         message = read_message(proc)
@@ -229,6 +242,9 @@ def main():
             )
             assert "capabilities" in init["result"]
             assert init["result"]["serverInfo"]["version"] == "0.1.0"
+            assert init["result"]["capabilities"]["workspace"][
+                "workspaceFolders"
+            ] == {"supported": True, "changeNotifications": True}
             notify(proc, "initialized", {})
             temp = workspace_root
 
@@ -337,6 +353,24 @@ fun main() Int {
             alias_uri = open_document(proc, temp / "thor_import_map.zp", alias_source)
             assert read_diagnostics(proc, alias_uri) == [], (
                 "thor.toml import map produced diagnostics"
+            )
+
+            (temp / "thor.toml").write_text("entry =")
+            workspace_folders_changed(proc, temp)
+            assert read_diagnostics(proc, alias_uri), (
+                "changing workspace folders did not refresh cached Thor configuration"
+            )
+
+            (temp / "thor.toml").write_text(
+                """entry = "src/main.zp"
+
+[imports]
+"@vendor" = "./vendor/package"
+"""
+            )
+            workspace_folders_changed(proc, temp)
+            assert read_diagnostics(proc, alias_uri) == [], (
+                "workspace folder refresh did not restore Thor configuration"
             )
 
             legacy_project = temp / "legacy_flags"

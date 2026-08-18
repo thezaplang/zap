@@ -40,6 +40,7 @@ class Workspace {
 public:
   Workspace();
   void configure();
+  AnalysisResult workspaceFoldersChanged();
   const SourceSnapshot *document(const std::string &uri) const;
   void open(const std::string &uri, std::filesystem::path path,
             std::string text, int64_t version);

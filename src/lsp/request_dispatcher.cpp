@@ -56,6 +56,13 @@ JsonObject makeCapabilities() {
       "triggerCharacters",
       JsonObject(JsonObject::List{JsonObject("("), JsonObject(",")}));
 
+  JsonObject::Object workspaceFolders;
+  workspaceFolders.emplace("supported", JsonObject(true));
+  workspaceFolders.emplace("changeNotifications", JsonObject(true));
+  JsonObject::Object workspace;
+  workspace.emplace("workspaceFolders",
+                    JsonObject(std::move(workspaceFolders)));
+
   JsonObject::Object capabilities;
   capabilities.emplace("textDocumentSync", JsonObject(std::move(syncOptions)));
   capabilities.emplace("definitionProvider", JsonObject(true));
@@ -64,6 +71,7 @@ JsonObject makeCapabilities() {
                        JsonObject(std::move(completionOptions)));
   capabilities.emplace("signatureHelpProvider",
                        JsonObject(std::move(signatureHelpOptions)));
+  capabilities.emplace("workspace", JsonObject(std::move(workspace)));
 
   JsonObject::Object serverInfo;
   serverInfo.emplace("name", JsonObject("zap-lsp"));
@@ -166,6 +174,8 @@ class RequestScheduler {
         }
         publishAnalysis(server_, workspace_.watchedFilesChanged(paths));
       }
+    } else if (*method == "workspace/didChangeWorkspaceFolders") {
+      publishAnalysis(server_, workspace_.workspaceFoldersChanged());
     } else if (*method == "textDocument/completion") {
       if (id) {
         if (auto context = documentRequestContext(workspace_, request)) {
