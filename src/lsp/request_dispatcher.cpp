@@ -179,9 +179,7 @@ class RequestScheduler {
             paths.push_back(std::move(*path));
           }
         }
-        for (const auto &analysis : workspace_.watchedFilesChanged(paths)) {
-          publishAnalysis(server_, analysis);
-        }
+        publishAnalysis(server_, workspace_.watchedFilesChanged(paths));
       }
     } else if (*method == "textDocument/completion") {
       if (id) {

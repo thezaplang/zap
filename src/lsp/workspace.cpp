@@ -92,7 +92,7 @@ std::optional<std::string> Workspace::sourceForUri(const std::string &uri) {
   return source ? std::optional<std::string>((*source)->text) : std::nullopt;
 }
 
-std::vector<AnalysisResult> Workspace::watchedFilesChanged(
+AnalysisResult Workspace::watchedFilesChanged(
     const std::vector<std::filesystem::path> &paths) {
   std::set<std::string> changedProjects;
   bool changedUnconfiguredFile = false;
@@ -128,12 +128,23 @@ std::vector<AnalysisResult> Workspace::watchedFilesChanged(
     }
   }
 
-  std::vector<AnalysisResult> analyses;
-  analyses.reserve(affectedUris.size());
+  AnalysisResult result;
   for (const auto &uri : affectedUris) {
-    analyses.push_back(analyze(uri));
+    auto project = loadProject(uri);
+    if (!project) {
+      continue;
+    }
+    for (const auto &[diagnosticUri, diagnostics] :
+         project->analysis.diagnosticsByUri) {
+      auto &merged = result.diagnosticsByUri[diagnosticUri];
+      merged.insert(merged.end(), diagnostics.begin(), diagnostics.end());
+    }
+    if (result.diagnosticsByUri.count(uri) == 0) {
+      result.diagnosticsByUri[uri] = {};
+    }
   }
-  return analyses;
+  clearStaleDiagnostics(result);
+  return result;
 }
 
 void Workspace::appendDiagnostics(
@@ -223,12 +234,9 @@ Workspace::buildSnapshot(const SourceSnapshot &document,
       });
   auto project = session.load(document.path);
   snapshot->project.dependencyModuleIds = std::move(project.visitedModuleIds);
-  if (!project.loaded) {
-    appendDiagnostics(snapshot->project.analysis, project.diagnostics,
-                      sourceManager_.uriForPath(document.path));
-    return snapshot;
+  if (!project.modules.empty()) {
+    session.bind(project);
   }
-  session.bind(project);
   appendDiagnostics(snapshot->project.analysis, project.diagnostics,
                     sourceManager_.uriForPath(document.path));
   snapshot->project.boundRoot = std::move(project.boundRoot);

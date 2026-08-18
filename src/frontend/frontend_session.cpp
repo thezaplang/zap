@@ -18,11 +18,9 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
   std::unordered_map<std::string, bool> visiting;
   project.loaded = loadModule(canonicalEntry, canonicalEntry.string(), project,
                               visiting);
-  if (project.loaded) {
-    auto entry = project.modules.find(canonicalEntry.string());
-    if (entry != project.modules.end()) {
-      entry->second->isEntry = true;
-    }
+  auto entry = project.modules.find(canonicalEntry.string());
+  if (entry != project.modules.end()) {
+    entry->second->isEntry = true;
   }
   return project;
 }
@@ -52,12 +50,13 @@ bool FrontendSession::loadModule(
   Lexer lexer(diagnostics);
   Parser parser(lexer.tokenize(*source), diagnostics);
   auto root = parser.parse();
-  const auto &moduleDiagnostics = diagnostics.diagnostics();
-  project.diagnostics.insert(project.diagnostics.end(), moduleDiagnostics.begin(),
-                             moduleDiagnostics.end());
   const bool isEntry = moduleId == entryModuleId;
-  if (!root || (diagnostics.hadErrors() &&
-                !(config_.allowEntryErrors && isEntry))) {
+  if (!root ||
+      (diagnostics.hadErrors() && !(config_.allowEntryErrors && isEntry))) {
+    const auto &moduleDiagnostics = diagnostics.diagnostics();
+    project.diagnostics.insert(project.diagnostics.end(),
+                               moduleDiagnostics.begin(),
+                               moduleDiagnostics.end());
     visiting.erase(moduleId);
     return false;
   }
@@ -72,6 +71,7 @@ bool FrontendSession::loadModule(
   module->root = std::move(root);
   injectImplicitPreludeImportIfNeeded(*module, config_.includePrelude);
 
+  bool complete = true;
   for (const auto &child : module->root->children) {
     auto *importNode = dynamic_cast<ImportNode *>(child.get());
     if (!importNode) {
@@ -80,10 +80,11 @@ bool FrontendSession::loadModule(
     std::vector<std::filesystem::path> targets;
     std::string error;
     if (!resolveImportTargets(canonicalPath, *importNode, targets,
-                              config_.importMap, config_.runtimePaths, &error)) {
-      project.errors.push_back(std::move(error));
-      visiting.erase(moduleId);
-      return false;
+                              config_.importMap, config_.runtimePaths,
+                              &error)) {
+      diagnostics.report(importNode->span, DiagnosticLevel::Error, error);
+      complete = false;
+      continue;
     }
     module->imports.push_back(makeResolvedImport(*importNode, targets));
   }
@@ -91,19 +92,22 @@ bool FrontendSession::loadModule(
   for (const auto &import : module->imports) {
     for (const auto &target : import.targetModuleIds) {
       if (!loadModule(target, entryModuleId, project, visiting)) {
-        visiting.erase(moduleId);
-        return false;
+        complete = false;
       }
     }
   }
 
+  const auto &moduleDiagnostics = diagnostics.diagnostics();
+  project.diagnostics.insert(project.diagnostics.end(),
+                             moduleDiagnostics.begin(),
+                             moduleDiagnostics.end());
   visiting.erase(moduleId);
   project.modules[moduleId] = std::move(module);
-  return true;
+  return complete;
 }
 
 bool FrontendSession::bind(FrontendProject &project) {
-  if (!project.loaded || project.modules.empty()) {
+  if (project.modules.empty()) {
     return false;
   }
 

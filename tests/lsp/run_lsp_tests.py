@@ -303,6 +303,25 @@ fun main() Int {
             diagnostics = read_diagnostics(proc, imported_uri)
             assert diagnostics, "imported-file diagnostic was not published"
 
+            missing_import_source = """import "does_not_exist.zp";
+
+fun main() Int {
+    var retained: Int = 1;
+    retained;
+    return 0;
+}
+"""
+            missing_import_uri = open_document(
+                proc, temp / "missing_import.zp", missing_import_source
+            )
+            assert read_diagnostics(proc, missing_import_uri), (
+                "missing import did not produce a diagnostic on its declaration"
+            )
+            labels = completion_labels(proc, missing_import_uri, 4, 12, 93)
+            assert "retained" in labels, (
+                "missing import prevented completion for an independent local symbol"
+            )
+
             open_document(
                 proc,
                 imported_path,
@@ -334,7 +353,7 @@ fun main() Int {
                 "thor.toml import map produced diagnostics"
             )
 
-            (temp / "thor.toml").write_text("not valid TOML")
+            (temp / "thor.toml").write_text("entry =")
             watched_files_changed(proc, [temp / "thor.toml"])
             assert read_diagnostics(proc, alias_uri), (
                 "changing thor.toml did not refresh dependent diagnostics"

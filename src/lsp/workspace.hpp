@@ -54,7 +54,7 @@ public:
   std::optional<SemanticQuery> query(const std::string &uri,
                                      bool allowEntryErrors = true);
   std::optional<std::string> sourceForUri(const std::string &uri);
-  std::vector<AnalysisResult>
+  AnalysisResult
   watchedFilesChanged(const std::vector<std::filesystem::path> &paths);
   AnalysisResult analyze(const std::string &uri);
 };
