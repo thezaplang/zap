@@ -39,10 +39,7 @@ class Workspace {
 
 public:
   Workspace();
-  std::vector<std::string>
-  configure(const std::filesystem::path &workspaceRoot,
-            const std::optional<std::string> &corePath,
-            const std::optional<std::string> &stdlibPath);
+  void configure();
   const SourceSnapshot *document(const std::string &uri) const;
   void open(const std::string &uri, std::filesystem::path path,
             std::string text, int64_t version);

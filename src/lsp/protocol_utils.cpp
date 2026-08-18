@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#include <vector>
 
 namespace zap::lsp {
 
@@ -126,55 +125,6 @@ bool readSourceFile(const std::filesystem::path &path, std::string &content) {
     file.read(content.data(), size);
   }
   return true;
-}
-
-namespace {
-
-zap::args::CmdlineArgs readFlagsFromFile(const std::filesystem::path &path) {
-  zap::args::CmdlineArgs args;
-  std::ifstream file(path);
-  if (!file) {
-    return args;
-  }
-
-  std::vector<std::string> argv;
-  argv.push_back("zapc");
-  std::string word;
-  while (file >> word) {
-    argv.push_back(word);
-  }
-
-  zap::args::parse(argv, args);
-
-  auto baseDir = path.parent_path();
-  for (auto &[alias, target] : args.importMap) {
-    std::filesystem::path targetPath(target);
-    if (!target.empty() && !targetPath.is_absolute()) {
-      target = (baseDir / targetPath).lexically_normal().generic_string();
-    }
-  }
-
-  return args;
-}
-
-} // namespace
-
-zap::args::CmdlineArgs findAndReadFlags(std::filesystem::path startPath) {
-  if (std::filesystem::is_regular_file(startPath)) {
-    startPath = startPath.parent_path();
-  }
-
-  while (true) {
-    auto flagsPath = startPath / "zap_flags.txt";
-    if (std::filesystem::exists(flagsPath)) {
-      return readFlagsFromFile(flagsPath);
-    }
-    if (startPath == startPath.parent_path()) {
-      break;
-    }
-    startPath = startPath.parent_path();
-  }
-  return {};
 }
 
 bool containsOffset(const SourceSpan &span, size_t offset) {

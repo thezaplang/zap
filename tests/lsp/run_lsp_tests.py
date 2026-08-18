@@ -191,21 +191,8 @@ def main():
     if not SERVER.exists():
         raise SystemExit(f"missing {SERVER}; build zap-lsp first")
 
-    env = os.environ.copy()
-
     with tempfile.TemporaryDirectory(prefix="zap-lsp-workspace-") as workspace_dir:
         workspace_root = pathlib.Path(workspace_dir)
-        env["ZAPC_CORE_DIR"] = str(workspace_root / "invalid-core")
-        env["ZAPC_STDLIB_DIR"] = str(workspace_root / "invalid-std")
-        (workspace_root / "zaplsp.json").write_text(
-            json.dumps(
-                {
-                    "zapRoot": str(ROOT),
-                    "corePath": "core",
-                    "stdlibPath": "std",
-                }
-            )
-        )
         (workspace_root / "thor.toml").write_text(
             """entry = "src/main.zp"
 
@@ -227,7 +214,6 @@ def main():
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            env=env,
         )
 
         try:
@@ -351,6 +337,33 @@ fun main() Int {
             alias_uri = open_document(proc, temp / "thor_import_map.zp", alias_source)
             assert read_diagnostics(proc, alias_uri) == [], (
                 "thor.toml import map produced diagnostics"
+            )
+
+            legacy_project = temp / "legacy_flags"
+            legacy_project.mkdir()
+            legacy_module = legacy_project / "package" / "answer.zp"
+            legacy_module.parent.mkdir()
+            legacy_module.write_text(
+                """pub fun answer() Int {
+    return 42;
+}
+"""
+            )
+            (legacy_project / "zap_flags.txt").write_text(
+                "--import-map @legacy=./package\n"
+            )
+            legacy_uri = open_document(
+                proc,
+                legacy_project / "main.zp",
+                """import "@legacy/answer";
+
+fun main() Int {
+    return answer();
+}
+""",
+            )
+            assert read_diagnostics(proc, legacy_uri), (
+                "zap_flags.txt was still used for project imports"
             )
 
             (temp / "thor.toml").write_text("entry =")

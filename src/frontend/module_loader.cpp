@@ -6,6 +6,32 @@
 
 namespace zap::frontend {
 
+namespace {
+
+std::optional<std::filesystem::path>
+runtimeDirectoryNearExecutable(const std::filesystem::path &executable,
+                               const std::string &name,
+                               const std::string &requiredFile) {
+  for (auto directory = executable.parent_path();;
+       directory = directory.parent_path()) {
+    const auto candidate = directory / name;
+    std::error_code ec;
+    if (std::filesystem::is_regular_file(candidate / requiredFile, ec) && !ec) {
+      return candidate;
+    }
+
+    const auto parent = directory.parent_path();
+    if (parent == directory) {
+      return std::nullopt;
+    }
+    if (directory.filename() != "build") {
+      return std::nullopt;
+    }
+  }
+}
+
+} // namespace
+
 std::optional<std::filesystem::path>
 currentExecutablePath(const std::filesystem::path &argv0Hint) {
   std::error_code ec;
@@ -37,10 +63,9 @@ std::filesystem::path stdlibRootPath(const RuntimePaths &paths) {
   }
 
   if (auto exePath = currentExecutablePath(paths.executablePath)) {
-    auto siblingStd = exePath->parent_path() / "std";
-    if (std::filesystem::exists(siblingStd) &&
-        std::filesystem::is_directory(siblingStd)) {
-      return siblingStd;
+    if (const auto stdlib =
+            runtimeDirectoryNearExecutable(*exePath, "std", "prelude.zp")) {
+      return *stdlib;
     }
   }
 
@@ -60,10 +85,9 @@ std::filesystem::path coreRootPath(const RuntimePaths &paths) {
   }
 
   if (auto exePath = currentExecutablePath(paths.executablePath)) {
-    auto siblingCore = exePath->parent_path() / "core";
-    if (std::filesystem::exists(siblingCore) &&
-        std::filesystem::is_directory(siblingCore)) {
-      return siblingCore;
+    if (const auto core =
+            runtimeDirectoryNearExecutable(*exePath, "core", "core.zp")) {
+      return *core;
     }
   }
 

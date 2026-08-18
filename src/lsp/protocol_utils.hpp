@@ -1,6 +1,5 @@
 #pragma once
 
-#include "driver/args/argparse.hpp"
 #include "lsp.hpp"
 #include "utils/diagnostics.hpp"
 #include <cstdint>
@@ -25,8 +24,6 @@ getIntegerField(const JsonObject &object,
 std::optional<std::filesystem::path> uriToPath(std::string_view uri);
 std::string pathToUri(const std::filesystem::path &path);
 bool readSourceFile(const std::filesystem::path &path, std::string &content);
-zap::args::CmdlineArgs findAndReadFlags(std::filesystem::path startPath);
-
 bool containsOffset(const SourceSpan &span, size_t offset);
 bool isIdentifierChar(char ch);
 std::optional<std::string> identifierAt(const std::string &source,

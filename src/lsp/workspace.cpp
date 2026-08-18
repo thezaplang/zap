@@ -2,7 +2,6 @@
 
 #include "frontend/frontend_session.hpp"
 #include "frontend/project_configuration.hpp"
-#include "lsp/configuration.hpp"
 #include "lsp/protocol_utils.hpp"
 #include "sema/binder.hpp"
 #include <utility>
@@ -35,20 +34,8 @@ Workspace::Workspace()
           std::filesystem::path(ZAPC_STDLIB_DIR), std::filesystem::path(),
           zap::frontend::EnvironmentOverrides::Ignore} {}
 
-std::vector<std::string>
-Workspace::configure(const std::filesystem::path &workspaceRoot,
-                     const std::optional<std::string> &corePath,
-                     const std::optional<std::string> &stdlibPath) {
-  auto configuration =
-      loadRuntimePathConfiguration(workspaceRoot, corePath, stdlibPath);
-  if (configuration.coreDir) {
-    runtimePaths_.coreDirOverride = std::move(*configuration.coreDir);
-  }
-  if (configuration.stdlibDir) {
-    runtimePaths_.stdlibDirOverride = std::move(*configuration.stdlibDir);
-  }
+void Workspace::configure() {
   projectConfigurations_.clear();
-  return configuration.errors;
 }
 
 const SourceSnapshot *Workspace::document(const std::string &uri) const {
@@ -219,7 +206,7 @@ Workspace::buildSnapshot(const SourceSnapshot &document,
   const auto configuration = projectConfigurationFor(document.path);
   const auto importMap = configuration && configuration->configuration
                              ? configuration->configuration->importMap
-                             : findAndReadFlags(document.path).importMap;
+                             : zap::frontend::ImportMap{};
   if (configuration) {
     appendConfigurationDiagnostics(snapshot->project.analysis, document,
                                    configuration->errors);

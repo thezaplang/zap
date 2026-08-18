@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Completion, definition, hover, and signature help backed by shared semantic snapshots.
-- Workspace configuration through `zaplsp.json`, including automatic creation prompts.
+- Imports are read from `thor.toml`; the extension uses the `zap-lsp` installed by `zapup`.
 - UTF-16 position handling, multi-file diagnostics, document lifecycle support, and request cancellation.
 
 ### Changed

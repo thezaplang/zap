@@ -42,7 +42,7 @@ tar -C "$EXTENSION_SOURCE_DIR" \
   cd "$EXTENSION_BUILD_DIR"
   npm install --no-package-lock
 
-  ZAP_LSP_BINARY="$BUILD_DIR/src/lsp/zap-lsp" npm run package
+  npm run package
 )
 
 test -f "$EXTENSION_BUILD_DIR/$EXTENSION_VSIX"
@@ -54,6 +54,7 @@ mkdir -p "$STAGE_DIR"
 install -m 755 "$BUILD_DIR/zapc" "$STAGE_DIR/zapc"
 install -m 755 "$BUILD_DIR/src/lsp/zap-lsp" "$STAGE_DIR/zap-lsp"
 install -m 644 "$BUILD_DIR/stdlib.o" "$STAGE_DIR/stdlib.o"
+cp -R "$SCRIPT_DIR/core" "$STAGE_DIR/core"
 cp -R "$SCRIPT_DIR/std" "$STAGE_DIR/std"
 
 install -m 644 "$EXTENSION_BUILD_DIR/$EXTENSION_VSIX" \

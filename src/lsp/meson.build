@@ -2,7 +2,6 @@ lsp_sources = [
     'lsp-main.cpp',
     'request_dispatcher.cpp',
     'completion.cpp',
-    'configuration.cpp',
     'document_request.cpp',
     'position_codec.cpp',
     'protocol_codec.cpp',
@@ -25,7 +24,6 @@ lsp_sources = [
     '../sema/binder_generic_functions.cpp',
     '../sema/binder_generic_types.cpp',
     '../sema/binder_types.cpp',
-    '../driver/args/argparse.cpp',
     '../utils/stream.cpp'
 ]
 
@@ -47,13 +45,6 @@ zap_lsp = executable('zap-lsp',
 )
 
 if get_option('build_testing')
-    test('lsp-configuration', executable('zap-lsp-configuration-tests',
-                                         meson.project_source_root() / 'tests/cpp/lsp_configuration_test.cpp',
-                                         'configuration.cpp',
-                                         'lsp.cpp',
-                                         include_directories: inc
-         ))
-
     test('lsp-position', executable('zap-lsp-position-tests',
                                     meson.project_source_root() / 'tests/cpp/lsp_position_test.cpp',
                                     'position_codec.cpp',
@@ -65,7 +56,6 @@ if get_option('build_testing')
                                           'source_manager.cpp',
                                           'protocol_utils.cpp',
                                           'lsp.cpp',
-                                          '../driver/args/argparse.cpp',
                                           '../utils/stream.cpp',
                                           include_directories: inc
          ))

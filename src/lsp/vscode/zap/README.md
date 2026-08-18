@@ -4,57 +4,23 @@ Syntax highlighting and LSP support for Zap.
 
 ## Requirements
 
-- A built `zap-lsp` binary when packaging the extension
+- Zap installed with `zapup`, with `zap-lsp` available in `PATH`
 - VS Code or VSCodium
 
-## Default Behavior
+## Project configuration
 
-The packaged `.vsix` bundles `zap-lsp`.
+The extension launches the `zap-lsp` installed by `zapup`; it does not bundle
+the server or keep a separate workspace configuration. Imports are defined in
+the nearest `thor.toml` and follow Thor's `[imports]` table:
 
-When a workspace has no `zaplsp.json`, the extension offers to create it from
-the detected Zap installation or lets you select the installation directory.
-The extension does not bundle its own copy of `core`, `stdlib`, or `zapc`.
-
-The server reads `zaplsp.json` directly, so the configuration is shared with
-other LSP clients:
-
-```json
-{
-  "zapRoot": "/opt/zap",
-  "corePath": "core",
-  "stdlibPath": "std"
-}
+```toml
+[imports]
+"@vendor" = "./vendor/package"
 ```
 
-Relative `corePath` and `stdlibPath` values use `zapRoot` as their base. When
-`zapRoot` is omitted, they are resolved relative to `zaplsp.json`.
-
-For initial discovery, the extension asks `zapc --print-core-path` and
-`zapc --print-stdlib-path`. Set `zap-lsp.zapcPath` when the compiler is outside
-the workspace or `PATH`. The `zap-lsp.corePath` and `zap-lsp.stdlibPath`
-settings remain explicit editor-local overrides and take precedence over the
-workspace file.
-
-## Optional Server Override
-
-If you want to use a different server binary, set `zap-lsp.path`.
-
-Example:
-
-```json
-{
-  "zap-lsp.path": "/custom/path/to/zap-lsp"
-}
-```
-
-Example editor-local override (optional):
-
-```json
-{
-  "zap-lsp.corePath": "/path/to/zap/core",
-  "zap-lsp.stdlibPath": "/path/to/zap/std"
-}
-```
+Relative targets are resolved from that `thor.toml`. The extension watches both
+`thor.toml` and Zap source files so diagnostics refresh after configuration or
+dependency changes.
 
 ## Build the Extension
 
@@ -65,7 +31,8 @@ npm install
 npm run package
 ```
 
-That produces a `.vsix` file in this directory.
+That produces a `.vsix` file in this directory. It contains only the extension;
+install Zap separately with `zapup`.
 
 ## Install the Extension
 

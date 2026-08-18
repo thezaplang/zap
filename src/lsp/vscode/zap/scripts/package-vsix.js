@@ -7,18 +7,6 @@ const glob = require("glob");
 const yazl = require("yazl");
 const vsce = require("@vscode/vsce/out/package.js");
 
-async function stageBundledServer(cwd) {
-    const repoRoot = path.resolve(cwd, "..", "..", "..", "..");
-    const serverSource = process.env.ZAP_LSP_BINARY || path.join(repoRoot, "build", "zap-lsp");
-    const serverTarget = path.join(cwd, "bin", "zap-lsp");
-
-    await fs.promises.access(serverSource, fs.constants.R_OK);
-
-    await fs.promises.mkdir(path.dirname(serverTarget), { recursive: true });
-    await fs.promises.copyFile(serverSource, serverTarget);
-    await fs.promises.chmod(serverTarget, 0o755);
-}
-
 function compileTypeScript(cwd) {
     const configPath = ts.findConfigFile(
         cwd,
@@ -82,8 +70,6 @@ async function main() {
     const manifest = await vsce.readManifest(cwd);
 
     compileTypeScript(cwd);
-    await stageBundledServer(cwd);
-
     const files = collectManifestFiles(cwd, manifest).map((file) => ({
         path: `extension/${file}`,
         localPath: path.join(cwd, file),

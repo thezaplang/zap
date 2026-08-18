@@ -10,7 +10,6 @@
 #include <condition_variable>
 #include <cstdio>
 #include <deque>
-#include <filesystem>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -127,22 +126,8 @@ class RequestScheduler {
 
     if (*method == "initialize") {
       shutdownRequested_ = false;
-      std::filesystem::path workspaceRoot = std::filesystem::current_path();
-      auto params = decodeInitialize(request);
-      if (params && params->rootUri) {
-        if (auto rootPath = uriToPath(*params->rootUri)) {
-          workspaceRoot = std::move(*rootPath);
-        }
-      } else if (params && params->rootPath) {
-        workspaceRoot = std::move(*params->rootPath);
-      }
-      auto errors = workspace_.configure(
-          workspaceRoot, params ? params->corePath : std::nullopt,
-          params ? params->stdlibPath : std::nullopt);
+      workspace_.configure();
       server_.sendMessage(makeResponse(id, makeCapabilities()));
-      for (const auto &error : errors) {
-        server_.logMessage(Server::MessageType::Error, error);
-      }
     } else if (*method == "initialized") {
       return;
     } else if (*method == "shutdown") {

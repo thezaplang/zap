@@ -17,24 +17,22 @@ The binary is written to `build/zap-lsp`.
 
 ## Configure a workspace
 
-The server reads an optional `zaplsp.json` from the workspace. Paths may be
-absolute or relative to `zapRoot`:
+Project imports come from the nearest `thor.toml`. The `[imports]` table uses
+the same aliases as `thor build`; relative paths are resolved from the
+directory containing the manifest:
 
-```json
-{
-  "zapRoot": "/opt/zap",
-  "corePath": "core",
-  "stdlibPath": "std"
-}
+```toml
+[imports]
+"@vendor" = "./vendor/package"
 ```
 
-When `zapRoot` is omitted, relative paths are resolved from the directory that
-contains `zaplsp.json`. The server uses the installed Zap `core` and `std`; it
-does not require a private copy for each editor.
+The server obtains `core` and `std` from its Zap installation. A release
+installation keeps them next to `zap-lsp`; a source installation made by
+`zapup --src` keeps them one directory above `build/zap-lsp`.
 
 ## Build and install the VS Code extension
 
-Build `zap-lsp` first, then run:
+Install Zap through `zapup` first so `zap-lsp` is on `PATH`, then run:
 
 ```bash
 cd src/lsp/vscode/zap
@@ -43,9 +41,5 @@ npm run package
 ```
 
 Install the generated `.vsix` with **Extensions → … → Install from VSIX…**.
-The package bundles the server binary, but not `zapc`, `core`, or `std`.
-
-If a workspace has no `zaplsp.json`, the extension offers to create one from a
-detected Zap installation. Use `zap-lsp.path` only to override the bundled
-server, and `zap-lsp.zapcPath` when `zapc` is not available in the workspace or
-`PATH`.
+The extension does not bundle or configure a language server; it launches the
+`zap-lsp` installed by `zapup`.

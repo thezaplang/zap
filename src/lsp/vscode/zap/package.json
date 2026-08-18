@@ -14,12 +14,10 @@
     "main": "./out/extension.js",
     "files": [
         "out/**",
-        "bin/zap-lsp",
         "node_modules/**",
         "src/**",
         "syntaxes/**",
         "images/**",
-        "zaplsp.schema.json",
         "language-configuration.json",
         "README.md",
         "CHANGELOG.md",
@@ -33,38 +31,6 @@
         "Programming Languages"
     ],
     "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "Zap LSP Configuration",
-            "properties": {
-                "zap-lsp.path": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Optional override path to the Zap LSP executable. By default the bundled server is used."
-                },
-                "zap-lsp.stdlibPath": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Optional editor override for the Zap stdlib directory. Prefer zaplsp.json for workspace configuration."
-                },
-                "zap-lsp.corePath": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Optional editor override for the Zap core directory. Prefer zaplsp.json for workspace configuration."
-                },
-                "zap-lsp.zapcPath": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Optional path to zapc. The extension uses `zapc --print-core-path` and `zapc --print-stdlib-path` to discover library directories."
-                }
-            }
-        },
-        "jsonValidation": [
-            {
-                "fileMatch": "zaplsp.json",
-                "url": "./zaplsp.schema.json"
-            }
-        ],
         "languages": [
             {
                 "id": "zap",

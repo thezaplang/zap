@@ -26,13 +26,6 @@ struct ChangeDocumentParams {
   int64_t version = 0;
 };
 
-struct InitializeParams {
-  std::optional<std::string> rootUri;
-  std::optional<std::string> rootPath;
-  std::optional<std::string> corePath;
-  std::optional<std::string> stdlibPath;
-};
-
 struct WatchedFileChange {
   std::string uri;
 };
@@ -43,7 +36,6 @@ std::optional<OpenDocumentParams> decodeOpenDocument(const JsonObject &request);
 std::optional<ChangeDocumentParams>
 decodeChangeDocument(const JsonObject &request);
 std::optional<std::string> decodeCloseDocument(const JsonObject &request);
-std::optional<InitializeParams> decodeInitialize(const JsonObject &request);
 std::optional<std::vector<WatchedFileChange>>
 decodeWatchedFiles(const JsonObject &request);
 

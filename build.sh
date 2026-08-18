@@ -76,6 +76,12 @@ fi
 echo -e "${YELLOW}Compiling...${NC}"
 meson compile -C "$BUILD_DIR" "${MESON_ARGS[@]}"
 
+# Keep the language server next to zapc.  zapup adds this directory to PATH,
+# while Meson otherwise writes the target under src/lsp/.
+if [ -f "$BUILD_DIR/src/lsp/zap-lsp" ]; then
+  cp "$BUILD_DIR/src/lsp/zap-lsp" "$BUILD_DIR/zap-lsp"
+fi
+
 # Check if build was successful
 if [ -f "$BUILD_DIR/zapc" ]; then
   echo -e "${GREEN}Build successful!${NC}"
