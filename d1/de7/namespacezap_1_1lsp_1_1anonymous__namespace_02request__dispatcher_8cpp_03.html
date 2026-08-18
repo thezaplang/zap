@@ -112,24 +112,32 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   56</span>      <span class="stringliteral">&quot;triggerCharacters&quot;</span>,</div>
 <div class="line"><span class="lineno">   57</span>      JsonObject(<a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#a649dbc67ab36f0c310fbf156d16b8095">JsonObject::List</a>{JsonObject(<span class="stringliteral">&quot;(&quot;</span>), JsonObject(<span class="stringliteral">&quot;,&quot;</span>)}));</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> capabilities;</div>
-<div class="line"><span class="lineno">   60</span>  capabilities.emplace(<span class="stringliteral">&quot;textDocumentSync&quot;</span>, JsonObject(std::move(syncOptions)));</div>
-<div class="line"><span class="lineno">   61</span>  capabilities.emplace(<span class="stringliteral">&quot;definitionProvider&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">   62</span>  capabilities.emplace(<span class="stringliteral">&quot;hoverProvider&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
-<div class="line"><span class="lineno">   63</span>  capabilities.emplace(<span class="stringliteral">&quot;completionProvider&quot;</span>,</div>
-<div class="line"><span class="lineno">   64</span>                       JsonObject(std::move(completionOptions)));</div>
-<div class="line"><span class="lineno">   65</span>  capabilities.emplace(<span class="stringliteral">&quot;signatureHelpProvider&quot;</span>,</div>
-<div class="line"><span class="lineno">   66</span>                       JsonObject(std::move(signatureHelpOptions)));</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> serverInfo;</div>
-<div class="line"><span class="lineno">   69</span>  serverInfo.emplace(<span class="stringliteral">&quot;name&quot;</span>, JsonObject(<span class="stringliteral">&quot;zap-lsp&quot;</span>));</div>
-<div class="line"><span class="lineno">   70</span>  serverInfo.emplace(<span class="stringliteral">&quot;version&quot;</span>, JsonObject(<a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a86920daa673b3e14c969789d26aa72ab">lspVersion</a>));</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> result;</div>
-<div class="line"><span class="lineno">   73</span>  result.emplace(<span class="stringliteral">&quot;capabilities&quot;</span>, JsonObject(std::move(capabilities)));</div>
-<div class="line"><span class="lineno">   74</span>  result.emplace(<span class="stringliteral">&quot;serverInfo&quot;</span>, JsonObject(std::move(serverInfo)));</div>
-<div class="line"><span class="lineno">   75</span>  <span class="keywordflow">return</span> JsonObject(std::move(result));</div>
-<div class="line"><span class="lineno">   76</span>}</div>
+<div class="line"><span class="lineno">   59</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> workspaceFolders;</div>
+<div class="line"><span class="lineno">   60</span>  workspaceFolders.emplace(<span class="stringliteral">&quot;supported&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">   61</span>  workspaceFolders.emplace(<span class="stringliteral">&quot;changeNotifications&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">   62</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> workspace;</div>
+<div class="line"><span class="lineno">   63</span>  workspace.emplace(<span class="stringliteral">&quot;workspaceFolders&quot;</span>,</div>
+<div class="line"><span class="lineno">   64</span>                    JsonObject(std::move(workspaceFolders)));</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> capabilities;</div>
+<div class="line"><span class="lineno">   67</span>  capabilities.emplace(<span class="stringliteral">&quot;textDocumentSync&quot;</span>, JsonObject(std::move(syncOptions)));</div>
+<div class="line"><span class="lineno">   68</span>  capabilities.emplace(<span class="stringliteral">&quot;definitionProvider&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">   69</span>  capabilities.emplace(<span class="stringliteral">&quot;hoverProvider&quot;</span>, JsonObject(<span class="keyword">true</span>));</div>
+<div class="line"><span class="lineno">   70</span>  capabilities.emplace(<span class="stringliteral">&quot;completionProvider&quot;</span>,</div>
+<div class="line"><span class="lineno">   71</span>                       JsonObject(std::move(completionOptions)));</div>
+<div class="line"><span class="lineno">   72</span>  capabilities.emplace(<span class="stringliteral">&quot;signatureHelpProvider&quot;</span>,</div>
+<div class="line"><span class="lineno">   73</span>                       JsonObject(std::move(signatureHelpOptions)));</div>
+<div class="line"><span class="lineno">   74</span>  capabilities.emplace(<span class="stringliteral">&quot;workspace&quot;</span>, JsonObject(std::move(workspace)));</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> serverInfo;</div>
+<div class="line"><span class="lineno">   77</span>  serverInfo.emplace(<span class="stringliteral">&quot;name&quot;</span>, JsonObject(<span class="stringliteral">&quot;zap-lsp&quot;</span>));</div>
+<div class="line"><span class="lineno">   78</span>  serverInfo.emplace(<span class="stringliteral">&quot;version&quot;</span>, JsonObject(<a class="code hl_variable" href="../../d5/d23/namespacezap_1_1lsp.html#a86920daa673b3e14c969789d26aa72ab">lspVersion</a>));</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>  <a class="code hl_typedef" href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">JsonObject::Object</a> result;</div>
+<div class="line"><span class="lineno">   81</span>  result.emplace(<span class="stringliteral">&quot;capabilities&quot;</span>, JsonObject(std::move(capabilities)));</div>
+<div class="line"><span class="lineno">   82</span>  result.emplace(<span class="stringliteral">&quot;serverInfo&quot;</span>, JsonObject(std::move(serverInfo)));</div>
+<div class="line"><span class="lineno">   83</span>  <span class="keywordflow">return</span> JsonObject(std::move(result));</div>
+<div class="line"><span class="lineno">   84</span>}</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonObject_html"><div class="ttname"><a href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html">zap::lsp::JsonObject</a></div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00024">lsp.hpp:24</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonObject_html_a649dbc67ab36f0c310fbf156d16b8095"><div class="ttname"><a href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#a649dbc67ab36f0c310fbf156d16b8095">zap::lsp::JsonObject::List</a></div><div class="ttdeci">std::vector&lt; JsonObject &gt; List</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00027">lsp.hpp:27</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonObject_html_acf9c109974725c92c94959ea8acd623c"><div class="ttname"><a href="../../d2/dba/classzap_1_1lsp_1_1JsonObject.html#acf9c109974725c92c94959ea8acd623c">zap::lsp::JsonObject::Object</a></div><div class="ttdeci">std::unordered_map&lt; std::string, JsonObject &gt; Object</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00026">lsp.hpp:26</a></div></div>
@@ -137,7 +145,7 @@ Functions</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/d7e/request__dispatcher_8hpp_source.html#l00007">zap::lsp::lspVersion</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">makeCapabilities()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::execute()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">makeCapabilities()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::execute()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">makeCapabilities()</a>.</p>
 
 </div>
 </div>
@@ -175,7 +183,7 @@ Functions</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00368">zap::lsp::JsonObject::getAsInteger()</a>, <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00386">zap::lsp::JsonObject::isInteger()</a>, <a class="el" href="../../d1/d74/lsp_8cpp_source.html#l00389">zap::lsp::JsonObject::isString()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">requestKey()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">requestKey()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">requestKey()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workerLoop()</a>.</p>
 
 </div>
 </div>

@@ -102,7 +102,6 @@ var hierarchy =
     [ "zap::lsp::HoverInfo", "d1/d23/structzap_1_1lsp_1_1HoverInfo.html", null ],
     [ "ImportBinding", "d7/de6/structImportBinding.html", null ],
     [ "sema::SemanticInfo::ImportedSymbol", "d0/d3f/structsema_1_1SemanticInfo_1_1ImportedSymbol.html", null ],
-    [ "zap::lsp::InitializeParams", "d6/d34/structzap_1_1lsp_1_1InitializeParams.html", null ],
     [ "zir::Instruction", "d0/dad/classzir_1_1Instruction.html", [
       [ "zir::AllocInst", "d1/dc3/classzir_1_1AllocInst.html", null ],
       [ "zir::AllocaInst", "d2/d4b/classzir_1_1AllocaInst.html", null ],
@@ -203,9 +202,12 @@ var hierarchy =
     [ "zir::OwnershipFlowAnalysis", "d7/d0e/classzir_1_1OwnershipFlowAnalysis.html", null ],
     [ "zir::OwnershipLiveness", "dd/d4e/classzir_1_1OwnershipLiveness.html", null ],
     [ "zir::OwnershipTransferViolation", "d3/d5f/structzir_1_1OwnershipTransferViolation.html", null ],
+    [ "zap::frontend::anonymous_namespace{project_configuration.cpp}::ParsedToml", "d7/d34/classzap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03_1_1ParsedToml.html", null ],
     [ "zap::Parser", "de/d73/classzap_1_1Parser.html", null ],
     [ "zir::anonymous_namespace{ownership_lowering.cpp}::PendingEdgeClosure", "d1/d85/structzir_1_1anonymous__namespace_02ownership__lowering_8cpp_03_1_1PendingEdgeClosure.html", null ],
     [ "codegen::LLVMCodeGen::PendingPhiIncoming", "dd/d05/structcodegen_1_1LLVMCodeGen_1_1PendingPhiIncoming.html", null ],
+    [ "zap::frontend::ProjectConfiguration", "d9/dec/structzap_1_1frontend_1_1ProjectConfiguration.html", null ],
+    [ "zap::frontend::ProjectConfigurationResult", "dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult.html", null ],
     [ "zap::lsp::ProjectState", "de/ddb/structzap_1_1lsp_1_1ProjectState.html", null ],
     [ "zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler", "d8/d85/classzap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler.html", null ],
     [ "sema::SemanticInfo::ResolvedCall", "de/dfa/structsema_1_1SemanticInfo_1_1ResolvedCall.html", null ],
@@ -215,7 +217,6 @@ var hierarchy =
     [ "std::runtime_error", null, [
       [ "zap::Parser::ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", null ]
     ] ],
-    [ "zap::lsp::RuntimePathConfiguration", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html", null ],
     [ "zap::frontend::RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", null ],
     [ "sema::SemanticInfo", "dd/d4f/structsema_1_1SemanticInfo.html", null ],
     [ "zap::lsp::SemanticQuery", "df/dd3/structzap_1_1lsp_1_1SemanticQuery.html", null ],
@@ -280,6 +281,7 @@ var hierarchy =
     [ "Visitor", "dc/d13/structVisitor.html", [
       [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", null ]
     ] ],
+    [ "zap::lsp::WatchedFileChange", "d0/dcc/structzap_1_1lsp_1_1WatchedFileChange.html", null ],
     [ "zap::lsp::Workspace", "d1/dae/classzap_1_1lsp_1_1Workspace.html", null ],
     [ "zap_arc_discover_context_t", "d9/ddf/structzap__arc__discover__context__t.html", null ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", null ],

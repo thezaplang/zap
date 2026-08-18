@@ -71,8 +71,6 @@ Directories</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-files" class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
 <tr class="memitem:completion_2Ecpp" id="r_completion_2Ecpp"><td class="memItemLeft" align="right" valign="top"><a href="d1/d35/completion_8cpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d1/d35/completion_8cpp.html">completion.cpp</a></td></tr>
-<tr class="memitem:configuration_2Ecpp" id="r_configuration_2Ecpp"><td class="memItemLeft" align="right" valign="top"><a href="df/d22/configuration_8cpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="df/d22/configuration_8cpp.html">configuration.cpp</a></td></tr>
-<tr class="memitem:configuration_2Ehpp" id="r_configuration_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="dc/d0a/configuration_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dc/d0a/configuration_8hpp.html">configuration.hpp</a></td></tr>
 <tr class="memitem:document_5Frequest_2Ecpp" id="r_document_5Frequest_2Ecpp"><td class="memItemLeft" align="right" valign="top"><a href="de/d4a/document__request_8cpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="de/d4a/document__request_8cpp.html">document_request.cpp</a></td></tr>
 <tr class="memitem:document_5Frequest_2Ehpp" id="r_document_5Frequest_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="d4/d9b/document__request_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d4/d9b/document__request_8hpp.html">document_request.hpp</a></td></tr>
 <tr class="memitem:language_5Ffeature_5Fhelpers_2Ehpp" id="r_language_5Ffeature_5Fhelpers_2Ehpp"><td class="memItemLeft" align="right" valign="top"><a href="da/d9b/language__feature__helpers_8hpp_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="da/d9b/language__feature__helpers_8hpp.html">language_feature_helpers.hpp</a></td></tr>
@@ -111,21 +109,17 @@ Build the server</h1>
 </div><!-- fragment --><p>The binary is written to <span class="tt">build/zap-lsp</span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Configure a workspace</h1>
-<p>The server reads an optional <span class="tt">zaplsp.json</span> from the workspace. Paths may be absolute or relative to <span class="tt">zapRoot</span>:</p>
-<div class="fragment"><div class="line">{</div>
-<div class="line">  &quot;zapRoot&quot;: &quot;/opt/zap&quot;,</div>
-<div class="line">  &quot;corePath&quot;: &quot;core&quot;,</div>
-<div class="line">  &quot;stdlibPath&quot;: &quot;std&quot;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>When <span class="tt">zapRoot</span> is omitted, relative paths are resolved from the directory that contains <span class="tt">zaplsp.json</span>. The server uses the installed Zap <span class="tt">core</span> and <span class="tt">std</span>; it does not require a private copy for each editor.</p>
+<p>Project imports come from the nearest <span class="tt">thor.toml</span>. The <span class="tt">[imports]</span> table uses the same aliases as <span class="tt">thor build</span>; relative paths are resolved from the directory containing the manifest:</p>
+<div class="fragment"><div class="line">[imports]</div>
+<div class="line">&quot;@vendor&quot; = &quot;./vendor/package&quot;</div>
+</div><!-- fragment --><p>The server obtains <span class="tt">core</span> and <span class="tt">std</span> from its Zap installation. A release installation keeps them next to <span class="tt">zap-lsp</span>; a source installation made by <span class="tt">zapup --src</span> keeps them one directory above <span class="tt">build/zap-lsp</span>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Build and install the VS Code extension</h1>
-<p>Build <span class="tt">zap-lsp</span> first, then run:</p>
+<p>Install Zap through <span class="tt">zapup</span> first so <span class="tt">zap-lsp</span> is on <span class="tt">PATH</span>, then run:</p>
 <div class="fragment"><div class="line">cd src/lsp/vscode/zap</div>
 <div class="line">npm install</div>
 <div class="line">npm run package</div>
-</div><!-- fragment --><p>Install the generated <span class="tt">.vsix</span> with <b>Extensions → … → Install from VSIX…</b>. The package bundles the server binary, but not <span class="tt">zapc</span>, <span class="tt">core</span>, or <span class="tt">std</span>.</p>
-<p>If a workspace has no <span class="tt">zaplsp.json</span>, the extension offers to create one from a detected Zap installation. Use <span class="tt">zap-lsp.path</span> only to override the bundled server, and <span class="tt">zap-lsp.zapcPath</span> when <span class="tt">zapc</span> is not available in the workspace or <span class="tt">PATH</span>. </p>
+</div><!-- fragment --><p>Install the generated <span class="tt">.vsix</span> with <b>Extensions → … → Install from VSIX…</b>. The extension does not bundle or configure a language server; it launches the <span class="tt">zap-lsp</span> installed by <span class="tt">zapup</span>. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

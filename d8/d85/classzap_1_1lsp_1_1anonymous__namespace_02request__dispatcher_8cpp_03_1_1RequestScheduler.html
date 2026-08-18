@@ -98,7 +98,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00086">86</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a04864ace0b6155027d04ad6dfeb283a1" name="a04864ace0b6155027d04ad6dfeb283a1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a04864ace0b6155027d04ad6dfeb283a1">&#9670;&#160;</a></span>RequestScheduler() <span class="overload">[1/2]</span></h2>
@@ -123,15 +123,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">272</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  272</span>                                            : <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>(server) {</div>
-<div class="line"><span class="lineno">  273</span>    <a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a> = std::thread([<span class="keyword">this</span>] { <a class="code hl_function" href="#aed09f7cecb72a9f71473ab10733385c7">workerLoop</a>(); });</div>
-<div class="line"><span class="lineno">  274</span>  }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a6bcd829135beaaf869482d6fd144b22a"><div class="ttname"><a href="#a6bcd829135beaaf869482d6fd144b22a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::server_</a></div><div class="ttdeci">Server &amp; server_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">request_dispatcher.cpp:79</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aeb67876ee37aca94fbb1738bab81bd1e"><div class="ttname"><a href="#aeb67876ee37aca94fbb1738bab81bd1e">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::worker_</a></div><div class="ttdeci">std::thread worker_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00085">request_dispatcher.cpp:85</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aed09f7cecb72a9f71473ab10733385c7"><div class="ttname"><a href="#aed09f7cecb72a9f71473ab10733385c7">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workerLoop</a></div><div class="ttdeci">void workerLoop()</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">request_dispatcher.cpp:241</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">279</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  279</span>                                            : <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>(server) {</div>
+<div class="line"><span class="lineno">  280</span>    <a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a> = std::thread([<span class="keyword">this</span>] { <a class="code hl_function" href="#aed09f7cecb72a9f71473ab10733385c7">workerLoop</a>(); });</div>
+<div class="line"><span class="lineno">  281</span>  }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a6bcd829135beaaf869482d6fd144b22a"><div class="ttname"><a href="#a6bcd829135beaaf869482d6fd144b22a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::server_</a></div><div class="ttdeci">Server &amp; server_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">request_dispatcher.cpp:87</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aeb67876ee37aca94fbb1738bab81bd1e"><div class="ttname"><a href="#aeb67876ee37aca94fbb1738bab81bd1e">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::worker_</a></div><div class="ttdeci">std::thread worker_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00093">request_dispatcher.cpp:93</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aed09f7cecb72a9f71473ab10733385c7"><div class="ttname"><a href="#aed09f7cecb72a9f71473ab10733385c7">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workerLoop</a></div><div class="ttdeci">void workerLoop()</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">request_dispatcher.cpp:248</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">server_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00085">worker_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">server_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00093">worker_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="#ab497c286da3a5f70d5e83c478be19318">operator=()</a>, and <a class="el" href="#aa6ce1a986bda28916f18d3884cd2cacc">RequestScheduler()</a>.</p>
 
@@ -160,7 +160,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">RequestScheduler()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">RequestScheduler()</a>.</p>
 
 </div>
 </div>
@@ -187,11 +187,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">279</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  279</span>{ <a class="code hl_function" href="#ab90d7cb377b21557b78db50e91c34bd9">stop</a>(); }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_ab90d7cb377b21557b78db50e91c34bd9"><div class="ttname"><a href="#ab90d7cb377b21557b78db50e91c34bd9">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">request_dispatcher.cpp:307</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00286">286</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  286</span>{ <a class="code hl_function" href="#ab90d7cb377b21557b78db50e91c34bd9">stop</a>(); }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_ab90d7cb377b21557b78db50e91c34bd9"><div class="ttname"><a href="#ab90d7cb377b21557b78db50e91c34bd9">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">request_dispatcher.cpp:314</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">stop()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">stop()</a>.</p>
 
 </div>
 </div>
@@ -219,162 +219,160 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">116</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  116</span>                                          {</div>
-<div class="line"><span class="lineno">  117</span>    <span class="keyword">auto</span> method = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">getStringField</a>(request, {<span class="stringliteral">&quot;method&quot;</span>});</div>
-<div class="line"><span class="lineno">  118</span>    <span class="keyword">const</span> JsonObject *<span class="keywordtype">id</span> = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>);</div>
-<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">if</span> (!method) {</div>
-<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  121</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
-<div class="line"><span class="lineno">  122</span>            <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f8abacce57fe73d9741af78118b4cc1">JsonRPC::InvalidRequest</a>, <span class="stringliteral">&quot;Missing method&quot;</span>));</div>
-<div class="line"><span class="lineno">  123</span>      }</div>
-<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  125</span>    }</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;initialize&quot;</span>) {</div>
-<div class="line"><span class="lineno">  128</span>      <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  129</span>      std::filesystem::path workspaceRoot = std::filesystem::current_path();</div>
-<div class="line"><span class="lineno">  130</span>      <span class="keyword">auto</span> params = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a34be319293331199045711b61a1f09d6">decodeInitialize</a>(request);</div>
-<div class="line"><span class="lineno">  131</span>      <span class="keywordflow">if</span> (params &amp;&amp; params-&gt;rootUri) {</div>
-<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> rootPath = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">uriToPath</a>(*params-&gt;rootUri)) {</div>
-<div class="line"><span class="lineno">  133</span>          workspaceRoot = std::move(*rootPath);</div>
-<div class="line"><span class="lineno">  134</span>        }</div>
-<div class="line"><span class="lineno">  135</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (params &amp;&amp; params-&gt;rootPath) {</div>
-<div class="line"><span class="lineno">  136</span>        workspaceRoot = std::move(*params-&gt;rootPath);</div>
-<div class="line"><span class="lineno">  137</span>      }</div>
-<div class="line"><span class="lineno">  138</span>      <span class="keyword">auto</span> errors = <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.configure(</div>
-<div class="line"><span class="lineno">  139</span>          workspaceRoot, params ? params-&gt;corePath : std::nullopt,</div>
-<div class="line"><span class="lineno">  140</span>          params ? params-&gt;stdlibPath : std::nullopt);</div>
-<div class="line"><span class="lineno">  141</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#aad4e355f31b1490513945b1e297d34a6">makeCapabilities</a>()));</div>
-<div class="line"><span class="lineno">  142</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;error : errors) {</div>
-<div class="line"><span class="lineno">  143</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.logMessage(<a class="code hl_enumvalue" href="../../d9/d0d/classzap_1_1lsp_1_1Server.html#a66f0383600d382ba0483a20a8d9433b5a902b0d55fddef6f8d651fe1035b7d4bd">Server::MessageType::Error</a>, error);</div>
-<div class="line"><span class="lineno">  144</span>      }</div>
-<div class="line"><span class="lineno">  145</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;initialized&quot;</span>) {</div>
-<div class="line"><span class="lineno">  146</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  147</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;shutdown&quot;</span>) {</div>
-<div class="line"><span class="lineno">  148</span>      <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  149</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, JsonObject(<span class="keyword">nullptr</span>)));</div>
-<div class="line"><span class="lineno">  150</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;exit&quot;</span>) {</div>
-<div class="line"><span class="lineno">  151</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  152</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didOpen&quot;</span>) {</div>
-<div class="line"><span class="lineno">  153</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> params = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a433aae2233b02e986afa39e24d558776">decodeOpenDocument</a>(request)) {</div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> path = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">uriToPath</a>(params-&gt;uri)) {</div>
-<div class="line"><span class="lineno">  155</span>          <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.open(params-&gt;uri, *path, std::move(params-&gt;text),</div>
-<div class="line"><span class="lineno">  156</span>                          params-&gt;version);</div>
-<div class="line"><span class="lineno">  157</span>          <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.analyze(params-&gt;uri));</div>
-<div class="line"><span class="lineno">  158</span>        }</div>
-<div class="line"><span class="lineno">  159</span>      }</div>
-<div class="line"><span class="lineno">  160</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didChange&quot;</span>) {</div>
-<div class="line"><span class="lineno">  161</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> params = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ae55e53d18179d4a9b273734e6725d326">decodeChangeDocument</a>(request);</div>
-<div class="line"><span class="lineno">  162</span>          params &amp;&amp; <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.contains(params-&gt;uri)) {</div>
-<div class="line"><span class="lineno">  163</span>        <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.update(params-&gt;uri, std::move(params-&gt;text),</div>
-<div class="line"><span class="lineno">  164</span>                          params-&gt;version);</div>
-<div class="line"><span class="lineno">  165</span>        <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.analyze(params-&gt;uri));</div>
-<div class="line"><span class="lineno">  166</span>      }</div>
-<div class="line"><span class="lineno">  167</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didClose&quot;</span>) {</div>
-<div class="line"><span class="lineno">  168</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> uri = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a6ffe080e22cb2a489b2c98e3f8a1b5a2">decodeCloseDocument</a>(request)) {</div>
-<div class="line"><span class="lineno">  169</span>        <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.close(*uri);</div>
-<div class="line"><span class="lineno">  170</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a62cbd82970b32545e9aee9e4520e736a">makePublishDiagnostics</a>(*uri, {}));</div>
-<div class="line"><span class="lineno">  171</span>      }</div>
-<div class="line"><span class="lineno">  172</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/completion&quot;</span>) {</div>
-<div class="line"><span class="lineno">  173</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  174</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
-<div class="line"><span class="lineno">  175</span>          <span class="keyword">auto</span> items =</div>
-<div class="line"><span class="lineno">  176</span>              <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#aba9028a72e3ba3e78a2878a1ced35e19">makeCompletionItems</a>(context-&gt;uri, context-&gt;query.document-&gt;text,</div>
-<div class="line"><span class="lineno">  177</span>                                  *context-&gt;query.project, context-&gt;offset);</div>
-<div class="line"><span class="lineno">  178</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, JsonObject(std::move(items))));</div>
-<div class="line"><span class="lineno">  179</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  180</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
-<div class="line"><span class="lineno">  181</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
-<div class="line"><span class="lineno">  182</span>        }</div>
-<div class="line"><span class="lineno">  183</span>      }</div>
-<div class="line"><span class="lineno">  184</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/definition&quot;</span>) {</div>
-<div class="line"><span class="lineno">  185</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  186</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  187</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
-<div class="line"><span class="lineno">  188</span>          <span class="keywordflow">if</span> (<span class="keyword">auto</span> symbol =</div>
-<div class="line"><span class="lineno">  189</span>                  <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a75cd39a70fbf9171775a3eddb991c2e4">resolveDefinition</a>(context-&gt;query.document-&gt;text, context-&gt;uri,</div>
-<div class="line"><span class="lineno">  190</span>                                    *context-&gt;query.project, context-&gt;offset)) {</div>
-<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">if</span> (<span class="keyword">auto</span> source = <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.sourceForUri(symbol-&gt;uri)) {</div>
-<div class="line"><span class="lineno">  192</span>              result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5ee83de0ee0c263249c7938c3546f6a6">makeLocation</a>(symbol-&gt;uri, *source, symbol-&gt;span);</div>
-<div class="line"><span class="lineno">  193</span>            }</div>
-<div class="line"><span class="lineno">  194</span>          }</div>
-<div class="line"><span class="lineno">  195</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
-<div class="line"><span class="lineno">  196</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  197</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
-<div class="line"><span class="lineno">  198</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
-<div class="line"><span class="lineno">  199</span>        }</div>
-<div class="line"><span class="lineno">  200</span>      }</div>
-<div class="line"><span class="lineno">  201</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/hover&quot;</span>) {</div>
-<div class="line"><span class="lineno">  202</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  203</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  204</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
-<div class="line"><span class="lineno">  205</span>          <span class="keywordflow">if</span> (<span class="keyword">auto</span> hover =</div>
-<div class="line"><span class="lineno">  206</span>                  <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a4ed96c1f70df92252c453140483f5fe2">resolveHover</a>(context-&gt;query.document-&gt;text, context-&gt;uri,</div>
-<div class="line"><span class="lineno">  207</span>                               *context-&gt;query.project, context-&gt;offset)) {</div>
-<div class="line"><span class="lineno">  208</span>            result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab08d962b197252278a4271918f7d7dbb">makeHover</a>(*hover);</div>
-<div class="line"><span class="lineno">  209</span>          }</div>
-<div class="line"><span class="lineno">  210</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
-<div class="line"><span class="lineno">  211</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  212</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
-<div class="line"><span class="lineno">  213</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
-<div class="line"><span class="lineno">  214</span>        }</div>
-<div class="line"><span class="lineno">  215</span>      }</div>
-<div class="line"><span class="lineno">  216</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/signatureHelp&quot;</span>) {</div>
-<div class="line"><span class="lineno">  217</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  218</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  219</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
-<div class="line"><span class="lineno">  220</span>          int64_t activeParameter = 0;</div>
-<div class="line"><span class="lineno">  221</span>          <span class="keyword">auto</span> signatures = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ad9eebbf799fb14db5893d007c03a4e2f">resolveSignatures</a>(</div>
-<div class="line"><span class="lineno">  222</span>              context-&gt;query.document-&gt;text, context-&gt;uri,</div>
-<div class="line"><span class="lineno">  223</span>              *context-&gt;query.project, context-&gt;offset, activeParameter);</div>
-<div class="line"><span class="lineno">  224</span>          <span class="keywordflow">if</span> (!signatures.empty()) {</div>
-<div class="line"><span class="lineno">  225</span>            result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a15c01a432bc7764c1cdd7f5aabb91935">makeSignatureHelp</a>(</div>
-<div class="line"><span class="lineno">  226</span>                signatures, <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a75a31bc969b677a3e15cec743123e354">chooseActiveSignature</a>(signatures, activeParameter),</div>
-<div class="line"><span class="lineno">  227</span>                activeParameter);</div>
-<div class="line"><span class="lineno">  228</span>          }</div>
-<div class="line"><span class="lineno">  229</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
-<div class="line"><span class="lineno">  230</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  231</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
-<div class="line"><span class="lineno">  232</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
-<div class="line"><span class="lineno">  233</span>        }</div>
-<div class="line"><span class="lineno">  234</span>      }</div>
-<div class="line"><span class="lineno">  235</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
-<div class="line"><span class="lineno">  236</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
-<div class="line"><span class="lineno">  237</span>          <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaf5d5094f6e8ff28f8fd48324b573ad25">JsonRPC::MethodNotFound</a>, <span class="stringliteral">&quot;Method not found&quot;</span>));</div>
-<div class="line"><span class="lineno">  238</span>    }</div>
-<div class="line"><span class="lineno">  239</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                          {</div>
+<div class="line"><span class="lineno">  125</span>    <span class="keyword">auto</span> method = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">getStringField</a>(request, {<span class="stringliteral">&quot;method&quot;</span>});</div>
+<div class="line"><span class="lineno">  126</span>    <span class="keyword">const</span> JsonObject *<span class="keywordtype">id</span> = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>);</div>
+<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span> (!method) {</div>
+<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
+<div class="line"><span class="lineno">  130</span>            <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f8abacce57fe73d9741af78118b4cc1">JsonRPC::InvalidRequest</a>, <span class="stringliteral">&quot;Missing method&quot;</span>));</div>
+<div class="line"><span class="lineno">  131</span>      }</div>
+<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  133</span>    }</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;initialize&quot;</span>) {</div>
+<div class="line"><span class="lineno">  136</span>      <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  137</span>      <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.configure();</div>
+<div class="line"><span class="lineno">  138</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#aad4e355f31b1490513945b1e297d34a6">makeCapabilities</a>()));</div>
+<div class="line"><span class="lineno">  139</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;initialized&quot;</span>) {</div>
+<div class="line"><span class="lineno">  140</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  141</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;shutdown&quot;</span>) {</div>
+<div class="line"><span class="lineno">  142</span>      <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  143</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, JsonObject(<span class="keyword">nullptr</span>)));</div>
+<div class="line"><span class="lineno">  144</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;exit&quot;</span>) {</div>
+<div class="line"><span class="lineno">  145</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  146</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didOpen&quot;</span>) {</div>
+<div class="line"><span class="lineno">  147</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> params = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a433aae2233b02e986afa39e24d558776">decodeOpenDocument</a>(request)) {</div>
+<div class="line"><span class="lineno">  148</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> path = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">uriToPath</a>(params-&gt;uri)) {</div>
+<div class="line"><span class="lineno">  149</span>          <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.open(params-&gt;uri, *path, std::move(params-&gt;text),</div>
+<div class="line"><span class="lineno">  150</span>                          params-&gt;version);</div>
+<div class="line"><span class="lineno">  151</span>          <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.analyze(params-&gt;uri));</div>
+<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="line"><span class="lineno">  153</span>      }</div>
+<div class="line"><span class="lineno">  154</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didChange&quot;</span>) {</div>
+<div class="line"><span class="lineno">  155</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> params = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ae55e53d18179d4a9b273734e6725d326">decodeChangeDocument</a>(request);</div>
+<div class="line"><span class="lineno">  156</span>          params &amp;&amp; <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.contains(params-&gt;uri)) {</div>
+<div class="line"><span class="lineno">  157</span>        <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.update(params-&gt;uri, std::move(params-&gt;text),</div>
+<div class="line"><span class="lineno">  158</span>                          params-&gt;version);</div>
+<div class="line"><span class="lineno">  159</span>        <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.analyze(params-&gt;uri));</div>
+<div class="line"><span class="lineno">  160</span>      }</div>
+<div class="line"><span class="lineno">  161</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/didClose&quot;</span>) {</div>
+<div class="line"><span class="lineno">  162</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> uri = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a6ffe080e22cb2a489b2c98e3f8a1b5a2">decodeCloseDocument</a>(request)) {</div>
+<div class="line"><span class="lineno">  163</span>        <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.close(*uri);</div>
+<div class="line"><span class="lineno">  164</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a62cbd82970b32545e9aee9e4520e736a">makePublishDiagnostics</a>(*uri, {}));</div>
+<div class="line"><span class="lineno">  165</span>      }</div>
+<div class="line"><span class="lineno">  166</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;workspace/didChangeWatchedFiles&quot;</span>) {</div>
+<div class="line"><span class="lineno">  167</span>      <span class="keywordflow">if</span> (<span class="keyword">auto</span> changes = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a2877917ddc7c3c47f5c277c3770cdf01">decodeWatchedFiles</a>(request)) {</div>
+<div class="line"><span class="lineno">  168</span>        std::vector&lt;std::filesystem::path&gt; paths;</div>
+<div class="line"><span class="lineno">  169</span>        paths.reserve(changes-&gt;size());</div>
+<div class="line"><span class="lineno">  170</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;change : *changes) {</div>
+<div class="line"><span class="lineno">  171</span>          <span class="keywordflow">if</span> (<span class="keyword">auto</span> path = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">uriToPath</a>(change.uri)) {</div>
+<div class="line"><span class="lineno">  172</span>            paths.push_back(std::move(*path));</div>
+<div class="line"><span class="lineno">  173</span>          }</div>
+<div class="line"><span class="lineno">  174</span>        }</div>
+<div class="line"><span class="lineno">  175</span>        <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.watchedFilesChanged(paths));</div>
+<div class="line"><span class="lineno">  176</span>      }</div>
+<div class="line"><span class="lineno">  177</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;workspace/didChangeWorkspaceFolders&quot;</span>) {</div>
+<div class="line"><span class="lineno">  178</span>      <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">publishAnalysis</a>(<a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>, <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.workspaceFoldersChanged());</div>
+<div class="line"><span class="lineno">  179</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/completion&quot;</span>) {</div>
+<div class="line"><span class="lineno">  180</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  181</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
+<div class="line"><span class="lineno">  182</span>          <span class="keyword">auto</span> items =</div>
+<div class="line"><span class="lineno">  183</span>              <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#aba9028a72e3ba3e78a2878a1ced35e19">makeCompletionItems</a>(context-&gt;uri, context-&gt;query.document-&gt;text,</div>
+<div class="line"><span class="lineno">  184</span>                                  *context-&gt;query.project, context-&gt;offset);</div>
+<div class="line"><span class="lineno">  185</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, JsonObject(std::move(items))));</div>
+<div class="line"><span class="lineno">  186</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  187</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
+<div class="line"><span class="lineno">  188</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
+<div class="line"><span class="lineno">  189</span>        }</div>
+<div class="line"><span class="lineno">  190</span>      }</div>
+<div class="line"><span class="lineno">  191</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/definition&quot;</span>) {</div>
+<div class="line"><span class="lineno">  192</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">  193</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  194</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
+<div class="line"><span class="lineno">  195</span>          <span class="keywordflow">if</span> (<span class="keyword">auto</span> symbol =</div>
+<div class="line"><span class="lineno">  196</span>                  <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a75cd39a70fbf9171775a3eddb991c2e4">resolveDefinition</a>(context-&gt;query.document-&gt;text, context-&gt;uri,</div>
+<div class="line"><span class="lineno">  197</span>                                    *context-&gt;query.project, context-&gt;offset)) {</div>
+<div class="line"><span class="lineno">  198</span>            <span class="keywordflow">if</span> (<span class="keyword">auto</span> source = <a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>.sourceForUri(symbol-&gt;uri)) {</div>
+<div class="line"><span class="lineno">  199</span>              result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5ee83de0ee0c263249c7938c3546f6a6">makeLocation</a>(symbol-&gt;uri, *source, symbol-&gt;span);</div>
+<div class="line"><span class="lineno">  200</span>            }</div>
+<div class="line"><span class="lineno">  201</span>          }</div>
+<div class="line"><span class="lineno">  202</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
+<div class="line"><span class="lineno">  203</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  204</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
+<div class="line"><span class="lineno">  205</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
+<div class="line"><span class="lineno">  206</span>        }</div>
+<div class="line"><span class="lineno">  207</span>      }</div>
+<div class="line"><span class="lineno">  208</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/hover&quot;</span>) {</div>
+<div class="line"><span class="lineno">  209</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">  210</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  211</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
+<div class="line"><span class="lineno">  212</span>          <span class="keywordflow">if</span> (<span class="keyword">auto</span> hover =</div>
+<div class="line"><span class="lineno">  213</span>                  <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a4ed96c1f70df92252c453140483f5fe2">resolveHover</a>(context-&gt;query.document-&gt;text, context-&gt;uri,</div>
+<div class="line"><span class="lineno">  214</span>                               *context-&gt;query.project, context-&gt;offset)) {</div>
+<div class="line"><span class="lineno">  215</span>            result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab08d962b197252278a4271918f7d7dbb">makeHover</a>(*hover);</div>
+<div class="line"><span class="lineno">  216</span>          }</div>
+<div class="line"><span class="lineno">  217</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
+<div class="line"><span class="lineno">  218</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  219</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
+<div class="line"><span class="lineno">  220</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
+<div class="line"><span class="lineno">  221</span>        }</div>
+<div class="line"><span class="lineno">  222</span>      }</div>
+<div class="line"><span class="lineno">  223</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*method == <span class="stringliteral">&quot;textDocument/signatureHelp&quot;</span>) {</div>
+<div class="line"><span class="lineno">  224</span>      JsonObject result(<span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">  225</span>      <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  226</span>        <span class="keywordflow">if</span> (<span class="keyword">auto</span> context = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">documentRequestContext</a>(<a class="code hl_variable" href="#a06f9050da6e94f5167f74dfcf5f2c748">workspace_</a>, request)) {</div>
+<div class="line"><span class="lineno">  227</span>          int64_t activeParameter = 0;</div>
+<div class="line"><span class="lineno">  228</span>          <span class="keyword">auto</span> signatures = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ad9eebbf799fb14db5893d007c03a4e2f">resolveSignatures</a>(</div>
+<div class="line"><span class="lineno">  229</span>              context-&gt;query.document-&gt;text, context-&gt;uri,</div>
+<div class="line"><span class="lineno">  230</span>              *context-&gt;query.project, context-&gt;offset, activeParameter);</div>
+<div class="line"><span class="lineno">  231</span>          <span class="keywordflow">if</span> (!signatures.empty()) {</div>
+<div class="line"><span class="lineno">  232</span>            result = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a15c01a432bc7764c1cdd7f5aabb91935">makeSignatureHelp</a>(</div>
+<div class="line"><span class="lineno">  233</span>                signatures, <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a75a31bc969b677a3e15cec743123e354">chooseActiveSignature</a>(signatures, activeParameter),</div>
+<div class="line"><span class="lineno">  234</span>                activeParameter);</div>
+<div class="line"><span class="lineno">  235</span>          }</div>
+<div class="line"><span class="lineno">  236</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">makeResponse</a>(<span class="keywordtype">id</span>, std::move(result)));</div>
+<div class="line"><span class="lineno">  237</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  238</span>          <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">JsonRPC::InvalidParams</a>,</div>
+<div class="line"><span class="lineno">  239</span>                                                <span class="stringliteral">&quot;Invalid document position&quot;</span>));</div>
+<div class="line"><span class="lineno">  240</span>        }</div>
+<div class="line"><span class="lineno">  241</span>      }</div>
+<div class="line"><span class="lineno">  242</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {</div>
+<div class="line"><span class="lineno">  243</span>      <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
+<div class="line"><span class="lineno">  244</span>          <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaf5d5094f6e8ff28f8fd48324b573ad25">JsonRPC::MethodNotFound</a>, <span class="stringliteral">&quot;Method not found&quot;</span>));</div>
+<div class="line"><span class="lineno">  245</span>    }</div>
+<div class="line"><span class="lineno">  246</span>  }</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonRPC_html_a40871998f4dd66567274d64f469c77daa8f8abacce57fe73d9741af78118b4cc1"><div class="ttname"><a href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f8abacce57fe73d9741af78118b4cc1">zap::lsp::JsonRPC::InvalidRequest</a></div><div class="ttdeci">@ InvalidRequest</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00091">lsp.hpp:91</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonRPC_html_a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c"><div class="ttname"><a href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daa8f9e99e8f75ed8922b6315a81a78914c">zap::lsp::JsonRPC::InvalidParams</a></div><div class="ttdeci">@ InvalidParams</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00093">lsp.hpp:93</a></div></div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonRPC_html_a40871998f4dd66567274d64f469c77daaf5d5094f6e8ff28f8fd48324b573ad25"><div class="ttname"><a href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaf5d5094f6e8ff28f8fd48324b573ad25">zap::lsp::JsonRPC::MethodNotFound</a></div><div class="ttdeci">@ MethodNotFound</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00092">lsp.hpp:92</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1Server_html_a66f0383600d382ba0483a20a8d9433b5a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="../../d9/d0d/classzap_1_1lsp_1_1Server.html#a66f0383600d382ba0483a20a8d9433b5a902b0d55fddef6f8d651fe1035b7d4bd">zap::lsp::Server::MessageType::Error</a></div><div class="ttdeci">@ Error</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00117">lsp.hpp:117</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a06f9050da6e94f5167f74dfcf5f2c748"><div class="ttname"><a href="#a06f9050da6e94f5167f74dfcf5f2c748">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workspace_</a></div><div class="ttdeci">Workspace workspace_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00080">request_dispatcher.cpp:80</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a6d0eddc49a7ac6f6c78b81c87dedbe7a"><div class="ttname"><a href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::shutdownRequested_</a></div><div class="ttdeci">bool shutdownRequested_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">request_dispatcher.cpp:90</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a06f9050da6e94f5167f74dfcf5f2c748"><div class="ttname"><a href="#a06f9050da6e94f5167f74dfcf5f2c748">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::workspace_</a></div><div class="ttdeci">Workspace workspace_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">request_dispatcher.cpp:88</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a6d0eddc49a7ac6f6c78b81c87dedbe7a"><div class="ttname"><a href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::shutdownRequested_</a></div><div class="ttdeci">bool shutdownRequested_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00098">request_dispatcher.cpp:98</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_html_aad4e355f31b1490513945b1e297d34a6"><div class="ttname"><a href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#aad4e355f31b1490513945b1e297d34a6">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::makeCapabilities</a></div><div class="ttdeci">JsonObject makeCapabilities()</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">request_dispatcher.cpp:37</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a15c01a432bc7764c1cdd7f5aabb91935"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a15c01a432bc7764c1cdd7f5aabb91935">zap::lsp::makeSignatureHelp</a></div><div class="ttdeci">JsonObject makeSignatureHelp(const std::vector&lt; LspSignature &gt; &amp;signatures, int64_t activeSignature, int64_t activeParameter)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00086">protocol_messages.cpp:86</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_a34be319293331199045711b61a1f09d6"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a34be319293331199045711b61a1f09d6">zap::lsp::decodeInitialize</a></div><div class="ttdeci">std::optional&lt; InitializeParams &gt; decodeInitialize(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d57/protocol__codec_8cpp_source.html#l00049">protocol_codec.cpp:49</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a2877917ddc7c3c47f5c277c3770cdf01"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a2877917ddc7c3c47f5c277c3770cdf01">zap::lsp::decodeWatchedFiles</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; WatchedFileChange &gt; &gt; decodeWatchedFiles(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d57/protocol__codec_8cpp_source.html#l00050">protocol_codec.cpp:50</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a3752d0c33bf24e10fb06e3ad91e94dca"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a3752d0c33bf24e10fb06e3ad91e94dca">zap::lsp::makeResponse</a></div><div class="ttdeci">JsonObject makeResponse(const JsonObject *id, JsonObject result)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00008">protocol_messages.cpp:8</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a433aae2233b02e986afa39e24d558776"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a433aae2233b02e986afa39e24d558776">zap::lsp::decodeOpenDocument</a></div><div class="ttdeci">std::optional&lt; OpenDocumentParams &gt; decodeOpenDocument(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d57/protocol__codec_8cpp_source.html#l00019">protocol_codec.cpp:19</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a4ed96c1f70df92252c453140483f5fe2"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a4ed96c1f70df92252c453140483f5fe2">zap::lsp::resolveHover</a></div><div class="ttdeci">std::optional&lt; HoverInfo &gt; resolveHover(const std::string &amp;source, const std::string &amp;uri, const ProjectState &amp;project, size_t offset)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d80/language__features_8cpp_source.html#l00982">language_features.cpp:982</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_a5b435016e43d318ad7226df6e7680315"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">zap::lsp::getStringField</a></div><div class="ttdeci">std::optional&lt; std::string &gt; getStringField(const JsonObject &amp;object, std::initializer_list&lt; std::string_view &gt; path)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00033">protocol_utils.cpp:33</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a5b435016e43d318ad7226df6e7680315"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">zap::lsp::getStringField</a></div><div class="ttdeci">std::optional&lt; std::string &gt; getStringField(const JsonObject &amp;object, std::initializer_list&lt; std::string_view &gt; path)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00032">protocol_utils.cpp:32</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a5ee83de0ee0c263249c7938c3546f6a6"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a5ee83de0ee0c263249c7938c3546f6a6">zap::lsp::makeLocation</a></div><div class="ttdeci">JsonObject makeLocation(const std::string &amp;uri, std::string_view source, const SourceSpan &amp;span)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00055">protocol_messages.cpp:55</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a62cbd82970b32545e9aee9e4520e736a"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a62cbd82970b32545e9aee9e4520e736a">zap::lsp::makePublishDiagnostics</a></div><div class="ttdeci">JsonObject makePublishDiagnostics(std::string uri, const std::vector&lt; zap::Diagnostic &gt; &amp;diagnostics)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00156">protocol_messages.cpp:156</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a6ffe080e22cb2a489b2c98e3f8a1b5a2"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a6ffe080e22cb2a489b2c98e3f8a1b5a2">zap::lsp::decodeCloseDocument</a></div><div class="ttdeci">std::optional&lt; std::string &gt; decodeCloseDocument(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d57/protocol__codec_8cpp_source.html#l00045">protocol_codec.cpp:45</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a75a31bc969b677a3e15cec743123e354"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a75a31bc969b677a3e15cec743123e354">zap::lsp::chooseActiveSignature</a></div><div class="ttdeci">int64_t chooseActiveSignature(const std::vector&lt; LspSignature &gt; &amp;signatures, int64_t activeParameter)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d80/language__features_8cpp_source.html#l01354">language_features.cpp:1354</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a75cd39a70fbf9171775a3eddb991c2e4"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a75cd39a70fbf9171775a3eddb991c2e4">zap::lsp::resolveDefinition</a></div><div class="ttdeci">std::optional&lt; LspSymbol &gt; resolveDefinition(const std::string &amp;source, const std::string &amp;uri, const ProjectState &amp;project, size_t offset)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d80/language__features_8cpp_source.html#l01209">language_features.cpp:1209</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a7df5223638e26f1e9042d8acf5921fc3"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">zap::lsp::makeErrorResponse</a></div><div class="ttdeci">JsonObject makeErrorResponse(const JsonObject *id, int64_t code, std::string message)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00016">protocol_messages.cpp:16</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_a8cb266f0dc1fa7a1b3b9be64d6ff8dea"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">zap::lsp::uriToPath</a></div><div class="ttdeci">std::optional&lt; std::filesystem::path &gt; uriToPath(std::string_view uri)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00052">protocol_utils.cpp:52</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_a8cb266f0dc1fa7a1b3b9be64d6ff8dea"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a8cb266f0dc1fa7a1b3b9be64d6ff8dea">zap::lsp::uriToPath</a></div><div class="ttdeci">std::optional&lt; std::filesystem::path &gt; uriToPath(std::string_view uri)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00051">protocol_utils.cpp:51</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_a9230e5db173ec5472f3bd403e80ac124"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124">zap::lsp::documentRequestContext</a></div><div class="ttdeci">std::optional&lt; DocumentRequestContext &gt; documentRequestContext(Workspace &amp;workspace, const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d4a/document__request_8cpp_source.html#l00009">document_request.cpp:9</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_ab08d962b197252278a4271918f7d7dbb"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ab08d962b197252278a4271918f7d7dbb">zap::lsp::makeHover</a></div><div class="ttdeci">JsonObject makeHover(const HoverInfo &amp;hover)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00075">protocol_messages.cpp:75</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_ab69d5d9cdbb4264fc7600957268e846f"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">zap::lsp::getField</a></div><div class="ttdeci">const JsonObject * getField(const JsonObject &amp;object, std::string_view key)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00012">protocol_utils.cpp:12</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_ab69d5d9cdbb4264fc7600957268e846f"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">zap::lsp::getField</a></div><div class="ttdeci">const JsonObject * getField(const JsonObject &amp;object, std::string_view key)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00011">protocol_utils.cpp:11</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_aba9028a72e3ba3e78a2878a1ced35e19"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#aba9028a72e3ba3e78a2878a1ced35e19">zap::lsp::makeCompletionItems</a></div><div class="ttdeci">JsonObject::List makeCompletionItems(const std::string &amp;uri, const std::string &amp;source, const ProjectState &amp;project, size_t offset)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d35/completion_8cpp_source.html#l00345">completion.cpp:345</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_acbbb3c09c318f8eb2f57c4a9f7bbfb04"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#acbbb3c09c318f8eb2f57c4a9f7bbfb04">zap::lsp::publishAnalysis</a></div><div class="ttdeci">void publishAnalysis(Server &amp;server, const AnalysisResult &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d9a/protocol__messages_8cpp_source.html#l00171">protocol_messages.cpp:171</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_ad9eebbf799fb14db5893d007c03a4e2f"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ad9eebbf799fb14db5893d007c03a4e2f">zap::lsp::resolveSignatures</a></div><div class="ttdeci">std::vector&lt; LspSignature &gt; resolveSignatures(const std::string &amp;source, const std::string &amp;uri, const ProjectState &amp;project, size_t offset, int64_t &amp;activeParameter)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d80/language__features_8cpp_source.html#l00700">language_features.cpp:700</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_html_ae55e53d18179d4a9b273734e6725d326"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ae55e53d18179d4a9b273734e6725d326">zap::lsp::decodeChangeDocument</a></div><div class="ttdeci">std::optional&lt; ChangeDocumentParams &gt; decodeChangeDocument(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d57/protocol__codec_8cpp_source.html#l00030">protocol_codec.cpp:30</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01354">zap::lsp::chooseActiveSignature()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00030">zap::lsp::decodeChangeDocument()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00045">zap::lsp::decodeCloseDocument()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00049">zap::lsp::decodeInitialize()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00019">zap::lsp::decodeOpenDocument()</a>, <a class="el" href="../../de/d4a/document__request_8cpp_source.html#l00009">zap::lsp::documentRequestContext()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00117">zap::lsp::Server::Error</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00012">zap::lsp::getField()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00033">zap::lsp::getStringField()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00093">zap::lsp::JsonRPC::InvalidParams</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00091">zap::lsp::JsonRPC::InvalidRequest</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::makeCapabilities()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00016">zap::lsp::makeErrorResponse()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00075">zap::lsp::makeHover()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00055">zap::lsp::makeLocation()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00156">zap::lsp::makePublishDiagnostics()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00008">zap::lsp::makeResponse()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00086">zap::lsp::makeSignatureHelp()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">zap::lsp::JsonRPC::MethodNotFound</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00171">zap::lsp::publishAnalysis()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01209">zap::lsp::resolveDefinition()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00982">zap::lsp::resolveHover()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00700">zap::lsp::resolveSignatures()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">server_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">shutdownRequested_</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00052">zap::lsp::uriToPath()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00080">workspace_</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01354">zap::lsp::chooseActiveSignature()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00030">zap::lsp::decodeChangeDocument()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00045">zap::lsp::decodeCloseDocument()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00019">zap::lsp::decodeOpenDocument()</a>, <a class="el" href="../../d4/d57/protocol__codec_8cpp_source.html#l00050">zap::lsp::decodeWatchedFiles()</a>, <a class="el" href="../../de/d4a/document__request_8cpp_source.html#l00009">zap::lsp::documentRequestContext()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00011">zap::lsp::getField()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00032">zap::lsp::getStringField()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00093">zap::lsp::JsonRPC::InvalidParams</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00091">zap::lsp::JsonRPC::InvalidRequest</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00037">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::makeCapabilities()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00016">zap::lsp::makeErrorResponse()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00075">zap::lsp::makeHover()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00055">zap::lsp::makeLocation()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00156">zap::lsp::makePublishDiagnostics()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00008">zap::lsp::makeResponse()</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00086">zap::lsp::makeSignatureHelp()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00092">zap::lsp::JsonRPC::MethodNotFound</a>, <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00171">zap::lsp::publishAnalysis()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l01209">zap::lsp::resolveDefinition()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00982">zap::lsp::resolveHover()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00700">zap::lsp::resolveSignatures()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">server_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00098">shutdownRequested_</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00051">zap::lsp::uriToPath()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">workspace_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -401,22 +399,22 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>                                                        {</div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (!key) {</div>
-<div class="line"><span class="lineno">  102</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  103</span>    }</div>
-<div class="line"><span class="lineno">  104</span>    std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
-<div class="line"><span class="lineno">  105</span>    <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.erase(*key);</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.erase(*key) != 0;</div>
-<div class="line"><span class="lineno">  107</span>  }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a34a29fe84415a34ee6917332c01e1791"><div class="ttname"><a href="#a34a29fe84415a34ee6917332c01e1791">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::outstanding_</a></div><div class="ttdeci">std::unordered_set&lt; std::string &gt; outstanding_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">request_dispatcher.cpp:89</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a403a0e6c7cfa3d3f5aad89054590cd02"><div class="ttname"><a href="#a403a0e6c7cfa3d3f5aad89054590cd02">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::cancellationMutex_</a></div><div class="ttdeci">std::mutex cancellationMutex_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">request_dispatcher.cpp:87</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aecc9415f4103cdfe6bf3f7d9db217318"><div class="ttname"><a href="#aecc9415f4103cdfe6bf3f7d9db217318">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::cancelled_</a></div><div class="ttdeci">std::unordered_set&lt; std::string &gt; cancelled_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">request_dispatcher.cpp:88</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>                                                        {</div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!key) {</div>
+<div class="line"><span class="lineno">  110</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  111</span>    }</div>
+<div class="line"><span class="lineno">  112</span>    std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
+<div class="line"><span class="lineno">  113</span>    <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.erase(*key);</div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.erase(*key) != 0;</div>
+<div class="line"><span class="lineno">  115</span>  }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a34a29fe84415a34ee6917332c01e1791"><div class="ttname"><a href="#a34a29fe84415a34ee6917332c01e1791">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::outstanding_</a></div><div class="ttdeci">std::unordered_set&lt; std::string &gt; outstanding_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00097">request_dispatcher.cpp:97</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a403a0e6c7cfa3d3f5aad89054590cd02"><div class="ttname"><a href="#a403a0e6c7cfa3d3f5aad89054590cd02">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::cancellationMutex_</a></div><div class="ttdeci">std::mutex cancellationMutex_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00095">request_dispatcher.cpp:95</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_aecc9415f4103cdfe6bf3f7d9db217318"><div class="ttname"><a href="#aecc9415f4103cdfe6bf3f7d9db217318">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::cancelled_</a></div><div class="ttdeci">std::unordered_set&lt; std::string &gt; cancelled_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00096">request_dispatcher.cpp:96</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">cancellationMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">cancelled_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">outstanding_</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00095">cancellationMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00096">cancelled_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00097">outstanding_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -443,18 +441,18 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">92</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>                                                      {</div>
-<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">if</span> (!key) {</div>
-<div class="line"><span class="lineno">   94</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   95</span>    }</div>
-<div class="line"><span class="lineno">   96</span>    std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.find(*key) != <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.end();</div>
-<div class="line"><span class="lineno">   98</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>                                                      {</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (!key) {</div>
+<div class="line"><span class="lineno">  102</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  103</span>    }</div>
+<div class="line"><span class="lineno">  104</span>    std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.find(*key) != <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.end();</div>
+<div class="line"><span class="lineno">  106</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">cancellationMutex_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">cancelled_</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00095">cancellationMutex_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00096">cancelled_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -481,7 +479,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">RequestScheduler()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">RequestScheduler()</a>.</p>
 
 </div>
 </div>
@@ -508,18 +506,18 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>                                           {</div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.discardPendingMessages();</div>
-<div class="line"><span class="lineno">  111</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
-<div class="line"><span class="lineno">  112</span>        <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaed81e229df1a4f99a3673d28f9c118d2">JsonRPC::RequestCancelled</a>, <span class="stringliteral">&quot;Request cancelled&quot;</span>));</div>
-<div class="line"><span class="lineno">  113</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.send();</div>
-<div class="line"><span class="lineno">  114</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>                                           {</div>
+<div class="line"><span class="lineno">  118</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.discardPendingMessages();</div>
+<div class="line"><span class="lineno">  119</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.sendMessage(</div>
+<div class="line"><span class="lineno">  120</span>        <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a7df5223638e26f1e9042d8acf5921fc3">makeErrorResponse</a>(<span class="keywordtype">id</span>, <a class="code hl_enumvalue" href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaed81e229df1a4f99a3673d28f9c118d2">JsonRPC::RequestCancelled</a>, <span class="stringliteral">&quot;Request cancelled&quot;</span>));</div>
+<div class="line"><span class="lineno">  121</span>    <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.send();</div>
+<div class="line"><span class="lineno">  122</span>  }</div>
 <div class="ttc" id="aclasszap_1_1lsp_1_1JsonRPC_html_a40871998f4dd66567274d64f469c77daaed81e229df1a4f99a3673d28f9c118d2"><div class="ttname"><a href="../../d3/d6a/classzap_1_1lsp_1_1JsonRPC.html#a40871998f4dd66567274d64f469c77daaed81e229df1a4f99a3673d28f9c118d2">zap::lsp::JsonRPC::RequestCancelled</a></div><div class="ttdeci">@ RequestCancelled</div><div class="ttdef"><b>Definition</b> <a href="../../d8/ddd/lsp_8hpp_source.html#l00095">lsp.hpp:95</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00016">zap::lsp::makeErrorResponse()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00095">zap::lsp::JsonRPC::RequestCancelled</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">server_</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/d9a/protocol__messages_8cpp_source.html#l00016">zap::lsp::makeErrorResponse()</a>, <a class="el" href="../../d8/ddd/lsp_8hpp_source.html#l00095">zap::lsp::JsonRPC::RequestCancelled</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">server_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -546,10 +544,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00321">321</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  321</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00328">328</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  328</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a6d0eddc49a7ac6f6c78b81c87dedbe7a">shutdownRequested_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">shutdownRequested_</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00098">shutdownRequested_</a>.</p>
 
 </div>
 </div>
@@ -576,27 +574,27 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">307</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  307</span>              {</div>
-<div class="line"><span class="lineno">  308</span>    {</div>
-<div class="line"><span class="lineno">  309</span>      std::lock_guard lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
-<div class="line"><span class="lineno">  310</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a>) {</div>
-<div class="line"><span class="lineno">  311</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  312</span>      }</div>
-<div class="line"><span class="lineno">  313</span>      <a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  314</span>    }</div>
-<div class="line"><span class="lineno">  315</span>    <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.notify_one();</div>
-<div class="line"><span class="lineno">  316</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a>.joinable()) {</div>
-<div class="line"><span class="lineno">  317</span>      <a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a>.join();</div>
-<div class="line"><span class="lineno">  318</span>    }</div>
-<div class="line"><span class="lineno">  319</span>  }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a1e4c9d937e44da1ec7b40b407ae4beb5"><div class="ttname"><a href="#a1e4c9d937e44da1ec7b40b407ae4beb5">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queueReady_</a></div><div class="ttdeci">std::condition_variable queueReady_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00082">request_dispatcher.cpp:82</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a811b7ad790bd9f51abad1b29d3b20e64"><div class="ttname"><a href="#a811b7ad790bd9f51abad1b29d3b20e64">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::stopping_</a></div><div class="ttdeci">bool stopping_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00084">request_dispatcher.cpp:84</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a925a6d0780db0d02662f88a94b96a769"><div class="ttname"><a href="#a925a6d0780db0d02662f88a94b96a769">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queueMutex_</a></div><div class="ttdeci">std::mutex queueMutex_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00081">request_dispatcher.cpp:81</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">314</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  314</span>              {</div>
+<div class="line"><span class="lineno">  315</span>    {</div>
+<div class="line"><span class="lineno">  316</span>      std::lock_guard lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
+<div class="line"><span class="lineno">  317</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a>) {</div>
+<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  319</span>      }</div>
+<div class="line"><span class="lineno">  320</span>      <a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  321</span>    }</div>
+<div class="line"><span class="lineno">  322</span>    <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.notify_one();</div>
+<div class="line"><span class="lineno">  323</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a>.joinable()) {</div>
+<div class="line"><span class="lineno">  324</span>      <a class="code hl_variable" href="#aeb67876ee37aca94fbb1738bab81bd1e">worker_</a>.join();</div>
+<div class="line"><span class="lineno">  325</span>    }</div>
+<div class="line"><span class="lineno">  326</span>  }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a1e4c9d937e44da1ec7b40b407ae4beb5"><div class="ttname"><a href="#a1e4c9d937e44da1ec7b40b407ae4beb5">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queueReady_</a></div><div class="ttdeci">std::condition_variable queueReady_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">request_dispatcher.cpp:90</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a811b7ad790bd9f51abad1b29d3b20e64"><div class="ttname"><a href="#a811b7ad790bd9f51abad1b29d3b20e64">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::stopping_</a></div><div class="ttdeci">bool stopping_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">request_dispatcher.cpp:92</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a925a6d0780db0d02662f88a94b96a769"><div class="ttname"><a href="#a925a6d0780db0d02662f88a94b96a769">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queueMutex_</a></div><div class="ttdeci">std::mutex queueMutex_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">request_dispatcher.cpp:89</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00081">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00082">queueReady_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00084">stopping_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00085">worker_</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">queueReady_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">stopping_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00093">worker_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">~RequestScheduler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00286">~RequestScheduler()</a>.</p>
 
 </div>
 </div>
@@ -623,37 +621,37 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">281</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  281</span>                                  {</div>
-<div class="line"><span class="lineno">  282</span>    <span class="keyword">auto</span> method = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">getStringField</a>(request, {<span class="stringliteral">&quot;method&quot;</span>});</div>
-<div class="line"><span class="lineno">  283</span>    <span class="keywordflow">if</span> (method &amp;&amp; *method == <span class="stringliteral">&quot;$/cancelRequest&quot;</span>) {</div>
-<div class="line"><span class="lineno">  284</span>      <span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ae73ba4f8abda8af1936e0af7ac6432fa">getPath</a>(request, {<span class="stringliteral">&quot;params&quot;</span>, <span class="stringliteral">&quot;id&quot;</span>}));</div>
-<div class="line"><span class="lineno">  285</span>      <span class="keywordflow">if</span> (key) {</div>
-<div class="line"><span class="lineno">  286</span>        std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
-<div class="line"><span class="lineno">  287</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.find(*key) != <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.end()) {</div>
-<div class="line"><span class="lineno">  288</span>          <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.insert(std::move(*key));</div>
-<div class="line"><span class="lineno">  289</span>        }</div>
-<div class="line"><span class="lineno">  290</span>      }</div>
-<div class="line"><span class="lineno">  291</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  292</span>    }</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> keepReading = !method || *method != <span class="stringliteral">&quot;exit&quot;</span>;</div>
-<div class="line"><span class="lineno">  295</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>))) {</div>
-<div class="line"><span class="lineno">  296</span>      std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
-<div class="line"><span class="lineno">  297</span>      <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.insert(std::move(*key));</div>
-<div class="line"><span class="lineno">  298</span>    }</div>
-<div class="line"><span class="lineno">  299</span>    {</div>
-<div class="line"><span class="lineno">  300</span>      std::lock_guard lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
-<div class="line"><span class="lineno">  301</span>      <a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.push_back(std::move(request));</div>
-<div class="line"><span class="lineno">  302</span>    }</div>
-<div class="line"><span class="lineno">  303</span>    <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.notify_one();</div>
-<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">return</span> keepReading;</div>
-<div class="line"><span class="lineno">  305</span>  }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_afa44d720851e041388e360d05e2eb560"><div class="ttname"><a href="#afa44d720851e041388e360d05e2eb560">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queue_</a></div><div class="ttdeci">std::deque&lt; JsonObject &gt; queue_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00083">request_dispatcher.cpp:83</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">288</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  288</span>                                  {</div>
+<div class="line"><span class="lineno">  289</span>    <span class="keyword">auto</span> method = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#a5b435016e43d318ad7226df6e7680315">getStringField</a>(request, {<span class="stringliteral">&quot;method&quot;</span>});</div>
+<div class="line"><span class="lineno">  290</span>    <span class="keywordflow">if</span> (method &amp;&amp; *method == <span class="stringliteral">&quot;$/cancelRequest&quot;</span>) {</div>
+<div class="line"><span class="lineno">  291</span>      <span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ae73ba4f8abda8af1936e0af7ac6432fa">getPath</a>(request, {<span class="stringliteral">&quot;params&quot;</span>, <span class="stringliteral">&quot;id&quot;</span>}));</div>
+<div class="line"><span class="lineno">  292</span>      <span class="keywordflow">if</span> (key) {</div>
+<div class="line"><span class="lineno">  293</span>        std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
+<div class="line"><span class="lineno">  294</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.find(*key) != <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.end()) {</div>
+<div class="line"><span class="lineno">  295</span>          <a class="code hl_variable" href="#aecc9415f4103cdfe6bf3f7d9db217318">cancelled_</a>.insert(std::move(*key));</div>
+<div class="line"><span class="lineno">  296</span>        }</div>
+<div class="line"><span class="lineno">  297</span>      }</div>
+<div class="line"><span class="lineno">  298</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  299</span>    }</div>
+<div class="line"><span class="lineno">  300</span> </div>
+<div class="line"><span class="lineno">  301</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> keepReading = !method || *method != <span class="stringliteral">&quot;exit&quot;</span>;</div>
+<div class="line"><span class="lineno">  302</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>))) {</div>
+<div class="line"><span class="lineno">  303</span>      std::lock_guard lock(<a class="code hl_variable" href="#a403a0e6c7cfa3d3f5aad89054590cd02">cancellationMutex_</a>);</div>
+<div class="line"><span class="lineno">  304</span>      <a class="code hl_variable" href="#a34a29fe84415a34ee6917332c01e1791">outstanding_</a>.insert(std::move(*key));</div>
+<div class="line"><span class="lineno">  305</span>    }</div>
+<div class="line"><span class="lineno">  306</span>    {</div>
+<div class="line"><span class="lineno">  307</span>      std::lock_guard lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
+<div class="line"><span class="lineno">  308</span>      <a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.push_back(std::move(request));</div>
+<div class="line"><span class="lineno">  309</span>    }</div>
+<div class="line"><span class="lineno">  310</span>    <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.notify_one();</div>
+<div class="line"><span class="lineno">  311</span>    <span class="keywordflow">return</span> keepReading;</div>
+<div class="line"><span class="lineno">  312</span>  }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_afa44d720851e041388e360d05e2eb560"><div class="ttname"><a href="#afa44d720851e041388e360d05e2eb560">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::queue_</a></div><div class="ttdeci">std::deque&lt; JsonObject &gt; queue_</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00091">request_dispatcher.cpp:91</a></div></div>
 <div class="ttc" id="anamespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_html_a29ee6bb05881df4d1b5e6446e52e4cc0"><div class="ttname"><a href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::requestKey</a></div><div class="ttdeci">std::optional&lt; std::string &gt; requestKey(const JsonObject *id)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">request_dispatcher.cpp:24</a></div></div>
-<div class="ttc" id="anamespacezap_1_1lsp_html_ae73ba4f8abda8af1936e0af7ac6432fa"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ae73ba4f8abda8af1936e0af7ac6432fa">zap::lsp::getPath</a></div><div class="ttdeci">const JsonObject * getPath(const JsonObject &amp;object, std::initializer_list&lt; std::string_view &gt; path)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00020">protocol_utils.cpp:20</a></div></div>
+<div class="ttc" id="anamespacezap_1_1lsp_html_ae73ba4f8abda8af1936e0af7ac6432fa"><div class="ttname"><a href="../../d5/d23/namespacezap_1_1lsp.html#ae73ba4f8abda8af1936e0af7ac6432fa">zap::lsp::getPath</a></div><div class="ttdeci">const JsonObject * getPath(const JsonObject &amp;object, std::initializer_list&lt; std::string_view &gt; path)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d28/protocol__utils_8cpp_source.html#l00019">protocol_utils.cpp:19</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">cancellationMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">cancelled_</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00012">zap::lsp::getField()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00020">zap::lsp::getPath()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00033">zap::lsp::getStringField()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">outstanding_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00083">queue_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00081">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00082">queueReady_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::requestKey()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00095">cancellationMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00096">cancelled_</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00011">zap::lsp::getField()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00019">zap::lsp::getPath()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00032">zap::lsp::getStringField()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00097">outstanding_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00091">queue_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">queueReady_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::requestKey()</a>.</p>
 
 </div>
 </div>
@@ -680,44 +678,44 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">241</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  241</span>                    {</div>
-<div class="line"><span class="lineno">  242</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><span class="lineno">  243</span>      JsonObject request;</div>
-<div class="line"><span class="lineno">  244</span>      {</div>
-<div class="line"><span class="lineno">  245</span>        std::unique_lock lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
-<div class="line"><span class="lineno">  246</span>        <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.wait(lock, [<span class="keyword">this</span>] { <span class="keywordflow">return</span> <a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a> || !<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.empty(); });</div>
-<div class="line"><span class="lineno">  247</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.empty()) {</div>
-<div class="line"><span class="lineno">  248</span>          <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  249</span>        }</div>
-<div class="line"><span class="lineno">  250</span>        request = std::move(<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.front());</div>
-<div class="line"><span class="lineno">  251</span>        <a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.pop_front();</div>
-<div class="line"><span class="lineno">  252</span>      }</div>
-<div class="line"><span class="lineno">  253</span> </div>
-<div class="line"><span class="lineno">  254</span>      <span class="keyword">const</span> JsonObject *<span class="keywordtype">id</span> = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>);</div>
-<div class="line"><span class="lineno">  255</span>      <span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  256</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a822033a2c77b6640a0576630c46d3593">isCancelled</a>(key)) {</div>
-<div class="line"><span class="lineno">  257</span>        <a class="code hl_function" href="#a964fb7bd6ab59d06f18500931fb6b76f">finishRequest</a>(key);</div>
-<div class="line"><span class="lineno">  258</span>        <a class="code hl_function" href="#ae7aa4b17eff7635f607391a3ffa8e3e7">sendCancelled</a>(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  260</span>      }</div>
-<div class="line"><span class="lineno">  261</span> </div>
-<div class="line"><span class="lineno">  262</span>      <a class="code hl_function" href="#a76ddd745b518d1b9b23a676fe2cf885a">execute</a>(request);</div>
-<div class="line"><span class="lineno">  263</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a964fb7bd6ab59d06f18500931fb6b76f">finishRequest</a>(key)) {</div>
-<div class="line"><span class="lineno">  264</span>        <a class="code hl_function" href="#ae7aa4b17eff7635f607391a3ffa8e3e7">sendCancelled</a>(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">  265</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  266</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.send();</div>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">248</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  248</span>                    {</div>
+<div class="line"><span class="lineno">  249</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><span class="lineno">  250</span>      JsonObject request;</div>
+<div class="line"><span class="lineno">  251</span>      {</div>
+<div class="line"><span class="lineno">  252</span>        std::unique_lock lock(<a class="code hl_variable" href="#a925a6d0780db0d02662f88a94b96a769">queueMutex_</a>);</div>
+<div class="line"><span class="lineno">  253</span>        <a class="code hl_variable" href="#a1e4c9d937e44da1ec7b40b407ae4beb5">queueReady_</a>.wait(lock, [<span class="keyword">this</span>] { <span class="keywordflow">return</span> <a class="code hl_variable" href="#a811b7ad790bd9f51abad1b29d3b20e64">stopping_</a> || !<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.empty(); });</div>
+<div class="line"><span class="lineno">  254</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.empty()) {</div>
+<div class="line"><span class="lineno">  255</span>          <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  256</span>        }</div>
+<div class="line"><span class="lineno">  257</span>        request = std::move(<a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.front());</div>
+<div class="line"><span class="lineno">  258</span>        <a class="code hl_variable" href="#afa44d720851e041388e360d05e2eb560">queue_</a>.pop_front();</div>
+<div class="line"><span class="lineno">  259</span>      }</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>      <span class="keyword">const</span> JsonObject *<span class="keywordtype">id</span> = <a class="code hl_function" href="../../d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f">getField</a>(request, <span class="stringliteral">&quot;id&quot;</span>);</div>
+<div class="line"><span class="lineno">  262</span>      <span class="keyword">auto</span> key = <a class="code hl_function" href="../../d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html#a29ee6bb05881df4d1b5e6446e52e4cc0">requestKey</a>(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  263</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a822033a2c77b6640a0576630c46d3593">isCancelled</a>(key)) {</div>
+<div class="line"><span class="lineno">  264</span>        <a class="code hl_function" href="#a964fb7bd6ab59d06f18500931fb6b76f">finishRequest</a>(key);</div>
+<div class="line"><span class="lineno">  265</span>        <a class="code hl_function" href="#ae7aa4b17eff7635f607391a3ffa8e3e7">sendCancelled</a>(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  266</span>        <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  267</span>      }</div>
-<div class="line"><span class="lineno">  268</span>    }</div>
-<div class="line"><span class="lineno">  269</span>  }</div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a76ddd745b518d1b9b23a676fe2cf885a"><div class="ttname"><a href="#a76ddd745b518d1b9b23a676fe2cf885a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::execute</a></div><div class="ttdeci">void execute(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">request_dispatcher.cpp:116</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a822033a2c77b6640a0576630c46d3593"><div class="ttname"><a href="#a822033a2c77b6640a0576630c46d3593">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::isCancelled</a></div><div class="ttdeci">bool isCancelled(const std::optional&lt; std::string &gt; &amp;key)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">request_dispatcher.cpp:92</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a964fb7bd6ab59d06f18500931fb6b76f"><div class="ttname"><a href="#a964fb7bd6ab59d06f18500931fb6b76f">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::finishRequest</a></div><div class="ttdeci">bool finishRequest(const std::optional&lt; std::string &gt; &amp;key)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">request_dispatcher.cpp:100</a></div></div>
-<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_ae7aa4b17eff7635f607391a3ffa8e3e7"><div class="ttname"><a href="#ae7aa4b17eff7635f607391a3ffa8e3e7">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::sendCancelled</a></div><div class="ttdeci">void sendCancelled(const JsonObject *id)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00109">request_dispatcher.cpp:109</a></div></div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>      <a class="code hl_function" href="#a76ddd745b518d1b9b23a676fe2cf885a">execute</a>(request);</div>
+<div class="line"><span class="lineno">  270</span>      <span class="keywordflow">if</span> (<a class="code hl_function" href="#a964fb7bd6ab59d06f18500931fb6b76f">finishRequest</a>(key)) {</div>
+<div class="line"><span class="lineno">  271</span>        <a class="code hl_function" href="#ae7aa4b17eff7635f607391a3ffa8e3e7">sendCancelled</a>(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">  272</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  273</span>        <a class="code hl_variable" href="#a6bcd829135beaaf869482d6fd144b22a">server_</a>.send();</div>
+<div class="line"><span class="lineno">  274</span>      }</div>
+<div class="line"><span class="lineno">  275</span>    }</div>
+<div class="line"><span class="lineno">  276</span>  }</div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a76ddd745b518d1b9b23a676fe2cf885a"><div class="ttname"><a href="#a76ddd745b518d1b9b23a676fe2cf885a">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::execute</a></div><div class="ttdeci">void execute(const JsonObject &amp;request)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">request_dispatcher.cpp:124</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a822033a2c77b6640a0576630c46d3593"><div class="ttname"><a href="#a822033a2c77b6640a0576630c46d3593">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::isCancelled</a></div><div class="ttdeci">bool isCancelled(const std::optional&lt; std::string &gt; &amp;key)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">request_dispatcher.cpp:100</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_a964fb7bd6ab59d06f18500931fb6b76f"><div class="ttname"><a href="#a964fb7bd6ab59d06f18500931fb6b76f">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::finishRequest</a></div><div class="ttdeci">bool finishRequest(const std::optional&lt; std::string &gt; &amp;key)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">request_dispatcher.cpp:108</a></div></div>
+<div class="ttc" id="aclasszap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler_html_ae7aa4b17eff7635f607391a3ffa8e3e7"><div class="ttname"><a href="#ae7aa4b17eff7635f607391a3ffa8e3e7">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::RequestScheduler::sendCancelled</a></div><div class="ttdeci">void sendCancelled(const JsonObject *id)</div><div class="ttdef"><b>Definition</b> <a href="../../d9/df3/request__dispatcher_8cpp_source.html#l00117">request_dispatcher.cpp:117</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">execute()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">finishRequest()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00012">zap::lsp::getField()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">isCancelled()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00083">queue_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00081">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00082">queueReady_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::requestKey()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00109">sendCancelled()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">server_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00084">stopping_</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">execute()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">finishRequest()</a>, <a class="el" href="../../d6/d28/protocol__utils_8cpp_source.html#l00011">zap::lsp::getField()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">isCancelled()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00091">queue_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">queueMutex_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">queueReady_</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00024">zap::lsp::anonymous_namespace{request_dispatcher.cpp}::requestKey()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00117">sendCancelled()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">server_</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">stopping_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">RequestScheduler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">RequestScheduler()</a>.</p>
 
 </div>
 </div>
@@ -742,9 +740,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00095">95</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">finishRequest()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">isCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">finishRequest()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">isCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>.</p>
 
 </div>
 </div>
@@ -768,9 +766,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">finishRequest()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">isCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">finishRequest()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">isCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>.</p>
 
 </div>
 </div>
@@ -794,9 +792,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">89</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00097">97</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00100">finishRequest()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00108">finishRequest()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>.</p>
 
 </div>
 </div>
@@ -820,9 +818,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00083">83</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -846,9 +844,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00081">81</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00089">89</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">stop()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">stop()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -872,9 +870,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00082">82</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">90</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">stop()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00281">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">stop()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00288">submit()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -898,9 +896,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00079">79</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">execute()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">RequestScheduler()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00109">sendCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">execute()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">RequestScheduler()</a>, <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00117">sendCancelled()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -924,9 +922,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00090">90</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">execute()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00321">shutdownRequested()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">execute()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00328">shutdownRequested()</a>.</p>
 
 </div>
 </div>
@@ -950,9 +948,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00092">92</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">stop()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00241">workerLoop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">stop()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00248">workerLoop()</a>.</p>
 
 </div>
 </div>
@@ -976,9 +974,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00085">85</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00093">93</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00272">RequestScheduler()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00307">stop()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00279">RequestScheduler()</a>, and <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00314">stop()</a>.</p>
 
 </div>
 </div>
@@ -1002,9 +1000,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00080">80</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html">request_dispatcher.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00116">execute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/df3/request__dispatcher_8cpp_source.html#l00124">execute()</a>.</p>
 
 </div>
 </div>

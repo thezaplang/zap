@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ZAP: src/lsp/configuration.hpp File Reference</title>
+<title>ZAP: src/frontend/project_configuration.hpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -55,33 +55,36 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('dc/d0a/configuration_8hpp.html','../../',''); });
+$(function(){initNavTree('db/d54/project__configuration_8hpp.html','../../',''); });
 </script>
 <div id="container">
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">configuration.hpp File Reference</div></div>
+  <div class="headertitle"><div class="title">project_configuration.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d3/d53/module__loader_8hpp_source.html">frontend/module_loader.hpp</a>&quot;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div>
-<p><a href="../../dc/d0a/configuration_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="../../db/d54/project__configuration_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:zap_3A_3Alsp_3A_3ARuntimePathConfiguration" id="r_zap_3A_3Alsp_3A_3ARuntimePathConfiguration"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html">zap::lsp::RuntimePathConfiguration</a></td></tr>
+<tr class="memitem:zap_3A_3Afrontend_3A_3AProjectConfiguration" id="r_zap_3A_3Afrontend_3A_3AProjectConfiguration"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dec/structzap_1_1frontend_1_1ProjectConfiguration.html">zap::frontend::ProjectConfiguration</a></td></tr>
+<tr class="memitem:zap_3A_3Afrontend_3A_3AProjectConfigurationResult" id="r_zap_3A_3Afrontend_3A_3AProjectConfigurationResult"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult.html">zap::frontend::ProjectConfigurationResult</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:zap" id="r_zap"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1a/namespacezap.html">zap</a></td></tr>
-<tr class="memitem:zap_3A_3Alsp" id="r_zap_3A_3Alsp"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d23/namespacezap_1_1lsp.html">zap::lsp</a></td></tr>
+<tr class="memitem:zap_3A_3Afrontend" id="r_zap_3A_3Afrontend"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddd/namespacezap_1_1frontend.html">zap::frontend</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a20a32f7f37e92c317f632b15e266f957" id="r_a20a32f7f37e92c317f632b15e266f957"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html">RuntimePathConfiguration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d23/namespacezap_1_1lsp.html#a20a32f7f37e92c317f632b15e266f957">zap::lsp::loadRuntimePathConfiguration</a> (const std::filesystem::path &amp;workspaceRoot, const std::optional&lt; std::string &gt; &amp;initializationCorePath, const std::optional&lt; std::string &gt; &amp;initializationStdlibPath)</td></tr>
+<tr class="memitem:af86080703b9f5f403378301225d72847" id="r_af86080703b9f5f403378301225d72847"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddd/namespacezap_1_1frontend.html#af86080703b9f5f403378301225d72847">zap::frontend::findProjectConfigurationManifest</a> (const std::filesystem::path &amp;sourcePath)</td></tr>
+<tr class="memitem:a826c8d09af1776a52cc1449759c2bc11" id="r_a826c8d09af1776a52cc1449759c2bc11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult.html">ProjectConfigurationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddd/namespacezap_1_1frontend.html#a826c8d09af1776a52cc1449759c2bc11">zap::frontend::loadProjectConfiguration</a> (const std::filesystem::path &amp;manifestPath)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -96,7 +99,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="../../dir_46354631072136ba50f9f8bd6a895813.html">lsp</a></li><li class="navelem"><a href="../../dc/d0a/configuration_8hpp.html">configuration.hpp</a></li>
+    <li class="navelem"><a href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="../../dir_8509b06bafa958d2011203a730bf5778.html">frontend</a></li><li class="navelem"><a href="../../db/d54/project__configuration_8hpp.html">project_configuration.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.15.0 </li>
   </ul>
 </div>

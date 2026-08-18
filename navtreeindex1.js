@@ -1,5 +1,9 @@
 var NAVTREEINDEX1 =
 {
+"d0/dd5/classsema_1_1BoundFailStatement.html#a8eca58e7633b4dcef18c28b5f720b1d3":[2,0,1,30,0],
+"d0/dd5/classsema_1_1BoundFailStatement.html#a94c876374252da3ae986d1229c1db042":[1,0,2,33,1],
+"d0/dd5/classsema_1_1BoundFailStatement.html#a94c876374252da3ae986d1229c1db042":[2,0,1,30,1],
+"d0/dd5/classsema_1_1BoundFailStatement.html#ace0e948bc80ac8b94045e64950c14942":[1,0,2,33,3],
 "d0/dd5/classsema_1_1BoundFailStatement.html#ace0e948bc80ac8b94045e64950c14942":[2,0,1,30,3],
 "d0/dd5/classsema_1_1BoundFailStatement.html#adbd8c7c6bad0077a2cc69fdfa24fa8d2":[1,0,2,33,2],
 "d0/dd5/classsema_1_1BoundFailStatement.html#adbd8c7c6bad0077a2cc69fdfa24fa8d2":[2,0,1,30,2],
@@ -158,14 +162,14 @@ var NAVTREEINDEX1 =
 "d1/d05/classzir_1_1ClassIsInst.html#ae0b0acf2d3b5f2faf79e093138517b4f":[2,0,3,26,4],
 "d1/d05/classzir_1_1ClassIsInst.html#aeed3b11420fdffd8205c3e4415bb1898":[1,0,4,36,5],
 "d1/d05/classzir_1_1ClassIsInst.html#aeed3b11420fdffd8205c3e4415bb1898":[2,0,3,26,5],
-"d1/d19/symbol__index_8hpp.html":[3,0,0,6,25],
-"d1/d19/symbol__index_8hpp_source.html":[3,0,0,6,25],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html":[1,0,3,4,29],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html":[2,0,2,3,24],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#aa086282abc26382205d85509f8b09417":[1,0,3,4,29,0],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#aa086282abc26382205d85509f8b09417":[2,0,2,3,24,0],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#af2d7aff8a982c802cc9f2b6c6a224820":[1,0,3,4,29,1],
-"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#af2d7aff8a982c802cc9f2b6c6a224820":[2,0,2,3,24,1],
+"d1/d19/symbol__index_8hpp.html":[3,0,0,6,23],
+"d1/d19/symbol__index_8hpp_source.html":[3,0,0,6,23],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html":[1,0,3,4,27],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html":[2,0,2,3,23],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#aa086282abc26382205d85509f8b09417":[1,0,3,4,27,0],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#aa086282abc26382205d85509f8b09417":[2,0,2,3,23,0],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#af2d7aff8a982c802cc9f2b6c6a224820":[1,0,3,4,27,1],
+"d1/d23/structzap_1_1lsp_1_1HoverInfo.html#af2d7aff8a982c802cc9f2b6c6a224820":[2,0,2,3,23,1],
 "d1/d29/classsema_1_1BoundAssignment.html":[1,0,2,34],
 "d1/d29/classsema_1_1BoundAssignment.html":[2,0,1,31],
 "d1/d29/classsema_1_1BoundAssignment.html#a7427a03aced60e254a96df941a08f381":[1,0,2,34,4],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "d1/d56/classzir_1_1CmpInst.html#aa0de9d8499d3952fbbf039d0c33dc9db":[2,0,3,25,6],
 "d1/d56/classzir_1_1CmpInst.html#aa0ebf253f2cc7106b76536888352f041":[1,0,4,35,2],
 "d1/d56/classzir_1_1CmpInst.html#aa0ebf253f2cc7106b76536888352f041":[2,0,3,25,2],
-"d1/d56/classzir_1_1CmpInst.html#aa7ba15d61fae337053141b7b1866e54d":[1,0,4,35,4],
-"d1/d56/classzir_1_1CmpInst.html#aa7ba15d61fae337053141b7b1866e54d":[2,0,3,25,4],
-"d1/d56/classzir_1_1CmpInst.html#aa8ec95269542fe41a12be4eb411255ba":[1,0,4,35,7],
-"d1/d56/classzir_1_1CmpInst.html#aa8ec95269542fe41a12be4eb411255ba":[2,0,3,25,7],
-"d1/d56/classzir_1_1CmpInst.html#acf049bd17c48753ee7c1963161ecb653":[1,0,4,35,9]
+"d1/d56/classzir_1_1CmpInst.html#aa7ba15d61fae337053141b7b1866e54d":[1,0,4,35,4]
 };

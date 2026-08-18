@@ -1,9 +1,15 @@
 var namespacezap_1_1frontend =
 [
+    [ "anonymous_namespace{module_loader.cpp}", "d1/dda/namespacezap_1_1frontend_1_1anonymous__namespace_02module__loader_8cpp_03.html", [
+      [ "runtimeDirectoryNearExecutable", "d1/dda/namespacezap_1_1frontend_1_1anonymous__namespace_02module__loader_8cpp_03.html#abe584879c7eb2ac3b1956c8ee7d662ab", null ]
+    ] ],
+    [ "anonymous_namespace{project_configuration.cpp}", "d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03.html", "d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03" ],
     [ "FrontendSessionConfig", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig.html", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig" ],
     [ "FrontendProject", "df/d8d/structzap_1_1frontend_1_1FrontendProject.html", "df/d8d/structzap_1_1frontend_1_1FrontendProject" ],
     [ "FrontendSession", "d0/d02/classzap_1_1frontend_1_1FrontendSession.html", "d0/d02/classzap_1_1frontend_1_1FrontendSession" ],
     [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
+    [ "ProjectConfiguration", "d9/dec/structzap_1_1frontend_1_1ProjectConfiguration.html", "d9/dec/structzap_1_1frontend_1_1ProjectConfiguration" ],
+    [ "ProjectConfigurationResult", "dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult.html", "dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult" ],
     [ "ImportMap", "df/ddd/namespacezap_1_1frontend.html#ab337dddc502084630f5085e1c467d1e5", null ],
     [ "SourceLoader", "df/ddd/namespacezap_1_1frontend.html#affff75658f9f64ce5f0dde98b6dce8d5", null ],
     [ "EnvironmentOverrides", "df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fb", [
@@ -13,9 +19,11 @@ var namespacezap_1_1frontend =
     [ "computeLogicalModulePath", "df/ddd/namespacezap_1_1frontend.html#a2cbd0a0529cf912dfb8bb47051ab1c21", null ],
     [ "coreRootPath", "df/ddd/namespacezap_1_1frontend.html#ae95a409e856e8edcc8f05075f9c0fa9a", null ],
     [ "currentExecutablePath", "df/ddd/namespacezap_1_1frontend.html#a1fbf85b24d6f548b275a9caacc922d89", null ],
+    [ "findProjectConfigurationManifest", "df/ddd/namespacezap_1_1frontend.html#af86080703b9f5f403378301225d72847", null ],
     [ "hasImplicitImport", "df/ddd/namespacezap_1_1frontend.html#aff42f79bf04c5c4cd294c2936f7e3f9e", null ],
     [ "importPathMatchesAlias", "df/ddd/namespacezap_1_1frontend.html#a4b22c67e60df1a3489867db6b5953978", null ],
     [ "injectImplicitPreludeImportIfNeeded", "df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab", null ],
+    [ "loadProjectConfiguration", "df/ddd/namespacezap_1_1frontend.html#a826c8d09af1776a52cc1449759c2bc11", null ],
     [ "makeResolvedImport", "df/ddd/namespacezap_1_1frontend.html#a06b19cd0588a07f80f2b79e2d2414244", null ],
     [ "resolveImportTargets", "df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8", null ],
     [ "setImportError", "df/ddd/namespacezap_1_1frontend.html#a9210d52c418e3a7816e7d18677d661b1", null ],

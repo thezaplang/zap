@@ -1,13 +1,5 @@
 var namespacezap_1_1lsp =
 [
-    [ "anonymous_namespace{configuration.cpp}", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html", [
-      [ "isKnownProperty", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#aaa4b572b26083529d045f63abdbe6b98", null ],
-      [ "isLibraryDirectory", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#a656cc990c536e9dbdd720cc52d2e28eb", null ],
-      [ "optionalStringProperty", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#a64d328e1134c08a9c24493cafa889add", null ],
-      [ "resolvePath", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#a141fc5032d0217fc16f620b0cc3b418f", null ],
-      [ "validatePath", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#a2c2528b52d307a0e6c3c6cdcea0554dc", null ],
-      [ "configFileName", "d1/d64/namespacezap_1_1lsp_1_1anonymous__namespace_02configuration_8cpp_03.html#a7e161a4275838dff1d2ebed25b1b119d", null ]
-    ] ],
     [ "anonymous_namespace{lsp.cpp}", "d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html", [
       [ "appendEscapedJsonString", "d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a10ca3aa6a182e8b5c7200d128857cd87", null ],
       [ "appendUtf8", "d1/d67/namespacezap_1_1lsp_1_1anonymous__namespace_02lsp_8cpp_03.html#a0798168ef4ba4a7d78b7f2b9ad2a913e", null ],
@@ -27,9 +19,6 @@ var namespacezap_1_1lsp =
       [ "utf16Units", "d7/d97/namespacezap_1_1lsp_1_1anonymous__namespace_02position__codec_8cpp_03.html#addf69b5a51340caa13ca5ac52ef63b44", null ],
       [ "utf8Length", "d7/d97/namespacezap_1_1lsp_1_1anonymous__namespace_02position__codec_8cpp_03.html#a4595ac49a43fde22ef292e9d3e2fb7fe", null ]
     ] ],
-    [ "anonymous_namespace{protocol_utils.cpp}", "d4/d83/namespacezap_1_1lsp_1_1anonymous__namespace_02protocol__utils_8cpp_03.html", [
-      [ "readFlagsFromFile", "d4/d83/namespacezap_1_1lsp_1_1anonymous__namespace_02protocol__utils_8cpp_03.html#a7154fdbe1d85e2219a11a82b4aa07cb7", null ]
-    ] ],
     [ "anonymous_namespace{request_dispatcher.cpp}", "d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html", "d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03" ],
     [ "anonymous_namespace{symbol_index.cpp}", "dc/ded/namespacezap_1_1lsp_1_1anonymous__namespace_02symbol__index_8cpp_03.html", [
       [ "addSymbol", "dc/ded/namespacezap_1_1lsp_1_1anonymous__namespace_02symbol__index_8cpp_03.html#afa940757faf2b4499a18d739f4394fac", null ],
@@ -43,8 +32,10 @@ var namespacezap_1_1lsp =
       [ "findInfoInStatement", "dc/ded/namespacezap_1_1lsp_1_1anonymous__namespace_02symbol__index_8cpp_03.html#a4db87efebd0e1d3bde0444bb710857ff", null ],
       [ "startsBefore", "dc/ded/namespacezap_1_1lsp_1_1anonymous__namespace_02symbol__index_8cpp_03.html#adcf9e1c076155155628ca7ef99ca2a1c", null ]
     ] ],
+    [ "anonymous_namespace{workspace.cpp}", "dd/dff/namespacezap_1_1lsp_1_1anonymous__namespace_02workspace_8cpp_03.html", [
+      [ "appendConfigurationDiagnostics", "dd/dff/namespacezap_1_1lsp_1_1anonymous__namespace_02workspace_8cpp_03.html#a9c94b50ca55e2ea158ca825c23309645", null ]
+    ] ],
     [ "StructLiteralCompletionContext", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext.html", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext" ],
-    [ "RuntimePathConfiguration", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration" ],
     [ "DocumentRequestContext", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext.html", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext" ],
     [ "LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", "df/d17/structzap_1_1lsp_1_1LspSymbol" ],
     [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
@@ -55,7 +46,7 @@ var namespacezap_1_1lsp =
     [ "TextDocumentPosition", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition.html", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition" ],
     [ "OpenDocumentParams", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams.html", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams" ],
     [ "ChangeDocumentParams", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams.html", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams" ],
-    [ "InitializeParams", "d6/d34/structzap_1_1lsp_1_1InitializeParams.html", "d6/d34/structzap_1_1lsp_1_1InitializeParams" ],
+    [ "WatchedFileChange", "d0/dcc/structzap_1_1lsp_1_1WatchedFileChange.html", "d0/dcc/structzap_1_1lsp_1_1WatchedFileChange" ],
     [ "SourceSnapshot", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot.html", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot" ],
     [ "SourceManager", "df/d88/classzap_1_1lsp_1_1SourceManager.html", "df/d88/classzap_1_1lsp_1_1SourceManager" ],
     [ "VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo" ],
@@ -79,14 +70,13 @@ var namespacezap_1_1lsp =
     [ "containsOffset", "d5/d23/namespacezap_1_1lsp.html#a944412cfdd09aea5f6b0a68a9b89d020", null ],
     [ "decodeChangeDocument", "d5/d23/namespacezap_1_1lsp.html#ae55e53d18179d4a9b273734e6725d326", null ],
     [ "decodeCloseDocument", "d5/d23/namespacezap_1_1lsp.html#a6ffe080e22cb2a489b2c98e3f8a1b5a2", null ],
-    [ "decodeInitialize", "d5/d23/namespacezap_1_1lsp.html#a34be319293331199045711b61a1f09d6", null ],
     [ "decodeOpenDocument", "d5/d23/namespacezap_1_1lsp.html#a433aae2233b02e986afa39e24d558776", null ],
     [ "decodeTextDocumentPosition", "d5/d23/namespacezap_1_1lsp.html#ad411ca5ed32118c9a7466608cb2c0ff3", null ],
+    [ "decodeWatchedFiles", "d5/d23/namespacezap_1_1lsp.html#a2877917ddc7c3c47f5c277c3770cdf01", null ],
     [ "documentRequestContext", "d5/d23/namespacezap_1_1lsp.html#a9230e5db173ec5472f3bd403e80ac124", null ],
     [ "effectiveImportAlias", "d5/d23/namespacezap_1_1lsp.html#a760e61ea3f4bc55b18c80c87de39227e", null ],
     [ "enclosingBraceBeforeOffset", "d5/d23/namespacezap_1_1lsp.html#a51e21bcfc3749a6bc105b54b33aa8795", null ],
     [ "enclosingClassAtOffset", "d5/d23/namespacezap_1_1lsp.html#a8fc409dac9efe5431679021e99f95410", null ],
-    [ "findAndReadFlags", "d5/d23/namespacezap_1_1lsp.html#a8552bbdc606f256b530b0a2cf572e870", null ],
     [ "findClassDecl", "d5/d23/namespacezap_1_1lsp.html#a08f7bfebad7812220aee4dd0fa1a54e3", null ],
     [ "findClassField", "d5/d23/namespacezap_1_1lsp.html#a5da9c82ebcd9a0c8cd6e852a85dd5903", null ],
     [ "findClassMethod", "d5/d23/namespacezap_1_1lsp.html#a6b82354971c63d93a5d0e61feae80b8f", null ],
@@ -106,7 +96,6 @@ var namespacezap_1_1lsp =
     [ "identifierAt", "d5/d23/namespacezap_1_1lsp.html#ae0ff567ea5bf1b9ff49f7e889896ba3c", null ],
     [ "isClassTypeName", "d5/d23/namespacezap_1_1lsp.html#a0005d3ab224116263a2487636c254248", null ],
     [ "isIdentifierChar", "d5/d23/namespacezap_1_1lsp.html#a1120684c06c72d01175a22c7457cb3ce", null ],
-    [ "loadRuntimePathConfiguration", "d5/d23/namespacezap_1_1lsp.html#a20a32f7f37e92c317f632b15e266f957", null ],
     [ "makeCompletionItem", "d5/d23/namespacezap_1_1lsp.html#a3744e9fcdb8ba5a89bb2d725c7825c34", null ],
     [ "makeCompletionItems", "d5/d23/namespacezap_1_1lsp.html#aba9028a72e3ba3e78a2878a1ced35e19", null ],
     [ "makeDiagnostic", "d5/d23/namespacezap_1_1lsp.html#a9402bd4763e36ce8dc0748fac8e0dff9", null ],

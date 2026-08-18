@@ -70,40 +70,22 @@ Zap VS Code Extension</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Requirements</h1>
 <ul>
-<li>A built <span class="tt">zap-lsp</span> binary when packaging the extension</li>
+<li>Zap installed with <span class="tt">zapup</span>, with <span class="tt">zap-lsp</span> available in <span class="tt">PATH</span></li>
 <li>VS Code or VSCodium</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-Default Behavior</h1>
-<p>The packaged <span class="tt">.vsix</span> bundles <span class="tt">zap-lsp</span>.</p>
-<p>When a workspace has no <span class="tt">zaplsp.json</span>, the extension offers to create it from the detected Zap installation or lets you select the installation directory. The extension does not bundle its own copy of <span class="tt">core</span>, <span class="tt">stdlib</span>, or <span class="tt">zapc</span>.</p>
-<p>The server reads <span class="tt">zaplsp.json</span> directly, so the configuration is shared with other LSP clients:</p>
-<div class="fragment"><div class="line">{</div>
-<div class="line">  &quot;zapRoot&quot;: &quot;/opt/zap&quot;,</div>
-<div class="line">  &quot;corePath&quot;: &quot;core&quot;,</div>
-<div class="line">  &quot;stdlibPath&quot;: &quot;std&quot;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Relative <span class="tt">corePath</span> and <span class="tt">stdlibPath</span> values use <span class="tt">zapRoot</span> as their base. When <span class="tt">zapRoot</span> is omitted, they are resolved relative to <span class="tt">zaplsp.json</span>.</p>
-<p>For initial discovery, the extension asks <span class="tt">zapc --print-core-path</span> and <span class="tt">zapc --print-stdlib-path</span>. Set <span class="tt">zap-lsp.zapcPath</span> when the compiler is outside the workspace or <span class="tt">PATH</span>. The <span class="tt">zap-lsp.corePath</span> and <span class="tt">zap-lsp.stdlibPath</span> settings remain explicit editor-local overrides and take precedence over the workspace file.</p>
+Project configuration</h1>
+<p>The extension launches the <span class="tt">zap-lsp</span> installed by <span class="tt">zapup</span>; it does not bundle the server or keep a separate workspace configuration. Imports are defined in the nearest <span class="tt">thor.toml</span> and follow Thor's <span class="tt">[imports]</span> table:</p>
+<div class="fragment"><div class="line">[imports]</div>
+<div class="line">&quot;@vendor&quot; = &quot;./vendor/package&quot;</div>
+</div><!-- fragment --><p>Relative targets are resolved from that <span class="tt">thor.toml</span>. The extension watches both <span class="tt">thor.toml</span> and Zap source files so diagnostics refresh after configuration or dependency changes.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
-Optional Server Override</h1>
-<p>If you want to use a different server binary, set <span class="tt">zap-lsp.path</span>.</p>
-<p>Example:</p>
-<div class="fragment"><div class="line">{</div>
-<div class="line">  &quot;zap-lsp.path&quot;: &quot;/custom/path/to/zap-lsp&quot;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Example editor-local override (optional):</p>
-<div class="fragment"><div class="line">{</div>
-<div class="line">  &quot;zap-lsp.corePath&quot;: &quot;/path/to/zap/core&quot;,</div>
-<div class="line">  &quot;zap-lsp.stdlibPath&quot;: &quot;/path/to/zap/std&quot;</div>
-<div class="line">}</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Build the Extension</h1>
 <p>From this directory:</p>
 <div class="fragment"><div class="line">npm install</div>
 <div class="line">npm run package</div>
-</div><!-- fragment --><p>That produces a <span class="tt">.vsix</span> file in this directory.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+</div><!-- fragment --><p>That produces a <span class="tt">.vsix</span> file in this directory. It contains only the extension; install Zap separately with <span class="tt">zapup</span>.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Install the Extension</h1>
 <p>In VS Code:</p>
 <ol type="1">
@@ -112,7 +94,7 @@ Install the Extension</h1>
 <li>Choose <span class="tt">Install from VSIX...</span></li>
 <li>Select the generated <span class="tt">.vsix</span></li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Color Customization (Function vs Generics)</h1>
 <p>If your theme makes function names and generic parameters look too similar, add token color overrides in your VS Code settings:</p>
 <div class="fragment"><div class="line">{</div>
@@ -138,7 +120,7 @@ Color Customization (Function vs Generics)</h1>
 <div class="line">  }</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>After updating settings, run <b>Developer: Reload Window</b>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Notes</h1>
 <ul>
 <li>The server provides diagnostics, completion, definition, hover, and signature help.</li>

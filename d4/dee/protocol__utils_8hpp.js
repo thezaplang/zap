@@ -1,7 +1,6 @@
 var protocol__utils_8hpp =
 [
     [ "zap::lsp::containsOffset", "d5/d23/namespacezap_1_1lsp.html#a944412cfdd09aea5f6b0a68a9b89d020", null ],
-    [ "zap::lsp::findAndReadFlags", "d5/d23/namespacezap_1_1lsp.html#a8552bbdc606f256b530b0a2cf572e870", null ],
     [ "zap::lsp::getField", "d5/d23/namespacezap_1_1lsp.html#ab69d5d9cdbb4264fc7600957268e846f", null ],
     [ "zap::lsp::getIntegerField", "d5/d23/namespacezap_1_1lsp.html#a253eeee24d638af2b163dc40d7982bd5", null ],
     [ "zap::lsp::getPath", "d5/d23/namespacezap_1_1lsp.html#ae73ba4f8abda8af1936e0af7ac6432fa", null ],

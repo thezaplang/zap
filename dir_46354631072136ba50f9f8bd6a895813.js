@@ -2,8 +2,6 @@ var dir_46354631072136ba50f9f8bd6a895813 =
 [
     [ "vscode", "dir_86f1dd032fb9207ef9ae8384dec57402.html", "dir_86f1dd032fb9207ef9ae8384dec57402" ],
     [ "completion.cpp", "d1/d35/completion_8cpp.html", "d1/d35/completion_8cpp" ],
-    [ "configuration.cpp", "df/d22/configuration_8cpp.html", "df/d22/configuration_8cpp" ],
-    [ "configuration.hpp", "dc/d0a/configuration_8hpp.html", "dc/d0a/configuration_8hpp" ],
     [ "document_request.cpp", "de/d4a/document__request_8cpp.html", "de/d4a/document__request_8cpp" ],
     [ "document_request.hpp", "d4/d9b/document__request_8hpp.html", "d4/d9b/document__request_8hpp" ],
     [ "language_feature_helpers.hpp", "da/d9b/language__feature__helpers_8hpp.html", "da/d9b/language__feature__helpers_8hpp" ],
@@ -26,7 +24,7 @@ var dir_46354631072136ba50f9f8bd6a895813 =
     [ "source_manager.hpp", "d2/d7c/source__manager_8hpp.html", "d2/d7c/source__manager_8hpp" ],
     [ "symbol_index.cpp", "d4/d3a/symbol__index_8cpp.html", "d4/d3a/symbol__index_8cpp" ],
     [ "symbol_index.hpp", "d1/d19/symbol__index_8hpp.html", "d1/d19/symbol__index_8hpp" ],
-    [ "workspace.cpp", "d8/dad/workspace_8cpp.html", null ],
+    [ "workspace.cpp", "d8/dad/workspace_8cpp.html", "d8/dad/workspace_8cpp" ],
     [ "workspace.hpp", "dc/de1/workspace_8hpp.html", "dc/de1/workspace_8hpp" ],
     [ "workspace_types.hpp", "df/d0e/workspace__types_8hpp.html", "df/d0e/workspace__types_8hpp" ]
 ];

@@ -129,35 +129,35 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00105">105</a> of file <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html">frontend_session.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>                                                   {</div>
-<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">if</span> (!project.loaded || project.modules.empty()) {</div>
-<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  108</span>  }</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>  <span class="keyword">const</span> <span class="keyword">auto</span> entryIt = project.modules.find(project.entryModuleId);</div>
-<div class="line"><span class="lineno">  111</span>  <span class="keywordflow">if</span> (entryIt == project.modules.end()) {</div>
-<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  113</span>  }</div>
-<div class="line"><span class="lineno">  114</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry = *entryIt-&gt;second;</div>
-<div class="line"><span class="lineno">  115</span>  DiagnosticEngine diagnostics(entry.sourceText, entry.sourceName);</div>
-<div class="line"><span class="lineno">  116</span>  std::vector&lt;sema::ModuleInfo *&gt; modules;</div>
-<div class="line"><span class="lineno">  117</span>  modules.reserve(project.modules.size());</div>
-<div class="line"><span class="lineno">  118</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, module] : project.modules) {</div>
-<div class="line"><span class="lineno">  119</span>    diagnostics.registerSource(module-&gt;sourceName, module-&gt;sourceText);</div>
-<div class="line"><span class="lineno">  120</span>    modules.push_back(module.get());</div>
-<div class="line"><span class="lineno">  121</span>  }</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>  sema::Binder binder(diagnostics, <span class="keyword">true</span>, &amp;project.semanticInfo,</div>
-<div class="line"><span class="lineno">  124</span>                      <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.targetInfo);</div>
-<div class="line"><span class="lineno">  125</span>  project.boundRoot = binder.bind(std::move(modules));</div>
-<div class="line"><span class="lineno">  126</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;bindingDiagnostics = diagnostics.diagnostics();</div>
-<div class="line"><span class="lineno">  127</span>  project.diagnostics.insert(project.diagnostics.end(), bindingDiagnostics.begin(),</div>
-<div class="line"><span class="lineno">  128</span>                             bindingDiagnostics.end());</div>
-<div class="line"><span class="lineno">  129</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span>(project.boundRoot);</div>
-<div class="line"><span class="lineno">  130</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html">frontend_session.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>                                                   {</div>
+<div class="line"><span class="lineno">  110</span>  <span class="keywordflow">if</span> (project.modules.empty()) {</div>
+<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  112</span>  }</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>  <span class="keyword">const</span> <span class="keyword">auto</span> entryIt = project.modules.find(project.entryModuleId);</div>
+<div class="line"><span class="lineno">  115</span>  <span class="keywordflow">if</span> (entryIt == project.modules.end()) {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  117</span>  }</div>
+<div class="line"><span class="lineno">  118</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry = *entryIt-&gt;second;</div>
+<div class="line"><span class="lineno">  119</span>  DiagnosticEngine diagnostics(entry.sourceText, entry.sourceName);</div>
+<div class="line"><span class="lineno">  120</span>  std::vector&lt;sema::ModuleInfo *&gt; modules;</div>
+<div class="line"><span class="lineno">  121</span>  modules.reserve(project.modules.size());</div>
+<div class="line"><span class="lineno">  122</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;[_, module] : project.modules) {</div>
+<div class="line"><span class="lineno">  123</span>    diagnostics.registerSource(module-&gt;sourceName, module-&gt;sourceText);</div>
+<div class="line"><span class="lineno">  124</span>    modules.push_back(module.get());</div>
+<div class="line"><span class="lineno">  125</span>  }</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>  sema::Binder binder(diagnostics, <span class="keyword">true</span>, &amp;project.semanticInfo,</div>
+<div class="line"><span class="lineno">  128</span>                      <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.targetInfo);</div>
+<div class="line"><span class="lineno">  129</span>  project.boundRoot = binder.bind(std::move(modules));</div>
+<div class="line"><span class="lineno">  130</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;bindingDiagnostics = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno">  131</span>  project.diagnostics.insert(project.diagnostics.end(), bindingDiagnostics.begin(),</div>
+<div class="line"><span class="lineno">  132</span>                             bindingDiagnostics.end());</div>
+<div class="line"><span class="lineno">  133</span>  <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span>(project.boundRoot);</div>
+<div class="line"><span class="lineno">  134</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00323">sema::Binder::bind()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00036">zap::frontend::FrontendProject::boundRoot</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00051">config_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00033">zap::frontend::FrontendProject::diagnostics</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00030">zap::frontend::FrontendProject::entryModuleId</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00037">zap::frontend::FrontendProject::loaded</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00421">zap::DiagnosticEngine::registerSource()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00035">zap::frontend::FrontendProject::semanticInfo</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/de9/binder_8cpp_source.html#l00323">sema::Binder::bind()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00036">zap::frontend::FrontendProject::boundRoot</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00051">config_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00033">zap::frontend::FrontendProject::diagnostics</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00030">zap::frontend::FrontendProject::entryModuleId</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00421">zap::DiagnosticEngine::registerSource()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00035">zap::frontend::FrontendProject::semanticInfo</a>.</p>
 
 </div>
 </div>
@@ -184,19 +184,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   18</span>  std::unordered_map&lt;std::string, bool&gt; visiting;</div>
 <div class="line"><span class="lineno">   19</span>  project.loaded = <a class="code hl_function" href="#a6259152c72cd7af65ed59d6ab99e0783">loadModule</a>(canonicalEntry, canonicalEntry.string(), project,</div>
 <div class="line"><span class="lineno">   20</span>                              visiting);</div>
-<div class="line"><span class="lineno">   21</span>  <span class="keywordflow">if</span> (project.loaded) {</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keyword">auto</span> entry = project.modules.find(canonicalEntry.string());</div>
-<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span> (entry != project.modules.end()) {</div>
-<div class="line"><span class="lineno">   24</span>      entry-&gt;second-&gt;isEntry = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   25</span>    }</div>
-<div class="line"><span class="lineno">   26</span>  }</div>
-<div class="line"><span class="lineno">   27</span>  <span class="keywordflow">return</span> project;</div>
-<div class="line"><span class="lineno">   28</span>}</div>
-<div class="ttc" id="aclasszap_1_1frontend_1_1FrontendSession_html_a6259152c72cd7af65ed59d6ab99e0783"><div class="ttname"><a href="#a6259152c72cd7af65ed59d6ab99e0783">zap::frontend::FrontendSession::loadModule</a></div><div class="ttdeci">bool loadModule(const std::filesystem::path &amp;modulePath, const std::string &amp;entryModuleId, FrontendProject &amp;project, std::unordered_map&lt; std::string, bool &gt; &amp;visiting)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/df4/frontend__session_8cpp_source.html#l00030">frontend_session.cpp:30</a></div></div>
+<div class="line"><span class="lineno">   21</span>  <span class="keyword">auto</span> entry = project.modules.find(canonicalEntry.string());</div>
+<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">if</span> (entry != project.modules.end()) {</div>
+<div class="line"><span class="lineno">   23</span>    entry-&gt;second-&gt;isEntry = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   24</span>  }</div>
+<div class="line"><span class="lineno">   25</span>  <span class="keywordflow">return</span> project;</div>
+<div class="line"><span class="lineno">   26</span>}</div>
+<div class="ttc" id="aclasszap_1_1frontend_1_1FrontendSession_html_a6259152c72cd7af65ed59d6ab99e0783"><div class="ttname"><a href="#a6259152c72cd7af65ed59d6ab99e0783">zap::frontend::FrontendSession::loadModule</a></div><div class="ttdeci">bool loadModule(const std::filesystem::path &amp;modulePath, const std::string &amp;entryModuleId, FrontendProject &amp;project, std::unordered_map&lt; std::string, bool &gt; &amp;visiting)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/df4/frontend__session_8cpp_source.html#l00028">frontend_session.cpp:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00030">zap::frontend::FrontendProject::entryModuleId</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00037">zap::frontend::FrontendProject::loaded</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">loadModule()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00030">zap::frontend::FrontendProject::entryModuleId</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00037">zap::frontend::FrontendProject::loaded</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">loadModule()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00120">zap::lsp::Workspace::buildSnapshot()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00163">zap::driver::compileLoadedModules</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/dad/workspace_8cpp_source.html#l00226">zap::lsp::Workspace::buildSnapshot()</a>, and <a class="el" href="../../d5/d15/driver_8cpp_source.html#l00163">zap::driver::compileLoadedModules</a>.</p>
 
 </div>
 </div>
@@ -237,50 +235,52 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html">frontend_session.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>                                                                           {</div>
-<div class="line"><span class="lineno">   33</span>  <span class="keyword">const</span> <span class="keyword">auto</span> canonicalPath = std::filesystem::weakly_canonical(modulePath);</div>
-<div class="line"><span class="lineno">   34</span>  <span class="keyword">const</span> <span class="keyword">auto</span> moduleId = canonicalPath.string();</div>
-<div class="line"><span class="lineno">   35</span>  project.visitedModuleIds.insert(moduleId);</div>
-<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">if</span> (project.modules.count(moduleId) != 0) {</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   38</span>  }</div>
-<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">if</span> (visiting[moduleId]) {</div>
-<div class="line"><span class="lineno">   40</span>    project.errors.push_back(<span class="stringliteral">&quot;cyclic import detected involving &quot;</span> + moduleId);</div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   42</span>  }</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>  <span class="keyword">auto</span> source = <a class="code hl_variable" href="#a17a8842502ce0ce50d8a07539f156aaf">sourceLoader_</a>(canonicalPath);</div>
-<div class="line"><span class="lineno">   45</span>  <span class="keywordflow">if</span> (!source) {</div>
-<div class="line"><span class="lineno">   46</span>    project.errors.push_back(<span class="stringliteral">&quot;couldn&#39;t open source file: &quot;</span> + moduleId);</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   48</span>  }</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>  visiting[moduleId] = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   51</span>  DiagnosticEngine diagnostics(*source, moduleId);</div>
-<div class="line"><span class="lineno">   52</span>  Lexer lexer(diagnostics);</div>
-<div class="line"><span class="lineno">   53</span>  Parser parser(lexer.tokenize(*source), diagnostics);</div>
-<div class="line"><span class="lineno">   54</span>  <span class="keyword">auto</span> root = parser.parse();</div>
-<div class="line"><span class="lineno">   55</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;moduleDiagnostics = diagnostics.diagnostics();</div>
-<div class="line"><span class="lineno">   56</span>  project.diagnostics.insert(project.diagnostics.end(), moduleDiagnostics.begin(),</div>
-<div class="line"><span class="lineno">   57</span>                             moduleDiagnostics.end());</div>
-<div class="line"><span class="lineno">   58</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> isEntry = moduleId == entryModuleId;</div>
-<div class="line"><span class="lineno">   59</span>  <span class="keywordflow">if</span> (!root || (diagnostics.hadErrors() &amp;&amp;</div>
-<div class="line"><span class="lineno">   60</span>                !(<a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.allowEntryErrors &amp;&amp; isEntry))) {</div>
-<div class="line"><span class="lineno">   61</span>    visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   63</span>  }</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>  <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
-<div class="line"><span class="lineno">   66</span>  <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
-<div class="line"><span class="lineno">   67</span>  <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
-<div class="line"><span class="lineno">   68</span>  <span class="keyword">module</span>-&gt;linkPath =</div>
-<div class="line"><span class="lineno">   69</span>      computeLogicalModulePath(canonicalPath, config_.runtimePaths, config_.importMap);</div>
-<div class="line"><span class="lineno">   70</span>  <span class="keyword">module</span>-&gt;sourceName = moduleId;</div>
-<div class="line"><span class="lineno">   71</span>  <span class="keyword">module</span>-&gt;sourceText = std::move(*source);</div>
-<div class="line"><span class="lineno">   72</span>  <span class="keyword">module</span>-&gt;root = std::move(root);</div>
-<div class="line"><span class="lineno">   73</span>  <a class="code hl_function" href="../../df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab">injectImplicitPreludeImportIfNeeded</a>(*module, <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.includePrelude);</div>
-<div class="line"><span class="lineno">   74</span> </div>
+<p class="definition">Definition at line <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html">frontend_session.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                                                           {</div>
+<div class="line"><span class="lineno">   31</span>  <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="../../d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03.html#ae0f3014455e7470221b5256ee848d749">canonicalPath</a> = std::filesystem::weakly_canonical(modulePath);</div>
+<div class="line"><span class="lineno">   32</span>  <span class="keyword">const</span> <span class="keyword">auto</span> moduleId = <a class="code hl_function" href="../../d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03.html#ae0f3014455e7470221b5256ee848d749">canonicalPath</a>.string();</div>
+<div class="line"><span class="lineno">   33</span>  project.visitedModuleIds.insert(moduleId);</div>
+<div class="line"><span class="lineno">   34</span>  <span class="keywordflow">if</span> (project.modules.count(moduleId) != 0) {</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   36</span>  }</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">if</span> (visiting[moduleId]) {</div>
+<div class="line"><span class="lineno">   38</span>    project.errors.push_back(<span class="stringliteral">&quot;cyclic import detected involving &quot;</span> + moduleId);</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   40</span>  }</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>  <span class="keyword">auto</span> source = <a class="code hl_variable" href="#a17a8842502ce0ce50d8a07539f156aaf">sourceLoader_</a>(canonicalPath);</div>
+<div class="line"><span class="lineno">   43</span>  <span class="keywordflow">if</span> (!source) {</div>
+<div class="line"><span class="lineno">   44</span>    project.errors.push_back(<span class="stringliteral">&quot;couldn&#39;t open source file: &quot;</span> + moduleId);</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   46</span>  }</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>  visiting[moduleId] = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   49</span>  DiagnosticEngine diagnostics(*source, moduleId);</div>
+<div class="line"><span class="lineno">   50</span>  Lexer lexer(diagnostics);</div>
+<div class="line"><span class="lineno">   51</span>  Parser parser(lexer.tokenize(*source), diagnostics);</div>
+<div class="line"><span class="lineno">   52</span>  <span class="keyword">auto</span> root = parser.parse();</div>
+<div class="line"><span class="lineno">   53</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> isEntry = moduleId == entryModuleId;</div>
+<div class="line"><span class="lineno">   54</span>  <span class="keywordflow">if</span> (!root ||</div>
+<div class="line"><span class="lineno">   55</span>      (diagnostics.hadErrors() &amp;&amp; !(<a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.allowEntryErrors &amp;&amp; isEntry))) {</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;moduleDiagnostics = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno">   57</span>    project.diagnostics.insert(project.diagnostics.end(),</div>
+<div class="line"><span class="lineno">   58</span>                               moduleDiagnostics.begin(),</div>
+<div class="line"><span class="lineno">   59</span>                               moduleDiagnostics.end());</div>
+<div class="line"><span class="lineno">   60</span>    visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   62</span>  }</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>  <span class="keyword">auto</span> <span class="keyword">module</span> = std::make_unique&lt;sema::ModuleInfo&gt;();</div>
+<div class="line"><span class="lineno">   65</span>  <span class="keyword">module</span>-&gt;moduleId = moduleId;</div>
+<div class="line"><span class="lineno">   66</span>  <span class="keyword">module</span>-&gt;moduleName = canonicalPath.stem().string();</div>
+<div class="line"><span class="lineno">   67</span>  <span class="keyword">module</span>-&gt;linkPath =</div>
+<div class="line"><span class="lineno">   68</span>      computeLogicalModulePath(canonicalPath, config_.runtimePaths, config_.importMap);</div>
+<div class="line"><span class="lineno">   69</span>  <span class="keyword">module</span>-&gt;sourceName = moduleId;</div>
+<div class="line"><span class="lineno">   70</span>  <span class="keyword">module</span>-&gt;sourceText = std::move(*source);</div>
+<div class="line"><span class="lineno">   71</span>  <span class="keyword">module</span>-&gt;root = std::move(root);</div>
+<div class="line"><span class="lineno">   72</span>  <a class="code hl_function" href="../../df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab">injectImplicitPreludeImportIfNeeded</a>(*module, <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.includePrelude);</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>  <span class="keywordtype">bool</span> complete = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   75</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;child : module-&gt;root-&gt;children) {</div>
 <div class="line"><span class="lineno">   76</span>    <span class="keyword">auto</span> *importNode = <span class="keyword">dynamic_cast&lt;</span>ImportNode *<span class="keyword">&gt;</span>(child.get());</div>
 <div class="line"><span class="lineno">   77</span>    <span class="keywordflow">if</span> (!importNode) {</div>
@@ -289,33 +289,39 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   80</span>    std::vector&lt;std::filesystem::path&gt; targets;</div>
 <div class="line"><span class="lineno">   81</span>    std::string error;</div>
 <div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8">resolveImportTargets</a>(canonicalPath, *importNode, targets,</div>
-<div class="line"><span class="lineno">   83</span>                              <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.importMap, <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.runtimePaths, &amp;error)) {</div>
-<div class="line"><span class="lineno">   84</span>      project.errors.push_back(std::move(error));</div>
-<div class="line"><span class="lineno">   85</span>      visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno">   86</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   87</span>    }</div>
-<div class="line"><span class="lineno">   88</span>    <span class="keyword">module</span>-&gt;imports.push_back(makeResolvedImport(*importNode, targets));</div>
-<div class="line"><span class="lineno">   89</span>  }</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : <span class="keyword">import</span>.targetModuleIds) {</div>
-<div class="line"><span class="lineno">   93</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6259152c72cd7af65ed59d6ab99e0783">loadModule</a>(target, entryModuleId, project, visiting)) {</div>
-<div class="line"><span class="lineno">   94</span>        visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   83</span>                              <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.importMap, <a class="code hl_variable" href="#a0022d61c7da829bc6af1d9a530fff14f">config_</a>.runtimePaths,</div>
+<div class="line"><span class="lineno">   84</span>                              &amp;error)) {</div>
+<div class="line"><span class="lineno">   85</span>      diagnostics.report(importNode-&gt;span, <a class="code hl_enumvalue" href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">DiagnosticLevel::Error</a>, error);</div>
+<div class="line"><span class="lineno">   86</span>      complete = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   87</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   88</span>    }</div>
+<div class="line"><span class="lineno">   89</span>    <span class="keyword">module</span>-&gt;imports.push_back(makeResolvedImport(*importNode, targets));</div>
+<div class="line"><span class="lineno">   90</span>  }</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;<span class="keyword">import</span> : module-&gt;imports) {</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;target : <span class="keyword">import</span>.targetModuleIds) {</div>
+<div class="line"><span class="lineno">   94</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6259152c72cd7af65ed59d6ab99e0783">loadModule</a>(target, entryModuleId, project, visiting)) {</div>
+<div class="line"><span class="lineno">   95</span>        complete = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">   96</span>      }</div>
 <div class="line"><span class="lineno">   97</span>    }</div>
 <div class="line"><span class="lineno">   98</span>  }</div>
 <div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>  visiting.erase(moduleId);</div>
-<div class="line"><span class="lineno">  101</span>  project.modules[moduleId] = std::move(module);</div>
-<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  103</span>}</div>
-<div class="ttc" id="anamespacezap_1_1frontend_html_a1c80ffcba63a0a4e9efd810ba50c3ef8"><div class="ttname"><a href="../../df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8">zap::frontend::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets, const ImportMap &amp;importMap, const RuntimePaths &amp;paths, std::string *errorMessage)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d35/module__loader_8cpp_source.html#l00195">module_loader.cpp:195</a></div></div>
-<div class="ttc" id="anamespacezap_1_1frontend_html_ad08cf0b9b5db255b38af313c62ff1cab"><div class="ttname"><a href="../../df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab">zap::frontend::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module, bool includePrelude)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d35/module__loader_8cpp_source.html#l00167">module_loader.cpp:167</a></div></div>
+<div class="line"><span class="lineno">  100</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;moduleDiagnostics = diagnostics.diagnostics();</div>
+<div class="line"><span class="lineno">  101</span>  project.diagnostics.insert(project.diagnostics.end(),</div>
+<div class="line"><span class="lineno">  102</span>                             moduleDiagnostics.begin(),</div>
+<div class="line"><span class="lineno">  103</span>                             moduleDiagnostics.end());</div>
+<div class="line"><span class="lineno">  104</span>  visiting.erase(moduleId);</div>
+<div class="line"><span class="lineno">  105</span>  project.modules[moduleId] = std::move(module);</div>
+<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">return</span> complete;</div>
+<div class="line"><span class="lineno">  107</span>}</div>
+<div class="ttc" id="anamespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03_html_ae0f3014455e7470221b5256ee848d749"><div class="ttname"><a href="../../d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03.html#ae0f3014455e7470221b5256ee848d749">zap::frontend::anonymous_namespace{project_configuration.cpp}::canonicalPath</a></div><div class="ttdeci">std::filesystem::path canonicalPath(const std::filesystem::path &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d3b/project__configuration_8cpp_source.html#l00029">project_configuration.cpp:29</a></div></div>
+<div class="ttc" id="anamespacezap_1_1frontend_html_a1c80ffcba63a0a4e9efd810ba50c3ef8"><div class="ttname"><a href="../../df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8">zap::frontend::resolveImportTargets</a></div><div class="ttdeci">bool resolveImportTargets(const std::filesystem::path &amp;modulePath, const ImportNode &amp;importNode, std::vector&lt; std::filesystem::path &gt; &amp;targets, const ImportMap &amp;importMap, const RuntimePaths &amp;paths, std::string *errorMessage)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d35/module__loader_8cpp_source.html#l00219">module_loader.cpp:219</a></div></div>
+<div class="ttc" id="anamespacezap_1_1frontend_html_ad08cf0b9b5db255b38af313c62ff1cab"><div class="ttname"><a href="../../df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab">zap::frontend::injectImplicitPreludeImportIfNeeded</a></div><div class="ttdeci">void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &amp;module, bool includePrelude)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d35/module__loader_8cpp_source.html#l00191">module_loader.cpp:191</a></div></div>
+<div class="ttc" id="anamespacezap_html_a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="../../d7/d1a/namespacezap.html#a13ae6a43c2e5be75cc58a93a966b62a2a902b0d55fddef6f8d651fe1035b7d4bd">zap::DiagnosticLevel::Error</a></div><div class="ttdeci">@ Error</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d49/diagnostics_8hpp_source.html#l00014">diagnostics.hpp:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00051">config_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00033">zap::frontend::FrontendProject::diagnostics</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00034">zap::frontend::FrontendProject::errors</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00477">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../dd/d35/module__loader_8cpp_source.html#l00167">zap::frontend::injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">loadModule()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00129">zap::Parser::parse()</a>, <a class="el" href="../../dd/d35/module__loader_8cpp_source.html#l00195">zap::frontend::resolveImportTargets()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00052">sourceLoader_</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00051">Lexer::tokenize()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00032">zap::frontend::FrontendProject::visitedModuleIds</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00051">config_</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00481">zap::DiagnosticEngine::diagnostics()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00033">zap::frontend::FrontendProject::diagnostics</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00014">zap::Error</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00034">zap::frontend::FrontendProject::errors</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00477">zap::DiagnosticEngine::hadErrors()</a>, <a class="el" href="../../dd/d35/module__loader_8cpp_source.html#l00191">zap::frontend::injectImplicitPreludeImportIfNeeded()</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">loadModule()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00031">zap::frontend::FrontendProject::modules</a>, <a class="el" href="../../dc/ddd/parser_8cpp_source.html#l00129">zap::Parser::parse()</a>, <a class="el" href="../../d1/d49/diagnostics_8hpp_source.html#l00427">zap::DiagnosticEngine::report()</a>, <a class="el" href="../../dd/d35/module__loader_8cpp_source.html#l00219">zap::frontend::resolveImportTargets()</a>, <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00052">sourceLoader_</a>, <a class="el" href="../../d4/d79/lexer_8cpp_source.html#l00051">Lexer::tokenize()</a>, and <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00032">zap::frontend::FrontendProject::visitedModuleIds</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00014">load()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">loadModule()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00014">load()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">loadModule()</a>.</p>
 
 </div>
 </div>
@@ -342,7 +348,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00051">51</a> of file <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html">frontend_session.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00105">bind()</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00010">FrontendSession()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">loadModule()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00109">bind()</a>, <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00010">FrontendSession()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">loadModule()</a>.</p>
 
 </div>
 </div>
@@ -368,7 +374,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html#l00052">52</a> of file <a class="el" href="../../d4/dce/frontend__session_8hpp_source.html">frontend_session.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00010">FrontendSession()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00030">loadModule()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00010">FrontendSession()</a>, and <a class="el" href="../../d1/df4/frontend__session_8cpp_source.html#l00028">loadModule()</a>.</p>
 
 </div>
 </div>

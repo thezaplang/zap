@@ -83,17 +83,21 @@ var annotated_dup =
         [ "Result", "db/dd4/structzap_1_1process_1_1Result.html", "db/dd4/structzap_1_1process_1_1Result" ]
       ] ],
       [ "frontend", "df/ddd/namespacezap_1_1frontend.html", [
+        [ "anonymous_namespace{project_configuration.cpp}", "d5/da6/namespacezap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03.html", [
+          [ "ParsedToml", "d7/d34/classzap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03_1_1ParsedToml.html", "d7/d34/classzap_1_1frontend_1_1anonymous__namespace_02project__configuration_8cpp_03_1_1ParsedToml" ]
+        ] ],
         [ "FrontendSessionConfig", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig.html", "d6/dff/structzap_1_1frontend_1_1FrontendSessionConfig" ],
         [ "FrontendProject", "df/d8d/structzap_1_1frontend_1_1FrontendProject.html", "df/d8d/structzap_1_1frontend_1_1FrontendProject" ],
         [ "FrontendSession", "d0/d02/classzap_1_1frontend_1_1FrontendSession.html", "d0/d02/classzap_1_1frontend_1_1FrontendSession" ],
-        [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ]
+        [ "RuntimePaths", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths.html", "d9/d3e/structzap_1_1frontend_1_1RuntimePaths" ],
+        [ "ProjectConfiguration", "d9/dec/structzap_1_1frontend_1_1ProjectConfiguration.html", "d9/dec/structzap_1_1frontend_1_1ProjectConfiguration" ],
+        [ "ProjectConfigurationResult", "dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult.html", "dc/d97/structzap_1_1frontend_1_1ProjectConfigurationResult" ]
       ] ],
       [ "lsp", "d5/d23/namespacezap_1_1lsp.html", [
         [ "anonymous_namespace{request_dispatcher.cpp}", "d1/de7/namespacezap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03.html", [
           [ "RequestScheduler", "d8/d85/classzap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler.html", "d8/d85/classzap_1_1lsp_1_1anonymous__namespace_02request__dispatcher_8cpp_03_1_1RequestScheduler" ]
         ] ],
         [ "StructLiteralCompletionContext", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext.html", "d7/d91/structzap_1_1lsp_1_1StructLiteralCompletionContext" ],
-        [ "RuntimePathConfiguration", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration.html", "d3/d1e/structzap_1_1lsp_1_1RuntimePathConfiguration" ],
         [ "DocumentRequestContext", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext.html", "d4/d44/structzap_1_1lsp_1_1DocumentRequestContext" ],
         [ "LspSymbol", "df/d17/structzap_1_1lsp_1_1LspSymbol.html", "df/d17/structzap_1_1lsp_1_1LspSymbol" ],
         [ "JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", "d2/dba/classzap_1_1lsp_1_1JsonObject" ],
@@ -104,7 +108,7 @@ var annotated_dup =
         [ "TextDocumentPosition", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition.html", "db/d26/structzap_1_1lsp_1_1TextDocumentPosition" ],
         [ "OpenDocumentParams", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams.html", "d1/ddf/structzap_1_1lsp_1_1OpenDocumentParams" ],
         [ "ChangeDocumentParams", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams.html", "d5/de5/structzap_1_1lsp_1_1ChangeDocumentParams" ],
-        [ "InitializeParams", "d6/d34/structzap_1_1lsp_1_1InitializeParams.html", "d6/d34/structzap_1_1lsp_1_1InitializeParams" ],
+        [ "WatchedFileChange", "d0/dcc/structzap_1_1lsp_1_1WatchedFileChange.html", "d0/dcc/structzap_1_1lsp_1_1WatchedFileChange" ],
         [ "SourceSnapshot", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot.html", "dd/d5b/structzap_1_1lsp_1_1SourceSnapshot" ],
         [ "SourceManager", "df/d88/classzap_1_1lsp_1_1SourceManager.html", "df/d88/classzap_1_1lsp_1_1SourceManager" ],
         [ "VisibleSymbolInfo", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo.html", "d1/ddf/structzap_1_1lsp_1_1VisibleSymbolInfo" ],

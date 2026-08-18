@@ -8,6 +8,7 @@ var module__loader_8cpp =
     [ "zap::frontend::injectImplicitPreludeImportIfNeeded", "df/ddd/namespacezap_1_1frontend.html#ad08cf0b9b5db255b38af313c62ff1cab", null ],
     [ "zap::frontend::makeResolvedImport", "df/ddd/namespacezap_1_1frontend.html#a06b19cd0588a07f80f2b79e2d2414244", null ],
     [ "zap::frontend::resolveImportTargets", "df/ddd/namespacezap_1_1frontend.html#a1c80ffcba63a0a4e9efd810ba50c3ef8", null ],
+    [ "zap::frontend::anonymous_namespace{module_loader.cpp}::runtimeDirectoryNearExecutable", "d1/dda/namespacezap_1_1frontend_1_1anonymous__namespace_02module__loader_8cpp_03.html#abe584879c7eb2ac3b1956c8ee7d662ab", null ],
     [ "zap::frontend::setImportError", "df/ddd/namespacezap_1_1frontend.html#a9210d52c418e3a7816e7d18677d661b1", null ],
     [ "zap::frontend::stdlibObjectPath", "df/ddd/namespacezap_1_1frontend.html#a68ef436a07e06c36e3dbaf63ddad2c72", null ],
     [ "zap::frontend::stdlibRootPath", "df/ddd/namespacezap_1_1frontend.html#aa7ed252df6fd9817555f7a2bf5c7dac0", null ],
