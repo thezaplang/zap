@@ -1,5 +1,6 @@
 var NAVTREEINDEX23 =
 {
+"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaea571dc00aef155a16d4e7e1861e1682":[1,0,4,82,25],
 "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaec211f7c20af43e742bf2570c3cb84f9":[1,0,4,82,3],
 "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaf19dbf2edb3a0bd74b0524d960ff21eb":[1,0,4,82,1],
 "df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aafdb0c388de01d545017cdf9ccf00eb72":[1,0,4,82,2],
@@ -215,6 +216,9 @@ var NAVTREEINDEX23 =
 "df/dee/classsema_1_1BoundBinaryExpression.html#a712fca1a27f6668ce1b8edad8b1d49c8":[2,0,1,14,4],
 "df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5":[1,0,2,17,3],
 "df/dee/classsema_1_1BoundBinaryExpression.html#a8cd7abfd9579fd22abdd06380d7c7ac5":[2,0,1,14,3],
+"df/dfc/allocation__internal_8h.html":[3,0,0,8,0],
+"df/dfc/allocation__internal_8h.html#a6b51bd703dae52dc092ba21a18209132":[3,0,0,8,0,0],
+"df/dfc/allocation__internal_8h_source.html":[3,0,0,8,0],
 "df/dfe/structsema_1_1TypeLayout.html":[1,0,2,66],
 "df/dfe/structsema_1_1TypeLayout.html":[2,0,1,63],
 "df/dfe/structsema_1_1TypeLayout.html#a7329984b574eb59303fc3bdffb9214b7":[1,0,2,66,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX23 =
 "functions_b.html":[2,3,0,2],
 "functions_c.html":[2,3,0,3],
 "functions_d.html":[2,3,0,4],
-"functions_e.html":[2,3,0,5],
-"functions_enum.html":[2,3,4],
-"functions_eval.html":[2,3,5],
-"functions_f.html":[2,3,0,6],
-"functions_func.html":[2,3,1]
+"functions_e.html":[2,3,0,5]
 };
