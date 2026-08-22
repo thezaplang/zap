@@ -10,6 +10,7 @@
 #include "../ast/binding_decl.hpp"
 #include "../ast/body_node.hpp"
 #include "../ast/break_node.hpp"
+#include "../ast/case_node.hpp"
 #include "../ast/cast_expr.hpp"
 #include "../ast/class_decl.hpp"
 #include "../ast/const/const_bool.hpp"
@@ -98,6 +99,11 @@ public:
                                  std::unique_ptr<BodyNode> elseBody) {
     return std::make_unique<IfNode>(std::move(condition), std::move(thenBody),
                                     std::move(elseBody));
+  }
+
+  std::unique_ptr<CaseNode> makeCase(std::unique_ptr<ExpressionNode> scrutinee,
+                                     std::vector<CaseArm> arms) {
+    return std::make_unique<CaseNode>(std::move(scrutinee), std::move(arms));
   }
 
   std::unique_ptr<IfTypeNode> makeIfType(const std::string &parameterName,

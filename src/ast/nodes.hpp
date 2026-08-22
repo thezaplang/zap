@@ -6,6 +6,7 @@
 #include "binding_decl.hpp"
 #include "body_node.hpp"
 #include "break_node.hpp"
+#include "case_node.hpp"
 #include "cast_expr.hpp"
 #include "class_decl.hpp"
 #include "const/const_bool.hpp"

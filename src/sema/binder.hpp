@@ -81,6 +81,7 @@ public:
   void visit(ConstInt &node) override;
   void visit(ConstBool &node) override;
   void visit(IfNode &node) override;
+  void visit(CaseNode &node) override;
   void visit(IfTypeNode &node) override;
   void visit(WhileNode &node) override;
   void visit(ForNode &node) override;

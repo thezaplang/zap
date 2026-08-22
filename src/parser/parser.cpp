@@ -415,6 +415,12 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           eat(TokenType::SEMICOLON);
         }
         body->addStatement(std::move(ifNode));
+      } else if (peek().type == TokenType::CASE) {
+        auto caseNode = parseCase();
+        if (peek().type == TokenType::SEMICOLON) {
+          eat(TokenType::SEMICOLON);
+        }
+        body->addStatement(std::move(caseNode));
       } else if (peek().type == TokenType::IFTYPE) {
         auto ifTypeNode = parseIfType();
         if (peek().type == TokenType::SEMICOLON) {
@@ -980,6 +986,130 @@ std::unique_ptr<IfNode> Parser::parseIf() {
 
   _builder.setSpan(ifNode.get(), SourceSpan::merge(ifKeyword.span, endSpan));
   return ifNode;
+}
+
+std::unique_ptr<CaseNode> Parser::parseCase() {
+  Token caseKeyword = eat(TokenType::CASE);
+
+  bool oldAllow = _allowStructLiteral;
+  _allowStructLiteral = false;
+  if (peek().type == TokenType::LBRACE) {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Expected expression after 'case'.");
+    throw ParseError();
+  }
+  std::unique_ptr<ExpressionNode> scrutinee;
+  try {
+    scrutinee = parseExpression();
+  } catch (...) {
+    _allowStructLiteral = oldAllow;
+    throw;
+  }
+  _allowStructLiteral = oldAllow;
+
+  eat(TokenType::LBRACE);
+  std::vector<CaseArm> arms;
+  while (!isAtEnd() && peek().type != TokenType::RBRACE) {
+    try {
+      arms.push_back(parseCaseArm());
+    } catch (const ParseError &) {
+      synchronizeCaseArm();
+    }
+  }
+  Token rbrace = eat(TokenType::RBRACE);
+
+  auto caseNode = _builder.makeCase(std::move(scrutinee), std::move(arms));
+  _builder.setSpan(caseNode.get(),
+                   SourceSpan::merge(caseKeyword.span, rbrace.span));
+  return caseNode;
+}
+
+CaseArm Parser::parseCaseArm() {
+  CaseArm arm;
+  SourceSpan startSpan = peek().span;
+
+  if (peek().type == TokenType::ELSE) {
+    eat(TokenType::ELSE);
+    arm.isElse = true;
+    if (peek().type == TokenType::COMMA) {
+      _diag.report(peek().span, DiagnosticLevel::Error,
+                   "'else' case arm cannot have patterns.");
+      throw ParseError();
+    }
+  } else {
+    arm.patterns.push_back(parseCasePattern());
+    while (peek().type == TokenType::COMMA) {
+      eat(TokenType::COMMA);
+      arm.patterns.push_back(parseCasePattern());
+    }
+  }
+
+  eat(TokenType::LBRACE);
+  arm.body = parseBody();
+  Token rbrace = eat(TokenType::RBRACE);
+  arm.span = SourceSpan::merge(startSpan, rbrace.span);
+  return arm;
+}
+
+CasePattern Parser::parseCasePattern() {
+  CasePattern pattern;
+  Token startToken = peek();
+
+  switch (startToken.type) {
+  case TokenType::INTEGER:
+  case TokenType::STRING:
+  case TokenType::CHAR:
+  case TokenType::BOOL:
+    pattern.kind = CasePatternKind::Literal;
+    pattern.literal = parsePrimaryExpression();
+    pattern.span = pattern.literal->span;
+    return pattern;
+
+  case TokenType::MINUS:
+  case TokenType::PLUS:
+    if (peek(1).type == TokenType::INTEGER) {
+      pattern.kind = CasePatternKind::Literal;
+      pattern.literal = parseUnaryExpression();
+      pattern.span = pattern.literal->span;
+      return pattern;
+    }
+    _diag.report(startToken.span, DiagnosticLevel::Error,
+                 "Expected an integer literal after sign in case pattern.");
+    throw ParseError();
+
+  case TokenType::FLOAT:
+    _diag.report(startToken.span, DiagnosticLevel::Error,
+                 "Float literals are not supported as case patterns.");
+    throw ParseError();
+
+  case TokenType::ID:
+    pattern.kind = CasePatternKind::Variant;
+    pattern.variantPath = parseQualifiedIdentifier();
+    if (peek().type == TokenType::LPAREN) {
+      eat(TokenType::LPAREN);
+      if (peek().type == TokenType::RPAREN) {
+        eat(TokenType::RPAREN);
+        pattern.payloadKind = CasePayloadPatternKind::Empty;
+      } else {
+        Token bindingToken = eat(TokenType::ID);
+        eat(TokenType::RPAREN);
+        if (bindingToken.value == "_") {
+          pattern.payloadKind = CasePayloadPatternKind::Wildcard;
+        } else {
+          pattern.payloadKind = CasePayloadPatternKind::Binding;
+          pattern.payloadBinding = std::move(bindingToken.value);
+          pattern.payloadBindingSpan = bindingToken.span;
+        }
+      }
+    }
+    pattern.span = SourceSpan::merge(startToken.span, _tokens[_pos - 1].span);
+    return pattern;
+
+  default:
+    _diag.report(startToken.span, DiagnosticLevel::Error,
+                 "Expected a case pattern.");
+    throw ParseError();
+  }
 }
 
 std::unique_ptr<IfTypeNode> Parser::parseIfType() {
@@ -1815,6 +1945,34 @@ void Parser::synchronize(SyncContext context) {
 
     default:
       _pos++;
+      break;
+    }
+  }
+}
+
+void Parser::synchronizeCaseArm() {
+  size_t braceDepth = 0;
+
+  while (!isAtEnd()) {
+    switch (peek().type) {
+    case TokenType::LBRACE:
+      ++braceDepth;
+      ++_pos;
+      break;
+
+    case TokenType::RBRACE:
+      if (braceDepth == 0) {
+        return;
+      }
+      --braceDepth;
+      ++_pos;
+      if (braceDepth == 0) {
+        return;
+      }
+      break;
+
+    default:
+      ++_pos;
       break;
     }
   }

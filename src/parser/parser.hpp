@@ -7,6 +7,7 @@
 #include "../ast/binding_decl.hpp"
 #include "../ast/body_node.hpp"
 #include "../ast/break_node.hpp"
+#include "../ast/case_node.hpp"
 #include "../ast/cast_expr.hpp"
 #include "../ast/class_decl.hpp"
 #include "../ast/const/const_id.hpp"
@@ -65,6 +66,7 @@ private:
   enum class SyncContext { TopLevel, Block };
 
   void synchronize(SyncContext context = SyncContext::Block);
+  void synchronizeCaseArm();
   SourceSpan pointAfter(const SourceSpan &span) const;
 
   // Parsing rules
@@ -86,6 +88,9 @@ private:
   std::vector<GenericConstraint> parseWhereClauses();
   std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
   std::unique_ptr<IfNode> parseIf();
+  std::unique_ptr<CaseNode> parseCase();
+  CaseArm parseCaseArm();
+  CasePattern parseCasePattern();
   std::unique_ptr<IfTypeNode> parseIfType();
   std::unique_ptr<WhileNode> parseWhile();
   std::unique_ptr<ForNode> parseFor();

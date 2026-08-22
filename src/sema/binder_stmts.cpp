@@ -264,6 +264,10 @@ void Binder::visit(IfNode &node) {
       std::move(narrowedSource), std::move(narrowedVariable)));
 }
 
+void Binder::visit(CaseNode &node) {
+  error(node.span, "Case statements are not yet supported.");
+}
+
 void Binder::visit(IfTypeNode &node) {
   if (activeGenericBindingsStack_.empty()) {
     error(node.span,
