@@ -83,7 +83,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.zap",
-                    "match": "\\b(if|else|iftype|while|for|return|fun|import|var|let|ext|pub|priv|prot|record|enum|struct|class|break|continue|global|const|alias|ref|sink|noescape|borrows|as|match|module|impl|static|unsafe|new|self|where|weak|fail|or)\\b"
+                    "match": "\\b(if|else|iftype|while|for|return|fun|import|var|let|ext|pub|priv|prot|record|enum|struct|class|break|continue|global|const|alias|ref|sink|noescape|borrows|as|case|module|impl|static|unsafe|new|self|where|weak|fail|or)\\b"
                 }
             ]
         },

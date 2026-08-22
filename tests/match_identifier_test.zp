@@ -1,0 +1,7 @@
+fun match() Int {
+    return 42;
+}
+
+fun main() Int {
+    return match() - 42;
+}

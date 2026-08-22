@@ -486,7 +486,7 @@ JsonObject::List makeCompletionItems(const std::string &uri,
       "record",   "class",  "enum",   "alias",    "ext",     "global", "break",
       "continue", "ref",    "sink",   "noescape", "borrows", "as",     "new",
       "self",     "where",  "unsafe", "weak",     "fail",    "or",     "for",
-      "match",    "module", "impl",   "static"};
+      "case",     "module", "impl",   "static"};
   for (const char *keyword : keywords) {
     if (seen.insert(keyword).second) {
       items.push_back(makeCompletionItem(

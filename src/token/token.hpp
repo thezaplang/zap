@@ -12,7 +12,7 @@ enum TokenType {
   ELSE = 5,           ///< "else" keyword.
   WHILE = 6,          ///< "while" keyword.
   FOR = 7,            ///< "for" keyword.
-  MATCH = 8,          ///< "match" keyword.
+  CASE = 8,           ///< "case" keyword.
   VAR = 9,            ///< "var" keyword.
   EXTERN = 10,        ///< "ext" (Extern) keyword.
   MODULE = 11,        ///< "module" keyword.

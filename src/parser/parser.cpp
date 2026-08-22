@@ -1801,6 +1801,7 @@ void Parser::synchronize(SyncContext context) {
 
     case TokenType::VAR:
     case TokenType::LET:
+    case TokenType::CASE:
     case TokenType::IF:
     case TokenType::WHILE:
     case TokenType::FOR:

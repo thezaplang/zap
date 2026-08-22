@@ -17,7 +17,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"false", TokenType::BOOL},
     {"fun", TokenType::FUN},
     {"import", TokenType::IMPORT},
-    {"match", TokenType::MATCH},
+    {"case", TokenType::CASE},
     {"var", TokenType::VAR},
     {"let", TokenType::LET},
     {"ext", TokenType::EXTERN},
