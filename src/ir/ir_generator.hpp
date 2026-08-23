@@ -87,6 +87,15 @@ private:
                            ParameterOwnership parameterOwnership);
   void emitReturn(std::shared_ptr<Value> value = nullptr);
   std::string createBlockLabel(const std::string &prefix);
+  void emitCaseRecordTest(const sema::BoundCasePattern &record,
+                          const std::shared_ptr<Value> &address,
+                          const std::string &successLabel,
+                          const std::string &failureLabel);
+  void materializeCaseRecordBindings(const sema::BoundCasePattern &pattern,
+                                     const std::shared_ptr<Value> &address);
+  void materializeCasePayloadBinding(
+      const sema::BoundCaseArm &arm,
+      const std::shared_ptr<Value> &taggedUnionAddress);
   std::shared_ptr<Value>
   lowerConstantExpression(const sema::BoundExpression &expression);
   std::shared_ptr<Value> lowerConstantExpression(

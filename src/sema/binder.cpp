@@ -269,7 +269,7 @@ bool stmtAlwaysReturns(const BoundStatement *stmt) {
         return false;
       }
     }
-    return caseStmt->isExhaustive;
+    return caseStmt->guaranteesMatch;
   }
   return false;
 }

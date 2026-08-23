@@ -668,12 +668,12 @@ class BoundCaseStatement : public BoundStatement {
 public:
   std::unique_ptr<BoundExpression> scrutinee;
   std::vector<BoundCaseArm> arms;
-  bool isExhaustive = false;
+  bool guaranteesMatch = false;
 
   BoundCaseStatement(std::unique_ptr<BoundExpression> subject,
-                     std::vector<BoundCaseArm> caseArms, bool exhaustive)
+                     std::vector<BoundCaseArm> caseArms, bool guarantees)
       : scrutinee(std::move(subject)), arms(std::move(caseArms)),
-        isExhaustive(exhaustive) {}
+        guaranteesMatch(guarantees) {}
 
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundStatement> cloneStatement() const override {
@@ -683,7 +683,7 @@ public:
       clonedArms.push_back(arm.clone());
     }
     return std::make_unique<BoundCaseStatement>(
-        scrutinee->clone(), std::move(clonedArms), isExhaustive);
+        scrutinee->clone(), std::move(clonedArms), guaranteesMatch);
   }
 };
 
