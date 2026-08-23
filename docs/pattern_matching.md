@@ -152,4 +152,4 @@ patterns, named constants as patterns, or `case` as an expression. A payload
 variant has one payload value, and an arm that binds or destructures it cannot
 combine alternatives such as `Result.Value(x), Result.Empty()`. Within a
 record field, literal and enum patterns may be used; nested payload patterns
-and record payload patterns are not supported yet.
+with literal constraints are not supported yet.

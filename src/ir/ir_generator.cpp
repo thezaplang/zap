@@ -2093,6 +2093,17 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
           emitInitializationStore(std::move(payload), bindingAddress);
           symbolMap_[payloadPattern.payloadBinding] = bindingAddress;
         }
+        if (field.nested &&
+            field.nested->kind ==
+                sema::BoundCasePatternKind::TaggedUnionVariant &&
+            field.nested->payloadPattern) {
+          const auto &payloadPattern = *field.nested;
+          auto payloadAddress = createRegister(
+              std::make_shared<PointerType>(payloadPattern.payloadType));
+          currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+              payloadAddress, fieldAddress, 1));
+          self(self, *payloadPattern.payloadPattern, payloadAddress);
+        }
         if (!field.binding) {
           continue;
         }

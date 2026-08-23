@@ -478,11 +478,61 @@ void Binder::visit(CaseNode &node) {
                   if (field.nested->payloadKind !=
                           CasePayloadPatternKind::Binding &&
                       field.nested->payloadKind !=
-                          CasePayloadPatternKind::Wildcard) {
+                          CasePayloadPatternKind::Wildcard &&
+                      field.nested->payloadKind !=
+                          CasePayloadPatternKind::Pattern) {
                     error(field.nested->span,
                           "Enum field payload pattern for '" + field.name +
-                              "' must be a binding or '_'.");
+                              "' must be a binding, '_', or record pattern.");
                     continue;
+                  }
+                  std::unique_ptr<BoundCasePattern> payloadPattern;
+                  if (field.nested->payloadKind ==
+                      CasePayloadPatternKind::Pattern) {
+                    const auto &payload = *field.nested->payloadPattern;
+                    if (payload.kind != CasePatternKind::Record ||
+                        variant->payloadType->getKind() !=
+                            zir::TypeKind::Record) {
+                      error(field.nested->span,
+                            "Enum field payload pattern for '" + field.name +
+                                "' must match a Record/struct payload.");
+                      continue;
+                    }
+                    auto payloadSymbol = resolveQualifiedSymbol(
+                        payload.recordPath, payload.span, SymbolKind::Type);
+                    if (!payloadSymbol ||
+                        !zir::sameType(payloadSymbol->type,
+                                       variant->payloadType)) {
+                      error(payload.span,
+                            "Enum field record payload pattern does not match "
+                            "field '" +
+                                field.name + "'.");
+                      continue;
+                    }
+                    auto isIrrefutablePayloadRecord =
+                        [&](const auto &self,
+                            const CasePattern &record) -> bool {
+                      for (const auto &payloadField : record.recordFields) {
+                        if (payloadField.nested &&
+                            (payloadField.nested->kind !=
+                                 CasePatternKind::Record ||
+                             !self(self, *payloadField.nested))) {
+                          return false;
+                        }
+                      }
+                      return true;
+                    };
+                    if (!isIrrefutablePayloadRecord(isIrrefutablePayloadRecord,
+                                                    payload)) {
+                      error(payload.span, "Enum field record payload patterns "
+                                          "currently require binding-only "
+                                          "fields.");
+                      continue;
+                    }
+                    payloadPattern =
+                        self(self, payload,
+                             std::static_pointer_cast<zir::RecordType>(
+                                 variant->payloadType));
                   }
                   std::shared_ptr<VariableSymbol> payloadBinding;
                   if (field.nested->payloadKind ==
@@ -497,7 +547,8 @@ void Binder::visit(CaseNode &node) {
                       {index,
                        std::make_unique<BoundCasePattern>(
                            BoundCasePatternKind::TaggedUnionVariant,
-                           variant->tag, variant->payloadType, nullptr, nullptr,
+                           variant->tag, variant->payloadType, nullptr,
+                           std::move(payloadPattern),
                            std::move(payloadBinding)),
                        nullptr});
                   continue;

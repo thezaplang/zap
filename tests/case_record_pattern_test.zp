@@ -14,6 +14,7 @@ struct Point {
 
 enum Status { Active, Inactive }
 enum Result { Empty, Value(Int) }
+enum UserResult { Empty, Value(User) }
 
 record Account {
     status: Status,
@@ -22,6 +23,11 @@ record Account {
 
 record Response {
     result: Result,
+    code: Int,
+}
+
+record UserResponse {
+    result: UserResult,
     code: Int,
 }
 
@@ -68,6 +74,18 @@ fun isValue(response: Response) Int {
     }
 }
 
+fun readUserResponse(response: UserResponse) Int {
+    case response {
+        UserResponse {
+            result: UserResult.Value(User { id, address: Address { city } }),
+            code,
+        } {
+            return id + city + code;
+        }
+        else { return 0; }
+    }
+}
+
 fun main() Int {
     var user: User = User{id: 2, address: Address{city: 40}};
     var point: Point = Point{x: 10, y: 20};
@@ -85,5 +103,10 @@ fun main() Int {
     if readResponse(value) != 13 { return 7; }
     if isValue(empty) != 0 { return 8; }
     if isValue(value) != 1 { return 9; }
+    var userResponse: UserResponse = UserResponse{
+        result: UserResult.Value((User{id: 1, address: Address{city: 40}})),
+        code: 1,
+    };
+    if readUserResponse(userResponse) != 42 { return 10; }
     return 0;
 }
