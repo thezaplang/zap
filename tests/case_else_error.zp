@@ -1,0 +1,6 @@
+fun code(value: Int) Int {
+    case value {
+        else { return 0; }
+        1 { return 1; }
+    }
+}

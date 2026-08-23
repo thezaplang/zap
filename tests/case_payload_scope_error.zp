@@ -1,0 +1,8 @@
+enum Result { Value(Int) }
+
+fun code(result: Result) Int {
+    case result {
+        Result.Value(value) { return value; }
+    }
+    return value;
+}

@@ -1,0 +1,32 @@
+global var destroyed: Int = 0;
+
+class Payload {
+    pub value: Int;
+
+    fun init(value: Int) {
+        self.value = value;
+    }
+
+    fun deinit() {
+        destroyed = destroyed + 1;
+    }
+}
+
+enum Result {
+    Empty,
+    Value(Payload),
+}
+
+fun readPayload() Int {
+    var result: Result = Result.Value(new Payload(42));
+    case result {
+        Result.Value(payload) { return payload.value; }
+        Result.Empty() { return 0; }
+    }
+}
+
+fun main() Int {
+    if readPayload() != 42 { return 1; }
+    if destroyed != 1 { return 2; }
+    return 0;
+}

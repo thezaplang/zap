@@ -1,0 +1,11 @@
+enum Result {
+    Empty,
+    Value(Int),
+}
+
+fun code(result: Result) Int {
+    case result {
+        Result.Value() { return 0; }
+        else { return 0; }
+    }
+}

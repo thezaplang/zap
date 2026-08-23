@@ -1,0 +1,11 @@
+fun main() Int {
+    var value: Int = 2;
+    while value < 3 {
+        case value {
+            2 { break; }
+            else { value = 3; }
+        }
+        if value == 2 { return 1; }
+    }
+    return value - 2;
+}

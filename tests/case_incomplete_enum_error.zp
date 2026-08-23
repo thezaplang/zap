@@ -1,0 +1,7 @@
+enum Color { Red, Green }
+
+fun code(color: Color) Int {
+    case color {
+        Color.Red { return 1; }
+    }
+}

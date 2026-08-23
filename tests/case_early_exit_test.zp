@@ -1,0 +1,21 @@
+fun choose(value: Int) Int {
+    case value {
+        1 { return 10; }
+        else { return 20; }
+    }
+}
+
+fun update(value: Int) Int {
+    var result: Int = 0;
+    case value {
+        1 { result = 10; }
+        else { result = 20; }
+    }
+    return result;
+}
+
+fun main() Int {
+    if choose(1) != 10 || choose(2) != 20 { return 1; }
+    if update(1) != 10 || update(2) != 20 { return 2; }
+    return 0;
+}

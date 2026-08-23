@@ -57,6 +57,42 @@ SPECIAL_CASES = {
         "diagnostics": ["S2015"],
         "desc": "Const bindings reject runtime initializers"
     },
+    "tests/case_incomplete_enum_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "requires an 'else' arm unless every enum variant is covered",
+        "desc": "Case requires exhaustive enum coverage or else"
+    },
+    "tests/case_else_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Case arm after 'else' is unreachable",
+        "desc": "Case rejects arms after else"
+    },
+    "tests/case_variant_owner_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Case variant does not belong to scrutinee type",
+        "desc": "Case resolves a variant against the scrutinee enum"
+    },
+    "tests/case_empty_payload_arity_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "requires an empty payload pattern",
+        "desc": "Case rejects bindings for empty tagged-union variants"
+    },
+    "tests/case_value_payload_arity_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "expects one payload binding",
+        "desc": "Case requires a binding or wildcard for payload variants"
+    },
+    "tests/case_payload_scope_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Undefined identifier: value",
+        "desc": "Case payload bindings are scoped to their arm"
+    },
 
     # Compile-only exit 1 (non-matching filename)
     "tests/import_module_alias_conflict/main.zp": {"type": "compile", "exit": 1, "desc": "Different modules cannot reuse the same alias"},
@@ -471,7 +507,7 @@ def execute_test(test_item, zapc_path):
 
             if stderr_pattern:
                 if stderr_pattern.lower() not in res.stderr.lower():
-                    return False, f"Expected warning pattern '{stderr_pattern}' not found in stderr:\n{res.stderr}"
+                    return False, f"Expected stderr pattern '{stderr_pattern}' not found in stderr:\n{res.stderr}"
 
             return True, None
 

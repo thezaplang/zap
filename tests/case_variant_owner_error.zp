@@ -1,0 +1,9 @@
+enum Color { Red }
+enum Shape { Red }
+
+fun code(color: Color) Int {
+    case color {
+        Shape.Red { return 1; }
+        else { return 0; }
+    }
+}
