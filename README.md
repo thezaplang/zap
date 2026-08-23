@@ -70,7 +70,7 @@ thor run
 
 To build Zap yourself, you need:
 
-- Clang 21.
+- Clang 15+ or GCC 12.1+.
 - LLVM 21 development libraries.
 - Meson and Ninja.
 - OpenSSL development libraries.
