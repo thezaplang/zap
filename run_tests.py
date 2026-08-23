@@ -117,6 +117,12 @@ SPECIAL_CASES = {
         "stderr_pattern": "record pattern does not match payload type",
         "desc": "Case checks a record payload pattern against its payload type"
     },
+    "tests/case_payload_record_duplicate_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Duplicate case pattern",
+        "desc": "Case rejects duplicate constrained record payload patterns"
+    },
     "tests/case_record_incomplete_error.zp": {
         "type": "compile",
         "exit": 1,

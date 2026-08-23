@@ -105,6 +105,7 @@ enum Result { Empty, Value(User) }
 
 fun score(result: Result) Int {
     case result {
+        Result.Value(User { id: 1, score }) { return score; }
         Result.Value(User { id, score }) { return id + score; }
         Result.Empty() { return 0; }
     }

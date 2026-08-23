@@ -758,6 +758,7 @@ void Binder::visit(CaseNode &node) {
           }
           std::unique_ptr<BoundExpression> payloadValue;
           std::unique_ptr<BoundCasePattern> payloadPattern;
+          bool payloadPatternIrrefutable = false;
           std::string payloadKey;
           if (pattern.payloadKind == CasePayloadPatternKind::Literal) {
             auto expectedPayloadType = variant->payloadType;
@@ -829,37 +830,175 @@ void Binder::visit(CaseNode &node) {
             }
             auto recordType =
                 std::static_pointer_cast<zir::RecordType>(variant->payloadType);
-            std::vector<BoundCaseRecordField> fields;
-            std::unordered_set<std::string> names;
-            for (const auto &field : payload.recordFields) {
-              if (!names.insert(field.name).second || field.nested) {
-                error(field.span, "Enum payload record patterns currently "
-                                  "require unique binding fields.");
-                continue;
+            auto bindPayloadRecord = [&](const auto &self,
+                                         const CasePattern &record,
+                                         std::shared_ptr<zir::RecordType> type)
+                -> std::unique_ptr<BoundCasePattern> {
+              std::vector<BoundCaseRecordField> fields;
+              std::unordered_set<std::string> names;
+              for (const auto &field : record.recordFields) {
+                if (!names.insert(field.name).second) {
+                  error(field.span,
+                        "Duplicate record payload field '" + field.name + "'.");
+                  continue;
+                }
+                int index = -1;
+                std::shared_ptr<zir::Type> fieldType;
+                for (size_t i = 0; i < type->getFields().size(); ++i) {
+                  if (type->getFields()[i].name == field.name) {
+                    index = static_cast<int>(i);
+                    fieldType = type->getFields()[i].type;
+                    break;
+                  }
+                }
+                if (index < 0) {
+                  error(field.span,
+                        "Record payload has no field '" + field.name + "'.");
+                  continue;
+                }
+                if (!field.nested) {
+                  auto binding = std::make_shared<VariableSymbol>(
+                      field.binding, fieldType, BindingKind::Immutable, false,
+                      field.binding, currentModuleId_);
+                  recordBindings.push_back(binding);
+                  fields.push_back({index, nullptr, std::move(binding)});
+                  continue;
+                }
+                if (field.nested->kind == CasePatternKind::Record) {
+                  if (fieldType->getKind() != zir::TypeKind::Record) {
+                    error(field.span, "Nested payload pattern requires a "
+                                      "Record/struct field.");
+                    continue;
+                  }
+                  auto nestedSymbol = resolveQualifiedSymbol(
+                      field.nested->recordPath, field.nested->span,
+                      SymbolKind::Type);
+                  if (!nestedSymbol ||
+                      !zir::sameType(nestedSymbol->type, fieldType)) {
+                    error(
+                        field.nested->span,
+                        "Nested payload record pattern does not match field '" +
+                            field.name + "'.");
+                    continue;
+                  }
+                  fields.push_back(
+                      {index,
+                       self(self, *field.nested,
+                            std::static_pointer_cast<zir::RecordType>(
+                                fieldType)),
+                       nullptr});
+                  continue;
+                }
+                if (field.nested->kind != CasePatternKind::Literal) {
+                  error(field.nested->span,
+                        "Enum payload records currently support literal or "
+                        "nested record constraints.");
+                  continue;
+                }
+                auto value = bindExpressionWithExpected(
+                    field.nested->literal.get(), fieldType);
+                if (!value) {
+                  continue;
+                }
+                if (fieldType->isInteger()) {
+                  auto integerValue = evaluateConstantInt(value.get());
+                  if (!integerValue ||
+                      !normalizeIntegerPattern(*integerValue, fieldType)) {
+                    error(field.nested->span,
+                          "Record payload field pattern is not representable "
+                          "by field type '" +
+                              renderTypeForUser(fieldType) + "'.");
+                    continue;
+                  }
+                  if (!zir::sameType(value->type, fieldType)) {
+                    value = std::make_unique<BoundCast>(std::move(value),
+                                                        fieldType);
+                  }
+                } else if (auto *literal =
+                               dynamic_cast<BoundLiteral *>(value.get())) {
+                  auto conversion =
+                      conversions_.classifyImplicit(value->type, fieldType);
+                  if (!conversion) {
+                    error(field.nested->span,
+                          "Record payload field pattern type does not match "
+                          "field type '" +
+                              renderTypeForUser(fieldType) + "'.");
+                    continue;
+                  }
+                  value = applyConversion(std::move(value), *conversion);
+                } else {
+                  error(field.nested->span,
+                        "Record payload field pattern must be a literal.");
+                  continue;
+                }
+                fields.push_back(
+                    {index,
+                     std::make_unique<BoundCasePattern>(std::move(value)),
+                     nullptr});
               }
-              int index = -1;
-              std::shared_ptr<zir::Type> fieldType;
-              for (size_t i = 0; i < recordType->getFields().size(); ++i) {
-                if (recordType->getFields()[i].name == field.name) {
-                  index = static_cast<int>(i);
-                  fieldType = recordType->getFields()[i].type;
-                  break;
+              return std::make_unique<BoundCasePattern>(type,
+                                                        std::move(fields));
+            };
+            payloadPattern = bindPayloadRecord(bindPayloadRecord, payload,
+                                               std::move(recordType));
+            auto isIrrefutablePayloadRecord =
+                [&](const auto &self, const CasePattern &record) -> bool {
+              for (const auto &field : record.recordFields) {
+                if (field.nested &&
+                    (field.nested->kind != CasePatternKind::Record ||
+                     !self(self, *field.nested))) {
+                  return false;
                 }
               }
-              if (index < 0) {
-                error(field.span,
-                      "Record payload has no field '" + field.name + "'.");
-                continue;
+              return true;
+            };
+            payloadPatternIrrefutable =
+                isIrrefutablePayloadRecord(isIrrefutablePayloadRecord, payload);
+            auto canonicalPayloadPattern =
+                [&](const auto &self,
+                    const BoundCasePattern &boundPattern) -> std::string {
+              if (boundPattern.kind == BoundCasePatternKind::Record) {
+                std::vector<std::string> constraints;
+                for (const auto &field : boundPattern.recordFields) {
+                  if (!field.nested) {
+                    continue;
+                  }
+                  auto nestedKey = self(self, *field.nested);
+                  if (!nestedKey.empty()) {
+                    constraints.push_back(std::to_string(field.index) + ":" +
+                                          std::move(nestedKey));
+                  }
+                }
+                if (constraints.empty()) {
+                  return "";
+                }
+                std::sort(constraints.begin(), constraints.end());
+                std::string key = "record{";
+                for (const auto &constraint : constraints) {
+                  key += constraint + ";";
+                }
+                return key + "}";
               }
-              auto binding = std::make_shared<VariableSymbol>(
-                  field.binding, fieldType, BindingKind::Immutable, false,
-                  field.binding, currentModuleId_);
-              recordBindings.push_back(binding);
-              fields.push_back({index, nullptr, std::move(binding)});
-            }
-            payloadPattern = std::make_unique<BoundCasePattern>(
-                recordType, std::move(fields));
-            payloadKey = ":record";
+              if (boundPattern.kind == BoundCasePatternKind::Literal) {
+                const BoundExpression *expression = boundPattern.value.get();
+                if (const auto *cast =
+                        dynamic_cast<const BoundCast *>(expression)) {
+                  expression = cast->expression.get();
+                }
+                if (const auto *literal =
+                        dynamic_cast<const BoundLiteral *>(expression)) {
+                  return "literal:" +
+                         renderTypeForUser(boundPattern.value->type) + ":" +
+                         literal->value;
+                }
+              }
+              return "";
+            };
+            auto canonicalKey = canonicalPayloadPattern(canonicalPayloadPattern,
+                                                        *payloadPattern);
+            payloadKey = canonicalKey.empty()
+                             ? ":record:*"
+                             : ":record:" + std::move(canonicalKey);
           }
           const auto key =
               "union:" + std::to_string(variant->tag) +
@@ -867,7 +1006,9 @@ void Binder::visit(CaseNode &node) {
           if (!seenPatterns.insert(key).second) {
             error(pattern.span, "Duplicate case pattern.");
           }
-          if (!payloadValue) {
+          if (!payloadValue &&
+              (pattern.payloadKind != CasePayloadPatternKind::Pattern ||
+               payloadPatternIrrefutable)) {
             coveredVariants.insert(variant->tag);
           }
           boundPatterns.emplace_back(BoundCasePatternKind::TaggedUnionVariant,

@@ -5,6 +5,17 @@ struct User {
 
 enum Result { Empty, Value(User) }
 
+record Address {
+    city: Int,
+}
+
+record Profile {
+    id: Int,
+    address: Address,
+}
+
+enum ProfileResult { Empty, Value(Profile) }
+
 fun read(result: Result) Int {
     case result {
         Result.Value(User { id, score }) { return id + score; }
@@ -12,8 +23,28 @@ fun read(result: Result) Int {
     }
 }
 
+fun classify(result: ProfileResult) Int {
+    case result {
+        ProfileResult.Value(Profile {
+            id: 1,
+            address: Address { city: 40 },
+        }) { return 1; }
+        ProfileResult.Value(Profile { id, address: Address { city } }) {
+            return id + city;
+        }
+        ProfileResult.Empty() { return 0; }
+    }
+}
+
 fun main() Int {
     if read(Result.Value((User{id: 2, score: 40}))) != 42 { return 1; }
     if read(Result.Empty()) != 0 { return 2; }
+    var exact: Profile = Profile{id: 1, address: Address{city: 40}};
+    var other: Profile = Profile{id: 2, address: Address{city: 40}};
+    var wrongCity: Profile = Profile{id: 1, address: Address{city: 41}};
+    if classify(ProfileResult.Value((exact))) != 1 { return 3; }
+    if classify(ProfileResult.Value((other))) != 42 { return 4; }
+    if classify(ProfileResult.Empty()) != 0 { return 5; }
+    if classify(ProfileResult.Value((wrongCity))) != 42 { return 6; }
     return 0;
 }

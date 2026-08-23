@@ -1,0 +1,14 @@
+record Point {
+    x: Int,
+    y: Int,
+}
+
+enum Result { Empty, Value(Point) }
+
+fun read(result: Result) Int {
+    case result {
+        Result.Value(Point { x: 1, y: 2 }) { return 1; }
+        Result.Value(Point { y: 2, x: 1 }) { return 2; }
+        else { return 0; }
+    }
+}
