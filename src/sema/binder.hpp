@@ -115,6 +115,12 @@ public:
   void visit(FailNode &node) override;
 
 private:
+  struct RecordPatternResult {
+    std::unique_ptr<BoundCasePattern> pattern;
+    std::vector<std::shared_ptr<VariableSymbol>> bindings;
+    bool valid = true;
+  };
+
   enum class MutablePlaceUse {
     Assignment,
     MutableReference,
@@ -294,6 +300,9 @@ private:
   hasExhaustiveCaseCoverage(const std::shared_ptr<zir::Type> &scrutineeType,
                             const std::unordered_set<int64_t> &coveredVariants,
                             bool hasIrrefutableRecordPattern) const;
+  RecordPatternResult
+  bindCaseRecordPattern(const CasePattern &record,
+                        std::shared_ptr<zir::RecordType> type);
   void bindCaseStatement(CaseNode &node);
   void initializeBuiltins();
   void predeclareModuleTypes(ModuleState &module);
