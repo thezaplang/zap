@@ -1,0 +1,12 @@
+enum Result { Empty, Value(Int) }
+
+record Response {
+    result: Result,
+}
+
+fun value(response: Response) Int {
+    case response {
+        Response { result: Result.Empty } { return 1; }
+        else { return 0; }
+    }
+}

@@ -105,6 +105,18 @@ SPECIAL_CASES = {
         "stderr_pattern": "'else' case arm is unreachable because earlier patterns are exhaustive",
         "desc": "Irrefutable record patterns make else unreachable"
     },
+    "tests/case_record_payload_variant_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Invalid enum field pattern for 'result'",
+        "desc": "Record patterns reject tagged-union payload variants"
+    },
+    "tests/case_record_empty_variant_arity_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Invalid enum field pattern for 'result'",
+        "desc": "Record patterns require () for empty tagged-union variants"
+    },
 
     # Compile-only exit 1 (non-matching filename)
     "tests/import_module_alias_conflict/main.zp": {"type": "compile", "exit": 1, "desc": "Different modules cannot reuse the same alias"},

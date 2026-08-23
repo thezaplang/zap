@@ -1961,6 +1961,22 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
                   std::make_shared<PrimitiveType>(TypeKind::Bool));
               currentBlock_->addInstruction(std::make_unique<CmpInst>(
                   "eq", fieldMatches, fieldValue, patternValue));
+            } else if (field.nested->kind ==
+                       sema::BoundCasePatternKind::TaggedUnionVariant) {
+              auto tagType = std::make_shared<PrimitiveType>(TypeKind::Int32);
+              auto tagAddress =
+                  createRegister(std::make_shared<PointerType>(tagType));
+              currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+                  tagAddress, fieldAddress, 0));
+              auto tag = createRegister(tagType);
+              currentBlock_->addInstruction(
+                  std::make_unique<LoadInst>(tag, tagAddress));
+              auto patternTag = std::make_shared<Constant>(
+                  std::to_string(field.nested->variantTag), tagType);
+              fieldMatches = createRegister(
+                  std::make_shared<PrimitiveType>(TypeKind::Bool));
+              currentBlock_->addInstruction(std::make_unique<CmpInst>(
+                  "eq", fieldMatches, tag, patternTag));
             } else {
               auto fieldValue = createRegister(fieldType);
               currentBlock_->addInstruction(

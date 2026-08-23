@@ -410,7 +410,8 @@ void Binder::visit(CaseNode &node) {
 
                 if (field.nested->kind == CasePatternKind::Variant) {
                   const auto &path = field.nested->variantPath;
-                  if (fieldType->getKind() != zir::TypeKind::Enum ||
+                  if ((fieldType->getKind() != zir::TypeKind::Enum &&
+                       fieldType->getKind() != zir::TypeKind::TaggedUnion) ||
                       path.size() < 2) {
                     error(field.nested->span,
                           "Enum field pattern does not match field '" +
@@ -428,21 +429,43 @@ void Binder::visit(CaseNode &node) {
                               field.name + "'.");
                     continue;
                   }
-                  auto enumType =
-                      std::static_pointer_cast<zir::EnumType>(fieldType);
-                  const auto tag =
-                      enumType->getVariantDiscriminant(path.back());
-                  if (tag < 0 || field.nested->payloadKind !=
-                                     CasePayloadPatternKind::None) {
+                  if (fieldType->getKind() == zir::TypeKind::Enum) {
+                    auto enumType =
+                        std::static_pointer_cast<zir::EnumType>(fieldType);
+                    const auto tag =
+                        enumType->getVariantDiscriminant(path.back());
+                    if (tag < 0 || field.nested->payloadKind !=
+                                       CasePayloadPatternKind::None) {
+                      error(field.nested->span,
+                            "Invalid enum field pattern for '" + field.name +
+                                "'.");
+                      continue;
+                    }
+                    fields.push_back(
+                        {index,
+                         std::make_unique<BoundCasePattern>(
+                             BoundCasePatternKind::EnumVariant, tag),
+                         nullptr});
+                    continue;
+                  }
+
+                  auto taggedUnion =
+                      std::static_pointer_cast<zir::TaggedUnionType>(fieldType);
+                  const auto *variant = taggedUnion->findVariant(path.back());
+                  if (!variant || variant->payloadType ||
+                      field.nested->payloadKind !=
+                          CasePayloadPatternKind::Empty) {
                     error(field.nested->span,
                           "Invalid enum field pattern for '" + field.name +
                               "'.");
                     continue;
                   }
-                  fields.push_back({index,
-                                    std::make_unique<BoundCasePattern>(
-                                        BoundCasePatternKind::EnumVariant, tag),
-                                    nullptr});
+                  fields.push_back(
+                      {index,
+                       std::make_unique<BoundCasePattern>(
+                           BoundCasePatternKind::TaggedUnionVariant,
+                           variant->tag),
+                       nullptr});
                   continue;
                 }
 
