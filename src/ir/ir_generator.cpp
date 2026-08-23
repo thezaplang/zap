@@ -1833,6 +1833,88 @@ void BoundIRGenerator::visit(sema::BoundIfStatement &node) {
   currentBlock_ = mergeBlockPtr;
 }
 
+void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
+  node.scrutinee->accept(*this);
+  auto scrutinee = valueStack_.top();
+  valueStack_.pop();
+
+  std::vector<std::string> bodyLabels;
+  bodyLabels.reserve(node.arms.size());
+  std::vector<std::string> testLabels;
+  for (const auto &arm : node.arms) {
+    bodyLabels.push_back(createBlockLabel("case.arm"));
+    for (size_t i = 0; i < arm.patterns.size(); ++i) {
+      testLabels.push_back(createBlockLabel("case.test"));
+    }
+  }
+  const auto mergeLabel = createBlockLabel("case.merge");
+
+  std::string fallbackLabel;
+  size_t testCount = 0;
+  for (size_t armIndex = 0; armIndex < node.arms.size(); ++armIndex) {
+    const auto &arm = node.arms[armIndex];
+    if (arm.isElse) {
+      fallbackLabel = bodyLabels[armIndex];
+      break;
+    }
+    testCount += arm.patterns.size();
+  }
+
+  if (testCount == 0) {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(fallbackLabel));
+  } else {
+    currentBlock_->addInstruction(std::make_unique<BranchInst>(testLabels[0]));
+  }
+
+  size_t nextTest = 0;
+  for (size_t armIndex = 0; armIndex < node.arms.size(); ++armIndex) {
+    const auto &arm = node.arms[armIndex];
+    if (arm.isElse) {
+      continue;
+    }
+
+    for (const auto &pattern : arm.patterns) {
+      auto testBlock = std::make_unique<BasicBlock>(testLabels[nextTest]);
+      auto *testBlockPtr = testBlock.get();
+      currentFunction_->addBlock(std::move(testBlock));
+      currentBlock_ = testBlockPtr;
+
+      pattern.value->accept(*this);
+      auto patternValue = valueStack_.top();
+      valueStack_.pop();
+      auto comparison =
+          createRegister(std::make_shared<PrimitiveType>(TypeKind::Bool));
+      currentBlock_->addInstruction(
+          std::make_unique<CmpInst>("eq", comparison, scrutinee, patternValue));
+
+      ++nextTest;
+      const auto nextLabel = nextTest < testCount ? testLabels[nextTest]
+                                                   : fallbackLabel;
+      currentBlock_->addInstruction(std::make_unique<CondBranchInst>(
+          comparison, bodyLabels[armIndex], nextLabel));
+    }
+  }
+
+  for (size_t armIndex = 0; armIndex < node.arms.size(); ++armIndex) {
+    auto bodyBlock = std::make_unique<BasicBlock>(bodyLabels[armIndex]);
+    auto *bodyBlockPtr = bodyBlock.get();
+    currentFunction_->addBlock(std::move(bodyBlock));
+    currentBlock_ = bodyBlockPtr;
+
+    if (node.arms[armIndex].body) {
+      node.arms[armIndex].body->accept(*this);
+    }
+    if (!isTerminated(currentBlock_)) {
+      currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));
+    }
+  }
+
+  auto mergeBlock = std::make_unique<BasicBlock>(mergeLabel);
+  auto *mergeBlockPtr = mergeBlock.get();
+  currentFunction_->addBlock(std::move(mergeBlock));
+  currentBlock_ = mergeBlockPtr;
+}
+
 void BoundIRGenerator::visit(sema::BoundWhileStatement &node) {
   auto condLabel = createBlockLabel("while.cond");
   auto bodyLabel = createBlockLabel("while.body");

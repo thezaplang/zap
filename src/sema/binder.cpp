@@ -263,6 +263,16 @@ bool stmtAlwaysReturns(const BoundStatement *stmt) {
   if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(stmt))
     return ifStmt->elseBody && blockAlwaysReturns(ifStmt->thenBody.get()) &&
            blockAlwaysReturns(ifStmt->elseBody.get());
+  if (auto *caseStmt = dynamic_cast<const BoundCaseStatement *>(stmt)) {
+    bool hasElse = false;
+    for (const auto &arm : caseStmt->arms) {
+      hasElse = hasElse || arm.isElse;
+      if (!blockAlwaysReturns(arm.body.get())) {
+        return false;
+      }
+    }
+    return hasElse;
+  }
   return false;
 }
 

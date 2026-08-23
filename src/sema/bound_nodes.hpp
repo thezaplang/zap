@@ -34,6 +34,7 @@ class BoundStructLiteral;
 class BoundTaggedUnionLiteral;
 class BoundModuleReference;
 class BoundIfStatement;
+class BoundCaseStatement;
 class BoundWhileStatement;
 class BoundForStatement;
 class BoundBreakStatement;
@@ -81,6 +82,7 @@ public:
   virtual void visit(BoundTaggedUnionLiteral &node) = 0;
   virtual void visit(BoundModuleReference &node) = 0;
   virtual void visit(BoundIfStatement &node) = 0;
+  virtual void visit(BoundCaseStatement &node) = 0;
   virtual void visit(BoundWhileStatement &node) = 0;
   virtual void visit(BoundForStatement &node) = 0;
   virtual void visit(BoundBreakStatement &node) = 0;
@@ -562,6 +564,61 @@ public:
         condition->clone(), thenBody->cloneBlock(),
         elseBody ? elseBody->cloneBlock() : nullptr, narrowedSource,
         narrowedVariable);
+  }
+};
+
+class BoundCasePattern {
+public:
+  std::unique_ptr<BoundExpression> value;
+
+  explicit BoundCasePattern(std::unique_ptr<BoundExpression> patternValue)
+      : value(std::move(patternValue)) {}
+
+  BoundCasePattern clone() const {
+    return BoundCasePattern(value ? value->clone() : nullptr);
+  }
+};
+
+class BoundCaseArm {
+public:
+  bool isElse = false;
+  std::vector<BoundCasePattern> patterns;
+  std::unique_ptr<BoundBlock> body;
+
+  BoundCaseArm(bool wildcard, std::vector<BoundCasePattern> armPatterns,
+               std::unique_ptr<BoundBlock> armBody)
+      : isElse(wildcard), patterns(std::move(armPatterns)),
+        body(std::move(armBody)) {}
+
+  BoundCaseArm clone() const {
+    std::vector<BoundCasePattern> clonedPatterns;
+    clonedPatterns.reserve(patterns.size());
+    for (const auto &pattern : patterns) {
+      clonedPatterns.push_back(pattern.clone());
+    }
+    return BoundCaseArm(isElse, std::move(clonedPatterns),
+                        body ? body->cloneBlock() : nullptr);
+  }
+};
+
+class BoundCaseStatement : public BoundStatement {
+public:
+  std::unique_ptr<BoundExpression> scrutinee;
+  std::vector<BoundCaseArm> arms;
+
+  BoundCaseStatement(std::unique_ptr<BoundExpression> subject,
+                     std::vector<BoundCaseArm> caseArms)
+      : scrutinee(std::move(subject)), arms(std::move(caseArms)) {}
+
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+  std::unique_ptr<BoundStatement> cloneStatement() const override {
+    std::vector<BoundCaseArm> clonedArms;
+    clonedArms.reserve(arms.size());
+    for (const auto &arm : arms) {
+      clonedArms.push_back(arm.clone());
+    }
+    return std::make_unique<BoundCaseStatement>(scrutinee->clone(),
+                                                std::move(clonedArms));
   }
 };
 

@@ -43,6 +43,7 @@ public:
   void visit(sema::BoundTaggedUnionLiteral &node) override;
   void visit(sema::BoundModuleReference &node) override;
   void visit(sema::BoundIfStatement &node) override;
+  void visit(sema::BoundCaseStatement &node) override;
   void visit(sema::BoundWhileStatement &node) override;
   void visit(sema::BoundForStatement &node) override;
   void visit(sema::BoundBreakStatement &node) override;

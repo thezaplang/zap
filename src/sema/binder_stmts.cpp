@@ -319,7 +319,10 @@ void Binder::visit(CaseNode &node) {
 
   bool sawElse = false;
   std::unordered_set<std::string> seenPatterns;
+  std::vector<BoundCaseArm> boundArms;
+  boundArms.reserve(node.arms.size());
   for (const auto &arm : node.arms) {
+    std::vector<BoundCasePattern> boundPatterns;
     if (arm.isElse) {
       if (sawElse) {
         error(arm.span, "Duplicate 'else' case arm.");
@@ -359,6 +362,10 @@ void Binder::visit(CaseNode &node) {
             continue;
           }
           patternKey += *normalized;
+
+          if (!zir::sameType(value->type, scrutineeType)) {
+            value = std::make_unique<BoundCast>(std::move(value), scrutineeType);
+          }
         } else if (auto *literal = dynamic_cast<BoundLiteral *>(value.get())) {
           auto conversion =
               conversions_.classifyImplicit(value->type, scrutineeType);
@@ -370,6 +377,7 @@ void Binder::visit(CaseNode &node) {
             continue;
           }
           patternKey += literal->value;
+          value = applyConversion(std::move(value), *conversion);
         } else {
           error(pattern.span, "Case pattern must be a literal.");
           continue;
@@ -378,10 +386,13 @@ void Binder::visit(CaseNode &node) {
         if (!seenPatterns.insert(patternKey).second) {
           error(pattern.span, "Duplicate case pattern.");
         }
+
+        boundPatterns.emplace_back(std::move(value));
       }
     }
 
-    bindBody(arm.body.get(), true);
+    boundArms.emplace_back(arm.isElse, std::move(boundPatterns),
+                           bindBody(arm.body.get(), true));
   }
 
   if (!sawElse) {
@@ -390,9 +401,8 @@ void Binder::visit(CaseNode &node) {
           "implemented.");
   }
 
-  error(node.span,
-        "Case statement binding is complete, but code generation is not yet "
-        "implemented.");
+  statementStack_.push(std::make_unique<BoundCaseStatement>(
+      std::move(scrutinee), std::move(boundArms)));
 }
 
 void Binder::visit(IfTypeNode &node) {

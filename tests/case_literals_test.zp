@@ -1,0 +1,53 @@
+global var subjectCalls: Int = 0;
+
+fun nextInt() Int {
+    subjectCalls = subjectCalls + 1;
+    return 2;
+}
+
+fun matchInt(value: Int) Int {
+    case value {
+        0, 1 { return 10; }
+        2 { return 20; }
+        else { return 30; }
+    }
+}
+
+fun matchBool(value: Bool) Int {
+    case value {
+        true { return 1; }
+        else { return 0; }
+    }
+}
+
+fun matchChar(value: Char) Int {
+    case value {
+        'A' { return 65; }
+        else { return 0; }
+    }
+}
+
+fun matchByte(value: UInt8) Int {
+    case value {
+        255 { return 1; }
+        else { return 0; }
+    }
+}
+
+fun matchString(value: String) Int {
+    case value {
+        "zap" { return 1; }
+        else { return 0; }
+    }
+}
+
+fun main() Int {
+    if matchInt(nextInt()) != 20 { return 1; }
+    if subjectCalls != 1 { return 2; }
+    if matchInt(7) != 30 { return 3; }
+    if matchBool(true) != 1 || matchBool(false) != 0 { return 4; }
+    if matchChar('A') != 65 || matchChar('B') != 0 { return 5; }
+    if matchByte(255) != 1 || matchByte(5) != 0 { return 6; }
+    if matchString("zap") != 1 || matchString("other") != 0 { return 7; }
+    return 0;
+}

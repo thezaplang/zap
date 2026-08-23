@@ -91,6 +91,14 @@ public:
     visitNode(node.thenBody);
     visitNode(node.elseBody);
   }
+  void visit(sema::BoundCaseStatement &node) override {
+    visitNode(node.scrutinee);
+    for (auto &arm : node.arms) {
+      for (auto &pattern : arm.patterns)
+        visitNode(pattern.value);
+      visitNode(arm.body);
+    }
+  }
   void visit(sema::BoundWhileStatement &node) override {
     visitNode(node.condition);
     visitNode(node.body);
