@@ -15,6 +15,7 @@ struct Point {
 enum Status { Active, Inactive }
 enum Result { Empty, Value(Int) }
 enum UserResult { Empty, Value(User) }
+enum TextResult { Empty, Value(String) }
 
 record Account {
     status: Status,
@@ -29,6 +30,10 @@ record Response {
 record UserResponse {
     result: UserResult,
     code: Int,
+}
+
+record TextResponse {
+    result: TextResult,
 }
 
 fun readUser(user: User) Int {
@@ -59,6 +64,7 @@ fun readAccount(account: Account) Int {
 
 fun readResponse(response: Response) Int {
     case response {
+        Response { result: Result.Value(42), code } { return code + 42; }
         Response { result: Result.Value(value), code } {
             return value + code;
         }
@@ -77,11 +83,31 @@ fun isValue(response: Response) Int {
 fun readUserResponse(response: UserResponse) Int {
     case response {
         UserResponse {
-            result: UserResult.Value(User { id, address: Address { city } }),
+            result: UserResult.Value(User { id: 1, address: Address { city } }),
             code,
         } {
-            return id + city + code;
+            return city + code;
         }
+        else { return 0; }
+    }
+}
+
+fun isConstrainedUser(response: UserResponse) Int {
+    case response {
+        UserResponse {
+            result: UserResult.Value(User {
+                id: 1,
+                address: Address { city: 40 },
+            }),
+            code,
+        } { return code; }
+        else { return 0; }
+    }
+}
+
+fun isZap(response: TextResponse) Int {
+    case response {
+        TextResponse { result: TextResult.Value("zap") } { return 1; }
         else { return 0; }
     }
 }
@@ -107,6 +133,19 @@ fun main() Int {
         result: UserResult.Value((User{id: 1, address: Address{city: 40}})),
         code: 1,
     };
-    if readUserResponse(userResponse) != 42 { return 10; }
+    if readUserResponse(userResponse) != 41 { return 10; }
+    var constrained: Response = Response{result: Result.Value(42), code: 0};
+    if readResponse(constrained) != 42 { return 11; }
+    var otherUserResponse: UserResponse = UserResponse{
+        result: UserResult.Value((User{id: 2, address: Address{city: 40}})),
+        code: 1,
+    };
+    if readUserResponse(otherUserResponse) != 0 { return 12; }
+    if isConstrainedUser(userResponse) != 1 { return 13; }
+    if isConstrainedUser(otherUserResponse) != 0 { return 14; }
+    var zap: TextResponse = TextResponse{result: TextResult.Value("zap")};
+    var other: TextResponse = TextResponse{result: TextResult.Value("other")};
+    if isZap(zap) != 1 { return 15; }
+    if isZap(other) != 0 { return 16; }
     return 0;
 }

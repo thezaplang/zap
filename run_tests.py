@@ -132,20 +132,14 @@ SPECIAL_CASES = {
     "tests/case_record_payload_variant_error.zp": {
         "type": "compile",
         "exit": 1,
-        "stderr_pattern": "must be a binding, '_', or record pattern",
-        "desc": "Record patterns reject unsupported tagged-union payload patterns"
+        "stderr_pattern": "payload pattern is not representable",
+        "desc": "Record patterns check tagged-union literal payload types"
     },
     "tests/case_record_payload_scope_error.zp": {
         "type": "compile",
         "exit": 1,
         "stderr_pattern": "Undefined identifier: value",
         "desc": "Record payload bindings are scoped to their arm"
-    },
-    "tests/case_record_nested_payload_constraint_error.zp": {
-        "type": "compile",
-        "exit": 1,
-        "stderr_pattern": "require binding-only fields",
-        "desc": "Record payload patterns reject unsupported literal constraints"
     },
     "tests/case_record_empty_variant_arity_error.zp": {
         "type": "compile",

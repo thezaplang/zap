@@ -151,5 +151,5 @@ Zap 0.4.1 does not support ranges, guards, array destructuring, float
 patterns, named constants as patterns, or `case` as an expression. A payload
 variant has one payload value, and an arm that binds or destructures it cannot
 combine alternatives such as `Result.Value(x), Result.Empty()`. Within a
-record field, literal and enum patterns may be used; nested payload patterns
-with literal constraints are not supported yet.
+record field, literal and enum patterns may be used. Array destructuring and
+guards are not supported yet.
