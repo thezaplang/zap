@@ -287,6 +287,13 @@ private:
   bool bindWeakBuiltinCall(FunCall &node);
   int typeBitWidth(std::shared_ptr<zir::Type> type) const;
   std::unique_ptr<BoundBlock> bindBody(BodyNode *body, bool createScope);
+  std::unique_ptr<BoundBlock> bindCaseArmBody(
+      const CaseArm &arm, const std::shared_ptr<VariableSymbol> &payloadBinding,
+      const std::vector<std::shared_ptr<VariableSymbol>> &recordBindings);
+  bool
+  hasExhaustiveCaseCoverage(const std::shared_ptr<zir::Type> &scrutineeType,
+                            const std::unordered_set<int64_t> &coveredVariants,
+                            bool hasIrrefutableRecordPattern) const;
   void bindCaseStatement(CaseNode &node);
   void initializeBuiltins();
   void predeclareModuleTypes(ModuleState &module);

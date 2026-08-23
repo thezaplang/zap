@@ -428,6 +428,57 @@ void Binder::visit(IfNode &node) {
 
 void Binder::visit(CaseNode &node) { bindCaseStatement(node); }
 
+std::unique_ptr<BoundBlock> Binder::bindCaseArmBody(
+    const CaseArm &arm, const std::shared_ptr<VariableSymbol> &payloadBinding,
+    const std::vector<std::shared_ptr<VariableSymbol>> &recordBindings) {
+  if (!payloadBinding && recordBindings.empty()) {
+    return bindBody(arm.body.get(), true);
+  }
+
+  pushScope();
+  if (payloadBinding &&
+      !currentScope_->declare(payloadBinding->name, payloadBinding)) {
+    error(arm.span, "Duplicate payload binding '" + payloadBinding->name +
+                        "' in case arm.");
+  }
+  for (const auto &binding : recordBindings) {
+    if (!currentScope_->declare(binding->name, binding)) {
+      error(arm.span,
+            "Duplicate record binding '" + binding->name + "' in case arm.");
+    }
+  }
+  auto body = bindBody(arm.body.get(), false);
+  popScope();
+  return body;
+}
+
+bool Binder::hasExhaustiveCaseCoverage(
+    const std::shared_ptr<zir::Type> &scrutineeType,
+    const std::unordered_set<int64_t> &coveredVariants,
+    bool hasIrrefutableRecordPattern) const {
+  if (hasIrrefutableRecordPattern) {
+    return true;
+  }
+  if (scrutineeType->getKind() == zir::TypeKind::Enum) {
+    const auto &variants =
+        std::static_pointer_cast<zir::EnumType>(scrutineeType)->getVariants();
+    return std::all_of(
+        variants.begin(), variants.end(), [&](const auto &variant) {
+          return coveredVariants.count(variant.discriminant) != 0;
+        });
+  }
+  if (scrutineeType->getKind() == zir::TypeKind::TaggedUnion) {
+    const auto &variants =
+        std::static_pointer_cast<zir::TaggedUnionType>(scrutineeType)
+            ->getVariants();
+    return std::all_of(variants.begin(), variants.end(),
+                       [&](const auto &variant) {
+                         return coveredVariants.count(variant.tag) != 0;
+                       });
+  }
+  return false;
+}
+
 void Binder::bindCaseStatement(CaseNode &node) {
   auto scrutinee = bindExpressionWithExpected(node.scrutinee.get(), nullptr);
   if (!scrutinee) {
@@ -1062,47 +1113,13 @@ void Binder::bindCaseStatement(CaseNode &node) {
       }
     }
 
-    std::unique_ptr<BoundBlock> body;
-    if (payloadBinding || !recordBindings.empty()) {
-      pushScope();
-      if (payloadBinding &&
-          !currentScope_->declare(payloadBinding->name, payloadBinding)) {
-        error(arm.span, "Duplicate payload binding '" + payloadBinding->name +
-                            "' in case arm.");
-      }
-      for (const auto &binding : recordBindings) {
-        if (!currentScope_->declare(binding->name, binding)) {
-          error(arm.span, "Duplicate record binding '" + binding->name +
-                              "' in case arm.");
-        }
-      }
-      body = bindBody(arm.body.get(), false);
-      popScope();
-    } else {
-      body = bindBody(arm.body.get(), true);
-    }
+    auto body = bindCaseArmBody(arm, payloadBinding, recordBindings);
     boundArms.emplace_back(arm.isElse, std::move(boundPatterns),
                            std::move(payloadBinding), std::move(recordBindings),
                            std::move(body));
   }
-  bool exhaustive = false;
-  if (scrutineeType->getKind() == zir::TypeKind::Enum) {
-    const auto &variants =
-        std::static_pointer_cast<zir::EnumType>(scrutineeType)->getVariants();
-    exhaustive =
-        std::all_of(variants.begin(), variants.end(), [&](const auto &variant) {
-          return coveredVariants.count(variant.discriminant) != 0;
-        });
-  } else if (scrutineeType->getKind() == zir::TypeKind::TaggedUnion) {
-    const auto &variants =
-        std::static_pointer_cast<zir::TaggedUnionType>(scrutineeType)
-            ->getVariants();
-    exhaustive =
-        std::all_of(variants.begin(), variants.end(), [&](const auto &variant) {
-          return coveredVariants.count(variant.tag) != 0;
-        });
-  }
-  exhaustive = exhaustive || hasRecordPattern;
+  const bool exhaustive = hasExhaustiveCaseCoverage(
+      scrutineeType, coveredVariants, hasRecordPattern);
 
   if (!sawElse && !exhaustive) {
     error(node.span, "Case statement requires an 'else' arm unless its "
