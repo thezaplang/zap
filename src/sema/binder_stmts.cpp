@@ -265,7 +265,134 @@ void Binder::visit(IfNode &node) {
 }
 
 void Binder::visit(CaseNode &node) {
-  error(node.span, "Case statements are not yet supported.");
+  auto scrutinee = bindExpressionWithExpected(node.scrutinee.get(), nullptr);
+  if (!scrutinee) {
+    return;
+  }
+
+  const auto scrutineeType = scrutinee->type;
+  const bool supportsLiteralPatterns =
+      scrutineeType->isInteger() ||
+      scrutineeType->getKind() == zir::TypeKind::Bool ||
+      scrutineeType->getKind() == zir::TypeKind::Char ||
+      isStringType(scrutineeType);
+  if (!supportsLiteralPatterns) {
+    error(node.scrutinee->span,
+          "Case scrutinee must be an integer, Bool, Char, or String; got '" +
+              renderTypeForUser(scrutineeType) + "'.");
+    for (const auto &arm : node.arms) {
+      bindBody(arm.body.get(), true);
+    }
+    return;
+  }
+
+  auto normalizeIntegerPattern =
+      [&](int64_t value) -> std::optional<std::string> {
+    const int width = typeBitWidth(scrutineeType);
+    if (width <= 0 || width > 64) {
+      return std::nullopt;
+    }
+
+    if (scrutineeType->isUnsigned()) {
+      if (value < 0) {
+        return std::nullopt;
+      }
+      const uint64_t maximum = width == 64
+                                   ? std::numeric_limits<uint64_t>::max()
+                                   : (uint64_t{1} << width) - 1;
+      const uint64_t normalized = static_cast<uint64_t>(value);
+      if (normalized > maximum) {
+        return std::nullopt;
+      }
+      return std::to_string(normalized);
+    }
+
+    const int64_t minimum = width == 64 ? std::numeric_limits<int64_t>::min()
+                                        : -(int64_t{1} << (width - 1));
+    const int64_t maximum = width == 64 ? std::numeric_limits<int64_t>::max()
+                                        : (int64_t{1} << (width - 1)) - 1;
+    if (value < minimum || value > maximum) {
+      return std::nullopt;
+    }
+    return std::to_string(value);
+  };
+
+  bool sawElse = false;
+  std::unordered_set<std::string> seenPatterns;
+  for (const auto &arm : node.arms) {
+    if (arm.isElse) {
+      if (sawElse) {
+        error(arm.span, "Duplicate 'else' case arm.");
+      }
+      sawElse = true;
+    } else {
+      if (sawElse) {
+        error(arm.span, "Case arm after 'else' is unreachable.");
+      }
+
+      for (const auto &pattern : arm.patterns) {
+        if (pattern.kind != CasePatternKind::Literal) {
+          error(pattern.span, "Enum variant patterns are not yet supported in "
+                              "case statements.");
+          continue;
+        }
+
+        auto value =
+            bindExpressionWithExpected(pattern.literal.get(), scrutineeType);
+        if (!value) {
+          continue;
+        }
+
+        std::string patternKey = renderTypeForUser(scrutineeType) + ":";
+        if (scrutineeType->isInteger()) {
+          auto integerValue = evaluateConstantInt(value.get());
+          if (!integerValue) {
+            error(pattern.span, "Case integer pattern must be constant.");
+            continue;
+          }
+          auto normalized = normalizeIntegerPattern(*integerValue);
+          if (!normalized) {
+            error(
+                pattern.span,
+                "Case pattern value is not representable by scrutinee type '" +
+                    renderTypeForUser(scrutineeType) + "'.");
+            continue;
+          }
+          patternKey += *normalized;
+        } else if (auto *literal = dynamic_cast<BoundLiteral *>(value.get())) {
+          auto conversion =
+              conversions_.classifyImplicit(value->type, scrutineeType);
+          if (!conversion) {
+            error(pattern.span, "Case pattern type '" +
+                                    renderTypeForUser(value->type) +
+                                    "' does not match scrutinee type '" +
+                                    renderTypeForUser(scrutineeType) + "'.");
+            continue;
+          }
+          patternKey += literal->value;
+        } else {
+          error(pattern.span, "Case pattern must be a literal.");
+          continue;
+        }
+
+        if (!seenPatterns.insert(patternKey).second) {
+          error(pattern.span, "Duplicate case pattern.");
+        }
+      }
+    }
+
+    bindBody(arm.body.get(), true);
+  }
+
+  if (!sawElse) {
+    error(node.span,
+          "Case statement requires an 'else' arm until enum exhaustiveness is "
+          "implemented.");
+  }
+
+  error(node.span,
+        "Case statement binding is complete, but code generation is not yet "
+        "implemented.");
 }
 
 void Binder::visit(IfTypeNode &node) {
