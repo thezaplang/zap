@@ -203,6 +203,68 @@ bool testLiveClassRetainsVirtualOverridesAndDestructors() {
                 "constructor is not retained for a live class");
 }
 
+bool testCasePatternsRetainNestedDependencies() {
+  auto entry = makeFunction("main");
+  entry->isEntryModule = true;
+  auto literalPayloadTarget = makeFunction("literal_payload_target");
+  auto nestedPatternTarget = makeFunction("nested_pattern_target");
+  auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
+
+  // Reachability must traverse every expression-bearing field in the bound
+  // pattern tree. Current source syntax limits these to literals, but this
+  // AST-level invariant keeps future expression patterns from silently
+  // dropping function dependencies.
+
+  auto payloadRecord =
+      std::make_shared<zir::RecordType>("Payload", "test.Payload");
+  payloadRecord->addField("value", intType);
+  std::vector<sema::BoundCaseRecordField> fields;
+  fields.push_back({0,
+                    std::make_unique<sema::BoundCasePattern>(
+                        std::make_unique<sema::BoundFunctionReference>(
+                            nestedPatternTarget, intType)),
+                    nullptr});
+  auto nestedPayloadPattern = std::make_unique<sema::BoundCasePattern>(
+      payloadRecord, std::move(fields));
+
+  std::vector<sema::BoundCasePattern> literalPayloadPatterns;
+  literalPayloadPatterns.emplace_back(
+      sema::BoundCasePatternKind::TaggedUnionVariant, 0, intType,
+      std::make_unique<sema::BoundFunctionReference>(literalPayloadTarget,
+                                                     intType));
+  std::vector<sema::BoundCasePattern> nestedPayloadPatterns;
+  nestedPayloadPatterns.emplace_back(
+      sema::BoundCasePatternKind::TaggedUnionVariant, 1, payloadRecord, nullptr,
+      std::move(nestedPayloadPattern));
+
+  std::vector<sema::BoundCaseArm> arms;
+  arms.emplace_back(false, std::move(literalPayloadPatterns), nullptr,
+                    std::vector<std::shared_ptr<sema::VariableSymbol>>{},
+                    std::make_unique<sema::BoundBlock>());
+  arms.emplace_back(false, std::move(nestedPayloadPatterns), nullptr,
+                    std::vector<std::shared_ptr<sema::VariableSymbol>>{},
+                    std::make_unique<sema::BoundBlock>());
+
+  auto body = std::make_unique<sema::BoundBlock>();
+  body->statements.push_back(std::make_unique<sema::BoundCaseStatement>(
+      std::make_unique<sema::BoundLiteral>("0", intType), std::move(arms),
+      false));
+
+  sema::BoundRootNode root;
+  root.functions.push_back(
+      std::make_unique<sema::BoundFunctionDeclaration>(entry, std::move(body)));
+  root.functions.push_back(
+      functionWithExpression(literalPayloadTarget, nullptr));
+  root.functions.push_back(
+      functionWithExpression(nestedPatternTarget, nullptr));
+
+  const auto result = zir::FunctionReachabilityAnalyzer{}.analyze(root);
+  return expect(contains(result.functions, literalPayloadTarget),
+                "case literal payload dependency is not live") &&
+         expect(contains(result.functions, nestedPatternTarget),
+                "nested case record payload dependency is not live");
+}
+
 bool testNewExpressionMarksClassAndConstructor() {
   auto entry = makeFunction("main");
   entry->isEntryModule = true;
@@ -230,6 +292,7 @@ bool testNewExpressionMarksClassAndConstructor() {
 int main() {
   bool ok = true;
   ok = testReachabilityRootsAndDependencies() && ok;
+  ok = testCasePatternsRetainNestedDependencies() && ok;
   ok = testNewExpressionMarksClassAndConstructor() && ok;
   ok = testLiveClassRetainsVirtualOverridesAndDestructors() && ok;
   return ok ? 0 : 1;

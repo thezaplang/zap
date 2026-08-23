@@ -95,7 +95,7 @@ public:
     visitNode(node.scrutinee);
     for (auto &arm : node.arms) {
       for (auto &pattern : arm.patterns)
-        visitNode(pattern.value);
+        visitCasePattern(pattern);
       visitNode(arm.body);
     }
   }
@@ -159,6 +159,17 @@ private:
       const std::vector<std::unique_ptr<sema::BoundExpression>> &expressions) {
     for (const auto &expression : expressions)
       visitNode(expression);
+  }
+
+  void visitCasePattern(const sema::BoundCasePattern &pattern) {
+    visitNode(pattern.value);
+    visitNode(pattern.payloadValue);
+    if (pattern.payloadPattern)
+      visitCasePattern(*pattern.payloadPattern);
+    for (const auto &field : pattern.recordFields) {
+      if (field.nested)
+        visitCasePattern(*field.nested);
+    }
   }
 
   void markFunction(const std::shared_ptr<sema::FunctionSymbol> &symbol) {
