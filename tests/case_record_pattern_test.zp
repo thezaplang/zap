@@ -12,6 +12,13 @@ struct Point {
     y: Int,
 }
 
+enum Status { Active, Inactive }
+
+record Account {
+    status: Status,
+    balance: Int,
+}
+
 fun readUser(user: User) Int {
     case user {
         User { id, address: Address { city } } {
@@ -31,6 +38,13 @@ fun readPoint(point: Point) Int {
     }
 }
 
+fun readAccount(account: Account) Int {
+    case account {
+        Account { status: Status.Active, balance } { return balance; }
+        Account { balance } { return 0 - balance; }
+    }
+}
+
 fun main() Int {
     var user: User = User{id: 2, address: Address{city: 40}};
     var point: Point = Point{x: 10, y: 20};
@@ -38,5 +52,9 @@ fun main() Int {
     if readPoint(point) != 30 { return 2; }
     var origin: Point = Point{x: 0, y: 99};
     if readPoint(origin) != 100 { return 3; }
+    var active: Account = Account{status: Status.Active, balance: 7};
+    var inactive: Account = Account{status: Status.Inactive, balance: 7};
+    if readAccount(active) != 7 { return 4; }
+    if readAccount(inactive) != -7 { return 5; }
     return 0;
 }

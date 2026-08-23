@@ -1950,6 +1950,17 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
             std::shared_ptr<Value> fieldMatches;
             if (field.nested->kind == sema::BoundCasePatternKind::Record) {
               fieldMatches = self(self, *field.nested, fieldAddress);
+            } else if (field.nested->kind ==
+                       sema::BoundCasePatternKind::EnumVariant) {
+              auto fieldValue = createRegister(fieldType);
+              currentBlock_->addInstruction(
+                  std::make_unique<LoadInst>(fieldValue, fieldAddress));
+              auto patternValue = std::make_shared<Constant>(
+                  std::to_string(field.nested->variantTag), fieldType);
+              fieldMatches = createRegister(
+                  std::make_shared<PrimitiveType>(TypeKind::Bool));
+              currentBlock_->addInstruction(std::make_unique<CmpInst>(
+                  "eq", fieldMatches, fieldValue, patternValue));
             } else {
               auto fieldValue = createRegister(fieldType);
               currentBlock_->addInstruction(

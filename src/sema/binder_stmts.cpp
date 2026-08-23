@@ -408,9 +408,48 @@ void Binder::visit(CaseNode &node) {
                   continue;
                 }
 
+                if (field.nested->kind == CasePatternKind::Variant) {
+                  const auto &path = field.nested->variantPath;
+                  if (fieldType->getKind() != zir::TypeKind::Enum ||
+                      path.size() < 2) {
+                    error(field.nested->span,
+                          "Enum field pattern does not match field '" +
+                              field.name + "'.");
+                    continue;
+                  }
+                  std::vector<std::string> typePath(path.begin(),
+                                                    path.end() - 1);
+                  auto enumSymbol = resolveQualifiedSymbol(
+                      typePath, field.nested->span, SymbolKind::Type);
+                  if (!enumSymbol ||
+                      !zir::sameType(enumSymbol->type, fieldType)) {
+                    error(field.nested->span,
+                          "Enum field pattern does not match field '" +
+                              field.name + "'.");
+                    continue;
+                  }
+                  auto enumType =
+                      std::static_pointer_cast<zir::EnumType>(fieldType);
+                  const auto tag =
+                      enumType->getVariantDiscriminant(path.back());
+                  if (tag < 0 || field.nested->payloadKind !=
+                                     CasePayloadPatternKind::None) {
+                    error(field.nested->span,
+                          "Invalid enum field pattern for '" + field.name +
+                              "'.");
+                    continue;
+                  }
+                  fields.push_back({index,
+                                    std::make_unique<BoundCasePattern>(
+                                        BoundCasePatternKind::EnumVariant, tag),
+                                    nullptr});
+                  continue;
+                }
+
                 if (field.nested->kind != CasePatternKind::Literal) {
-                  error(field.nested->span, "Record fields currently support "
-                                            "literal or record patterns.");
+                  error(field.nested->span,
+                        "Record fields currently support literal, enum, or "
+                        "record patterns.");
                   continue;
                 }
                 auto value = bindExpressionWithExpected(

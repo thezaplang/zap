@@ -94,8 +94,10 @@ non-matching variant.
 ## Record patterns
 
 Records and `struct`s can be destructured by field. A bare field name binds it
-as an immutable variable; a field followed by `:` may match a literal or a
-nested record pattern.
+as an immutable variable; a field followed by `:` may match a literal, a
+variant of a payload-free enum, or a nested record pattern. Field constraints
+do not contribute to exhaustiveness yet, so they need an irrefutable record
+arm or `else`.
 
 ```zap
 record Point { x: Int, y: Int }
