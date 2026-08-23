@@ -64,10 +64,12 @@ typedef struct zap_runtime_ownership_counters_t {
 #endif
 
 #if defined(__cplusplus)
-#define ZAP_ARC_STATIC_ASSERT(condition, message) static_assert(condition, message)
+#define ZAP_ARC_STATIC_ASSERT(condition, message)                              \
+  static_assert(condition, message)
 extern "C" {
 #else
-#define ZAP_ARC_STATIC_ASSERT(condition, message) _Static_assert(condition, message)
+#define ZAP_ARC_STATIC_ASSERT(condition, message)                              \
+  _Static_assert(condition, message)
 #endif
 
 zap_arc_runtime_context_t *zap_arc_default_context(void);

@@ -1,12 +1,12 @@
-#include "string_layout.h"
 #include "allocation_internal.h"
 #include "arc_layout.h"
 #include "string_internal.h"
+#include "string_layout.h"
 
 #include <limits.h>
-#include <stddef.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

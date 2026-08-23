@@ -22,6 +22,9 @@ fun readUser(user: User) Int {
 
 fun readPoint(point: Point) Int {
     case point {
+        Point { x: 0 } {
+            return 100;
+        }
         Point { x, y } {
             return x + y;
         }
@@ -33,5 +36,7 @@ fun main() Int {
     var point: Point = Point{x: 10, y: 20};
     if readUser(user) != 42 { return 1; }
     if readPoint(point) != 30 { return 2; }
+    var origin: Point = Point{x: 0, y: 99};
+    if readPoint(origin) != 100 { return 3; }
     return 0;
 }

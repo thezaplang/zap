@@ -1,5 +1,5 @@
-#include "string_layout.h"
 #include "string_internal.h"
+#include "string_layout.h"
 
 #include <stdarg.h>
 #include <stdio.h>

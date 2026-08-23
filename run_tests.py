@@ -60,7 +60,7 @@ SPECIAL_CASES = {
     "tests/case_incomplete_enum_error.zp": {
         "type": "compile",
         "exit": 1,
-        "stderr_pattern": "requires an 'else' arm unless every enum variant is covered",
+        "stderr_pattern": "requires an 'else' arm unless its patterns are exhaustive",
         "desc": "Case requires exhaustive enum coverage or else"
     },
     "tests/case_else_error.zp": {
@@ -92,6 +92,18 @@ SPECIAL_CASES = {
         "exit": 1,
         "stderr_pattern": "Undefined identifier: value",
         "desc": "Case payload bindings are scoped to their arm"
+    },
+    "tests/case_record_incomplete_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "requires an 'else' arm unless its patterns are exhaustive",
+        "desc": "Refutable record patterns require else"
+    },
+    "tests/case_record_else_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "'else' case arm is unreachable because earlier patterns are exhaustive",
+        "desc": "Irrefutable record patterns make else unreachable"
     },
 
     # Compile-only exit 1 (non-matching filename)

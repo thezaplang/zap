@@ -1,6 +1,6 @@
-#include "string_layout.h"
-#include "string_internal.h"
 #include "network_internal.h"
+#include "string_internal.h"
+#include "string_layout.h"
 
 #include <errno.h>
 #include <limits.h>

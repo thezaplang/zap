@@ -1,6 +1,6 @@
-#include "string_layout.h"
-#include "string_internal.h"
 #include "network_internal.h"
+#include "string_internal.h"
+#include "string_layout.h"
 
 #include <arpa/inet.h>
 #include <errno.h>
@@ -219,4 +219,3 @@ zap_string_t netResolve(zap_string_t host) {
   errno = 0;
   return zap_string_from_ptrlen(ipbuf, (long)strlen(ipbuf));
 }
-

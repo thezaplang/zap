@@ -1,5 +1,5 @@
-#include "arc_layout.h"
 #include "allocation_internal.h"
+#include "arc_layout.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -574,5 +574,3 @@ void zap_arc_cycle_collect(zap_arc_runtime_context_t *context) {
 __attribute__((destructor)) static void zap_arc_shutdown(void) {
   zap_arc_context_release_storage(zap_arc_default_context());
 }
-
-

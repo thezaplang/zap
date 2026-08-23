@@ -91,9 +91,28 @@ The payload binding is an immutable local available only in its arm. Zap tests
 the variant tag before accessing a payload, so a payload is never read from a
 non-matching variant.
 
+## Record patterns
+
+Records and `struct`s can be destructured by field. A bare field name binds it
+as an immutable variable; a field followed by `:` may match a literal or a
+nested record pattern.
+
+```zap
+record Point { x: Int, y: Int }
+
+case point {
+    Point { x: 0, y } { println(y); }
+    Point { x, y } { println(x + y); }
+}
+```
+
+Because a record pattern names the exact scrutinee type, an arm that only
+binds fields is exhaustive. More specific field patterns must appear first.
+
 ## Current limits
 
-Zap 0.4.1 does not support ranges, guards, nested patterns, record or array
-destructuring, float patterns, named constants as patterns, or `case` as an
-expression. A payload variant has one payload value, and an arm that binds it
-cannot combine alternatives such as `Result.Value(x), Result.Empty()`.
+Zap 0.4.1 does not support ranges, guards, array destructuring, float
+patterns, named constants as patterns, or `case` as an expression. A payload
+variant has one payload value, and an arm that binds it cannot combine
+alternatives such as `Result.Value(x), Result.Empty()`. Within a record field,
+enum and payload patterns are not supported yet.

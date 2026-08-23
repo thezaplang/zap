@@ -1,0 +1,10 @@
+record Point {
+    x: Int,
+}
+
+fun value(point: Point) Int {
+    case point {
+        Point { x } { return x; }
+        else { return 0; }
+    }
+}
