@@ -402,22 +402,35 @@ void Binder::visit(ForInNode &node) {
     auto end = std::move(rangeExpr->end);
     auto step = std::move(rangeExpr->step);
 
-    std::optional<int64_t> constStep;
+    std::optional<int64_t> constantStep;
     if (step) {
-      constStep = evaluateConstantInt(step.get());
+      constantStep = evaluateConstantInt(step.get());
     } else {
-      constStep = 1;
+      constantStep = 1;
       step = std::make_unique<BoundLiteral>("1", rangeType);
     }
 
-    auto counter = makeSyntheticLoopName("val");
-    auto valCounterSymbol = std::make_shared<VariableSymbol>(
-        counter, rangeType, BindingKind::Mutable, false, counter,
-        moduleName, Visibility::Private);
-    currentScope_->declare(counter, valCounterSymbol);
-
     auto initBlock = std::make_unique<BoundBlock>();
-    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(valCounterSymbol, std::move(start)));
+
+    auto counterName = makeSyntheticLoopName("val");
+    auto valCounterSymbol = std::make_shared<VariableSymbol>(
+        counterName, rangeType, BindingKind::Mutable, false, counterName,
+        moduleName, Visibility::Private);
+    currentScope_->declare(counterName, valCounterSymbol);
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+        valCounterSymbol, std::move(start)));
+
+    auto endName = makeSyntheticLoopName("end");
+    auto endCounterSymbol = std::make_shared<VariableSymbol>(endName, rangeType, BindingKind::Immutable, false, endName,moduleName, Visibility::Private);
+    currentScope_->declare(endName, endCounterSymbol);
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(endCounterSymbol, std::move(end)));
+
+    auto stepCounterName = makeSyntheticLoopName("step");
+    auto stepCounterSymbol = std::make_shared<VariableSymbol>(
+        stepCounterName, rangeType, BindingKind::Immutable, false, stepCounterName,
+        moduleName, Visibility::Private);
+    currentScope_->declare(stepCounterName, stepCounterSymbol);
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(stepCounterSymbol, std::move(step)));
 
     std::shared_ptr<VariableSymbol> idxCounterSymbol = nullptr;
     if (!node.indexName_.empty()) {
@@ -429,33 +442,44 @@ void Binder::visit(ForInNode &node) {
       initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(idxCounterSymbol, std::make_unique<BoundLiteral>("0", intType)));
     }
 
-    std::string cmpOp = (constStep && *constStep < 0) ? ">" : "<";
-    auto condition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), cmpOp,std::move(end), std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool));
+    auto boolType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+    std::unique_ptr<BoundExpression> condition;
 
-    auto incrementBlock = std::make_unique<BoundBlock>();
+    if (constantStep.has_value()) {
+      std::string cmpOp = (*constantStep < 0) ? ">" : "<";
+      condition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), cmpOp,std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
+    } else {
+      auto zeroLiteral = std::make_unique<BoundLiteral>("0", rangeType);
+      auto stepIsPositive = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(stepCounterSymbol), ">",std::move(zeroLiteral), boolType);
+      auto posCondition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), "<", std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
+      auto negCondition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), ">",std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
+
+      condition = std::make_unique<BoundTernaryExpression>(std::move(stepIsPositive), std::move(posCondition),std::move(negCondition), boolType);
+    }
+
     auto increment = std::make_unique<BoundAssignment>(
         std::make_unique<BoundVariableExpression>(valCounterSymbol),
         std::make_unique<BoundBinaryExpression>(
             std::make_unique<BoundVariableExpression>(valCounterSymbol), "+",
-            std::move(step), rangeType));
+            std::make_unique<BoundVariableExpression>(stepCounterSymbol), rangeType));
 
     pushScope();
-    auto item = std::make_shared<VariableSymbol>(
-        node.itemName_, rangeType, BindingKind::Immutable, false,
-        node.itemName_, moduleName, Visibility::Private);
-    if (!currentScope_->declare(node.itemName_, item)) {
+    auto itemSymbol = std::make_shared<VariableSymbol>(node.itemName_, rangeType, BindingKind::Immutable, false,node.itemName_, moduleName, Visibility::Private);
+    if (!currentScope_->declare(node.itemName_, itemSymbol)) {
       error(node.span, "Variable '" + node.itemName_ + "' already declared.");
     }
     if (semanticInfo_) {
-      semanticInfo_->recordSymbol(&node, item);
-      semanticInfo_->recordDeclaration(&node, item);
-      semanticInfo_->recordType(&node, item->type);
+      semanticInfo_->recordSymbol(&node, itemSymbol);
+      semanticInfo_->recordDeclaration(&node, itemSymbol);
+      semanticInfo_->recordType(&node, itemSymbol->type);
     }
 
-    std::shared_ptr<VariableSymbol> idxUserSmb = nullptr;
+    std::shared_ptr<VariableSymbol> indexUserSymbol = nullptr;
     if (!node.indexName_.empty()) {
-      idxUserSmb = std::make_shared<VariableSymbol>(node.indexName_, intType, BindingKind::Immutable, false,node.indexName_, moduleName, Visibility::Private);
-      if (!currentScope_->declare(node.indexName_, idxUserSmb)) {
+      indexUserSymbol = std::make_shared<VariableSymbol>(
+          node.indexName_, intType, BindingKind::Immutable, false,
+          node.indexName_, moduleName, Visibility::Private);
+      if (!currentScope_->declare(node.indexName_, indexUserSymbol)) {
         error(node.span, "Variable '" + node.indexName_ + "' already declared.");
       }
     }
@@ -464,19 +488,31 @@ void Binder::visit(ForInNode &node) {
     auto body = bindBody(node.body_.get(), false);
     --loopDepth_;
 
-    body->statements.insert(body->statements.begin(), std::make_unique<BoundVariableDeclaration>(item,std::make_unique<BoundVariableExpression>(valCounterSymbol)));
+    body->statements.insert(
+        body->statements.begin(),
+        std::make_unique<BoundVariableDeclaration>(
+            itemSymbol,
+            std::make_unique<BoundVariableExpression>(valCounterSymbol)));
 
-    if (idxUserSmb) {
+    if (indexUserSymbol) {
       body->statements.insert(
           body->statements.begin(),
-          std::make_unique<BoundVariableDeclaration>(idxUserSmb,std::make_unique<BoundVariableExpression>(idxCounterSymbol)));
+          std::make_unique<BoundVariableDeclaration>(
+              indexUserSymbol,
+              std::make_unique<BoundVariableExpression>(idxCounterSymbol)));
 
-      body->statements.push_back(std::make_unique<BoundAssignment>(std::make_unique<BoundVariableExpression>(idxCounterSymbol), std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(idxCounterSymbol), "+", std::make_unique<BoundLiteral>("1", intType), intType)));
+      body->statements.push_back(std::make_unique<BoundAssignment>(
+          std::make_unique<BoundVariableExpression>(idxCounterSymbol),
+          std::make_unique<BoundBinaryExpression>(
+              std::make_unique<BoundVariableExpression>(idxCounterSymbol), "+",
+              std::make_unique<BoundLiteral>("1", intType), intType)));
     }
     popScope();
 
     popScope();
-    statementStack_.push(std::make_unique<BoundForStatement>(std::move(initBlock), std::move(condition), std::move(increment), std::move(body)));
+    statementStack_.push(std::make_unique<BoundForStatement>(
+        std::move(initBlock), std::move(condition), std::move(increment),
+        std::move(body)));
     return;
   }
 
