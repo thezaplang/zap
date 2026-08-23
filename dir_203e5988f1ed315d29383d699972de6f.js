@@ -30,6 +30,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "node.hpp", "d3/d09/node_8hpp.html", "d3/d09/node_8hpp" ],
     [ "nodes.hpp", "de/d38/nodes_8hpp.html", null ],
     [ "parameter_node.hpp", "d2/d0b/parameter__node_8hpp.html", "d2/d0b/parameter__node_8hpp" ],
+    [ "range_expr.hpp", "d9/df4/range__expr_8hpp.html", "d9/df4/range__expr_8hpp" ],
     [ "record_decl.hpp", "d0/da6/record__decl_8hpp.html", "d0/da6/record__decl_8hpp" ],
     [ "return_node.hpp", "d8/da4/return__node_8hpp.html", "d8/da4/return__node_8hpp" ],
     [ "root_node.hpp", "d3/d3c/root__node_8hpp.html", "d3/d3c/root__node_8hpp" ],

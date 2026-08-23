@@ -45,5 +45,6 @@ var bound__nodes_8hpp =
     [ "sema::BoundMemberAccess", "db/ddd/classsema_1_1BoundMemberAccess.html", "db/ddd/classsema_1_1BoundMemberAccess" ],
     [ "sema::BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
     [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
-    [ "sema::BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ]
+    [ "sema::BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+    [ "sema::BoundRangeExpression", "d0/df6/classsema_1_1BoundRangeExpression.html", "d0/df6/classsema_1_1BoundRangeExpression" ]
 ];

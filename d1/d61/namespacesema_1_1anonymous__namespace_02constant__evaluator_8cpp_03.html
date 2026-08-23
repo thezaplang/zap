@@ -119,74 +119,80 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   34</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   35</span>  }</div>
 <div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *variable =</div>
-<div class="line"><span class="lineno">   38</span>          <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundVariableExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = variable-&gt;symbol;</div>
-<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">if</span> (!symbol || !symbol-&gt;isCompileTimeConstant()) {</div>
-<div class="line"><span class="lineno">   41</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it reads a runtime binding&quot;</span>);</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (!symbol-&gt;constant_value) {</div>
-<div class="line"><span class="lineno">   44</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it depends on a constant that has not been evaluated yet&quot;</span>);</div>
-<div class="line"><span class="lineno">   45</span>    }</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!resolving.insert(symbol.get()).second) {</div>
-<div class="line"><span class="lineno">   47</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it contains a cycle between constants&quot;</span>);</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *range = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundRangeExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*range-&gt;start, resolving, failureReason) &amp;&amp;</div>
+<div class="line"><span class="lineno">   39</span>           <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*range-&gt;end, resolving, failureReason) &amp;&amp;</div>
+<div class="line"><span class="lineno">   40</span>           (!range-&gt;step || <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*range-&gt;step, resolving, failureReason));</div>
+<div class="line"><span class="lineno">   41</span>  }</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *variable =</div>
+<div class="line"><span class="lineno">   44</span>          <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundVariableExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = variable-&gt;symbol;</div>
+<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!symbol || !symbol-&gt;isCompileTimeConstant()) {</div>
+<div class="line"><span class="lineno">   47</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it reads a runtime binding&quot;</span>);</div>
 <div class="line"><span class="lineno">   48</span>    }</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> valid =</div>
-<div class="line"><span class="lineno">   50</span>        <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*symbol-&gt;constant_value, resolving, failureReason);</div>
-<div class="line"><span class="lineno">   51</span>    resolving.erase(symbol.get());</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> valid;</div>
-<div class="line"><span class="lineno">   53</span>  }</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *unary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundUnaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (unary-&gt;op == <span class="stringliteral">&quot;&amp;&quot;</span>) {</div>
-<div class="line"><span class="lineno">   57</span>      <span class="keywordflow">if</span> (isGlobalAddress(*unary-&gt;expr)) {</div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   59</span>      }</div>
-<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it takes the address of runtime storage&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span>    }</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (unary-&gt;op == <span class="stringliteral">&quot;++&quot;</span> || unary-&gt;op == <span class="stringliteral">&quot;--&quot;</span>) {</div>
-<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it performs a runtime address or mutation operation&quot;</span>);</div>
-<div class="line"><span class="lineno">   64</span>    }</div>
-<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*unary-&gt;expr, resolving, failureReason);</div>
-<div class="line"><span class="lineno">   66</span>  }</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *binary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundBinaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*binary-&gt;left, resolving, failureReason) &amp;&amp;</div>
-<div class="line"><span class="lineno">   70</span>           <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*binary-&gt;right, resolving, failureReason);</div>
-<div class="line"><span class="lineno">   71</span>  }</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *ternary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundTernaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   74</span>    (void)ternary;</div>
-<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;conditional expressions are not supported in constants&quot;</span>);</div>
-<div class="line"><span class="lineno">   76</span>  }</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *cast = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundCast *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*cast-&gt;expression, resolving, failureReason);</div>
-<div class="line"><span class="lineno">   80</span>  }</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *array = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundArrayLiteral *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;element : array-&gt;elements) {</div>
-<div class="line"><span class="lineno">   84</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*element, resolving, failureReason)) {</div>
-<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   86</span>      }</div>
-<div class="line"><span class="lineno">   87</span>    }</div>
-<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   89</span>  }</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *record = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundStructLiteral *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : record-&gt;fields) {</div>
-<div class="line"><span class="lineno">   93</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*field.second, resolving, failureReason)) {</div>
-<div class="line"><span class="lineno">   94</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   95</span>      }</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   98</span>  }</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>  <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it is not a compile-time expression&quot;</span>);</div>
-<div class="line"><span class="lineno">  101</span>}</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">if</span> (!symbol-&gt;constant_value) {</div>
+<div class="line"><span class="lineno">   50</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it depends on a constant that has not been evaluated yet&quot;</span>);</div>
+<div class="line"><span class="lineno">   51</span>    }</div>
+<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">if</span> (!resolving.insert(symbol.get()).second) {</div>
+<div class="line"><span class="lineno">   53</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it contains a cycle between constants&quot;</span>);</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> valid =</div>
+<div class="line"><span class="lineno">   56</span>        <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*symbol-&gt;constant_value, resolving, failureReason);</div>
+<div class="line"><span class="lineno">   57</span>    resolving.erase(symbol.get());</div>
+<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> valid;</div>
+<div class="line"><span class="lineno">   59</span>  }</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *unary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundUnaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (unary-&gt;op == <span class="stringliteral">&quot;&amp;&quot;</span>) {</div>
+<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">if</span> (isGlobalAddress(*unary-&gt;expr)) {</div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   65</span>      }</div>
+<div class="line"><span class="lineno">   66</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it takes the address of runtime storage&quot;</span>);</div>
+<div class="line"><span class="lineno">   67</span>    }</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (unary-&gt;op == <span class="stringliteral">&quot;++&quot;</span> || unary-&gt;op == <span class="stringliteral">&quot;--&quot;</span>) {</div>
+<div class="line"><span class="lineno">   69</span>      <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it performs a runtime address or mutation operation&quot;</span>);</div>
+<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*unary-&gt;expr, resolving, failureReason);</div>
+<div class="line"><span class="lineno">   72</span>  }</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *binary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundBinaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*binary-&gt;left, resolving, failureReason) &amp;&amp;</div>
+<div class="line"><span class="lineno">   76</span>           <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*binary-&gt;right, resolving, failureReason);</div>
+<div class="line"><span class="lineno">   77</span>  }</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *ternary = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundTernaryExpression *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   80</span>    (void)ternary;</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;conditional expressions are not supported in constants&quot;</span>);</div>
+<div class="line"><span class="lineno">   82</span>  }</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *cast = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundCast *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*cast-&gt;expression, resolving, failureReason);</div>
+<div class="line"><span class="lineno">   86</span>  }</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *array = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundArrayLiteral *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;element : array-&gt;elements) {</div>
+<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*element, resolving, failureReason)) {</div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   92</span>      }</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   95</span>  }</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>  <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> *record = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>BoundStructLiteral *<span class="keyword">&gt;</span>(&amp;expression)) {</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : record-&gt;fields) {</div>
+<div class="line"><span class="lineno">   99</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a6ed229df46fc4a0c12f155785cf0e0f6">isConstantExpression</a>(*field.second, resolving, failureReason)) {</div>
+<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  101</span>      }</div>
+<div class="line"><span class="lineno">  102</span>    }</div>
+<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  104</span>  }</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">return</span> reject(<span class="stringliteral">&quot;it is not a compile-time expression&quot;</span>);</div>
+<div class="line"><span class="lineno">  107</span>}</div>
 <div class="ttc" id="anamespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03_html_a6ed229df46fc4a0c12f155785cf0e0f6"><div class="ttname"><a href="#a6ed229df46fc4a0c12f155785cf0e0f6">sema::anonymous_namespace{constant_evaluator.cpp}::isConstantExpression</a></div><div class="ttdeci">bool isConstantExpression(const BoundExpression &amp;expression, std::set&lt; const VariableSymbol * &gt; &amp;resolving, std::string *failureReason)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/def/constant__evaluator_8cpp_source.html#l00010">constant_evaluator.cpp:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/def/constant__evaluator_8cpp_source.html#l00010">isConstantExpression()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00173">sema::BoundVariableExpression::symbol</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/def/constant__evaluator_8cpp_source.html#l00010">isConstantExpression()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00175">sema::BoundVariableExpression::symbol</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/def/constant__evaluator_8cpp_source.html#l00010">isConstantExpression()</a>.</p>
 

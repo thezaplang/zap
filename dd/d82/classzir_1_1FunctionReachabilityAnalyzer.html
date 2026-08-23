@@ -89,88 +89,88 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00262">262</a> of file <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html">function_reachability.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  262</span>                                                             {</div>
-<div class="line"><span class="lineno">  263</span>  FunctionReachability result;</div>
-<div class="line"><span class="lineno">  264</span>  std::unordered_map&lt;<span class="keyword">const</span> sema::FunctionSymbol *,</div>
-<div class="line"><span class="lineno">  265</span>                     sema::BoundFunctionDeclaration *&gt;</div>
-<div class="line"><span class="lineno">  266</span>      declarations;</div>
-<div class="line"><span class="lineno">  267</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
-<div class="line"><span class="lineno">  268</span>    <span class="keywordflow">if</span> (function &amp;&amp; function-&gt;symbol)</div>
-<div class="line"><span class="lineno">  269</span>      declarations.emplace(function-&gt;symbol.get(), function.get());</div>
-<div class="line"><span class="lineno">  270</span>  }</div>
-<div class="line"><span class="lineno">  271</span> </div>
-<div class="line"><span class="lineno">  272</span>  std::deque&lt;const sema::FunctionSymbol *&gt; pending;</div>
-<div class="line"><span class="lineno">  273</span>  ReachabilityVisitor visitor(result);</div>
-<div class="line"><span class="lineno">  274</span>  visitor.setPending(&amp;pending);</div>
-<div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  276</span>  <a class="code hl_typedef" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a54e1455eb9ce75bc36ab353d9c200aa2">ClassTypes</a> classes;</div>
-<div class="line"><span class="lineno">  277</span>  <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a98c492ceef8feb91f8f1b8304c526224">collectClassTypes</a>(root, classes);</div>
-<div class="line"><span class="lineno">  278</span> </div>
-<div class="line"><span class="lineno">  279</span>  std::unordered_set&lt;const zir::Type *&gt; globalTypes;</div>
-<div class="line"><span class="lineno">  280</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#aa6279958502ff4e17930a975d3038b4a">globals</a>) {</div>
-<div class="line"><span class="lineno">  281</span>    visitor.visit(*global);</div>
-<div class="line"><span class="lineno">  282</span>    <span class="keywordflow">if</span> (global &amp;&amp; global-&gt;symbol)</div>
-<div class="line"><span class="lineno">  283</span>      <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a9d241d1017b29d1f12a4569cf43cf951">collectClassesInType</a>(global-&gt;symbol-&gt;type, result, globalTypes);</div>
-<div class="line"><span class="lineno">  284</span>  }</div>
-<div class="line"><span class="lineno">  285</span> </div>
-<div class="line"><span class="lineno">  286</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
-<div class="line"><span class="lineno">  287</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = function-&gt;symbol;</div>
-<div class="line"><span class="lineno">  288</span>    <span class="keywordflow">if</span> (symbol &amp;&amp; (symbol-&gt;isEntryModule || symbol-&gt;name == <span class="stringliteral">&quot;main&quot;</span> ||</div>
-<div class="line"><span class="lineno">  289</span>                   symbol-&gt;hasEntry || symbol-&gt;hasNoMangle)) {</div>
-<div class="line"><span class="lineno">  290</span>      <span class="keywordflow">if</span> (result.functions.insert(symbol.get()).second)</div>
-<div class="line"><span class="lineno">  291</span>        pending.push_back(symbol.get());</div>
-<div class="line"><span class="lineno">  292</span>    }</div>
-<div class="line"><span class="lineno">  293</span>  }</div>
-<div class="line"><span class="lineno">  294</span> </div>
-<div class="line"><span class="lineno">  295</span>  <span class="keywordtype">bool</span> changed = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  296</span>  <span class="keywordflow">while</span> (changed) {</div>
-<div class="line"><span class="lineno">  297</span>    changed = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  298</span>    <span class="keywordflow">while</span> (!pending.empty()) {</div>
-<div class="line"><span class="lineno">  299</span>      <span class="keyword">const</span> <span class="keyword">auto</span> *symbol = pending.front();</div>
-<div class="line"><span class="lineno">  300</span>      pending.pop_front();</div>
-<div class="line"><span class="lineno">  301</span>      <span class="keyword">const</span> <span class="keyword">auto</span> declaration = declarations.find(symbol);</div>
-<div class="line"><span class="lineno">  302</span>      <span class="keywordflow">if</span> (declaration != declarations.end())</div>
-<div class="line"><span class="lineno">  303</span>        visitor.visit(*declaration-&gt;second);</div>
-<div class="line"><span class="lineno">  304</span>    }</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>    changed = <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#abd0012df4b34444797947d4b0fc72dd4">addLiveBaseClasses</a>(classes, result) || changed;</div>
-<div class="line"><span class="lineno">  307</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
-<div class="line"><span class="lineno">  308</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = function-&gt;symbol;</div>
-<div class="line"><span class="lineno">  309</span>      <span class="keywordflow">if</span> (!symbol || symbol-&gt;ownerTypeCodegenName.empty() ||</div>
-<div class="line"><span class="lineno">  310</span>          result.liveClassCodegenNames.count(symbol-&gt;ownerTypeCodegenName) == 0)</div>
-<div class="line"><span class="lineno">  311</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  312</span> </div>
-<div class="line"><span class="lineno">  313</span>      <span class="keywordtype">bool</span> mustKeep = symbol-&gt;isConstructor || symbol-&gt;isDestructor;</div>
-<div class="line"><span class="lineno">  314</span>      <span class="keywordflow">if</span> (symbol-&gt;vtableSlot &gt;= 0) {</div>
-<div class="line"><span class="lineno">  315</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[dispatchClass, slots] : result.liveVtableSlots) {</div>
-<div class="line"><span class="lineno">  316</span>          <span class="keyword">const</span> <span class="keyword">auto</span> classIt = classes.find(symbol-&gt;ownerTypeCodegenName);</div>
-<div class="line"><span class="lineno">  317</span>          <span class="keywordflow">if</span> (classIt != classes.end() &amp;&amp;</div>
-<div class="line"><span class="lineno">  318</span>              <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a838e9ddd02383b03c60a6439abeb1abf">isSubclassOf</a>(classIt-&gt;second, dispatchClass) &amp;&amp;</div>
-<div class="line"><span class="lineno">  319</span>              slots.count(symbol-&gt;vtableSlot) != 0) {</div>
-<div class="line"><span class="lineno">  320</span>            mustKeep = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  321</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  322</span>          }</div>
-<div class="line"><span class="lineno">  323</span>        }</div>
-<div class="line"><span class="lineno">  324</span>      }</div>
-<div class="line"><span class="lineno">  325</span>      <span class="keywordflow">if</span> (mustKeep &amp;&amp; result.functions.insert(symbol.get()).second) {</div>
-<div class="line"><span class="lineno">  326</span>        pending.push_back(symbol.get());</div>
-<div class="line"><span class="lineno">  327</span>        changed = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  328</span>      }</div>
-<div class="line"><span class="lineno">  329</span>    }</div>
-<div class="line"><span class="lineno">  330</span>  }</div>
-<div class="line"><span class="lineno">  331</span> </div>
-<div class="line"><span class="lineno">  332</span>  <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  333</span>}</div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a79fd1396e9702ca9c2f71f23c96b1eb9"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">sema::BoundRootNode::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundFunctionDeclaration &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00769">bound_nodes.hpp:769</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundRootNode_html_aa6279958502ff4e17930a975d3038b4a"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#aa6279958502ff4e17930a975d3038b4a">sema::BoundRootNode::globals</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundVariableDeclaration &gt; &gt; globals</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00768">bound_nodes.hpp:768</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a54e1455eb9ce75bc36ab353d9c200aa2"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a54e1455eb9ce75bc36ab353d9c200aa2">zir::anonymous_namespace{function_reachability.cpp}::ClassTypes</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::shared_ptr&lt; zir::ClassType &gt; &gt; ClassTypes</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00177">function_reachability.cpp:177</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a838e9ddd02383b03c60a6439abeb1abf"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a838e9ddd02383b03c60a6439abeb1abf">zir::anonymous_namespace{function_reachability.cpp}::isSubclassOf</a></div><div class="ttdeci">bool isSubclassOf(const std::shared_ptr&lt; zir::ClassType &gt; &amp;classType, const std::string &amp;baseCodegenName)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00231">function_reachability.cpp:231</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a98c492ceef8feb91f8f1b8304c526224"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a98c492ceef8feb91f8f1b8304c526224">zir::anonymous_namespace{function_reachability.cpp}::collectClassTypes</a></div><div class="ttdeci">void collectClassTypes(const sema::BoundRootNode &amp;root, ClassTypes &amp;classes)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00180">function_reachability.cpp:180</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a9d241d1017b29d1f12a4569cf43cf951"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a9d241d1017b29d1f12a4569cf43cf951">zir::anonymous_namespace{function_reachability.cpp}::collectClassesInType</a></div><div class="ttdeci">void collectClassesInType(const std::shared_ptr&lt; zir::Type &gt; &amp;type, FunctionReachability &amp;result, std::unordered_set&lt; const zir::Type * &gt; &amp;visited)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00196">function_reachability.cpp:196</a></div></div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_abd0012df4b34444797947d4b0fc72dd4"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#abd0012df4b34444797947d4b0fc72dd4">zir::anonymous_namespace{function_reachability.cpp}::addLiveBaseClasses</a></div><div class="ttdeci">bool addLiveBaseClasses(const ClassTypes &amp;classes, FunctionReachability &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00240">function_reachability.cpp:240</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00267">267</a> of file <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html">function_reachability.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  267</span>                                                             {</div>
+<div class="line"><span class="lineno">  268</span>  FunctionReachability result;</div>
+<div class="line"><span class="lineno">  269</span>  std::unordered_map&lt;<span class="keyword">const</span> sema::FunctionSymbol *,</div>
+<div class="line"><span class="lineno">  270</span>                     sema::BoundFunctionDeclaration *&gt;</div>
+<div class="line"><span class="lineno">  271</span>      declarations;</div>
+<div class="line"><span class="lineno">  272</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
+<div class="line"><span class="lineno">  273</span>    <span class="keywordflow">if</span> (function &amp;&amp; function-&gt;symbol)</div>
+<div class="line"><span class="lineno">  274</span>      declarations.emplace(function-&gt;symbol.get(), function.get());</div>
+<div class="line"><span class="lineno">  275</span>  }</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>  std::deque&lt;const sema::FunctionSymbol *&gt; pending;</div>
+<div class="line"><span class="lineno">  278</span>  ReachabilityVisitor visitor(result);</div>
+<div class="line"><span class="lineno">  279</span>  visitor.setPending(&amp;pending);</div>
+<div class="line"><span class="lineno">  280</span> </div>
+<div class="line"><span class="lineno">  281</span>  <a class="code hl_typedef" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a54e1455eb9ce75bc36ab353d9c200aa2">ClassTypes</a> classes;</div>
+<div class="line"><span class="lineno">  282</span>  <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a98c492ceef8feb91f8f1b8304c526224">collectClassTypes</a>(root, classes);</div>
+<div class="line"><span class="lineno">  283</span> </div>
+<div class="line"><span class="lineno">  284</span>  std::unordered_set&lt;const zir::Type *&gt; globalTypes;</div>
+<div class="line"><span class="lineno">  285</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;global : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#aa6279958502ff4e17930a975d3038b4a">globals</a>) {</div>
+<div class="line"><span class="lineno">  286</span>    visitor.visit(*global);</div>
+<div class="line"><span class="lineno">  287</span>    <span class="keywordflow">if</span> (global &amp;&amp; global-&gt;symbol)</div>
+<div class="line"><span class="lineno">  288</span>      <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a9d241d1017b29d1f12a4569cf43cf951">collectClassesInType</a>(global-&gt;symbol-&gt;type, result, globalTypes);</div>
+<div class="line"><span class="lineno">  289</span>  }</div>
+<div class="line"><span class="lineno">  290</span> </div>
+<div class="line"><span class="lineno">  291</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
+<div class="line"><span class="lineno">  292</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = function-&gt;symbol;</div>
+<div class="line"><span class="lineno">  293</span>    <span class="keywordflow">if</span> (symbol &amp;&amp; (symbol-&gt;isEntryModule || symbol-&gt;name == <span class="stringliteral">&quot;main&quot;</span> ||</div>
+<div class="line"><span class="lineno">  294</span>                   symbol-&gt;hasEntry || symbol-&gt;hasNoMangle)) {</div>
+<div class="line"><span class="lineno">  295</span>      <span class="keywordflow">if</span> (result.functions.insert(symbol.get()).second)</div>
+<div class="line"><span class="lineno">  296</span>        pending.push_back(symbol.get());</div>
+<div class="line"><span class="lineno">  297</span>    }</div>
+<div class="line"><span class="lineno">  298</span>  }</div>
+<div class="line"><span class="lineno">  299</span> </div>
+<div class="line"><span class="lineno">  300</span>  <span class="keywordtype">bool</span> changed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  301</span>  <span class="keywordflow">while</span> (changed) {</div>
+<div class="line"><span class="lineno">  302</span>    changed = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  303</span>    <span class="keywordflow">while</span> (!pending.empty()) {</div>
+<div class="line"><span class="lineno">  304</span>      <span class="keyword">const</span> <span class="keyword">auto</span> *symbol = pending.front();</div>
+<div class="line"><span class="lineno">  305</span>      pending.pop_front();</div>
+<div class="line"><span class="lineno">  306</span>      <span class="keyword">const</span> <span class="keyword">auto</span> declaration = declarations.find(symbol);</div>
+<div class="line"><span class="lineno">  307</span>      <span class="keywordflow">if</span> (declaration != declarations.end())</div>
+<div class="line"><span class="lineno">  308</span>        visitor.visit(*declaration-&gt;second);</div>
+<div class="line"><span class="lineno">  309</span>    }</div>
+<div class="line"><span class="lineno">  310</span> </div>
+<div class="line"><span class="lineno">  311</span>    changed = <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#abd0012df4b34444797947d4b0fc72dd4">addLiveBaseClasses</a>(classes, result) || changed;</div>
+<div class="line"><span class="lineno">  312</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;function : root.<a class="code hl_variable" href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">functions</a>) {</div>
+<div class="line"><span class="lineno">  313</span>      <span class="keyword">const</span> <span class="keyword">auto</span> &amp;symbol = function-&gt;symbol;</div>
+<div class="line"><span class="lineno">  314</span>      <span class="keywordflow">if</span> (!symbol || symbol-&gt;ownerTypeCodegenName.empty() ||</div>
+<div class="line"><span class="lineno">  315</span>          result.liveClassCodegenNames.count(symbol-&gt;ownerTypeCodegenName) == 0)</div>
+<div class="line"><span class="lineno">  316</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  317</span> </div>
+<div class="line"><span class="lineno">  318</span>      <span class="keywordtype">bool</span> mustKeep = symbol-&gt;isConstructor || symbol-&gt;isDestructor;</div>
+<div class="line"><span class="lineno">  319</span>      <span class="keywordflow">if</span> (symbol-&gt;vtableSlot &gt;= 0) {</div>
+<div class="line"><span class="lineno">  320</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[dispatchClass, slots] : result.liveVtableSlots) {</div>
+<div class="line"><span class="lineno">  321</span>          <span class="keyword">const</span> <span class="keyword">auto</span> classIt = classes.find(symbol-&gt;ownerTypeCodegenName);</div>
+<div class="line"><span class="lineno">  322</span>          <span class="keywordflow">if</span> (classIt != classes.end() &amp;&amp;</div>
+<div class="line"><span class="lineno">  323</span>              <a class="code hl_function" href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a838e9ddd02383b03c60a6439abeb1abf">isSubclassOf</a>(classIt-&gt;second, dispatchClass) &amp;&amp;</div>
+<div class="line"><span class="lineno">  324</span>              slots.count(symbol-&gt;vtableSlot) != 0) {</div>
+<div class="line"><span class="lineno">  325</span>            mustKeep = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  326</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  327</span>          }</div>
+<div class="line"><span class="lineno">  328</span>        }</div>
+<div class="line"><span class="lineno">  329</span>      }</div>
+<div class="line"><span class="lineno">  330</span>      <span class="keywordflow">if</span> (mustKeep &amp;&amp; result.functions.insert(symbol.get()).second) {</div>
+<div class="line"><span class="lineno">  331</span>        pending.push_back(symbol.get());</div>
+<div class="line"><span class="lineno">  332</span>        changed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  333</span>      }</div>
+<div class="line"><span class="lineno">  334</span>    }</div>
+<div class="line"><span class="lineno">  335</span>  }</div>
+<div class="line"><span class="lineno">  336</span> </div>
+<div class="line"><span class="lineno">  337</span>  <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  338</span>}</div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_a79fd1396e9702ca9c2f71f23c96b1eb9"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#a79fd1396e9702ca9c2f71f23c96b1eb9">sema::BoundRootNode::functions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundFunctionDeclaration &gt; &gt; functions</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00771">bound_nodes.hpp:771</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundRootNode_html_aa6279958502ff4e17930a975d3038b4a"><div class="ttname"><a href="../../da/d3d/classsema_1_1BoundRootNode.html#aa6279958502ff4e17930a975d3038b4a">sema::BoundRootNode::globals</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; BoundVariableDeclaration &gt; &gt; globals</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00770">bound_nodes.hpp:770</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a54e1455eb9ce75bc36ab353d9c200aa2"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a54e1455eb9ce75bc36ab353d9c200aa2">zir::anonymous_namespace{function_reachability.cpp}::ClassTypes</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::shared_ptr&lt; zir::ClassType &gt; &gt; ClassTypes</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00182">function_reachability.cpp:182</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a838e9ddd02383b03c60a6439abeb1abf"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a838e9ddd02383b03c60a6439abeb1abf">zir::anonymous_namespace{function_reachability.cpp}::isSubclassOf</a></div><div class="ttdeci">bool isSubclassOf(const std::shared_ptr&lt; zir::ClassType &gt; &amp;classType, const std::string &amp;baseCodegenName)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00236">function_reachability.cpp:236</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a98c492ceef8feb91f8f1b8304c526224"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a98c492ceef8feb91f8f1b8304c526224">zir::anonymous_namespace{function_reachability.cpp}::collectClassTypes</a></div><div class="ttdeci">void collectClassTypes(const sema::BoundRootNode &amp;root, ClassTypes &amp;classes)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00185">function_reachability.cpp:185</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_a9d241d1017b29d1f12a4569cf43cf951"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#a9d241d1017b29d1f12a4569cf43cf951">zir::anonymous_namespace{function_reachability.cpp}::collectClassesInType</a></div><div class="ttdeci">void collectClassesInType(const std::shared_ptr&lt; zir::Type &gt; &amp;type, FunctionReachability &amp;result, std::unordered_set&lt; const zir::Type * &gt; &amp;visited)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00201">function_reachability.cpp:201</a></div></div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03_html_abd0012df4b34444797947d4b0fc72dd4"><div class="ttname"><a href="../../d3/df4/namespacezir_1_1anonymous__namespace_02function__reachability_8cpp_03.html#abd0012df4b34444797947d4b0fc72dd4">zir::anonymous_namespace{function_reachability.cpp}::addLiveBaseClasses</a></div><div class="ttdeci">bool addLiveBaseClasses(const ClassTypes &amp;classes, FunctionReachability &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d7e/function__reachability_8cpp_source.html#l00245">function_reachability.cpp:245</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00769">sema::BoundRootNode::functions</a>, <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00015">zir::FunctionReachability::functions</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00768">sema::BoundRootNode::globals</a>, <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00018">zir::FunctionReachability::liveClassCodegenNames</a>, and <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00019">zir::FunctionReachability::liveVtableSlots</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00771">sema::BoundRootNode::functions</a>, <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00015">zir::FunctionReachability::functions</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00770">sema::BoundRootNode::globals</a>, <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00018">zir::FunctionReachability::liveClassCodegenNames</a>, and <a class="el" href="../../dc/dbe/function__reachability_8hpp_source.html#l00019">zir::FunctionReachability::liveVtableSlots</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00352">zir::BoundIRGenerator::generate()</a>.</p>
 

@@ -65,6 +65,7 @@ var namespacesema =
     [ "BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
     [ "BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
+    [ "BoundRangeExpression", "d0/df6/classsema_1_1BoundRangeExpression.html", "d0/df6/classsema_1_1BoundRangeExpression" ],
     [ "ConstantEvaluator", "d9/d63/classsema_1_1ConstantEvaluator.html", "d9/d63/classsema_1_1ConstantEvaluator" ],
     [ "Conversion", "dc/d73/structsema_1_1Conversion.html", "dc/d73/structsema_1_1Conversion" ],
     [ "TypeJoin", "dc/df4/structsema_1_1TypeJoin.html", "dc/df4/structsema_1_1TypeJoin" ],
