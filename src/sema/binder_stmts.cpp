@@ -15,6 +15,167 @@
 
 namespace sema {
 
+namespace {
+
+struct IntegerPatternValue {
+  bool negative = false;
+  uint64_t magnitude = 0;
+};
+
+std::optional<IntegerPatternValue>
+evaluateIntegerPattern(const BoundExpression *expression) {
+  if (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
+    return evaluateIntegerPattern(cast->expression.get());
+  }
+  if (const auto *literal = dynamic_cast<const BoundLiteral *>(expression)) {
+    try {
+      const auto &text = literal->value;
+      int base = 10;
+      std::string digits = text;
+      if (text.size() > 2 && text[0] == '0') {
+        if (text[1] == 'x' || text[1] == 'X') {
+          base = 16;
+        } else if (text[1] == 'b' || text[1] == 'B') {
+          base = 2;
+          digits = text.substr(2);
+        } else if (text[1] == 'o' || text[1] == 'O') {
+          base = 8;
+          digits = text.substr(2);
+        }
+      }
+      size_t consumed = 0;
+      const auto magnitude = std::stoull(digits, &consumed, base);
+      if (consumed != digits.size()) {
+        return std::nullopt;
+      }
+      return IntegerPatternValue{false, magnitude};
+    } catch (...) {
+      return std::nullopt;
+    }
+  }
+  if (const auto *unary =
+          dynamic_cast<const BoundUnaryExpression *>(expression)) {
+    auto value = evaluateIntegerPattern(unary->expr.get());
+    if (!value || (unary->op != "+" && unary->op != "-")) {
+      return std::nullopt;
+    }
+    if (unary->op == "-" && value->magnitude != 0) {
+      value->negative = !value->negative;
+    }
+    return value;
+  }
+  return std::nullopt;
+}
+
+std::optional<std::string>
+normalizeIntegerPattern(IntegerPatternValue value,
+                        const std::shared_ptr<zir::Type> &type, int width) {
+  if (width <= 0 || width > 64) {
+    return std::nullopt;
+  }
+  if (type->isUnsigned()) {
+    if (value.negative) {
+      return std::nullopt;
+    }
+    const uint64_t maximum = width == 64 ? std::numeric_limits<uint64_t>::max()
+                                         : (uint64_t{1} << width) - 1;
+    return value.magnitude <= maximum
+               ? std::optional<std::string>(std::to_string(value.magnitude))
+               : std::nullopt;
+  }
+  const uint64_t negativeMaximum = uint64_t{1} << (width - 1);
+  const uint64_t positiveMaximum = negativeMaximum - 1;
+  if (value.negative) {
+    return value.magnitude <= negativeMaximum
+               ? std::optional<std::string>("-" +
+                                            std::to_string(value.magnitude))
+               : std::nullopt;
+  }
+  return value.magnitude <= positiveMaximum
+             ? std::optional<std::string>(std::to_string(value.magnitude))
+             : std::nullopt;
+}
+
+bool isIrrefutableRecordPattern(const CasePattern &record) {
+  return std::all_of(record.recordFields.begin(), record.recordFields.end(),
+                     [](const CaseRecordFieldPattern &field) {
+                       return !field.nested ||
+                              (field.nested->kind == CasePatternKind::Record &&
+                               isIrrefutableRecordPattern(*field.nested));
+                     });
+}
+
+std::string canonicalLiteralPattern(const BoundExpression &value,
+                                    int nativeIntegerBitWidth) {
+  if (value.type->isInteger()) {
+    auto integerValue = evaluateIntegerPattern(&value);
+    auto numericInfo = zir::numericTypeInfo(value.type->getKind());
+    const int width =
+        numericInfo ? numericInfo->bitWidth(nativeIntegerBitWidth) : 0;
+    auto normalized =
+        integerValue ? normalizeIntegerPattern(*integerValue, value.type, width)
+                     : std::nullopt;
+    return normalized ? value.type->toString() + ":" + *normalized
+                      : std::string{};
+  }
+  const BoundExpression *expression = &value;
+  while (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
+    expression = cast->expression.get();
+  }
+  if (const auto *literal = dynamic_cast<const BoundLiteral *>(expression)) {
+    return value.type->toString() + ":" + literal->value;
+  }
+  return "";
+}
+
+std::string canonicalCasePattern(const BoundCasePattern &pattern,
+                                 int nativeIntegerBitWidth) {
+  if (pattern.kind == BoundCasePatternKind::Record) {
+    std::vector<std::string> constraints;
+    for (const auto &field : pattern.recordFields) {
+      if (!field.nested) {
+        continue;
+      }
+      auto nestedKey =
+          canonicalCasePattern(*field.nested, nativeIntegerBitWidth);
+      if (!nestedKey.empty()) {
+        constraints.push_back(std::to_string(field.index) + ":" +
+                              std::move(nestedKey));
+      }
+    }
+    if (constraints.empty()) {
+      return "";
+    }
+    std::sort(constraints.begin(), constraints.end());
+    std::string key = "record{";
+    for (const auto &constraint : constraints) {
+      key += constraint + ";";
+    }
+    return key + "}";
+  }
+  if (pattern.kind == BoundCasePatternKind::Literal) {
+    return "literal:" +
+           canonicalLiteralPattern(*pattern.value, nativeIntegerBitWidth);
+  }
+  if (pattern.kind == BoundCasePatternKind::EnumVariant) {
+    return "enum:" + std::to_string(pattern.variantTag);
+  }
+  if (pattern.kind == BoundCasePatternKind::TaggedUnionVariant) {
+    std::string key = "union:" + std::to_string(pattern.variantTag);
+    if (pattern.payloadValue) {
+      key += ":literal:" + canonicalLiteralPattern(*pattern.payloadValue,
+                                                   nativeIntegerBitWidth);
+    } else if (pattern.payloadPattern) {
+      key += ":" + canonicalCasePattern(*pattern.payloadPattern,
+                                        nativeIntegerBitWidth);
+    }
+    return key;
+  }
+  return "";
+}
+
+} // namespace
+
 std::unique_ptr<BoundBlock> Binder::bindBody(BodyNode *body, bool createScope) {
   auto savedBlock = std::move(currentBlock_);
   if (createScope) {
@@ -290,90 +451,6 @@ void Binder::visit(CaseNode &node) {
     return;
   }
 
-  struct IntegerPatternValue {
-    bool negative = false;
-    uint64_t magnitude = 0;
-  };
-  auto evaluateIntegerPattern = [&](const auto &self,
-                                    const BoundExpression *expression)
-      -> std::optional<IntegerPatternValue> {
-    if (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
-      return self(self, cast->expression.get());
-    }
-    if (const auto *literal = dynamic_cast<const BoundLiteral *>(expression)) {
-      try {
-        const auto &text = literal->value;
-        int base = 10;
-        std::string digits = text;
-        if (text.size() > 2 && text[0] == '0') {
-          if (text[1] == 'x' || text[1] == 'X') {
-            base = 16;
-          } else if (text[1] == 'b' || text[1] == 'B') {
-            base = 2;
-            digits = text.substr(2);
-          } else if (text[1] == 'o' || text[1] == 'O') {
-            base = 8;
-            digits = text.substr(2);
-          }
-        }
-        size_t consumed = 0;
-        const auto magnitude = std::stoull(digits, &consumed, base);
-        if (consumed != digits.size()) {
-          return std::nullopt;
-        }
-        return IntegerPatternValue{false, magnitude};
-      } catch (...) {
-        return std::nullopt;
-      }
-    }
-    if (const auto *unary =
-            dynamic_cast<const BoundUnaryExpression *>(expression)) {
-      auto value = self(self, unary->expr.get());
-      if (!value || (unary->op != "+" && unary->op != "-")) {
-        return std::nullopt;
-      }
-      if (unary->op == "-" && value->magnitude != 0) {
-        value->negative = !value->negative;
-      }
-      return value;
-    }
-    return std::nullopt;
-  };
-  auto normalizeIntegerPattern = [&](IntegerPatternValue value,
-                                     const std::shared_ptr<zir::Type> &type)
-      -> std::optional<std::string> {
-    const int width = typeBitWidth(type);
-    if (width <= 0 || width > 64) {
-      return std::nullopt;
-    }
-
-    if (type->isUnsigned()) {
-      if (value.negative) {
-        return std::nullopt;
-      }
-      const uint64_t maximum = width == 64
-                                   ? std::numeric_limits<uint64_t>::max()
-                                   : (uint64_t{1} << width) - 1;
-      if (value.magnitude > maximum) {
-        return std::nullopt;
-      }
-      return std::to_string(value.magnitude);
-    }
-
-    const uint64_t negativeMaximum = uint64_t{1} << (width - 1);
-    const uint64_t positiveMaximum = negativeMaximum - 1;
-    if (value.negative) {
-      if (value.magnitude > negativeMaximum) {
-        return std::nullopt;
-      }
-      return "-" + std::to_string(value.magnitude);
-    }
-    if (value.magnitude > positiveMaximum) {
-      return std::nullopt;
-    }
-    return std::to_string(value.magnitude);
-  };
-
   bool sawElse = false;
   std::unordered_set<std::string> seenPatterns;
   std::unordered_set<int64_t> coveredVariants;
@@ -542,11 +619,12 @@ void Binder::visit(CaseNode &node) {
                   continue;
                 }
                 if (variant->payloadType->isInteger()) {
-                  auto integerValue = evaluateIntegerPattern(
-                      evaluateIntegerPattern, payloadValue.get());
+                  auto integerValue =
+                      evaluateIntegerPattern(payloadValue.get());
                   if (!integerValue ||
-                      !normalizeIntegerPattern(*integerValue,
-                                               variant->payloadType)) {
+                      !normalizeIntegerPattern(
+                          *integerValue, variant->payloadType,
+                          typeBitWidth(variant->payloadType))) {
                     error(field.nested->span,
                           "Enum field payload pattern is not representable "
                           "by payload type '" +
@@ -644,10 +722,10 @@ void Binder::visit(CaseNode &node) {
               continue;
             }
             if (fieldType->isInteger()) {
-              auto integerValue =
-                  evaluateIntegerPattern(evaluateIntegerPattern, value.get());
+              auto integerValue = evaluateIntegerPattern(value.get());
               if (!integerValue ||
-                  !normalizeIntegerPattern(*integerValue, fieldType)) {
+                  !normalizeIntegerPattern(*integerValue, fieldType,
+                                           typeBitWidth(fieldType))) {
                 error(field.nested->span, "Record field pattern is not "
                                           "representable by field type '" +
                                               renderTypeForUser(fieldType) +
@@ -692,69 +770,6 @@ void Binder::visit(CaseNode &node) {
         }
         return std::make_unique<BoundCasePattern>(type, std::move(fields));
       };
-      auto canonicalLiteralPattern = [&](const BoundExpression &value) {
-        if (value.type->isInteger()) {
-          auto integerValue =
-              evaluateIntegerPattern(evaluateIntegerPattern, &value);
-          auto normalized =
-              integerValue ? normalizeIntegerPattern(*integerValue, value.type)
-                           : std::nullopt;
-          return normalized ? renderTypeForUser(value.type) + ":" + *normalized
-                            : std::string{};
-        }
-        const BoundExpression *expression = &value;
-        while (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
-          expression = cast->expression.get();
-        }
-        if (const auto *literal =
-                dynamic_cast<const BoundLiteral *>(expression)) {
-          return renderTypeForUser(value.type) + ":" + literal->value;
-        }
-        return std::string{};
-      };
-      auto canonicalCasePattern =
-          [&](const auto &self,
-              const BoundCasePattern &boundPattern) -> std::string {
-        if (boundPattern.kind == BoundCasePatternKind::Record) {
-          std::vector<std::string> constraints;
-          for (const auto &field : boundPattern.recordFields) {
-            if (!field.nested) {
-              continue;
-            }
-            auto nestedKey = self(self, *field.nested);
-            if (!nestedKey.empty()) {
-              constraints.push_back(std::to_string(field.index) + ":" +
-                                    std::move(nestedKey));
-            }
-          }
-          if (constraints.empty()) {
-            return "";
-          }
-          std::sort(constraints.begin(), constraints.end());
-          std::string key = "record{";
-          for (const auto &constraint : constraints) {
-            key += constraint + ";";
-          }
-          return key + "}";
-        }
-        if (boundPattern.kind == BoundCasePatternKind::Literal) {
-          return "literal:" + canonicalLiteralPattern(*boundPattern.value);
-        }
-        if (boundPattern.kind == BoundCasePatternKind::EnumVariant) {
-          return "enum:" + std::to_string(boundPattern.variantTag);
-        }
-        if (boundPattern.kind == BoundCasePatternKind::TaggedUnionVariant) {
-          std::string key = "union:" + std::to_string(boundPattern.variantTag);
-          if (boundPattern.payloadValue) {
-            key += ":literal:" +
-                   canonicalLiteralPattern(*boundPattern.payloadValue);
-          } else if (boundPattern.payloadPattern) {
-            key += ":" + self(self, *boundPattern.payloadPattern);
-          }
-          return key;
-        }
-        return "";
-      };
       for (const auto &pattern : arm.patterns) {
         if (pattern.kind == CasePatternKind::Record) {
           if (scrutineeType->getKind() != zir::TypeKind::Record ||
@@ -771,17 +786,6 @@ void Binder::visit(CaseNode &node) {
                       renderTypeForUser(scrutineeType) + "'.");
             continue;
           }
-          auto isIrrefutableRecord = [&](const auto &self,
-                                         const CasePattern &record) -> bool {
-            for (const auto &field : record.recordFields) {
-              if (field.nested &&
-                  (field.nested->kind != CasePatternKind::Record ||
-                   !self(self, *field.nested))) {
-                return false;
-              }
-            }
-            return true;
-          };
           recordPatternValid = true;
           auto boundRecord = bindRecord(
               bindRecord, pattern,
@@ -789,15 +793,15 @@ void Binder::visit(CaseNode &node) {
           if (!recordPatternValid) {
             continue;
           }
-          auto recordKey =
-              canonicalCasePattern(canonicalCasePattern, *boundRecord);
+          auto recordKey = canonicalCasePattern(
+              *boundRecord, targetInfo_.nativeIntegerBitWidth());
           recordKey = recordKey.empty() ? "record:*" : "record:" + recordKey;
           if (!seenPatterns.insert(recordKey).second) {
             error(pattern.span, "Duplicate case pattern.");
           }
           boundPatterns.push_back(std::move(*boundRecord));
-          hasRecordPattern = hasRecordPattern ||
-                             isIrrefutableRecord(isIrrefutableRecord, pattern);
+          hasRecordPattern =
+              hasRecordPattern || isIrrefutableRecordPattern(pattern);
           continue;
         }
         if (pattern.kind == CasePatternKind::Variant) {
@@ -903,12 +907,12 @@ void Binder::visit(CaseNode &node) {
               continue;
             }
             if (variant->payloadType->isInteger()) {
-              auto integerValue = evaluateIntegerPattern(evaluateIntegerPattern,
-                                                         payloadValue.get());
-              auto normalized =
-                  integerValue ? normalizeIntegerPattern(*integerValue,
-                                                         variant->payloadType)
-                               : std::nullopt;
+              auto integerValue = evaluateIntegerPattern(payloadValue.get());
+              auto normalized = integerValue
+                                    ? normalizeIntegerPattern(
+                                          *integerValue, variant->payloadType,
+                                          typeBitWidth(variant->payloadType))
+                                    : std::nullopt;
               if (!normalized) {
                 error(pattern.span,
                       "Enum payload pattern is not representable by payload "
@@ -968,21 +972,9 @@ void Binder::visit(CaseNode &node) {
             if (!recordPatternValid) {
               continue;
             }
-            auto isIrrefutablePayloadRecord =
-                [&](const auto &self, const CasePattern &record) -> bool {
-              for (const auto &field : record.recordFields) {
-                if (field.nested &&
-                    (field.nested->kind != CasePatternKind::Record ||
-                     !self(self, *field.nested))) {
-                  return false;
-                }
-              }
-              return true;
-            };
-            payloadPatternIrrefutable =
-                isIrrefutablePayloadRecord(isIrrefutablePayloadRecord, payload);
-            auto canonicalKey =
-                canonicalCasePattern(canonicalCasePattern, *payloadPattern);
+            payloadPatternIrrefutable = isIrrefutableRecordPattern(payload);
+            auto canonicalKey = canonicalCasePattern(
+                *payloadPattern, targetInfo_.nativeIntegerBitWidth());
             payloadKey = canonicalKey.empty()
                              ? ":record:*"
                              : ":record:" + std::move(canonicalKey);
@@ -1019,14 +1011,13 @@ void Binder::visit(CaseNode &node) {
 
         std::string patternKey = renderTypeForUser(scrutineeType) + ":";
         if (scrutineeType->isInteger()) {
-          auto integerValue =
-              evaluateIntegerPattern(evaluateIntegerPattern, value.get());
+          auto integerValue = evaluateIntegerPattern(value.get());
           if (!integerValue) {
             error(pattern.span, "Case integer pattern must be constant.");
             continue;
           }
-          auto normalized =
-              normalizeIntegerPattern(*integerValue, scrutineeType);
+          auto normalized = normalizeIntegerPattern(
+              *integerValue, scrutineeType, typeBitWidth(scrutineeType));
           if (!normalized) {
             error(
                 pattern.span,
