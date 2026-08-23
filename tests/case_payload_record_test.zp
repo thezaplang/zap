@@ -16,6 +16,14 @@ record Profile {
 
 enum ProfileResult { Empty, Value(Profile) }
 
+enum State { Active, Inactive }
+
+record StatePayload {
+    state: State,
+}
+
+enum StateResult { Empty, Value(StatePayload) }
+
 fun read(result: Result) Int {
     case result {
         Result.Value(User { id, score }) { return id + score; }
@@ -36,6 +44,15 @@ fun classify(result: ProfileResult) Int {
     }
 }
 
+fun classifyState(result: StateResult) Int {
+    case result {
+        StateResult.Value(StatePayload { state: State.Active }) { return 1; }
+        StateResult.Value(StatePayload { state: State.Inactive }) { return 2; }
+        StateResult.Empty() { return 0; }
+        else { return -1; }
+    }
+}
+
 fun main() Int {
     if read(Result.Value((User{id: 2, score: 40}))) != 42 { return 1; }
     if read(Result.Empty()) != 0 { return 2; }
@@ -46,5 +63,9 @@ fun main() Int {
     if classify(ProfileResult.Value((other))) != 42 { return 4; }
     if classify(ProfileResult.Empty()) != 0 { return 5; }
     if classify(ProfileResult.Value((wrongCity))) != 42 { return 6; }
+    var active: StatePayload = StatePayload{state: State.Active};
+    var inactive: StatePayload = StatePayload{state: State.Inactive};
+    if classifyState(StateResult.Value((active))) != 1 { return 7; }
+    if classifyState(StateResult.Value((inactive))) != 2 { return 8; }
     return 0;
 }
