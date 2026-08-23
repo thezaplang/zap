@@ -25,7 +25,16 @@ fun resultCode(result: Result) Int {
     }
 }
 
+fun acceptEmptyArms(color: Color) {
+    case color {
+        Color.Red {}
+        Color.Green {}
+        Color.Blue {}
+    }
+}
+
 fun main() Int {
+    acceptEmptyArms(Color.Green);
     if colorCode(Color.Red) != 1 || colorCode(Color.Blue) != 3 { return 1; }
     if resultCode(Result.Empty()) != 1 { return 2; }
     if resultCode(Result.Value(42)) != 42 { return 3; }

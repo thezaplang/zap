@@ -63,7 +63,7 @@ Zap rejects duplicate variants, variants belonging to another enum, and an
 ## Enum payloads
 
 Enums with payloads use `()` for an empty variant, an identifier to bind one
-payload, and `_` to ignore one.
+payload, `_` to ignore one, or a literal to match it.
 
 ```zap
 enum Result {
@@ -74,6 +74,9 @@ enum Result {
 
 fun printResult(result: Result) {
     case result {
+        Result.Value(42) {
+            println("answer");
+        }
         Result.Empty() {
             println("nothing");
         }

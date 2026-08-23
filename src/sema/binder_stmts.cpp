@@ -1,6 +1,7 @@
 #include "../ast/class_decl.hpp"
 #include "../ast/const/const_char.hpp"
 #include "../ast/record_decl.hpp"
+#include "../ir/string_type.hpp"
 #include "binder.hpp"
 #include <algorithm>
 #include <cctype>
@@ -597,6 +598,11 @@ void Binder::visit(CaseNode &node) {
                                     "' has no variant '" + variantName + "'.");
             continue;
           }
+          if (coveredVariants.count(variant->tag) != 0) {
+            error(pattern.span, "Case pattern is unreachable because an "
+                                "earlier pattern covers this variant.");
+            continue;
+          }
           if (!variant->payloadType &&
               pattern.payloadKind != CasePayloadPatternKind::Empty) {
             error(pattern.span,
@@ -606,7 +612,8 @@ void Binder::visit(CaseNode &node) {
           }
           if (variant->payloadType &&
               pattern.payloadKind != CasePayloadPatternKind::Binding &&
-              pattern.payloadKind != CasePayloadPatternKind::Wildcard) {
+              pattern.payloadKind != CasePayloadPatternKind::Wildcard &&
+              pattern.payloadKind != CasePayloadPatternKind::Literal) {
             error(pattern.span, "Enum variant '" + variantName +
                                     "' expects one payload binding.");
             continue;
@@ -622,13 +629,71 @@ void Binder::visit(CaseNode &node) {
                 BindingKind::Immutable, false, pattern.payloadBinding,
                 currentModuleId_);
           }
-          const auto key = "union:" + std::to_string(variant->tag);
+          std::unique_ptr<BoundExpression> payloadValue;
+          std::string payloadKey;
+          if (pattern.payloadKind == CasePayloadPatternKind::Literal) {
+            auto expectedPayloadType = variant->payloadType;
+            if (expectedPayloadType->getIntrinsicKind() ==
+                zir::IntrinsicTypeKind::String) {
+              expectedPayloadType = zir::makeStringViewType();
+            }
+            payloadValue = bindExpressionWithExpected(
+                pattern.payloadLiteral.get(), expectedPayloadType);
+            if (!payloadValue) {
+              continue;
+            }
+            if (variant->payloadType->isInteger()) {
+              auto integerValue = evaluateConstantInt(payloadValue.get());
+              auto normalized =
+                  integerValue ? normalizeIntegerPattern(*integerValue,
+                                                         variant->payloadType)
+                               : std::nullopt;
+              if (!normalized) {
+                error(pattern.span,
+                      "Enum payload pattern is not representable by payload "
+                      "type '" +
+                          renderTypeForUser(variant->payloadType) + "'.");
+                continue;
+              }
+              payloadKey = *normalized;
+              if (!zir::sameType(payloadValue->type, variant->payloadType)) {
+                payloadValue = std::make_unique<BoundCast>(
+                    std::move(payloadValue), variant->payloadType);
+              }
+            } else if (auto *literal =
+                           dynamic_cast<BoundLiteral *>(payloadValue.get())) {
+              auto conversion = conversions_.classifyImplicit(
+                  payloadValue->type, expectedPayloadType);
+              if (!conversion) {
+                error(
+                    pattern.span,
+                    "Enum payload pattern type does not match payload type '" +
+                        renderTypeForUser(variant->payloadType) + "'.");
+                continue;
+              }
+              payloadKey = literal->value;
+              if (isStringType(expectedPayloadType)) {
+                payloadValue->type = expectedPayloadType;
+              } else {
+                payloadValue =
+                    applyConversion(std::move(payloadValue), *conversion);
+              }
+            } else {
+              error(pattern.span, "Enum payload pattern must be a literal.");
+              continue;
+            }
+          }
+          const auto key = "union:" + std::to_string(variant->tag) +
+                           (payloadValue ? ":literal:" + payloadKey : "");
           if (!seenPatterns.insert(key).second) {
             error(pattern.span, "Duplicate case pattern.");
           }
-          coveredVariants.insert(variant->tag);
+          if (!payloadValue) {
+            coveredVariants.insert(variant->tag);
+          }
           boundPatterns.emplace_back(BoundCasePatternKind::TaggedUnionVariant,
-                                     variant->tag, variant->payloadType);
+                                     variant->tag, variant->payloadType,
+                                     std::move(payloadValue));
           continue;
         }
 
@@ -677,7 +742,11 @@ void Binder::visit(CaseNode &node) {
             continue;
           }
           patternKey += literal->value;
-          value = applyConversion(std::move(value), *conversion);
+          if (isStringType(scrutineeType)) {
+            value->type = scrutineeType;
+          } else {
+            value = applyConversion(std::move(value), *conversion);
+          }
         } else {
           error(pattern.span, "Case pattern must be a literal.");
           continue;

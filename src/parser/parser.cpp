@@ -1082,9 +1082,16 @@ CasePattern Parser::parseCasePattern() {
                  "Float literals are not supported as case patterns.");
     throw ParseError();
 
-  case TokenType::ID:
+  case TokenType::ID: {
     pattern.variantPath = parseQualifiedIdentifier();
-    if (peek().type == TokenType::LBRACE) {
+    const bool startsRecordFields = peek().type == TokenType::LBRACE &&
+                                    ((pattern.variantPath.size() == 1 &&
+                                      peek(1).type == TokenType::RBRACE) ||
+                                     (peek(1).type == TokenType::ID &&
+                                      (peek(2).type == TokenType::COLON ||
+                                       peek(2).type == TokenType::COMMA ||
+                                       peek(2).type == TokenType::RBRACE)));
+    if (startsRecordFields) {
       return parseCaseRecordPattern(std::move(pattern.variantPath),
                                     startToken.span);
     }
@@ -1095,19 +1102,39 @@ CasePattern Parser::parseCasePattern() {
         eat(TokenType::RPAREN);
         pattern.payloadKind = CasePayloadPatternKind::Empty;
       } else {
-        Token bindingToken = eat(TokenType::ID);
-        eat(TokenType::RPAREN);
-        if (bindingToken.value == "_") {
-          pattern.payloadKind = CasePayloadPatternKind::Wildcard;
+        if (peek().type == TokenType::ID) {
+          Token bindingToken = eat(TokenType::ID);
+          if (bindingToken.value == "_") {
+            pattern.payloadKind = CasePayloadPatternKind::Wildcard;
+          } else {
+            pattern.payloadKind = CasePayloadPatternKind::Binding;
+            pattern.payloadBinding = std::move(bindingToken.value);
+            pattern.payloadBindingSpan = bindingToken.span;
+          }
         } else {
-          pattern.payloadKind = CasePayloadPatternKind::Binding;
-          pattern.payloadBinding = std::move(bindingToken.value);
-          pattern.payloadBindingSpan = bindingToken.span;
+          pattern.payloadKind = CasePayloadPatternKind::Literal;
+          if ((peek().type == TokenType::MINUS ||
+               peek().type == TokenType::PLUS) &&
+              peek(1).type == TokenType::INTEGER) {
+            pattern.payloadLiteral = parseUnaryExpression();
+          } else if (peek().type == TokenType::INTEGER ||
+                     peek().type == TokenType::STRING ||
+                     peek().type == TokenType::CHAR ||
+                     peek().type == TokenType::BOOL) {
+            pattern.payloadLiteral = parsePrimaryExpression();
+          } else {
+            _diag.report(
+                peek().span, DiagnosticLevel::Error,
+                "Expected a literal, binding, or '_' in enum payload pattern.");
+            throw ParseError();
+          }
         }
+        eat(TokenType::RPAREN);
       }
     }
     pattern.span = SourceSpan::merge(startToken.span, _tokens[_pos - 1].span);
     return pattern;
+  }
 
   default:
     _diag.report(startToken.span, DiagnosticLevel::Error,

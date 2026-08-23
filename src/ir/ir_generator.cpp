@@ -1,6 +1,7 @@
 #include "ir_generator.hpp"
 #include "../sema/constant_evaluator.hpp"
 #include "failable_type.hpp"
+#include "string_type.hpp"
 #include <cstdint>
 #include <iostream>
 #include <optional>
@@ -1840,7 +1841,8 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
 
   const bool isTaggedUnion =
       node.scrutinee->type->getKind() == TypeKind::TaggedUnion;
-  const bool isRecord = node.scrutinee->type->getKind() == TypeKind::Record;
+  const bool isRecord = node.scrutinee->type->getKind() == TypeKind::Record &&
+                        !isIntrinsicStringType(node.scrutinee->type);
   std::shared_ptr<Value> taggedUnionAddress;
   std::shared_ptr<Value> recordAddress;
   if (isTaggedUnion) {
@@ -1929,6 +1931,47 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
             std::to_string(pattern.variantTag), tagType);
         currentBlock_->addInstruction(
             std::make_unique<CmpInst>("eq", comparison, tag, patternTag));
+        if (pattern.payloadValue) {
+          const auto payloadTestLabel = createBlockLabel("case.payload");
+          const auto followingTest = nextTest + 1;
+          const auto tagMismatchLabel = followingTest < testCount
+                                            ? testLabels[followingTest]
+                                            : fallbackLabel;
+          currentBlock_->addInstruction(std::make_unique<CondBranchInst>(
+              comparison, payloadTestLabel, tagMismatchLabel));
+
+          auto payloadTestBlock =
+              std::make_unique<BasicBlock>(payloadTestLabel);
+          auto *payloadTestBlockPtr = payloadTestBlock.get();
+          currentFunction_->addBlock(std::move(payloadTestBlock));
+          currentBlock_ = payloadTestBlockPtr;
+
+          auto payloadAddress = createRegister(
+              std::make_shared<PointerType>(pattern.payloadType));
+          currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+              payloadAddress, taggedUnionAddress, 1));
+          auto payload = createRegister(pattern.payloadType);
+          currentBlock_->addInstruction(
+              std::make_unique<LoadInst>(payload, payloadAddress));
+          if (pattern.payloadValue->type->getIntrinsicKind() ==
+                  IntrinsicTypeKind::StringView &&
+              payload->getType()->getIntrinsicKind() ==
+                  IntrinsicTypeKind::String) {
+            auto payloadView = createRegister(pattern.payloadValue->type,
+                                              ValueOwnership::Borrowed);
+            currentBlock_->addInstruction(
+                std::make_unique<BorrowInst>(payloadView, payload));
+            payload = std::move(payloadView);
+          }
+          pattern.payloadValue->accept(*this);
+          auto expectedPayload = valueStack_.top();
+          valueStack_.pop();
+          auto payloadMatches =
+              createRegister(std::make_shared<PrimitiveType>(TypeKind::Bool));
+          currentBlock_->addInstruction(std::make_unique<CmpInst>(
+              "eq", payloadMatches, payload, expectedPayload));
+          comparison = std::move(payloadMatches);
+        }
       } else {
         auto testRecord = [&](const auto &self,
                               const sema::BoundCasePattern &record,

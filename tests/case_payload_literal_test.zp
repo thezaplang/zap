@@ -1,0 +1,32 @@
+enum Result { Empty, Value(Int) }
+enum Detail { Number(Int32), Text(String) }
+
+fun code(result: Result) Int {
+    case result {
+        Result.Value(42) { return 1; }
+        Result.Value(_) { return 2; }
+        Result.Empty() { return 3; }
+    }
+}
+
+fun detail(value: Detail) Int {
+    case value {
+        Detail.Text("zap") { return 7; }
+        Detail.Text(_) { return 8; }
+        Detail.Number(-1) { return 4; }
+        Detail.Number(2) { return 5; }
+        Detail.Number(_) { return 6; }
+    }
+}
+
+fun main() Int {
+    if code(Result.Value(42)) != 1 { return 1; }
+    if code(Result.Value(7)) != 2 { return 2; }
+    if code(Result.Empty()) != 3 { return 3; }
+    if detail(Detail.Number(-1)) != 4 { return 4; }
+    if detail(Detail.Number(2)) != 5 { return 5; }
+    if detail(Detail.Number(3)) != 6 { return 6; }
+    if detail(Detail.Text("zap")) != 7 { return 7; }
+    if detail(Detail.Text("other")) != 8 { return 8; }
+    return 0;
+}

@@ -93,6 +93,18 @@ SPECIAL_CASES = {
         "stderr_pattern": "Undefined identifier: value",
         "desc": "Case payload bindings are scoped to their arm"
     },
+    "tests/case_payload_literal_duplicate_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Duplicate case pattern",
+        "desc": "Case rejects duplicate literal payload patterns"
+    },
+    "tests/case_payload_literal_unreachable_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "earlier pattern covers this variant",
+        "desc": "Case rejects payload patterns after a catch-all variant"
+    },
     "tests/case_record_incomplete_error.zp": {
         "type": "compile",
         "exit": 1,

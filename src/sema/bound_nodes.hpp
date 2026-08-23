@@ -588,6 +588,7 @@ public:
   std::unique_ptr<BoundExpression> value;
   int64_t variantTag = 0;
   std::shared_ptr<zir::Type> payloadType;
+  std::unique_ptr<BoundExpression> payloadValue;
   std::shared_ptr<zir::RecordType> recordType;
   std::vector<BoundCaseRecordField> recordFields;
 
@@ -595,8 +596,10 @@ public:
       : value(std::move(patternValue)) {}
 
   BoundCasePattern(BoundCasePatternKind patternKind, int64_t tag,
-                   std::shared_ptr<zir::Type> payload = nullptr)
-      : kind(patternKind), variantTag(tag), payloadType(std::move(payload)) {}
+                   std::shared_ptr<zir::Type> payload = nullptr,
+                   std::unique_ptr<BoundExpression> payloadPattern = nullptr)
+      : kind(patternKind), variantTag(tag), payloadType(std::move(payload)),
+        payloadValue(std::move(payloadPattern)) {}
 
   BoundCasePattern(std::shared_ptr<zir::RecordType> type,
                    std::vector<BoundCaseRecordField> fields)
@@ -619,7 +622,8 @@ public:
       }
       return BoundCasePattern(recordType, std::move(fields));
     }
-    return BoundCasePattern(kind, variantTag, payloadType);
+    return BoundCasePattern(kind, variantTag, payloadType,
+                            payloadValue ? payloadValue->clone() : nullptr);
   }
 };
 
