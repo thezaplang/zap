@@ -1,0 +1,19 @@
+struct User {
+    id: Int,
+    score: Int,
+}
+
+enum Result { Empty, Value(User) }
+
+fun read(result: Result) Int {
+    case result {
+        Result.Value(User { id, score }) { return id + score; }
+        Result.Empty() { return 0; }
+    }
+}
+
+fun main() Int {
+    if read(Result.Value((User{id: 2, score: 40}))) != 42 { return 1; }
+    if read(Result.Empty()) != 0 { return 2; }
+    return 0;
+}

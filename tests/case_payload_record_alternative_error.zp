@@ -1,0 +1,11 @@
+record User {
+    id: Int,
+}
+
+enum Result { Empty, Value(User) }
+
+fun read(result: Result) Int {
+    case result {
+        Result.Value(User { id }), Result.Empty() { return id; }
+    }
+}

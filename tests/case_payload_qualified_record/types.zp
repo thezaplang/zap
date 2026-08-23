@@ -1,0 +1,6 @@
+pub struct User {
+    id: Int,
+    score: Int,
+}
+
+pub enum Result { Empty, Value(User) }

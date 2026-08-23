@@ -9,7 +9,14 @@
 
 enum class CasePatternKind { Literal, Variant, Record };
 
-enum class CasePayloadPatternKind { None, Empty, Binding, Wildcard, Literal };
+enum class CasePayloadPatternKind {
+  None,
+  Empty,
+  Binding,
+  Wildcard,
+  Literal,
+  Pattern,
+};
 
 struct CasePattern;
 
@@ -29,6 +36,7 @@ struct CasePattern {
   std::vector<CaseRecordFieldPattern> recordFields;
   CasePayloadPatternKind payloadKind = CasePayloadPatternKind::None;
   std::unique_ptr<ExpressionNode> payloadLiteral;
+  std::unique_ptr<CasePattern> payloadPattern;
   std::string payloadBinding;
   SourceSpan payloadBindingSpan;
 };

@@ -1102,7 +1102,20 @@ CasePattern Parser::parseCasePattern() {
         eat(TokenType::RPAREN);
         pattern.payloadKind = CasePayloadPatternKind::Empty;
       } else {
+        size_t payloadPathLength = 0;
         if (peek().type == TokenType::ID) {
+          payloadPathLength = 1;
+          while (peek(payloadPathLength).type == TokenType::DOT &&
+                 peek(payloadPathLength + 1).type == TokenType::ID) {
+            payloadPathLength += 2;
+          }
+        }
+        if (payloadPathLength != 0 &&
+            peek(payloadPathLength).type == TokenType::LBRACE) {
+          pattern.payloadKind = CasePayloadPatternKind::Pattern;
+          pattern.payloadPattern =
+              std::make_unique<CasePattern>(parseCasePattern());
+        } else if (peek().type == TokenType::ID) {
           Token bindingToken = eat(TokenType::ID);
           if (bindingToken.value == "_") {
             pattern.payloadKind = CasePayloadPatternKind::Wildcard;

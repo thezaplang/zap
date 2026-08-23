@@ -589,6 +589,7 @@ public:
   int64_t variantTag = 0;
   std::shared_ptr<zir::Type> payloadType;
   std::unique_ptr<BoundExpression> payloadValue;
+  std::unique_ptr<BoundCasePattern> payloadPattern;
   std::shared_ptr<zir::RecordType> recordType;
   std::vector<BoundCaseRecordField> recordFields;
 
@@ -597,9 +598,11 @@ public:
 
   BoundCasePattern(BoundCasePatternKind patternKind, int64_t tag,
                    std::shared_ptr<zir::Type> payload = nullptr,
-                   std::unique_ptr<BoundExpression> payloadPattern = nullptr)
+                   std::unique_ptr<BoundExpression> payloadLiteral = nullptr,
+                   std::unique_ptr<BoundCasePattern> nestedPayload = nullptr)
       : kind(patternKind), variantTag(tag), payloadType(std::move(payload)),
-        payloadValue(std::move(payloadPattern)) {}
+        payloadValue(std::move(payloadLiteral)),
+        payloadPattern(std::move(nestedPayload)) {}
 
   BoundCasePattern(std::shared_ptr<zir::RecordType> type,
                    std::vector<BoundCaseRecordField> fields)
@@ -623,7 +626,10 @@ public:
       return BoundCasePattern(recordType, std::move(fields));
     }
     return BoundCasePattern(kind, variantTag, payloadType,
-                            payloadValue ? payloadValue->clone() : nullptr);
+                            payloadValue ? payloadValue->clone() : nullptr,
+                            payloadPattern ? std::make_unique<BoundCasePattern>(
+                                                 payloadPattern->clone())
+                                           : nullptr);
   }
 };
 
@@ -640,8 +646,7 @@ public:
                std::vector<std::shared_ptr<VariableSymbol>> bindings,
                std::unique_ptr<BoundBlock> armBody)
       : isElse(wildcard), patterns(std::move(armPatterns)),
-        payloadBinding(std::move(binding)),
-        recordBindings(std::move(bindings)),
+        payloadBinding(std::move(binding)), recordBindings(std::move(bindings)),
         body(std::move(armBody)) {}
 
   BoundCaseArm clone() const {
@@ -651,8 +656,7 @@ public:
       clonedPatterns.push_back(pattern.clone());
     }
     return BoundCaseArm(isElse, std::move(clonedPatterns), payloadBinding,
-                        recordBindings,
-                        body ? body->cloneBlock() : nullptr);
+                        recordBindings, body ? body->cloneBlock() : nullptr);
   }
 };
 

@@ -1,0 +1,13 @@
+import "types.zp" as types;
+
+fun read(result: types.Result) Int {
+    case result {
+        types.Result.Value(types.User { id, score }) { return id + score; }
+        types.Result.Empty() { return 0; }
+    }
+}
+
+fun main() Int {
+    var user: types.User = types.User{id: 2, score: 40};
+    return read(types.Result.Value((user))) - 42;
+}

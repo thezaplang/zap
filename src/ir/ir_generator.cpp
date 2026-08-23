@@ -2092,6 +2092,17 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
         arm.patterns.front().kind == sema::BoundCasePatternKind::Record) {
       bindRecord(bindRecord, arm.patterns.front(), recordAddress);
     }
+    if (!arm.patterns.empty() &&
+        arm.patterns.front().kind ==
+            sema::BoundCasePatternKind::TaggedUnionVariant &&
+        arm.patterns.front().payloadPattern) {
+      const auto &pattern = arm.patterns.front();
+      auto payloadAddress =
+          createRegister(std::make_shared<PointerType>(pattern.payloadType));
+      currentBlock_->addInstruction(std::make_unique<GetElementPtrInst>(
+          payloadAddress, taggedUnionAddress, 1));
+      bindRecord(bindRecord, *pattern.payloadPattern, payloadAddress);
+    }
     if (arm.payloadBinding) {
       const auto &pattern = arm.patterns.front();
       auto payloadAddress =

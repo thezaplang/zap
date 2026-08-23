@@ -63,7 +63,8 @@ Zap rejects duplicate variants, variants belonging to another enum, and an
 ## Enum payloads
 
 Enums with payloads use `()` for an empty variant, an identifier to bind one
-payload, `_` to ignore one, or a literal to match it.
+payload, `_` to ignore one, a literal to match it, or a record pattern to
+destructure a record/`struct` payload.
 
 ```zap
 enum Result {
@@ -94,6 +95,22 @@ The payload binding is an immutable local available only in its arm. Zap tests
 the variant tag before accessing a payload, so a payload is never read from a
 non-matching variant.
 
+For a record payload, place its record pattern inside the variant pattern.
+Its field bindings are immutable locals available in the arm. A binding-only
+record payload pattern covers the whole variant.
+
+```zap
+struct User { id: Int, score: Int }
+enum Result { Empty, Value(User) }
+
+fun score(result: Result) Int {
+    case result {
+        Result.Value(User { id, score }) { return id + score; }
+        Result.Empty() { return 0; }
+    }
+}
+```
+
 ## Record patterns
 
 Records and `struct`s can be destructured by field. A bare field name binds it
@@ -118,6 +135,6 @@ binds fields is exhaustive. More specific field patterns must appear first.
 
 Zap 0.4.1 does not support ranges, guards, array destructuring, float
 patterns, named constants as patterns, or `case` as an expression. A payload
-variant has one payload value, and an arm that binds it cannot combine
-alternatives such as `Result.Value(x), Result.Empty()`. Within a record field,
-enum and payload patterns are not supported yet.
+variant has one payload value, and an arm that binds or destructures it cannot
+combine alternatives such as `Result.Value(x), Result.Empty()`. Within a
+record field, enum and payload patterns are not supported yet.

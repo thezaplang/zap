@@ -84,7 +84,7 @@ SPECIAL_CASES = {
     "tests/case_value_payload_arity_error.zp": {
         "type": "compile",
         "exit": 1,
-        "stderr_pattern": "expects one payload binding",
+        "stderr_pattern": "expects one payload pattern",
         "desc": "Case requires a binding or wildcard for payload variants"
     },
     "tests/case_payload_scope_error.zp": {
@@ -104,6 +104,18 @@ SPECIAL_CASES = {
         "exit": 1,
         "stderr_pattern": "earlier pattern covers this variant",
         "desc": "Case rejects payload patterns after a catch-all variant"
+    },
+    "tests/case_payload_record_alternative_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "payload bindings cannot have alternatives",
+        "desc": "Case rejects record payload bindings in alternatives"
+    },
+    "tests/case_payload_record_type_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "record pattern does not match payload type",
+        "desc": "Case checks a record payload pattern against its payload type"
     },
     "tests/case_record_incomplete_error.zp": {
         "type": "compile",
@@ -128,6 +140,11 @@ SPECIAL_CASES = {
         "exit": 1,
         "stderr_pattern": "Invalid enum field pattern for 'result'",
         "desc": "Record patterns require () for empty tagged-union variants"
+    },
+    "tests/case_payload_qualified_record/main.zp": {
+        "type": "runtime",
+        "exit": 0,
+        "desc": "Case destructures an imported record payload"
     },
 
     # Compile-only exit 1 (non-matching filename)
