@@ -132,8 +132,14 @@ SPECIAL_CASES = {
     "tests/case_record_payload_variant_error.zp": {
         "type": "compile",
         "exit": 1,
-        "stderr_pattern": "Invalid enum field pattern for 'result'",
-        "desc": "Record patterns reject tagged-union payload variants"
+        "stderr_pattern": "must be a binding or '_'",
+        "desc": "Record patterns reject unsupported tagged-union payload patterns"
+    },
+    "tests/case_record_payload_scope_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Undefined identifier: value",
+        "desc": "Record payload bindings are scoped to their arm"
     },
     "tests/case_record_empty_variant_arity_error.zp": {
         "type": "compile",

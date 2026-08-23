@@ -53,8 +53,18 @@ fun readAccount(account: Account) Int {
 
 fun readResponse(response: Response) Int {
     case response {
+        Response { result: Result.Value(value), code } {
+            return value + code;
+        }
         Response { result: Result.Empty(), code } { return code; }
         Response { code } { return 0 - code; }
+    }
+}
+
+fun isValue(response: Response) Int {
+    case response {
+        Response { result: Result.Value(_) } { return 1; }
+        else { return 0; }
     }
 }
 
@@ -72,6 +82,8 @@ fun main() Int {
     var empty: Response = Response{result: Result.Empty(), code: 9};
     var value: Response = Response{result: Result.Value(4), code: 9};
     if readResponse(empty) != 9 { return 6; }
-    if readResponse(value) != -9 { return 7; }
+    if readResponse(value) != 13 { return 7; }
+    if isValue(empty) != 0 { return 8; }
+    if isValue(value) != 1 { return 9; }
     return 0;
 }

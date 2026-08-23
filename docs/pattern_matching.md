@@ -115,7 +115,7 @@ fun score(result: Result) Int {
 
 Records and `struct`s can be destructured by field. A bare field name binds it
 as an immutable variable; a field followed by `:` may match a literal, an enum
-variant (including an empty tagged-union variant), or a nested record pattern.
+variant (including a tagged-union payload binding), or a nested record pattern.
 Field constraints do not contribute to exhaustiveness yet, so they need an
 irrefutable record arm or `else`.
 
@@ -131,10 +131,25 @@ case point {
 Because a record pattern names the exact scrutinee type, an arm that only
 binds fields is exhaustive. More specific field patterns must appear first.
 
+```zap
+record Response { result: Result, code: Int }
+
+case response {
+    Response { result: Result.Value(value), code } {
+        println(value + code);
+    }
+    Response { result: Result.Empty(), code } {
+        println(code);
+    }
+    else {}
+}
+```
+
 ## Current limits
 
 Zap 0.4.1 does not support ranges, guards, array destructuring, float
 patterns, named constants as patterns, or `case` as an expression. A payload
 variant has one payload value, and an arm that binds or destructures it cannot
 combine alternatives such as `Result.Value(x), Result.Empty()`. Within a
-record field, enum and payload patterns are not supported yet.
+record field, literal and enum patterns may be used; nested payload patterns
+and record payload patterns are not supported yet.

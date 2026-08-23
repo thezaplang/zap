@@ -453,19 +453,52 @@ void Binder::visit(CaseNode &node) {
                   auto taggedUnion =
                       std::static_pointer_cast<zir::TaggedUnionType>(fieldType);
                   const auto *variant = taggedUnion->findVariant(path.back());
-                  if (!variant || variant->payloadType ||
-                      field.nested->payloadKind !=
-                          CasePayloadPatternKind::Empty) {
+                  if (!variant) {
                     error(field.nested->span,
                           "Invalid enum field pattern for '" + field.name +
                               "'.");
                     continue;
                   }
+                  if (!variant->payloadType) {
+                    if (field.nested->payloadKind !=
+                        CasePayloadPatternKind::Empty) {
+                      error(field.nested->span,
+                            "Invalid enum field pattern for '" + field.name +
+                                "'.");
+                      continue;
+                    }
+                    fields.push_back(
+                        {index,
+                         std::make_unique<BoundCasePattern>(
+                             BoundCasePatternKind::TaggedUnionVariant,
+                             variant->tag),
+                         nullptr});
+                    continue;
+                  }
+                  if (field.nested->payloadKind !=
+                          CasePayloadPatternKind::Binding &&
+                      field.nested->payloadKind !=
+                          CasePayloadPatternKind::Wildcard) {
+                    error(field.nested->span,
+                          "Enum field payload pattern for '" + field.name +
+                              "' must be a binding or '_'.");
+                    continue;
+                  }
+                  std::shared_ptr<VariableSymbol> payloadBinding;
+                  if (field.nested->payloadKind ==
+                      CasePayloadPatternKind::Binding) {
+                    payloadBinding = std::make_shared<VariableSymbol>(
+                        field.nested->payloadBinding, variant->payloadType,
+                        BindingKind::Immutable, false,
+                        field.nested->payloadBinding, currentModuleId_);
+                    recordBindings.push_back(payloadBinding);
+                  }
                   fields.push_back(
                       {index,
                        std::make_unique<BoundCasePattern>(
                            BoundCasePatternKind::TaggedUnionVariant,
-                           variant->tag),
+                           variant->tag, variant->payloadType, nullptr, nullptr,
+                           std::move(payloadBinding)),
                        nullptr});
                   continue;
                 }

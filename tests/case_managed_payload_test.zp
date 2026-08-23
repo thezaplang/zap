@@ -17,6 +17,10 @@ enum Result {
     Value(Payload),
 }
 
+record Response {
+    result: Result,
+}
+
 fun readPayload() Int {
     var result: Result = Result.Value(new Payload(42));
     case result {
@@ -25,8 +29,18 @@ fun readPayload() Int {
     }
 }
 
+fun readRecordPayload() Int {
+    var response: Response = Response{result: Result.Value(new Payload(24))};
+    case response {
+        Response { result: Result.Value(payload) } { return payload.value; }
+        else { return 0; }
+    }
+}
+
 fun main() Int {
     if readPayload() != 42 { return 1; }
     if destroyed != 1 { return 2; }
+    if readRecordPayload() != 24 { return 3; }
+    if destroyed != 2 { return 4; }
     return 0;
 }

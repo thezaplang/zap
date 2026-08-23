@@ -6,7 +6,7 @@ record Response {
 
 fun value(response: Response) Int {
     case response {
-        Response { result: Result.Value(value) } { return 1; }
+        Response { result: Result.Value(1) } { return 1; }
         else { return 0; }
     }
 }
