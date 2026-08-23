@@ -1,0 +1,11 @@
+record R {
+    ok: UInt64,
+}
+
+fun classify(value: R) Int {
+    case value {
+        R { nope: 1 } { return 1; }
+        R {} { return 2; }
+        else { return 0; }
+    }
+}

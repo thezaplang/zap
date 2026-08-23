@@ -34,6 +34,14 @@ fun matchByte(value: UInt8) Int {
     }
 }
 
+fun matchWide(value: UInt64) Int {
+    case value {
+        9223372036854775808 { return 1; }
+        18446744073709551615 { return 2; }
+        else { return 0; }
+    }
+}
+
 fun matchString(value: String) Int {
     case value {
         "zap" { return 1; }
@@ -49,5 +57,7 @@ fun main() Int {
     if matchChar('A') != 65 || matchChar('B') != 0 { return 5; }
     if matchByte(255) != 1 || matchByte(5) != 0 { return 6; }
     if matchString("zap") != 1 || matchString("other") != 0 { return 7; }
+    if matchWide(9223372036854775808) != 1 { return 8; }
+    if matchWide(18446744073709551615) != 2 { return 9; }
     return 0;
 }

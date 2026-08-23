@@ -1,0 +1,6 @@
+fun classify(value: UInt64) Int {
+    case value {
+        18446744073709551616 { return 1; }
+        else { return 0; }
+    }
+}

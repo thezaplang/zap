@@ -1,0 +1,27 @@
+enum Result { Empty, Value(UInt64) }
+
+record Box {
+    value: UInt64,
+}
+
+fun matchPayload(result: Result) Int {
+    case result {
+        Result.Value(18446744073709551615) { return 1; }
+        Result.Value(_) { return 0; }
+        Result.Empty() { return -1; }
+    }
+}
+
+fun matchField(box: Box) Int {
+    case box {
+        Box { value: 18446744073709551615 } { return 1; }
+        else { return 0; }
+    }
+}
+
+fun main() Int {
+    if matchPayload(Result.Value(18446744073709551615)) != 1 { return 1; }
+    var box: Box = Box{value: 18446744073709551615};
+    if matchField(box) != 1 { return 2; }
+    return 0;
+}

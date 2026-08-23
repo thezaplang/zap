@@ -99,6 +99,37 @@ SPECIAL_CASES = {
         "stderr_pattern": "Duplicate case pattern",
         "desc": "Case rejects duplicate literal payload patterns"
     },
+    "tests/case_uint64_duplicate_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Duplicate case pattern",
+        "desc": "Case canonicalizes full-width UInt64 patterns across bases"
+    },
+    "tests/case_uint64_record_duplicate_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Duplicate case pattern",
+        "desc": "Case canonicalizes full-width UInt64 record patterns across bases"
+    },
+    "tests/case_uint64_record_payload_duplicate_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Duplicate case pattern",
+        "desc": "Case canonicalizes UInt64 record payload patterns across bases"
+    },
+    "tests/case_record_invalid_pattern_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "has no field 'nope'",
+        "stderr_absent_pattern": "Duplicate case pattern",
+        "desc": "Invalid record patterns do not poison duplicate detection"
+    },
+    "tests/case_uint64_overflow_error.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "Invalid integer literal",
+        "desc": "Case rejects integer literals wider than UInt64"
+    },
     "tests/case_payload_literal_unreachable_error.zp": {
         "type": "compile",
         "exit": 1,
@@ -503,6 +534,7 @@ def execute_test(test_item, zapc_path):
     run_args = test_item.get("run_args", [])
     expected_stdout = test_item.get("stdout", None)
     stderr_pattern = test_item.get("stderr_pattern", None)
+    stderr_absent_pattern = test_item.get("stderr_absent_pattern", None)
     diagnostics = test_item.get("diagnostics", [])
     output_file = test_item.get("output_file", None)
     output_patterns = test_item.get("output_patterns", [])
@@ -573,6 +605,9 @@ def execute_test(test_item, zapc_path):
             if stderr_pattern:
                 if stderr_pattern.lower() not in res.stderr.lower():
                     return False, f"Expected stderr pattern '{stderr_pattern}' not found in stderr:\n{res.stderr}"
+            if stderr_absent_pattern:
+                if stderr_absent_pattern.lower() in res.stderr.lower():
+                    return False, f"Unexpected stderr pattern '{stderr_absent_pattern}' found in stderr:\n{res.stderr}"
 
             return True, None
 

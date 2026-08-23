@@ -290,7 +290,56 @@ void Binder::visit(CaseNode &node) {
     return;
   }
 
-  auto normalizeIntegerPattern = [&](int64_t value,
+  struct IntegerPatternValue {
+    bool negative = false;
+    uint64_t magnitude = 0;
+  };
+  auto evaluateIntegerPattern = [&](const auto &self,
+                                    const BoundExpression *expression)
+      -> std::optional<IntegerPatternValue> {
+    if (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
+      return self(self, cast->expression.get());
+    }
+    if (const auto *literal = dynamic_cast<const BoundLiteral *>(expression)) {
+      try {
+        const auto &text = literal->value;
+        int base = 10;
+        std::string digits = text;
+        if (text.size() > 2 && text[0] == '0') {
+          if (text[1] == 'x' || text[1] == 'X') {
+            base = 16;
+          } else if (text[1] == 'b' || text[1] == 'B') {
+            base = 2;
+            digits = text.substr(2);
+          } else if (text[1] == 'o' || text[1] == 'O') {
+            base = 8;
+            digits = text.substr(2);
+          }
+        }
+        size_t consumed = 0;
+        const auto magnitude = std::stoull(digits, &consumed, base);
+        if (consumed != digits.size()) {
+          return std::nullopt;
+        }
+        return IntegerPatternValue{false, magnitude};
+      } catch (...) {
+        return std::nullopt;
+      }
+    }
+    if (const auto *unary =
+            dynamic_cast<const BoundUnaryExpression *>(expression)) {
+      auto value = self(self, unary->expr.get());
+      if (!value || (unary->op != "+" && unary->op != "-")) {
+        return std::nullopt;
+      }
+      if (unary->op == "-" && value->magnitude != 0) {
+        value->negative = !value->negative;
+      }
+      return value;
+    }
+    return std::nullopt;
+  };
+  auto normalizeIntegerPattern = [&](IntegerPatternValue value,
                                      const std::shared_ptr<zir::Type> &type)
       -> std::optional<std::string> {
     const int width = typeBitWidth(type);
@@ -299,27 +348,30 @@ void Binder::visit(CaseNode &node) {
     }
 
     if (type->isUnsigned()) {
-      if (value < 0) {
+      if (value.negative) {
         return std::nullopt;
       }
       const uint64_t maximum = width == 64
                                    ? std::numeric_limits<uint64_t>::max()
                                    : (uint64_t{1} << width) - 1;
-      const uint64_t normalized = static_cast<uint64_t>(value);
-      if (normalized > maximum) {
+      if (value.magnitude > maximum) {
         return std::nullopt;
       }
-      return std::to_string(normalized);
+      return std::to_string(value.magnitude);
     }
 
-    const int64_t minimum = width == 64 ? std::numeric_limits<int64_t>::min()
-                                        : -(int64_t{1} << (width - 1));
-    const int64_t maximum = width == 64 ? std::numeric_limits<int64_t>::max()
-                                        : (int64_t{1} << (width - 1)) - 1;
-    if (value < minimum || value > maximum) {
+    const uint64_t negativeMaximum = uint64_t{1} << (width - 1);
+    const uint64_t positiveMaximum = negativeMaximum - 1;
+    if (value.negative) {
+      if (value.magnitude > negativeMaximum) {
+        return std::nullopt;
+      }
+      return "-" + std::to_string(value.magnitude);
+    }
+    if (value.magnitude > positiveMaximum) {
       return std::nullopt;
     }
-    return std::to_string(value);
+    return std::to_string(value.magnitude);
   };
 
   bool sawElse = false;
@@ -342,6 +394,7 @@ void Binder::visit(CaseNode &node) {
         error(arm.span, "Case arm after 'else' is unreachable.");
       }
 
+      bool recordPatternValid = true;
       auto bindRecord = [&](const auto &self, const CasePattern &record,
                             std::shared_ptr<zir::RecordType> type)
           -> std::unique_ptr<BoundCasePattern> {
@@ -351,6 +404,7 @@ void Binder::visit(CaseNode &node) {
           if (!names.insert(field.name).second) {
             error(field.span,
                   "Duplicate record pattern field '" + field.name + "'.");
+            recordPatternValid = false;
             continue;
           }
           int index = -1;
@@ -365,6 +419,7 @@ void Binder::visit(CaseNode &node) {
           if (index < 0) {
             error(field.span, "Record type '" + type->getName() +
                                   "' has no field '" + field.name + "'.");
+            recordPatternValid = false;
             continue;
           }
           if (field.nested) {
@@ -372,6 +427,7 @@ void Binder::visit(CaseNode &node) {
               if (fieldType->getKind() != zir::TypeKind::Record) {
                 error(field.span, "Nested record pattern requires a "
                                   "Record/struct field.");
+                recordPatternValid = false;
                 continue;
               }
               auto nestedSymbol =
@@ -382,6 +438,7 @@ void Binder::visit(CaseNode &node) {
                 error(field.nested->span,
                       "Nested record pattern does not match field '" +
                           field.name + "'.");
+                recordPatternValid = false;
                 continue;
               }
               fields.push_back(
@@ -400,6 +457,7 @@ void Binder::visit(CaseNode &node) {
                 error(field.nested->span,
                       "Enum field pattern does not match field '" + field.name +
                           "'.");
+                recordPatternValid = false;
                 continue;
               }
               std::vector<std::string> typePath(path.begin(), path.end() - 1);
@@ -409,6 +467,7 @@ void Binder::visit(CaseNode &node) {
                 error(field.nested->span,
                       "Enum field pattern does not match field '" + field.name +
                           "'.");
+                recordPatternValid = false;
                 continue;
               }
               if (fieldType->getKind() == zir::TypeKind::Enum) {
@@ -419,6 +478,7 @@ void Binder::visit(CaseNode &node) {
                     field.nested->payloadKind != CasePayloadPatternKind::None) {
                   error(field.nested->span,
                         "Invalid enum field pattern for '" + field.name + "'.");
+                  recordPatternValid = false;
                   continue;
                 }
                 fields.push_back({index,
@@ -434,6 +494,7 @@ void Binder::visit(CaseNode &node) {
               if (!variant) {
                 error(field.nested->span,
                       "Invalid enum field pattern for '" + field.name + "'.");
+                recordPatternValid = false;
                 continue;
               }
               if (!variant->payloadType) {
@@ -441,6 +502,7 @@ void Binder::visit(CaseNode &node) {
                     CasePayloadPatternKind::Empty) {
                   error(field.nested->span,
                         "Invalid enum field pattern for '" + field.name + "'.");
+                  recordPatternValid = false;
                   continue;
                 }
                 fields.push_back({index,
@@ -462,6 +524,7 @@ void Binder::visit(CaseNode &node) {
                       "Enum field payload pattern for '" + field.name +
                           "' must be a binding, '_', literal, or record "
                           "pattern.");
+                recordPatternValid = false;
                 continue;
               }
               std::unique_ptr<BoundExpression> payloadValue;
@@ -475,10 +538,12 @@ void Binder::visit(CaseNode &node) {
                 payloadValue = bindExpressionWithExpected(
                     field.nested->payloadLiteral.get(), expectedPayloadType);
                 if (!payloadValue) {
+                  recordPatternValid = false;
                   continue;
                 }
                 if (variant->payloadType->isInteger()) {
-                  auto integerValue = evaluateConstantInt(payloadValue.get());
+                  auto integerValue = evaluateIntegerPattern(
+                      evaluateIntegerPattern, payloadValue.get());
                   if (!integerValue ||
                       !normalizeIntegerPattern(*integerValue,
                                                variant->payloadType)) {
@@ -486,6 +551,7 @@ void Binder::visit(CaseNode &node) {
                           "Enum field payload pattern is not representable "
                           "by payload type '" +
                               renderTypeForUser(variant->payloadType) + "'.");
+                    recordPatternValid = false;
                     continue;
                   }
                   if (!zir::sameType(payloadValue->type,
@@ -502,6 +568,7 @@ void Binder::visit(CaseNode &node) {
                           "Enum field payload pattern type does not match "
                           "payload type '" +
                               renderTypeForUser(variant->payloadType) + "'.");
+                    recordPatternValid = false;
                     continue;
                   }
                   if (isStringType(expectedPayloadType)) {
@@ -513,6 +580,7 @@ void Binder::visit(CaseNode &node) {
                 } else {
                   error(field.nested->span,
                         "Enum field payload pattern must be a literal.");
+                  recordPatternValid = false;
                   continue;
                 }
               }
@@ -525,6 +593,7 @@ void Binder::visit(CaseNode &node) {
                   error(field.nested->span,
                         "Enum field payload pattern for '" + field.name +
                             "' must match a Record/struct payload.");
+                  recordPatternValid = false;
                   continue;
                 }
                 auto payloadSymbol = resolveQualifiedSymbol(
@@ -535,6 +604,7 @@ void Binder::visit(CaseNode &node) {
                         "Enum field record payload pattern does not match "
                         "field '" +
                             field.name + "'.");
+                  recordPatternValid = false;
                   continue;
                 }
                 payloadPattern = self(self, payload,
@@ -564,21 +634,25 @@ void Binder::visit(CaseNode &node) {
               error(field.nested->span,
                     "Record fields currently support literal, enum, or "
                     "record patterns.");
+              recordPatternValid = false;
               continue;
             }
             auto value = bindExpressionWithExpected(field.nested->literal.get(),
                                                     fieldType);
             if (!value) {
+              recordPatternValid = false;
               continue;
             }
             if (fieldType->isInteger()) {
-              auto integerValue = evaluateConstantInt(value.get());
+              auto integerValue =
+                  evaluateIntegerPattern(evaluateIntegerPattern, value.get());
               if (!integerValue ||
                   !normalizeIntegerPattern(*integerValue, fieldType)) {
                 error(field.nested->span, "Record field pattern is not "
                                           "representable by field type '" +
                                               renderTypeForUser(fieldType) +
                                               "'.");
+                recordPatternValid = false;
                 continue;
               }
               if (!zir::sameType(value->type, fieldType)) {
@@ -595,12 +669,14 @@ void Binder::visit(CaseNode &node) {
                                               "' does not match field type '" +
                                               renderTypeForUser(fieldType) +
                                               "'.");
+                recordPatternValid = false;
                 continue;
               }
               value = applyConversion(std::move(value), *conversion);
             } else {
               error(field.nested->span,
                     "Record field pattern must be a literal.");
+              recordPatternValid = false;
               continue;
             }
             fields.push_back(
@@ -615,6 +691,69 @@ void Binder::visit(CaseNode &node) {
           }
         }
         return std::make_unique<BoundCasePattern>(type, std::move(fields));
+      };
+      auto canonicalLiteralPattern = [&](const BoundExpression &value) {
+        if (value.type->isInteger()) {
+          auto integerValue =
+              evaluateIntegerPattern(evaluateIntegerPattern, &value);
+          auto normalized =
+              integerValue ? normalizeIntegerPattern(*integerValue, value.type)
+                           : std::nullopt;
+          return normalized ? renderTypeForUser(value.type) + ":" + *normalized
+                            : std::string{};
+        }
+        const BoundExpression *expression = &value;
+        while (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
+          expression = cast->expression.get();
+        }
+        if (const auto *literal =
+                dynamic_cast<const BoundLiteral *>(expression)) {
+          return renderTypeForUser(value.type) + ":" + literal->value;
+        }
+        return std::string{};
+      };
+      auto canonicalCasePattern =
+          [&](const auto &self,
+              const BoundCasePattern &boundPattern) -> std::string {
+        if (boundPattern.kind == BoundCasePatternKind::Record) {
+          std::vector<std::string> constraints;
+          for (const auto &field : boundPattern.recordFields) {
+            if (!field.nested) {
+              continue;
+            }
+            auto nestedKey = self(self, *field.nested);
+            if (!nestedKey.empty()) {
+              constraints.push_back(std::to_string(field.index) + ":" +
+                                    std::move(nestedKey));
+            }
+          }
+          if (constraints.empty()) {
+            return "";
+          }
+          std::sort(constraints.begin(), constraints.end());
+          std::string key = "record{";
+          for (const auto &constraint : constraints) {
+            key += constraint + ";";
+          }
+          return key + "}";
+        }
+        if (boundPattern.kind == BoundCasePatternKind::Literal) {
+          return "literal:" + canonicalLiteralPattern(*boundPattern.value);
+        }
+        if (boundPattern.kind == BoundCasePatternKind::EnumVariant) {
+          return "enum:" + std::to_string(boundPattern.variantTag);
+        }
+        if (boundPattern.kind == BoundCasePatternKind::TaggedUnionVariant) {
+          std::string key = "union:" + std::to_string(boundPattern.variantTag);
+          if (boundPattern.payloadValue) {
+            key += ":literal:" +
+                   canonicalLiteralPattern(*boundPattern.payloadValue);
+          } else if (boundPattern.payloadPattern) {
+            key += ":" + self(self, *boundPattern.payloadPattern);
+          }
+          return key;
+        }
+        return "";
       };
       for (const auto &pattern : arm.patterns) {
         if (pattern.kind == CasePatternKind::Record) {
@@ -643,9 +782,19 @@ void Binder::visit(CaseNode &node) {
             }
             return true;
           };
+          recordPatternValid = true;
           auto boundRecord = bindRecord(
               bindRecord, pattern,
               std::static_pointer_cast<zir::RecordType>(scrutineeType));
+          if (!recordPatternValid) {
+            continue;
+          }
+          auto recordKey =
+              canonicalCasePattern(canonicalCasePattern, *boundRecord);
+          recordKey = recordKey.empty() ? "record:*" : "record:" + recordKey;
+          if (!seenPatterns.insert(recordKey).second) {
+            error(pattern.span, "Duplicate case pattern.");
+          }
           boundPatterns.push_back(std::move(*boundRecord));
           hasRecordPattern = hasRecordPattern ||
                              isIrrefutableRecord(isIrrefutableRecord, pattern);
@@ -754,7 +903,8 @@ void Binder::visit(CaseNode &node) {
               continue;
             }
             if (variant->payloadType->isInteger()) {
-              auto integerValue = evaluateConstantInt(payloadValue.get());
+              auto integerValue = evaluateIntegerPattern(evaluateIntegerPattern,
+                                                         payloadValue.get());
               auto normalized =
                   integerValue ? normalizeIntegerPattern(*integerValue,
                                                          variant->payloadType)
@@ -812,8 +962,12 @@ void Binder::visit(CaseNode &node) {
             }
             auto recordType =
                 std::static_pointer_cast<zir::RecordType>(variant->payloadType);
+            recordPatternValid = true;
             payloadPattern =
                 bindRecord(bindRecord, payload, std::move(recordType));
+            if (!recordPatternValid) {
+              continue;
+            }
             auto isIrrefutablePayloadRecord =
                 [&](const auto &self, const CasePattern &record) -> bool {
               for (const auto &field : record.recordFields) {
@@ -827,65 +981,8 @@ void Binder::visit(CaseNode &node) {
             };
             payloadPatternIrrefutable =
                 isIrrefutablePayloadRecord(isIrrefutablePayloadRecord, payload);
-            auto canonicalLiteral = [&](const BoundExpression &value) {
-              const BoundExpression *expression = &value;
-              if (const auto *cast =
-                      dynamic_cast<const BoundCast *>(expression)) {
-                expression = cast->expression.get();
-              }
-              if (const auto *literal =
-                      dynamic_cast<const BoundLiteral *>(expression)) {
-                return renderTypeForUser(value.type) + ":" + literal->value;
-              }
-              return std::string{};
-            };
-            auto canonicalPayloadPattern =
-                [&](const auto &self,
-                    const BoundCasePattern &boundPattern) -> std::string {
-              if (boundPattern.kind == BoundCasePatternKind::Record) {
-                std::vector<std::string> constraints;
-                for (const auto &field : boundPattern.recordFields) {
-                  if (!field.nested) {
-                    continue;
-                  }
-                  auto nestedKey = self(self, *field.nested);
-                  if (!nestedKey.empty()) {
-                    constraints.push_back(std::to_string(field.index) + ":" +
-                                          std::move(nestedKey));
-                  }
-                }
-                if (constraints.empty()) {
-                  return "";
-                }
-                std::sort(constraints.begin(), constraints.end());
-                std::string key = "record{";
-                for (const auto &constraint : constraints) {
-                  key += constraint + ";";
-                }
-                return key + "}";
-              }
-              if (boundPattern.kind == BoundCasePatternKind::Literal) {
-                return "literal:" + canonicalLiteral(*boundPattern.value);
-              }
-              if (boundPattern.kind == BoundCasePatternKind::EnumVariant) {
-                return "enum:" + std::to_string(boundPattern.variantTag);
-              }
-              if (boundPattern.kind ==
-                  BoundCasePatternKind::TaggedUnionVariant) {
-                std::string key =
-                    "union:" + std::to_string(boundPattern.variantTag);
-                if (boundPattern.payloadValue) {
-                  key += ":literal:" +
-                         canonicalLiteral(*boundPattern.payloadValue);
-                } else if (boundPattern.payloadPattern) {
-                  key += ":" + self(self, *boundPattern.payloadPattern);
-                }
-                return key;
-              }
-              return "";
-            };
-            auto canonicalKey = canonicalPayloadPattern(canonicalPayloadPattern,
-                                                        *payloadPattern);
+            auto canonicalKey =
+                canonicalCasePattern(canonicalCasePattern, *payloadPattern);
             payloadKey = canonicalKey.empty()
                              ? ":record:*"
                              : ":record:" + std::move(canonicalKey);
@@ -922,7 +1019,8 @@ void Binder::visit(CaseNode &node) {
 
         std::string patternKey = renderTypeForUser(scrutineeType) + ":";
         if (scrutineeType->isInteger()) {
-          auto integerValue = evaluateConstantInt(value.get());
+          auto integerValue =
+              evaluateIntegerPattern(evaluateIntegerPattern, value.get());
           if (!integerValue) {
             error(pattern.span, "Case integer pattern must be constant.");
             continue;

@@ -1,0 +1,14 @@
+record Box {
+    value: UInt64,
+}
+
+enum Result {
+    Value(Box),
+}
+
+fun classify(result: Result) Int {
+    case result {
+        Result.Value(Box { value: 18446744073709551615 }) { return 1; }
+        Result.Value(Box { value: 0xffffffffffffffff }) { return 2; }
+    }
+}
