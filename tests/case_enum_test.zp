@@ -1,0 +1,34 @@
+enum Color { Red, Green, Blue }
+
+enum Result {
+    Empty,
+    Value(Int),
+    Error(String),
+}
+
+fun colorCode(color: Color) Int {
+    case color {
+        Color.Red { return 1; }
+        Color.Green { return 2; }
+        Color.Blue { return 3; }
+    }
+}
+
+fun resultCode(result: Result) Int {
+    case result {
+        Result.Empty() { return 1; }
+        Result.Value(value) { return value; }
+        Result.Error(message) {
+            if message == "oops" { return 3; }
+            return 4;
+        }
+    }
+}
+
+fun main() Int {
+    if colorCode(Color.Red) != 1 || colorCode(Color.Blue) != 3 { return 1; }
+    if resultCode(Result.Empty()) != 1 { return 2; }
+    if resultCode(Result.Value(42)) != 42 { return 3; }
+    if resultCode(Result.Error("oops")) != 3 { return 4; }
+    return 0;
+}

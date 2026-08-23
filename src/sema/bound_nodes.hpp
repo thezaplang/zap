@@ -567,15 +567,27 @@ public:
   }
 };
 
+enum class BoundCasePatternKind { Literal, EnumVariant, TaggedUnionVariant };
+
 class BoundCasePattern {
 public:
+  BoundCasePatternKind kind = BoundCasePatternKind::Literal;
   std::unique_ptr<BoundExpression> value;
+  int64_t variantTag = 0;
+  std::shared_ptr<zir::Type> payloadType;
 
   explicit BoundCasePattern(std::unique_ptr<BoundExpression> patternValue)
       : value(std::move(patternValue)) {}
 
+  BoundCasePattern(BoundCasePatternKind patternKind, int64_t tag,
+                   std::shared_ptr<zir::Type> payload = nullptr)
+      : kind(patternKind), variantTag(tag), payloadType(std::move(payload)) {}
+
   BoundCasePattern clone() const {
-    return BoundCasePattern(value ? value->clone() : nullptr);
+    if (kind == BoundCasePatternKind::Literal) {
+      return BoundCasePattern(value ? value->clone() : nullptr);
+    }
+    return BoundCasePattern(kind, variantTag, payloadType);
   }
 };
 
@@ -583,11 +595,14 @@ class BoundCaseArm {
 public:
   bool isElse = false;
   std::vector<BoundCasePattern> patterns;
+  std::shared_ptr<VariableSymbol> payloadBinding;
   std::unique_ptr<BoundBlock> body;
 
   BoundCaseArm(bool wildcard, std::vector<BoundCasePattern> armPatterns,
+               std::shared_ptr<VariableSymbol> binding,
                std::unique_ptr<BoundBlock> armBody)
       : isElse(wildcard), patterns(std::move(armPatterns)),
+        payloadBinding(std::move(binding)),
         body(std::move(armBody)) {}
 
   BoundCaseArm clone() const {
@@ -596,7 +611,7 @@ public:
     for (const auto &pattern : patterns) {
       clonedPatterns.push_back(pattern.clone());
     }
-    return BoundCaseArm(isElse, std::move(clonedPatterns),
+    return BoundCaseArm(isElse, std::move(clonedPatterns), payloadBinding,
                         body ? body->cloneBlock() : nullptr);
   }
 };
@@ -605,10 +620,12 @@ class BoundCaseStatement : public BoundStatement {
 public:
   std::unique_ptr<BoundExpression> scrutinee;
   std::vector<BoundCaseArm> arms;
+  bool isExhaustive = false;
 
   BoundCaseStatement(std::unique_ptr<BoundExpression> subject,
-                     std::vector<BoundCaseArm> caseArms)
-      : scrutinee(std::move(subject)), arms(std::move(caseArms)) {}
+                     std::vector<BoundCaseArm> caseArms, bool exhaustive)
+      : scrutinee(std::move(subject)), arms(std::move(caseArms)),
+        isExhaustive(exhaustive) {}
 
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundStatement> cloneStatement() const override {
@@ -617,8 +634,8 @@ public:
     for (const auto &arm : arms) {
       clonedArms.push_back(arm.clone());
     }
-    return std::make_unique<BoundCaseStatement>(scrutinee->clone(),
-                                                std::move(clonedArms));
+    return std::make_unique<BoundCaseStatement>(
+        scrutinee->clone(), std::move(clonedArms), isExhaustive);
   }
 };
 

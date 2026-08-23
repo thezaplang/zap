@@ -271,14 +271,16 @@ void Binder::visit(CaseNode &node) {
   }
 
   const auto scrutineeType = scrutinee->type;
-  const bool supportsLiteralPatterns =
+  const bool supportsCasePatterns =
       scrutineeType->isInteger() ||
       scrutineeType->getKind() == zir::TypeKind::Bool ||
       scrutineeType->getKind() == zir::TypeKind::Char ||
-      isStringType(scrutineeType);
-  if (!supportsLiteralPatterns) {
+      isStringType(scrutineeType) ||
+      scrutineeType->getKind() == zir::TypeKind::Enum ||
+      scrutineeType->getKind() == zir::TypeKind::TaggedUnion;
+  if (!supportsCasePatterns) {
     error(node.scrutinee->span,
-          "Case scrutinee must be an integer, Bool, Char, or String; got '" +
+          "Case scrutinee must be an integer, Bool, Char, String, or enum; got '" +
               renderTypeForUser(scrutineeType) + "'.");
     for (const auto &arm : node.arms) {
       bindBody(arm.body.get(), true);
@@ -319,10 +321,12 @@ void Binder::visit(CaseNode &node) {
 
   bool sawElse = false;
   std::unordered_set<std::string> seenPatterns;
+  std::unordered_set<int64_t> coveredVariants;
   std::vector<BoundCaseArm> boundArms;
   boundArms.reserve(node.arms.size());
   for (const auto &arm : node.arms) {
     std::vector<BoundCasePattern> boundPatterns;
+    std::shared_ptr<VariableSymbol> payloadBinding;
     if (arm.isElse) {
       if (sawElse) {
         error(arm.span, "Duplicate 'else' case arm.");
@@ -334,9 +338,91 @@ void Binder::visit(CaseNode &node) {
       }
 
       for (const auto &pattern : arm.patterns) {
-        if (pattern.kind != CasePatternKind::Literal) {
-          error(pattern.span, "Enum variant patterns are not yet supported in "
-                              "case statements.");
+        if (pattern.kind == CasePatternKind::Variant) {
+          const auto &path = pattern.variantPath;
+          if (path.size() < 2) {
+            error(pattern.span, "Case variant does not belong to scrutinee type '" +
+                                    renderTypeForUser(scrutineeType) + "'.");
+            continue;
+          }
+
+          std::vector<std::string> typePath(path.begin(), path.end() - 1);
+          auto typeSymbol = resolveQualifiedSymbol(typePath, pattern.span,
+                                                   SymbolKind::Type);
+          if (!typeSymbol || !zir::sameType(typeSymbol->type, scrutineeType)) {
+            error(pattern.span, "Case variant does not belong to scrutinee type '" +
+                                    renderTypeForUser(scrutineeType) + "'.");
+            continue;
+          }
+
+          const auto &variantName = path.back();
+          if (scrutineeType->getKind() == zir::TypeKind::Enum) {
+            auto enumType = std::static_pointer_cast<zir::EnumType>(scrutineeType);
+            const auto tag = enumType->getVariantDiscriminant(variantName);
+            if (tag < 0) {
+              error(pattern.span, "Enum '" + enumType->getName() +
+                                      "' has no variant '" + variantName + "'.");
+              continue;
+            }
+            if (pattern.payloadKind != CasePayloadPatternKind::None) {
+              error(pattern.span, "Enum variant '" + variantName +
+                                      "' does not take a payload pattern.");
+              continue;
+            }
+            const auto key = "enum:" + std::to_string(tag);
+            if (!seenPatterns.insert(key).second) {
+              error(pattern.span, "Duplicate case pattern.");
+            }
+            coveredVariants.insert(tag);
+            boundPatterns.emplace_back(BoundCasePatternKind::EnumVariant, tag);
+            continue;
+          }
+
+          auto taggedUnion =
+              std::static_pointer_cast<zir::TaggedUnionType>(scrutineeType);
+          const auto *variant = taggedUnion->findVariant(variantName);
+          if (!variant) {
+            error(pattern.span, "Enum '" + taggedUnion->getName() +
+                                    "' has no variant '" + variantName + "'.");
+            continue;
+          }
+          if (!variant->payloadType &&
+              pattern.payloadKind != CasePayloadPatternKind::Empty) {
+            error(pattern.span, "Enum variant '" + variantName +
+                                    "' requires an empty payload pattern '()'.");
+            continue;
+          }
+          if (variant->payloadType &&
+              pattern.payloadKind != CasePayloadPatternKind::Binding &&
+              pattern.payloadKind != CasePayloadPatternKind::Wildcard) {
+            error(pattern.span, "Enum variant '" + variantName +
+                                    "' expects one payload binding.");
+            continue;
+          }
+          if (pattern.payloadKind == CasePayloadPatternKind::Binding) {
+            if (arm.patterns.size() != 1) {
+              error(pattern.span,
+                    "A case arm with a payload binding cannot have alternatives.");
+              continue;
+            }
+            payloadBinding = std::make_shared<VariableSymbol>(
+                pattern.payloadBinding, variant->payloadType,
+                BindingKind::Immutable, false, pattern.payloadBinding,
+                currentModuleId_);
+          }
+          const auto key = "union:" + std::to_string(variant->tag);
+          if (!seenPatterns.insert(key).second) {
+            error(pattern.span, "Duplicate case pattern.");
+          }
+          coveredVariants.insert(variant->tag);
+          boundPatterns.emplace_back(BoundCasePatternKind::TaggedUnionVariant,
+                                     variant->tag, variant->payloadType);
+          continue;
+        }
+
+        if (scrutineeType->getKind() == zir::TypeKind::Enum ||
+            scrutineeType->getKind() == zir::TypeKind::TaggedUnion) {
+          error(pattern.span, "Case enum patterns must name a variant.");
           continue;
         }
 
@@ -391,18 +477,52 @@ void Binder::visit(CaseNode &node) {
       }
     }
 
+    std::unique_ptr<BoundBlock> body;
+    if (payloadBinding) {
+      pushScope();
+      if (!currentScope_->declare(payloadBinding->name, payloadBinding)) {
+        error(arm.span, "Duplicate payload binding '" + payloadBinding->name +
+                            "' in case arm.");
+      }
+      body = bindBody(arm.body.get(), false);
+      popScope();
+    } else {
+      body = bindBody(arm.body.get(), true);
+    }
     boundArms.emplace_back(arm.isElse, std::move(boundPatterns),
-                           bindBody(arm.body.get(), true));
+                           std::move(payloadBinding), std::move(body));
   }
 
-  if (!sawElse) {
+  bool exhaustive = false;
+  if (scrutineeType->getKind() == zir::TypeKind::Enum) {
+    const auto &variants =
+        std::static_pointer_cast<zir::EnumType>(scrutineeType)->getVariants();
+    exhaustive = std::all_of(variants.begin(), variants.end(),
+                             [&](const auto &variant) {
+                               return coveredVariants.count(variant.discriminant) != 0;
+                             });
+  } else if (scrutineeType->getKind() == zir::TypeKind::TaggedUnion) {
+    const auto &variants = std::static_pointer_cast<zir::TaggedUnionType>(
+                               scrutineeType)
+                               ->getVariants();
+    exhaustive = std::all_of(variants.begin(), variants.end(),
+                             [&](const auto &variant) {
+                               return coveredVariants.count(variant.tag) != 0;
+                             });
+  }
+
+  if (!sawElse && !exhaustive) {
     error(node.span,
-          "Case statement requires an 'else' arm until enum exhaustiveness is "
-          "implemented.");
+          "Case statement requires an 'else' arm unless every enum variant is covered.");
+  }
+  if (sawElse && exhaustive &&
+      (scrutineeType->getKind() == zir::TypeKind::Enum ||
+       scrutineeType->getKind() == zir::TypeKind::TaggedUnion)) {
+    error(node.span, "'else' case arm is unreachable because all enum variants are covered.");
   }
 
   statementStack_.push(std::make_unique<BoundCaseStatement>(
-      std::move(scrutinee), std::move(boundArms)));
+      std::move(scrutinee), std::move(boundArms), sawElse || exhaustive));
 }
 
 void Binder::visit(IfTypeNode &node) {

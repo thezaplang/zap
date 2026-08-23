@@ -264,14 +264,12 @@ bool stmtAlwaysReturns(const BoundStatement *stmt) {
     return ifStmt->elseBody && blockAlwaysReturns(ifStmt->thenBody.get()) &&
            blockAlwaysReturns(ifStmt->elseBody.get());
   if (auto *caseStmt = dynamic_cast<const BoundCaseStatement *>(stmt)) {
-    bool hasElse = false;
     for (const auto &arm : caseStmt->arms) {
-      hasElse = hasElse || arm.isElse;
       if (!blockAlwaysReturns(arm.body.get())) {
         return false;
       }
     }
-    return hasElse;
+    return caseStmt->isExhaustive;
   }
   return false;
 }
