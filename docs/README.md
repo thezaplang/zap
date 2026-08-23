@@ -27,38 +27,41 @@ Zap is a modern systems programming language focused on predictable performance,
 3. [Control Flow](control_flow.md)  
    `if`, `while`, ternary expressions, and condition typing rules.
 
+4. [Pattern Matching](pattern_matching.md)
+   `case`, literal patterns, enum variants, payload bindings, and `else`.
+
 ---
 
 ### Data & Memory
 
-4. [Data Structures](data_structures.md)  
+5. [Data Structures](data_structures.md)
    Records, enums, and arrays.
 
-5. [Classes](classes.md)  
+6. [Classes](classes.md)
    Heap-only classes, methods, inheritance, visibility, and `new`.
 
-6. [Memory Management](memory.md)  
+7. [Memory Management](memory.md)
    ARC model, object lifetime behavior, and performance implications.
 
-7. [Strings](strings.md)  
+8. [Strings](strings.md)
    `String`, `StringView`, `TextBuf`, ownership/borrowing rules, and `std/string` behavior.
 
-8. [Generics](generics.md)  
+9. [Generics](generics.md)
    Generic functions, generic structs/classes, constraints (`where`), and compile-time `iftype`.
 
-9. [JSON](json.md)
+10. [JSON](json.md)
    Building, parsing, typed access, lossless numbers, serialization, and errors.
 
 ---
 
 ### Diagnostics & Tooling
 
-10. [Diagnostic Codes](diagnostic_codes.md)
+11. [Diagnostic Codes](diagnostic_codes.md)
    Full reference for parser/semantic/warning/note diagnostic codes (`Pxxxx`, `Sxxxx`, `Wxxxx`, `Nxxxx`), including examples and maintenance guidelines.
 
 ### Architecture RFCs
 
-11. [Ownership-aware ARC RFC](rfc/ownership-aware-arc.md)
+12. [Ownership-aware ARC RFC](rfc/ownership-aware-arc.md)
     Draft design for ownership-aware ZIR, predictable ARC semantics, borrow
     provenance, and scheduled cycle collection. It describes the target model;
     it is not yet a description of released compiler behavior.

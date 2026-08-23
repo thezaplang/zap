@@ -178,8 +178,8 @@ fun main() Int {
 - Variants are constructed with call syntax (`Value.Number(42)`,
   `Value.Empty()`)
 - `.tag` exposes the numeric discriminant as `Int32`
-- Pattern matching and payload narrowing are not part of this first
-  implementation
+- Use [`case` pattern matching](pattern_matching.md) to distinguish variants
+  and bind a payload safely
 
 ---
 
