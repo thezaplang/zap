@@ -22,6 +22,12 @@ struct IntegerPatternValue {
   uint64_t magnitude = 0;
 };
 
+struct RecordPatternResult {
+  std::unique_ptr<BoundCasePattern> pattern;
+  std::vector<std::shared_ptr<VariableSymbol>> bindings;
+  bool valid = true;
+};
+
 std::optional<IntegerPatternValue>
 evaluateIntegerPattern(const BoundExpression *expression) {
   if (const auto *cast = dynamic_cast<const BoundCast *>(expression)) {
@@ -524,10 +530,12 @@ void Binder::bindCaseStatement(CaseNode &node) {
         error(arm.span, "Case arm after 'else' is unreachable.");
       }
 
-      bool recordPatternValid = true;
-      auto bindRecord = [&](const auto &self, const CasePattern &record,
-                            std::shared_ptr<zir::RecordType> type)
-          -> std::unique_ptr<BoundCasePattern> {
+      auto bindRecord =
+          [&](const auto &self, const CasePattern &record,
+              std::shared_ptr<zir::RecordType> type) -> RecordPatternResult {
+        RecordPatternResult result;
+        auto &recordBindings = result.bindings;
+        auto &recordPatternValid = result.valid;
         std::vector<BoundCaseRecordField> fields;
         std::unordered_set<std::string> names;
         for (const auto &field : record.recordFields) {
@@ -571,11 +579,14 @@ void Binder::bindCaseStatement(CaseNode &node) {
                 recordPatternValid = false;
                 continue;
               }
-              fields.push_back(
-                  {index,
-                   self(self, *field.nested,
-                        std::static_pointer_cast<zir::RecordType>(fieldType)),
-                   nullptr});
+              auto nested =
+                  self(self, *field.nested,
+                       std::static_pointer_cast<zir::RecordType>(fieldType));
+              recordPatternValid = recordPatternValid && nested.valid;
+              recordBindings.insert(recordBindings.end(),
+                                    nested.bindings.begin(),
+                                    nested.bindings.end());
+              fields.push_back({index, std::move(nested.pattern), nullptr});
               continue;
             }
 
@@ -738,9 +749,14 @@ void Binder::bindCaseStatement(CaseNode &node) {
                   recordPatternValid = false;
                   continue;
                 }
-                payloadPattern = self(self, payload,
-                                      std::static_pointer_cast<zir::RecordType>(
-                                          variant->payloadType));
+                auto nested = self(self, payload,
+                                   std::static_pointer_cast<zir::RecordType>(
+                                       variant->payloadType));
+                recordPatternValid = recordPatternValid && nested.valid;
+                recordBindings.insert(recordBindings.end(),
+                                      nested.bindings.begin(),
+                                      nested.bindings.end());
+                payloadPattern = std::move(nested.pattern);
               }
               std::shared_ptr<VariableSymbol> payloadBinding;
               if (field.nested->payloadKind ==
@@ -821,7 +837,9 @@ void Binder::bindCaseStatement(CaseNode &node) {
             fields.push_back({index, nullptr, std::move(binding)});
           }
         }
-        return std::make_unique<BoundCasePattern>(type, std::move(fields));
+        result.pattern =
+            std::make_unique<BoundCasePattern>(type, std::move(fields));
+        return result;
       };
       for (const auto &pattern : arm.patterns) {
         if (pattern.kind == CasePatternKind::Record) {
@@ -839,20 +857,22 @@ void Binder::bindCaseStatement(CaseNode &node) {
                       renderTypeForUser(scrutineeType) + "'.");
             continue;
           }
-          recordPatternValid = true;
-          auto boundRecord = bindRecord(
+          auto recordResult = bindRecord(
               bindRecord, pattern,
               std::static_pointer_cast<zir::RecordType>(scrutineeType));
-          if (!recordPatternValid) {
+          if (!recordResult.valid) {
             continue;
           }
+          recordBindings.insert(recordBindings.end(),
+                                recordResult.bindings.begin(),
+                                recordResult.bindings.end());
           auto recordKey = canonicalCasePattern(
-              *boundRecord, targetInfo_.nativeIntegerBitWidth());
+              *recordResult.pattern, targetInfo_.nativeIntegerBitWidth());
           recordKey = recordKey.empty() ? "record:*" : "record:" + recordKey;
           if (!seenPatterns.insert(recordKey).second) {
             error(pattern.span, "Duplicate case pattern.");
           }
-          boundPatterns.push_back(std::move(*boundRecord));
+          boundPatterns.push_back(std::move(*recordResult.pattern));
           hasRecordPattern =
               hasRecordPattern || isIrrefutableRecordPattern(pattern);
           continue;
@@ -1019,12 +1039,15 @@ void Binder::bindCaseStatement(CaseNode &node) {
             }
             auto recordType =
                 std::static_pointer_cast<zir::RecordType>(variant->payloadType);
-            recordPatternValid = true;
-            payloadPattern =
+            auto recordResult =
                 bindRecord(bindRecord, payload, std::move(recordType));
-            if (!recordPatternValid) {
+            if (!recordResult.valid) {
               continue;
             }
+            recordBindings.insert(recordBindings.end(),
+                                  recordResult.bindings.begin(),
+                                  recordResult.bindings.end());
+            payloadPattern = std::move(recordResult.pattern);
             payloadPatternIrrefutable = isIrrefutableRecordPattern(payload);
             auto canonicalKey = canonicalCasePattern(
                 *payloadPattern, targetInfo_.nativeIntegerBitWidth());
