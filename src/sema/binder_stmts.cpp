@@ -426,7 +426,9 @@ void Binder::visit(IfNode &node) {
       std::move(narrowedSource), std::move(narrowedVariable)));
 }
 
-void Binder::visit(CaseNode &node) {
+void Binder::visit(CaseNode &node) { bindCaseStatement(node); }
+
+void Binder::bindCaseStatement(CaseNode &node) {
   auto scrutinee = bindExpressionWithExpected(node.scrutinee.get(), nullptr);
   if (!scrutinee) {
     return;

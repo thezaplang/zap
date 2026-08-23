@@ -287,6 +287,7 @@ private:
   bool bindWeakBuiltinCall(FunCall &node);
   int typeBitWidth(std::shared_ptr<zir::Type> type) const;
   std::unique_ptr<BoundBlock> bindBody(BodyNode *body, bool createScope);
+  void bindCaseStatement(CaseNode &node);
   void initializeBuiltins();
   void predeclareModuleTypes(ModuleState &module);
   void predeclareModuleAliases(ModuleState &module);
