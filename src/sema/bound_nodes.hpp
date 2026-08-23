@@ -43,6 +43,7 @@ class BoundCast;
 class BoundNewExpression;
 class BoundWeakLockExpression;
 class BoundWeakAliveExpression;
+class BoundRangeExpression;
 class BoundTryExpression;
 class BoundFallbackExpression;
 class BoundFailableHandleExpression;
@@ -94,6 +95,7 @@ public:
   virtual void visit(BoundFallbackExpression &node) = 0;
   virtual void visit(BoundFailableHandleExpression &node) = 0;
   virtual void visit(BoundFailStatement &node) = 0;
+  virtual void visit(BoundRangeExpression &node) = 0;
 };
 
 class BoundNode {
@@ -775,6 +777,25 @@ public:
   // when this compilation unit is discarded.
   std::vector<std::shared_ptr<zir::RecordType>> genericTypes;
   void accept(BoundVisitor &v) override { v.visit(*this); }
+};
+
+class BoundRangeExpression : public BoundExpression {
+public:
+  std::unique_ptr<BoundExpression> start;
+  std::unique_ptr<BoundExpression> end;
+  std::unique_ptr<BoundExpression> step;
+
+  BoundRangeExpression(std::unique_ptr<BoundExpression> s,
+                       std::unique_ptr<BoundExpression> e,
+                       std::unique_ptr<BoundExpression> st,
+                       std::shared_ptr<zir::Type> t)
+      : BoundExpression(std::move(t)), start(std::move(s)),
+        end(std::move(e)), step(std::move(st)) {}
+  void accept(BoundVisitor &v) override { v.visit(*this); }
+  std::unique_ptr<BoundExpression> clone() const override {
+    return std::make_unique<BoundRangeExpression>(
+        start->clone(), end->clone(), step ? step->clone() : nullptr, type);
+  }
 };
 
 } // namespace sema

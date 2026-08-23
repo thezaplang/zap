@@ -1,0 +1,57 @@
+fun main() Int {
+    var sum1 = 0;
+    for i in 0..10 {
+        sum1 = sum1 + i;
+    }
+    if sum1 != 45 {
+        return 1;
+    }
+
+    var sum2 = 0;
+    for i in 0..10..2 {
+        sum2 = sum2 + i;
+    }
+    if sum2 != 20 {
+        return 2;
+    }
+
+    var sum3 = 0;
+    for i in 10..0..-2 {
+        sum3 = sum3 + i;
+    }
+    if sum3 != 30 {
+        return 3;
+    }
+
+    var idxSum = 0;
+    var valSum = 0;
+    for idx, val in 10..16..2 {
+        idxSum = idxSum + idx;
+        valSum = valSum + val;
+    }
+    if idxSum != 3 {
+        return 4;
+    }
+    if valSum != 36 {
+        return 5;
+    }
+
+    var start = 2;
+    var end = 4 * 2;
+    var step = 1 + 1;
+    var sum4 = 0;
+    for i in start..end..step {
+        sum4 = sum4 + i;
+    }
+    if sum4 != 12 {
+        return 6;
+    }
+
+    var count = 0;
+    for i in 5..5 {
+        count = count + 1;
+    }
+    if count != 0 {
+        return 7;
+    }
+}

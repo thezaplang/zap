@@ -116,6 +116,11 @@ public:
     markFunction(node.constructor);
     visitExpressions(node.arguments);
   }
+  void visit(sema::BoundRangeExpression &node) override {
+    visitNode(node.start);
+    visitNode(node.end);
+    visitNode(node.step);
+  }
   void visit(sema::BoundWeakLockExpression &node) override {
     visitNode(node.weakExpression);
   }

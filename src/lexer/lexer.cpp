@@ -131,6 +131,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         _pos += 3;
         _column += 3;
         continue;
+      } else if (Peek2() == '.') {
+        tokens.emplace_back(TokenType::DOTDOT, "..", startLine, startColumn,
+                            startPos, 2);
+        _pos += 2;
+        _column += 2;
+        continue;
       } else {
         tokens.emplace_back(TokenType::DOT, ".", startLine, startColumn,
                             startPos, 1);
@@ -485,12 +491,11 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         ++_pos;
         ++_column;
       }
-      if (!isAtEnd() && _input[_pos] == '.') {
+      if (!isAtEnd() && _input[_pos] == '.' && Peek2() != '.') {
         isFloat = true;
         numStr += _input[_pos++];
         ++_column;
-        while (!isAtEnd() &&
-               (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+        while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
           if (_input[_pos] != '_') {
             numStr += _input[_pos];
           }

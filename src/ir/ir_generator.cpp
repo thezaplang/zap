@@ -2207,6 +2207,10 @@ void BoundIRGenerator::visit(sema::BoundCast &node) {
   valueStack_.push(res);
 }
 
+void BoundIRGenerator::visit(sema::BoundRangeExpression &node) {
+  node.start->accept(*this);
+}
+
 void BoundIRGenerator::visit(sema::BoundNewExpression &node) {
   auto result = createRegister(node.type, ValueOwnership::OwnedStrong);
   currentBlock_->addInstruction(

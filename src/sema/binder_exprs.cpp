@@ -1315,4 +1315,46 @@ void Binder::visit(StructLiteralNode &node) {
       std::make_unique<BoundStructLiteral>(std::move(boundFields), recordType));
 }
 
+void Binder::visit(RangeExpr &node) {
+  auto start = bindExpressionWithExpected(node.start_.get(), nullptr);
+  auto end = bindExpressionWithExpected(node.end_.get(), start ? start->type : nullptr);
+  if (!start || !end) {
+    return;
+  }
+
+  if (!start->type->isInteger() || !end->type->isInteger()) {
+    error(node.span, "Range bounds must be integer types, got '" + renderTypeForUser(start->type) + "' and '" + renderTypeForUser(end->type) + "'");
+    return;
+  }
+
+  auto join = conversions_.joinTypes(start->type, end->type);
+  if (!join) {
+    error(node.span, "Range bounds must have compatible types, got '" + renderTypeForUser(start->type) + "' and '" + renderTypeForUser(end->type) + "'");
+    return;
+  }
+
+  auto type = join->type;
+  start = applyConversion(std::move(start), join->leftConversion);
+  end = applyConversion(std::move(end), join->rightConversion);
+
+  std::unique_ptr<BoundExpression> step = nullptr;
+  if (node.step_) {
+    step = bindExpressionWithExpected(node.step_.get(), type);
+    if (step) {
+      if (!step->type->isInteger()) {
+        error(node.step_->span, "Range step must be an integer, got '" + renderTypeForUser(step->type) + "'");
+        return;
+      }
+      auto conv = conversions_.classifyImplicit(step->type, type);
+      if (!conv) {
+        error(node.step_->span, "Range step type '" + renderTypeForUser(step->type) + "' is incompatible with range type '" + renderTypeForUser(type) + "'");
+        return;
+      }
+      step = applyConversion(std::move(step), *conv);
+    }
+  }
+
+  expressionStack_.push(std::make_unique<BoundRangeExpression>(std::move(start), std::move(end), std::move(step), type));
+}
+
 } // namespace sema

@@ -44,3 +44,4 @@
 #include "unary_expr.hpp"
 #include "unsafe_block_node.hpp"
 #include "while_node.hpp"
+#include "range_expr.hpp"

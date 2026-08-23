@@ -653,6 +653,7 @@ bool Parser::isTryPostfixContext(TokenType type) const {
   case TokenType::LSHIFT:
   case TokenType::RSHIFT:
   case TokenType::AS:
+  case TokenType::DOTDOT:
   case TokenType::IS:
     return true;
   default:
@@ -1358,7 +1359,7 @@ std::unique_ptr<ExpressionNode> Parser::parseCastExpression() {
 }
 
 std::unique_ptr<ExpressionNode> Parser::parseTernaryExpression() {
-  auto condition = parseBinaryExpression(0);
+  auto condition = parseRangeExpression();
 
   if (peek().type != TokenType::QUESTION)
     return condition;
@@ -2113,6 +2114,29 @@ Parser::parseStructLiteral(std::unique_ptr<TypeNode> type) {
                      SourceSpan::merge(lbrace.span, rbrace.span));
   }
   return literal;
+}
+
+std::unique_ptr<ExpressionNode> Parser::parseRangeExpression() {
+  auto start = parseBinaryExpression(0);
+  if (peek().type != TokenType::DOTDOT) {
+    return start;
+  }
+
+  Token dotDotTok = eat(TokenType::DOTDOT);
+  auto end = parseBinaryExpression(0);
+  std::unique_ptr<ExpressionNode> step = nullptr;
+  SourceSpan eSpan = end->span;
+
+  if (peek().type == TokenType::DOTDOT) {
+    eat(TokenType::DOTDOT);
+    step = parseBinaryExpression(0);
+    eSpan = step->span;
+  }
+
+  SourceSpan sSpan = start->span;
+  auto range = _builder.makeRangeExpr(std::move(start), std::move(end), std::move(step));
+  _builder.setSpan(range.get(), SourceSpan::merge(sSpan, eSpan));
+  return range;
 }
 
 } // namespace zap

@@ -52,6 +52,7 @@ class ConstChar;
 class ConstBool;
 class ConstId;
 class ConstNull;
+class RangeExpr;
 
 /// @brief Visitor interface with empty implementations to allow selective
 /// overrides.
@@ -91,6 +92,7 @@ struct Visitor {
 
   virtual void visit(ExpressionNode &) {}
   virtual void visit(BinExpr &) {}
+  virtual void visit(RangeExpr &) {}
   virtual void visit(TernaryExpr &) {}
   virtual void visit(UnaryExpr &) {}
   virtual void visit(CastExpr &) {}

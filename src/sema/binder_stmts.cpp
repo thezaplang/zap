@@ -396,6 +396,90 @@ void Binder::visit(ForInNode &node) {
 
   auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
 
+  if (auto rangeExpr = dynamic_cast<BoundRangeExpression *>(iterableValue.get())) {
+    auto rangeType = rangeExpr->type;
+    auto start = std::move(rangeExpr->start);
+    auto end = std::move(rangeExpr->end);
+    auto step = std::move(rangeExpr->step);
+
+    std::optional<int64_t> constStep;
+    if (step) {
+      constStep = evaluateConstantInt(step.get());
+    } else {
+      constStep = 1;
+      step = std::make_unique<BoundLiteral>("1", rangeType);
+    }
+
+    auto counter = makeSyntheticLoopName("val");
+    auto valCounterSymbol = std::make_shared<VariableSymbol>(
+        counter, rangeType, BindingKind::Mutable, false, counter,
+        moduleName, Visibility::Private);
+    currentScope_->declare(counter, valCounterSymbol);
+
+    auto initBlock = std::make_unique<BoundBlock>();
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(valCounterSymbol, std::move(start)));
+
+    std::shared_ptr<VariableSymbol> idxCounterSymbol = nullptr;
+    if (!node.indexName_.empty()) {
+      auto idxCounterName = makeSyntheticLoopName("idx");
+      idxCounterSymbol = std::make_shared<VariableSymbol>(
+          idxCounterName, intType, BindingKind::Mutable, false, idxCounterName,
+          moduleName, Visibility::Private);
+      currentScope_->declare(idxCounterName, idxCounterSymbol);
+      initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(idxCounterSymbol, std::make_unique<BoundLiteral>("0", intType)));
+    }
+
+    std::string cmpOp = (constStep && *constStep < 0) ? ">" : "<";
+    auto condition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), cmpOp,std::move(end), std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool));
+
+    auto incrementBlock = std::make_unique<BoundBlock>();
+    auto increment = std::make_unique<BoundAssignment>(
+        std::make_unique<BoundVariableExpression>(valCounterSymbol),
+        std::make_unique<BoundBinaryExpression>(
+            std::make_unique<BoundVariableExpression>(valCounterSymbol), "+",
+            std::move(step), rangeType));
+
+    pushScope();
+    auto item = std::make_shared<VariableSymbol>(
+        node.itemName_, rangeType, BindingKind::Immutable, false,
+        node.itemName_, moduleName, Visibility::Private);
+    if (!currentScope_->declare(node.itemName_, item)) {
+      error(node.span, "Variable '" + node.itemName_ + "' already declared.");
+    }
+    if (semanticInfo_) {
+      semanticInfo_->recordSymbol(&node, item);
+      semanticInfo_->recordDeclaration(&node, item);
+      semanticInfo_->recordType(&node, item->type);
+    }
+
+    std::shared_ptr<VariableSymbol> idxUserSmb = nullptr;
+    if (!node.indexName_.empty()) {
+      idxUserSmb = std::make_shared<VariableSymbol>(node.indexName_, intType, BindingKind::Immutable, false,node.indexName_, moduleName, Visibility::Private);
+      if (!currentScope_->declare(node.indexName_, idxUserSmb)) {
+        error(node.span, "Variable '" + node.indexName_ + "' already declared.");
+      }
+    }
+
+    ++loopDepth_;
+    auto body = bindBody(node.body_.get(), false);
+    --loopDepth_;
+
+    body->statements.insert(body->statements.begin(), std::make_unique<BoundVariableDeclaration>(item,std::make_unique<BoundVariableExpression>(valCounterSymbol)));
+
+    if (idxUserSmb) {
+      body->statements.insert(
+          body->statements.begin(),
+          std::make_unique<BoundVariableDeclaration>(idxUserSmb,std::make_unique<BoundVariableExpression>(idxCounterSymbol)));
+
+      body->statements.push_back(std::make_unique<BoundAssignment>(std::make_unique<BoundVariableExpression>(idxCounterSymbol), std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(idxCounterSymbol), "+", std::make_unique<BoundLiteral>("1", intType), intType)));
+    }
+    popScope();
+
+    popScope();
+    statementStack_.push(std::make_unique<BoundForStatement>(std::move(initBlock), std::move(condition), std::move(increment), std::move(body)));
+    return;
+  }
+
   auto iterableName = makeSyntheticLoopName("iter");
   auto iterableSymbol = std::make_shared<VariableSymbol>(
       iterableName, iterableValue->type, BindingKind::Mutable, false,

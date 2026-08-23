@@ -42,6 +42,7 @@
 #include "../ast/unary_expr.hpp"
 #include "../ast/unsafe_block_node.hpp"
 #include "../ast/while_node.hpp"
+#include "../ast/range_expr.hpp"
 
 class AstBuilder {
 public:
@@ -79,6 +80,12 @@ public:
     auto f = std::make_unique<FunCall>();
     f->callee_ = std::move(callee);
     return f;
+  }
+
+  std::unique_ptr<RangeExpr> makeRangeExpr(std::unique_ptr<ExpressionNode> start,
+                  std::unique_ptr<ExpressionNode> end,
+                  std::unique_ptr<ExpressionNode> step = nullptr) {
+      return std::make_unique<RangeExpr>(std::move(start), std::move(end), std::move(step));
   }
 
   std::unique_ptr<BodyNode> makeBody() { return std::make_unique<BodyNode>(); }

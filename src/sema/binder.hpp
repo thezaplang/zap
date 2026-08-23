@@ -75,6 +75,7 @@ public:
   void visit(ExtDecl &node) override;
   void visit(BodyNode &node) override;
   void visit(BindingDecl &node) override;
+  void visit(RangeExpr &node) override;
   void visit(ReturnNode &node) override;
   void visit(BinExpr &node) override;
   void visit(TernaryExpr &node) override;
