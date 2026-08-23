@@ -91,6 +91,8 @@ private:
   std::unique_ptr<CaseNode> parseCase();
   CaseArm parseCaseArm();
   CasePattern parseCasePattern();
+  CasePattern parseCaseRecordPattern(std::vector<std::string> typePath,
+                                     SourceSpan startSpan);
   std::unique_ptr<IfTypeNode> parseIfType();
   std::unique_ptr<WhileNode> parseWhile();
   std::unique_ptr<ForNode> parseFor();

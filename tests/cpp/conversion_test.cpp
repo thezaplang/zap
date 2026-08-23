@@ -77,12 +77,11 @@ bool testStringAndReferenceConversions() {
                                              zir::makeStringViewType());
   auto toOwned = conversions.classifyImplicit(zir::makeStringViewType(),
                                               zir::makeStringType());
-  auto charPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::Char));
+  auto charPointer = std::make_shared<PointerType>(primitive(TypeKind::Char));
   auto stringPointer =
       conversions.classifyImplicit(zir::makeStringViewType(), charPointer);
-  auto nullPointer = conversions.classifyImplicit(
-      primitive(TypeKind::NullPtr), charPointer);
+  auto nullPointer =
+      conversions.classifyImplicit(primitive(TypeKind::NullPtr), charPointer);
 
   auto base = std::make_shared<ClassType>("Base", "module.Base");
   auto derived = std::make_shared<ClassType>("Derived", "module.Derived");
@@ -114,8 +113,7 @@ bool testStringAndReferenceConversions() {
 bool testContextSpecificConversions() {
   TypeInterner types;
   ConversionClassifier conversions(types);
-  auto charPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::Char));
+  auto charPointer = std::make_shared<PointerType>(primitive(TypeKind::Char));
 
   auto implicitPointerInteger =
       conversions.classifyImplicit(charPointer, primitive(TypeKind::Int64));
@@ -133,12 +131,10 @@ bool testContextSpecificConversions() {
                         ConversionKind::ExplicitPointerInteger,
                 "explicit pointer-to-integer conversion was rejected") &&
          expect(cCharPromotion &&
-                    cCharPromotion->kind ==
-                        ConversionKind::CVariadicPromotion,
+                    cCharPromotion->kind == ConversionKind::CVariadicPromotion,
                 "C variadic Char promotion was rejected") &&
          expect(cBoolPromotion &&
-                    cBoolPromotion->kind ==
-                        ConversionKind::CVariadicPromotion,
+                    cBoolPromotion->kind == ConversionKind::CVariadicPromotion,
                 "C variadic Bool promotion was rejected");
 }
 
@@ -231,8 +227,7 @@ bool testTypeJoins() {
       conversions.joinTypes(zir::makeStringType(), zir::makeStringViewType());
   auto reversedStringJoin =
       conversions.joinTypes(zir::makeStringViewType(), zir::makeStringType());
-  auto charPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::Char));
+  auto charPointer = std::make_shared<PointerType>(primitive(TypeKind::Char));
   auto nullJoin =
       conversions.joinTypes(primitive(TypeKind::NullPtr), charPointer);
 
@@ -247,17 +242,16 @@ bool testTypeJoins() {
   weakLeftClass->setWeak(true);
   auto weakClassJoin = conversions.joinTypes(weakLeftClass, rightClass);
 
-  auto leftFailable = zir::makeFailableRecordType(
-      primitive(TypeKind::Int16), primitive(TypeKind::Int));
-  auto rightFailable = zir::makeFailableRecordType(
-      primitive(TypeKind::UInt8), primitive(TypeKind::Int));
+  auto leftFailable = zir::makeFailableRecordType(primitive(TypeKind::Int16),
+                                                  primitive(TypeKind::Int));
+  auto rightFailable = zir::makeFailableRecordType(primitive(TypeKind::UInt8),
+                                                   primitive(TypeKind::Int));
   auto failableJoin = conversions.joinTypes(leftFailable, rightFailable);
-  auto failableLayout =
-      failableJoin ? zir::getFailableTypeLayout(failableJoin->type)
-                   : std::nullopt;
+  auto failableLayout = failableJoin
+                            ? zir::getFailableTypeLayout(failableJoin->type)
+                            : std::nullopt;
 
-  auto firstRecord =
-      std::make_shared<zir::RecordType>("First", "module.First");
+  auto firstRecord = std::make_shared<zir::RecordType>("First", "module.First");
   auto secondRecord =
       std::make_shared<zir::RecordType>("Second", "module.Second");
 
@@ -284,9 +278,8 @@ bool testTypeJoins() {
                     std::static_pointer_cast<ClassType>(weakClassJoin->type)
                         ->isWeak(),
                 "class join lost the weak qualification") &&
-         expect(failableLayout &&
-                    types.same(failableLayout->valueType,
-                               primitive(TypeKind::Int16)),
+         expect(failableLayout && types.same(failableLayout->valueType,
+                                             primitive(TypeKind::Int16)),
                 "failable join did not join its value types") &&
          expect(!conversions.joinTypes(firstRecord, secondRecord),
                 "unrelated nominal records unexpectedly have a join");

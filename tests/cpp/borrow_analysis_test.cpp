@@ -26,8 +26,8 @@ using zir::PhiInst;
 using zir::PointerType;
 using zir::PrimitiveType;
 using zir::Register;
-using zir::ReturnInst;
 using zir::ResultBorrowContract;
+using zir::ReturnInst;
 using zir::StoreInst;
 using zir::StoreMode;
 using zir::Type;
@@ -128,8 +128,7 @@ bool testStorageProvenanceCrossesPassThroughBlocks() {
   function->addBlock(std::move(merge));
 
   const ControlFlowGraph cfg(*function);
-  const auto provenance =
-      zir::analyzeBorrowProvenance(module, *function, cfg);
+  const auto provenance = zir::analyzeBorrowProvenance(module, *function, cfg);
   const auto leftOwners =
       provenance.ownersOnEdge(loaded, *leftForwardBlock, *mergeBlock);
   const auto rightOwners =
@@ -198,8 +197,7 @@ bool testPhiProvenanceSelectsIncomingOwner() {
   function->addBlock(std::move(merge));
 
   const ControlFlowGraph cfg(*function);
-  const auto provenance =
-      zir::analyzeBorrowProvenance(module, *function, cfg);
+  const auto provenance = zir::analyzeBorrowProvenance(module, *function, cfg);
   const auto &allOwners = provenance.ownersOf(mergedView);
   const auto leftOwners =
       provenance.ownersOnEdge(mergedView, *leftBlock, *mergeBlock);
@@ -252,8 +250,7 @@ bool testStorageProvenanceReachesLoopBackEdge() {
   function->addBlock(std::move(exit));
 
   const ControlFlowGraph cfg(*function);
-  const auto provenance =
-      zir::analyzeBorrowProvenance(module, *function, cfg);
+  const auto provenance = zir::analyzeBorrowProvenance(module, *function, cfg);
   const auto backEdgeOwners =
       provenance.ownersOnEdge(loaded, *loopBlock, *loopBlock);
   const auto liveness = zir::analyzeOwnershipLiveness(module, *function);
@@ -620,10 +617,8 @@ bool testVerifierDerivesNoEscapeFromCalleeContract() {
                     verification.format());
 }
 
-std::unique_ptr<Function>
-makeBorrowingViewFunction(const std::string &name) {
-  auto function =
-      std::make_unique<Function>(name, zir::makeStringViewType());
+std::unique_ptr<Function> makeBorrowingViewFunction(const std::string &name) {
+  auto function = std::make_unique<Function>(name, zir::makeStringViewType());
   function->arguments.push_back(
       std::make_shared<zir::Argument>("source", zir::makeStringViewType()));
   function->resultBorrow = ResultBorrowContract::fromParameter(0);
@@ -635,8 +630,7 @@ bool testVerifierTracksBorrowedCallResultToLocalOwner() {
   Module module("borrowed-call-local-owner");
   module.addExternalFunction(makeBorrowingViewFunction("tail"));
 
-  auto function =
-      std::make_unique<Function>("broken", stringViewType);
+  auto function = std::make_unique<Function>("broken", stringViewType);
   auto entry = std::make_unique<BasicBlock>("entry");
   auto owner = reg("owner", zir::makeStringType());
   owner->setOwnership(ValueOwnership::OwnedStrong);
@@ -664,8 +658,7 @@ bool testIndirectBorrowedCallResultExtendsTemporaryOwnerLiveness() {
   Module module("borrowed-call-liveness");
   auto tailType = std::make_shared<zir::FunctionPointerType>(
       std::vector<std::shared_ptr<Type>>{stringViewType}, stringViewType,
-      std::vector<zir::ParameterOwnership>{
-          zir::ParameterOwnership::Borrow},
+      std::vector<zir::ParameterOwnership>{zir::ParameterOwnership::Borrow},
       std::vector<ParameterEscape>{ParameterEscape::Unspecified},
       ResultBorrowContract::fromParameter(0));
   auto tail = std::make_shared<zir::FunctionReference>("tail", tailType);
@@ -683,8 +676,7 @@ bool testIndirectBorrowedCallResultExtendsTemporaryOwnerLiveness() {
   entry->addInstruction(std::make_unique<CallInst>(
       result, tail, std::vector<std::shared_ptr<zir::Value>>{source}));
   entry->addInstruction(std::make_unique<CallInst>(
-      nullptr, "consume",
-      std::vector<std::shared_ptr<zir::Value>>{result}));
+      nullptr, "consume", std::vector<std::shared_ptr<zir::Value>>{result}));
   entry->addInstruction(std::make_unique<ReturnInst>());
   const auto *entryBlock = entry.get();
   function->addBlock(std::move(entry));
@@ -725,8 +717,7 @@ bool testVerifierRejectsReturnedNoEscapeCallResult() {
   Module module("borrowed-call-noescape");
   module.addExternalFunction(makeBorrowingViewFunction("tail"));
 
-  auto function =
-      std::make_unique<Function>("broken", stringViewType);
+  auto function = std::make_unique<Function>("broken", stringViewType);
   auto source = std::make_shared<zir::Argument>(
       "source", stringViewType, false, false, nullptr,
       zir::ParameterOwnership::Borrow, ParameterEscape::NoEscape);

@@ -35,29 +35,28 @@ bool expect(bool condition, const std::string &message) {
 
 bool testDisplayNamesDoNotDefineIdentity() {
   TypeInterner types;
-  return expect(!types.same(primitive(TypeKind::Int),
-                            primitive(TypeKind::Int32)),
-                "native Int and fixed Int32 have equal identities") &&
-         expect(!types.same(primitive(TypeKind::Int),
-                            primitive(TypeKind::Int64)),
-                "native Int and fixed Int64 have equal identities") &&
+  return expect(
+             !types.same(primitive(TypeKind::Int), primitive(TypeKind::Int32)),
+             "native Int and fixed Int32 have equal identities") &&
+         expect(
+             !types.same(primitive(TypeKind::Int), primitive(TypeKind::Int64)),
+             "native Int and fixed Int64 have equal identities") &&
          expect(!types.same(primitive(TypeKind::UInt),
                             primitive(TypeKind::UInt64)),
                 "native UInt and fixed UInt64 have equal identities") &&
          expect(types.same(primitive(TypeKind::Float),
                            primitive(TypeKind::Float32)),
-                "Float and its fixed Float32 spelling have different identities") &&
-         expect(!types.same(primitive(TypeKind::Char),
-                            primitive(TypeKind::Int8)),
-                "Char and Int8 were merged because both render as i8");
+                "Float and its fixed Float32 spelling have different "
+                "identities") &&
+         expect(
+             !types.same(primitive(TypeKind::Char), primitive(TypeKind::Int8)),
+             "Char and Int8 were merged because both render as i8");
 }
 
 bool testStructuralTypes() {
   TypeInterner types;
-  auto lhsPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::UInt16));
-  auto rhsPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::UInt16));
+  auto lhsPointer = std::make_shared<PointerType>(primitive(TypeKind::UInt16));
+  auto rhsPointer = std::make_shared<PointerType>(primitive(TypeKind::UInt16));
   auto differentPointer =
       std::make_shared<PointerType>(primitive(TypeKind::Int16));
 
@@ -125,8 +124,9 @@ bool testStructuralTypes() {
                 "sink is absent from function parameter type identity") &&
          expect(!types.same(noescapeFunction, unspecifiedEscapeFunction),
                 "escape contract is absent from function type identity") &&
-         expect(!types.same(borrowedResultFunction, unspecifiedResultFunction),
-                "result borrow contract is absent from function type identity") &&
+         expect(
+             !types.same(borrowedResultFunction, unspecifiedResultFunction),
+             "result borrow contract is absent from function type identity") &&
          expect(!types.same(refResultFunction, valueResultFunction),
                 "ref return is absent from function type identity");
 }
@@ -168,9 +168,9 @@ bool testSyntheticRecordRolesAreNotNameProtocols() {
                                               primitive(TypeKind::Int));
   auto userNamedLikeOldVariadic =
       std::make_shared<RecordType>("__zap_varargs_legacy");
-  auto variadic = std::make_shared<RecordType>(
-      "slice", "slice", zir::IntrinsicTypeKind::None,
-      zir::RecordRole::VariadicView);
+  auto variadic = std::make_shared<RecordType>("slice", "slice",
+                                               zir::IntrinsicTypeKind::None,
+                                               zir::RecordRole::VariadicView);
   auto userT = std::make_shared<RecordType>("T");
   auto genericT = zir::makeGenericParameterType("T");
 
@@ -178,8 +178,7 @@ bool testSyntheticRecordRolesAreNotNameProtocols() {
                 "a user record was recognized as failable by its name") &&
          expect(zir::getFailableTypeLayout(failable).has_value(),
                 "tagged failable record was not recognized") &&
-         expect(userNamedLikeOldVariadic->getRole() ==
-                    zir::RecordRole::User &&
+         expect(userNamedLikeOldVariadic->getRole() == zir::RecordRole::User &&
                     variadic->getRole() == zir::RecordRole::VariadicView,
                 "variadic view role depends on its generated name") &&
          expect(!types.same(userT, genericT),
@@ -195,8 +194,7 @@ bool testMangleKeysAreCanonicalAndCollisionFree() {
   auto dottedName = std::make_shared<RecordType>("Type", "module.a-b");
   auto dashedName = std::make_shared<RecordType>("Type", "module_a.b");
   auto firstPointer = std::make_shared<PointerType>(intType);
-  auto secondPointer =
-      std::make_shared<PointerType>(primitive(TypeKind::Int));
+  auto secondPointer = std::make_shared<PointerType>(primitive(TypeKind::Int));
 
   return expect(types.mangleKey(intType) != types.mangleKey(int32Type),
                 "Int and Int32 have colliding mangle keys") &&

@@ -1083,8 +1083,12 @@ CasePattern Parser::parseCasePattern() {
     throw ParseError();
 
   case TokenType::ID:
-    pattern.kind = CasePatternKind::Variant;
     pattern.variantPath = parseQualifiedIdentifier();
+    if (peek().type == TokenType::LBRACE) {
+      return parseCaseRecordPattern(std::move(pattern.variantPath),
+                                    startToken.span);
+    }
+    pattern.kind = CasePatternKind::Variant;
     if (peek().type == TokenType::LPAREN) {
       eat(TokenType::LPAREN);
       if (peek().type == TokenType::RPAREN) {
@@ -1110,6 +1114,34 @@ CasePattern Parser::parseCasePattern() {
                  "Expected a case pattern.");
     throw ParseError();
   }
+}
+
+CasePattern Parser::parseCaseRecordPattern(std::vector<std::string> typePath,
+                                           SourceSpan startSpan) {
+  CasePattern pattern;
+  pattern.kind = CasePatternKind::Record;
+  pattern.recordPath = std::move(typePath);
+  eat(TokenType::LBRACE);
+  while (peek().type != TokenType::RBRACE) {
+    Token name = eat(TokenType::ID);
+    CaseRecordFieldPattern field;
+    field.name = name.value;
+    field.span = name.span;
+    if (peek().type == TokenType::COLON) {
+      eat(TokenType::COLON);
+      field.nested = std::make_unique<CasePattern>(parseCasePattern());
+      field.span = SourceSpan::merge(field.span, field.nested->span);
+    } else {
+      field.binding = name.value;
+    }
+    pattern.recordFields.push_back(std::move(field));
+    if (peek().type != TokenType::COMMA)
+      break;
+    eat(TokenType::COMMA);
+  }
+  Token end = eat(TokenType::RBRACE);
+  pattern.span = SourceSpan::merge(startSpan, end.span);
+  return pattern;
 }
 
 std::unique_ptr<IfTypeNode> Parser::parseIfType() {

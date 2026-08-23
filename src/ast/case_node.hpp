@@ -7,15 +7,26 @@
 #include <utility>
 #include <vector>
 
-enum class CasePatternKind { Literal, Variant };
+enum class CasePatternKind { Literal, Variant, Record };
 
 enum class CasePayloadPatternKind { None, Empty, Binding, Wildcard };
+
+struct CasePattern;
+
+struct CaseRecordFieldPattern {
+  SourceSpan span;
+  std::string name;
+  std::unique_ptr<CasePattern> nested;
+  std::string binding;
+};
 
 struct CasePattern {
   CasePatternKind kind = CasePatternKind::Literal;
   SourceSpan span;
   std::unique_ptr<ExpressionNode> literal;
   std::vector<std::string> variantPath;
+  std::vector<std::string> recordPath;
+  std::vector<CaseRecordFieldPattern> recordFields;
   CasePayloadPatternKind payloadKind = CasePayloadPatternKind::None;
   std::string payloadBinding;
   SourceSpan payloadBindingSpan;

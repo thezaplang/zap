@@ -299,8 +299,7 @@ bool testRefCallDerivesResultTypeFromSignature() {
   auto function =
       std::make_unique<Function>("valid", primitive(TypeKind::Void));
   auto directResult = reg("direct", std::make_shared<PointerType>(i32));
-  auto indirectResult =
-      reg("indirect", std::make_shared<PointerType>(i32));
+  auto indirectResult = reg("indirect", std::make_shared<PointerType>(i32));
   auto indirectType = std::make_shared<FunctionPointerType>(
       std::vector<std::shared_ptr<Type>>{}, i32,
       std::vector<zir::ParameterOwnership>{},
@@ -326,9 +325,8 @@ bool testManagedTypeClassification() {
   record->addField("text", stringType);
   auto array = std::make_shared<zir::ArrayType>(record, 2);
   auto taggedUnion = std::make_shared<zir::TaggedUnionType>(
-      "TextResult",
-      std::vector<zir::TaggedUnionType::Variant>{
-          {"Empty", nullptr, 0}, {"Text", stringType, 1}});
+      "TextResult", std::vector<zir::TaggedUnionType::Variant>{
+                        {"Empty", nullptr, 0}, {"Text", stringType, 1}});
 
   return expect(zir::containsManagedValues(stringType),
                 "String was not classified as managed") &&
@@ -336,9 +334,9 @@ bool testManagedTypeClassification() {
                 "StringView was classified as managed") &&
          expect(zir::containsManagedValues(record),
                 "record containing String was not classified as managed") &&
-         expect(
-             zir::containsManagedValues(array),
-             "array containing managed records was not classified as managed") &&
+         expect(zir::containsManagedValues(array),
+                "array containing managed records was not classified as "
+                "managed") &&
          expect(zir::containsManagedValues(taggedUnion),
                 "tagged union containing String was not classified as managed");
 }
@@ -438,10 +436,8 @@ bool testCallRequiresOwnershipMatchingArguments() {
 
   auto entry = std::make_unique<BasicBlock>("entry");
   auto calleeType = std::make_shared<FunctionPointerType>(
-      std::vector<std::shared_ptr<Type>>{stringType},
-      primitive(TypeKind::Void),
-      std::vector<zir::ParameterOwnership>{
-          zir::ParameterOwnership::Transfer});
+      std::vector<std::shared_ptr<Type>>{stringType}, primitive(TypeKind::Void),
+      std::vector<zir::ParameterOwnership>{zir::ParameterOwnership::Transfer});
   auto callee = std::make_shared<FunctionReference>("callee", calleeType);
   argument->setOwnership(ValueOwnership::Borrowed);
   entry->addInstruction(std::make_unique<zir::CallInst>(
@@ -506,8 +502,7 @@ bool testCallConsumesExplicitManagedCopy() {
   callee->addBlock(std::move(calleeEntry));
   module.addFunction(std::move(callee));
 
-  auto caller =
-      std::make_unique<Function>("caller", primitive(TypeKind::Void));
+  auto caller = std::make_unique<Function>("caller", primitive(TypeKind::Void));
   auto source = std::make_shared<zir::Argument>("source", stringType);
   caller->arguments.push_back(source);
   auto copied = reg("copied", stringType);
@@ -1206,8 +1201,7 @@ bool testOwnershipObligationVerifierReportsLiveValues() {
   function->addBlock(std::move(entry));
   module.addFunction(std::move(function));
 
-  const auto verification =
-      ZirVerifier().verifyOwnershipObligations(module);
+  const auto verification = ZirVerifier().verifyOwnershipObligations(module);
   return expect(
       hasError(verification, VerificationErrorCode::OwnershipViolation) &&
           verification.format().find("state: Live") != std::string::npos,
@@ -2103,9 +2097,8 @@ bool testOwnershipLoweringRemovesUnusedBorrowedPhiBeforeCleanup() {
   auto unused = reg("unused", stringType);
   unused->setOwnership(ValueOwnership::Borrowed);
   merge->addInstruction(std::make_unique<PhiInst>(
-      unused,
-      std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
-          {"borrowed.path", borrowed}, {"owned.path", owned}}));
+      unused, std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
+                  {"borrowed.path", borrowed}, {"owned.path", owned}}));
   merge->addInstruction(std::make_unique<ReturnInst>());
 
   function->addBlock(std::move(entry));

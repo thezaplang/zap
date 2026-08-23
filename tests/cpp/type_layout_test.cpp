@@ -58,8 +58,9 @@ bool testTargetDependentAggregateLayouts() {
                 "record layout did not use a 32-bit native Int") &&
          expect(record64.size == 16 && record64.align == 8,
                 "record layout did not use a 64-bit native Int") &&
-         expect(string32.size == 12 && string32.align == 4,
-                "32-bit String layout disagrees with pointer plus i64 length") &&
+         expect(
+             string32.size == 12 && string32.align == 4,
+             "32-bit String layout disagrees with pointer plus i64 length") &&
          expect(string64.size == 16 && string64.align == 8,
                 "64-bit String layout changed unexpectedly");
 }

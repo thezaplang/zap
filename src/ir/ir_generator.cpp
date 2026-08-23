@@ -1840,13 +1840,21 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
 
   const bool isTaggedUnion =
       node.scrutinee->type->getKind() == TypeKind::TaggedUnion;
+  const bool isRecord = node.scrutinee->type->getKind() == TypeKind::Record;
   std::shared_ptr<Value> taggedUnionAddress;
+  std::shared_ptr<Value> recordAddress;
   if (isTaggedUnion) {
     taggedUnionAddress =
         createRegister(std::make_shared<PointerType>(node.scrutinee->type));
     currentBlock_->addInstruction(
         std::make_unique<AllocaInst>(taggedUnionAddress, node.scrutinee->type));
     emitInitializationStore(std::move(scrutinee), taggedUnionAddress);
+  } else if (isRecord) {
+    recordAddress =
+        createRegister(std::make_shared<PointerType>(node.scrutinee->type));
+    currentBlock_->addInstruction(
+        std::make_unique<AllocaInst>(recordAddress, node.scrutinee->type));
+    emitInitializationStore(std::move(scrutinee), recordAddress);
   }
 
   std::vector<std::string> bodyLabels;
@@ -1907,7 +1915,7 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
             std::to_string(pattern.variantTag), node.scrutinee->type);
         currentBlock_->addInstruction(std::make_unique<CmpInst>(
             "eq", comparison, scrutinee, patternValue));
-      } else {
+      } else if (pattern.kind == sema::BoundCasePatternKind::TaggedUnionVariant) {
         auto tagType = std::make_shared<PrimitiveType>(TypeKind::Int32);
         auto tagAddress = createRegister(std::make_shared<PointerType>(tagType));
         currentBlock_->addInstruction(
@@ -1918,6 +1926,9 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
             std::make_shared<Constant>(std::to_string(pattern.variantTag), tagType);
         currentBlock_->addInstruction(std::make_unique<CmpInst>(
             "eq", comparison, tag, patternTag));
+      } else {
+        comparison = std::make_shared<Constant>(
+            "true", std::make_shared<PrimitiveType>(TypeKind::Bool));
       }
 
       ++nextTest;
@@ -1935,6 +1946,32 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
     currentBlock_ = bodyBlockPtr;
 
     const auto &arm = node.arms[armIndex];
+    auto bindRecord = [&](const auto &self, const sema::BoundCasePattern &pattern,
+                          const std::shared_ptr<Value> &address) -> void {
+      for (const auto &field : pattern.recordFields) {
+        auto fieldAddress = createRegister(std::make_shared<PointerType>(
+            field.nested ? field.nested->recordType
+                         : field.binding->type));
+        currentBlock_->addInstruction(
+            std::make_unique<GetElementPtrInst>(fieldAddress, address, field.index));
+        if (field.nested) {
+          self(self, *field.nested, fieldAddress);
+          continue;
+        }
+        auto value = createRegister(field.binding->type);
+        currentBlock_->addInstruction(std::make_unique<LoadInst>(value, fieldAddress));
+        auto bindingAddress = createRegister(
+            std::make_shared<PointerType>(field.binding->type));
+        currentBlock_->addInstruction(
+            std::make_unique<AllocaInst>(bindingAddress, field.binding->type));
+        emitInitializationStore(std::move(value), bindingAddress);
+        symbolMap_[field.binding] = bindingAddress;
+      }
+    };
+    if (!arm.patterns.empty() &&
+        arm.patterns.front().kind == sema::BoundCasePatternKind::Record) {
+      bindRecord(bindRecord, arm.patterns.front(), recordAddress);
+    }
     if (arm.payloadBinding) {
       const auto &pattern = arm.patterns.front();
       auto payloadAddress = createRegister(
@@ -1952,12 +1989,14 @@ void BoundIRGenerator::visit(sema::BoundCaseStatement &node) {
       emitInitializationStore(std::move(payload), bindingAddress);
       symbolMap_[arm.payloadBinding] = bindingAddress;
     }
-
     if (arm.body) {
       arm.body->accept(*this);
     }
     if (arm.payloadBinding) {
       symbolMap_.erase(arm.payloadBinding);
+    }
+    for (const auto &binding : arm.recordBindings) {
+      symbolMap_.erase(binding);
     }
     if (!isTerminated(currentBlock_)) {
       currentBlock_->addInstruction(std::make_unique<BranchInst>(mergeLabel));

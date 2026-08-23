@@ -276,6 +276,7 @@ void Binder::visit(CaseNode &node) {
       scrutineeType->getKind() == zir::TypeKind::Bool ||
       scrutineeType->getKind() == zir::TypeKind::Char ||
       isStringType(scrutineeType) ||
+      scrutineeType->getKind() == zir::TypeKind::Record ||
       scrutineeType->getKind() == zir::TypeKind::Enum ||
       scrutineeType->getKind() == zir::TypeKind::TaggedUnion;
   if (!supportsCasePatterns) {
@@ -322,11 +323,13 @@ void Binder::visit(CaseNode &node) {
   bool sawElse = false;
   std::unordered_set<std::string> seenPatterns;
   std::unordered_set<int64_t> coveredVariants;
+  bool hasRecordPattern = false;
   std::vector<BoundCaseArm> boundArms;
   boundArms.reserve(node.arms.size());
   for (const auto &arm : node.arms) {
     std::vector<BoundCasePattern> boundPatterns;
     std::shared_ptr<VariableSymbol> payloadBinding;
+    std::vector<std::shared_ptr<VariableSymbol>> recordBindings;
     if (arm.isElse) {
       if (sawElse) {
         error(arm.span, "Duplicate 'else' case arm.");
@@ -338,6 +341,75 @@ void Binder::visit(CaseNode &node) {
       }
 
       for (const auto &pattern : arm.patterns) {
+        if (pattern.kind == CasePatternKind::Record) {
+          if (scrutineeType->getKind() != zir::TypeKind::Record ||
+              arm.patterns.size() != 1) {
+            error(pattern.span,
+                  "Record patterns require a Record/struct scrutinee and no alternatives.");
+            continue;
+          }
+          auto typeSymbol = resolveQualifiedSymbol(pattern.recordPath,
+                                                   pattern.span, SymbolKind::Type);
+          if (!typeSymbol || !zir::sameType(typeSymbol->type, scrutineeType)) {
+            error(pattern.span, "Record pattern does not match scrutinee type '" +
+                                    renderTypeForUser(scrutineeType) + "'.");
+            continue;
+          }
+          auto bindRecord = [&](const auto &self, const CasePattern &record,
+                                std::shared_ptr<zir::RecordType> type)
+              -> std::unique_ptr<BoundCasePattern> {
+            std::vector<BoundCaseRecordField> fields;
+            std::unordered_set<std::string> names;
+            for (const auto &field : record.recordFields) {
+              if (!names.insert(field.name).second) {
+                error(field.span, "Duplicate record pattern field '" + field.name + "'.");
+                continue;
+              }
+              int index = -1;
+              std::shared_ptr<zir::Type> fieldType;
+              for (size_t i = 0; i < type->getFields().size(); ++i) {
+                if (type->getFields()[i].name == field.name) {
+                  index = static_cast<int>(i);
+                  fieldType = type->getFields()[i].type;
+                  break;
+                }
+              }
+              if (index < 0) {
+                error(field.span, "Record type '" + type->getName() +
+                                      "' has no field '" + field.name + "'.");
+                continue;
+              }
+              if (field.nested) {
+                if (field.nested->kind != CasePatternKind::Record ||
+                    fieldType->getKind() != zir::TypeKind::Record) {
+                  error(field.span, "Nested record pattern requires a Record/struct field.");
+                  continue;
+                }
+                auto nestedSymbol = resolveQualifiedSymbol(
+                    field.nested->recordPath, field.nested->span, SymbolKind::Type);
+                if (!nestedSymbol || !zir::sameType(nestedSymbol->type, fieldType)) {
+                  error(field.nested->span, "Nested record pattern does not match field '" +
+                                                field.name + "'.");
+                  continue;
+                }
+                fields.push_back({index, self(self, *field.nested,
+                                               std::static_pointer_cast<zir::RecordType>(fieldType)),
+                                  nullptr});
+              } else {
+                auto binding = std::make_shared<VariableSymbol>(
+                    field.binding, fieldType, BindingKind::Immutable, false,
+                    field.binding, currentModuleId_);
+                recordBindings.push_back(binding);
+                fields.push_back({index, nullptr, std::move(binding)});
+              }
+            }
+            return std::make_unique<BoundCasePattern>(type, std::move(fields));
+          };
+          boundPatterns.push_back(bindRecord(bindRecord, pattern,
+                                             std::static_pointer_cast<zir::RecordType>(scrutineeType)));
+          hasRecordPattern = true;
+          continue;
+        }
         if (pattern.kind == CasePatternKind::Variant) {
           const auto &path = pattern.variantPath;
           if (path.size() < 2) {
@@ -478,11 +550,17 @@ void Binder::visit(CaseNode &node) {
     }
 
     std::unique_ptr<BoundBlock> body;
-    if (payloadBinding) {
+    if (payloadBinding || !recordBindings.empty()) {
       pushScope();
-      if (!currentScope_->declare(payloadBinding->name, payloadBinding)) {
+      if (payloadBinding && !currentScope_->declare(payloadBinding->name, payloadBinding)) {
         error(arm.span, "Duplicate payload binding '" + payloadBinding->name +
                             "' in case arm.");
+      }
+      for (const auto &binding : recordBindings) {
+        if (!currentScope_->declare(binding->name, binding)) {
+          error(arm.span, "Duplicate record binding '" + binding->name +
+                              "' in case arm.");
+        }
       }
       body = bindBody(arm.body.get(), false);
       popScope();
@@ -490,9 +568,9 @@ void Binder::visit(CaseNode &node) {
       body = bindBody(arm.body.get(), true);
     }
     boundArms.emplace_back(arm.isElse, std::move(boundPatterns),
-                           std::move(payloadBinding), std::move(body));
+                           std::move(payloadBinding), std::move(recordBindings),
+                           std::move(body));
   }
-
   bool exhaustive = false;
   if (scrutineeType->getKind() == zir::TypeKind::Enum) {
     const auto &variants =
@@ -510,6 +588,7 @@ void Binder::visit(CaseNode &node) {
                                return coveredVariants.count(variant.tag) != 0;
                              });
   }
+  exhaustive = exhaustive || hasRecordPattern;
 
   if (!sawElse && !exhaustive) {
     error(node.span,

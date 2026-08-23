@@ -57,8 +57,10 @@ local = "../shared"
   require(manifest.has_value(),
           "project configuration was not discovered from a nested source file");
   auto configured = zap::frontend::loadProjectConfiguration(*manifest);
-  require(configured.errors.empty(), "valid project configuration was rejected");
-  require(configured.configuration.has_value(), "valid configuration was not loaded");
+  require(configured.errors.empty(),
+          "valid project configuration was rejected");
+  require(configured.configuration.has_value(),
+          "valid configuration was not loaded");
   const auto &configuration = *configured.configuration;
   require(configuration.manifestPath == project / "thor.toml",
           "manifest path was not canonicalized");
@@ -83,5 +85,6 @@ invalid = 42
 
   auto absent = zap::frontend::findProjectConfigurationManifest(
       temporary.path / "standalone" / "main.zp");
-  require(!absent.has_value(), "missing thor.toml unexpectedly produced configuration");
+  require(!absent.has_value(),
+          "missing thor.toml unexpectedly produced configuration");
 }

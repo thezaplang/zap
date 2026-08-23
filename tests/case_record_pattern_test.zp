@@ -1,0 +1,37 @@
+record Address {
+    city: Int,
+}
+
+record User {
+    id: Int,
+    address: Address,
+}
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+fun readUser(user: User) Int {
+    case user {
+        User { id, address: Address { city } } {
+            return id + city;
+        }
+    }
+}
+
+fun readPoint(point: Point) Int {
+    case point {
+        Point { x, y } {
+            return x + y;
+        }
+    }
+}
+
+fun main() Int {
+    var user: User = User{id: 2, address: Address{city: 40}};
+    var point: Point = Point{x: 10, y: 20};
+    if readUser(user) != 42 { return 1; }
+    if readPoint(point) != 30 { return 2; }
+    return 0;
+}

@@ -98,7 +98,8 @@ bool testLoopExitClosesOwnershipForZeroOneOrManyIterations() {
   Module module("ownership-loop-exit");
   auto classType = std::make_shared<ClassType>("Node");
   auto boolean = primitive(TypeKind::Bool);
-  auto function = std::make_unique<Function>("valid", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("valid", primitive(TypeKind::Void));
   auto value = addOwnedArgument(*function, classType);
 
   auto entry = std::make_unique<BasicBlock>("entry");
@@ -134,7 +135,8 @@ bool testLoopBackEdgePhiTransfersOwnership() {
   Module module("ownership-loop-phi");
   auto classType = std::make_shared<ClassType>("Node");
   auto boolean = primitive(TypeKind::Bool);
-  auto function = std::make_unique<Function>("valid", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("valid", primitive(TypeKind::Void));
   auto initial = addOwnedArgument(*function, classType);
 
   auto entry = std::make_unique<BasicBlock>("entry");
@@ -143,16 +145,15 @@ bool testLoopBackEdgePhiTransfersOwnership() {
   auto current = reg("current", classType);
   current->setOwnership(ValueOwnership::Owned);
   header->addInstruction(std::make_unique<PhiInst>(
-      current,
-      std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
-          {"entry", initial}, {"body", current}}));
+      current, std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
+                   {"entry", initial}, {"body", current}}));
   header->addInstruction(std::make_unique<CondBranchInst>(
       std::make_shared<Constant>("true", boolean), "body", "exit"));
   auto body = std::make_unique<BasicBlock>("body");
   auto comparison = reg("comparison", boolean);
-  body->addInstruction(std::make_unique<CmpInst>(
-      "eq", comparison, current,
-      std::make_shared<Constant>("null", classType)));
+  body->addInstruction(
+      std::make_unique<CmpInst>("eq", comparison, current,
+                                std::make_shared<Constant>("null", classType)));
   body->addInstruction(std::make_unique<BranchInst>("header"));
   auto exit = std::make_unique<BasicBlock>("exit");
   exit->addInstruction(std::make_unique<ReturnInst>());
@@ -177,7 +178,8 @@ bool testBreakAndContinuePathsShareOneOwnershipClosure() {
   Module module("ownership-break-continue");
   auto classType = std::make_shared<ClassType>("Node");
   auto boolean = primitive(TypeKind::Bool);
-  auto function = std::make_unique<Function>("valid", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("valid", primitive(TypeKind::Void));
   auto value = addOwnedArgument(*function, classType);
 
   auto entry = std::make_unique<BasicBlock>("entry");
@@ -216,14 +218,16 @@ bool testBreakAndContinuePathsShareOneOwnershipClosure() {
 bool testUnreachableOwnershipDoesNotAffectReachableCleanup() {
   Module module("ownership-unreachable");
   auto classType = std::make_shared<ClassType>("Node");
-  auto function = std::make_unique<Function>("valid", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("valid", primitive(TypeKind::Void));
 
   auto entry = std::make_unique<BasicBlock>("entry");
   entry->addInstruction(std::make_unique<ReturnInst>());
   auto unreachable = std::make_unique<BasicBlock>("unreachable");
   auto value = reg("value", classType);
   value->setOwnership(ValueOwnership::Owned);
-  unreachable->addInstruction(std::make_unique<zir::AllocInst>(value, classType));
+  unreachable->addInstruction(
+      std::make_unique<zir::AllocInst>(value, classType));
   unreachable->addInstruction(std::make_unique<ReturnInst>());
 
   function->addBlock(std::move(entry));
@@ -232,7 +236,8 @@ bool testUnreachableOwnershipDoesNotAffectReachableCleanup() {
 
   zir::lowerDeadOwnedResults(module);
   auto *lowered = module.getFunctions().front().get();
-  const auto &entryInstructions = lowered->findBlock("entry")->getInstructions();
+  const auto &entryInstructions =
+      lowered->findBlock("entry")->getInstructions();
   return expect(entryInstructions.size() == 1 &&
                     entryInstructions.front()->getOpCode() == OpCode::Ret,
                 "unreachable ownership changed reachable cleanup") &&
@@ -246,7 +251,8 @@ bool testNestedDiamondClosesOwnershipExactlyOnce() {
   Module module("ownership-nested-diamond");
   auto classType = std::make_shared<ClassType>("Node");
   auto boolean = primitive(TypeKind::Bool);
-  auto function = std::make_unique<Function>("valid", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("valid", primitive(TypeKind::Void));
   auto value = addOwnedArgument(*function, classType);
 
   auto entry = std::make_unique<BasicBlock>("entry");
@@ -288,7 +294,8 @@ bool testUsedMixedOwnershipPhiIsRejected() {
   Module module("ownership-mixed-phi");
   auto classType = std::make_shared<ClassType>("Node");
   auto boolean = primitive(TypeKind::Bool);
-  auto function = std::make_unique<Function>("broken", primitive(TypeKind::Void));
+  auto function =
+      std::make_unique<Function>("broken", primitive(TypeKind::Void));
   auto owned = std::make_shared<zir::Argument>("owned", classType);
   owned->setOwnership(ValueOwnership::Owned);
   auto borrowed = std::make_shared<zir::Argument>("borrowed", classType);
@@ -306,9 +313,8 @@ bool testUsedMixedOwnershipPhiIsRejected() {
   auto merge = std::make_unique<BasicBlock>("merge");
   auto result = reg("result", classType);
   merge->addInstruction(std::make_unique<PhiInst>(
-      result,
-      std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
-          {"owned.path", owned}, {"borrowed.path", borrowed}}));
+      result, std::vector<std::pair<std::string, std::shared_ptr<zir::Value>>>{
+                  {"owned.path", owned}, {"borrowed.path", borrowed}}));
   auto comparison = reg("comparison", boolean);
   merge->addInstruction(std::make_unique<CmpInst>(
       "eq", comparison, result, std::make_shared<Constant>("null", classType)));
