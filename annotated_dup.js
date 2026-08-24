@@ -236,6 +236,7 @@ var annotated_dup =
     [ "ConstNull", "d5/ddf/classConstNull.html", "d5/ddf/classConstNull" ],
     [ "ConstString", "dd/d93/classConstString.html", "dd/d93/classConstString" ],
     [ "ContinueNode", "dd/d66/classContinueNode.html", "dd/d66/classContinueNode" ],
+    [ "DeferNode", "d8/d3e/classDeferNode.html", "d8/d3e/classDeferNode" ],
     [ "EnumDecl", "d0/d96/classEnumDecl.html", "d0/d96/classEnumDecl" ],
     [ "ExpressionNode", "dd/d06/classExpressionNode.html", "dd/d06/classExpressionNode" ],
     [ "ExtDecl", "d3/df9/classExtDecl.html", "d3/df9/classExtDecl" ],

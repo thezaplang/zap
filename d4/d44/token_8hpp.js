@@ -96,7 +96,8 @@ var token_8hpp =
       [ "DECREMENT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921acd27a3a13d233019cec19a2423d65a84", null ],
       [ "ASM", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a3183e1d9ee10bc541acdbf4d55cf9ecf", null ],
       [ "LET", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afb72619a5a922e816967c4aa49301754", null ],
-      [ "DOTDOT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aaf40bb46e66376286beeb28ad11c9c95", null ]
+      [ "DOTDOT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aaf40bb46e66376286beeb28ad11c9c95", null ],
+      [ "DEFER", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ac1ee57b00ef59eca4eb55b5c0e404d2a", null ]
     ] ],
     [ "tokenTypeToString", "d4/d44/token_8hpp.html#adcf4232d1b543f396684ab4b9d3d4bc5", null ]
 ];

@@ -18,6 +18,7 @@ var classAstBuilder =
     [ "makeConstNull", "de/d56/classAstBuilder.html#a97c1e5a8af9ab231edc200cec1978812", null ],
     [ "makeConstString", "de/d56/classAstBuilder.html#a32c304c34179039490ab58a94216113f", null ],
     [ "makeContinue", "de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f", null ],
+    [ "makeDefer", "de/d56/classAstBuilder.html#a0e0fe295ccd05f0b77f90a4a5616acc1", null ],
     [ "makeEnumDecl", "de/d56/classAstBuilder.html#aeac048fd0f7cb8665f51f5a7c90ed4ea", null ],
     [ "makeFail", "de/d56/classAstBuilder.html#aba2f4079de73ac6b54f597f9923fbd98", null ],
     [ "makeFailableHandleExpr", "de/d56/classAstBuilder.html#ad598821f3c815f62e41b5798dd27cd7d", null ],

@@ -12,6 +12,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "cast_expr.hpp", "d6/d10/cast__expr_8hpp.html", "d6/d10/cast__expr_8hpp" ],
     [ "class_decl.hpp", "dd/df4/class__decl_8hpp.html", "dd/df4/class__decl_8hpp" ],
     [ "continue_node.hpp", "d8/de7/continue__node_8hpp.html", "d8/de7/continue__node_8hpp" ],
+    [ "defer_node.hpp", "d7/d0e/defer__node_8hpp.html", "d7/d0e/defer__node_8hpp" ],
     [ "enum_decl.hpp", "df/d1c/enum__decl_8hpp.html", "df/d1c/enum__decl_8hpp" ],
     [ "expr_node.hpp", "d0/df1/expr__node_8hpp.html", "d0/df1/expr__node_8hpp" ],
     [ "ext_decl.hpp", "d9/d67/ext__decl_8hpp.html", "d9/d67/ext__decl_8hpp" ],
