@@ -46,6 +46,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"prot", TokenType::PROT},
     {"new", TokenType::NEW},
     {"weak", TokenType::WEAK},
+    {"defer", TokenType::DEFER},
 };
 
 std::vector<Token> Lexer::tokenize(const std::string &input) {

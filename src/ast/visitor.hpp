@@ -12,6 +12,7 @@ class BindingDecl;
 class ReturnNode;
 class IfNode;
 class IfTypeNode;
+class DeferNode;
 class WhileNode;
 class ForNode;
 class ForInNode;
@@ -89,6 +90,7 @@ struct Visitor {
   virtual void visit(UnsafeBlockNode &) {}
   virtual void visit(AsmStmtNode &) {}
   virtual void visit(FailNode &) {}
+  virtual void visit(DeferNode &) {}
 
   virtual void visit(ExpressionNode &) {}
   virtual void visit(BinExpr &) {}

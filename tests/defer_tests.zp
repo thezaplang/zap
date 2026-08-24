@@ -1,0 +1,78 @@
+global var trace: Int = 0;
+
+fun log(val: Int) {
+    trace = trace * 10 + val;
+}
+
+fun testLifo() {
+    defer log(1);
+    defer log(2);
+    defer log(3);
+}
+
+fun testReturn(flag: Bool) Int {
+    defer log(9);
+    if flag {
+        return 42;
+    }
+    defer log(8);
+    return 100;
+}
+
+fun testBlock() {
+    log(1);
+    if true {
+        defer log(2);
+        log(3);
+    }
+    log(4);
+}
+
+fun testLoop() {
+    var i: Int = 0;
+    while i < 3 {
+        defer log(7);
+        if i == 1 {
+            i = i + 1;
+            continue;
+        }
+        if i == 2 {
+            break;
+        }
+        i = i + 1;
+    }
+}
+
+fun main() Int {
+    trace = 0;
+    testLifo();
+    if trace != 321 {
+        return 1;
+    }
+
+    trace = 0;
+    var retVal = testReturn(true);
+    if retVal != 42 || trace != 9 {
+        return 2;
+    }
+
+    trace = 0;
+    var retVal2 = testReturn(false);
+    if retVal2 != 100 || trace != 89 {
+        return 3;
+    }
+
+    trace = 0;
+    testBlock();
+    if trace != 1324 {
+        return 4;
+    }
+
+    trace = 0;
+    testLoop();
+    if trace != 777 {
+        return 5;
+    }
+
+    return 0;
+}

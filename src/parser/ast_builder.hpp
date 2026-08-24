@@ -43,6 +43,7 @@
 #include "../ast/unsafe_block_node.hpp"
 #include "../ast/while_node.hpp"
 #include "../ast/range_expr.hpp"
+#include "../ast/defer_node.hpp"
 
 class AstBuilder {
 public:
@@ -57,6 +58,10 @@ public:
   makeIndexAccess(std::unique_ptr<ExpressionNode> left,
                   std::unique_ptr<ExpressionNode> index) {
     return std::make_unique<IndexAccessNode>(std::move(left), std::move(index));
+  }
+
+  std::unique_ptr<DeferNode> makeDefer(std::unique_ptr<Node> statement) {
+    return std::make_unique<DeferNode>(std::move(statement));
   }
 
   std::unique_ptr<ArrayLiteralNode>

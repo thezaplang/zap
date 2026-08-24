@@ -427,6 +427,8 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           eat(TokenType::SEMICOLON);
         }
         body->addStatement(std::move(whileNode));
+      } else if (peek().type == TokenType::DEFER) {
+        body->addStatement(parseDefer());
       } else if (peek().type == TokenType::FOR) {
         bool isForIn = false;
         if (peek(1).type == TokenType::ID) {
@@ -2137,6 +2139,40 @@ std::unique_ptr<ExpressionNode> Parser::parseRangeExpression() {
   auto range = _builder.makeRangeExpr(std::move(start), std::move(end), std::move(step));
   _builder.setSpan(range.get(), SourceSpan::merge(sSpan, eSpan));
   return range;
+}
+
+std::unique_ptr<DeferNode> Parser::parseDefer() {
+  Token keyword = eat(TokenType::DEFER);
+  std::unique_ptr<Node> stmt = nullptr;
+  SourceSpan eSpan;
+
+  if (peek().type == TokenType::LBRACE) {
+    Token lbrace = eat(TokenType::LBRACE);
+    auto body = parseBody();
+    Token rbrace = eat(TokenType::RBRACE);
+    _builder.setSpan(body.get(), SourceSpan::merge(lbrace.span, rbrace.span));
+    stmt = std::move(body);
+    eSpan = rbrace.span;
+  } else {
+    auto expr = parseExpression();
+    if (peek().type == TokenType::ASSIGN) {
+      eat(TokenType::ASSIGN);
+      auto value = parseExpression();
+      Token semi = eat(TokenType::SEMICOLON);
+      auto assign = _builder.makeAssign(std::move(expr), std::move(value));
+      _builder.setSpan(assign.get(), SourceSpan::merge(assign->target_->span, semi.span));
+      stmt = std::move(assign);
+      eSpan = semi.span;
+    } else {
+      Token semi = eat(TokenType::SEMICOLON);
+      eSpan = semi.span;
+      stmt = std::move(expr);
+    }
+  }
+
+  auto node = _builder.makeDefer(std::move(stmt));
+  _builder.setSpan(node.get(), SourceSpan::merge(keyword.span, eSpan));
+  return node;
 }
 
 } // namespace zap

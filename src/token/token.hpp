@@ -99,6 +99,7 @@ enum TokenType {
   ASM,            ///< "asm" keyword.
   LET,            ///< "let" keyword.
   DOTDOT,         ///< ".." keyword.
+  DEFER,          ///< "defer" keyword.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
