@@ -1,0 +1,38 @@
+interface Greeter {
+    fun greet() String;
+}
+
+class English : Greeter {
+    pub fun greet() String {
+        return "hello";
+    }
+}
+
+class French : Greeter {
+    pub fun greet() String {
+        return "bonjour";
+    }
+}
+
+fun describe(g: Greeter) String {
+    return g.greet();
+}
+
+fun main() Int {
+    var en = new English();
+    var fr = new French();
+
+    if describe(en) != "hello" {
+        return 1;
+    }
+    if describe(fr) != "bonjour" {
+        return 2;
+    }
+
+    var g: Greeter = en;
+    if g.greet() != "hello" {
+        return 3;
+    }
+
+    return 0;
+}

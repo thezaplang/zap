@@ -207,6 +207,21 @@ private:
   std::unordered_map<std::string, ClassInfo> classInfos_;
   std::vector<std::string> currentClassStack_;
 
+  struct InterfaceInfo {
+    std::shared_ptr<TypeSymbol> typeSymbol;
+    std::shared_ptr<zir::ClassType> classType;
+    std::map<std::string, std::shared_ptr<Symbol>> methods;
+  };
+  std::unordered_map<std::string, InterfaceInfo> interfaceInfos_;
+
+  std::shared_ptr<zir::ClassType>
+  resolveClassImplementsList(const ClassDecl &node,
+                             std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
+  void bindInterfaceConformances(
+      const ClassDecl &node, const std::shared_ptr<zir::ClassType> &classType,
+      ClassInfo &classInfo,
+      const std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
+
   std::unordered_map<const TypeNode *, std::shared_ptr<zir::Type>>
       mapTypeCache_;
 

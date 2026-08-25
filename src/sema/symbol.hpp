@@ -152,6 +152,7 @@ public:
   std::map<std::string, std::shared_ptr<zir::Type>> genericArguments;
   bool isUnsafe = false;
   bool isClass = false;
+  bool isInterface = false;
   TypeSymbol(std::string n, std::shared_ptr<zir::Type> t, std::string link = "",
              std::string module = "", Visibility vis = Visibility::Private,
              bool unsafe = false, bool classType = false)

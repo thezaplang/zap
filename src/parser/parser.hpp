@@ -10,6 +10,7 @@
 #include "../ast/case_node.hpp"
 #include "../ast/cast_expr.hpp"
 #include "../ast/class_decl.hpp"
+#include "../ast/interface_decl.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
 #include "../ast/continue_node.hpp"
@@ -117,6 +118,7 @@ private:
   std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
   std::unique_ptr<RecordDecl> parseRecordDecl();
   std::unique_ptr<ClassDecl> parseClassDecl();
+  std::unique_ptr<InterfaceDecl> parseInterfaceDecl();
   std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
   std::unique_ptr<StructLiteralNode>
   parseStructLiteral(const std::string &type_name);

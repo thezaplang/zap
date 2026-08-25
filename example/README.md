@@ -25,6 +25,7 @@ automatic prelude: common APIs such as `println`, `List<>`, `HashMap<>`, and
 | `14_memory_safety.zp` | Preventing dangling views and use-after-free |
 | `15_json_document.zp` | Building, parsing, and safely reading nested JSON |
 | `16_terminal.zp` | ANSI colors, text styles, cursor controls, and screen clearing |
+| `17_interfaces.zp` | Shared contracts across unrelated classes, dispatched dynamically |
 | `modules/main.zp` | Public modules and qualified imports |
 
 ## Memory safety boundary

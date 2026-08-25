@@ -209,6 +209,10 @@ std::unique_ptr<RootNode> Parser::parse() {
         auto decl = parseClassDecl();
         applyMetadata(decl.get(), std::move(attributes));
         root->addChild(std::move(decl));
+      } else if (peek().type == TokenType::INTERFACE) {
+        auto decl = parseInterfaceDecl();
+        applyMetadata(decl.get(), std::move(attributes));
+        root->addChild(std::move(decl));
       } else if (peek().type == TokenType::CONST) {
         auto decl = parseBindingDecl(BindingKind::CompileTimeConstant);
         applyMetadata(decl.get(), std::move(attributes));
@@ -1990,6 +1994,7 @@ void Parser::synchronize(SyncContext context) {
     case TokenType::STRUCT:
     case TokenType::RECORD:
     case TokenType::CLASS:
+    case TokenType::INTERFACE:
     case TokenType::ALIAS:
     case TokenType::EXTERN:
     case TokenType::GLOBAL:
@@ -2218,7 +2223,11 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
   }
   if (peek().type == TokenType::COLON) {
     eat(TokenType::COLON);
-    classDecl->baseType_ = parseType();
+    classDecl->implementsList_.push_back(parseType());
+    while (peek().type == TokenType::COMMA) {
+      eat(TokenType::COMMA);
+      classDecl->implementsList_.push_back(parseType());
+    }
   }
   classDecl->genericConstraints_ = parseWhereClauses();
 
@@ -2262,6 +2271,46 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
   _builder.setSpan(classDecl.get(),
                    SourceSpan::merge(classKeyword.span, rbraceToken.span));
   return classDecl;
+}
+
+std::unique_ptr<InterfaceDecl> Parser::parseInterfaceDecl() {
+  Token interfaceKeyword = eat(TokenType::INTERFACE);
+  Token nameToken = eat(TokenType::ID);
+
+  auto interfaceDecl = _builder.makeInterfaceDecl(nameToken.value);
+
+  eat(TokenType::LBRACE);
+
+  while (peek().type != TokenType::RBRACE) {
+    Token funKeyword = eat(TokenType::FUN);
+    Token methodNameToken = eat(TokenType::ID);
+    auto methodDecl = _builder.makeFunDecl(methodNameToken.value);
+
+    eat(TokenType::LPAREN);
+    if (peek().type != TokenType::RPAREN) {
+      do {
+        methodDecl->params_.push_back(parseParameter());
+      } while (peek().type == TokenType::COMMA &&
+               eat(TokenType::COMMA).type == TokenType::COMMA);
+    }
+    eat(TokenType::RPAREN);
+
+    if (peek().type != TokenType::SEMICOLON) {
+      methodDecl->returnType_ = parseType();
+    } else {
+      methodDecl->returnType_ = _builder.makeType("Void");
+    }
+
+    Token semiToken = eat(TokenType::SEMICOLON);
+    _builder.setSpan(methodDecl.get(),
+                     SourceSpan::merge(funKeyword.span, semiToken.span));
+    interfaceDecl->methods_.push_back(std::move(methodDecl));
+  }
+
+  Token rbraceToken = eat(TokenType::RBRACE);
+  _builder.setSpan(interfaceDecl.get(), SourceSpan::merge(interfaceKeyword.span,
+                                                          rbraceToken.span));
+  return interfaceDecl;
 }
 
 std::unique_ptr<StructDeclarationNode> Parser::parseStructDecl(bool isUnsafe) {

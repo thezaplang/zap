@@ -875,6 +875,11 @@ void Binder::visit(NewExpr &node) {
     error(node.span, "'new' expects a strong class type, not 'weak'.");
     return;
   }
+  if (concreteType->isInterface()) {
+    error(node.span, "Cannot instantiate interface '" +
+                         concreteType->getName() + "' with 'new'.");
+    return;
+  }
   auto infoIt = classInfos_.find(concreteType->getCodegenName());
   if (infoIt == classInfos_.end()) {
     error(node.span, "Unknown class type: " + concreteType->getName());

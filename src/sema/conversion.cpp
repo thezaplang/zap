@@ -190,8 +190,13 @@ bool ConversionClassifier::isSubtype(
 
   const auto sourceClass = std::static_pointer_cast<zir::ClassType>(source);
   const auto targetClass = std::static_pointer_cast<zir::ClassType>(target);
-  return sourceClass->isWeak() == targetClass->isWeak() &&
-         hasClassAncestor(sourceClass, targetClass->getCodegenName());
+  if (sourceClass->isWeak() != targetClass->isWeak()) {
+    return false;
+  }
+  if (targetClass->isInterface()) {
+    return sourceClass->implementsInterface(targetClass->getCodegenName());
+  }
+  return hasClassAncestor(sourceClass, targetClass->getCodegenName());
 }
 
 std::optional<Conversion> ConversionClassifier::classifyImplicit(

@@ -122,6 +122,7 @@ void LLVMCodeGen::generate(const zir::Module &module) {
       ensureClassArcSupport(std::static_pointer_cast<zir::ClassType>(type));
     }
   }
+  emitInterfaceMethodTrampolines(module);
   for (const auto &func : module.getFunctions()) {
     emitZIRFunction(*func);
   }
@@ -145,6 +146,81 @@ void LLVMCodeGen::declareZIRFunction(const zir::Function &fn, bool isExternal) {
   }
   functionMap_[fn.name] = llvmFn;
   (void)isExternal;
+}
+
+void LLVMCodeGen::emitInterfaceMethodTrampolines(const zir::Module &module) {
+  auto *ptrTy = llvm::PointerType::getUnqual(ctx_);
+  auto *i64Ty = llvm::Type::getInt64Ty(ctx_);
+
+  llvm::Function *resolverFn;
+  auto resolverIt = functionMap_.find("zap_arc_resolve_interface_method");
+  if (resolverIt == functionMap_.end()) {
+    auto *resolverTy =
+        llvm::FunctionType::get(ptrTy, {ptrTy, ptrTy, i64Ty}, false);
+    resolverFn = llvm::Function::Create(resolverTy,
+                                        llvm::Function::ExternalLinkage,
+                                        "zap_arc_resolve_interface_method",
+                                        *module_);
+    functionMap_["zap_arc_resolve_interface_method"] = resolverFn;
+  } else {
+    resolverFn = resolverIt->second;
+  }
+
+  for (const auto &type : module.getTypes()) {
+    if (type->getKind() != zir::TypeKind::Class) {
+      continue;
+    }
+    auto classType = std::static_pointer_cast<zir::ClassType>(type);
+    if (!classType->isInterface()) {
+      continue;
+    }
+    const auto &methods = classType->getInterfaceMethods();
+    if (methods.empty()) {
+      continue;
+    }
+
+    auto *nameConst = llvm::ConstantDataArray::getString(
+        ctx_, classType->getCodegenName(), true);
+    auto *nameGlobal = new llvm::GlobalVariable(
+        *module_, nameConst->getType(), true,
+        llvm::GlobalValue::InternalLinkage, nameConst,
+        "__zap_iface_self_name_" + classType->getCodegenName());
+    auto *namePtr =
+        llvm::ConstantExpr::getBitCast(nameGlobal, ptrTy);
+
+    for (size_t methodIndex = 0; methodIndex < methods.size(); ++methodIndex) {
+      auto fnIt = functionMap_.find(methods[methodIndex].linkName);
+      if (fnIt == functionMap_.end()) {
+        continue;
+      }
+      auto *trampolineFn = fnIt->second;
+      if (!trampolineFn->empty()) {
+        continue;
+      }
+
+      std::vector<llvm::Value *> args;
+      for (auto &arg : trampolineFn->args()) {
+        args.push_back(&arg);
+      }
+      if (args.empty()) {
+        continue;
+      }
+
+      auto *entry = llvm::BasicBlock::Create(ctx_, "entry", trampolineFn);
+      llvm::IRBuilder<> tramp(entry);
+      auto *resolved = tramp.CreateCall(
+          resolverFn,
+          {args.front(), namePtr,
+           llvm::ConstantInt::get(i64Ty, static_cast<uint64_t>(methodIndex))});
+      auto *call =
+          tramp.CreateCall(trampolineFn->getFunctionType(), resolved, args);
+      if (trampolineFn->getReturnType()->isVoidTy()) {
+        tramp.CreateRetVoid();
+      } else {
+        tramp.CreateRet(call);
+      }
+    }
+  }
 }
 
 llvm::Value *
@@ -1258,6 +1334,22 @@ void LLVMCodeGen::emitZIRInstruction(const zir::Instruction &inst) {
         vtableGlobal->getValueType(), vtableGlobal, vtableIndices);
     builder_.CreateStore(llvm::ConstantExpr::getBitCast(vtablePtr, vtablePtrTy),
                          vtableAddr);
+    auto *ifaceTableAddr = builder_.CreateStructGEP(
+        objectTy, typedPtr, kClassInterfaceTableIndex, "iface.table.addr");
+    auto *ifaceTablePtrTy = llvm::PointerType::getUnqual(ctx_);
+    auto ifaceTableIt = classInterfaceTables_.find(classType->getCodegenName());
+    if (ifaceTableIt != classInterfaceTables_.end()) {
+      llvm::Constant *ifaceIndices[] = {zero, zero};
+      auto *ifaceTablePtr = llvm::ConstantExpr::getInBoundsGetElementPtr(
+          ifaceTableIt->second->getValueType(), ifaceTableIt->second,
+          ifaceIndices);
+      builder_.CreateStore(
+          llvm::ConstantExpr::getBitCast(ifaceTablePtr, ifaceTablePtrTy),
+          ifaceTableAddr);
+    } else {
+      builder_.CreateStore(llvm::ConstantPointerNull::get(ifaceTablePtrTy),
+                           ifaceTableAddr);
+    }
 
     for (size_t i = 0; i < classType->getFields().size(); ++i) {
       auto *fieldAddr = builder_.CreateStructGEP(

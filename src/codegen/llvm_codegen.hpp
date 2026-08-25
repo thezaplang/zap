@@ -43,6 +43,7 @@ private:
   std::map<std::string, llvm::StructType *> structCache_;
   std::map<std::string, std::map<int, llvm::Function *>> classVirtualMethodFns_;
   std::map<std::string, llvm::GlobalVariable *> classVTables_;
+  std::map<std::string, llvm::GlobalVariable *> classInterfaceTables_;
   std::map<std::string, llvm::Function *> classRetainFns_;
   std::map<std::string, llvm::Function *> classReleaseFns_;
   std::map<std::string, llvm::Function *> classDestroyFns_;
@@ -158,6 +159,7 @@ private:
                               const std::shared_ptr<zir::Type> &type,
                               bool valueIsOwned, bool skipReleaseOld = false);
   void ensureClassArcSupport(const std::shared_ptr<zir::ClassType> &classType);
+  void emitInterfaceMethodTrampolines(const zir::Module &module);
   void computeCyclicClasses(const zir::Module &module);
   llvm::StructType *getOrCreateClassStruct(const zir::ClassType &ct);
   void finalizeClassStruct(const zir::ClassType &ct);

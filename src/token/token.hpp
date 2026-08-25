@@ -77,6 +77,7 @@ enum TokenType {
   UNSAFE,
   NULL_LITERAL,
   CLASS,
+  INTERFACE,
   PROT,
   NEW,
   WEAK,
@@ -280,6 +281,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "as";
   case TokenType::CLASS:
     return "class";
+  case TokenType::INTERFACE:
+    return "interface";
   case TokenType::PROT:
     return "prot";
   case TokenType::WHERE:

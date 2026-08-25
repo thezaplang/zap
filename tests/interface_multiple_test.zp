@@ -1,0 +1,46 @@
+interface Named {
+    fun name() String;
+}
+
+interface Aged {
+    fun age() Int;
+}
+
+class Person : Named, Aged {
+    priv personName: String;
+    priv personAge: Int;
+
+    fun init(personName: String, personAge: Int) {
+        self.personName = personName;
+        self.personAge = personAge;
+    }
+
+    pub fun name() String {
+        return self.personName;
+    }
+
+    pub fun age() Int {
+        return self.personAge;
+    }
+}
+
+fun describeName(n: Named) String {
+    return n.name();
+}
+
+fun describeAge(a: Aged) Int {
+    return a.age();
+}
+
+fun main() Int {
+    var p = new Person("Ada", 36);
+
+    if describeName(p) != "Ada" {
+        return 1;
+    }
+    if describeAge(p) != 36 {
+        return 2;
+    }
+
+    return 0;
+}

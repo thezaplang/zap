@@ -2,6 +2,7 @@
 #include "../ir/string_type.hpp"
 #include "class_arc_emitter.hpp"
 #include "class_layout.hpp"
+#include <cassert>
 #include <cctype>
 #include <llvm/IR/BasicBlock.h>
 #include <llvm/IR/DerivedTypes.h>
@@ -265,7 +266,10 @@ void LLVMCodeGen::finalizeClassStruct(const zir::ClassType &ct) {
                                           i8PtrTy,
                                           i8PtrTy,
                                           i8PtrTy,
+                                          llvm::PointerType::getUnqual(ctx_),
                                           llvm::PointerType::getUnqual(ctx_)};
+  assert(fieldTypes.size() == kClassHeaderFieldCount &&
+        "class object header field count is out of sync with arc_layout.h");
   fieldTypes.reserve(kClassHeaderFieldCount + ct.getFields().size());
   for (const auto &f : ct.getFields()) {
     fieldTypes.push_back(toLLVMAggregateFieldType(f.type));

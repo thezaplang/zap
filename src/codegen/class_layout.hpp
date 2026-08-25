@@ -13,6 +13,7 @@ constexpr unsigned kClassReleaseFnIndex = ZAP_ARC_RELEASE_FN_INDEX;
 constexpr unsigned kClassDestroyFnIndex = ZAP_ARC_DESTROY_FN_INDEX;
 constexpr unsigned kClassMetadataIndex = ZAP_ARC_METADATA_INDEX;
 constexpr unsigned kClassVTableIndex = ZAP_ARC_VTABLE_INDEX;
+constexpr unsigned kClassInterfaceTableIndex = ZAP_ARC_INTERFACE_TABLE_INDEX;
 constexpr unsigned kClassFieldStartIndex = ZAP_ARC_FIELD_START_INDEX;
 constexpr unsigned kClassHeaderFieldCount = ZAP_ARC_HEADER_FIELD_COUNT;
 static_assert(kClassHeaderFieldCount == kClassFieldStartIndex,

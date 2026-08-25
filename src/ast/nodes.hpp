@@ -28,6 +28,7 @@
 #include "if_type_node.hpp"
 #include "import_node.hpp"
 #include "index_access.hpp"
+#include "interface_decl.hpp"
 #include "member_access.hpp"
 #include "new_expr.hpp"
 #include "node.hpp"

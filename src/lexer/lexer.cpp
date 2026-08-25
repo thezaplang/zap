@@ -43,6 +43,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"iftype", TokenType::IFTYPE},
     {"is", TokenType::IS},
     {"class", TokenType::CLASS},
+    {"interface", TokenType::INTERFACE},
     {"prot", TokenType::PROT},
     {"new", TokenType::NEW},
     {"weak", TokenType::WEAK},

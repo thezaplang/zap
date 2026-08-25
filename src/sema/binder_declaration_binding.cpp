@@ -27,6 +27,109 @@ void Binder::visit(RootNode &node) {
 
 void Binder::visit(ImportNode &node) { (void)node; }
 
+namespace {
+bool matchesInterfaceMethodSignature(const FunctionSymbol &candidate,
+                                     const FunctionSymbol &interfaceMethod) {
+  if (candidate.parameters.size() != interfaceMethod.parameters.size()) {
+    return false;
+  }
+  for (size_t i = 1; i < candidate.parameters.size(); ++i) {
+    const auto &left = candidate.parameters[i];
+    const auto &right = interfaceMethod.parameters[i];
+    if (left->is_ref != right->is_ref || left->is_sink != right->is_sink ||
+        !left->type || !right->type ||
+        !zir::sameType(left->type, right->type)) {
+      return false;
+    }
+  }
+  if (!candidate.returnType || !interfaceMethod.returnType ||
+      !zir::sameType(candidate.returnType, interfaceMethod.returnType)) {
+    return false;
+  }
+  return true;
+}
+} // namespace
+
+std::shared_ptr<zir::ClassType> Binder::resolveClassImplementsList(
+    const ClassDecl &node,
+    std::vector<std::shared_ptr<zir::ClassType>> &interfaces) {
+  std::shared_ptr<zir::ClassType> base;
+  for (const auto &typeNode : node.implementsList_) {
+    auto resolved = mapType(*typeNode);
+    if (!resolved) {
+      error(typeNode->span, "Unknown type: " + typeNode->qualifiedName());
+      continue;
+    }
+    if (resolved->getKind() != zir::TypeKind::Class) {
+      error(typeNode->span, "'" + typeNode->qualifiedName() +
+                                "' is not a class or an interface.");
+      continue;
+    }
+    auto classType = std::static_pointer_cast<zir::ClassType>(resolved);
+    if (classType->isInterface()) {
+      interfaces.push_back(classType);
+    } else if (base) {
+      error(typeNode->span, "Class '" + node.name_ +
+                                "' cannot have more than one base class.");
+    } else {
+      base = classType;
+    }
+  }
+  return base;
+}
+
+void Binder::bindInterfaceConformances(
+    const ClassDecl &node, const std::shared_ptr<zir::ClassType> &classType,
+    ClassInfo &classInfo,
+    const std::vector<std::shared_ptr<zir::ClassType>> &interfaces) {
+  for (const auto &interfaceType : interfaces) {
+    if (classType->implementsInterface(interfaceType->getCodegenName())) {
+      continue;
+    }
+    auto infoIt = interfaceInfos_.find(interfaceType->getCodegenName());
+    if (infoIt == interfaceInfos_.end()) {
+      continue;
+    }
+
+    zir::ClassType::InterfaceConformance conformance;
+    conformance.interfaceCodegenName = interfaceType->getCodegenName();
+    bool ok = true;
+    for (const auto &methodMeta : interfaceType->getInterfaceMethods()) {
+      auto interfaceMethodIt = infoIt->second.methods.find(methodMeta.name);
+      if (interfaceMethodIt == infoIt->second.methods.end()) {
+        continue;
+      }
+      auto interfaceMethod =
+          std::dynamic_pointer_cast<FunctionSymbol>(interfaceMethodIt->second);
+      if (!interfaceMethod) {
+        continue;
+      }
+
+      std::shared_ptr<FunctionSymbol> matched;
+      auto methodIt = classInfo.methods.find(methodMeta.name);
+      if (methodIt != classInfo.methods.end()) {
+        for (const auto &overload : collectOverloads(methodIt->second)) {
+          if (matchesInterfaceMethodSignature(*overload, *interfaceMethod)) {
+            matched = overload;
+            break;
+          }
+        }
+      }
+      if (!matched) {
+        error(node.span, "Class '" + node.name_ + "' does not implement '" +
+                             interfaceType->getName() + "." + methodMeta.name +
+                             "'.");
+        ok = false;
+        continue;
+      }
+      conformance.methodVtableSlots.push_back(matched->vtableSlot);
+    }
+    if (ok) {
+      classType->addInterfaceConformance(std::move(conformance));
+    }
+  }
+}
+
 void Binder::visit(ClassDecl &node) {
   auto symbol =
       std::dynamic_pointer_cast<TypeSymbol>(currentScope_->lookup(node.name_));
@@ -38,18 +141,16 @@ void Binder::visit(ClassDecl &node) {
   auto &classInfo = classInfos_[classType->getCodegenName()];
   currentClassStack_.push_back(classType->getName());
 
-  if (node.baseType_) {
-    bool hasOwnCtor = false;
-    bool hasOwnDtor = false;
-    for (const auto &method : node.methods_) {
-      hasOwnCtor = hasOwnCtor || method->name_ == "init";
-      hasOwnDtor = hasOwnDtor || method->name_ == "deinit";
-    }
-    auto baseType = mapType(*node.baseType_);
-    if (!baseType || baseType->getKind() != zir::TypeKind::Class) {
-      error(node.baseType_->span, "Base type must be a class.");
-    } else {
-      auto baseClass = std::static_pointer_cast<zir::ClassType>(baseType);
+  {
+    std::vector<std::shared_ptr<zir::ClassType>> interfaces;
+    auto baseClass = resolveClassImplementsList(node, interfaces);
+    if (baseClass) {
+      bool hasOwnCtor = false;
+      bool hasOwnDtor = false;
+      for (const auto &method : node.methods_) {
+        hasOwnCtor = hasOwnCtor || method->name_ == "init";
+        hasOwnDtor = hasOwnDtor || method->name_ == "deinit";
+      }
       classType->setBase(baseClass);
       auto baseIt = classInfos_.find(baseClass->getCodegenName());
       if (baseIt != classInfos_.end()) {

@@ -469,11 +469,14 @@ void BoundIRGenerator::visit(sema::BoundExternalFunctionDeclaration &node) {
                        ? std::static_pointer_cast<Type>(
                              std::make_shared<PointerType>(paramSymbol->type))
                        : paramSymbol->type;
+    const auto parameterOwnership =
+        symbol->ownerTypeCodegenName.empty()
+            ? ParameterOwnership::Borrow
+            : parameterOwnershipFor(*symbol, parameterIndex);
     auto arg = std::make_shared<Argument>(
         paramSymbol->name, argType, paramSymbol->is_ref,
         paramSymbol->is_variadic_pack, paramSymbol->variadic_element_type,
-        ParameterOwnership::Borrow,
-        parameterEscapeFor(*symbol, parameterIndex));
+        parameterOwnership, parameterEscapeFor(*symbol, parameterIndex));
     func->arguments.push_back(arg);
   }
 

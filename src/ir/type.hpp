@@ -199,8 +199,23 @@ inline std::shared_ptr<RecordType> makeGenericParameterType(std::string name) {
 }
 
 class ClassType : public RecordType {
+public:
+  struct InterfaceConformance {
+    std::string interfaceCodegenName;
+    std::vector<int> methodVtableSlots;
+  };
+
+  struct InterfaceMethod {
+    std::string name;
+    std::string linkName;
+  };
+
+private:
   std::shared_ptr<ClassType> base;
   bool weakRef = false;
+  bool isInterface_ = false;
+  std::vector<InterfaceConformance> interfaces_;
+  std::vector<InterfaceMethod> interfaceMethods_;
 
 public:
   ClassType(std::string n, std::string codegen = "")
@@ -216,6 +231,31 @@ public:
   std::shared_ptr<ClassType> getBase() const { return base; }
   void setWeak(bool weak) { weakRef = weak; }
   bool isWeak() const { return weakRef; }
+
+  void setIsInterface(bool value) { isInterface_ = value; }
+  bool isInterface() const { return isInterface_; }
+
+  void addInterfaceConformance(InterfaceConformance conformance) {
+    interfaces_.push_back(std::move(conformance));
+  }
+  const std::vector<InterfaceConformance> &getInterfaceConformances() const {
+    return interfaces_;
+  }
+  bool implementsInterface(const std::string &interfaceCodegenName) const {
+    for (const auto &c : interfaces_) {
+      if (c.interfaceCodegenName == interfaceCodegenName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void setInterfaceMethods(std::vector<InterfaceMethod> methods) {
+    interfaceMethods_ = std::move(methods);
+  }
+  const std::vector<InterfaceMethod> &getInterfaceMethods() const {
+    return interfaceMethods_;
+  }
 };
 
 class EnumType : public Type {

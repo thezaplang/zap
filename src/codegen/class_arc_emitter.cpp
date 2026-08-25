@@ -677,7 +677,7 @@ void ClassArcEmitter::emitStoreWithArc(llvm::Value *addr, llvm::Value *value,
 
 void ClassArcEmitter::ensureClassArcSupport(
     const std::shared_ptr<zir::ClassType> &classType) {
-  if (!classType ||
+  if (!classType || classType->isInterface() ||
       codegen_.classReleaseFns_.count(classType->getCodegenName())) {
     return;
   }
@@ -738,6 +738,54 @@ void ClassArcEmitter::ensureClassArcSupport(
         *codegen_.module_, vtableTy, true, llvm::GlobalValue::InternalLinkage,
         init, "__zap_vtable_" + classType->getCodegenName());
     codegen_.classVTables_[classType->getCodegenName()] = gv;
+  }
+
+  if (!classType->getInterfaceConformances().empty() &&
+      !codegen_.classInterfaceTables_.count(classType->getCodegenName())) {
+    auto *i8PtrTy = llvm::PointerType::getUnqual(codegen_.ctx_);
+    auto *i64Ty = llvm::Type::getInt64Ty(codegen_.ctx_);
+    auto *entryTy = llvm::StructType::get(codegen_.ctx_, {i8PtrTy, i8PtrTy});
+
+    std::vector<llvm::Constant *> entries;
+    for (const auto &conformance : classType->getInterfaceConformances()) {
+      std::vector<llvm::Constant *> slotConsts;
+      slotConsts.reserve(conformance.methodVtableSlots.size());
+      for (int slot : conformance.methodVtableSlots) {
+        slotConsts.push_back(
+            llvm::ConstantInt::get(i64Ty, static_cast<uint64_t>(slot)));
+      }
+      auto *slotsArrTy =
+          llvm::ArrayType::get(i64Ty, slotConsts.size());
+      auto *slotsInit = llvm::ConstantArray::get(slotsArrTy, slotConsts);
+      auto *slotsGlobal = new llvm::GlobalVariable(
+          *codegen_.module_, slotsArrTy, true,
+          llvm::GlobalValue::InternalLinkage, slotsInit,
+          "__zap_iface_slots_" + classType->getCodegenName() + "_" +
+              conformance.interfaceCodegenName);
+
+      auto *nameConst = llvm::ConstantDataArray::getString(
+          codegen_.ctx_, conformance.interfaceCodegenName, true);
+      auto *nameGlobal = new llvm::GlobalVariable(
+          *codegen_.module_, nameConst->getType(), true,
+          llvm::GlobalValue::InternalLinkage, nameConst,
+          "__zap_iface_name_" + conformance.interfaceCodegenName);
+
+      llvm::Constant *fields[] = {
+          llvm::ConstantExpr::getBitCast(nameGlobal, i8PtrTy),
+          llvm::ConstantExpr::getBitCast(slotsGlobal, i8PtrTy)};
+      entries.push_back(llvm::ConstantStruct::get(entryTy, fields));
+    }
+    llvm::Constant *sentinelFields[] = {
+        llvm::ConstantPointerNull::get(i8PtrTy),
+        llvm::ConstantPointerNull::get(i8PtrTy)};
+    entries.push_back(llvm::ConstantStruct::get(entryTy, sentinelFields));
+
+    auto *tableTy = llvm::ArrayType::get(entryTy, entries.size());
+    auto *tableInit = llvm::ConstantArray::get(tableTy, entries);
+    auto *tableGlobal = new llvm::GlobalVariable(
+        *codegen_.module_, tableTy, true, llvm::GlobalValue::InternalLinkage,
+        tableInit, "__zap_iface_table_" + classType->getCodegenName());
+    codegen_.classInterfaceTables_[classType->getCodegenName()] = tableGlobal;
   }
 
   if (!codegen_.classMetadataGlobals_.count(classType->getCodegenName())) {

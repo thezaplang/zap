@@ -450,12 +450,18 @@ JsonObject::List makeCompletionItems(const std::string &uri,
                               method->visibility_),
                   detail));
             }
-            if (!current->baseType_) {
+            const ClassDecl *base = nullptr;
+            for (const auto &implType : current->implementsList_) {
+              base = resolveClassByTypeName(
+                  project, *moduleIt->second, implType->qualifiedName(), false);
+              if (base) {
+                break;
+              }
+            }
+            if (!base) {
               break;
             }
-            current = resolveClassByTypeName(
-                project, *moduleIt->second, current->baseType_->qualifiedName(),
-                false);
+            current = base;
           }
         }
       }

@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 // Shared ARC object header ABI used by runtime (C) and codegen (C++).
-#define ZAP_ARC_ABI_VERSION 5
+#define ZAP_ARC_ABI_VERSION 6
 #define ZAP_ARC_STRONG_COUNT_INDEX 0
 #define ZAP_ARC_WEAK_COUNT_INDEX 1
 #define ZAP_ARC_ALIVE_INDEX 2
@@ -13,7 +13,8 @@
 #define ZAP_ARC_DESTROY_FN_INDEX 5
 #define ZAP_ARC_METADATA_INDEX 6
 #define ZAP_ARC_VTABLE_INDEX 7
-#define ZAP_ARC_FIELD_START_INDEX 8
+#define ZAP_ARC_INTERFACE_TABLE_INDEX 8
+#define ZAP_ARC_FIELD_START_INDEX 9
 #define ZAP_ARC_HEADER_FIELD_COUNT ZAP_ARC_FIELD_START_INDEX
 // A self-cycle has one possible root, so a larger threshold would postpone its
 // finalization indefinitely when no other managed object is released.
@@ -46,7 +47,13 @@ typedef struct zap_arc_header_t {
   void (*destroy_fn)(void *);
   const zap_arc_metadata_t *metadata;
   void **vtable;
+  const void *interface_table;
 } zap_arc_header_t;
+
+typedef struct zap_arc_interface_entry_t {
+  const char *interface_name;
+  const int64_t *method_slots;
+} zap_arc_interface_entry_t;
 
 #if defined(ZAP_RUNTIME_INSTRUMENTATION)
 typedef struct zap_runtime_ownership_counters_t {
@@ -93,6 +100,9 @@ void zap_arc_weak_refcount_overflow(void);
 void zap_arc_strong_refcount_underflow(void);
 void zap_arc_weak_refcount_underflow(void);
 void zap_arc_retain_dead_object(void);
+void zap_arc_interface_not_found(void);
+void *zap_arc_resolve_interface_method(void *object, const char *interface_name,
+                                       int64_t method_index);
 
 #if defined(ZAP_RUNTIME_INSTRUMENTATION)
 void zap_runtime_ownership_reset_counters(void);
@@ -155,5 +165,8 @@ ZAP_ARC_STATIC_ASSERT(offsetof(zap_arc_header_t, metadata) >
 ZAP_ARC_STATIC_ASSERT(offsetof(zap_arc_header_t, vtable) >
                           offsetof(zap_arc_header_t, metadata),
                       "ARC ABI: vtable must be after metadata");
+ZAP_ARC_STATIC_ASSERT(offsetof(zap_arc_header_t, interface_table) >
+                          offsetof(zap_arc_header_t, vtable),
+                      "ARC ABI: interface_table must be after vtable");
 
 #undef ZAP_ARC_STATIC_ASSERT

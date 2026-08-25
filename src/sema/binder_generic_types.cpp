@@ -196,18 +196,18 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
   currentModuleId_ = moduleIt->second.info->moduleId;
 
   activeGenericBindingsStack_.push_back(genericBindings);
-  if (classDecl && classDecl->baseType_) {
+  if (classDecl && !classDecl->implementsList_.empty()) {
     bool hasOwnCtor = false;
     bool hasOwnDtor = false;
     for (const auto &methodDecl : classDecl->methods_) {
       hasOwnCtor = hasOwnCtor || methodDecl->name_ == "init";
       hasOwnDtor = hasOwnDtor || methodDecl->name_ == "deinit";
     }
-    auto baseType = mapType(*classDecl->baseType_);
-    if (baseType && baseType->getKind() == zir::TypeKind::Class) {
+    std::vector<std::shared_ptr<zir::ClassType>> interfaces;
+    auto baseClass = resolveClassImplementsList(*classDecl, interfaces);
+    if (baseClass) {
       auto instantiatedClassType =
           std::static_pointer_cast<zir::ClassType>(instantiatedType);
-      auto baseClass = std::static_pointer_cast<zir::ClassType>(baseType);
       instantiatedClassType->setBase(baseClass);
       auto &classInfo = classInfos_[instantiatedClassType->getCodegenName()];
       auto baseIt = classInfos_.find(baseClass->getCodegenName());
@@ -227,9 +227,6 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
         instantiatedClassType->addField(field.name, field.type,
                                         field.visibility);
       }
-    } else if (baseType) {
-      error(classDecl->baseType_->span,
-            "Base type of class '" + classDecl->name_ + "' must be a class.");
     }
   }
 

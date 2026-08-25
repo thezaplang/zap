@@ -433,6 +433,23 @@ resolveVariableRecordType(const ProjectState &project,
   return nullptr;
 }
 
+const ClassDecl *resolveClassBase(const ClassDecl *cls,
+                                  const ProjectState &project,
+                                  const sema::ModuleInfo &module,
+                                  bool publicOnly = false) {
+  if (!cls) {
+    return nullptr;
+  }
+  for (const auto &implType : cls->implementsList_) {
+    if (auto base = resolveClassByTypeName(project, module,
+                                           implType->qualifiedName(),
+                                           publicOnly)) {
+      return base;
+    }
+  }
+  return nullptr;
+}
+
 const ParameterNode *findClassField(const ClassDecl *cls,
                                     const ProjectState &project,
                                     const sema::ModuleInfo &module,
@@ -450,11 +467,8 @@ const ParameterNode *findClassField(const ClassDecl *cls,
     }
     return field.get();
   }
-  if (cls->baseType_) {
-    if (auto base = resolveClassByTypeName(
-            project, module, cls->baseType_->qualifiedName(), publicOnly)) {
-      return findClassField(base, project, module, member, publicOnly);
-    }
+  if (auto base = resolveClassBase(cls, project, module, publicOnly)) {
+    return findClassField(base, project, module, member, publicOnly);
   }
   return nullptr;
 }
@@ -476,11 +490,8 @@ const FunDecl *findClassMethod(const ClassDecl *cls,
     }
     return method.get();
   }
-  if (cls->baseType_) {
-    if (auto base = resolveClassByTypeName(
-            project, module, cls->baseType_->qualifiedName(), publicOnly)) {
-      return findClassMethod(base, project, module, member, publicOnly);
-    }
+  if (auto base = resolveClassBase(cls, project, module, publicOnly)) {
+    return findClassMethod(base, project, module, member, publicOnly);
   }
   return nullptr;
 }
@@ -505,11 +516,8 @@ findConstructorSignatures(const ClassDecl *cls, const ProjectState &project,
     return signatures;
   }
 
-  if (cls->baseType_) {
-    if (auto base = resolveClassByTypeName(project, module,
-                                           cls->baseType_->qualifiedName())) {
-      return findConstructorSignatures(base, project, module);
-    }
+  if (auto base = resolveClassBase(cls, project, module)) {
+    return findConstructorSignatures(base, project, module);
   }
   return {};
 }
@@ -864,8 +872,8 @@ std::optional<HoverInfo> hoverForNode(const Node *node) {
       }
       hover += ">";
     }
-    if (cls->baseType_) {
-      hover += " : " + renderType(cls->baseType_.get());
+    for (size_t i = 0; i < cls->implementsList_.size(); ++i) {
+      hover += (i == 0 ? " : " : ", ") + renderType(cls->implementsList_[i].get());
     }
     if (!cls->genericConstraints_.empty()) {
       hover += " where ";

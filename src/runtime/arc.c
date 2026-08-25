@@ -141,6 +141,30 @@ void zap_arc_retain_dead_object(void) {
   abort();
 }
 
+void zap_arc_interface_not_found(void) {
+  fputs("zap runtime error: object does not implement the requested "
+        "interface\n",
+        stderr);
+  abort();
+}
+
+void *zap_arc_resolve_interface_method(void *object, const char *interface_name,
+                                       int64_t method_index) {
+  const zap_arc_header_t *header = (const zap_arc_header_t *)object;
+  const zap_arc_interface_entry_t *entry =
+      (const zap_arc_interface_entry_t *)header->interface_table;
+  if (entry) {
+    for (; entry->interface_name; ++entry) {
+      if (strcmp(entry->interface_name, interface_name) == 0) {
+        int64_t slot = entry->method_slots[method_index];
+        return header->vtable[slot];
+      }
+    }
+  }
+  zap_arc_interface_not_found();
+  return NULL;
+}
+
 typedef struct {
   void **keys;
   uint32_t *vals;

@@ -31,6 +31,7 @@
 #include "../ast/if_type_node.hpp"
 #include "../ast/import_node.hpp"
 #include "../ast/index_access.hpp"
+#include "../ast/interface_decl.hpp"
 #include "../ast/member_access.hpp"
 #include "../ast/new_expr.hpp"
 #include "../ast/parameter_node.hpp"
@@ -287,6 +288,10 @@ public:
 
   std::unique_ptr<ClassDecl> makeClassDecl(const std::string &name) {
     return std::make_unique<ClassDecl>(name);
+  }
+
+  std::unique_ptr<InterfaceDecl> makeInterfaceDecl(const std::string &name) {
+    return std::make_unique<InterfaceDecl>(name);
   }
 
   std::unique_ptr<NewExpr> makeNewExpr(std::unique_ptr<TypeNode> type) {

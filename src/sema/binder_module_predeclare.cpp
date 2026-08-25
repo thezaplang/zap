@@ -102,6 +102,37 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         info.ownerQualifiedName = type->getName();
         classInfos_[type->getCodegenName()] = info;
       }
+    } else if (auto interfaceDecl = dynamic_cast<InterfaceDecl *>(child.get())) {
+      auto type = std::make_shared<zir::ClassType>(
+          displayTypeName(module.info->moduleName, interfaceDecl->name_),
+          mangleName(module.info->linkPath.empty() ? module.info->moduleId
+                                                   : module.info->linkPath,
+                     interfaceDecl->name_));
+      type->setIsInterface(true);
+      auto symbol = std::make_shared<TypeSymbol>(
+          interfaceDecl->name_, type,
+          mangleName(module.info->linkPath.empty() ? module.info->moduleId
+                                                   : module.info->linkPath,
+                     interfaceDecl->name_),
+          module.info->moduleName, interfaceDecl->visibility_, false, false);
+      symbol->isInterface = true;
+      if (semanticInfo_) {
+        semanticInfo_->recordDeclaration(interfaceDecl, symbol);
+      }
+      typeDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
+      if (!module.scope->declare(interfaceDecl->name_, symbol)) {
+        error(interfaceDecl->span,
+              "Type '" + interfaceDecl->name_ + "' already declared.");
+      }
+      module.symbol->members[interfaceDecl->name_] = symbol;
+      if (interfaceDecl->visibility_ == Visibility::Public) {
+        module.symbol->exports[interfaceDecl->name_] = symbol;
+      }
+
+      InterfaceInfo info;
+      info.typeSymbol = symbol;
+      info.classType = type;
+      interfaceInfos_[type->getCodegenName()] = info;
     } else if (auto structDecl =
                    dynamic_cast<StructDeclarationNode *>(child.get())) {
       const bool isCoreStringView =
@@ -645,28 +676,29 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           std::static_pointer_cast<zir::ClassType>(classSymbol->type);
       auto &classInfo = classInfos_[classType->getCodegenName()];
 
-      if (classDecl->baseType_) {
+      std::vector<std::shared_ptr<zir::ClassType>> classInterfaces;
+      auto classBase = resolveClassImplementsList(*classDecl, classInterfaces);
+      if (classBase) {
         bool hasOwnCtor = false;
         bool hasOwnDtor = false;
         for (const auto &methodDecl : classDecl->methods_) {
           hasOwnCtor = hasOwnCtor || methodDecl->name_ == "init";
           hasOwnDtor = hasOwnDtor || methodDecl->name_ == "deinit";
         }
-        auto baseType = mapType(*classDecl->baseType_);
-        if (baseType && baseType->getKind() == zir::TypeKind::Class) {
-          auto baseClass = std::static_pointer_cast<zir::ClassType>(baseType);
-          auto baseIt = classInfos_.find(baseClass->getCodegenName());
-          if (baseIt != classInfos_.end()) {
-            if (!hasOwnCtor) {
-              classInfo.constructor = baseIt->second.constructor;
-            }
-            if (!hasOwnDtor) {
-              classInfo.destructor = baseIt->second.destructor;
-            }
-            classInfo.methods.insert(baseIt->second.methods.begin(),
-                                     baseIt->second.methods.end());
-            classInfo.nextVirtualSlot = baseIt->second.nextVirtualSlot;
+        auto baseIt = classInfos_.find(classBase->getCodegenName());
+        if (baseIt != classInfos_.end()) {
+          if (!hasOwnCtor) {
+            classInfo.constructor = baseIt->second.constructor;
           }
+          if (!hasOwnDtor) {
+            classInfo.destructor = baseIt->second.destructor;
+          }
+          classInfo.methods.insert(baseIt->second.methods.begin(),
+                                   baseIt->second.methods.end());
+          classInfo.nextVirtualSlot = baseIt->second.nextVirtualSlot;
+        }
+        for (const auto &conformance : classBase->getInterfaceConformances()) {
+          classType->addInterfaceConformance(conformance);
         }
       }
 
@@ -815,6 +847,81 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           classInfo.destructor = symbol;
         }
       }
+
+      bindInterfaceConformances(*classDecl, classType, classInfo,
+                                classInterfaces);
+    } else if (auto interfaceDecl = dynamic_cast<InterfaceDecl *>(child.get())) {
+      auto interfaceSymbol = std::dynamic_pointer_cast<TypeSymbol>(
+          module.scope->lookup(interfaceDecl->name_));
+      if (!interfaceSymbol || !interfaceSymbol->isInterface) {
+        continue;
+      }
+      auto interfaceType =
+          std::static_pointer_cast<zir::ClassType>(interfaceSymbol->type);
+      auto &interfaceInfo = interfaceInfos_[interfaceType->getCodegenName()];
+
+      std::vector<zir::ClassType::InterfaceMethod> methodMeta;
+      for (const auto &methodDecl : interfaceDecl->methods_) {
+        std::vector<std::shared_ptr<VariableSymbol>> params;
+        params.push_back(std::make_shared<VariableSymbol>(
+            "self", interfaceType, BindingKind::Mutable, false, "self",
+            module.info->moduleName, Visibility::Private));
+
+        for (const auto &p : methodDecl->params_) {
+          auto mappedType = mapType(*p->type);
+          if (!mappedType) {
+            error(p->span, "Unknown type: " + p->type->qualifiedName());
+            mappedType =
+                std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+          }
+          auto parameter = std::make_shared<VariableSymbol>(
+              p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
+              module.info->moduleName, Visibility::Private);
+          parameter->is_sink = p->isSink;
+          params.push_back(std::move(parameter));
+        }
+
+        std::shared_ptr<zir::Type> retType =
+            methodDecl->returnType_
+                ? mapType(*methodDecl->returnType_)
+                : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+        if (!retType) {
+          error(methodDecl->span, "Unknown return type in interface method '" +
+                                      methodDecl->name_ + "'.");
+          retType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+        }
+
+        auto symbol = std::make_shared<FunctionSymbol>(
+            methodDecl->name_, std::move(params), std::move(retType), "",
+            module.info->moduleName, Visibility::Public);
+        symbol->isMethod = true;
+        symbol->ownerTypeCodegenName = interfaceType->getCodegenName();
+        symbol->linkName = mangleName(
+            module.info->linkPath.empty() ? module.info->moduleId
+                                          : module.info->linkPath,
+            interfaceDecl->name_ + "$" + methodDecl->name_ + "$" +
+                functionSignatureKey(*symbol));
+
+        if (interfaceInfo.methods.count(symbol->name)) {
+          error(methodDecl->span, "Interface method '" + methodDecl->name_ +
+                                      "' already declared.");
+          continue;
+        }
+
+        interfaceInfo.methods[symbol->name] = symbol;
+        boundRoot_->externalFunctions.push_back(
+            std::make_unique<BoundExternalFunctionDeclaration>(symbol));
+        functionDeclarationNodes_[symbol.get()] = methodDecl.get();
+        functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
+        if (semanticInfo_) {
+          semanticInfo_->recordDeclaration(methodDecl.get(), symbol);
+        }
+        methodMeta.push_back({symbol->name, symbol->linkName});
+      }
+      interfaceType->setInterfaceMethods(std::move(methodMeta));
+      auto boundInterface = std::make_unique<BoundRecordDeclaration>();
+      boundInterface->type = interfaceType;
+      boundRoot_->records.push_back(std::move(boundInterface));
     } else if (auto extDecl = dynamic_cast<ExtDecl *>(child.get())) {
       ++externTypeContextDepth_;
       std::vector<std::shared_ptr<VariableSymbol>> params;

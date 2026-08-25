@@ -1,0 +1,12 @@
+interface Greeter {
+    fun greet() String;
+}
+
+class Silent : Greeter {
+    pub fun wave() Void {}
+}
+
+fun main() Int {
+    var s = new Silent();
+    return 0;
+}

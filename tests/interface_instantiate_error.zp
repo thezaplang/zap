@@ -1,0 +1,8 @@
+interface Greeter {
+    fun greet() String;
+}
+
+fun main() Int {
+    var g = new Greeter();
+    return 0;
+}

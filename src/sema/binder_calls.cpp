@@ -114,18 +114,35 @@ void Binder::visit(FunCall &node) {
               "Weak references cannot be used to call methods directly.");
         return;
       }
-      auto infoIt = classInfos_.find(classType->getCodegenName());
-      if (infoIt == classInfos_.end()) {
-        error(node.span, "Unknown class type: " + classType->getName());
-        return;
+      std::shared_ptr<Symbol> methodSymbol;
+      if (classType->isInterface()) {
+        auto infoIt = interfaceInfos_.find(classType->getCodegenName());
+        if (infoIt == interfaceInfos_.end()) {
+          error(node.span, "Unknown interface type: " + classType->getName());
+          return;
+        }
+        auto methodIt = infoIt->second.methods.find(member->member_);
+        if (methodIt == infoIt->second.methods.end()) {
+          error(node.span, "Interface '" + classType->getName() +
+                               "' has no method '" + member->member_ + "'.");
+          return;
+        }
+        methodSymbol = methodIt->second;
+      } else {
+        auto infoIt = classInfos_.find(classType->getCodegenName());
+        if (infoIt == classInfos_.end()) {
+          error(node.span, "Unknown class type: " + classType->getName());
+          return;
+        }
+        auto methodIt = infoIt->second.methods.find(member->member_);
+        if (methodIt == infoIt->second.methods.end()) {
+          error(node.span, "Class '" + classType->getName() +
+                               "' has no method '" + member->member_ + "'.");
+          return;
+        }
+        methodSymbol = methodIt->second;
       }
-      auto methodIt = infoIt->second.methods.find(member->member_);
-      if (methodIt == infoIt->second.methods.end()) {
-        error(node.span, "Class '" + classType->getName() +
-                             "' has no method '" + member->member_ + "'.");
-        return;
-      }
-      auto candidates = collectOverloads(methodIt->second);
+      auto candidates = collectOverloads(methodSymbol);
       if (candidates.empty()) {
         error(node.span, "'" + member->member_ + "' is not a method.");
         return;

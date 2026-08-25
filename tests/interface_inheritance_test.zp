@@ -1,0 +1,43 @@
+interface Shape {
+    fun area() Int;
+}
+
+class Rectangle : Shape {
+    prot w: Int;
+    prot h: Int;
+
+    fun init(w: Int, h: Int) {
+        self.w = w;
+        self.h = h;
+    }
+
+    pub fun area() Int {
+        return self.w * self.h;
+    }
+}
+
+class Square : Rectangle {
+    fun init(side: Int) {
+        self.w = side;
+        self.h = side;
+    }
+}
+
+fun totalArea(s: Shape) Int {
+    return s.area();
+}
+
+fun main() Int {
+    var square = new Square(4);
+
+    if totalArea(square) != 16 {
+        return 1;
+    }
+
+    var s: Shape = square;
+    if s.area() != 16 {
+        return 2;
+    }
+
+    return 0;
+}
