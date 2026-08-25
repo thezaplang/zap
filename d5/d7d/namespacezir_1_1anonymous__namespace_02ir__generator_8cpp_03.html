@@ -89,23 +89,23 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00041">41</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>                                           {</div>
-<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">if</span> (!block || block-&gt;<a class="code hl_variable" href="../../d7/d6e/classzir_1_1BasicBlock.html#a98df5b8d7db7080f89acc97800170b81">instructions</a>.empty()) {</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   44</span>  }</div>
-<div class="line"><span class="lineno">   45</span>  <span class="keyword">const</span> <span class="keyword">auto</span> opcode = block-&gt;<a class="code hl_variable" href="../../d7/d6e/classzir_1_1BasicBlock.html#a98df5b8d7db7080f89acc97800170b81">instructions</a>.back()-&gt;getOpCode();</div>
-<div class="line"><span class="lineno">   46</span>  <span class="keywordflow">return</span> opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a> || opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2">OpCode::Br</a> ||</div>
-<div class="line"><span class="lineno">   47</span>         opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced">OpCode::CondBr</a>;</div>
-<div class="line"><span class="lineno">   48</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00042">42</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                                           {</div>
+<div class="line"><span class="lineno">   43</span>  <span class="keywordflow">if</span> (!block || block-&gt;<a class="code hl_variable" href="../../d7/d6e/classzir_1_1BasicBlock.html#a98df5b8d7db7080f89acc97800170b81">instructions</a>.empty()) {</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   45</span>  }</div>
+<div class="line"><span class="lineno">   46</span>  <span class="keyword">const</span> <span class="keyword">auto</span> opcode = block-&gt;<a class="code hl_variable" href="../../d7/d6e/classzir_1_1BasicBlock.html#a98df5b8d7db7080f89acc97800170b81">instructions</a>.back()-&gt;getOpCode();</div>
+<div class="line"><span class="lineno">   47</span>  <span class="keywordflow">return</span> opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">OpCode::Ret</a> || opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2">OpCode::Br</a> ||</div>
+<div class="line"><span class="lineno">   48</span>         opcode == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced">OpCode::CondBr</a>;</div>
+<div class="line"><span class="lineno">   49</span>}</div>
 <div class="ttc" id="aclasszir_1_1BasicBlock_html_a98df5b8d7db7080f89acc97800170b81"><div class="ttname"><a href="../../d7/d6e/classzir_1_1BasicBlock.html#a98df5b8d7db7080f89acc97800170b81">zir::BasicBlock::instructions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Instruction &gt; &gt; instructions</div><div class="ttdef"><b>Definition</b> <a href="../../df/dab/basic__block_8hpp_source.html#l00012">basic_block.hpp:12</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa8d37869ebc7af08a31df14fe3f48bee2">zir::OpCode::Br</a></div><div class="ttdeci">@ Br</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00027">instruction.hpp:27</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa4228a09dd66155de8e93a39245768bd">zir::OpCode::Ret</a></div><div class="ttdeci">@ Ret</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00029">instruction.hpp:29</a></div></div>
 <div class="ttc" id="anamespacezir_html_ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced"><div class="ttname"><a href="../../df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aaa7438498b20c25b5e98e14b77e864ced">zir::OpCode::CondBr</a></div><div class="ttdeci">@ CondBr</div><div class="ttdef"><b>Definition</b> <a href="../../d5/db2/instruction_8hpp_source.html#l00028">instruction.hpp:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00027">zir::Br</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00028">zir::CondBr</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">zir::BasicBlock::instructions</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00041">isTerminated()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00029">zir::Ret</a>.</p>
+<p class="reference">References <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00027">zir::Br</a>, <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00028">zir::CondBr</a>, <a class="el" href="../../df/dab/basic__block_8hpp_source.html#l00012">zir::BasicBlock::instructions</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00042">isTerminated()</a>, and <a class="el" href="../../d5/db2/instruction_8hpp_source.html#l00029">zir::Ret</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00041">isTerminated()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00042">isTerminated()</a>.</p>
 
 </div>
 </div>
@@ -128,26 +128,26 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                                       {</div>
-<div class="line"><span class="lineno">   74</span>  <span class="keywordflow">if</span> (!targetType || !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(targetType)) {</div>
-<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   76</span>  }</div>
-<div class="line"><span class="lineno">   77</span>  <span class="keywordflow">if</span> (targetType-&gt;getIntrinsicKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591a27118326006d3829667a400ad23d5d98">IntrinsicTypeKind::String</a>) {</div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a444d5e3cc7edfb0ebb90ba2028c007b8">ValueOwnership::OwnedStrong</a>;</div>
-<div class="line"><span class="lineno">   79</span>  }</div>
-<div class="line"><span class="lineno">   80</span>  <span class="keywordflow">return</span> source &amp;&amp; <a class="code hl_function" href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">isOwned</a>(source-&gt;getOwnership()) ? source-&gt;getOwnership()</div>
-<div class="line"><span class="lineno">   81</span>                                                   : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   82</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>                                                                       {</div>
+<div class="line"><span class="lineno">   75</span>  <span class="keywordflow">if</span> (!targetType || !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(targetType)) {</div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   77</span>  }</div>
+<div class="line"><span class="lineno">   78</span>  <span class="keywordflow">if</span> (targetType-&gt;getIntrinsicKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591a27118326006d3829667a400ad23d5d98">IntrinsicTypeKind::String</a>) {</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a444d5e3cc7edfb0ebb90ba2028c007b8">ValueOwnership::OwnedStrong</a>;</div>
+<div class="line"><span class="lineno">   80</span>  }</div>
+<div class="line"><span class="lineno">   81</span>  <span class="keywordflow">return</span> source &amp;&amp; <a class="code hl_function" href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">isOwned</a>(source-&gt;getOwnership()) ? source-&gt;getOwnership()</div>
+<div class="line"><span class="lineno">   82</span>                                                   : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   83</span>}</div>
 <div class="ttc" id="anamespacezir_html_a18437619633ae4a858b016883ee3c68a"><div class="ttname"><a href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">zir::isOwned</a></div><div class="ttdeci">bool isOwned(ValueOwnership ownership)</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00028">value.hpp:28</a></div></div>
 <div class="ttc" id="anamespacezir_html_a5a7a36ef850b83be9e10ab89c10c606d"><div class="ttname"><a href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">zir::containsManagedValues</a></div><div class="ttdeci">bool containsManagedValues(const std::shared_ptr&lt; Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00465">type.hpp:465</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">zir::ValueOwnership::Borrowed</a></div><div class="ttdeci">@ Borrowed</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00022">value.hpp:22</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8a221b28ff6d092bc1fb4930af999606a444d5e3cc7edfb0ebb90ba2028c007b8"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a444d5e3cc7edfb0ebb90ba2028c007b8">zir::ValueOwnership::OwnedStrong</a></div><div class="ttdeci">@ OwnedStrong</div><div class="ttdef"><b>Definition</b> <a href="../../d6/dda/value_8hpp_source.html#l00023">value.hpp:23</a></div></div>
 <div class="ttc" id="anamespacezir_html_ad2399c9945459fbe2335b03deb95a591a27118326006d3829667a400ad23d5d98"><div class="ttname"><a href="../../df/d35/namespacezir.html#ad2399c9945459fbe2335b03deb95a591a27118326006d3829667a400ad23d5d98">zir::IntrinsicTypeKind::String</a></div><div class="ttdeci">@ String</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00058">type.hpp:58</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00022">zir::Borrowed</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00028">zir::isOwned()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00023">zir::OwnedStrong</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00072">ownershipForCast()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00058">zir::String</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00022">zir::Borrowed</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00028">zir::isOwned()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00023">zir::OwnedStrong</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00073">ownershipForCast()</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00058">zir::String</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00072">ownershipForCast()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00073">ownershipForCast()</a>.</p>
 
 </div>
 </div>
@@ -170,29 +170,29 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00050">50</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>                   {</div>
-<div class="line"><span class="lineno">   54</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(type) || incoming.empty()) {</div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   56</span>  }</div>
-<div class="line"><span class="lineno">   57</span>  <span class="keyword">const</span> <span class="keyword">auto</span> ownership = incoming.front().second</div>
-<div class="line"><span class="lineno">   58</span>                             ? incoming.front().second-&gt;getOwnership()</div>
-<div class="line"><span class="lineno">   59</span>                             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   60</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">isOwned</a>(ownership)) {</div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   62</span>  }</div>
-<div class="line"><span class="lineno">   63</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[label, value] : incoming) {</div>
-<div class="line"><span class="lineno">   64</span>    (void)label;</div>
-<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> (!value || value-&gt;getOwnership() != ownership) {</div>
-<div class="line"><span class="lineno">   66</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
-<div class="line"><span class="lineno">   67</span>    }</div>
-<div class="line"><span class="lineno">   68</span>  }</div>
-<div class="line"><span class="lineno">   69</span>  <span class="keywordflow">return</span> ownership;</div>
-<div class="line"><span class="lineno">   70</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>                   {</div>
+<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(type) || incoming.empty()) {</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   57</span>  }</div>
+<div class="line"><span class="lineno">   58</span>  <span class="keyword">const</span> <span class="keyword">auto</span> ownership = incoming.front().second</div>
+<div class="line"><span class="lineno">   59</span>                             ? incoming.front().second-&gt;getOwnership()</div>
+<div class="line"><span class="lineno">   60</span>                             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   61</span>  <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../df/d35/namespacezir.html#a18437619633ae4a858b016883ee3c68a">isOwned</a>(ownership)) {</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   63</span>  }</div>
+<div class="line"><span class="lineno">   64</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;[label, value] : incoming) {</div>
+<div class="line"><span class="lineno">   65</span>    (void)label;</div>
+<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">if</span> (!value || value-&gt;getOwnership() != ownership) {</div>
+<div class="line"><span class="lineno">   67</span>      <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8a221b28ff6d092bc1fb4930af999606a0508624b46fa4785138cf2fdff6d7039">ValueOwnership::Borrowed</a>;</div>
+<div class="line"><span class="lineno">   68</span>    }</div>
+<div class="line"><span class="lineno">   69</span>  }</div>
+<div class="line"><span class="lineno">   70</span>  <span class="keywordflow">return</span> ownership;</div>
+<div class="line"><span class="lineno">   71</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00022">zir::Borrowed</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00028">zir::isOwned()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00050">ownershipForPhi()</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/dda/value_8hpp_source.html#l00022">zir::Borrowed</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/dda/value_8hpp_source.html#l00028">zir::isOwned()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00051">ownershipForPhi()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00050">ownershipForPhi()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00051">ownershipForPhi()</a>.</p>
 
 </div>
 </div>
@@ -215,22 +215,22 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">101</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  102</span>                                                          {</div>
-<div class="line"><span class="lineno">  103</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
-<div class="line"><span class="lineno">  105</span>  }</div>
-<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">return</span> function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex]-&gt;is_noescape</div>
-<div class="line"><span class="lineno">  107</span>             ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">ParameterEscape::NoEscape</a></div>
-<div class="line"><span class="lineno">  108</span>             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
-<div class="line"><span class="lineno">  109</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">102</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>                                                          {</div>
+<div class="line"><span class="lineno">  104</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
+<div class="line"><span class="lineno">  106</span>  }</div>
+<div class="line"><span class="lineno">  107</span>  <span class="keywordflow">return</span> function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex]-&gt;is_noescape</div>
+<div class="line"><span class="lineno">  108</span>             ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">ParameterEscape::NoEscape</a></div>
+<div class="line"><span class="lineno">  109</span>             : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">ParameterEscape::Unspecified</a>;</div>
+<div class="line"><span class="lineno">  110</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a7f8af1e428604f4eaa3460b07273aa25"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">sema::FunctionSymbol::parameters</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; VariableSymbol &gt; &gt; parameters</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00080">symbol.hpp:80</a></div></div>
 <div class="ttc" id="anamespacezir_html_ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be"><div class="ttname"><a href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a0811f82bfff96a04a8565d2fcf5f02be">zir::ParameterEscape::NoEscape</a></div><div class="ttdeci">@ NoEscape</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00347">type.hpp:347</a></div></div>
 <div class="ttc" id="anamespacezir_html_ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5"><div class="ttname"><a href="../../df/d35/namespacezir.html#ad898b11b25f67894c647d569cba0e443a6fcdc090caeade09d0efd6253932b6f5">zir::ParameterEscape::Unspecified</a></div><div class="ttdeci">@ Unspecified</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00346">type.hpp:346</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00347">zir::NoEscape</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">parameterEscapeFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00346">zir::Unspecified</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00347">zir::NoEscape</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">parameterEscapeFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00346">zir::Unspecified</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00101">parameterEscapeFor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00102">parameterEscapeFor()</a>.</p>
 
 </div>
 </div>
@@ -253,31 +253,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>                                                                {</div>
-<div class="line"><span class="lineno">   86</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
-<div class="line"><span class="lineno">   88</span>  }</div>
-<div class="line"><span class="lineno">   89</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;parameter = function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex];</div>
-<div class="line"><span class="lineno">   90</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> borrowedSelf = parameterIndex == 0 &amp;&amp;</div>
-<div class="line"><span class="lineno">   91</span>                            !function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">ownerTypeCodegenName</a>.empty() &amp;&amp;</div>
-<div class="line"><span class="lineno">   92</span>                            parameter-&gt;name == <span class="stringliteral">&quot;self&quot;</span>;</div>
-<div class="line"><span class="lineno">   93</span>  <span class="keywordflow">if</span> (function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">isExternal</a> || parameter-&gt;is_ref || parameter-&gt;is_variadic_pack ||</div>
-<div class="line"><span class="lineno">   94</span>      borrowedSelf || !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(parameter-&gt;type)) {</div>
-<div class="line"><span class="lineno">   95</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
-<div class="line"><span class="lineno">   96</span>  }</div>
-<div class="line"><span class="lineno">   97</span>  <span class="keywordflow">return</span> parameter-&gt;is_sink ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">ParameterOwnership::Sink</a></div>
-<div class="line"><span class="lineno">   98</span>                            : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e">ParameterOwnership::Transfer</a>;</div>
-<div class="line"><span class="lineno">   99</span>}</div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00085">85</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   86</span>                                                                {</div>
+<div class="line"><span class="lineno">   87</span>  <span class="keywordflow">if</span> (parameterIndex &gt;= function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>.size()) {</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
+<div class="line"><span class="lineno">   89</span>  }</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keyword">const</span> <span class="keyword">auto</span> &amp;parameter = function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a7f8af1e428604f4eaa3460b07273aa25">parameters</a>[parameterIndex];</div>
+<div class="line"><span class="lineno">   91</span>  <span class="keyword">const</span> <span class="keywordtype">bool</span> borrowedSelf = parameterIndex == 0 &amp;&amp;</div>
+<div class="line"><span class="lineno">   92</span>                            !function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">ownerTypeCodegenName</a>.empty() &amp;&amp;</div>
+<div class="line"><span class="lineno">   93</span>                            parameter-&gt;name == <span class="stringliteral">&quot;self&quot;</span>;</div>
+<div class="line"><span class="lineno">   94</span>  <span class="keywordflow">if</span> (function.<a class="code hl_variable" href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">isExternal</a> || parameter-&gt;is_ref || parameter-&gt;is_variadic_pack ||</div>
+<div class="line"><span class="lineno">   95</span>      borrowedSelf || !<a class="code hl_function" href="../../df/d35/namespacezir.html#a5a7a36ef850b83be9e10ab89c10c606d">containsManagedValues</a>(parameter-&gt;type)) {</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">ParameterOwnership::Borrow</a>;</div>
+<div class="line"><span class="lineno">   97</span>  }</div>
+<div class="line"><span class="lineno">   98</span>  <span class="keywordflow">return</span> parameter-&gt;is_sink ? <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">ParameterOwnership::Sink</a></div>
+<div class="line"><span class="lineno">   99</span>                            : <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e">ParameterOwnership::Transfer</a>;</div>
+<div class="line"><span class="lineno">  100</span>}</div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a670a4caddd543afe1aa5d47be2eba3eb"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a670a4caddd543afe1aa5d47be2eba3eb">sema::FunctionSymbol::isExternal</a></div><div class="ttdeci">bool isExternal</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00091">symbol.hpp:91</a></div></div>
 <div class="ttc" id="aclasssema_1_1FunctionSymbol_html_a6f4d1e070d40200be3504bc522152863"><div class="ttname"><a href="../../db/db1/classsema_1_1FunctionSymbol.html#a6f4d1e070d40200be3504bc522152863">sema::FunctionSymbol::ownerTypeCodegenName</a></div><div class="ttdeci">std::string ownerTypeCodegenName</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d62/symbol_8hpp_source.html#l00097">symbol.hpp:97</a></div></div>
 <div class="ttc" id="anamespacezir_html_a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599"><div class="ttname"><a href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a1eb558b5d865ebabb06575f5f0042599">zir::ParameterOwnership::Sink</a></div><div class="ttdeci">@ Sink</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00342">type.hpp:342</a></div></div>
 <div class="ttc" id="anamespacezir_html_a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e"><div class="ttname"><a href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6950810f0d2bba97a6f710c7b965b84e">zir::ParameterOwnership::Transfer</a></div><div class="ttdeci">@ Transfer</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00341">type.hpp:341</a></div></div>
 <div class="ttc" id="anamespacezir_html_a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475"><div class="ttname"><a href="../../df/d35/namespacezir.html#a1d6d1f4af212f1797876210436e19c91a6aa9a689ad05ca4dde261bc73f5f5475">zir::ParameterOwnership::Borrow</a></div><div class="ttdeci">@ Borrow</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00340">type.hpp:340</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00340">zir::Borrow</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00091">sema::FunctionSymbol::isExternal</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00097">sema::FunctionSymbol::ownerTypeCodegenName</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00084">parameterOwnershipFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00342">zir::Sink</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00341">zir::Transfer</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00340">zir::Borrow</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00465">zir::containsManagedValues()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00091">sema::FunctionSymbol::isExternal</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00097">sema::FunctionSymbol::ownerTypeCodegenName</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00085">parameterOwnershipFor()</a>, <a class="el" href="../../d6/d62/symbol_8hpp_source.html#l00080">sema::FunctionSymbol::parameters</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00342">zir::Sink</a>, and <a class="el" href="../../da/d72/type_8hpp_source.html#l00341">zir::Transfer</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00084">parameterOwnershipFor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00085">parameterOwnershipFor()</a>.</p>
 
 </div>
 </div>
@@ -296,46 +296,46 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00010">10</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>                                                             {</div>
-<div class="line"><span class="lineno">   11</span>  <span class="keywordflow">if</span> (!type) {</div>
-<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;unknown&gt;&quot;</span>;</div>
-<div class="line"><span class="lineno">   13</span>  }</div>
-<div class="line"><span class="lineno">   14</span> </div>
-<div class="line"><span class="lineno">   15</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">TypeKind::Pointer</a>) {</div>
-<div class="line"><span class="lineno">   16</span>    <span class="keyword">auto</span> ptr = std::static_pointer_cast&lt;PointerType&gt;(type);</div>
-<div class="line"><span class="lineno">   17</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ad93ddfa64e7e1896d384a501109ee575">renderTypeForUser</a>(ptr-&gt;getBaseType()) + <span class="stringliteral">&quot;*&quot;</span>;</div>
-<div class="line"><span class="lineno">   18</span>  }</div>
-<div class="line"><span class="lineno">   19</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>) {</div>
-<div class="line"><span class="lineno">   20</span>    <span class="keyword">auto</span> rec = std::static_pointer_cast&lt;RecordType&gt;(type);</div>
-<div class="line"><span class="lineno">   21</span>    <span class="keyword">auto</span> full = rec-&gt;getName();</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
-<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
-<div class="line"><span class="lineno">   24</span>  }</div>
-<div class="line"><span class="lineno">   25</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">TypeKind::Class</a>) {</div>
-<div class="line"><span class="lineno">   26</span>    <span class="keyword">auto</span> cls = std::static_pointer_cast&lt;ClassType&gt;(type);</div>
-<div class="line"><span class="lineno">   27</span>    <span class="keyword">auto</span> full = cls-&gt;getName();</div>
-<div class="line"><span class="lineno">   28</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
-<div class="line"><span class="lineno">   30</span>  }</div>
-<div class="line"><span class="lineno">   31</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>) {</div>
-<div class="line"><span class="lineno">   32</span>    <span class="keyword">auto</span> en = std::static_pointer_cast&lt;EnumType&gt;(type);</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keyword">auto</span> full = en-&gt;getName();</div>
-<div class="line"><span class="lineno">   34</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
-<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
-<div class="line"><span class="lineno">   36</span>  }</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>  <span class="keywordflow">return</span> type-&gt;toString();</div>
-<div class="line"><span class="lineno">   39</span>}</div>
-<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03_html_ad93ddfa64e7e1896d384a501109ee575"><div class="ttname"><a href="#ad93ddfa64e7e1896d384a501109ee575">zir::anonymous_namespace{ir_generator.cpp}::renderTypeForUser</a></div><div class="ttdeci">std::string renderTypeForUser(const std::shared_ptr&lt; Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00010">ir_generator.cpp:10</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../db/d34/ir__generator_8cpp_source.html">ir_generator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>                                                             {</div>
+<div class="line"><span class="lineno">   12</span>  <span class="keywordflow">if</span> (!type) {</div>
+<div class="line"><span class="lineno">   13</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&lt;unknown&gt;&quot;</span>;</div>
+<div class="line"><span class="lineno">   14</span>  }</div>
+<div class="line"><span class="lineno">   15</span> </div>
+<div class="line"><span class="lineno">   16</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">TypeKind::Pointer</a>) {</div>
+<div class="line"><span class="lineno">   17</span>    <span class="keyword">auto</span> ptr = std::static_pointer_cast&lt;PointerType&gt;(type);</div>
+<div class="line"><span class="lineno">   18</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ad93ddfa64e7e1896d384a501109ee575">renderTypeForUser</a>(ptr-&gt;getBaseType()) + <span class="stringliteral">&quot;*&quot;</span>;</div>
+<div class="line"><span class="lineno">   19</span>  }</div>
+<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">TypeKind::Record</a>) {</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keyword">auto</span> rec = std::static_pointer_cast&lt;RecordType&gt;(type);</div>
+<div class="line"><span class="lineno">   22</span>    <span class="keyword">auto</span> full = rec-&gt;getName();</div>
+<div class="line"><span class="lineno">   23</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
+<div class="line"><span class="lineno">   24</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
+<div class="line"><span class="lineno">   25</span>  }</div>
+<div class="line"><span class="lineno">   26</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">TypeKind::Class</a>) {</div>
+<div class="line"><span class="lineno">   27</span>    <span class="keyword">auto</span> cls = std::static_pointer_cast&lt;ClassType&gt;(type);</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keyword">auto</span> full = cls-&gt;getName();</div>
+<div class="line"><span class="lineno">   29</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
+<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
+<div class="line"><span class="lineno">   31</span>  }</div>
+<div class="line"><span class="lineno">   32</span>  <span class="keywordflow">if</span> (type-&gt;getKind() == <a class="code hl_enumvalue" href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">TypeKind::Enum</a>) {</div>
+<div class="line"><span class="lineno">   33</span>    <span class="keyword">auto</span> en = std::static_pointer_cast&lt;EnumType&gt;(type);</div>
+<div class="line"><span class="lineno">   34</span>    <span class="keyword">auto</span> full = en-&gt;getName();</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keyword">auto</span> dot = full.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
+<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">return</span> dot == std::string::npos ? full : full.substr(dot + 1);</div>
+<div class="line"><span class="lineno">   37</span>  }</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">return</span> type-&gt;toString();</div>
+<div class="line"><span class="lineno">   40</span>}</div>
+<div class="ttc" id="anamespacezir_1_1anonymous__namespace_02ir__generator_8cpp_03_html_ad93ddfa64e7e1896d384a501109ee575"><div class="ttname"><a href="#ad93ddfa64e7e1896d384a501109ee575">zir::anonymous_namespace{ir_generator.cpp}::renderTypeForUser</a></div><div class="ttdeci">std::string renderTypeForUser(const std::shared_ptr&lt; Type &gt; &amp;type)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d34/ir__generator_8cpp_source.html#l00011">ir_generator.cpp:11</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a61cf8510205077b6f5491d38cd44c0f7">zir::TypeKind::Pointer</a></div><div class="ttdeci">@ Pointer</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00030">type.hpp:30</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a6a0d9eaee314c567fd72fb97ee707a36">zir::TypeKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00032">type.hpp:32</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959a9bd81329febf6efe22788e03ddeaf0af">zir::TypeKind::Class</a></div><div class="ttdeci">@ Class</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00033">type.hpp:33</a></div></div>
 <div class="ttc" id="anamespacezir_html_a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c"><div class="ttname"><a href="../../df/d35/namespacezir.html#a8aff9f37489c6b980b6ff3787f3a6959acf20423ed48998082c20099488a0917c">zir::TypeKind::Enum</a></div><div class="ttdeci">@ Enum</div><div class="ttdef"><b>Definition</b> <a href="../../da/d72/type_8hpp_source.html#l00035">type.hpp:35</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00033">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00035">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00030">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00032">zir::Record</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00010">renderTypeForUser()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d72/type_8hpp_source.html#l00033">zir::Class</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00035">zir::Enum</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00030">zir::Pointer</a>, <a class="el" href="../../da/d72/type_8hpp_source.html#l00032">zir::Record</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00011">renderTypeForUser()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00010">renderTypeForUser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l00011">renderTypeForUser()</a>.</p>
 
 </div>
 </div>

@@ -8,6 +8,9 @@ var annotated_dup =
       [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", [
         [ "MutablePlaceResult", "d3/d96/structsema_1_1anonymous__namespace_02binder__mutability_8cpp_03_1_1MutablePlaceResult.html", "d3/d96/structsema_1_1anonymous__namespace_02binder__mutability_8cpp_03_1_1MutablePlaceResult" ]
       ] ],
+      [ "anonymous_namespace{binder_stmts.cpp}", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html", [
+        [ "IntegerPatternValue", "d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue.html", "d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue" ]
+      ] ],
       [ "Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
       [ "BoundVisitor", "d0/df9/classsema_1_1BoundVisitor.html", "d0/df9/classsema_1_1BoundVisitor" ],
       [ "BoundNode", "d0/db2/classsema_1_1BoundNode.html", "d0/db2/classsema_1_1BoundNode" ],
@@ -40,6 +43,10 @@ var annotated_dup =
       [ "BoundFailStatement", "d0/dd5/classsema_1_1BoundFailStatement.html", "d0/dd5/classsema_1_1BoundFailStatement" ],
       [ "BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", "d1/d29/classsema_1_1BoundAssignment" ],
       [ "BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", "d0/dec/classsema_1_1BoundIfStatement" ],
+      [ "BoundCaseRecordField", "d5/df4/structsema_1_1BoundCaseRecordField.html", "d5/df4/structsema_1_1BoundCaseRecordField" ],
+      [ "BoundCasePattern", "df/d70/classsema_1_1BoundCasePattern.html", "df/d70/classsema_1_1BoundCasePattern" ],
+      [ "BoundCaseArm", "de/d05/classsema_1_1BoundCaseArm.html", "de/d05/classsema_1_1BoundCaseArm" ],
+      [ "BoundCaseStatement", "d8/d2e/classsema_1_1BoundCaseStatement.html", "d8/d2e/classsema_1_1BoundCaseStatement" ],
       [ "BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
       [ "BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
       [ "BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
@@ -226,6 +233,10 @@ var annotated_dup =
     [ "BinExpr", "da/d53/classBinExpr.html", "da/d53/classBinExpr" ],
     [ "BodyNode", "de/df0/classBodyNode.html", "de/df0/classBodyNode" ],
     [ "BreakNode", "d7/db8/classBreakNode.html", "d7/db8/classBreakNode" ],
+    [ "CaseArm", "d4/d7d/structCaseArm.html", "d4/d7d/structCaseArm" ],
+    [ "CaseNode", "dc/d4b/classCaseNode.html", "dc/d4b/classCaseNode" ],
+    [ "CasePattern", "de/d28/structCasePattern.html", "de/d28/structCasePattern" ],
+    [ "CaseRecordFieldPattern", "dd/d9e/structCaseRecordFieldPattern.html", "dd/d9e/structCaseRecordFieldPattern" ],
     [ "CastExpr", "d1/d4d/classCastExpr.html", "d1/d4d/classCastExpr" ],
     [ "ClassDecl", "d6/d7b/classClassDecl.html", "d6/d7b/classClassDecl" ],
     [ "ConstBool", "d4/d03/classConstBool.html", "d4/d03/classConstBool" ],

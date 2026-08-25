@@ -7,6 +7,7 @@ var classAstBuilder =
     [ "makeBinExpr", "de/d56/classAstBuilder.html#a94bd12c5569379b9ec5115c7348e09ed", null ],
     [ "makeBody", "de/d56/classAstBuilder.html#add1f1cc36b637c14dac70d735b5d4218", null ],
     [ "makeBreak", "de/d56/classAstBuilder.html#ae2d2d2f3f301515a8d052cdedf3ed281", null ],
+    [ "makeCase", "de/d56/classAstBuilder.html#a7a06a0d713092f8119a5cc37a89e1bed", null ],
     [ "makeCastExpr", "de/d56/classAstBuilder.html#a9bb10432f67f62f914f3c1016fa39924", null ],
     [ "makeClassDecl", "de/d56/classAstBuilder.html#a2ced994c8d502ecf6becbf2185ea34cc", null ],
     [ "makeConstBool", "de/d56/classAstBuilder.html#a44d6fe2b77975539fb422e618d3eee5b", null ],

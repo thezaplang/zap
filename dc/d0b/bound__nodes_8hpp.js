@@ -31,6 +31,10 @@ var bound__nodes_8hpp =
     [ "sema::BoundFailStatement", "d0/dd5/classsema_1_1BoundFailStatement.html", "d0/dd5/classsema_1_1BoundFailStatement" ],
     [ "sema::BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", "d1/d29/classsema_1_1BoundAssignment" ],
     [ "sema::BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", "d0/dec/classsema_1_1BoundIfStatement" ],
+    [ "sema::BoundCaseRecordField", "d5/df4/structsema_1_1BoundCaseRecordField.html", "d5/df4/structsema_1_1BoundCaseRecordField" ],
+    [ "sema::BoundCasePattern", "df/d70/classsema_1_1BoundCasePattern.html", "df/d70/classsema_1_1BoundCasePattern" ],
+    [ "sema::BoundCaseArm", "de/d05/classsema_1_1BoundCaseArm.html", "de/d05/classsema_1_1BoundCaseArm" ],
+    [ "sema::BoundCaseStatement", "d8/d2e/classsema_1_1BoundCaseStatement.html", "d8/d2e/classsema_1_1BoundCaseStatement" ],
     [ "sema::BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
     [ "sema::BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
     [ "sema::BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
@@ -46,5 +50,11 @@ var bound__nodes_8hpp =
     [ "sema::BoundTaggedUnionLiteral", "d5/da5/classsema_1_1BoundTaggedUnionLiteral.html", "d5/da5/classsema_1_1BoundTaggedUnionLiteral" ],
     [ "sema::BoundStructLiteral", "d8/d4b/classsema_1_1BoundStructLiteral.html", "d8/d4b/classsema_1_1BoundStructLiteral" ],
     [ "sema::BoundRootNode", "da/d3d/classsema_1_1BoundRootNode.html", "da/d3d/classsema_1_1BoundRootNode" ],
-    [ "sema::BoundRangeExpression", "d0/df6/classsema_1_1BoundRangeExpression.html", "d0/df6/classsema_1_1BoundRangeExpression" ]
+    [ "sema::BoundRangeExpression", "d0/df6/classsema_1_1BoundRangeExpression.html", "d0/df6/classsema_1_1BoundRangeExpression" ],
+    [ "sema::BoundCasePatternKind", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8", [
+      [ "sema::BoundCasePatternKind::Literal", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437", null ],
+      [ "sema::BoundCasePatternKind::EnumVariant", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a0f95680aa3d9a198d239b0e12fa8f8ea", null ],
+      [ "sema::BoundCasePatternKind::TaggedUnionVariant", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7447f173a8479b58a863ae17f39082e", null ],
+      [ "sema::BoundCasePatternKind::Record", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36", null ]
+    ] ]
 ];

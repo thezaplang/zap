@@ -1,6 +1,7 @@
 var binder_8hpp =
 [
     [ "sema::Binder", "dc/d2c/classsema_1_1Binder.html", "dc/d2c/classsema_1_1Binder" ],
+    [ "sema::Binder::RecordPatternResult", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult.html", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult" ],
     [ "sema::Binder::ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "sema::Binder::ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
     [ "sema::Binder::DeferScope", "de/d76/structsema_1_1Binder_1_1DeferScope.html", "de/d76/structsema_1_1Binder_1_1DeferScope" ],

@@ -1,6 +1,7 @@
 var namespacesema =
 [
     [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03" ],
+    [ "anonymous_namespace{binder_stmts.cpp}", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03" ],
     [ "anonymous_namespace{constant_evaluator.cpp}", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html", [
       [ "isConstantExpression", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html#a6ed229df46fc4a0c12f155785cf0e0f6", null ]
     ] ],
@@ -50,6 +51,10 @@ var namespacesema =
     [ "BoundFailStatement", "d0/dd5/classsema_1_1BoundFailStatement.html", "d0/dd5/classsema_1_1BoundFailStatement" ],
     [ "BoundAssignment", "d1/d29/classsema_1_1BoundAssignment.html", "d1/d29/classsema_1_1BoundAssignment" ],
     [ "BoundIfStatement", "d0/dec/classsema_1_1BoundIfStatement.html", "d0/dec/classsema_1_1BoundIfStatement" ],
+    [ "BoundCaseRecordField", "d5/df4/structsema_1_1BoundCaseRecordField.html", "d5/df4/structsema_1_1BoundCaseRecordField" ],
+    [ "BoundCasePattern", "df/d70/classsema_1_1BoundCasePattern.html", "df/d70/classsema_1_1BoundCasePattern" ],
+    [ "BoundCaseArm", "de/d05/classsema_1_1BoundCaseArm.html", "de/d05/classsema_1_1BoundCaseArm" ],
+    [ "BoundCaseStatement", "d8/d2e/classsema_1_1BoundCaseStatement.html", "d8/d2e/classsema_1_1BoundCaseStatement" ],
     [ "BoundWhileStatement", "d3/d65/classsema_1_1BoundWhileStatement.html", "d3/d65/classsema_1_1BoundWhileStatement" ],
     [ "BoundForStatement", "db/dcc/classsema_1_1BoundForStatement.html", "db/dcc/classsema_1_1BoundForStatement" ],
     [ "BoundBreakStatement", "d1/d54/classsema_1_1BoundBreakStatement.html", "d1/d54/classsema_1_1BoundBreakStatement" ],
@@ -82,6 +87,12 @@ var namespacesema =
     [ "SymbolTable", "da/d74/classsema_1_1SymbolTable.html", "da/d74/classsema_1_1SymbolTable" ],
     [ "TargetInfo", "d7/d08/structsema_1_1TargetInfo.html", "d7/d08/structsema_1_1TargetInfo" ],
     [ "TypeLayout", "df/dfe/structsema_1_1TypeLayout.html", "df/dfe/structsema_1_1TypeLayout" ],
+    [ "BoundCasePatternKind", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8", [
+      [ "Literal", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437", null ],
+      [ "EnumVariant", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a0f95680aa3d9a198d239b0e12fa8f8ea", null ],
+      [ "TaggedUnionVariant", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7447f173a8479b58a863ae17f39082e", null ],
+      [ "Record", "d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36", null ]
+    ] ],
     [ "ConversionKind", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955", [
       [ "Identity", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955ac9c5c65fb4af9cf90eb99b3b84424189", null ],
       [ "StringToView", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a9fc2cf43b944166ce396aec8239c7eee", null ],

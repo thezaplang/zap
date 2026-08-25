@@ -1,5 +1,6 @@
 var classsema_1_1Binder =
 [
+    [ "RecordPatternResult", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult.html", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult" ],
     [ "ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
     [ "DeferScope", "de/d76/structsema_1_1Binder_1_1DeferScope.html", "de/d76/structsema_1_1Binder_1_1DeferScope" ],
@@ -17,6 +18,9 @@ var classsema_1_1Binder =
     [ "bind", "dc/d2c/classsema_1_1Binder.html#a2dd5456ee0997501e4ac8143a827b5fe", null ],
     [ "bind", "dc/d2c/classsema_1_1Binder.html#a76d9bd7742c313afadf5bef110d8ee7c", null ],
     [ "bindBody", "dc/d2c/classsema_1_1Binder.html#a9cebd4e41f19d6569f3bde77c5949d8a", null ],
+    [ "bindCaseArmBody", "dc/d2c/classsema_1_1Binder.html#aeabeaf2e27900918cf0f3b72971941fd", null ],
+    [ "bindCaseRecordPattern", "dc/d2c/classsema_1_1Binder.html#a2686fdccbddb6c539ab7083d0b52db50", null ],
+    [ "bindCaseStatement", "dc/d2c/classsema_1_1Binder.html#ab5075c8c296b907b55f722026fb0af15", null ],
     [ "bindExpressionWithExpected", "dc/d2c/classsema_1_1Binder.html#a1436c9a212e860afc8bbf779c8cd3e40", null ],
     [ "bindSizeOfBuiltinCall", "dc/d2c/classsema_1_1Binder.html#a759fa1f25526be5384e7e3e77c0d3bc0", null ],
     [ "bindWeakBuiltinCall", "dc/d2c/classsema_1_1Binder.html#a062b7253969da30f0eabc2b14978e9a2", null ],
@@ -35,6 +39,7 @@ var classsema_1_1Binder =
     [ "foldConstantBinary", "dc/d2c/classsema_1_1Binder.html#abc248fce7feff75633a8fe98a8e46c5a", null ],
     [ "functionSignatureKey", "dc/d2c/classsema_1_1Binder.html#a4c2eb0bba80150fe85e642794192f608", null ],
     [ "getCVariadicArgumentType", "dc/d2c/classsema_1_1Binder.html#a2da5af115d5d8f2a037c87f551f6c605", null ],
+    [ "hasExhaustiveCaseCoverage", "dc/d2c/classsema_1_1Binder.html#a3a5d8c96be470ac1aa8d1d5bebad1304", null ],
     [ "initializeBuiltins", "dc/d2c/classsema_1_1Binder.html#adbb6e6a9cd76e780bcd9a058d068ced8", null ],
     [ "instantiateGenericTypeSymbol", "dc/d2c/classsema_1_1Binder.html#a7d2a90fe5783d9dbfde7c818060a68af", null ],
     [ "isGenericTypeParameterName", "dc/d2c/classsema_1_1Binder.html#a7e65229fb0dde59911386619007e38ea", null ],
@@ -75,6 +80,7 @@ var classsema_1_1Binder =
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a0dd25e904270c79ba38561ec5633f879", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a028cf378f133924b4011d2c47fceac1a", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a7dfcb0d79a500be0abe52b473b26fab8", null ],
+    [ "visit", "dc/d2c/classsema_1_1Binder.html#af7e3d65b5bcc95b6daf580cbbc0a4700", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a516df6836f561a8e76ab67356bdf3775", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a06f5a71b5e991386e82ed23d3585da1c", null ],
     [ "visit", "dc/d2c/classsema_1_1Binder.html#a315e73c6859b03173b8e39d780b8c029", null ],

@@ -67,6 +67,7 @@ $(function(){initNavTree('d9/d60/binder__stmts_8cpp.html','../../',''); });
 <code>#include &quot;<a class="el" href="../../d9/d61/const__char_8hpp_source.html">../ast/const/const_char.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d7/d0e/defer__node_8hpp_source.html">../ast/defer_node.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d0/da6/record__decl_8hpp_source.html">../ast/record_decl.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d7/df6/string__type_8hpp_source.html">../ir/string_type.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d7/d9b/binder_8hpp_source.html">binder.hpp</a>&quot;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cctype&gt;</code><br />
@@ -80,9 +81,22 @@ $(function(){initNavTree('d9/d60/binder__stmts_8cpp.html','../../',''); });
 </div>
 <p><a href="../../d9/d60/binder__stmts_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:sema_3A_3Aanonymous_5Fnamespace_7Bbinder_5Fstmts_2Ecpp_7D_3A_3AIntegerPatternValue" id="r_sema_3A_3Aanonymous_5Fnamespace_7Bbinder_5Fstmts_2Ecpp_7D_3A_3AIntegerPatternValue"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue.html">sema::anonymous_namespace{binder_stmts.cpp}::IntegerPatternValue</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:sema" id="r_sema"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d39/namespacesema.html">sema</a></td></tr>
+<tr class="memitem:sema_3A_3Aanonymous_5Fnamespace_7Bbinder_5Fstmts_2Ecpp_7D" id="r_sema_3A_3Aanonymous_5Fnamespace_7Bbinder_5Fstmts_2Ecpp_7D"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html">sema::anonymous_namespace{binder_stmts.cpp}</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aa8d2f8177fa592f12df0c4a1b4caf2dc" id="r_aa8d2f8177fa592f12df0c4a1b4caf2dc"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="../../d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue.html">IntegerPatternValue</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html#aa8d2f8177fa592f12df0c4a1b4caf2dc">sema::anonymous_namespace{binder_stmts.cpp}::evaluateIntegerPattern</a> (const <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> *expression)</td></tr>
+<tr class="memitem:ac6a86eee05383532e099917170c2527f" id="r_ac6a86eee05383532e099917170c2527f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html#ac6a86eee05383532e099917170c2527f">sema::anonymous_namespace{binder_stmts.cpp}::normalizeIntegerPattern</a> (<a class="el" href="../../d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue.html">IntegerPatternValue</a> value, const std::shared_ptr&lt; <a class="el" href="../../d9/dd2/classzir_1_1Type.html">zir::Type</a> &gt; &amp;type, int width)</td></tr>
+<tr class="memitem:a4ba17caf0ba122a1da365f60169e1676" id="r_a4ba17caf0ba122a1da365f60169e1676"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html#a4ba17caf0ba122a1da365f60169e1676">sema::anonymous_namespace{binder_stmts.cpp}::isIrrefutableRecordPattern</a> (const <a class="el" href="../../de/d28/structCasePattern.html">CasePattern</a> &amp;record)</td></tr>
+<tr class="memitem:a295b4b5738bdda701842e55a80121b03" id="r_a295b4b5738bdda701842e55a80121b03"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html#a295b4b5738bdda701842e55a80121b03">sema::anonymous_namespace{binder_stmts.cpp}::canonicalLiteralPattern</a> (const <a class="el" href="../../db/d06/classsema_1_1BoundExpression.html">BoundExpression</a> &amp;value, int nativeIntegerBitWidth)</td></tr>
+<tr class="memitem:a570ee2d655853fc98b14841b0d54f07e" id="r_a570ee2d655853fc98b14841b0d54f07e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html#a570ee2d655853fc98b14841b0d54f07e">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern</a> (const <a class="el" href="../../df/d70/classsema_1_1BoundCasePattern.html">BoundCasePattern</a> &amp;pattern, int nativeIntegerBitWidth)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -8,6 +8,7 @@ var structVisitor =
     [ "visit", "dc/d13/structVisitor.html#a75dd3a055360d8d4b438879e53236324", null ],
     [ "visit", "dc/d13/structVisitor.html#a4911bd33272f1d05306edf365500786f", null ],
     [ "visit", "dc/d13/structVisitor.html#a9387abe442a5eea74859d0495ab87274", null ],
+    [ "visit", "dc/d13/structVisitor.html#a249869e6c18bf664cefd325fdb33501b", null ],
     [ "visit", "dc/d13/structVisitor.html#aaef602692df9eedc00defc2ee0f54a36", null ],
     [ "visit", "dc/d13/structVisitor.html#a2eb41897797fd62db4e9b0c703ce7425", null ],
     [ "visit", "dc/d13/structVisitor.html#ac6aee0e72e44d9e79081bcc3672747a7", null ],

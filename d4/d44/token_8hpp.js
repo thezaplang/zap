@@ -10,7 +10,7 @@ var token_8hpp =
       [ "ELSE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a90d649d830ea440c8b8a56c7ef23c426", null ],
       [ "WHILE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a3278fd035226215822c903790a1eee73", null ],
       [ "FOR", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aa809654855caa62449850d9122fd77a8", null ],
-      [ "MATCH", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a1155ee5305ebe5bb9407faa9d395ae93", null ],
+      [ "CASE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a9c9b14644e9370719a51b7342bbc9c4d", null ],
       [ "VAR", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921af68346ce0bfce7ab2ca0a240f5132863", null ],
       [ "EXTERN", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921af017da8df4e93d9bc75880a4998c1039", null ],
       [ "MODULE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a89e95e5d1ee3b8077a76005fb143771c", null ],

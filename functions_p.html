@@ -85,6 +85,10 @@ $(function(){initNavTree('functions_p.html','',''); });
 <li>parseBindingDecl()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#ac50902900ea9af6cb0bdca95f6ad98ca">zap::Parser</a></li>
 <li>parseBody()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a88bd1862aa8cc38b9193810a8c9a7eba">zap::Parser</a></li>
 <li>parseBreak()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a93e68288314deca05c7b77215a89b002">zap::Parser</a></li>
+<li>parseCase()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a3c4e63df81e09eba1c50db06ae942014">zap::Parser</a></li>
+<li>parseCaseArm()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a1edcb26e6b6e1f13053c20fd237cb8b2">zap::Parser</a></li>
+<li>parseCasePattern()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#afaf851a7ab1c07d76ddf44298e6097f4">zap::Parser</a></li>
+<li>parseCaseRecordPattern()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#af63c3a9c1598a0da2282fabdd54a94a3">zap::Parser</a></li>
 <li>parseCastExpression()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a6bcba1e683a7abbfea34830b06e8435e">zap::Parser</a></li>
 <li>parseClassDecl()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a7e12fa6c70d8fe83ca071cd44bf0d90b">zap::Parser</a></li>
 <li>parseContinue()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#aa86e867a29cfb364070b4a3c178cef5d">zap::Parser</a></li>
@@ -127,9 +131,17 @@ $(function(){initNavTree('functions_p.html','',''); });
 <li>parseWhile()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#a72a65896a7bb3a3e559c72710fc72e11">zap::Parser</a></li>
 <li>patch&#160;:&#160;<a class="el" href="d3/dfd/classzap_1_1__version__base.html#a1aeb378ac6e0de415104cab6635b12a5">zap::_version_base&lt; T &gt;</a></li>
 <li>path&#160;:&#160;<a class="el" href="d5/d3f/classImportNode.html#ac923d54057d65a0df6f9db9b77e91a7a">ImportNode</a>, <a class="el" href="d9/d45/structzap_1_1args_1_1CmdlineArgs.html#a6b829c3d3a7e9e878c3d81c5fdf74799">zap::args::CmdlineArgs</a>, <a class="el" href="dd/d5b/structzap_1_1lsp_1_1SourceSnapshot.html#aa0e422e62afbbcbf7421fd0c7b8fa569">zap::lsp::SourceSnapshot</a></li>
+<li>pattern&#160;:&#160;<a class="el" href="dc/d0a/structsema_1_1Binder_1_1RecordPatternResult.html#ab781a8526dd57437251f093907d367f9">sema::Binder::RecordPatternResult</a></li>
+<li>patterns&#160;:&#160;<a class="el" href="d4/d7d/structCaseArm.html#a8dd9b214e03eedad882c207b159fb54a">CaseArm</a>, <a class="el" href="de/d05/classsema_1_1BoundCaseArm.html#a2953ecb92c7a25a72d21a5301b686147">sema::BoundCaseArm</a></li>
 <li>payload&#160;:&#160;<a class="el" href="d5/da5/classsema_1_1BoundTaggedUnionLiteral.html#a02a256e5db29f9f034035dfe0dba7e7b">sema::BoundTaggedUnionLiteral</a></li>
-<li>payloadType&#160;:&#160;<a class="el" href="df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html#aafde1fd9220a0669cdea8a5104f7576a">zir::TaggedUnionType::Variant</a></li>
+<li>payloadBinding&#160;:&#160;<a class="el" href="de/d28/structCasePattern.html#a44ce4454cff7b5c904ab9759338fe42b">CasePattern</a>, <a class="el" href="de/d05/classsema_1_1BoundCaseArm.html#a4aed409ea80540dda955b62ce1e21b81">sema::BoundCaseArm</a>, <a class="el" href="df/d70/classsema_1_1BoundCasePattern.html#ada7ba1ee24bb37df38b520196b4edb3e">sema::BoundCasePattern</a></li>
+<li>payloadBindingSpan&#160;:&#160;<a class="el" href="de/d28/structCasePattern.html#a23fa30a7759b0dc59c5e6f7593e6de53">CasePattern</a></li>
+<li>payloadKind&#160;:&#160;<a class="el" href="de/d28/structCasePattern.html#a9afc5160a60dc8c32c6c42973e33528e">CasePattern</a></li>
+<li>payloadLiteral&#160;:&#160;<a class="el" href="de/d28/structCasePattern.html#a2c0a7ef05ab72d2d892551988df66f69">CasePattern</a></li>
+<li>payloadPattern&#160;:&#160;<a class="el" href="de/d28/structCasePattern.html#acbcd8fbf830b7ead1ae0679f24762243">CasePattern</a>, <a class="el" href="df/d70/classsema_1_1BoundCasePattern.html#a689b4426912c1d94dafd3ee5db03e27c">sema::BoundCasePattern</a></li>
+<li>payloadType&#160;:&#160;<a class="el" href="df/d70/classsema_1_1BoundCasePattern.html#ad97a5bf4ebb4eca26834817fd44af08d">sema::BoundCasePattern</a>, <a class="el" href="df/d7f/structzir_1_1TaggedUnionType_1_1Variant.html#aafde1fd9220a0669cdea8a5104f7576a">zir::TaggedUnionType::Variant</a></li>
 <li>payloadType_&#160;:&#160;<a class="el" href="d9/de9/structEnumDecl_1_1Entry.html#aa550bd3eacded14027998737f46ca301">EnumDecl::Entry</a></li>
+<li>payloadValue&#160;:&#160;<a class="el" href="df/d70/classsema_1_1BoundCasePattern.html#a8c67deb08f5b80120586b21a6b14284d">sema::BoundCasePattern</a></li>
 <li>peek()&#160;:&#160;<a class="el" href="de/d73/classzap_1_1Parser.html#af7c39bd6c0b177459239660fe41c9508">zap::Parser</a></li>
 <li>Peek2()&#160;:&#160;<a class="el" href="d6/dc0/classLexer.html#a8d284a69a08b8c8b6efec266e76e0d84">Lexer</a></li>
 <li>Peek3()&#160;:&#160;<a class="el" href="d6/dc0/classLexer.html#a781a725dce0bb22cd0435dd232976059">Lexer</a></li>

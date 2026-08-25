@@ -9,6 +9,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "binding_decl.hpp", "d2/deb/binding__decl_8hpp.html", "d2/deb/binding__decl_8hpp" ],
     [ "body_node.hpp", "d8/d9e/body__node_8hpp.html", "d8/d9e/body__node_8hpp" ],
     [ "break_node.hpp", "d9/d9d/break__node_8hpp.html", "d9/d9d/break__node_8hpp" ],
+    [ "case_node.hpp", "d2/dc5/case__node_8hpp.html", "d2/dc5/case__node_8hpp" ],
     [ "cast_expr.hpp", "d6/d10/cast__expr_8hpp.html", "d6/d10/cast__expr_8hpp" ],
     [ "class_decl.hpp", "dd/df4/class__decl_8hpp.html", "dd/df4/class__decl_8hpp" ],
     [ "continue_node.hpp", "d8/de7/continue__node_8hpp.html", "d8/de7/continue__node_8hpp" ],
