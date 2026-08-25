@@ -75,6 +75,7 @@ public:
   void visit(ExtDecl &node) override;
   void visit(BodyNode &node) override;
   void visit(BindingDecl &node) override;
+  void visit(RangeExpr &node) override;
   void visit(ReturnNode &node) override;
   void visit(BinExpr &node) override;
   void visit(TernaryExpr &node) override;
@@ -83,6 +84,7 @@ public:
   void visit(IfNode &node) override;
   void visit(CaseNode &node) override;
   void visit(IfTypeNode &node) override;
+  void visit(DeferNode &node) override;
   void visit(WhileNode &node) override;
   void visit(ForNode &node) override;
   void visit(ForInNode &node) override;
@@ -311,6 +313,13 @@ private:
   void applyImports(ModuleState &module, bool allowIncomplete = false);
   void ensureModuleValuesReady(ModuleState &module);
   std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
+
+  struct DeferScope {
+      bool isLoopBoundary = false;
+      std::vector<const DeferNode *> defers;
+  };
+  std::vector<DeferScope> deferScopes_;
+  void emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target, bool stopAtLoop);
 
   bool isNumeric(std::shared_ptr<zir::Type> type) const;
   bool isPointerType(std::shared_ptr<zir::Type> type) const;

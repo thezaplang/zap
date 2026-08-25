@@ -12,6 +12,7 @@ class BindingDecl;
 class ReturnNode;
 class IfNode;
 class IfTypeNode;
+class DeferNode;
 class WhileNode;
 class ForNode;
 class ForInNode;
@@ -53,6 +54,7 @@ class ConstChar;
 class ConstBool;
 class ConstId;
 class ConstNull;
+class RangeExpr;
 
 /// @brief Visitor interface with empty implementations to allow selective
 /// overrides.
@@ -90,9 +92,11 @@ struct Visitor {
   virtual void visit(UnsafeBlockNode &) {}
   virtual void visit(AsmStmtNode &) {}
   virtual void visit(FailNode &) {}
+  virtual void visit(DeferNode &) {}
 
   virtual void visit(ExpressionNode &) {}
   virtual void visit(BinExpr &) {}
+  virtual void visit(RangeExpr &) {}
   virtual void visit(TernaryExpr &) {}
   virtual void visit(UnaryExpr &) {}
   virtual void visit(CastExpr &) {}

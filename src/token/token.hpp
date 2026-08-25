@@ -98,6 +98,8 @@ enum TokenType {
   DECREMENT,      ///< '--' symbol.
   ASM,            ///< "asm" keyword.
   LET,            ///< "let" keyword.
+  DOTDOT,         ///< ".." keyword.
+  DEFER,          ///< "defer" keyword.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -292,6 +294,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "new";
   case TokenType::WEAK:
     return "weak";
+  case TokenType::DOTDOT:
+    return "..";
   default:
     return "unknown token";
   }

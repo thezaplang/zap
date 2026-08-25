@@ -1,0 +1,31 @@
+enum Result { Empty, Value(Int) }
+
+record Response {
+    result: Result,
+}
+
+fun value(response: Response) Int {
+    case response {
+        Response { result: Result.Empty } { return 1; }
+        Response { result: Result.Value(value) } { return value; }
+        else { return 0; }
+    }
+}
+
+fun valueWithParens(response: Response) Int {
+    case response {
+        Response { result: Result.Empty() } { return 1; }
+        Response { result: Result.Value(value) } { return value; }
+        else { return 0; }
+    }
+}
+
+fun main() Int {
+    var empty: Response = Response{result: Result.Empty()};
+    var present: Response = Response{result: Result.Value(42)};
+    if value(empty) != 1 { return 1; }
+    if value(present) != 42 { return 2; }
+    if valueWithParens(empty) != 1 { return 3; }
+    if valueWithParens(present) != 42 { return 4; }
+    return 0;
+}

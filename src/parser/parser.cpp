@@ -433,6 +433,8 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           eat(TokenType::SEMICOLON);
         }
         body->addStatement(std::move(whileNode));
+      } else if (peek().type == TokenType::DEFER) {
+        body->addStatement(parseDefer());
       } else if (peek().type == TokenType::FOR) {
         bool isForIn = false;
         if (peek(1).type == TokenType::ID) {
@@ -659,6 +661,7 @@ bool Parser::isTryPostfixContext(TokenType type) const {
   case TokenType::LSHIFT:
   case TokenType::RSHIFT:
   case TokenType::AS:
+  case TokenType::DOTDOT:
   case TokenType::IS:
     return true;
   default:
@@ -1560,7 +1563,7 @@ std::unique_ptr<ExpressionNode> Parser::parseCastExpression() {
 }
 
 std::unique_ptr<ExpressionNode> Parser::parseTernaryExpression() {
-  auto condition = parseBinaryExpression(0);
+  auto condition = parseRangeExpression();
 
   if (peek().type != TokenType::QUESTION)
     return condition;
@@ -2344,6 +2347,63 @@ Parser::parseStructLiteral(std::unique_ptr<TypeNode> type) {
                      SourceSpan::merge(lbrace.span, rbrace.span));
   }
   return literal;
+}
+
+std::unique_ptr<ExpressionNode> Parser::parseRangeExpression() {
+  auto start = parseBinaryExpression(0);
+  if (peek().type != TokenType::DOTDOT) {
+    return start;
+  }
+
+  Token dotDotTok = eat(TokenType::DOTDOT);
+  auto end = parseBinaryExpression(0);
+  std::unique_ptr<ExpressionNode> step = nullptr;
+  SourceSpan eSpan = end->span;
+
+  if (peek().type == TokenType::DOTDOT) {
+    eat(TokenType::DOTDOT);
+    step = parseBinaryExpression(0);
+    eSpan = step->span;
+  }
+
+  SourceSpan sSpan = start->span;
+  auto range = _builder.makeRangeExpr(std::move(start), std::move(end), std::move(step));
+  _builder.setSpan(range.get(), SourceSpan::merge(sSpan, eSpan));
+  return range;
+}
+
+std::unique_ptr<DeferNode> Parser::parseDefer() {
+  Token keyword = eat(TokenType::DEFER);
+  std::unique_ptr<Node> stmt = nullptr;
+  SourceSpan eSpan;
+
+  if (peek().type == TokenType::LBRACE) {
+    Token lbrace = eat(TokenType::LBRACE);
+    auto body = parseBody();
+    Token rbrace = eat(TokenType::RBRACE);
+    _builder.setSpan(body.get(), SourceSpan::merge(lbrace.span, rbrace.span));
+    stmt = std::move(body);
+    eSpan = rbrace.span;
+  } else {
+    auto expr = parseExpression();
+    if (peek().type == TokenType::ASSIGN) {
+      eat(TokenType::ASSIGN);
+      auto value = parseExpression();
+      Token semi = eat(TokenType::SEMICOLON);
+      auto assign = _builder.makeAssign(std::move(expr), std::move(value));
+      _builder.setSpan(assign.get(), SourceSpan::merge(assign->target_->span, semi.span));
+      stmt = std::move(assign);
+      eSpan = semi.span;
+    } else {
+      Token semi = eat(TokenType::SEMICOLON);
+      eSpan = semi.span;
+      stmt = std::move(expr);
+    }
+  }
+
+  auto node = _builder.makeDefer(std::move(stmt));
+  _builder.setSpan(node.get(), SourceSpan::merge(keyword.span, eSpan));
+  return node;
 }
 
 } // namespace zap

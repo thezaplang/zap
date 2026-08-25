@@ -16,6 +16,17 @@ fun colorCode(color: Color) Int {
 
 fun resultCode(result: Result) Int {
     case result {
+        Result.Empty { return 1; }
+        Result.Value(value) { return value; }
+        Result.Error(message) {
+            if message == "oops" { return 3; }
+            return 4;
+        }
+    }
+}
+
+fun resultCodeWithParens(result: Result) Int {
+    case result {
         Result.Empty() { return 1; }
         Result.Value(value) { return value; }
         Result.Error(message) {
@@ -39,5 +50,6 @@ fun main() Int {
     if resultCode(Result.Empty()) != 1 { return 2; }
     if resultCode(Result.Value(42)) != 42 { return 3; }
     if resultCode(Result.Error("oops")) != 3 { return 4; }
+    if resultCodeWithParens(Result.Empty()) != 1 { return 5; }
     return 0;
 }

@@ -34,6 +34,12 @@ bool isConstantExpression(const BoundExpression &expression,
     return true;
   }
 
+  if (const auto *range = dynamic_cast<const BoundRangeExpression *>(&expression)) {
+    return isConstantExpression(*range->start, resolving, failureReason) &&
+           isConstantExpression(*range->end, resolving, failureReason) &&
+           (!range->step || isConstantExpression(*range->step, resolving, failureReason));
+  }
+
   if (const auto *variable =
           dynamic_cast<const BoundVariableExpression *>(&expression)) {
     const auto &symbol = variable->symbol;

@@ -46,7 +46,8 @@ echo -e "${YELLOW}Building Zap compiler...${NC}"
 # which prevents failures if an empty 'build' folder was created manually.
 if [ ! -f "$BUILD_DIR/build.ninja" ]; then
   echo -e "${YELLOW}Setting up build directory...${NC}"
-  meson setup "$BUILD_DIR" "$SCRIPT_DIR" "--buildtype=$BUILD_TYPE"
+  # shellcheck disable=SC2086 # word splitting is intentional
+  meson setup "$BUILD_DIR" "$SCRIPT_DIR" "--buildtype=$BUILD_TYPE" $MESON_SETUP_FLAGS
 elif ! python3 - "$BUILD_DIR/meson-info/meson-info.json" "$BUILD_DIR/meson-info/intro-buildoptions.json" "$SCRIPT_DIR" "$BUILD_TYPE" <<'PY'
 import json
 import os
@@ -69,12 +70,14 @@ raise SystemExit(0 if valid else 1)
 PY
 then
   echo -e "${YELLOW}Build directory is stale; reconfiguring it...${NC}"
-  meson setup "$BUILD_DIR" "$SCRIPT_DIR" --wipe "--buildtype=$BUILD_TYPE"
+  # shellcheck disable=SC2086 # word splitting is intentional
+  meson setup "$BUILD_DIR" "$SCRIPT_DIR" --wipe "--buildtype=$BUILD_TYPE" $MESON_SETUP_FLAGS
 fi
 
 # Build the project
 echo -e "${YELLOW}Compiling...${NC}"
-meson compile -C "$BUILD_DIR" "${MESON_ARGS[@]}"
+# shellcheck disable=SC2086 # word splitting is intentional
+meson compile -C "$BUILD_DIR" "${MESON_ARGS[@]}" $MESON_BUILD_FLAGS
 
 # Keep the language server next to zapc.  zapup adds this directory to PATH,
 # while Meson otherwise writes the target under src/lsp/.
@@ -90,3 +93,5 @@ else
   echo -e "${RED}Build failed! (zapc executable not found)${NC}"
   exit 1
 fi
+
+# vim: set tabstop=2 shiftwidth=2 expandtab:

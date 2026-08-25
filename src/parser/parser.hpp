@@ -108,6 +108,8 @@ private:
   std::unique_ptr<ExpressionNode> parseUnaryExpression();
   std::unique_ptr<ExpressionNode> parsePostfixExpression();
   std::unique_ptr<ExpressionNode> parsePrimaryExpression();
+  std::unique_ptr<ExpressionNode> parseRangeExpression();
+  std::unique_ptr<DeferNode> parseDefer();
 
   int getPrecedence(TokenType type);
   std::unique_ptr<ParameterNode> parseParameter(bool allowDefault = false);

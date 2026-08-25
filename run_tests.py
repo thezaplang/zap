@@ -78,7 +78,7 @@ SPECIAL_CASES = {
     "tests/case_empty_payload_arity_error.zp": {
         "type": "compile",
         "exit": 1,
-        "stderr_pattern": "requires an empty payload pattern",
+        "stderr_pattern": "does not take a payload pattern",
         "desc": "Case rejects bindings for empty tagged-union variants"
     },
     "tests/case_value_payload_arity_error.zp": {
@@ -182,7 +182,7 @@ SPECIAL_CASES = {
         "type": "compile",
         "exit": 1,
         "stderr_pattern": "Invalid enum field pattern for 'result'",
-        "desc": "Record patterns require () for empty tagged-union variants"
+        "desc": "Record patterns reject bindings for empty tagged-union variants"
     },
     "tests/case_payload_qualified_record/main.zp": {
         "type": "runtime",

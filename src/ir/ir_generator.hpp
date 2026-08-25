@@ -24,6 +24,7 @@ public:
   void visit(sema::BoundAssignment &node) override;
   void visit(sema::BoundExpressionStatement &node) override;
   void visit(sema::BoundLiteral &node) override;
+  void visit(sema::BoundRangeExpression &node) override;
   void visit(sema::BoundVariableExpression &node) override;
   void visit(sema::BoundClassTypeTest &node) override;
   void visit(sema::BoundCompoundTargetLoad &node) override;
