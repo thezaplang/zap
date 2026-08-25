@@ -135,6 +135,9 @@ var hierarchy =
       [ "zir::WeakLockInst", "d0/d7a/classzir_1_1WeakLockInst.html", null ]
     ] ],
     [ "sema::anonymous_namespace{binder_stmts.cpp}::IntegerPatternValue", "d9/d72/structsema_1_1anonymous__namespace_02binder__stmts_8cpp_03_1_1IntegerPatternValue.html", null ],
+    [ "zir::ClassType::InterfaceConformance", "d2/d6f/structzir_1_1ClassType_1_1InterfaceConformance.html", null ],
+    [ "sema::Binder::InterfaceInfo", "df/db9/structsema_1_1Binder_1_1InterfaceInfo.html", null ],
+    [ "zir::ClassType::InterfaceMethod", "db/d42/structzir_1_1ClassType_1_1InterfaceMethod.html", null ],
     [ "zap::lsp::JsonObject", "d2/dba/classzap_1_1lsp_1_1JsonObject.html", null ],
     [ "zap::lsp::JsonParser", "d3/dfe/classzap_1_1lsp_1_1JsonParser.html", null ],
     [ "zap::lsp::JsonRPC", "d3/d6a/classzap_1_1lsp_1_1JsonRPC.html", null ],
@@ -200,6 +203,7 @@ var hierarchy =
         [ "ExtDecl", "d3/df9/classExtDecl.html", null ],
         [ "FunDecl", "d3/d94/classFunDecl.html", null ],
         [ "ImportNode", "d5/d3f/classImportNode.html", null ],
+        [ "InterfaceDecl", "d0/d75/classInterfaceDecl.html", null ],
         [ "RecordDecl", "d9/d3d/classRecordDecl.html", null ],
         [ "StructDeclarationNode", "de/d35/classStructDeclarationNode.html", null ],
         [ "TypeAliasDecl", "d2/daf/classTypeAliasDecl.html", null ]
@@ -300,6 +304,7 @@ var hierarchy =
     [ "zap_arc_discover_context_t", "d9/ddf/structzap__arc__discover__context__t.html", null ],
     [ "zap_arc_header_t", "d1/de8/structzap__arc__header__t.html", null ],
     [ "zap_arc_incoming_context_t", "db/d4f/structzap__arc__incoming__context__t.html", null ],
+    [ "zap_arc_interface_entry_t", "df/dae/structzap__arc__interface__entry__t.html", null ],
     [ "zap_arc_metadata_t", "d4/d2c/structzap__arc__metadata__t.html", null ],
     [ "zap_arc_ptrmap_t", "d3/d12/structzap__arc__ptrmap__t.html", null ],
     [ "zap_arc_reachable_context_t", "d0/dfb/structzap__arc__reachable__context__t.html", null ],

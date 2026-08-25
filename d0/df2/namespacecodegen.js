@@ -33,6 +33,7 @@ var namespacecodegen =
     [ "kClassGcGarbageMask", "d0/df2/namespacecodegen.html#a751a0acc461653798fd84af9f4450e28", null ],
     [ "kClassGcMarkIndex", "d0/df2/namespacecodegen.html#a8df78440b01f2ef70993d7c681f47369", null ],
     [ "kClassHeaderFieldCount", "d0/df2/namespacecodegen.html#ae844f3d5adb58407260eb72182c7c9c2", null ],
+    [ "kClassInterfaceTableIndex", "d0/df2/namespacecodegen.html#ac9ececea7493f7246d65fe70c6377842", null ],
     [ "kClassMetadataIndex", "d0/df2/namespacecodegen.html#a387ddd125264b720b59d186e19390ebf", null ],
     [ "kClassReleaseFnIndex", "d0/df2/namespacecodegen.html#a42fe47a92f7cf68fe67d16f70598e30c", null ],
     [ "kClassStrongCountIndex", "d0/df2/namespacecodegen.html#a4522bce13f5cca4a68bd098d5d43b498", null ],

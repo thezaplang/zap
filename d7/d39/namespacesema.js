@@ -1,5 +1,8 @@
 var namespacesema =
 [
+    [ "anonymous_namespace{binder_declaration_binding.cpp}", "dd/d6f/namespacesema_1_1anonymous__namespace_02binder__declaration__binding_8cpp_03.html", [
+      [ "matchesInterfaceMethodSignature", "dd/d6f/namespacesema_1_1anonymous__namespace_02binder__declaration__binding_8cpp_03.html#afe4065ff6abaeb4417a1e6fdcc3cc0ca", null ]
+    ] ],
     [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03" ],
     [ "anonymous_namespace{binder_stmts.cpp}", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03" ],
     [ "anonymous_namespace{constant_evaluator.cpp}", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html", [

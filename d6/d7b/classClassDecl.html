@@ -93,7 +93,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a937190dd5e8a626b41a64a0e52ee9878" id="r_a937190dd5e8a626b41a64a0e52ee9878"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a937190dd5e8a626b41a64a0e52ee9878">name_</a></td></tr>
 <tr class="memitem:a569fdd188f0f44dc2cd5fb5841b7a5f3" id="r_a569fdd188f0f44dc2cd5fb5841b7a5f3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a569fdd188f0f44dc2cd5fb5841b7a5f3">genericParams_</a></td></tr>
 <tr class="memitem:a9b8610ab2116a0aef67de773b556a5e0" id="r_a9b8610ab2116a0aef67de773b556a5e0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d2/d6f/structGenericConstraint.html">GenericConstraint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b8610ab2116a0aef67de773b556a5e0">genericConstraints_</a></td></tr>
-<tr class="memitem:a0e1ea89a6574954df0a5fefeb999b677" id="r_a0e1ea89a6574954df0a5fefeb999b677"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e1ea89a6574954df0a5fefeb999b677">baseType_</a></td></tr>
+<tr class="memitem:a77141f7581b78418ee510170076f6f93" id="r_a77141f7581b78418ee510170076f6f93"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77141f7581b78418ee510170076f6f93">implementsList_</a></td></tr>
 <tr class="memitem:abff211c086e8e94927d4e0983bdd86f6" id="r_abff211c086e8e94927d4e0983bdd86f6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d9/dd3/classParameterNode.html">ParameterNode</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abff211c086e8e94927d4e0983bdd86f6">fields_</a></td></tr>
 <tr class="memitem:a535cc07bb70dc6b4cf77ef1a1dfd49c4" id="r_a535cc07bb70dc6b4cf77ef1a1dfd49c4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d3/d94/classFunDecl.html">FunDecl</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a535cc07bb70dc6b4cf77ef1a1dfd49c4">methods_</a></td></tr>
 <tr class="inherit_header pub_attribs_classTopLevel"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classTopLevel')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Attributes inherited from <a class="el" href="../../d8/d65/classTopLevel.html">TopLevel</a></td></tr>
@@ -190,31 +190,13 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>{ v.<a class="code hl_function" href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">visit</a>(*<span class="keyword">this</span>); }</div>
-<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00064">visitor.hpp:64</a></div></div>
+<div class="ttc" id="astructVisitor_html_a9588a36d47f9d70e6747bd107ab35588"><div class="ttname"><a href="../../dc/d13/structVisitor.html#a9588a36d47f9d70e6747bd107ab35588">Visitor::visit</a></div><div class="ttdeci">virtual void visit(Node &amp;)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/df0/visitor_8hpp_source.html#l00065">visitor.hpp:65</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00064">Visitor::visit()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/df0/visitor_8hpp_source.html#l00065">Visitor::visit()</a>.</p>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a0e1ea89a6574954df0a5fefeb999b677" name="a0e1ea89a6574954df0a5fefeb999b677"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e1ea89a6574954df0a5fefeb999b677">&#9670;&#160;</a></span>baseType_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a>&gt; ClassDecl::baseType_</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00436">zap::lsp::findClassField()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00462">zap::lsp::findClassMethod()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00489">zap::lsp::findConstructorSignatures()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00030">sema::Binder::visit()</a>.</p>
-
-</div>
-</div>
 <a id="abff211c086e8e94927d4e0983bdd86f6" name="abff211c086e8e94927d4e0983bdd86f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abff211c086e8e94927d4e0983bdd86f6">&#9670;&#160;</a></span>fields_</h2>
 
@@ -229,7 +211,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00436">zap::lsp::findClassField()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00030">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00453">zap::lsp::findClassField()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00133">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -269,6 +251,24 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a77141f7581b78418ee510170076f6f93" name="a77141f7581b78418ee510170076f6f93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77141f7581b78418ee510170076f6f93">&#9670;&#160;</a></span>implementsList_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="../../d7/d9f/classTypeNode.html">TypeNode</a>&gt; &gt; ClassDecl::implementsList_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00436">zap::lsp::resolveClassBase()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00053">sema::Binder::resolveClassImplementsList()</a>.</p>
+
+</div>
+</div>
 <a id="a535cc07bb70dc6b4cf77ef1a1dfd49c4" name="a535cc07bb70dc6b4cf77ef1a1dfd49c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a535cc07bb70dc6b4cf77ef1a1dfd49c4">&#9670;&#160;</a></span>methods_</h2>
 
@@ -283,7 +283,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00462">zap::lsp::findClassMethod()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00489">zap::lsp::findConstructorSignatures()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00030">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00476">zap::lsp::findClassMethod()</a>, <a class="el" href="../../db/d80/language__features_8cpp_source.html#l00500">zap::lsp::findConstructorSignatures()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, <a class="el" href="../../d1/d35/completion_8cpp_source.html#l00345">zap::lsp::makeCompletionItems()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00133">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +301,7 @@ Public Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../dd/df4/class__decl_8hpp_source.html">class_decl.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00020">ClassDecl()</a>, <a class="el" href="../../d7/dc8/binder__generic__types_8cpp_source.html#l00018">sema::Binder::instantiateGenericTypeSymbol()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00030">sema::Binder::visit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00081">sema::Binder::bindInterfaceConformances()</a>, <a class="el" href="../../dd/df4/class__decl_8hpp_source.html#l00020">ClassDecl()</a>, <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00053">sema::Binder::resolveClassImplementsList()</a>, and <a class="el" href="../../da/d35/binder__declaration__binding_8cpp_source.html#l00133">sema::Binder::visit()</a>.</p>
 
 </div>
 </div>

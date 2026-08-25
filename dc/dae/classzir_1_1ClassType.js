@@ -1,13 +1,25 @@
 var classzir_1_1ClassType =
 [
+    [ "InterfaceConformance", "d2/d6f/structzir_1_1ClassType_1_1InterfaceConformance.html", "d2/d6f/structzir_1_1ClassType_1_1InterfaceConformance" ],
+    [ "InterfaceMethod", "db/d42/structzir_1_1ClassType_1_1InterfaceMethod.html", "db/d42/structzir_1_1ClassType_1_1InterfaceMethod" ],
     [ "ClassType", "dc/dae/classzir_1_1ClassType.html#adba4bf49fc35bfa3dea3b5f554dbe7be", null ],
+    [ "addInterfaceConformance", "dc/dae/classzir_1_1ClassType.html#a7d85d34b584a267b7a5681dcb4866090", null ],
     [ "getBase", "dc/dae/classzir_1_1ClassType.html#a3e9a446f9e83b69bfd05d74c248ab546", null ],
+    [ "getInterfaceConformances", "dc/dae/classzir_1_1ClassType.html#a9d51309c2573b1f62d3bb8127df2e111", null ],
+    [ "getInterfaceMethods", "dc/dae/classzir_1_1ClassType.html#abedcec4f0fc84118b4841f3d1bb89feb", null ],
     [ "getKind", "dc/dae/classzir_1_1ClassType.html#a136497eb0764b05027d3bf0b0cc0fb2f", null ],
+    [ "implementsInterface", "dc/dae/classzir_1_1ClassType.html#a6d26baf251dac4fc3ff1f62f835305e9", null ],
+    [ "isInterface", "dc/dae/classzir_1_1ClassType.html#af40c052e094fdcf3920ee5099eeb3262", null ],
     [ "isReferenceType", "dc/dae/classzir_1_1ClassType.html#a2c111d421ded3e95727222a6f1795741", null ],
     [ "isWeak", "dc/dae/classzir_1_1ClassType.html#a716d3ba38fdcb3de5ccc8c4eee011f2f", null ],
     [ "setBase", "dc/dae/classzir_1_1ClassType.html#a8edc6b79b41fd508a027b0868cf08c5c", null ],
+    [ "setInterfaceMethods", "dc/dae/classzir_1_1ClassType.html#a6d9338d7f8d2bb9b837fa2ea73bc323b", null ],
+    [ "setIsInterface", "dc/dae/classzir_1_1ClassType.html#a0fc086c3ada29e1a20406eae0920e04c", null ],
     [ "setWeak", "dc/dae/classzir_1_1ClassType.html#a8f6fa8bd228dd9558c2e7609879b8865", null ],
     [ "toString", "dc/dae/classzir_1_1ClassType.html#a0c7b59f769c2874b66e2676db548e327", null ],
     [ "base", "dc/dae/classzir_1_1ClassType.html#ad103216b2c570dd5895cc340721fdb41", null ],
+    [ "interfaceMethods_", "dc/dae/classzir_1_1ClassType.html#a28cae0a36d74aad1b66c32cc0f12bcc7", null ],
+    [ "interfaces_", "dc/dae/classzir_1_1ClassType.html#aa329a4059de3cec01ad479fdaf86e550", null ],
+    [ "isInterface_", "dc/dae/classzir_1_1ClassType.html#ab8b5c3c0a89144af62133981c533311b", null ],
     [ "weakRef", "dc/dae/classzir_1_1ClassType.html#af71e13fd463c509370a8762562505fcf", null ]
 ];

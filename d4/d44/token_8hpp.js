@@ -75,6 +75,7 @@ var token_8hpp =
       [ "UNSAFE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a6ff4613da261ce44ff1313390d26312a", null ],
       [ "NULL_LITERAL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ad09e18e6251f251a86cd6c7942354ec5", null ],
       [ "CLASS", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a8dabc58c34c5df57f2151d6f233d6c15", null ],
+      [ "INTERFACE", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a56690e5e62dbaca19fd78dcfe5d78544", null ],
       [ "PROT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a4965c5a2738945d912c8afcbfe435ad1", null ],
       [ "NEW", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921aec34b0b90541576a22697631105dc847", null ],
       [ "WEAK", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afe4722ca9de2cfd88591a69de2430c0a", null ],

@@ -87,6 +87,7 @@ Variables</h2></td></tr>
 <tr class="memitem:aae524487f488c12b500922655be38a97" id="r_aae524487f488c12b500922655be38a97"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae524487f488c12b500922655be38a97">kClassDestroyFnIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a98e0259c19e92632367be8be8d33b79a">ZAP_ARC_DESTROY_FN_INDEX</a></td></tr>
 <tr class="memitem:a387ddd125264b720b59d186e19390ebf" id="r_a387ddd125264b720b59d186e19390ebf"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a387ddd125264b720b59d186e19390ebf">kClassMetadataIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#aafee5303b52cab82215ce3f4d0a68b25">ZAP_ARC_METADATA_INDEX</a></td></tr>
 <tr class="memitem:aff82d8263f8af72a696579b244f8aa84" id="r_aff82d8263f8af72a696579b244f8aa84"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff82d8263f8af72a696579b244f8aa84">kClassVTableIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a31de6f1070bcddf4fb7092a9fc278a53">ZAP_ARC_VTABLE_INDEX</a></td></tr>
+<tr class="memitem:ac9ececea7493f7246d65fe70c6377842" id="r_ac9ececea7493f7246d65fe70c6377842"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9ececea7493f7246d65fe70c6377842">kClassInterfaceTableIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#a4bcfa9a0a8696e52530ac865a8814ba5">ZAP_ARC_INTERFACE_TABLE_INDEX</a></td></tr>
 <tr class="memitem:a41fd7a49481ad3317aa9625720325a42" id="r_a41fd7a49481ad3317aa9625720325a42"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41fd7a49481ad3317aa9625720325a42">kClassFieldStartIndex</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#afc2720595b223026f509430292a6d2a2">ZAP_ARC_FIELD_START_INDEX</a></td></tr>
 <tr class="memitem:ae844f3d5adb58407260eb72182c7c9c2" id="r_ae844f3d5adb58407260eb72182c7c9c2"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae844f3d5adb58407260eb72182c7c9c2">kClassHeaderFieldCount</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#af4a1ba62ccafbfc24fcdbf1944787389">ZAP_ARC_HEADER_FIELD_COUNT</a></td></tr>
 <tr class="memitem:a751a0acc461653798fd84af9f4450e28" id="r_a751a0acc461653798fd84af9f4450e28"><td class="memItemLeft" align="right" valign="top">constexpr unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a751a0acc461653798fd84af9f4450e28">kClassGcGarbageMask</a> = <a class="el" href="../../d8/da7/arc__layout_8h.html#aad22af68fe02c5ed3294fa0328d500a9">ZAP_ARC_GC_GARBAGE</a></td></tr>
@@ -144,7 +145,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00010">10</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00529">codegen::ClassArcEmitter::emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00576">codegen::ClassArcEmitter::emitWeakLock()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00529">codegen::ClassArcEmitter::emitWeakAlive()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00576">codegen::ClassArcEmitter::emitWeakLock()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -170,7 +171,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00013">13</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -194,9 +195,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00099">codegen::ClassArcEmitter::emitClassTraceFunction()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00099">codegen::ClassArcEmitter::emitClassTraceFunction()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -220,7 +221,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
 </div>
 </div>
@@ -244,7 +245,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
@@ -270,7 +271,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00022">22</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00023">23</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>.</p>
 
@@ -298,7 +299,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00011">11</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -322,9 +323,35 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00017">17</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00018">18</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00255">codegen::LLVMCodeGen::finalizeClassStruct()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d17/llvm__codegen_8cpp_source.html#l00256">codegen::LLVMCodeGen::finalizeClassStruct()</a>.</p>
+
+</div>
+</div>
+<a id="ac9ececea7493f7246d65fe70c6377842" name="ac9ececea7493f7246d65fe70c6377842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ececea7493f7246d65fe70c6377842">&#9670;&#160;</a></span>kClassInterfaceTableIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned codegen::kClassInterfaceTableIndex = <a class="el" href="../../d8/da7/arc__layout_8h.html#a4bcfa9a0a8696e52530ac865a8814ba5">ZAP_ARC_INTERFACE_TABLE_INDEX</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00016">16</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -350,7 +377,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00014">14</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -376,7 +403,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00012">12</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, and <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00318">codegen::ClassArcEmitter::emitReleaseIfNeeded()</a>, and <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -402,7 +429,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00008">8</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00245">codegen::ClassArcEmitter::emitRetainIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>
@@ -428,7 +455,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00015">15</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>.</p>
 
 </div>
 </div>
@@ -454,7 +481,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d19/class__layout_8hpp_source.html#l00009">9</a> of file <a class="el" href="../../d6/d19/class__layout_8hpp_source.html">class_layout.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00379">codegen::ClassArcEmitter::emitRetainWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00322">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00434">codegen::ClassArcEmitter::emitReleaseWeakIfNeeded()</a>, <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00379">codegen::ClassArcEmitter::emitRetainWeakIfNeeded()</a>, <a class="el" href="../../db/d86/llvm__codegen__zir_8cpp_source.html#l00398">codegen::LLVMCodeGen::emitZIRInstruction()</a>, and <a class="el" href="../../d1/dcb/class__arc__emitter_8cpp_source.html#l00678">codegen::ClassArcEmitter::ensureClassArcSupport()</a>.</p>
 
 </div>
 </div>

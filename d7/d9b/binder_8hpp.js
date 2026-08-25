@@ -4,6 +4,7 @@ var binder_8hpp =
     [ "sema::Binder::RecordPatternResult", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult.html", "dc/d0a/structsema_1_1Binder_1_1RecordPatternResult" ],
     [ "sema::Binder::ModuleState", "d2/dbd/structsema_1_1Binder_1_1ModuleState.html", "d2/dbd/structsema_1_1Binder_1_1ModuleState" ],
     [ "sema::Binder::ClassInfo", "d4/d52/structsema_1_1Binder_1_1ClassInfo.html", "d4/d52/structsema_1_1Binder_1_1ClassInfo" ],
+    [ "sema::Binder::InterfaceInfo", "df/db9/structsema_1_1Binder_1_1InterfaceInfo.html", "df/db9/structsema_1_1Binder_1_1InterfaceInfo" ],
     [ "sema::Binder::DeferScope", "de/d76/structsema_1_1Binder_1_1DeferScope.html", "de/d76/structsema_1_1Binder_1_1DeferScope" ],
     [ "sema::blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "sema::collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],

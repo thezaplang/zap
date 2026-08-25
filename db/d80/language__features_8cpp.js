@@ -21,6 +21,7 @@ var language__features_8cpp =
     [ "zap::lsp::makeSymbol", "d5/d23/namespacezap_1_1lsp.html#a1a4c8a282e2a5e5496622939f8bada19", null ],
     [ "zap::lsp::renderParameter", "d5/d23/namespacezap_1_1lsp.html#a012e536845c77d4318748f9329f5d255", null ],
     [ "zap::lsp::renderType", "d5/d23/namespacezap_1_1lsp.html#aaddcfcb92459131f7e8aad7a267ac8a9", null ],
+    [ "zap::lsp::resolveClassBase", "d5/d23/namespacezap_1_1lsp.html#ace19c93ce9c49d9ed2ddb6861e472f03", null ],
     [ "zap::lsp::resolveClassByTypeName", "d5/d23/namespacezap_1_1lsp.html#a92524f9cd01d59784983d2a754b2d05f", null ],
     [ "zap::lsp::resolveClassInModule", "d5/d23/namespacezap_1_1lsp.html#adab879fae07dde7c709137554b3525da", null ],
     [ "zap::lsp::resolveClassTypeNameFromSemanticType", "d5/d23/namespacezap_1_1lsp.html#af5d186b19df967fed4b225b3eed0ce63", null ],

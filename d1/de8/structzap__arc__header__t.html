@@ -76,10 +76,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a30eec0b46f324f38bb1ba57172944d1e" id="r_a30eec0b46f324f38bb1ba57172944d1e"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30eec0b46f324f38bb1ba57172944d1e">destroy_fn</a> )(void *)</td></tr>
 <tr class="memitem:a8dd8867dc4bd8b3224bd9b27e2822a03" id="r_a8dd8867dc4bd8b3224bd9b27e2822a03"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d2c/structzap__arc__metadata__t.html">zap_arc_metadata_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dd8867dc4bd8b3224bd9b27e2822a03">metadata</a></td></tr>
 <tr class="memitem:a76e40d411ba8b452a8fa0b031bfe16b6" id="r_a76e40d411ba8b452a8fa0b031bfe16b6"><td class="memItemLeft" align="right" valign="top">void **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76e40d411ba8b452a8fa0b031bfe16b6">vtable</a></td></tr>
+<tr class="memitem:ab3c332b7e46aab539e29e8286606aa33" id="r_ab3c332b7e46aab539e29e8286606aa33"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3c332b7e46aab539e29e8286606aa33">interface_table</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00038">38</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00039">39</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="a46e90646073f34559849b7976e6bcc37" name="a46e90646073f34559849b7976e6bcc37"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46e90646073f34559849b7976e6bcc37">&#9670;&#160;</a></span>alive</h2>
@@ -93,9 +94,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00042">42</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00209">zap_arc_add_possible_root()</a>, and <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00233">zap_arc_add_possible_root()</a>, and <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>
@@ -111,9 +112,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00046">46</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00047">47</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>
@@ -129,9 +130,27 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00042">42</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00043">43</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00209">zap_arc_add_possible_root()</a>, <a class="el" href="../../d4/d09/arc_8c_source.html#l00175">zap_arc_context_release_storage()</a>, <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>, and <a class="el" href="../../d4/d09/arc_8c_source.html#l00247">zap_arc_remove_possible_root()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00233">zap_arc_add_possible_root()</a>, <a class="el" href="../../d4/d09/arc_8c_source.html#l00199">zap_arc_context_release_storage()</a>, <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>, and <a class="el" href="../../d4/d09/arc_8c_source.html#l00271">zap_arc_remove_possible_root()</a>.</p>
+
+</div>
+</div>
+<a id="ab3c332b7e46aab539e29e8286606aa33" name="ab3c332b7e46aab539e29e8286606aa33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3c332b7e46aab539e29e8286606aa33">&#9670;&#160;</a></span>interface_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void* zap_arc_header_t::interface_table</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00050">50</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00151">zap_arc_resolve_interface_method()</a>.</p>
 
 </div>
 </div>
@@ -147,9 +166,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00047">47</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00048">48</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>
@@ -165,7 +184,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00043">43</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00044">44</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
 </div>
 </div>
@@ -181,9 +200,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00039">39</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00040">40</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>
@@ -199,7 +218,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00048">48</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00049">49</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00151">zap_arc_resolve_interface_method()</a>.</p>
 
 </div>
 </div>
@@ -215,9 +236,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00040">40</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/da7/arc__layout_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/da7/arc__layout_8h_source.html">arc_layout.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00444">zap_arc_cycle_collect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d09/arc_8c_source.html#l00468">zap_arc_cycle_collect()</a>.</p>
 
 </div>
 </div>

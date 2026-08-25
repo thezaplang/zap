@@ -7,6 +7,8 @@ var type_8hpp =
     [ "zir::RecordType", "da/de1/classzir_1_1RecordType.html", "da/de1/classzir_1_1RecordType" ],
     [ "zir::RecordType::Field", "d3/dc7/structzir_1_1RecordType_1_1Field.html", "d3/dc7/structzir_1_1RecordType_1_1Field" ],
     [ "zir::ClassType", "dc/dae/classzir_1_1ClassType.html", "dc/dae/classzir_1_1ClassType" ],
+    [ "zir::ClassType::InterfaceConformance", "d2/d6f/structzir_1_1ClassType_1_1InterfaceConformance.html", "d2/d6f/structzir_1_1ClassType_1_1InterfaceConformance" ],
+    [ "zir::ClassType::InterfaceMethod", "db/d42/structzir_1_1ClassType_1_1InterfaceMethod.html", "db/d42/structzir_1_1ClassType_1_1InterfaceMethod" ],
     [ "zir::EnumType", "df/dd7/classzir_1_1EnumType.html", "df/dd7/classzir_1_1EnumType" ],
     [ "zir::EnumType::Variant", "d1/d76/structzir_1_1EnumType_1_1Variant.html", "d1/d76/structzir_1_1EnumType_1_1Variant" ],
     [ "zir::TaggedUnionType", "dd/db3/classzir_1_1TaggedUnionType.html", "dd/db3/classzir_1_1TaggedUnionType" ],

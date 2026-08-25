@@ -27,6 +27,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "if_type_node.hpp", "d9/db2/if__type__node_8hpp.html", "d9/db2/if__type__node_8hpp" ],
     [ "import_node.hpp", "de/de6/import__node_8hpp.html", "de/de6/import__node_8hpp" ],
     [ "index_access.hpp", "da/d49/index__access_8hpp.html", "da/d49/index__access_8hpp" ],
+    [ "interface_decl.hpp", "d0/d61/interface__decl_8hpp.html", "d0/d61/interface__decl_8hpp" ],
     [ "member_access.hpp", "df/d5f/member__access_8hpp.html", "df/d5f/member__access_8hpp" ],
     [ "new_expr.hpp", "d5/df4/new__expr_8hpp.html", "d5/df4/new__expr_8hpp" ],
     [ "node.hpp", "d3/d09/node_8hpp.html", "d3/d09/node_8hpp" ],

@@ -4,7 +4,7 @@ var dir_64a2fc46d0d41bc8a4d0616660b79740 =
     [ "binder.hpp", "d7/d9b/binder_8hpp.html", "d7/d9b/binder_8hpp" ],
     [ "binder_calls.cpp", "d3/dba/binder__calls_8cpp.html", null ],
     [ "binder_conversions.cpp", "db/da9/binder__conversions_8cpp.html", null ],
-    [ "binder_declaration_binding.cpp", "da/d35/binder__declaration__binding_8cpp.html", null ],
+    [ "binder_declaration_binding.cpp", "da/d35/binder__declaration__binding_8cpp.html", "da/d35/binder__declaration__binding_8cpp" ],
     [ "binder_exprs.cpp", "d2/d6e/binder__exprs_8cpp.html", null ],
     [ "binder_generic_functions.cpp", "dc/d88/binder__generic__functions_8cpp.html", null ],
     [ "binder_generic_types.cpp", "d7/dc8/binder__generic__types_8cpp.html", null ],

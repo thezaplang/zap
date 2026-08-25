@@ -32,6 +32,7 @@ var classAstBuilder =
     [ "makeIfType", "de/d56/classAstBuilder.html#a77baeaa6bc8b865d020c662933f3a59a", null ],
     [ "makeImport", "de/d56/classAstBuilder.html#afcfb4fe4e1ff5ae0a73020ce10d8d403", null ],
     [ "makeIndexAccess", "de/d56/classAstBuilder.html#a42f89f5e37be22ccf9f36ddc2a1bfeff", null ],
+    [ "makeInterfaceDecl", "de/d56/classAstBuilder.html#a19c2027ca1ef93201c94614a2d17abf3", null ],
     [ "makeMemberAccess", "de/d56/classAstBuilder.html#a2ace1747b3a98638ac1af9151043f837", null ],
     [ "makeNewExpr", "de/d56/classAstBuilder.html#a000f04b771c2f0dc67605906f71c124f", null ],
     [ "makeParam", "de/d56/classAstBuilder.html#ae05bd7d9814c28d0470f44221c848788", null ],
