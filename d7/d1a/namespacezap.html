@@ -23,7 +23,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ZAP<span id="projectnumber">&#160;0.4.0</span>
+   <div id="projectname">ZAP<span id="projectnumber">&#160;0.4.1</span>
    </div>
   </td>
  </tr>
@@ -159,8 +159,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a1041d5c0c6ac4b1c07d7ef532e2b7f93" id="r_a1041d5c0c6ac4b1c07d7ef532e2b7f93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1041d5c0c6ac4b1c07d7ef532e2b7f93">printVersion</a> ()</td></tr>
 <tr class="memitem:a790dc43d58221292d73e46d4fe12d79d" id="r_a790dc43d58221292d73e46d4fe12d79d"><td class="memTemplParams" colspan="2">template&lt;typename... TArgs&gt; </td></tr>
 <tr class="memitem:a790dc43d58221292d73e46d4fe12d79d template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a790dc43d58221292d73e46d4fe12d79d">reportError</a> (TArgs &amp;&amp;...<a class="el" href="../../d3/d6f/namespacezap_1_1args.html">args</a>)</td></tr>
-<tr class="memitem:ad5225b144508c4c08f59f49d0f9536b3" id="r_ad5225b144508c4c08f59f49d0f9536b3"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5225b144508c4c08f59f49d0f9536b3">ZAP_VERSION</a> (0, 4, 0)</td></tr>
-<tr class="memdesc:ad5225b144508c4c08f59f49d0f9536b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zap's version, displayed when &ndash;version is used.  <br /></td></tr>
+<tr class="memitem:a8637c4981da4b2f7077cddc737a0e257" id="r_a8637c4981da4b2f7077cddc737a0e257"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a0acdcff1050bab4113419710c3284caa">version</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8637c4981da4b2f7077cddc737a0e257">ZAP_VERSION</a> (0, 4, 1)</td></tr>
+<tr class="memdesc:a8637c4981da4b2f7077cddc737a0e257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zap's version, displayed when &ndash;version is used.  <br /></td></tr>
 <tr class="memitem:a4568178cd71b87328c92ebc2c1ddf595" id="r_a4568178cd71b87328c92ebc2c1ddf595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4568178cd71b87328c92ebc2c1ddf595">compileSourceZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::ostream &amp;ofoutput)</td></tr>
 <tr class="memitem:ac247bcda4c2ea69f57ee9d9b05308160" id="r_ac247bcda4c2ea69f57ee9d9b05308160"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac247bcda4c2ea69f57ee9d9b05308160">compileSourceLLVMFromZIR</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node, std::string &amp;output, const std::string &amp;targetTriple, bool freestanding)</td></tr>
 <tr class="memitem:ac3b3cc5f8cb33ef1c1ae96b60e68125e" id="r_ac3b3cc5f8cb33ef1c1ae96b60e68125e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d9/d68/classzir_1_1Module.html">zir::Module</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3b3cc5f8cb33ef1c1ae96b60e68125e">generateZIRModule</a> (<a class="el" href="../../da/d3d/classsema_1_1BoundRootNode.html">sema::BoundRootNode</a> &amp;node)</td></tr>
@@ -847,10 +847,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../dd/df9/argparse_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../dd/df9/argparse_8cpp_source.html">argparse.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <a class="code hl_function" href="#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>() &lt;&lt; <span class="stringliteral">&quot;Zap Compiler v&quot;</span> &lt;&lt; <a class="code hl_function" href="#ad5225b144508c4c08f59f49d0f9536b3">ZAP_VERSION</a> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>; }</div>
-<div class="ttc" id="anamespacezap_html_ad5225b144508c4c08f59f49d0f9536b3"><div class="ttname"><a href="#ad5225b144508c4c08f59f49d0f9536b3">zap::ZAP_VERSION</a></div><div class="ttdeci">constexpr version ZAP_VERSION(0, 4, 0)</div><div class="ttdoc">Zap&#39;s version, displayed when –version is used.</div></div>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>{ <a class="code hl_function" href="#ae6ad8e87b28adc8798a538d35a6f3e66">out</a>() &lt;&lt; <span class="stringliteral">&quot;Zap Compiler v&quot;</span> &lt;&lt; <a class="code hl_function" href="#a8637c4981da4b2f7077cddc737a0e257">ZAP_VERSION</a> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>; }</div>
+<div class="ttc" id="anamespacezap_html_a8637c4981da4b2f7077cddc737a0e257"><div class="ttname"><a href="#a8637c4981da4b2f7077cddc737a0e257">zap::ZAP_VERSION</a></div><div class="ttdeci">constexpr version ZAP_VERSION(0, 4, 1)</div><div class="ttdoc">Zap&#39;s version, displayed when –version is used.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00110">out()</a>, and <a class="el" href="#ad5225b144508c4c08f59f49d0f9536b3">ZAP_VERSION()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d5f/stream_8cpp_source.html#l00110">out()</a>, and <a class="el" href="#a8637c4981da4b2f7077cddc737a0e257">ZAP_VERSION()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../dd/df9/argparse_8cpp_source.html#l00105">zap::args::parse()</a>.</p>
 
@@ -920,8 +920,8 @@ template&lt;typename... TArgs&gt; </div>
 
 </div>
 </div>
-<a id="ad5225b144508c4c08f59f49d0f9536b3" name="ad5225b144508c4c08f59f49d0f9536b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5225b144508c4c08f59f49d0f9536b3">&#9670;&#160;</a></span>ZAP_VERSION()</h2>
+<a id="a8637c4981da4b2f7077cddc737a0e257" name="a8637c4981da4b2f7077cddc737a0e257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8637c4981da4b2f7077cddc737a0e257">&#9670;&#160;</a></span>ZAP_VERSION()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -942,7 +942,7 @@ template&lt;typename... TArgs&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">0</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">1</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
   </td>

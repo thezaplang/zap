@@ -89,7 +89,7 @@ var namespacezap =
     [ "printVersion", "d7/d1a/namespacezap.html#a1041d5c0c6ac4b1c07d7ef532e2b7f93", null ],
     [ "reportError", "d7/d1a/namespacezap.html#a790dc43d58221292d73e46d4fe12d79d", null ],
     [ "verifyFile", "d7/d1a/namespacezap.html#a2a6e0e7719e15570ecf3fccf40924d36", null ],
-    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#ad5225b144508c4c08f59f49d0f9536b3", null ],
+    [ "ZAP_VERSION", "d7/d1a/namespacezap.html#a8637c4981da4b2f7077cddc737a0e257", null ],
     [ "color_override", "d7/d1a/namespacezap.html#a198c6023d35b57a9a1a4300238c786de", null ],
     [ "standard_stream_colors", "d7/d1a/namespacezap.html#ac630b2e88f5129f86e9a7dfc5b886e52", null ],
     [ "ZAP_NAME", "d7/d1a/namespacezap.html#ad54b7028c501ec2dfda0eae88719a62b", null ]
