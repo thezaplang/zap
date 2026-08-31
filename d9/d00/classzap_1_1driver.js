@@ -18,6 +18,7 @@ var classzap_1_1driver =
     [ "get_target_triple", "d9/d00/classzap_1_1driver.html#ae0632d62f0368f4ec6dca2496ad60e7c", null ],
     [ "is_freestanding", "d9/d00/classzap_1_1driver.html#a88e905f0756ebadcfa2c847ca730a2dc", null ],
     [ "is_implicit_output", "d9/d00/classzap_1_1driver.html#aa325927167bfcfdae34b1966234c72f4", null ],
+    [ "is_target_windows", "d9/d00/classzap_1_1driver.html#ad9f33535abb789e2f158c5a6da160a86", null ],
     [ "link", "d9/d00/classzap_1_1driver.html#a49c23b4aaf3617f45f43d69c0debfe1d", null ],
     [ "needs_linking", "d9/d00/classzap_1_1driver.html#aa6eb6a4e1402782c30a54f91c28bdbe9", null ],
     [ "parseArgs", "d9/d00/classzap_1_1driver.html#a58b077e9891bf3787dcd9d4fdbbdc237", null ],

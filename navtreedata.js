@@ -91,18 +91,18 @@ var NAVTREEINDEX =
 "d7/d6e/classzir_1_1BasicBlock.html#a5bd36183b510f980ef9e6ef69a811bfd",
 "d8/d57/classsema_1_1BoundTryExpression.html#ac0395360f2f669d2e37d2284a977b70b",
 "d9/d00/classzap_1_1driver.html#a02febff63b422cb1fb45df0423d21e7f",
-"d9/d67/ext__decl_8hpp_source.html",
-"da/d3d/classsema_1_1BoundRootNode.html#afe31471d92a6edc5938366ec2bfdc4f2",
-"da/de1/classzir_1_1RecordType.html#a0dc8496f8af04506f91c57f0649a260c",
-"db/d06/classsema_1_1BoundExpression.html#a0351a430992b2fd812ba4a8dfb3cfec6",
-"db/dee/classzir_1_1GetElementPtrInst.html#a68cd50d3b1321824dd82f1f03e57ca66",
-"dc/d2c/classsema_1_1Binder.html#a713fe49f3b781a4645bdaf667d4b0a48",
-"dc/d90/classzir_1_1Function.html#a1838ae08bfdbf4fb65ac86319e8a7545",
-"dd/d4f/structsema_1_1SemanticInfo.html#a21a8cea2e97e7d0c33be7088311fff1e",
-"de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#adf36b3d10ffb354c9cd10cd6f60aaa07",
-"de/d88/classsema_1_1BoundExpressionStatement.html",
-"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa6bc362dbf494c61ea117fe3c71ca48a5",
-"df/ddd/namespacezap_1_1frontend.html#a9210d52c418e3a7816e7d18677d661b1"
+"d9/d63/classsema_1_1ConstantEvaluator.html#a697374877d664b17c299bcf5d9890b94",
+"da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb",
+"da/de1/classzir_1_1RecordType.html#a0bbf365ab48d7faae5a2c06bdba4622c",
+"db/d06/classsema_1_1BoundExpression.html",
+"db/dee/classzir_1_1GetElementPtrInst.html#a67d01a0c2c4aee4e81a0cfa366f1966e",
+"dc/d2c/classsema_1_1Binder.html#a712bc13564972733fafcf0a96a71dd25",
+"dc/d90/classzir_1_1Function.html#a1675983291b60d72f9fdb0c9601a50ed",
+"dd/d4f/structsema_1_1SemanticInfo.html#a17e6033e472c362a3b5e6929c9a8e6d0",
+"de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ad1d4e146d2eece29acc327f8c51fd67b",
+"de/d85/structzir_1_1OwnershipClosurePlan.html#acba65d356f0fa84230dad6c66d63fc22",
+"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85",
+"df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fba45f0fb72a0defdfdb01de4b5a5a6876b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
