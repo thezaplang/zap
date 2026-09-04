@@ -28,6 +28,11 @@ if get_option('zap_enable_runtime_instrumentation')
     add_project_arguments('-DZAP_RUNTIME_INSTRUMENTATION=1', language : ['c', 'cpp'])
 endif
 
+runtime_compile_args = zap_stdlib_compile_defs
+if host_machine.system() != 'windows'
+    runtime_compile_args += '-fPIC'
+endif
+
 llvm_dep = dependency('llvm',
                       version : '>= 21',
                       modules : ['core', 'support', 'all-targets', 'mc', 'target', 'analysis', 'passes'],
@@ -110,7 +115,7 @@ runtime_o = custom_target('zap_runtime',
                              'src/runtime/tls.c'
                          ],
                          output : 'runtime.o',
-                         command : [c.cmd_array(), zap_stdlib_compile_defs, '-r', '@INPUT@', '-o', '@OUTPUT@'],
+                         command : [c.cmd_array(), runtime_compile_args, '-r', '@INPUT@', '-o', '@OUTPUT@'],
                          depend_files : [
                              'src/runtime/arc_layout.h',
                              'src/runtime/allocation_internal.h',
