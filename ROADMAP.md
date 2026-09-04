@@ -2,7 +2,7 @@
 
 ## Zap v0.5.0
 
-- [ ] implicit cast `*T` -> `*Void` when needed
+- [x] implicit cast `*T` -> `*Void` when needed
 - [ ] attribute system, i.e. the ability to define your own attributes
 - [ ] macros
 - [ ] String interpolation
