@@ -92,17 +92,17 @@ var NAVTREEINDEX =
 "d8/d57/classsema_1_1BoundTryExpression.html#ac0395360f2f669d2e37d2284a977b70b",
 "d9/d00/classzap_1_1driver.html#a02febff63b422cb1fb45df0423d21e7f",
 "d9/d63/classsema_1_1ConstantEvaluator.html#a697374877d664b17c299bcf5d9890b94",
-"da/d3d/classsema_1_1BoundRootNode.html#af74ca9c4f31c2e1e740002b5e174b7cb",
-"da/de1/classzir_1_1RecordType.html#a0bbf365ab48d7faae5a2c06bdba4622c",
-"db/d06/classsema_1_1BoundExpression.html",
+"da/d3d/classsema_1_1BoundRootNode.html#ab8deb56b40049f1620cda5218c4e500d",
+"da/de1/classzir_1_1RecordType.html#a0bbbb00719716290a60850a809054510",
+"da/dfc/borrow__provenance_8cpp_source.html",
 "db/dee/classzir_1_1GetElementPtrInst.html#a67d01a0c2c4aee4e81a0cfa366f1966e",
-"dc/d2c/classsema_1_1Binder.html#a712bc13564972733fafcf0a96a71dd25",
-"dc/d90/classzir_1_1Function.html#a1675983291b60d72f9fdb0c9601a50ed",
-"dd/d4f/structsema_1_1SemanticInfo.html#a17e6033e472c362a3b5e6929c9a8e6d0",
-"de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ad1d4e146d2eece29acc327f8c51fd67b",
+"dc/d2c/classsema_1_1Binder.html#a6f935bd0322524805d9cb8910cb8525c",
+"dc/d90/classzir_1_1Function.html#a043cfa928fb042682c0c5b1bb51cf201",
+"dd/d4f/structsema_1_1SemanticInfo.html#a158baf9e78cc88c4f01193fda9dedc85",
+"de/d3d/namespacezir_1_1anonymous__namespace_02borrow__provenance_8cpp_03.html#ac162a88e1dabee8d628a6b7f95c06cbb",
 "de/d85/structzir_1_1OwnershipClosurePlan.html#acba65d356f0fa84230dad6c66d63fc22",
-"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa68186db1da877cd7d0d1cad88ac3ab85",
-"df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fba45f0fb72a0defdfdb01de4b5a5a6876b"
+"df/d35/namespacezir.html#ab4e12cb1b0618e9ddeb42f32bacb847aa62b6d55816cf737bfc6f42e60df1a3f2",
+"df/ddd/namespacezap_1_1frontend.html#a8f2e04610edd7e337c4943fda0c2f9fb"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

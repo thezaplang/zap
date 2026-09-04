@@ -111,6 +111,7 @@ var namespacesema =
       [ "IntegerToFloat", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a15f6a71f7882b99c99d02074c51eab06", null ],
       [ "FloatToInteger", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a7181fdb99a4c8fee0f7d88d531a46089", null ],
       [ "NullToPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a051f4bca91e4af51613cfa6138d259f4", null ],
+      [ "PointerToVoid", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a150f920d19c1d7caa01e8c157012b1d1", null ],
       [ "NullToClass", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a8194ebb2161926b1dd225303a0816f04", null ],
       [ "StringToCharPointer", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955aadd207b01779e75db14e2256c7ee3513", null ],
       [ "ClassUpcast", "d7/d39/namespacesema.html#acc4b43ba45902b2a3d15b55e533fd955a1178fcb8b36cf2a6d538ad5292e6f6dc", null ],

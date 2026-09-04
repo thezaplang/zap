@@ -1,5 +1,6 @@
 var NAVTREEINDEX11 =
 {
+"d7/d6e/classzir_1_1BasicBlock.html#a5bd36183b510f980ef9e6ef69a811bfd":[1,0,4,13,6],
 "d7/d6e/classzir_1_1BasicBlock.html#a5bd36183b510f980ef9e6ef69a811bfd":[2,0,3,3,6],
 "d7/d6e/classzir_1_1BasicBlock.html#a7a55ca2a10a59f8ef8d4416b85b0dab7":[1,0,4,13,4],
 "d7/d6e/classzir_1_1BasicBlock.html#a7a55ca2a10a59f8ef8d4416b85b0dab7":[2,0,3,3,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX11 =
 "d8/d57/classsema_1_1BoundTryExpression.html#a866b1531b63bc1be513d56c0058d9a74":[1,0,2,30,1],
 "d8/d57/classsema_1_1BoundTryExpression.html#a866b1531b63bc1be513d56c0058d9a74":[2,0,1,26,1],
 "d8/d57/classsema_1_1BoundTryExpression.html#ab3f6f808dd7696e5b0ef5b985f88ef97":[1,0,2,30,4],
-"d8/d57/classsema_1_1BoundTryExpression.html#ab3f6f808dd7696e5b0ef5b985f88ef97":[2,0,1,26,4],
-"d8/d57/classsema_1_1BoundTryExpression.html#ac0395360f2f669d2e37d2284a977b70b":[1,0,2,30,2]
+"d8/d57/classsema_1_1BoundTryExpression.html#ab3f6f808dd7696e5b0ef5b985f88ef97":[2,0,1,26,4]
 };
