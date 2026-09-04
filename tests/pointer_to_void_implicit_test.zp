@@ -1,0 +1,24 @@
+fun acceptsVoidPointer(ptr: *Void) Bool {
+    return ptr != null;
+}
+
+fun erasePointerType(ptr: *Int) *Void {
+    return ptr;
+}
+
+fun main() Int {
+    var value: Int = 42;
+    var typed: *Int = &value;
+    var initialized: *Void = typed;
+    var returned: *Void = erasePointerType(typed);
+
+    if (!acceptsVoidPointer(typed)) {
+        return 1;
+    }
+
+    if (initialized != returned) {
+        return 2;
+    }
+
+    return 0;
+}

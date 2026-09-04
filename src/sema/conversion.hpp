@@ -26,6 +26,7 @@ enum class ConversionKind {
   IntegerToFloat,
   FloatToInteger,
   NullToPointer,
+  PointerToVoid,
   NullToClass,
   StringToCharPointer,
   ClassUpcast,

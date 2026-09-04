@@ -110,6 +110,27 @@ bool testStringAndReferenceConversions() {
          expect(!toStrong, "weak-to-strong conversion was accepted");
 }
 
+bool testPointerToVoidConversion() {
+  TypeInterner types;
+  ConversionClassifier conversions(types);
+  auto intPointer = std::make_shared<PointerType>(primitive(TypeKind::Int));
+  auto voidPointer = std::make_shared<PointerType>(primitive(TypeKind::Void));
+  auto charPointer = std::make_shared<PointerType>(primitive(TypeKind::Char));
+
+  auto toVoid = conversions.classifyImplicit(intPointer, voidPointer);
+  auto fromVoid = conversions.classifyImplicit(voidPointer, intPointer);
+  auto unrelatedPointers =
+      conversions.classifyImplicit(intPointer, charPointer);
+
+  return expect(toVoid && toVoid->kind == ConversionKind::PointerToVoid &&
+                    toVoid->rank == ConversionRank::Structural &&
+                    toVoid->targetType == voidPointer,
+                "pointer-to-Void conversion was not classified correctly") &&
+         expect(!fromVoid, "Void-pointer-to-typed-pointer became implicit") &&
+         expect(!unrelatedPointers,
+                "typed-pointer-to-typed-pointer became implicit");
+}
+
 bool testContextSpecificConversions() {
   TypeInterner types;
   ConversionClassifier conversions(types);
@@ -291,6 +312,7 @@ int main() {
   bool ok = true;
   ok = testNumericConversions() && ok;
   ok = testStringAndReferenceConversions() && ok;
+  ok = testPointerToVoidConversion() && ok;
   ok = testContextSpecificConversions() && ok;
   ok = testTargetDependentNativeIntegerConversions() && ok;
   ok = testCachedConversionUsesRequestedTargetObject() && ok;

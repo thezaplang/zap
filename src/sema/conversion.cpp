@@ -134,6 +134,8 @@ std::string_view Conversion::description() const {
   case ConversionKind::NullToPointer:
   case ConversionKind::NullToClass:
     return "null-to-reference conversion";
+  case ConversionKind::PointerToVoid:
+    return "pointer-to-void conversion";
   case ConversionKind::StringToCharPointer:
     return "string-to-character-pointer conversion";
   case ConversionKind::ClassUpcast:
@@ -232,6 +234,15 @@ std::optional<Conversion> ConversionClassifier::classifyImplicitUncached(
     }
     if (target->getKind() == zir::TypeKind::Class) {
       return conversion(ConversionKind::NullToClass,
+                        ConversionRank::Structural, target);
+    }
+  }
+
+  if (source->getKind() == zir::TypeKind::Pointer &&
+      target->getKind() == zir::TypeKind::Pointer) {
+    const auto &targetPointer = static_cast<const zir::PointerType &>(*target);
+    if (targetPointer.getBaseType()->getKind() == zir::TypeKind::Void) {
+      return conversion(ConversionKind::PointerToVoid,
                         ConversionRank::Structural, target);
     }
   }
