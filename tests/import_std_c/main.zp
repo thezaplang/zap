@@ -1,0 +1,46 @@
+import "std/c" as c;
+
+ext fun abs(value: c.int) c.int;
+ext fun labs(value: c.long) c.long;
+ext fun llabs(value: c.longlong) c.longlong;
+
+fun main() Int {
+  var byte: c.int8_t = 7;
+  var value: c.int = -7;
+  var offset: c.ptrdiff_t = 2;
+  var length: c.size_t = 3;
+  var total: c.longlong = byte + abs(value) + offset + length;
+
+  if total != 19 {
+    return 1;
+  }
+
+  var address: c.uintptr_t = 42;
+  if address != 42 {
+    return 2;
+  }
+
+  var least: c.uint_least16_t = 12;
+  var fast: c.int_fast32_t = 4;
+  if least + fast != 16 {
+    return 3;
+  }
+
+  var ratio: c.float = 1.5;
+  var precise: c.double = 2.5;
+  if ratio + precise != 4.0 {
+    return 4;
+  }
+
+  if labs(-5) != 5 || llabs(-6) != 6 {
+    return 5;
+  }
+
+  var file: *c.FILE = null;
+  var directory: *c.DIR = null;
+  if file != null || directory != null {
+    return 6;
+  }
+
+  return 0;
+}

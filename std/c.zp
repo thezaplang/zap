@@ -1,0 +1,72 @@
+// C and POSIX scalar types for the Linux LP64 ABI used by Zap's supported
+// targets. These aliases describe ABI-compatible representations, not C
+// headers. Zap has no representation compatible with C's _Bool or long double.
+
+// Fundamental C types.
+pub alias char = Char;
+pub alias signed_char = Int8;
+pub alias unsigned_char = UInt8;
+pub alias int = Int32;
+pub alias uint = UInt32;
+pub alias short = Int16;
+pub alias ushort = UInt16;
+pub alias long = Int64;
+pub alias ulong = UInt64;
+pub alias longlong = Int64;
+pub alias ulonglong = UInt64;
+pub alias float = Float;
+pub alias double = Float64;
+
+// Fixed-width integer types from <stdint.h>.
+pub alias int8_t = Int8;
+pub alias uint8_t = UInt8;
+pub alias int16_t = Int16;
+pub alias uint16_t = UInt16;
+pub alias int32_t = Int32;
+pub alias uint32_t = UInt32;
+pub alias int64_t = Int64;
+pub alias uint64_t = UInt64;
+
+// Minimum-width and fast integer types from <stdint.h>.
+pub alias int_least8_t = Int8;
+pub alias uint_least8_t = UInt8;
+pub alias int_least16_t = Int16;
+pub alias uint_least16_t = UInt16;
+pub alias int_least32_t = Int32;
+pub alias uint_least32_t = UInt32;
+pub alias int_least64_t = Int64;
+pub alias uint_least64_t = UInt64;
+pub alias int_fast8_t = Int8;
+pub alias uint_fast8_t = UInt8;
+pub alias int_fast16_t = Int64;
+pub alias uint_fast16_t = UInt64;
+pub alias int_fast32_t = Int64;
+pub alias uint_fast32_t = UInt64;
+pub alias int_fast64_t = Int64;
+pub alias uint_fast64_t = UInt64;
+pub alias intmax_t = Int64;
+pub alias uintmax_t = UInt64;
+
+// Pointer-sized and commonly used POSIX system types.
+pub alias size_t = UInt;
+pub alias ssize_t = Int;
+pub alias ptrdiff_t = Int;
+pub alias intptr_t = Int;
+pub alias uintptr_t = UInt;
+pub alias wchar_t = Int32;
+pub alias wint_t = UInt32;
+pub alias pid_t = Int32;
+pub alias uid_t = UInt32;
+pub alias gid_t = UInt32;
+pub alias mode_t = UInt32;
+pub alias off_t = Int64;
+pub alias time_t = Int64;
+pub alias dev_t = UInt64;
+pub alias ino_t = UInt64;
+pub alias nlink_t = UInt64;
+pub alias blksize_t = Int64;
+pub alias blkcnt_t = Int64;
+
+// Opaque C and POSIX handles. Use them through pointers, for example *c.FILE.
+pub alias FILE = Void;
+pub alias DIR = Void;
