@@ -26,14 +26,14 @@ var NAVTREE =
 [
   [ "ZAP", "index.html", [
     [ "Changelog", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html", [
-      [ "[0.1.0] - 2026-07-24", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md5", [
-        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md6", null ],
-        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md7", null ]
+      [ "[0.1.0] - 2026-07-24", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md6", [
+        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md7", null ],
+        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md8", null ]
       ] ],
-      [ "[0.0.1] - 2026-03-16", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md8", [
-        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md9", null ],
-        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md10", null ],
-        [ "Removed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md11", null ]
+      [ "[0.0.1] - 2026-03-16", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md9", [
+        [ "Added", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md10", null ],
+        [ "Changed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md11", null ],
+        [ "Removed", "dd/d44/md_src_2lsp_2vscode_2zap_2CHANGELOG.html#autotoc_md12", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [

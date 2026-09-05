@@ -104,9 +104,11 @@ Zap LSP 0.1.0</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Build the server</h1>
 <p>From the repository root:</p>
-<div class="fragment"><div class="line">meson setup build -Dinclude_lsp=true</div>
-<div class="line">meson compile -C build zap-lsp</div>
-</div><!-- fragment --><p>The binary is written to <span class="tt">build/zap-lsp</span>.</p>
+<div class="fragment"><div class="line">meson setup build-lsp -Dbuild_compiler=false -Dinclude_lsp=true</div>
+<div class="line">meson compile -C build-lsp</div>
+<div class="line">meson test -C build-lsp --print-errorlogs</div>
+</div><!-- fragment --><p>The binary is written to <span class="tt">build-lsp/src/lsp/zap-lsp</span>. This mode requires a C/C++17 toolchain, Meson, Ninja, and the <span class="tt">tomlc17</span> submodule, but does not look for LLVM or OpenSSL and does not build runtime objects. Python 3 enables the protocol test. <span class="tt">core</span> and <span class="tt">std</span> are still needed as Zap source modules.</p>
+<p>For libraries and frontend tests only, also pass <span class="tt">-Dinclude_lsp=false</span>. Add <span class="tt">-Dbuild_testing=false</span> when only the libraries are needed. The default <span class="tt">build_compiler=true</span> keeps the full compiler build; <span class="tt">./build.sh</span> remains the convenience script for that mode.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Configure a workspace</h1>
 <p>Project imports come from the nearest <span class="tt">thor.toml</span>. The <span class="tt">[imports]</span> table uses the same aliases as <span class="tt">thor build</span>; relative paths are resolved from the directory containing the manifest:</p>
@@ -119,7 +121,12 @@ Build and install the VS Code extension</h1>
 <div class="fragment"><div class="line">cd src/lsp/vscode/zap</div>
 <div class="line">npm install</div>
 <div class="line">npm run package</div>
-</div><!-- fragment --><p>Install the generated <span class="tt">.vsix</span> with <b>Extensions → … → Install from VSIX…</b>. The extension does not bundle or configure a language server; it launches the <span class="tt">zap-lsp</span> installed by <span class="tt">zapup</span>. </p>
+</div><!-- fragment --><p>Install the generated <span class="tt">.vsix</span> with <b>Extensions → … → Install from VSIX…</b>. The extension does not bundle or configure a language server; it launches the <span class="tt">zap-lsp</span> installed by <span class="tt">zapup</span>.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Shared compiler frontend</h1>
+<p>The compiler and server link the same static frontend libraries through the Meson dependency <span class="tt">libzap_dep</span>. It includes syntax, semantic analysis, type support, module loading, project configuration, and diagnostic stream support. Consumers do not compile binder or other frontend implementation files themselves. <span class="tt">zap_sema</span> owns the binder and constant evaluator; <span class="tt">zap_frontend</span> depends on it.</p>
+<p>The entry point is <span class="tt"><a class="el" href="d0/d02/classzap_1_1frontend_1_1FrontendSession.html">zap::frontend::FrontendSession</a></span> in <span class="tt"><a class="el" href="d4/dce/frontend__session_8hpp.html">frontend/frontend_session.hpp</a></span>. Its source loader accepts in-memory documents, and <span class="tt">FrontendProject</span> retains the modules, bound root, diagnostics, and semantic information needed by tooling. The <span class="tt">frontend-session</span> test links only <span class="tt">libzap_dep</span> and exercises loading and binding through this interface.</p>
+<p><span class="tt">libzap_dep</span> is currently an internal Meson dependency, not an installed SDK or single archive with a stable ABI. LLVM code generation and runtime objects are outside it. With <span class="tt">build_compiler=false</span>, compiler/backend and runtime targets and their tests are omitted, while frontend and enabled LSP tests remain. Runtime instrumentation has no effect in this mode. The server remains in this repository until the repository migration. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">
