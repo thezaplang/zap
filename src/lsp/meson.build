@@ -11,20 +11,7 @@ lsp_sources = [
     'protocol_utils.cpp',
     'source_manager.cpp',
     'symbol_index.cpp',
-    'workspace.cpp',
-    '../sema/binder.cpp',
-    '../sema/binder_calls.cpp',
-    '../sema/binder_conversions.cpp',
-    '../sema/binder_declaration_binding.cpp',
-    '../sema/binder_module_predeclare.cpp',
-    '../sema/binder_mutability.cpp',
-    '../sema/constant_evaluator.cpp',
-    '../sema/binder_stmts.cpp',
-    '../sema/binder_exprs.cpp',
-    '../sema/binder_generic_functions.cpp',
-    '../sema/binder_generic_types.cpp',
-    '../sema/binder_types.cpp',
-    '../utils/stream.cpp'
+    'workspace.cpp'
 ]
 
 zap_lsp_args = [
@@ -34,13 +21,7 @@ zap_lsp_args = [
 
 zap_lsp = executable('zap-lsp',
                      lsp_sources,
-                     dependencies: [
-                         zap_type_system_dep,
-                         zap_sema_conversions_dep,
-                         zap_type_layout_dep,
-                         zap_frontend_dep,
-                         zap_syntax_dep
-                     ],
+                     dependencies: libzap_dep,
                      cpp_args: zap_lsp_args
 )
 
@@ -56,7 +37,7 @@ if get_option('build_testing')
                                           'source_manager.cpp',
                                           'protocol_utils.cpp',
                                           'lsp.cpp',
-                                          '../utils/stream.cpp',
+                                          dependencies: zap_support_dep,
                                           include_directories: inc
          ))
 

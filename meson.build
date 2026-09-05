@@ -50,6 +50,12 @@ tomlc17 = static_library('tomlc17',
 tomlc17_dep = declare_dependency(link_with : tomlc17,
                                  include_directories : tomlc17_inc)
 
+zap_support = static_library('zap_support',
+                             'src/utils/stream.cpp',
+                             include_directories : inc
+)
+zap_support_dep = declare_dependency(link_with : zap_support, include_directories : inc)
+
 zap_type_system = static_library('zap_type_system',
                                  'src/ir/failable_type.cpp',
                                  'src/ir/primitive_type.cpp',
@@ -72,10 +78,29 @@ zap_type_layout = static_library('zap_type_layout',
 )
 zap_type_layout_dep = declare_dependency(link_with : zap_type_layout, include_directories : inc)
 
+zap_sema = static_library('zap_sema',
+                          'src/sema/binder.cpp',
+                          'src/sema/binder_calls.cpp',
+                          'src/sema/binder_conversions.cpp',
+                          'src/sema/binder_declaration_binding.cpp',
+                          'src/sema/binder_module_predeclare.cpp',
+                          'src/sema/binder_stmts.cpp',
+                          'src/sema/binder_exprs.cpp',
+                          'src/sema/binder_mutability.cpp',
+                          'src/sema/constant_evaluator.cpp',
+                          'src/sema/binder_generic_functions.cpp',
+                          'src/sema/binder_generic_types.cpp',
+                          'src/sema/binder_types.cpp',
+                          dependencies : [zap_sema_conversions_dep, zap_type_layout_dep, zap_support_dep],
+                          include_directories : inc
+)
+zap_sema_dep = declare_dependency(link_with : zap_sema, include_directories : inc)
+
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
+                            dependencies : zap_support_dep,
                             include_directories : inc
 )
 zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories : inc)
@@ -84,10 +109,13 @@ zap_frontend = static_library('zap_frontend',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/module_loader.cpp',
                               'src/frontend/project_configuration.cpp',
-                              dependencies : [zap_syntax_dep, tomlc17_dep],
+                              dependencies : [zap_syntax_dep, zap_sema_dep, tomlc17_dep],
                               include_directories : inc
 )
 zap_frontend_dep = declare_dependency(link_with : zap_frontend, include_directories : inc)
+
+# Complete frontend dependency for compiler and tooling consumers.
+libzap_dep = declare_dependency(dependencies : zap_frontend_dep, version : meson.project_version())
 
 zap_zir_verifier = static_library('zap_zir_verifier',
                                   'src/ir/borrow_provenance.cpp',
@@ -127,18 +155,11 @@ runtime_o = custom_target('zap_runtime',
 )
 
 zapc_sources = [
-    'src/main.cpp', 'src/ir/ir_generator.cpp', 'src/ir/function_reachability.cpp', 'src/sema/binder.cpp',
-    'src/sema/binder_calls.cpp', 'src/sema/binder_conversions.cpp',
-    'src/sema/binder_declaration_binding.cpp', 'src/sema/binder_module_predeclare.cpp',
-    'src/sema/binder_stmts.cpp', 'src/sema/binder_exprs.cpp',
-    'src/sema/binder_mutability.cpp',
-    'src/sema/constant_evaluator.cpp',
-    'src/sema/binder_generic_functions.cpp', 'src/sema/binder_generic_types.cpp',
-    'src/sema/binder_types.cpp', 'src/codegen/llvm_codegen.cpp',
+    'src/main.cpp', 'src/ir/ir_generator.cpp', 'src/ir/function_reachability.cpp',
+    'src/codegen/llvm_codegen.cpp',
     'src/codegen/llvm_codegen_constants.cpp', 'src/codegen/llvm_codegen_zir.cpp',
     'src/codegen/llvm_codegen_arc.cpp', 'src/codegen/class_arc_emitter.cpp',
-    'src/driver/driver.cpp', 'src/driver/process.cpp', 'src/driver/args/argparse.cpp',
-    'src/utils/stream.cpp'
+    'src/driver/driver.cpp', 'src/driver/process.cpp', 'src/driver/args/argparse.cpp'
 ]
 
 zapc_args = [
@@ -151,11 +172,7 @@ zapc = executable('zapc',
                   zapc_sources,
                   dependencies : [
                       llvm_dep,
-                      zap_type_system_dep,
-                      zap_sema_conversions_dep,
-                      zap_type_layout_dep,
-                      zap_frontend_dep,
-                      zap_syntax_dep,
+                      libzap_dep,
                       zap_zir_verifier_dep
                   ],
                   cpp_args : zapc_args,
@@ -167,6 +184,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('frontend-session', executable('zap-frontend-session-tests',
+                                       'tests/cpp/frontend_session_test.cpp',
+                                       dependencies : libzap_dep))
     test('type-identity', executable('zap-type-identity-tests', 'tests/cpp/type_identity_test.cpp', dependencies : zap_type_system_dep))
     test('conversions', executable('zap-conversion-tests', 'tests/cpp/conversion_test.cpp', dependencies : zap_sema_conversions_dep))
     test('type-layout', executable('zap-type-layout-tests', 'tests/cpp/type_layout_test.cpp', dependencies : zap_type_layout_dep))
