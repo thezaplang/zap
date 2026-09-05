@@ -73,3 +73,43 @@ jobs:
           export CXX=clang++-21
           export LLVM_DIR=/usr/lib/llvm-21/lib/cmake/llvm
           ./scripts/run_sanitizers.sh
+
+  frontend-and-lsp:
+    if: contains(github.event.pull_request.labels.*.name, 'run-ci')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        include_lsp: ['true', 'false']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install frontend build dependencies
+        run: sudo apt-get update && sudo apt-get install -y meson ninja-build build-essential python3
+
+      - name: Configure without compiler dependencies
+        run: meson setup build-frontend -Dbuild_compiler=false -Dinclude_lsp=${{ matrix.include_lsp }}
+
+      - name: Verify compiler dependencies and targets are absent
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          from pathlib import Path
+
+          info = Path("build-frontend/meson-info")
+          dependencies = json.loads((info / "intro-dependencies.json").read_text())
+          targets = json.loads((info / "intro-targets.json").read_text())
+          assert not {"llvm", "openssl"} & {dep["name"].lower() for dep in dependencies}
+          assert not {"zapc", "zap_runtime", "zap_zir_verifier"} & {target["name"] for target in targets}
+          PYTHON
+
+      - name: Build frontend and enabled tooling
+        run: meson compile -C build-frontend
+
+      - name: Run frontend and enabled LSP tests
+        run: meson test -C build-frontend --print-errorlogs

@@ -2,3 +2,4 @@ option('zap_enable_sanitizers', type: 'boolean', value: false, description: 'Ena
 option('zap_enable_runtime_instrumentation', type: 'boolean', value: false, description: 'Emit test-only runtime ownership instrumentation')
 option('build_testing', type: 'boolean', value: true, description: 'Build test executables')
 option('include_lsp', type: 'boolean', value: true, description: 'Should the LSP binary be compiled')
+option('build_compiler', type: 'boolean', value: true, description: 'Build zapc, code generation, and runtime')

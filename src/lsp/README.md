@@ -9,11 +9,20 @@ standard LSP stdio transport.
 From the repository root:
 
 ```bash
-meson setup build -Dinclude_lsp=true
-meson compile -C build zap-lsp
+meson setup build-lsp -Dbuild_compiler=false -Dinclude_lsp=true
+meson compile -C build-lsp
+meson test -C build-lsp --print-errorlogs
 ```
 
-The binary is written to `build/zap-lsp`.
+The binary is written to `build-lsp/src/lsp/zap-lsp`. This mode requires a
+C/C++17 toolchain, Meson, Ninja, and the `tomlc17` submodule, but does not look
+for LLVM or OpenSSL and does not build runtime objects. Python 3 enables the
+protocol test. `core` and `std` are still needed as Zap source modules.
+
+For libraries and frontend tests only, also pass `-Dinclude_lsp=false`.
+Add `-Dbuild_testing=false` when only the libraries are needed.
+The default `build_compiler=true` keeps the full compiler build; `./build.sh`
+remains the convenience script for that mode.
 
 ## Configure a workspace
 
@@ -60,5 +69,7 @@ information needed by tooling. The `frontend-session` test links only
 
 `libzap_dep` is currently an internal Meson dependency, not an installed SDK or
 single archive with a stable ABI. LLVM code generation and runtime objects are
-outside it, but configuring this repository still requires LLVM and OpenSSL.
-The server remains in this repository during this first extraction step.
+outside it. With `build_compiler=false`, compiler/backend and runtime targets
+and their tests are omitted, while frontend and enabled LSP tests remain.
+Runtime instrumentation has no effect in this mode.
+The server remains in this repository until the repository migration.
