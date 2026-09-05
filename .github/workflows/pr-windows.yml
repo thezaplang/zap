@@ -1,0 +1,79 @@
+name: Build and test
+
+on:
+  pull_request:
+    types: [ opened, synchronize, labeled ]
+
+jobs:
+  build-and-test:
+    if: contains(github.event.pull_request.labels.*.name, 'run-ci/windows')
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install meson ninja
+
+      - name: Install LLVM
+        shell: pwsh
+        run: |
+          choco install llvm --yes --no-progress
+          echo "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
+
+      - name: Build project
+        shell: bash
+        env:
+          CC: clang
+          CXX: clang++
+          LLVM_DIR: 'C:/Program Files/LLVM/lib/cmake/llvm'
+        run: ./build.sh
+
+      - name: Run test script
+        shell: bash
+        env:
+          CC: clang
+          CXX: clang++
+          LLVM_DIR: 'C:/Program Files/LLVM/lib/cmake/llvm'
+        run: ./run_tests.sh
+
+
+  sanitizers:
+    if: contains(github.event.pull_request.labels.*.name, 'run-ci/windows')
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install meson ninja
+
+      - name: Install LLVM
+        shell: pwsh
+        run: |
+          choco install llvm --yes --no-progress
+          echo "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
+
+      - name: Run sanitizer suite
+        shell: bash
+        env:
+          CC: clang
+          CXX: clang++
+          LLVM_DIR: 'C:/Program Files/LLVM/lib/cmake/llvm'
+        run: ./scripts/run_sanitizers.sh
