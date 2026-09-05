@@ -6,7 +6,6 @@ src @funcieqDEV @thezaplang/Maintainers
 # Override the below directories as being owned by iDontHaveTime
 # AND maintainers
 src/driver @iDontHaveTime @thezaplang/Maintainers
-src/lsp @iDontHaveTime @thezaplang/Maintainers
 
 # GitHub config stuff
 .github @MrBisquit @thezaplang/Maintainers

@@ -64,12 +64,6 @@ __pycache__/
 
 .env
 
-# LSP
-src/lsp/vscode/zap/node_modules
-src/lsp/vscode/zap/out
-!src/lsp/vscode/zap/out/
-!src/lsp/vscode/zap/out/**
-src/lsp/vscode/zap/package-lock.json
 
 # clangd
 .cache/
@@ -81,9 +75,6 @@ CLAUDE.md
 .gemini
 .gemini-*
 .claude
-src/lsp/vscode/zap/bin/zap-lsp
-src/lsp/vscode/zap/zap-*.vsix
-src/lsp/vscode/zap/stdlib
 
 #tmps
 *.tmp

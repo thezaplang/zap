@@ -74,14 +74,11 @@ jobs:
           export LLVM_DIR=/usr/lib/llvm-21/lib/cmake/llvm
           ./scripts/run_sanitizers.sh
 
-  frontend-and-lsp:
+  frontend:
     if: contains(github.event.pull_request.labels.*.name, 'run-ci')
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      matrix:
-        include_lsp: ['true', 'false']
 
     steps:
       - name: Checkout code
@@ -93,7 +90,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y meson ninja-build build-essential python3
 
       - name: Configure without compiler dependencies
-        run: meson setup build-frontend -Dbuild_compiler=false -Dinclude_lsp=${{ matrix.include_lsp }}
+        run: meson setup build-frontend -Dbuild_compiler=false
 
       - name: Verify compiler dependencies and targets are absent
         run: |
@@ -108,8 +105,8 @@ jobs:
           assert not {"zapc", "zap_runtime", "zap_zir_verifier"} & {target["name"] for target in targets}
           PYTHON
 
-      - name: Build frontend and enabled tooling
+      - name: Build frontend
         run: meson compile -C build-frontend
 
-      - name: Run frontend and enabled LSP tests
+      - name: Run frontend tests
         run: meson test -C build-frontend --print-errorlogs

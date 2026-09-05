@@ -7,7 +7,6 @@ build_dir="${ZAP_SANITIZER_BUILD_DIR:-$repo_dir/build-sanitize}"
 
 CC="${CC:-clang}" CXX="${CXX:-clang++}" meson setup "$build_dir" "$repo_dir" \
   --buildtype=debug \
-  -Dinclude_lsp=false \
   -Dzap_enable_sanitizers=true \
   -Dzap_enable_runtime_instrumentation=true \
   --reconfigure
