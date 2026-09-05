@@ -269,7 +269,3 @@ if get_option('build_testing')
         endif
     endif
 endif
-
-if get_option('include_lsp')
-    subdir('src/lsp')
-endif

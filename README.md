@@ -92,3 +92,15 @@ Zap is in early alpha, and feedback directly shapes the language. You can
 report bugs, discuss language design, improve documentation, or contribute
 code. Start with the [contribution guide](CONTRIBUTING.md), then join us on
 [Discord](https://discord.gg/tfbE5Cps5j).
+
+## Language server and toolchain releases
+
+The language server, VS Code extension, and combined toolchain packaging live
+in [zap-lsp](https://github.com/thezaplang/zap-lsp). That repository pins a Zap
+revision and links its frontend through `libzap_dep`.
+
+This repository builds `zapc` with `./build.sh`. For frontend libraries only,
+use `meson setup build-frontend -Dbuild_compiler=false`. LSP is no longer a
+build option here. To assemble the combined release archive, run
+`release_build.sh` in the `zap-lsp` checkout; publish that archive as a Zap
+release so existing binary installations through `zapup` retain their layout.
