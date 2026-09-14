@@ -271,6 +271,22 @@ private:
   std::shared_ptr<FunctionSymbol>
   findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
                           const FunctionSymbol &prototype) const;
+  struct MemberOverloadResult {
+    enum class Status {
+      NoMatch,
+      Match,
+      Ambiguous,
+    };
+
+    Status status = Status::NoMatch;
+    std::shared_ptr<FunctionSymbol> symbol;
+  };
+  MemberOverloadResult selectMemberOverload(
+      const std::vector<std::shared_ptr<FunctionSymbol>> &candidates,
+      const BoundExpression &receiver,
+      const std::vector<std::unique_ptr<BoundExpression>> &arguments,
+      const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
+      SourceSpan callSpan, bool calledOnType);
   std::shared_ptr<OverloadSetSymbol>
   addClassMethodOverload(ClassInfo &classInfo,
                          const std::shared_ptr<FunctionSymbol> &method);

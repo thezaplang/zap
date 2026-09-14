@@ -5,6 +5,82 @@
 
 namespace sema {
 
+Binder::MemberOverloadResult Binder::selectMemberOverload(
+    const std::vector<std::shared_ptr<FunctionSymbol>> &candidates,
+    const BoundExpression &receiver,
+    const std::vector<std::unique_ptr<BoundExpression>> &arguments,
+    const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
+    SourceSpan callSpan, bool calledOnType) {
+  struct Candidate {
+    std::shared_ptr<FunctionSymbol> symbol;
+    std::vector<int> cost;
+  };
+
+  std::vector<Candidate> matches;
+  for (auto function : candidates) {
+    if (!function || (function->isMethod && calledOnType)) {
+      continue;
+    }
+
+    std::vector<std::unique_ptr<BoundExpression>> inferenceArguments;
+    if (function->isMethod) {
+      inferenceArguments.push_back(receiver.clone());
+    }
+    for (const auto &argument : arguments) {
+      inferenceArguments.push_back(argument->clone());
+    }
+
+    if (!function->genericParameterNames.empty()) {
+      auto genericBindings = buildGenericBindings(
+          *function, inferenceArguments, explicitTypeArgs, callSpan, nullptr);
+      if (genericBindings.empty()) {
+        continue;
+      }
+      function = ensureGenericFunctionInstantiation(
+          function, orderedGenericBindings(genericBindings), callSpan);
+      if (!function) {
+        continue;
+      }
+    } else if (!explicitTypeArgs.empty()) {
+      continue;
+    }
+
+    const size_t parameterOffset = function->isMethod ? 1 : 0;
+    if (arguments.size() + parameterOffset != function->parameters.size()) {
+      continue;
+    }
+
+    Candidate match;
+    match.symbol = function;
+    bool failed = false;
+    for (size_t i = 0; i < arguments.size(); ++i) {
+      auto conversion = conversions_.classifyImplicit(
+          arguments[i]->type, function->parameters[i + parameterOffset]->type);
+      if (!conversion) {
+        failed = true;
+        break;
+      }
+      match.cost.push_back(conversion->cost());
+    }
+    if (!failed) {
+      matches.push_back(std::move(match));
+    }
+  }
+
+  if (matches.empty()) {
+    return {};
+  }
+
+  std::sort(matches.begin(), matches.end(),
+            [](const Candidate &lhs, const Candidate &rhs) {
+              return lhs.cost < rhs.cost;
+            });
+  if (matches.size() > 1 && matches[0].cost == matches[1].cost) {
+    return {MemberOverloadResult::Status::Ambiguous, nullptr};
+  }
+  return {MemberOverloadResult::Status::Match, matches.front().symbol};
+}
+
 void Binder::visit(FunCall &node) {
   if (bindSizeOfBuiltinCall(node)) {
     return;
@@ -164,18 +240,13 @@ void Binder::visit(FunCall &node) {
         rawArgs.push_back(std::move(arg));
       }
 
-      struct MethodCandidate {
-        std::shared_ptr<FunctionSymbol> symbol;
-        std::vector<int> cost;
-      };
-
       const bool calledOnType =
           dynamic_cast<BoundLiteral *>(selfExpr.get()) != nullptr;
-      std::vector<MethodCandidate> matches;
+      std::vector<std::shared_ptr<FunctionSymbol>> allowedCandidates;
       bool inaccessibleMatch = false;
       bool unsafeMatch = false;
 
-      for (auto funcSymbol : candidates) {
+      for (const auto &funcSymbol : candidates) {
         if (!funcSymbol) {
           continue;
         }
@@ -198,58 +269,13 @@ void Binder::visit(FunCall &node) {
           unsafeMatch = true;
           continue;
         }
-
-        std::vector<std::unique_ptr<BoundExpression>> inferenceArgs;
-        if (funcSymbol->isMethod) {
-          inferenceArgs.push_back(selfExpr->clone());
-        }
-        for (const auto &rawArg : rawArgs) {
-          inferenceArgs.push_back(rawArg->clone());
-        }
-
-        std::unordered_map<std::string, std::shared_ptr<zir::Type>>
-            genericBindings;
-        if (!funcSymbol->genericParameterNames.empty()) {
-          genericBindings =
-              buildGenericBindings(*funcSymbol, inferenceArgs,
-                                   node.genericArgs_, node.span, nullptr);
-          if (genericBindings.empty()) {
-            continue;
-          }
-          funcSymbol = ensureGenericFunctionInstantiation(
-              funcSymbol, orderedGenericBindings(genericBindings), node.span);
-          if (!funcSymbol) {
-            continue;
-          }
-        } else if (!node.genericArgs_.empty()) {
-          continue;
-        }
-
-        size_t paramOffset = funcSymbol->isMethod ? 1 : 0;
-        if (node.params_.size() + paramOffset !=
-            funcSymbol->parameters.size()) {
-          continue;
-        }
-
-        MethodCandidate match;
-        match.symbol = funcSymbol;
-        bool failed = false;
-        for (size_t i = 0; i < rawArgs.size(); ++i) {
-          auto expectedType = funcSymbol->parameters[i + paramOffset]->type;
-          auto conversion =
-              conversions_.classifyImplicit(rawArgs[i]->type, expectedType);
-          if (!conversion) {
-            failed = true;
-            break;
-          }
-          match.cost.push_back(conversion->cost());
-        }
-        if (!failed) {
-          matches.push_back(std::move(match));
-        }
+        allowedCandidates.push_back(funcSymbol);
       }
 
-      if (matches.empty()) {
+      auto overload =
+          selectMemberOverload(allowedCandidates, *selfExpr, rawArgs,
+                               node.genericArgs_, node.span, calledOnType);
+      if (overload.status == MemberOverloadResult::Status::NoMatch) {
         if (inaccessibleMatch) {
           error(node.span,
                 "Method '" + member->member_ + "' is not accessible.");
@@ -261,18 +287,13 @@ void Binder::visit(FunCall &node) {
         }
         return;
       }
-
-      std::sort(matches.begin(), matches.end(),
-                [](const MethodCandidate &lhs, const MethodCandidate &rhs) {
-                  return lhs.cost < rhs.cost;
-                });
-      if (matches.size() > 1 && matches[0].cost == matches[1].cost) {
+      if (overload.status == MemberOverloadResult::Status::Ambiguous) {
         error(node.span,
               "Ambiguous overload for method '" + member->member_ + "'.");
         return;
       }
 
-      auto funcSymbol = matches.front().symbol;
+      auto funcSymbol = overload.symbol;
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
       if (funcSymbol->isMethod) {
