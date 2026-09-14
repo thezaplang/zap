@@ -220,10 +220,18 @@ void Binder::visit(FunDecl &node) {
     if (!currentScope_->declare(param->name, param)) {
       error(node.span, "Parameter '" + param->name + "' already declared.");
     }
-    if (semanticInfo_ && i < node.params_.size() && node.params_[i]) {
-    semanticInfo_->recordSymbol(node.params_[i].get(), param);
-    semanticInfo_->recordDeclaration(node.params_[i].get(), param);
-      semanticInfo_->recordType(node.params_[i].get(), param->type);
+    const size_t parameterNodeIndex =
+        i - (symbol->isMethod || symbol->isExtensionMethod ? 1 : 0);
+    if (semanticInfo_ &&
+        i >= (symbol->isMethod || symbol->isExtensionMethod ? 1 : 0) &&
+        parameterNodeIndex < node.params_.size() &&
+        node.params_[parameterNodeIndex]) {
+      semanticInfo_->recordSymbol(node.params_[parameterNodeIndex].get(),
+                                  param);
+      semanticInfo_->recordDeclaration(node.params_[parameterNodeIndex].get(),
+                                       param);
+      semanticInfo_->recordType(node.params_[parameterNodeIndex].get(),
+                                param->type);
     }
   }
 
@@ -360,6 +368,14 @@ void Binder::visit(ExtDecl &node) {
 
   boundRoot_->externalFunctions.push_back(
       std::make_unique<BoundExternalFunctionDeclaration>(symbol));
+}
+
+void Binder::visit(ExtensionDecl &node) {
+  for (const auto &method : node.methods_) {
+    if (method) {
+      method->accept(*this);
+    }
+  }
 }
 
 void Binder::visit(BindingDecl &node) {

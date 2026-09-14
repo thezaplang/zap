@@ -73,6 +73,7 @@ public:
   void visit(ImportNode &node) override;
   void visit(FunDecl &node) override;
   void visit(ExtDecl &node) override;
+  void visit(ExtensionDecl &node) override;
   void visit(BodyNode &node) override;
   void visit(BindingDecl &node) override;
   void visit(RangeExpr &node) override;
@@ -207,6 +208,12 @@ private:
   std::unordered_map<std::string, ClassInfo> classInfos_;
   std::vector<std::string> currentClassStack_;
 
+  struct ExtensionInfo {
+    std::shared_ptr<zir::Type> targetType;
+    std::map<std::string, std::shared_ptr<Symbol>> methods;
+  };
+  std::unordered_map<std::string, ExtensionInfo> extensionInfos_;
+
   struct InterfaceInfo {
     std::shared_ptr<TypeSymbol> typeSymbol;
     std::shared_ptr<zir::ClassType> classType;
@@ -290,6 +297,9 @@ private:
   std::shared_ptr<OverloadSetSymbol>
   addClassMethodOverload(ClassInfo &classInfo,
                          const std::shared_ptr<FunctionSymbol> &method);
+  std::shared_ptr<OverloadSetSymbol>
+  addExtensionMethodOverload(const std::shared_ptr<zir::Type> &targetType,
+                             const std::shared_ptr<FunctionSymbol> &method);
   int findOverriddenVtableSlot(const ClassInfo &classInfo,
                                const FunctionSymbol &method) const;
   std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(

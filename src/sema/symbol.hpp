@@ -85,6 +85,9 @@ public:
   bool isUnsafe = false;
   bool isCVariadic = false;
   bool isMethod = false;
+  // Extension methods are statically dispatched free functions with an
+  // implicit receiver. They deliberately do not participate in class vtables.
+  bool isExtensionMethod = false;
   bool isStatic = false;
   bool isConstructor = false;
   bool isDestructor = false;
@@ -95,6 +98,8 @@ public:
   zir::ResultBorrowContract resultBorrow;
   int vtableSlot = -1;
   std::string ownerTypeCodegenName;
+  std::shared_ptr<zir::Type> extensionTargetType;
+  std::string extensionDeclaringModuleId;
 
   FunctionSymbol(std::string n,
                  std::vector<std::shared_ptr<VariableSymbol>> params,

@@ -1023,6 +1023,214 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           exportSet->addOverload(symbol);
         }
       }
+    } else if (auto extensionDecl =
+                   dynamic_cast<ExtensionDecl *>(child.get())) {
+      if (!extensionDecl->targetType_) {
+        error(extensionDecl->span,
+              "Extension declaration requires a target type.");
+        continue;
+      }
+      if (!extensionDecl->genericParams_.empty() ||
+          !extensionDecl->genericConstraints_.empty() ||
+          !extensionDecl->targetType_->genericArgs.empty() ||
+          extensionDecl->targetType_->baseType ||
+          extensionDecl->targetType_->isReference ||
+          extensionDecl->targetType_->isPointer ||
+          extensionDecl->targetType_->isArray ||
+          extensionDecl->targetType_->isVarArgs ||
+          extensionDecl->targetType_->isWeak ||
+          extensionDecl->targetType_->isFailable ||
+          extensionDecl->targetType_->isFunPtr) {
+        error(extensionDecl->targetType_->span,
+              "Generic and compound extension targets are not supported yet.");
+        continue;
+      }
+
+      auto targetType = mapType(*extensionDecl->targetType_);
+      if (!targetType) {
+        error(extensionDecl->targetType_->span,
+              "Unknown extension target type '" +
+                  extensionDecl->targetType_->qualifiedName() + "'.");
+        continue;
+      }
+      if (targetType->getKind() == zir::TypeKind::Void) {
+        error(extensionDecl->targetType_->span,
+              "Cannot declare an extension for Void.");
+        continue;
+      }
+      if (targetType->getKind() == zir::TypeKind::Class &&
+          std::static_pointer_cast<zir::ClassType>(targetType)->isInterface()) {
+        error(extensionDecl->targetType_->span,
+              "Interfaces cannot be extended yet.");
+        continue;
+      }
+
+      for (const auto &methodDecl : extensionDecl->methods_) {
+        if (!methodDecl) {
+          continue;
+        }
+        if (methodDecl->isStatic_) {
+          error(methodDecl->span,
+                "Static extension methods are not supported yet.");
+          continue;
+        }
+        if (methodDecl->extensionReceiverMode_ == ExtensionReceiverMode::Ref) {
+          error(methodDecl->extensionReceiverSpan_,
+                "'ref self' in an extension method is not supported yet.");
+          continue;
+        }
+        if (!methodDecl->genericParams_.empty()) {
+          error(methodDecl->span,
+                "Generic extension methods are not supported yet.");
+          continue;
+        }
+        if (methodDecl->name_ == "init" || methodDecl->name_ == "deinit") {
+          error(methodDecl->span, "Extension methods cannot declare '" +
+                                      methodDecl->name_ + "'.");
+          continue;
+        }
+
+        std::vector<std::shared_ptr<VariableSymbol>> params;
+        params.push_back(std::make_shared<VariableSymbol>(
+            "self", targetType, BindingKind::Mutable, false, "self",
+            module.info->moduleName, Visibility::Private));
+        bool valid = true;
+        for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
+          const auto &parameterDecl = methodDecl->params_[i];
+          if (parameterDecl->isRef && parameterDecl->isSink) {
+            error(parameterDecl->span,
+                  "Parameter cannot be passed by both 'ref' and 'sink'.");
+            valid = false;
+          }
+          if (parameterDecl->isSink && parameterDecl->isNoEscape) {
+            error(parameterDecl->span,
+                  "A 'sink' parameter cannot have a 'noescape' contract.");
+            valid = false;
+          }
+          if (parameterDecl->isVariadic &&
+              i + 1 != methodDecl->params_.size()) {
+            error(parameterDecl->span,
+                  "Variadic parameter must be the last parameter.");
+            valid = false;
+          }
+          if (parameterDecl->isVariadic && parameterDecl->isRef) {
+            error(parameterDecl->span,
+                  "Variadic parameter cannot be passed by 'ref'.");
+            valid = false;
+          }
+          if (parameterDecl->isVariadic && parameterDecl->isSink) {
+            error(parameterDecl->span,
+                  "Variadic parameter cannot be passed by 'sink'.");
+            valid = false;
+          }
+          if (parameterDecl->isVariadic && parameterDecl->isNoEscape) {
+            error(parameterDecl->span,
+                  "Variadic parameter cannot have a 'noescape' contract.");
+            valid = false;
+          }
+
+          auto parameterType = mapType(*parameterDecl->type);
+          if (!parameterType) {
+            error(parameterDecl->span,
+                  "Unknown type: " + parameterDecl->type->qualifiedName());
+            valid = false;
+            parameterType =
+                std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+          }
+          if (parameterDecl->isNoEscape &&
+              (parameterDecl->isRef ||
+               parameterType->getIntrinsicKind() !=
+                   zir::IntrinsicTypeKind::StringView)) {
+            error(parameterDecl->span,
+                  "'noescape' currently requires a by-value StringView "
+                  "parameter.");
+            valid = false;
+          }
+          auto parameter = std::make_shared<VariableSymbol>(
+              parameterDecl->name, parameterType, BindingKind::Mutable,
+              parameterDecl->isRef, parameterDecl->name,
+              module.info->moduleName, Visibility::Private);
+          parameter->is_sink = parameterDecl->isSink;
+          parameter->is_noescape = parameterDecl->isNoEscape;
+          if (parameterDecl->isVariadic) {
+            parameter->is_variadic_pack = true;
+            parameter->variadic_element_type = parameterType;
+            parameter->type = makeVariadicViewType(parameterType);
+          }
+          params.push_back(std::move(parameter));
+        }
+        if (!valid) {
+          continue;
+        }
+
+        auto returnType =
+            methodDecl->returnType_
+                ? mapType(*methodDecl->returnType_)
+                : std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void);
+        if (!returnType) {
+          error(methodDecl->span, "Unknown return type in extension method '" +
+                                      methodDecl->name_ + "'.");
+          continue;
+        }
+
+        auto symbol = std::make_shared<FunctionSymbol>(
+            methodDecl->name_, std::move(params), std::move(returnType), "",
+            module.info->moduleName, methodDecl->visibility_,
+            methodDecl->isUnsafe_);
+        symbol->isExtensionMethod = true;
+        symbol->extensionTargetType = targetType;
+        symbol->extensionDeclaringModuleId = module.info->moduleId;
+        symbol->isEntryModule = module.info->isEntry;
+        symbol->returnsRef = methodDecl->returnsRef_;
+        symbol->resultBorrow = resolveResultBorrowContract(
+            methodDecl->resultBorrowSource_, symbol->parameters,
+            symbol->returnType, symbol->returnsRef, methodDecl->span);
+        validateAndApplyFunctionAttributes(*methodDecl, symbol, false);
+        if (symbol->hasNoMangle ||
+            (symbol->hasExternC && symbol->externAbi == "C")) {
+          symbol->linkName = symbol->name;
+        } else {
+          symbol->linkName = mangleName(
+              module.info->linkPath.empty() ? module.info->moduleId
+                                            : module.info->linkPath,
+              "extend$" + typeInterner_.mangleKey(targetType) + "$" +
+                  methodDecl->name_ + "$" + functionSignatureKey(*symbol));
+        }
+
+        const auto targetKey = typeInterner_.mangleKey(targetType);
+        const auto targetIt = extensionInfos_.find(targetKey);
+        const auto existing = targetIt == extensionInfos_.end()
+                                  ? nullptr
+                                  : [&]() -> std::shared_ptr<Symbol> {
+          const auto methodIt =
+              targetIt->second.methods.find(methodDecl->name_);
+          return methodIt == targetIt->second.methods.end() ? nullptr
+                                                            : methodIt->second;
+        }();
+        bool duplicateInModule = false;
+        for (const auto &candidate : collectOverloads(existing)) {
+          if (candidate &&
+              candidate->extensionDeclaringModuleId == module.info->moduleId &&
+              sameFunctionSignature(*candidate, *symbol)) {
+            duplicateInModule = true;
+            break;
+          }
+        }
+        if (duplicateInModule) {
+          error(methodDecl->span, "Extension method '" + methodDecl->name_ +
+                                      "' is already declared for '" +
+                                      renderTypeForUser(targetType) + "'.");
+          continue;
+        }
+
+        addExtensionMethodOverload(targetType, symbol);
+        declaredFunctionSymbols_[methodDecl.get()] = symbol;
+        functionDeclarationNodes_[symbol.get()] = methodDecl.get();
+        functionDeclarationModuleIds_[symbol.get()] = module.info->moduleId;
+        if (semanticInfo_) {
+          semanticInfo_->recordDeclaration(methodDecl.get(), symbol);
+        }
+      }
     } else if (auto bindingDecl = dynamic_cast<BindingDecl *>(child.get())) {
       const bool isConstant =
           bindingDecl->kind_ == BindingKind::CompileTimeConstant;

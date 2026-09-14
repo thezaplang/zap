@@ -353,6 +353,7 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo *> modules) {
   currentFunction_.reset();
   currentModuleId_.clear();
   declaredFunctionSymbols_.clear();
+  extensionInfos_.clear();
   recordTypeDeclarationNodes_.clear();
   structTypeDeclarationNodes_.clear();
   classTypeDeclarationNodes_.clear();
@@ -728,6 +729,30 @@ Binder::addClassMethodOverload(ClassInfo &classInfo,
   updated->addOverload(method);
   entry = updated;
   return updated;
+}
+
+std::shared_ptr<OverloadSetSymbol> Binder::addExtensionMethodOverload(
+    const std::shared_ptr<zir::Type> &targetType,
+    const std::shared_ptr<FunctionSymbol> &method) {
+  if (!targetType || !method) {
+    return nullptr;
+  }
+
+  const auto targetKey = typeInterner_.mangleKey(targetType);
+  auto &extensionInfo = extensionInfos_[targetKey];
+  if (!extensionInfo.targetType) {
+    extensionInfo.targetType = targetType;
+  }
+
+  auto &entry = extensionInfo.methods[method->name];
+  auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
+  if (!overloads) {
+    overloads = std::make_shared<OverloadSetSymbol>(
+        method->name, method->moduleName, method->visibility);
+    entry = overloads;
+  }
+  overloads->addOverload(method);
+  return overloads;
 }
 
 int Binder::findOverriddenVtableSlot(const ClassInfo &classInfo,

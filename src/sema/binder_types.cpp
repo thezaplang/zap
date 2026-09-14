@@ -196,7 +196,8 @@ void Binder::validateAndApplyFunctionAttributes(
         continue;
       }
       if (isExternalDeclaration || symbol->isConstructor ||
-          symbol->isDestructor || (symbol->isMethod && !symbol->isStatic) ||
+          symbol->isDestructor || symbol->isExtensionMethod ||
+          (symbol->isMethod && !symbol->isStatic) ||
           (!symbol->genericParameterNames.empty() &&
            !symbol->isGenericInstantiation)) {
         error(attr.span, "attribute 'entry' can only be applied to non-generic "
@@ -378,7 +379,7 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
           error(typeNode.span,
                 "Function pointer 'borrows' source must be a valid parameter "
                 "index.");
-        } else if (typeNode.funPtrReturnsRef ||
+          } else if (typeNode.funPtrReturnsRef ||
                    ret->getIntrinsicKind() !=
                    zir::IntrinsicTypeKind::StringView) {
           error(typeNode.span,

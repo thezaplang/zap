@@ -129,6 +129,7 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
       baseFunction->moduleName, baseFunction->visibility,
       baseFunction->isUnsafe, baseFunction->isCVariadic);
   instantiated->isMethod = baseFunction->isMethod;
+  instantiated->isExtensionMethod = baseFunction->isExtensionMethod;
   instantiated->isStatic = baseFunction->isStatic;
   instantiated->isConstructor = baseFunction->isConstructor;
   instantiated->isDestructor = baseFunction->isDestructor;
@@ -137,6 +138,9 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
   instantiated->hasEntry = baseFunction->hasEntry;
   instantiated->vtableSlot = -1;
   instantiated->ownerTypeCodegenName = baseFunction->ownerTypeCodegenName;
+  instantiated->extensionTargetType = baseFunction->extensionTargetType;
+  instantiated->extensionDeclaringModuleId =
+      baseFunction->extensionDeclaringModuleId;
   instantiated->resultBorrow = baseFunction->resultBorrow;
   instantiated->isGenericInstantiation = true;
   instantiated->genericArguments.clear();

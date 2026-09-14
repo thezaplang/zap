@@ -34,6 +34,53 @@ int main() {
   require(project.diagnostics.empty(), "valid source produced diagnostics");
   require(project.boundRoot != nullptr, "bound root was not retained");
 
+  source = R"(
+extend Int {
+  pub fun identity() Int { return self; }
+}
+
+fun main() Int { return 42; }
+  )";
+  auto extension = session.load(entry);
+  require(extension.loaded, "extension source did not load");
+  require(session.bind(extension), "concrete extension did not bind");
+  require(extension.diagnostics.empty(),
+          "concrete extension produced diagnostics");
+  require(extension.boundRoot != nullptr,
+          "concrete extension did not retain a bound root");
+  require(extension.boundRoot->functions.size() == 2,
+          "extension method was not emitted as a bound function");
+
+  source = R"(
+extend Int {
+  fun mutate(ref self) {}
+}
+
+fun main() Int { return 42; }
+  )";
+  auto unsupportedExtension = session.load(entry);
+  require(unsupportedExtension.loaded,
+          "unsupported extension source did not load");
+  require(!session.bind(unsupportedExtension),
+          "ref extension receiver unexpectedly bound");
+
+  source = R"(
+extend Int {
+  fun identity() Int { return self; }
+}
+
+extend Int {
+  fun identity() Int { return self; }
+}
+
+fun main() Int { return 42; }
+  )";
+  auto duplicateExtension = session.load(entry);
+  require(duplicateExtension.loaded,
+          "duplicate extension source did not load");
+  require(!session.bind(duplicateExtension),
+          "duplicate extension method unexpectedly bound");
+
   source = "fun main() Int { return missing_name; }";
   auto invalid = session.load(entry);
   require(invalid.loaded, "syntactically valid source did not load");
