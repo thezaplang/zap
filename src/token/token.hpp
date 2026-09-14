@@ -19,7 +19,7 @@ enum TokenType {
   PUB = 12,           ///< "pub" (Public) keyword.
   PRIV = 13,          ///< "priv" (Private) keyword.
   RECORD = 14,        ///< "record" keyword.
-  IMPL = 15,          ///< "impl" keyword.
+  EXTEND = 15,        ///< "extend" keyword.
   STATIC = 16,        ///< "static" keyword.
   ENUM = 17,          ///< "enum" keyword.
   STRUCT = 18,        ///< "struct" keyword.
@@ -177,6 +177,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "let";
   case TokenType::RECORD:
     return "record";
+  case TokenType::EXTEND:
+    return "extend";
   case TokenType::ENUM:
     return "enum";
   case TokenType::SEMICOLON:

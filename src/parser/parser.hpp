@@ -17,6 +17,7 @@
 #include "../ast/enum_decl.hpp"
 #include "../ast/expr_node.hpp"
 #include "../ast/ext_decl.hpp"
+#include "../ast/extension_decl.hpp"
 #include "../ast/failable_nodes.hpp"
 #include "../ast/for_in_node.hpp"
 #include "../ast/for_node.hpp"
@@ -65,15 +66,23 @@ private:
   Token eat(TokenType expectedType);
   bool isAtEnd() const;
   enum class SyncContext { TopLevel, Block };
+  enum class FunctionContext { Regular, ExtensionMethod };
 
   void synchronize(SyncContext context = SyncContext::Block);
+  void synchronizeExtensionMember();
   void synchronizeCaseArm();
   SourceSpan pointAfter(const SourceSpan &span) const;
 
   // Parsing rules
   std::vector<AttributeNode> parseAttributes();
   AttributeNode parseSingleAttribute();
-  std::unique_ptr<FunDecl> parseFunDecl(bool isUnsafe = false);
+  std::unique_ptr<FunDecl>
+  parseFunDecl(bool isUnsafe = false,
+               FunctionContext context = FunctionContext::Regular);
+  std::unique_ptr<FunDecl>
+  parseMemberMethod(std::vector<AttributeNode> attributes,
+                    Visibility visibility, FunctionContext context);
+  Visibility parseMemberVisibility();
   std::unique_ptr<ExtDecl> parseExtDecl();
   std::optional<std::string> parseResultBorrowSource();
   std::unique_ptr<ImportNode> parseImportDecl();
@@ -119,6 +128,7 @@ private:
   std::unique_ptr<RecordDecl> parseRecordDecl();
   std::unique_ptr<ClassDecl> parseClassDecl();
   std::unique_ptr<InterfaceDecl> parseInterfaceDecl();
+  std::unique_ptr<ExtensionDecl> parseExtensionDecl();
   std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
   std::unique_ptr<StructLiteralNode>
   parseStructLiteral(const std::string &type_name);

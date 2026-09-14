@@ -19,6 +19,7 @@
 #include "enum_decl.hpp"
 #include "expr_node.hpp"
 #include "ext_decl.hpp"
+#include "extension_decl.hpp"
 #include "failable_nodes.hpp"
 #include "for_in_node.hpp"
 #include "for_node.hpp"

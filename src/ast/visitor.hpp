@@ -26,6 +26,7 @@ class StructDeclarationNode;
 class StructLiteralNode;
 class ClassDecl;
 class InterfaceDecl;
+class ExtensionDecl;
 class CaseNode;
 class ImportNode;
 class ParameterNode;
@@ -86,6 +87,7 @@ struct Visitor {
   virtual void visit(StructLiteralNode &) {}
   virtual void visit(ClassDecl &) {}
   virtual void visit(InterfaceDecl &) {}
+  virtual void visit(ExtensionDecl &) {}
   virtual void visit(CaseNode &) {}
   virtual void visit(ImportNode &) {}
   virtual void visit(ParameterNode &) {}

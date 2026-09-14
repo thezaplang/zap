@@ -22,6 +22,7 @@
 #include "../ast/const/const_string.hpp"
 #include "../ast/continue_node.hpp"
 #include "../ast/enum_decl.hpp"
+#include "../ast/extension_decl.hpp"
 #include "../ast/failable_nodes.hpp"
 #include "../ast/for_in_node.hpp"
 #include "../ast/for_node.hpp"
@@ -75,6 +76,10 @@ public:
     auto f = std::make_unique<FunDecl>();
     f->name_ = name;
     return f;
+  }
+
+  std::unique_ptr<ExtensionDecl> makeExtensionDecl() {
+    return std::make_unique<ExtensionDecl>();
   }
 
   std::unique_ptr<MemberAccessNode>

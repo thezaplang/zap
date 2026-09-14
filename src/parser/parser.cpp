@@ -213,6 +213,10 @@ std::unique_ptr<RootNode> Parser::parse() {
         auto decl = parseInterfaceDecl();
         applyMetadata(decl.get(), std::move(attributes));
         root->addChild(std::move(decl));
+      } else if (peek().type == TokenType::EXTEND) {
+        auto decl = parseExtensionDecl();
+        applyMetadata(decl.get(), std::move(attributes));
+        root->addChild(std::move(decl));
       } else if (peek().type == TokenType::CONST) {
         auto decl = parseBindingDecl(BindingKind::CompileTimeConstant);
         applyMetadata(decl.get(), std::move(attributes));
@@ -281,7 +285,8 @@ std::unique_ptr<ImportNode> Parser::parseImportDecl() {
   return importDecl;
 }
 
-std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
+std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe,
+                                              FunctionContext context) {
   bool isStatic = false;
   while (peek().type == TokenType::STATIC || peek().type == TokenType::UNSAFE) {
     if (peek().type == TokenType::STATIC) {
@@ -303,6 +308,40 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe) {
   }
 
   eat(TokenType::LPAREN);
+
+  if (context == FunctionContext::ExtensionMethod && !funDecl->isStatic_) {
+    funDecl->extensionReceiverMode_ = ExtensionReceiverMode::Value;
+  }
+
+  if (context == FunctionContext::ExtensionMethod && !funDecl->isStatic_ &&
+      peek().type == TokenType::REF && peek(1).type == TokenType::ID &&
+      peek(1).value == "self") {
+    Token refToken = eat(TokenType::REF);
+    Token selfToken = eat(TokenType::ID);
+    if (peek().type == TokenType::COLON) {
+      _diag.report(peek().span, DiagnosticLevel::Error,
+                   "Extension receiver 'ref self' must not declare a type.");
+      throw ParseError();
+    }
+    if (peek().type != TokenType::COMMA && peek().type != TokenType::RPAREN) {
+      _diag.report(peek().span, DiagnosticLevel::Error,
+                   "Expected ',' or ')' after extension receiver.");
+      throw ParseError();
+    }
+    funDecl->extensionReceiverMode_ = ExtensionReceiverMode::Ref;
+    funDecl->extensionReceiverSpan_ =
+        SourceSpan::merge(refToken.span, selfToken.span);
+    if (peek().type == TokenType::COMMA) {
+      eat(TokenType::COMMA);
+    }
+  } else if (context == FunctionContext::ExtensionMethod &&
+             !funDecl->isStatic_ &&
+             peek().type == TokenType::ID && peek().value == "self") {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Extension receiver is implicit; only 'ref self' may be "
+                 "declared explicitly.");
+    throw ParseError();
+  }
 
   if (peek().type != TokenType::RPAREN) {
     do {
@@ -1995,6 +2034,7 @@ void Parser::synchronize(SyncContext context) {
     case TokenType::RECORD:
     case TokenType::CLASS:
     case TokenType::INTERFACE:
+    case TokenType::EXTEND:
     case TokenType::ALIAS:
     case TokenType::EXTERN:
     case TokenType::GLOBAL:
@@ -2025,6 +2065,49 @@ void Parser::synchronize(SyncContext context) {
 
     default:
       _pos++;
+      break;
+    }
+  }
+}
+
+void Parser::synchronizeExtensionMember() {
+  size_t braceDepth = 0;
+  while (!isAtEnd()) {
+    switch (peek().type) {
+    case TokenType::LBRACE:
+      ++braceDepth;
+      ++_pos;
+      break;
+    case TokenType::RBRACE:
+      if (braceDepth == 0) {
+        return;
+      }
+      --braceDepth;
+      ++_pos;
+      if (braceDepth == 0) {
+        return;
+      }
+      break;
+    case TokenType::SEMICOLON:
+      ++_pos;
+      if (braceDepth == 0) {
+        return;
+      }
+      break;
+    case TokenType::FUN:
+    case TokenType::STATIC:
+    case TokenType::UNSAFE:
+    case TokenType::PUB:
+    case TokenType::PRIV:
+    case TokenType::PROT:
+    case TokenType::AT:
+      if (braceDepth == 0) {
+        return;
+      }
+      ++_pos;
+      break;
+    default:
+      ++_pos;
       break;
     }
   }
@@ -2235,22 +2318,12 @@ std::unique_ptr<ClassDecl> Parser::parseClassDecl() {
 
   while (peek().type != TokenType::RBRACE) {
     auto attributes = parseAttributes();
-    Visibility memberVisibility = Visibility::Private;
-    if (peek().type == TokenType::PUB || peek().type == TokenType::PRIV ||
-        peek().type == TokenType::PROT) {
-      Token visToken = eat(peek().type);
-      if (visToken.type == TokenType::PUB) {
-        memberVisibility = Visibility::Public;
-      } else if (visToken.type == TokenType::PROT) {
-        memberVisibility = Visibility::Protected;
-      }
-    }
+    Visibility memberVisibility = parseMemberVisibility();
 
     if (peek().type == TokenType::FUN || peek().type == TokenType::STATIC ||
         peek().type == TokenType::UNSAFE) {
-      auto method = parseFunDecl();
-      method->visibility_ = memberVisibility;
-      method->attributes_ = std::move(attributes);
+      auto method = parseMemberMethod(std::move(attributes), memberVisibility,
+                                      FunctionContext::Regular);
       classDecl->methods_.push_back(std::move(method));
     } else {
       for (const auto &attribute : attributes) {

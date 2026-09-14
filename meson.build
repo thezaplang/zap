@@ -190,6 +190,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('parser-extensions', executable('zap-parser-extension-tests',
+                                         'tests/cpp/parser_extension_test.cpp',
+                                         dependencies : zap_syntax_dep))
     test('frontend-session', executable('zap-frontend-session-tests',
                                        'tests/cpp/frontend_session_test.cpp',
                                        dependencies : libzap_dep))

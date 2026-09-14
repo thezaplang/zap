@@ -12,6 +12,12 @@
 #include <string>
 #include <vector>
 
+enum class ExtensionReceiverMode {
+  None,
+  Value,
+  Ref,
+};
+
 class FunDecl : public TopLevel {
 public:
   std::string name_;
@@ -26,6 +32,8 @@ public:
   bool isStatic_ = false;
   bool isUnsafe_ = false;
   bool returnsRef_ = false;
+  ExtensionReceiverMode extensionReceiverMode_ = ExtensionReceiverMode::None;
+  SourceSpan extensionReceiverSpan_;
 
   FunDecl() noexcept(
       std::is_nothrow_default_constructible<std::string>::value) = default;
