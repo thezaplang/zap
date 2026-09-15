@@ -526,7 +526,8 @@ void Binder::visit(ConstId &node) {
       semanticInfo_->recordSymbol(&node, typeSymbol);
       semanticInfo_->recordType(&node, typeSymbol->type);
     }
-    expressionStack_.push(std::make_unique<BoundLiteral>("", typeSymbol->type));
+    expressionStack_.push(
+        std::make_unique<BoundLiteral>("", typeSymbol->type, true));
   } else if (auto moduleSymbol =
                  std::dynamic_pointer_cast<ModuleSymbol>(symbol)) {
     expressionStack_.push(std::make_unique<BoundModuleReference>(moduleSymbol));
@@ -582,7 +583,9 @@ void Binder::visit(ConstId &node) {
         const auto &p = match->parameters[i];
         params.push_back(p->type);
         const bool borrowedSelf =
-            i == 0 && !match->ownerTypeCodegenName.empty() && p->name == "self";
+            i == 0 &&
+            (match->isExtensionMethod || !match->ownerTypeCodegenName.empty()) &&
+            p->name == "self";
         const bool transfers = !match->isExternal && !p->is_ref &&
                                !p->is_variadic_pack && !borrowedSelf &&
                                zir::containsManagedValues(p->type);
@@ -748,7 +751,7 @@ void Binder::visit(MemberAccessNode &node) {
     if (auto typeSymbol =
             std::dynamic_pointer_cast<TypeSymbol>(memberIt->second)) {
       expressionStack_.push(
-          std::make_unique<BoundLiteral>("", typeSymbol->type));
+          std::make_unique<BoundLiteral>("", typeSymbol->type, true));
       return;
     }
     if (auto nestedModule =

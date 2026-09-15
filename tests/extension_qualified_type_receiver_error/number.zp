@@ -1,0 +1,5 @@
+pub class Number {
+    pub fun value() Int {
+        return 42;
+    }
+}

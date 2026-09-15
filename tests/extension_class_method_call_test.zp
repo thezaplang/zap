@@ -1,0 +1,15 @@
+class Counter {}
+
+extend Counter {
+    pub fun value() Int {
+        return 42;
+    }
+}
+
+fun main() Int {
+    var counter: Counter = new Counter();
+    if counter.value() != 42 {
+        return 1;
+    }
+    return 0;
+}

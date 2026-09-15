@@ -153,11 +153,14 @@ public:
 class BoundLiteral : public BoundExpression {
 public:
   std::string value;
-  BoundLiteral(std::string v, std::shared_ptr<zir::Type> t)
-      : BoundExpression(std::move(t)), value(std::move(v)) {}
+  bool isTypeReference = false;
+  BoundLiteral(std::string v, std::shared_ptr<zir::Type> t,
+               bool typeReference = false)
+      : BoundExpression(std::move(t)), value(std::move(v)),
+        isTypeReference(typeReference) {}
   void accept(BoundVisitor &v) override { v.visit(*this); }
   std::unique_ptr<BoundExpression> clone() const override {
-    return std::make_unique<BoundLiteral>(value, type);
+    return std::make_unique<BoundLiteral>(value, type, isTypeReference);
   }
 };
 

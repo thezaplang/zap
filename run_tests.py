@@ -194,6 +194,12 @@ SPECIAL_CASES = {
     "tests/import_module_alias_conflict/main.zp": {"type": "compile", "exit": 1, "desc": "Different modules cannot reuse the same alias"},
     "tests/import_cycle/main.zp": {"type": "compile", "exit": 1, "desc": "Cyclic imports are rejected"},
     "tests/import_private_fail/main.zp": {"type": "compile", "exit": 1, "desc": "Private module member access is rejected"},
+    "tests/extension_qualified_type_receiver_error/main.zp": {
+        "type": "compile",
+        "exit": 1,
+        "stderr_pattern": "No matching overload for method 'value'",
+        "desc": "Qualified type references cannot call instance methods"
+    },
     "tests/diagnostics/07_attributes_parser_sync.zp": {"type": "compile", "exit": 1, "desc": "Diagnostics: parser synchronization with malformed attributes"},
     "tests/import_map_diagnostic/main.zp": {
         "type": "compile",

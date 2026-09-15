@@ -16,14 +16,18 @@ Binder::MemberOverloadResult Binder::selectMemberOverload(
     std::vector<int> cost;
   };
 
+  const auto hasReceiver = [](const FunctionSymbol &function) {
+    return function.isMethod || function.isExtensionMethod;
+  };
+
   std::vector<Candidate> matches;
   for (auto function : candidates) {
-    if (!function || (function->isMethod && calledOnType)) {
+    if (!function || (hasReceiver(*function) && calledOnType)) {
       continue;
     }
 
     std::vector<std::unique_ptr<BoundExpression>> inferenceArguments;
-    if (function->isMethod) {
+    if (hasReceiver(*function)) {
       inferenceArguments.push_back(receiver.clone());
     }
     for (const auto &argument : arguments) {
@@ -45,7 +49,7 @@ Binder::MemberOverloadResult Binder::selectMemberOverload(
       continue;
     }
 
-    const size_t parameterOffset = function->isMethod ? 1 : 0;
+    const size_t parameterOffset = hasReceiver(*function) ? 1 : 0;
     if (arguments.size() + parameterOffset != function->parameters.size()) {
       continue;
     }
@@ -180,47 +184,68 @@ void Binder::visit(FunCall &node) {
       return;
     }
 
-    if (selfExpr->type->getKind() != zir::TypeKind::Class) {
-      // Not a class method call. Fall through to the normal qualified
-      // function/module call resolution path below.
-    } else {
-      auto classType = std::static_pointer_cast<zir::ClassType>(selfExpr->type);
-      if (classType->isWeak()) {
-        error(node.span,
-              "Weak references cannot be used to call methods directly.");
-        return;
-      }
-      std::shared_ptr<Symbol> methodSymbol;
-      if (classType->isInterface()) {
-        auto infoIt = interfaceInfos_.find(classType->getCodegenName());
-        if (infoIt == interfaceInfos_.end()) {
-          error(node.span, "Unknown interface type: " + classType->getName());
+    if (selfExpr->type &&
+        !dynamic_cast<BoundModuleReference *>(selfExpr.get())) {
+      const auto hasReceiver = [](const FunctionSymbol &function) {
+        return function.isMethod || function.isExtensionMethod;
+      };
+      const auto *receiverLiteral =
+          dynamic_cast<BoundLiteral *>(selfExpr.get());
+      const bool calledOnType =
+          receiverLiteral && receiverLiteral->isTypeReference;
+      std::vector<std::shared_ptr<FunctionSymbol>> candidates;
+      std::shared_ptr<zir::ClassType> classType;
+
+      if (selfExpr->type->getKind() == zir::TypeKind::Class) {
+        classType = std::static_pointer_cast<zir::ClassType>(selfExpr->type);
+        if (classType->isWeak()) {
+          error(node.span,
+                "Weak references cannot be used to call methods directly.");
           return;
         }
-        auto methodIt = infoIt->second.methods.find(member->member_);
-        if (methodIt == infoIt->second.methods.end()) {
-          error(node.span, "Interface '" + classType->getName() +
-                               "' has no method '" + member->member_ + "'.");
-          return;
+
+        std::shared_ptr<Symbol> methodSymbol;
+        if (classType->isInterface()) {
+          const auto infoIt = interfaceInfos_.find(classType->getCodegenName());
+          if (infoIt == interfaceInfos_.end()) {
+            error(node.span,
+                  "Unknown interface type: " + classType->getName());
+            return;
+          }
+          const auto methodIt = infoIt->second.methods.find(member->member_);
+          if (methodIt != infoIt->second.methods.end()) {
+            methodSymbol = methodIt->second;
+          }
+        } else {
+          const auto infoIt = classInfos_.find(classType->getCodegenName());
+          if (infoIt == classInfos_.end()) {
+            error(node.span, "Unknown class type: " + classType->getName());
+            return;
+          }
+          const auto methodIt = infoIt->second.methods.find(member->member_);
+          if (methodIt != infoIt->second.methods.end()) {
+            methodSymbol = methodIt->second;
+          }
         }
-        methodSymbol = methodIt->second;
+
+        // A declared class/interface member always wins over an extension.
+        // Extensions cannot override or augment a class vtable slot.
+        candidates = methodSymbol ? collectOverloads(methodSymbol)
+                                  : collectExtensionMethods(selfExpr->type,
+                                                            member->member_);
       } else {
-        auto infoIt = classInfos_.find(classType->getCodegenName());
-        if (infoIt == classInfos_.end()) {
-          error(node.span, "Unknown class type: " + classType->getName());
-          return;
-        }
-        auto methodIt = infoIt->second.methods.find(member->member_);
-        if (methodIt == infoIt->second.methods.end()) {
-          error(node.span, "Class '" + classType->getName() +
-                               "' has no method '" + member->member_ + "'.");
-          return;
-        }
-        methodSymbol = methodIt->second;
+        candidates = collectExtensionMethods(selfExpr->type, member->member_);
       }
-      auto candidates = collectOverloads(methodSymbol);
+
       if (candidates.empty()) {
-        error(node.span, "'" + member->member_ + "' is not a method.");
+        if (classType) {
+          error(node.span, "Type '" + classType->getName() +
+                               "' has no method '" + member->member_ + "'.");
+        } else {
+          error(node.span, "Type '" + renderTypeForUser(selfExpr->type) +
+                               "' has no extension method '" +
+                               member->member_ + "'.");
+        }
         return;
       }
 
@@ -240,8 +265,6 @@ void Binder::visit(FunCall &node) {
         rawArgs.push_back(std::move(arg));
       }
 
-      const bool calledOnType =
-          dynamic_cast<BoundLiteral *>(selfExpr.get()) != nullptr;
       std::vector<std::shared_ptr<FunctionSymbol>> allowedCandidates;
       bool inaccessibleMatch = false;
       bool unsafeMatch = false;
@@ -251,16 +274,20 @@ void Binder::visit(FunCall &node) {
           continue;
         }
 
-        if (funcSymbol->isMethod && calledOnType) {
+        if (hasReceiver(*funcSymbol) && calledOnType) {
           continue;
         }
 
-        bool methodAllowed =
-            funcSymbol->visibility == Visibility::Public ||
-            (!currentClassStack_.empty() &&
-             currentClassStack_.back() == classType->getName()) ||
-            (funcSymbol->visibility == Visibility::Protected &&
-             !currentClassStack_.empty());
+        const bool methodAllowed = funcSymbol->isExtensionMethod
+                                       ? extensionMethodVisible(*funcSymbol)
+                                       : funcSymbol->visibility == Visibility::Public ||
+                                             (!currentClassStack_.empty() &&
+                                              classType &&
+                                              currentClassStack_.back() ==
+                                                  classType->getName()) ||
+                                             (funcSymbol->visibility ==
+                                                  Visibility::Protected &&
+                                              !currentClassStack_.empty());
         if (!methodAllowed) {
           inaccessibleMatch = true;
           continue;
@@ -296,12 +323,12 @@ void Binder::visit(FunCall &node) {
       auto funcSymbol = overload.symbol;
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
-      if (funcSymbol->isMethod) {
+      if (hasReceiver(*funcSymbol)) {
         args.push_back(std::move(selfExpr));
         argIsRef.push_back(false);
       }
 
-      size_t paramOffset = funcSymbol->isMethod ? 1 : 0;
+      const size_t paramOffset = hasReceiver(*funcSymbol) ? 1 : 0;
       for (size_t i = 0; i < node.params_.size(); ++i) {
         auto arg = rawArgs[i]->clone();
         auto expectedType = funcSymbol->parameters[i + paramOffset]->type;

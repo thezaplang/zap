@@ -300,6 +300,10 @@ private:
   std::shared_ptr<OverloadSetSymbol>
   addExtensionMethodOverload(const std::shared_ptr<zir::Type> &targetType,
                              const std::shared_ptr<FunctionSymbol> &method);
+  std::vector<std::shared_ptr<FunctionSymbol>>
+  collectExtensionMethods(const std::shared_ptr<zir::Type> &targetType,
+                          const std::string &name) const;
+  bool extensionMethodVisible(const FunctionSymbol &method) const;
   int findOverriddenVtableSlot(const ClassInfo &classInfo,
                                const FunctionSymbol &method) const;
   std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(

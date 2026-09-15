@@ -53,6 +53,52 @@ fun main() Int { return 42; }
 
   source = R"(
 extend Int {
+  pub fun increment(amount: Int) Int { return self + amount; }
+}
+
+fun main() Int {
+  var value: Int = 40;
+  return value.increment(2);
+}
+  )";
+  auto extensionCall = session.load(entry);
+  require(extensionCall.loaded, "extension call source did not load");
+  require(session.bind(extensionCall), "extension call did not bind");
+  require(extensionCall.diagnostics.empty(),
+          "extension call produced diagnostics");
+  const auto *mainFunction = extensionCall.boundRoot->functions.back().get();
+  require(mainFunction && mainFunction->body,
+          "extension call did not produce a main body");
+  const auto *returnStatement = dynamic_cast<sema::BoundReturnStatement *>(
+      mainFunction->body->statements.back().get());
+  const auto *extensionFunctionCall =
+      returnStatement
+          ? dynamic_cast<sema::BoundFunctionCall *>(
+                returnStatement->expression.get())
+          : nullptr;
+  require(extensionFunctionCall &&
+              extensionFunctionCall->symbol->isExtensionMethod,
+          "member call did not resolve to an extension method");
+  require(extensionFunctionCall->arguments.size() == 2,
+          "extension call did not prepend its receiver");
+
+  source = R"(
+extend Int {
+  pub fun increment(amount: Int) Int { return self + amount; }
+}
+
+fun main() Int { return (40).increment(2); }
+  )";
+  auto literalExtensionCall = session.load(entry);
+  require(literalExtensionCall.loaded,
+          "literal extension call source did not load");
+  require(session.bind(literalExtensionCall),
+          "literal extension call did not bind");
+  require(literalExtensionCall.diagnostics.empty(),
+          "literal extension call produced diagnostics");
+
+  source = R"(
+extend Int {
   fun mutate(ref self) {}
 }
 

@@ -1,0 +1,5 @@
+import "number.zp";
+
+fun main() Int {
+    return number.Number.value();
+}

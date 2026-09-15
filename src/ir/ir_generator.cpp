@@ -89,7 +89,8 @@ ParameterOwnership parameterOwnershipFor(const sema::FunctionSymbol &function,
   }
   const auto &parameter = function.parameters[parameterIndex];
   const bool borrowedSelf = parameterIndex == 0 &&
-                            !function.ownerTypeCodegenName.empty() &&
+                            (!function.ownerTypeCodegenName.empty() ||
+                             function.isExtensionMethod) &&
                             parameter->name == "self";
   if (function.isExternal || parameter->is_ref || parameter->is_variadic_pack ||
       borrowedSelf || !containsManagedValues(parameter->type)) {
@@ -394,7 +395,8 @@ void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
   auto symbol = node.symbol;
   auto func = std::make_unique<Function>(
       symbol->linkName, symbol->returnType, symbol->ownerTypeCodegenName,
-      symbol->isDestructor, symbol->vtableSlot, symbol->isCVariadic);
+      symbol->isDestructor, symbol->vtableSlot, symbol->isCVariadic,
+      symbol->isExtensionMethod);
   func->returnsRef = symbol->returnsRef;
   func->resultBorrow = symbol->resultBorrow;
   currentFunction_ = func.get();
@@ -416,7 +418,8 @@ void BoundIRGenerator::visit(sema::BoundFunctionDeclaration &node) {
         paramSymbol->is_variadic_pack, paramSymbol->variadic_element_type,
         parameterOwnership, parameterEscapeFor(*symbol, parameterIndex));
     const bool borrowedSelf =
-        !symbol->ownerTypeCodegenName.empty() && paramSymbol->name == "self";
+        (symbol->isExtensionMethod || !symbol->ownerTypeCodegenName.empty()) &&
+        paramSymbol->name == "self";
     if (!paramSymbol->is_ref && !paramSymbol->is_variadic_pack &&
         !borrowedSelf && containsManagedValues(argType)) {
       arg->setOwnership(ownedForType(argType));

@@ -13,6 +13,7 @@ public:
   std::shared_ptr<Type> returnType;
   std::string ownerTypeCodegenName;
   bool isDestructor = false;
+  bool hasExtensionReceiver = false;
   bool isCVariadic = false;
   bool returnsRef = false;
   ResultBorrowContract resultBorrow;
@@ -22,10 +23,12 @@ public:
 
   Function(std::string name, std::shared_ptr<Type> returnType,
            std::string ownerTypeCodegenName = "", bool isDestructor = false,
-           int vtableSlot = -1, bool isCVariadic = false)
+           int vtableSlot = -1, bool isCVariadic = false,
+           bool hasExtensionReceiver = false)
       : name(std::move(name)), returnType(std::move(returnType)),
         ownerTypeCodegenName(std::move(ownerTypeCodegenName)),
-        isDestructor(isDestructor), isCVariadic(isCVariadic),
+        isDestructor(isDestructor),
+        hasExtensionReceiver(hasExtensionReceiver), isCVariadic(isCVariadic),
         vtableSlot(vtableSlot) {}
 
   void addBlock(std::unique_ptr<BasicBlock> block) {

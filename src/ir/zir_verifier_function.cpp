@@ -267,7 +267,9 @@ private:
       return false;
     }
     const auto *callee = module_.findFunction(call.getFunctionName());
-    return callee && !callee->ownerTypeCodegenName.empty() &&
+    return callee &&
+           (!callee->ownerTypeCodegenName.empty() ||
+            callee->hasExtensionReceiver) &&
            !callee->getArguments().empty() && callee->getArguments().front() &&
            callee->getArguments().front()->getRawName() == "self";
   }

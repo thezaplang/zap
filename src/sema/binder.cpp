@@ -755,6 +755,59 @@ std::shared_ptr<OverloadSetSymbol> Binder::addExtensionMethodOverload(
   return overloads;
 }
 
+std::vector<std::shared_ptr<FunctionSymbol>> Binder::collectExtensionMethods(
+    const std::shared_ptr<zir::Type> &targetType,
+    const std::string &name) const {
+  if (!targetType) {
+    return {};
+  }
+  const auto extensionIt =
+      extensionInfos_.find(typeInterner_.mangleKey(targetType));
+  if (extensionIt == extensionInfos_.end()) {
+    return {};
+  }
+  const auto methodIt = extensionIt->second.methods.find(name);
+  return methodIt == extensionIt->second.methods.end()
+             ? std::vector<std::shared_ptr<FunctionSymbol>>{}
+             : collectOverloads(methodIt->second);
+}
+
+bool Binder::extensionMethodVisible(const FunctionSymbol &method) const {
+  if (method.extensionDeclaringModuleId == currentModuleId_) {
+    return true;
+  }
+  if (method.visibility != Visibility::Public) {
+    return false;
+  }
+
+  std::vector<std::string> pending{currentModuleId_};
+  std::unordered_set<std::string> visited;
+  while (!pending.empty()) {
+    const auto moduleId = std::move(pending.back());
+    pending.pop_back();
+    if (!visited.insert(moduleId).second) {
+      continue;
+    }
+    const auto moduleIt = modules_.find(moduleId);
+    if (moduleIt == modules_.end() || !moduleIt->second.info) {
+      continue;
+    }
+    for (const auto &import : moduleIt->second.info->imports) {
+      if (moduleId != currentModuleId_ &&
+          import.visibility != Visibility::Public) {
+        continue;
+      }
+      for (const auto &targetModuleId : import.targetModuleIds) {
+        if (targetModuleId == method.extensionDeclaringModuleId) {
+          return true;
+        }
+        pending.push_back(targetModuleId);
+      }
+    }
+  }
+  return false;
+}
+
 int Binder::findOverriddenVtableSlot(const ClassInfo &classInfo,
                                      const FunctionSymbol &method) const {
   auto existingIt = classInfo.methods.find(method.name);
