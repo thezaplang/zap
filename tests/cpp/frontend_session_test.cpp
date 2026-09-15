@@ -106,9 +106,11 @@ fun main() Int { return 42; }
   )";
   auto unsupportedExtension = session.load(entry);
   require(unsupportedExtension.loaded,
-          "unsupported extension source did not load");
-  require(!session.bind(unsupportedExtension),
-          "ref extension receiver unexpectedly bound");
+          "ref extension source did not load");
+  require(session.bind(unsupportedExtension),
+          "ref extension receiver did not bind");
+  require(unsupportedExtension.diagnostics.empty(),
+          "ref extension receiver produced diagnostics");
 
   source = R"(
 extend Int {

@@ -15,6 +15,33 @@
 
 namespace sema {
 
+namespace {
+
+// `ref self` changes how a receiver is passed, but is not an overload
+// discriminator at a member call site.  Keep extension declarations that
+// differ only in receiver mode from creating an ambiguous call.
+bool sameExtensionCallSignature(const FunctionSymbol &lhs,
+                                const FunctionSymbol &rhs) {
+  if (lhs.parameters.empty() || rhs.parameters.empty() ||
+      lhs.parameters.size() != rhs.parameters.size() ||
+      lhs.isCVariadic != rhs.isCVariadic) {
+    return false;
+  }
+
+  for (size_t i = 1; i < lhs.parameters.size(); ++i) {
+    const auto &left = lhs.parameters[i];
+    const auto &right = rhs.parameters[i];
+    if (left->is_ref != right->is_ref ||
+        left->is_variadic_pack != right->is_variadic_pack || !left->type ||
+        !right->type || !zir::sameType(left->type, right->type)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+} // namespace
+
 void Binder::predeclareModuleTypes(ModuleState &module) {
   currentModuleId_ = module.info->moduleId;
   currentScope_ = module.scope;
@@ -102,7 +129,8 @@ void Binder::predeclareModuleTypes(ModuleState &module) {
         info.ownerQualifiedName = type->getName();
         classInfos_[type->getCodegenName()] = info;
       }
-    } else if (auto interfaceDecl = dynamic_cast<InterfaceDecl *>(child.get())) {
+    } else if (auto interfaceDecl =
+                   dynamic_cast<InterfaceDecl *>(child.get())) {
       auto type = std::make_shared<zir::ClassType>(
           displayTypeName(module.info->moduleName, interfaceDecl->name_),
           mangleName(module.info->linkPath.empty() ? module.info->moduleId
@@ -850,7 +878,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
 
       bindInterfaceConformances(*classDecl, classType, classInfo,
                                 classInterfaces);
-    } else if (auto interfaceDecl = dynamic_cast<InterfaceDecl *>(child.get())) {
+    } else if (auto interfaceDecl =
+                   dynamic_cast<InterfaceDecl *>(child.get())) {
       auto interfaceSymbol = std::dynamic_pointer_cast<TypeSymbol>(
           module.scope->lookup(interfaceDecl->name_));
       if (!interfaceSymbol || !interfaceSymbol->isInterface) {
@@ -896,11 +925,11 @@ void Binder::predeclareModuleValues(ModuleState &module) {
             module.info->moduleName, Visibility::Public);
         symbol->isMethod = true;
         symbol->ownerTypeCodegenName = interfaceType->getCodegenName();
-        symbol->linkName = mangleName(
-            module.info->linkPath.empty() ? module.info->moduleId
-                                          : module.info->linkPath,
-            interfaceDecl->name_ + "$" + methodDecl->name_ + "$" +
-                functionSignatureKey(*symbol));
+        symbol->linkName =
+            mangleName(module.info->linkPath.empty() ? module.info->moduleId
+                                                     : module.info->linkPath,
+                       interfaceDecl->name_ + "$" + methodDecl->name_ + "$" +
+                           functionSignatureKey(*symbol));
 
         if (interfaceInfo.methods.count(symbol->name)) {
           error(methodDecl->span, "Interface method '" + methodDecl->name_ +
@@ -1074,9 +1103,13 @@ void Binder::predeclareModuleValues(ModuleState &module) {
                 "Static extension methods are not supported yet.");
           continue;
         }
-        if (methodDecl->extensionReceiverMode_ == ExtensionReceiverMode::Ref) {
+        const bool receiverIsRef =
+            methodDecl->extensionReceiverMode_ == ExtensionReceiverMode::Ref;
+        if (receiverIsRef && targetType->getKind() == zir::TypeKind::Record &&
+            std::static_pointer_cast<zir::RecordType>(targetType)
+                ->hasImmutableFields()) {
           error(methodDecl->extensionReceiverSpan_,
-                "'ref self' in an extension method is not supported yet.");
+                "'ref self' cannot be used with an immutable record target.");
           continue;
         }
         if (!methodDecl->genericParams_.empty()) {
@@ -1092,7 +1125,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
 
         std::vector<std::shared_ptr<VariableSymbol>> params;
         params.push_back(std::make_shared<VariableSymbol>(
-            "self", targetType, BindingKind::Mutable, false, "self",
+            "self", targetType, BindingKind::Mutable, receiverIsRef, "self",
             module.info->moduleName, Visibility::Private));
         bool valid = true;
         for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
@@ -1211,7 +1244,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         for (const auto &candidate : collectOverloads(existing)) {
           if (candidate &&
               candidate->extensionDeclaringModuleId == module.info->moduleId &&
-              sameFunctionSignature(*candidate, *symbol)) {
+              sameExtensionCallSignature(*candidate, *symbol)) {
             duplicateInModule = true;
             break;
           }

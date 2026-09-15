@@ -1,0 +1,14 @@
+extend Int {
+    pub fun increment(ref self) {
+        self = self + 1;
+    }
+}
+
+fun main() Int {
+    var count: Int = 41;
+    count.increment();
+    if count != 42 {
+        return 1;
+    }
+    return 0;
+}

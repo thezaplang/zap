@@ -1,0 +1,13 @@
+extend Int {
+    pub fun touch() Int {
+        return self;
+    }
+
+    pub fun touch(ref self) Int {
+        return self;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

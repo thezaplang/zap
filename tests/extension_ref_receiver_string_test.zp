@@ -1,0 +1,14 @@
+extend String {
+    pub fun clear(ref self) {
+        self = "";
+    }
+}
+
+fun main() Int {
+    var value: String = "value";
+    value.clear();
+    if value != "" {
+        return 1;
+    }
+    return 0;
+}

@@ -268,6 +268,7 @@ void Binder::visit(FunCall &node) {
       std::vector<std::shared_ptr<FunctionSymbol>> allowedCandidates;
       bool inaccessibleMatch = false;
       bool unsafeMatch = false;
+      bool immutableReceiverMatch = false;
 
       for (const auto &funcSymbol : candidates) {
         if (!funcSymbol) {
@@ -296,6 +297,14 @@ void Binder::visit(FunCall &node) {
           unsafeMatch = true;
           continue;
         }
+        const bool requiresMutableReceiver =
+            funcSymbol->isExtensionMethod && !funcSymbol->parameters.empty() &&
+            funcSymbol->parameters.front()->is_ref;
+        if (requiresMutableReceiver &&
+            !canPassAsMutableReference(*selfExpr)) {
+          immutableReceiverMatch = true;
+          continue;
+        }
         allowedCandidates.push_back(funcSymbol);
       }
 
@@ -303,7 +312,10 @@ void Binder::visit(FunCall &node) {
           selectMemberOverload(allowedCandidates, *selfExpr, rawArgs,
                                node.genericArgs_, node.span, calledOnType);
       if (overload.status == MemberOverloadResult::Status::NoMatch) {
-        if (inaccessibleMatch) {
+        if (immutableReceiverMatch) {
+          requireMutablePlace(*selfExpr, member->left_->span,
+                              MutablePlaceUse::MutableReference);
+        } else if (inaccessibleMatch) {
           error(node.span,
                 "Method '" + member->member_ + "' is not accessible.");
         } else if (unsafeMatch) {
@@ -324,8 +336,11 @@ void Binder::visit(FunCall &node) {
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
       if (hasReceiver(*funcSymbol)) {
+        const bool receiverIsRef =
+            funcSymbol->isExtensionMethod && !funcSymbol->parameters.empty() &&
+            funcSymbol->parameters.front()->is_ref;
         args.push_back(std::move(selfExpr));
-        argIsRef.push_back(false);
+        argIsRef.push_back(receiverIsRef);
       }
 
       const size_t paramOffset = hasReceiver(*funcSymbol) ? 1 : 0;

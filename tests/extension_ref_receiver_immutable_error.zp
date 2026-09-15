@@ -1,0 +1,11 @@
+extend Int {
+    pub fun increment(ref self) {
+        self = self + 1;
+    }
+}
+
+fun main() Int {
+    let count: Int = 41;
+    count.increment();
+    return 0;
+}

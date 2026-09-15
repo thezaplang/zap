@@ -154,6 +154,7 @@ private:
 
   void pushScope();
   void popScope();
+  bool canPassAsMutableReference(const BoundExpression &expression) const;
   bool requireMutablePlace(const BoundExpression &expression, SourceSpan span,
                            MutablePlaceUse use);
 

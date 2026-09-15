@@ -81,6 +81,11 @@ MutablePlaceResult classifyMutablePlace(const BoundExpression &place) {
 
 } // namespace
 
+bool Binder::canPassAsMutableReference(
+    const BoundExpression &expression) const {
+  return classifyMutablePlace(expression).failure == MutablePlaceFailure::None;
+}
+
 bool Binder::requireMutablePlace(const BoundExpression &expression,
                                  SourceSpan span, MutablePlaceUse use) {
   const MutablePlaceResult result = classifyMutablePlace(expression);

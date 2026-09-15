@@ -1,0 +1,13 @@
+record Point {
+    value: Int,
+}
+
+extend Point {
+    pub fun reset(ref self) {
+        self = Point { value: 0 };
+    }
+}
+
+fun main() Int {
+    return 0;
+}
