@@ -17,7 +17,7 @@ var token_8hpp =
       [ "PUB", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a309fd8ba753197f13b23ede644b0d58c", null ],
       [ "PRIV", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a9350d4d3820af13719c13de401682f72", null ],
       [ "RECORD", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921af9589b3c93e562a81e57588bb6662337", null ],
-      [ "IMPL", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921afa9f13a3d80049b1e7f9cef4e57108c1", null ],
+      [ "EXTEND", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a530337e96c40f8b760a351af9d5ece97", null ],
       [ "STATIC", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921ae55a36a850c67d46b3b3325de7fce0b8", null ],
       [ "ENUM", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a5bc38f5ef3a09fbc02c3f3576277a5b9", null ],
       [ "STRUCT", "d4/d44/token_8hpp.html#aa520fbf142ba1e7e659590c07da31921a840fc36796c5af05b4616165e6449dad", null ],

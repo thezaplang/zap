@@ -21,6 +21,7 @@ var classAstBuilder =
     [ "makeContinue", "de/d56/classAstBuilder.html#a845dc5d2ed66465d5e5686919dd9483f", null ],
     [ "makeDefer", "de/d56/classAstBuilder.html#a0e0fe295ccd05f0b77f90a4a5616acc1", null ],
     [ "makeEnumDecl", "de/d56/classAstBuilder.html#aeac048fd0f7cb8665f51f5a7c90ed4ea", null ],
+    [ "makeExtensionDecl", "de/d56/classAstBuilder.html#a6af527a9c84bc02b9c162a4c2c7dbc4f", null ],
     [ "makeFail", "de/d56/classAstBuilder.html#aba2f4079de73ac6b54f597f9923fbd98", null ],
     [ "makeFailableHandleExpr", "de/d56/classAstBuilder.html#ad598821f3c815f62e41b5798dd27cd7d", null ],
     [ "makeFallbackExpr", "de/d56/classAstBuilder.html#af8353e63ce2040284732d86655c14de3", null ],

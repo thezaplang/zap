@@ -87,7 +87,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00587">587</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00590">590</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3f561712839b537809e19517ae35fa5a" name="a3f561712839b537809e19517ae35fa5a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3f561712839b537809e19517ae35fa5a">&#9670;&#160;</a></span>BoundCasePattern() <span class="overload">[1/3]</span></h2>
@@ -112,13 +112,13 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">599</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  600</span>      : <a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a>(std::move(patternValue)) {}</div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a5c804e7b0b22b085915aa9f3cf016b15"><div class="ttname"><a href="#a5c804e7b0b22b085915aa9f3cf016b15">sema::BoundCasePattern::value</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; value</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00590">bound_nodes.hpp:590</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">602</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  603</span>      : <a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a>(std::move(patternValue)) {}</div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a5c804e7b0b22b085915aa9f3cf016b15"><div class="ttname"><a href="#a5c804e7b0b22b085915aa9f3cf016b15">sema::BoundCasePattern::value</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; value</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">bound_nodes.hpp:593</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00590">value</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>.</p>
 
 </div>
 </div>
@@ -169,19 +169,19 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">602</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  607</span>      : <a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>(patternKind), <a class="code hl_variable" href="#a0bfae35432b0237bba94b521dfdb9db3">variantTag</a>(tag), <a class="code hl_variable" href="#ad97a5bf4ebb4eca26834817fd44af08d">payloadType</a>(std::move(payload)),</div>
-<div class="line"><span class="lineno">  608</span>        <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a>(std::move(payloadLiteral)),</div>
-<div class="line"><span class="lineno">  609</span>        <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a>(std::move(nestedPayload)),</div>
-<div class="line"><span class="lineno">  610</span>        <a class="code hl_variable" href="#ada7ba1ee24bb37df38b520196b4edb3e">payloadBinding</a>(std::move(binding)) {}</div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a0bfae35432b0237bba94b521dfdb9db3"><div class="ttname"><a href="#a0bfae35432b0237bba94b521dfdb9db3">sema::BoundCasePattern::variantTag</a></div><div class="ttdeci">int64_t variantTag</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00591">bound_nodes.hpp:591</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a689b4426912c1d94dafd3ee5db03e27c"><div class="ttname"><a href="#a689b4426912c1d94dafd3ee5db03e27c">sema::BoundCasePattern::payloadPattern</a></div><div class="ttdeci">std::unique_ptr&lt; BoundCasePattern &gt; payloadPattern</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">bound_nodes.hpp:594</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a8c67deb08f5b80120586b21a6b14284d"><div class="ttname"><a href="#a8c67deb08f5b80120586b21a6b14284d">sema::BoundCasePattern::payloadValue</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; payloadValue</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">bound_nodes.hpp:593</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_abcd9d8861a7007fa2caadda336f99bb4"><div class="ttname"><a href="#abcd9d8861a7007fa2caadda336f99bb4">sema::BoundCasePattern::kind</a></div><div class="ttdeci">BoundCasePatternKind kind</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00589">bound_nodes.hpp:589</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_ad97a5bf4ebb4eca26834817fd44af08d"><div class="ttname"><a href="#ad97a5bf4ebb4eca26834817fd44af08d">sema::BoundCasePattern::payloadType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; payloadType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">bound_nodes.hpp:592</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_ada7ba1ee24bb37df38b520196b4edb3e"><div class="ttname"><a href="#ada7ba1ee24bb37df38b520196b4edb3e">sema::BoundCasePattern::payloadBinding</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; payloadBinding</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">bound_nodes.hpp:595</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">605</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  610</span>      : <a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>(patternKind), <a class="code hl_variable" href="#a0bfae35432b0237bba94b521dfdb9db3">variantTag</a>(tag), <a class="code hl_variable" href="#ad97a5bf4ebb4eca26834817fd44af08d">payloadType</a>(std::move(payload)),</div>
+<div class="line"><span class="lineno">  611</span>        <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a>(std::move(payloadLiteral)),</div>
+<div class="line"><span class="lineno">  612</span>        <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a>(std::move(nestedPayload)),</div>
+<div class="line"><span class="lineno">  613</span>        <a class="code hl_variable" href="#ada7ba1ee24bb37df38b520196b4edb3e">payloadBinding</a>(std::move(binding)) {}</div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a0bfae35432b0237bba94b521dfdb9db3"><div class="ttname"><a href="#a0bfae35432b0237bba94b521dfdb9db3">sema::BoundCasePattern::variantTag</a></div><div class="ttdeci">int64_t variantTag</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">bound_nodes.hpp:594</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a689b4426912c1d94dafd3ee5db03e27c"><div class="ttname"><a href="#a689b4426912c1d94dafd3ee5db03e27c">sema::BoundCasePattern::payloadPattern</a></div><div class="ttdeci">std::unique_ptr&lt; BoundCasePattern &gt; payloadPattern</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">bound_nodes.hpp:597</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a8c67deb08f5b80120586b21a6b14284d"><div class="ttname"><a href="#a8c67deb08f5b80120586b21a6b14284d">sema::BoundCasePattern::payloadValue</a></div><div class="ttdeci">std::unique_ptr&lt; BoundExpression &gt; payloadValue</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">bound_nodes.hpp:596</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_abcd9d8861a7007fa2caadda336f99bb4"><div class="ttname"><a href="#abcd9d8861a7007fa2caadda336f99bb4">sema::BoundCasePattern::kind</a></div><div class="ttdeci">BoundCasePatternKind kind</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">bound_nodes.hpp:592</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_ad97a5bf4ebb4eca26834817fd44af08d"><div class="ttname"><a href="#ad97a5bf4ebb4eca26834817fd44af08d">sema::BoundCasePattern::payloadType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::Type &gt; payloadType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">bound_nodes.hpp:595</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_ada7ba1ee24bb37df38b520196b4edb3e"><div class="ttname"><a href="#ada7ba1ee24bb37df38b520196b4edb3e">sema::BoundCasePattern::payloadBinding</a></div><div class="ttdeci">std::shared_ptr&lt; VariableSymbol &gt; payloadBinding</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00598">bound_nodes.hpp:598</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00589">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">payloadBinding</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">payloadPattern</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">payloadType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">payloadValue</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00591">variantTag</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00598">payloadBinding</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">payloadPattern</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">payloadType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">payloadValue</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">variantTag</a>.</p>
 
 </div>
 </div>
@@ -212,14 +212,14 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00612">612</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  614</span>      : <a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>(<a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">BoundCasePatternKind::Record</a>), <a class="code hl_variable" href="#a2900852819daa0d8598143614cf21299">recordType</a>(std::move(type)),</div>
-<div class="line"><span class="lineno">  615</span>        <a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>(std::move(fields)) {}</div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a2900852819daa0d8598143614cf21299"><div class="ttname"><a href="#a2900852819daa0d8598143614cf21299">sema::BoundCasePattern::recordType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::RecordType &gt; recordType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">bound_nodes.hpp:596</a></div></div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a9f135e3a74b246d4d03b13d134734561"><div class="ttname"><a href="#a9f135e3a74b246d4d03b13d134734561">sema::BoundCasePattern::recordFields</a></div><div class="ttdeci">std::vector&lt; BoundCaseRecordField &gt; recordFields</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">bound_nodes.hpp:597</a></div></div>
-<div class="ttc" id="anamespacesema_html_a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">sema::BoundCasePatternKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00576">bound_nodes.hpp:576</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00615">615</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  617</span>      : <a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>(<a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">BoundCasePatternKind::Record</a>), <a class="code hl_variable" href="#a2900852819daa0d8598143614cf21299">recordType</a>(std::move(type)),</div>
+<div class="line"><span class="lineno">  618</span>        <a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>(std::move(fields)) {}</div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a2900852819daa0d8598143614cf21299"><div class="ttname"><a href="#a2900852819daa0d8598143614cf21299">sema::BoundCasePattern::recordType</a></div><div class="ttdeci">std::shared_ptr&lt; zir::RecordType &gt; recordType</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">bound_nodes.hpp:599</a></div></div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a9f135e3a74b246d4d03b13d134734561"><div class="ttname"><a href="#a9f135e3a74b246d4d03b13d134734561">sema::BoundCasePattern::recordFields</a></div><div class="ttdeci">std::vector&lt; BoundCaseRecordField &gt; recordFields</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00600">bound_nodes.hpp:600</a></div></div>
+<div class="ttc" id="anamespacesema_html_a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">sema::BoundCasePatternKind::Record</a></div><div class="ttdeci">@ Record</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00579">bound_nodes.hpp:579</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00589">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">recordFields</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">recordType</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00600">recordFields</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">recordType</a>.</p>
 
 </div>
 </div>
@@ -247,34 +247,34 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">617</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  617</span>                                 {</div>
-<div class="line"><span class="lineno">  618</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a> == <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437">BoundCasePatternKind::Literal</a>) {</div>
-<div class="line"><span class="lineno">  619</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a> ? <a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a>-&gt;clone() : <span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  620</span>    }</div>
-<div class="line"><span class="lineno">  621</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a> == <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">BoundCasePatternKind::Record</a>) {</div>
-<div class="line"><span class="lineno">  622</span>      std::vector&lt;BoundCaseRecordField&gt; fields;</div>
-<div class="line"><span class="lineno">  623</span>      fields.reserve(<a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>.size());</div>
-<div class="line"><span class="lineno">  624</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : <a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>) {</div>
-<div class="line"><span class="lineno">  625</span>        fields.push_back({field.index,</div>
-<div class="line"><span class="lineno">  626</span>                          field.nested ? std::make_unique&lt;BoundCasePattern&gt;(</div>
-<div class="line"><span class="lineno">  627</span>                                             field.nested-&gt;clone())</div>
-<div class="line"><span class="lineno">  628</span>                                       : nullptr,</div>
-<div class="line"><span class="lineno">  629</span>                          field.binding});</div>
-<div class="line"><span class="lineno">  630</span>      }</div>
-<div class="line"><span class="lineno">  631</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#a2900852819daa0d8598143614cf21299">recordType</a>, std::move(fields));</div>
-<div class="line"><span class="lineno">  632</span>    }</div>
-<div class="line"><span class="lineno">  633</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>, <a class="code hl_variable" href="#a0bfae35432b0237bba94b521dfdb9db3">variantTag</a>, <a class="code hl_variable" href="#ad97a5bf4ebb4eca26834817fd44af08d">payloadType</a>,</div>
-<div class="line"><span class="lineno">  634</span>                            <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a> ? <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a>-&gt;clone() : <span class="keyword">nullptr</span>,</div>
-<div class="line"><span class="lineno">  635</span>                            <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a> ? std::make_unique&lt;BoundCasePattern&gt;(</div>
-<div class="line"><span class="lineno">  636</span>                                                 <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a>-&gt;clone())</div>
-<div class="line"><span class="lineno">  637</span>                                           : <span class="keyword">nullptr</span>,</div>
-<div class="line"><span class="lineno">  638</span>                            <a class="code hl_variable" href="#ada7ba1ee24bb37df38b520196b4edb3e">payloadBinding</a>);</div>
-<div class="line"><span class="lineno">  639</span>  }</div>
-<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a3f561712839b537809e19517ae35fa5a"><div class="ttname"><a href="#a3f561712839b537809e19517ae35fa5a">sema::BoundCasePattern::BoundCasePattern</a></div><div class="ttdeci">BoundCasePattern(std::unique_ptr&lt; BoundExpression &gt; patternValue)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">bound_nodes.hpp:599</a></div></div>
-<div class="ttc" id="anamespacesema_html_a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437">sema::BoundCasePatternKind::Literal</a></div><div class="ttdeci">@ Literal</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00573">bound_nodes.hpp:573</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">620</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  620</span>                                 {</div>
+<div class="line"><span class="lineno">  621</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a> == <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437">BoundCasePatternKind::Literal</a>) {</div>
+<div class="line"><span class="lineno">  622</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a> ? <a class="code hl_variable" href="#a5c804e7b0b22b085915aa9f3cf016b15">value</a>-&gt;clone() : <span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">  623</span>    }</div>
+<div class="line"><span class="lineno">  624</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a> == <a class="code hl_enumvalue" href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8a6a0d9eaee314c567fd72fb97ee707a36">BoundCasePatternKind::Record</a>) {</div>
+<div class="line"><span class="lineno">  625</span>      std::vector&lt;BoundCaseRecordField&gt; fields;</div>
+<div class="line"><span class="lineno">  626</span>      fields.reserve(<a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>.size());</div>
+<div class="line"><span class="lineno">  627</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;field : <a class="code hl_variable" href="#a9f135e3a74b246d4d03b13d134734561">recordFields</a>) {</div>
+<div class="line"><span class="lineno">  628</span>        fields.push_back({field.index,</div>
+<div class="line"><span class="lineno">  629</span>                          field.nested ? std::make_unique&lt;BoundCasePattern&gt;(</div>
+<div class="line"><span class="lineno">  630</span>                                             field.nested-&gt;clone())</div>
+<div class="line"><span class="lineno">  631</span>                                       : nullptr,</div>
+<div class="line"><span class="lineno">  632</span>                          field.binding});</div>
+<div class="line"><span class="lineno">  633</span>      }</div>
+<div class="line"><span class="lineno">  634</span>      <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#a2900852819daa0d8598143614cf21299">recordType</a>, std::move(fields));</div>
+<div class="line"><span class="lineno">  635</span>    }</div>
+<div class="line"><span class="lineno">  636</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a3f561712839b537809e19517ae35fa5a">BoundCasePattern</a>(<a class="code hl_variable" href="#abcd9d8861a7007fa2caadda336f99bb4">kind</a>, <a class="code hl_variable" href="#a0bfae35432b0237bba94b521dfdb9db3">variantTag</a>, <a class="code hl_variable" href="#ad97a5bf4ebb4eca26834817fd44af08d">payloadType</a>,</div>
+<div class="line"><span class="lineno">  637</span>                            <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a> ? <a class="code hl_variable" href="#a8c67deb08f5b80120586b21a6b14284d">payloadValue</a>-&gt;clone() : <span class="keyword">nullptr</span>,</div>
+<div class="line"><span class="lineno">  638</span>                            <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a> ? std::make_unique&lt;BoundCasePattern&gt;(</div>
+<div class="line"><span class="lineno">  639</span>                                                 <a class="code hl_variable" href="#a689b4426912c1d94dafd3ee5db03e27c">payloadPattern</a>-&gt;clone())</div>
+<div class="line"><span class="lineno">  640</span>                                           : <span class="keyword">nullptr</span>,</div>
+<div class="line"><span class="lineno">  641</span>                            <a class="code hl_variable" href="#ada7ba1ee24bb37df38b520196b4edb3e">payloadBinding</a>);</div>
+<div class="line"><span class="lineno">  642</span>  }</div>
+<div class="ttc" id="aclasssema_1_1BoundCasePattern_html_a3f561712839b537809e19517ae35fa5a"><div class="ttname"><a href="#a3f561712839b537809e19517ae35fa5a">sema::BoundCasePattern::BoundCasePattern</a></div><div class="ttdeci">BoundCasePattern(std::unique_ptr&lt; BoundExpression &gt; patternValue)</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">bound_nodes.hpp:602</a></div></div>
+<div class="ttc" id="anamespacesema_html_a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437"><div class="ttname"><a href="../../d7/d39/namespacesema.html#a28e3892cba6122d61e63e322be4492b8ad7da1b76e5799f53a399b7a96ba67437">sema::BoundCasePatternKind::Literal</a></div><div class="ttdeci">@ Literal</div><div class="ttdef"><b>Definition</b> <a href="../../dc/d0b/bound__nodes_8hpp_source.html#l00576">bound_nodes.hpp:576</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00589">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00573">sema::Literal</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">payloadBinding</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">payloadPattern</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">payloadType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">payloadValue</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00576">sema::Record</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">recordFields</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">recordType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00590">value</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00591">variantTag</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">kind</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00576">sema::Literal</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00598">payloadBinding</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">payloadPattern</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">payloadType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">payloadValue</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00579">sema::Record</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00600">recordFields</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">recordType</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">value</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">variantTag</a>.</p>
 
 </div>
 </div>
@@ -291,9 +291,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00589">589</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">592</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00612">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00615">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>.</p>
 
 </div>
 </div>
@@ -309,9 +309,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">595</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00598">598</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>.</p>
 
 </div>
 </div>
@@ -327,9 +327,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">594</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">597</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
 
 </div>
 </div>
@@ -345,9 +345,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00592">592</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00595">595</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>.</p>
 
 </div>
 </div>
@@ -363,9 +363,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">593</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">596</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
 
 </div>
 </div>
@@ -381,9 +381,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00597">597</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00600">600</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00612">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01840">zir::BoundIRGenerator::emitCaseRecordTest()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01954">zir::BoundIRGenerator::materializeCaseRecordBindings()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00615">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01843">zir::BoundIRGenerator::emitCaseRecordTest()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01957">zir::BoundIRGenerator::materializeCaseRecordBindings()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
 
 </div>
 </div>
@@ -399,9 +399,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00596">596</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">599</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00612">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01840">zir::BoundIRGenerator::emitCaseRecordTest()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01954">zir::BoundIRGenerator::materializeCaseRecordBindings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00615">BoundCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>, <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01843">zir::BoundIRGenerator::emitCaseRecordTest()</a>, and <a class="el" href="../../db/d34/ir__generator_8cpp_source.html#l01957">zir::BoundIRGenerator::materializeCaseRecordBindings()</a>.</p>
 
 </div>
 </div>
@@ -417,9 +417,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00590">590</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00593">593</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00599">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>, and <a class="el" href="../../da/d7e/function__reachability_8cpp_source.html#l00169">zir::anonymous_namespace{function_reachability.cpp}::ReachabilityVisitor::visitCasePattern()</a>.</p>
 
 </div>
 </div>
@@ -435,9 +435,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00591">591</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00594">594</a> of file <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html">bound_nodes.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00602">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00617">clone()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00605">BoundCasePattern()</a>, <a class="el" href="../../d9/d60/binder__stmts_8cpp_source.html#l00132">sema::anonymous_namespace{binder_stmts.cpp}::canonicalCasePattern()</a>, and <a class="el" href="../../dc/d0b/bound__nodes_8hpp_source.html#l00620">clone()</a>.</p>
 
 </div>
 </div>

@@ -4,6 +4,8 @@ var classFunDecl =
     [ "FunDecl", "d3/d94/classFunDecl.html#a4501d3a11dd3a1b1a480f5d91fcb344a", null ],
     [ "accept", "d3/d94/classFunDecl.html#aa717eb54369f206b95a313d307079865", null ],
     [ "body_", "d3/d94/classFunDecl.html#a3ddfafdd4b202763daf9429187d0ad12", null ],
+    [ "extensionReceiverMode_", "d3/d94/classFunDecl.html#a2854c88f4b46c9ff43013bbee9e2d28a", null ],
+    [ "extensionReceiverSpan_", "d3/d94/classFunDecl.html#aa8d783343c44f36c7a8ffb1f7bc900f2", null ],
     [ "genericConstraints_", "d3/d94/classFunDecl.html#a2f159e386277c04f0afeeec8493bc1fd", null ],
     [ "genericParams_", "d3/d94/classFunDecl.html#a56c1ad7bd2ae097432d51c1e9f553d3f", null ],
     [ "isExtern_", "d3/d94/classFunDecl.html#a1ae49eb2c973ce953ed54147527abe31", null ],

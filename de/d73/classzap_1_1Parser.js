@@ -1,6 +1,10 @@
 var classzap_1_1Parser =
 [
     [ "ParseError", "da/d27/classzap_1_1Parser_1_1ParseError.html", "da/d27/classzap_1_1Parser_1_1ParseError" ],
+    [ "FunctionContext", "de/d73/classzap_1_1Parser.html#a76833ab09ba563f8d604881d79711077", [
+      [ "Regular", "de/d73/classzap_1_1Parser.html#a76833ab09ba563f8d604881d79711077ad2203cb1237cb6460cbad94564e39345", null ],
+      [ "ExtensionMethod", "de/d73/classzap_1_1Parser.html#a76833ab09ba563f8d604881d79711077ab4b459723783455f351a8dffeca16ba4", null ]
+    ] ],
     [ "SyncContext", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738", [
       [ "TopLevel", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738adaa4ad87b52566898a9a6df85657c082", null ],
       [ "Block", "de/d73/classzap_1_1Parser.html#a1b6937f3048c0f8de03c687e30707738ae1e4c8c9ccd9fc39c391da4bcd093fb2", null ]
@@ -35,19 +39,22 @@ var classzap_1_1Parser =
     [ "parseEnumDecl", "de/d73/classzap_1_1Parser.html#adadfa3d4a34709ea11ad89da011d6497", null ],
     [ "parseExpression", "de/d73/classzap_1_1Parser.html#a34d3bbc8226f45436d346e6e6870e301", null ],
     [ "parseExtDecl", "de/d73/classzap_1_1Parser.html#ac7b4eeadf048266d714cf5c9dc22432c", null ],
+    [ "parseExtensionDecl", "de/d73/classzap_1_1Parser.html#a898fef4a0e32a7f5c8d4032e74af0bdf", null ],
     [ "parseFail", "de/d73/classzap_1_1Parser.html#a7f420c5385d75a8c7e7558b2e1730a71", null ],
     [ "parseFailableExpression", "de/d73/classzap_1_1Parser.html#a32a25d8f360c47fc0e41bc57486e0011", null ],
     [ "parseFor", "de/d73/classzap_1_1Parser.html#ad3766d63e78f7eaa6953ff6934d611b9", null ],
     [ "parseForIn", "de/d73/classzap_1_1Parser.html#ae42076a8c32fffd751ebf63a3a8ffac4", null ],
     [ "parseForIncrementAssign", "de/d73/classzap_1_1Parser.html#a414f55e58e93f4c9bebf3654298af751", null ],
     [ "parseForInitBindingDecl", "de/d73/classzap_1_1Parser.html#a279feb732cd392c80e483e867776d856", null ],
-    [ "parseFunDecl", "de/d73/classzap_1_1Parser.html#a4218149e453387322758d30d28448f03", null ],
+    [ "parseFunDecl", "de/d73/classzap_1_1Parser.html#a5d13513106fecec296012b9d550590e3", null ],
     [ "parseGenericParameterList", "de/d73/classzap_1_1Parser.html#a3cbef9ce916c50d84edf8ec909e78166", null ],
     [ "parseGenericTypeArguments", "de/d73/classzap_1_1Parser.html#ae7ba3a1260c0ec550f6c8b03947ec050", null ],
     [ "parseIf", "de/d73/classzap_1_1Parser.html#a9309005ceef5d5d2a9be5c7755ed1d99", null ],
     [ "parseIfType", "de/d73/classzap_1_1Parser.html#a4206970ec0cad980bac6d32f851c878d", null ],
     [ "parseImportDecl", "de/d73/classzap_1_1Parser.html#a21b5fc9cffceb745eae303713f03acec", null ],
     [ "parseInterfaceDecl", "de/d73/classzap_1_1Parser.html#a6cdd0ed038b38f029ed12381b2e73bdb", null ],
+    [ "parseMemberMethod", "de/d73/classzap_1_1Parser.html#ae7408e709f15a485f848e94689d70ebd", null ],
+    [ "parseMemberVisibility", "de/d73/classzap_1_1Parser.html#abab1aded5d0795bb79bed1ff38a99f14", null ],
     [ "parseParameter", "de/d73/classzap_1_1Parser.html#a715b6802a9231f284938eb4167d54ba2", null ],
     [ "parsePostfixExpression", "de/d73/classzap_1_1Parser.html#aa1a79a877f48088cd2c3a992d156ace4", null ],
     [ "parsePrimaryExpression", "de/d73/classzap_1_1Parser.html#a1487ea5789f44b810da088bd5e6a5b24", null ],
@@ -71,6 +78,7 @@ var classzap_1_1Parser =
     [ "pointAfter", "de/d73/classzap_1_1Parser.html#a57e77e0f2aca3e2d5b05b0a87b5f97f7", null ],
     [ "synchronize", "de/d73/classzap_1_1Parser.html#a8b8ae4d3a7ae9a382ffb4a414f0d4e16", null ],
     [ "synchronizeCaseArm", "de/d73/classzap_1_1Parser.html#a83f2f837bdf9bcf02da0ddf037f73d57", null ],
+    [ "synchronizeExtensionMember", "de/d73/classzap_1_1Parser.html#a7a0dc013989e29512de90455ccc1fc2b", null ],
     [ "typeNodeFromQualifiedExpression", "de/d73/classzap_1_1Parser.html#a9c28de7f6f99698bea80383a60118066", null ],
     [ "_allowStructLiteral", "de/d73/classzap_1_1Parser.html#a1fa665efdd44c7efc59f0fca9ce85cf7", null ],
     [ "_builder", "de/d73/classzap_1_1Parser.html#aec42d55fba5a979324980392c8532518", null ],

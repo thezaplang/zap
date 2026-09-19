@@ -3,6 +3,12 @@ var namespacesema =
     [ "anonymous_namespace{binder_declaration_binding.cpp}", "dd/d6f/namespacesema_1_1anonymous__namespace_02binder__declaration__binding_8cpp_03.html", [
       [ "matchesInterfaceMethodSignature", "dd/d6f/namespacesema_1_1anonymous__namespace_02binder__declaration__binding_8cpp_03.html#afe4065ff6abaeb4417a1e6fdcc3cc0ca", null ]
     ] ],
+    [ "anonymous_namespace{binder_module_predeclare.cpp}", "d0/d8c/namespacesema_1_1anonymous__namespace_02binder__module__predeclare_8cpp_03.html", [
+      [ "containsGenericParameter", "d0/d8c/namespacesema_1_1anonymous__namespace_02binder__module__predeclare_8cpp_03.html#ae1c592d46855690ba76b8c4fbe5fc23b", null ],
+      [ "sameExtensionCallSignature", "d0/d8c/namespacesema_1_1anonymous__namespace_02binder__module__predeclare_8cpp_03.html#ab9fbc5a6d8049c496697e277657cc10a", null ],
+      [ "sameExtensionTypePattern", "d0/d8c/namespacesema_1_1anonymous__namespace_02binder__module__predeclare_8cpp_03.html#a5a5101f2d2c0f8f0f0f7185a395ffd51", null ],
+      [ "sameGenericExtensionSignature", "d0/d8c/namespacesema_1_1anonymous__namespace_02binder__module__predeclare_8cpp_03.html#a9edb41a9a177b9d19b85751072194cba", null ]
+    ] ],
     [ "anonymous_namespace{binder_mutability.cpp}", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03.html", "d5/d99/namespacesema_1_1anonymous__namespace_02binder__mutability_8cpp_03" ],
     [ "anonymous_namespace{binder_stmts.cpp}", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03.html", "dc/def/namespacesema_1_1anonymous__namespace_02binder__stmts_8cpp_03" ],
     [ "anonymous_namespace{constant_evaluator.cpp}", "d1/d61/namespacesema_1_1anonymous__namespace_02constant__evaluator_8cpp_03.html", [
@@ -146,6 +152,7 @@ var namespacesema =
     [ "blockAlwaysReturns", "d7/d39/namespacesema.html#ac98ede0f3a0dc7b7646f742a92921351", null ],
     [ "collectOverloads", "d7/d39/namespacesema.html#a353ae8f08ed93bfc265b342042989fcf", null ],
     [ "computeTypeLayout", "d7/d39/namespacesema.html#af02797b26d5cde0453ccd3d807201ebc", null ],
+    [ "containsUnresolvedGenericParameter", "d7/d39/namespacesema.html#a2d89cf46782de205596815f861615918", null ],
     [ "deriveValueExpressionFromBlock", "d7/d39/namespacesema.html#ac4149da11ebd06d1de01c84ed4c76497", null ],
     [ "deriveValueExpressionFromIf", "d7/d39/namespacesema.html#ab834aafd43a3b57c67955ee465f01441", null ],
     [ "extractQualifiedPath", "d7/d39/namespacesema.html#ad6d422293d0d470ef76a5dc8bdd57bec", null ],

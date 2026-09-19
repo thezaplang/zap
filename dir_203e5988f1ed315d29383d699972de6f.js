@@ -17,6 +17,7 @@ var dir_203e5988f1ed315d29383d699972de6f =
     [ "enum_decl.hpp", "df/d1c/enum__decl_8hpp.html", "df/d1c/enum__decl_8hpp" ],
     [ "expr_node.hpp", "d0/df1/expr__node_8hpp.html", "d0/df1/expr__node_8hpp" ],
     [ "ext_decl.hpp", "d9/d67/ext__decl_8hpp.html", "d9/d67/ext__decl_8hpp" ],
+    [ "extension_decl.hpp", "dc/d12/extension__decl_8hpp.html", "dc/d12/extension__decl_8hpp" ],
     [ "failable_nodes.hpp", "d7/d2b/failable__nodes_8hpp.html", "d7/d2b/failable__nodes_8hpp" ],
     [ "for_in_node.hpp", "d6/dac/for__in__node_8hpp.html", "d6/dac/for__in__node_8hpp" ],
     [ "for_node.hpp", "d7/dca/for__node_8hpp.html", "d7/dca/for__node_8hpp" ],

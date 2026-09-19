@@ -223,6 +223,7 @@ var annotated_dup =
     [ "EnumDecl", "d0/d96/classEnumDecl.html", "d0/d96/classEnumDecl" ],
     [ "ExpressionNode", "dd/d06/classExpressionNode.html", "dd/d06/classExpressionNode" ],
     [ "ExtDecl", "d3/df9/classExtDecl.html", "d3/df9/classExtDecl" ],
+    [ "ExtensionDecl", "d8/d4f/classExtensionDecl.html", "d8/d4f/classExtensionDecl" ],
     [ "FailableHandleExpr", "de/d45/classFailableHandleExpr.html", "de/d45/classFailableHandleExpr" ],
     [ "FailNode", "d5/d44/classFailNode.html", "d5/d44/classFailNode" ],
     [ "FallbackExpr", "d5/d7b/classFallbackExpr.html", "d5/d7b/classFallbackExpr" ],
