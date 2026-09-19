@@ -86,8 +86,8 @@ std::shared_ptr<zir::RecordType>
 makeVariadicViewType(const std::shared_ptr<zir::Type> &elementType) {
   auto suffix = zir::typeMangleKey(elementType);
   auto type = std::make_shared<zir::RecordType>(
-      "variadic$" + suffix, "variadic$" + suffix,
-      zir::IntrinsicTypeKind::None, zir::RecordRole::VariadicView);
+      "variadic$" + suffix, "variadic$" + suffix, zir::IntrinsicTypeKind::None,
+      zir::RecordRole::VariadicView);
   type->addField("data", std::make_shared<zir::PointerType>(elementType));
   type->addField("len",
                  std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int));
@@ -354,12 +354,14 @@ std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo *> modules) {
   currentModuleId_.clear();
   declaredFunctionSymbols_.clear();
   extensionInfos_.clear();
+  genericExtensionInfos_.clear();
   recordTypeDeclarationNodes_.clear();
   structTypeDeclarationNodes_.clear();
   classTypeDeclarationNodes_.clear();
   typeDeclarationModuleIds_.clear();
   functionDeclarationNodes_.clear();
   functionGenericParamNames_.clear();
+  extensionDeclarationNodes_.clear();
   genericFunctionInstantiations_.clear();
   genericTypeInstantiations_.clear();
   genericFunctionDeclarationKeys_.clear();
@@ -496,10 +498,8 @@ void Binder::initializeBuiltins() {
   declareType("Char", zir::TypeKind::Char);
 
   builtinScope_->declare(
-      "String",
-      std::make_shared<TypeSymbol>(
-          "String", zir::makeStringType(),
-          "String", "", Visibility::Public));
+      "String", std::make_shared<TypeSymbol>("String", zir::makeStringType(),
+                                             "String", "", Visibility::Public));
 }
 
 std::string Binder::mangleName(const std::string &modulePath,
@@ -642,19 +642,16 @@ zir::ResultBorrowContract Binder::resolveResultBorrowContract(
     return {};
   }
   const auto &parameter = parameters[*sourceIndex];
-  const bool borrowedSelf =
-      parameter->name == "self" && parameter->type &&
-      parameter->type->getKind() == zir::TypeKind::Class;
+  const bool borrowedSelf = parameter->name == "self" && parameter->type &&
+                            parameter->type->getKind() == zir::TypeKind::Class;
   if (parameter->is_noescape) {
     error(span, "A 'noescape' parameter cannot back the function result.");
     return {};
   }
-  if (parameter->is_ref || parameter->is_sink ||
-      parameter->is_variadic_pack ||
+  if (parameter->is_ref || parameter->is_sink || parameter->is_variadic_pack ||
       (!borrowedSelf &&
-       (!parameter->type ||
-        parameter->type->getIntrinsicKind() !=
-            zir::IntrinsicTypeKind::StringView))) {
+       (!parameter->type || parameter->type->getIntrinsicKind() !=
+                                zir::IntrinsicTypeKind::StringView))) {
     error(span,
           "'borrows' currently requires a by-value StringView parameter or "
           "method self.");
@@ -738,13 +735,19 @@ std::shared_ptr<OverloadSetSymbol> Binder::addExtensionMethodOverload(
     return nullptr;
   }
 
-  const auto targetKey = typeInterner_.mangleKey(targetType);
-  auto &extensionInfo = extensionInfos_[targetKey];
-  if (!extensionInfo.targetType) {
-    extensionInfo.targetType = targetType;
+  ExtensionInfo *extensionInfo = nullptr;
+  if (method->genericParameterNames.empty()) {
+    const auto targetKey = typeInterner_.mangleKey(targetType);
+    extensionInfo = &extensionInfos_[targetKey];
+  } else {
+    genericExtensionInfos_.push_back({targetType, {}});
+    extensionInfo = &genericExtensionInfos_.back();
+  }
+  if (!extensionInfo->targetType) {
+    extensionInfo->targetType = targetType;
   }
 
-  auto &entry = extensionInfo.methods[method->name];
+  auto &entry = extensionInfo->methods[method->name];
   auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
   if (!overloads) {
     overloads = std::make_shared<OverloadSetSymbol>(
@@ -755,21 +758,119 @@ std::shared_ptr<OverloadSetSymbol> Binder::addExtensionMethodOverload(
   return overloads;
 }
 
-std::vector<std::shared_ptr<FunctionSymbol>> Binder::collectExtensionMethods(
-    const std::shared_ptr<zir::Type> &targetType,
-    const std::string &name) const {
+std::vector<std::shared_ptr<FunctionSymbol>>
+Binder::collectExtensionMethods(const std::shared_ptr<zir::Type> &targetType,
+                                const std::string &name) const {
   if (!targetType) {
     return {};
   }
+  std::vector<std::shared_ptr<FunctionSymbol>> methods;
   const auto extensionIt =
       extensionInfos_.find(typeInterner_.mangleKey(targetType));
-  if (extensionIt == extensionInfos_.end()) {
-    return {};
+  if (extensionIt != extensionInfos_.end()) {
+    const auto methodIt = extensionIt->second.methods.find(name);
+    if (methodIt != extensionIt->second.methods.end()) {
+      methods = collectOverloads(methodIt->second);
+    }
   }
-  const auto methodIt = extensionIt->second.methods.find(name);
-  return methodIt == extensionIt->second.methods.end()
-             ? std::vector<std::shared_ptr<FunctionSymbol>>{}
-             : collectOverloads(methodIt->second);
+
+  for (const auto &extensionInfo : genericExtensionInfos_) {
+    if (!extensionTargetMatches(extensionInfo.targetType, targetType)) {
+      continue;
+    }
+    const auto methodIt = extensionInfo.methods.find(name);
+    if (methodIt != extensionInfo.methods.end()) {
+      const auto overloads = collectOverloads(methodIt->second);
+      methods.insert(methods.end(), overloads.begin(), overloads.end());
+    }
+  }
+  return methods;
+}
+
+bool Binder::extensionTargetMatches(
+    const std::shared_ptr<zir::Type> &pattern,
+    const std::shared_ptr<zir::Type> &target) const {
+  if (!pattern || !target) {
+    return false;
+  }
+  if (pattern->getKind() == zir::TypeKind::Record) {
+    const auto patternRecord =
+        std::static_pointer_cast<zir::RecordType>(pattern);
+    if (patternRecord->getRole() == zir::RecordRole::GenericParameter) {
+      return true;
+    }
+    if (isVariadicViewType(pattern) && isVariadicViewType(target)) {
+      const auto targetRecord =
+          std::static_pointer_cast<zir::RecordType>(target);
+      const auto &patternFields = patternRecord->getFields();
+      const auto &targetFields = targetRecord->getFields();
+      if (patternFields.empty() || targetFields.empty() ||
+          patternFields.front().type->getKind() != zir::TypeKind::Pointer ||
+          targetFields.front().type->getKind() != zir::TypeKind::Pointer) {
+        return false;
+      }
+      return extensionTargetMatches(
+          std::static_pointer_cast<zir::PointerType>(patternFields.front().type)
+              ->getBaseType(),
+          std::static_pointer_cast<zir::PointerType>(targetFields.front().type)
+              ->getBaseType());
+    }
+    if (patternRecord->isGenericInstance() &&
+        target->getKind() == zir::TypeKind::Record) {
+      const auto targetRecord =
+          std::static_pointer_cast<zir::RecordType>(target);
+      if (!targetRecord->isGenericInstance() ||
+          patternRecord->getGenericBaseName() !=
+              targetRecord->getGenericBaseName() ||
+          patternRecord->getGenericArguments().size() !=
+              targetRecord->getGenericArguments().size()) {
+        return false;
+      }
+      for (size_t i = 0; i < patternRecord->getGenericArguments().size(); ++i) {
+        if (!extensionTargetMatches(patternRecord->getGenericArguments()[i],
+                                    targetRecord->getGenericArguments()[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  if (pattern->getKind() == zir::TypeKind::Class) {
+    const auto patternClass = std::static_pointer_cast<zir::ClassType>(pattern);
+    if (patternClass->isGenericInstance() &&
+        target->getKind() == zir::TypeKind::Class) {
+      const auto targetClass = std::static_pointer_cast<zir::ClassType>(target);
+      if (!targetClass->isGenericInstance() ||
+          patternClass->getGenericBaseName() !=
+              targetClass->getGenericBaseName() ||
+          patternClass->getGenericArguments().size() !=
+              targetClass->getGenericArguments().size()) {
+        return false;
+      }
+      for (size_t i = 0; i < patternClass->getGenericArguments().size(); ++i) {
+        if (!extensionTargetMatches(patternClass->getGenericArguments()[i],
+                                    targetClass->getGenericArguments()[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  if (pattern->getKind() == zir::TypeKind::Pointer &&
+      target->getKind() == zir::TypeKind::Pointer) {
+    return extensionTargetMatches(
+        std::static_pointer_cast<zir::PointerType>(pattern)->getBaseType(),
+        std::static_pointer_cast<zir::PointerType>(target)->getBaseType());
+  }
+  if (pattern->getKind() == zir::TypeKind::Array &&
+      target->getKind() == zir::TypeKind::Array) {
+    const auto patternArray = std::static_pointer_cast<zir::ArrayType>(pattern);
+    const auto targetArray = std::static_pointer_cast<zir::ArrayType>(target);
+    return patternArray->getSize() == targetArray->getSize() &&
+           extensionTargetMatches(patternArray->getBaseType(),
+                                  targetArray->getBaseType());
+  }
+  return typeInterner_.same(pattern, target);
 }
 
 bool Binder::extensionMethodVisible(const FunctionSymbol &method) const {
@@ -1117,9 +1218,8 @@ Binder::foldConstantBinary(const BoundBinaryExpression *binary) {
   // String literal concatenation.
   if (binary->op == "+" && isStringType(binary->type)) {
     if (isStringType(left->type) && isStringType(right->type)) {
-      return std::make_unique<BoundLiteral>(
-          left->value + right->value,
-          zir::makeStringViewType());
+      return std::make_unique<BoundLiteral>(left->value + right->value,
+                                            zir::makeStringViewType());
     }
     return nullptr;
   }

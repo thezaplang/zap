@@ -39,6 +39,7 @@ std::string renderGenericCodegenName(
 std::shared_ptr<zir::RecordType>
 makeVariadicViewType(const std::shared_ptr<zir::Type> &elementType);
 bool isVariadicViewType(const std::shared_ptr<zir::Type> &type);
+bool containsUnresolvedGenericParameter(const std::shared_ptr<zir::Type> &type);
 std::unique_ptr<BoundExpression>
 makeDefaultValueExpr(const std::shared_ptr<zir::Type> &type);
 std::unique_ptr<BoundExpression>
@@ -186,6 +187,8 @@ private:
       functionDeclarationModuleIds_;
   std::unordered_map<const FunctionSymbol *, std::vector<std::string>>
       functionGenericParamNames_;
+  std::unordered_map<const FunctionSymbol *, const ExtensionDecl *>
+      extensionDeclarationNodes_;
   std::unordered_map<std::string, std::shared_ptr<FunctionSymbol>>
       genericFunctionInstantiations_;
   std::unordered_map<std::string, std::shared_ptr<TypeSymbol>>
@@ -214,6 +217,7 @@ private:
     std::map<std::string, std::shared_ptr<Symbol>> methods;
   };
   std::unordered_map<std::string, ExtensionInfo> extensionInfos_;
+  std::vector<ExtensionInfo> genericExtensionInfos_;
 
   struct InterfaceInfo {
     std::shared_ptr<TypeSymbol> typeSymbol;
@@ -304,6 +308,8 @@ private:
   std::vector<std::shared_ptr<FunctionSymbol>>
   collectExtensionMethods(const std::shared_ptr<zir::Type> &targetType,
                           const std::string &name) const;
+  bool extensionTargetMatches(const std::shared_ptr<zir::Type> &pattern,
+                              const std::shared_ptr<zir::Type> &target) const;
   bool extensionMethodVisible(const FunctionSymbol &method) const;
   int findOverriddenVtableSlot(const ClassInfo &classInfo,
                                const FunctionSymbol &method) const;

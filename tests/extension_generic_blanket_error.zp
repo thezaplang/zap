@@ -1,0 +1,9 @@
+extend<T> T {
+    fun identity() T {
+        return self;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

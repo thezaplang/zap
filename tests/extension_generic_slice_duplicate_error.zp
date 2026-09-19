@@ -1,0 +1,15 @@
+extend<T> []T {
+    fun count() Int {
+        return self.len;
+    }
+}
+
+extend<U> []U {
+    fun count() Int {
+        return self.len;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

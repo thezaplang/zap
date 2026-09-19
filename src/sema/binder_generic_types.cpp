@@ -15,6 +15,43 @@
 
 namespace sema {
 
+bool containsUnresolvedGenericParameter(
+    const std::shared_ptr<zir::Type> &type) {
+  if (!type) {
+    return false;
+  }
+  if (type->getKind() == zir::TypeKind::Record) {
+    const auto record = std::static_pointer_cast<zir::RecordType>(type);
+    if (record->getRole() == zir::RecordRole::GenericParameter) {
+      return true;
+    }
+    for (const auto &argument : record->getGenericArguments()) {
+      if (containsUnresolvedGenericParameter(argument)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (type->getKind() == zir::TypeKind::Class) {
+    const auto class_type = std::static_pointer_cast<zir::ClassType>(type);
+    for (const auto &argument : class_type->getGenericArguments()) {
+      if (containsUnresolvedGenericParameter(argument)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (type->getKind() == zir::TypeKind::Pointer) {
+    return containsUnresolvedGenericParameter(
+        std::static_pointer_cast<zir::PointerType>(type)->getBaseType());
+  }
+  if (type->getKind() == zir::TypeKind::Array) {
+    return containsUnresolvedGenericParameter(
+        std::static_pointer_cast<zir::ArrayType>(type)->getBaseType());
+  }
+  return false;
+}
+
 std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
     const std::shared_ptr<TypeSymbol> &baseSymbol, const TypeNode &typeNode) {
   if (!baseSymbol || baseSymbol->genericParameterNames.empty()) {
@@ -709,6 +746,13 @@ Binder::buildGenericBindings(
                                     failureReason)) {
       return {};
     }
+  }
+
+  auto extensionIt = extensionDeclarationNodes_.find(&function);
+  if (extensionIt != extensionDeclarationNodes_.end() && extensionIt->second &&
+      !validateGenericConstraints(extensionIt->second->genericConstraints_,
+                                  bindings, failureReason)) {
+    return {};
   }
 
   return bindings;

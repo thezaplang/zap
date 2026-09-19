@@ -1,0 +1,30 @@
+class Animal {
+    pub fun sound() Int {
+        return 1;
+    }
+}
+
+class Dog : Animal {
+    pub fun sound() Int {
+        return 2;
+    }
+}
+
+struct Cage<T> {
+    pet: T
+}
+
+extend<T> Cage<T> where T: Animal {
+    fun sound() Int {
+        return self.pet.sound();
+    }
+}
+
+fun main() Int {
+    var dog: Dog = new Dog();
+    var cage: Cage<Dog> = Cage<Dog>{ pet: dog };
+    if cage.sound() != 2 {
+        return 1;
+    }
+    return 0;
+}

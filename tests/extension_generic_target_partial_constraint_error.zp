@@ -1,0 +1,17 @@
+class Animal {
+}
+
+struct Pair<T, U> where U: Animal {
+    first: T,
+    second: U
+}
+
+extend<T> Pair<T, Int> {
+    fun marker() Int {
+        return 0;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

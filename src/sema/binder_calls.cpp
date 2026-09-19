@@ -25,6 +25,10 @@ Binder::MemberOverloadResult Binder::selectMemberOverload(
     if (!function || (hasReceiver(*function) && calledOnType)) {
       continue;
     }
+    const int extensionTargetCost =
+        function->isExtensionMethod && !function->genericParameterNames.empty()
+            ? 1
+            : 0;
 
     std::vector<std::unique_ptr<BoundExpression>> inferenceArguments;
     if (hasReceiver(*function)) {
@@ -56,6 +60,11 @@ Binder::MemberOverloadResult Binder::selectMemberOverload(
 
     Candidate match;
     match.symbol = function;
+    // A concrete extension target is more specific than a generic target
+    // pattern such as `*T`. Extension methods currently have no independent
+    // method-level generics, so a generic extension symbol always represents
+    // a target pattern here.
+    match.cost.push_back(extensionTargetCost);
     bool failed = false;
     for (size_t i = 0; i < arguments.size(); ++i) {
       auto conversion = conversions_.classifyImplicit(
@@ -208,8 +217,7 @@ void Binder::visit(FunCall &node) {
         if (classType->isInterface()) {
           const auto infoIt = interfaceInfos_.find(classType->getCodegenName());
           if (infoIt == interfaceInfos_.end()) {
-            error(node.span,
-                  "Unknown interface type: " + classType->getName());
+            error(node.span, "Unknown interface type: " + classType->getName());
             return;
           }
           const auto methodIt = infoIt->second.methods.find(member->member_);
@@ -243,8 +251,8 @@ void Binder::visit(FunCall &node) {
                                "' has no method '" + member->member_ + "'.");
         } else {
           error(node.span, "Type '" + renderTypeForUser(selfExpr->type) +
-                               "' has no extension method '" +
-                               member->member_ + "'.");
+                               "' has no extension method '" + member->member_ +
+                               "'.");
         }
         return;
       }
@@ -279,16 +287,14 @@ void Binder::visit(FunCall &node) {
           continue;
         }
 
-        const bool methodAllowed = funcSymbol->isExtensionMethod
-                                       ? extensionMethodVisible(*funcSymbol)
-                                       : funcSymbol->visibility == Visibility::Public ||
-                                             (!currentClassStack_.empty() &&
-                                              classType &&
-                                              currentClassStack_.back() ==
-                                                  classType->getName()) ||
-                                             (funcSymbol->visibility ==
-                                                  Visibility::Protected &&
-                                              !currentClassStack_.empty());
+        const bool methodAllowed =
+            funcSymbol->isExtensionMethod
+                ? extensionMethodVisible(*funcSymbol)
+                : funcSymbol->visibility == Visibility::Public ||
+                      (!currentClassStack_.empty() && classType &&
+                       currentClassStack_.back() == classType->getName()) ||
+                      (funcSymbol->visibility == Visibility::Protected &&
+                       !currentClassStack_.empty());
         if (!methodAllowed) {
           inaccessibleMatch = true;
           continue;
@@ -300,8 +306,7 @@ void Binder::visit(FunCall &node) {
         const bool requiresMutableReceiver =
             funcSymbol->isExtensionMethod && !funcSymbol->parameters.empty() &&
             funcSymbol->parameters.front()->is_ref;
-        if (requiresMutableReceiver &&
-            !canPassAsMutableReference(*selfExpr)) {
+        if (requiresMutableReceiver && !canPassAsMutableReference(*selfExpr)) {
           immutableReceiverMatch = true;
           continue;
         }
@@ -336,9 +341,9 @@ void Binder::visit(FunCall &node) {
       std::vector<std::unique_ptr<BoundExpression>> args;
       std::vector<bool> argIsRef;
       if (hasReceiver(*funcSymbol)) {
-        const bool receiverIsRef =
-            funcSymbol->isExtensionMethod && !funcSymbol->parameters.empty() &&
-            funcSymbol->parameters.front()->is_ref;
+        const bool receiverIsRef = funcSymbol->isExtensionMethod &&
+                                   !funcSymbol->parameters.empty() &&
+                                   funcSymbol->parameters.front()->is_ref;
         args.push_back(std::move(selfExpr));
         argIsRef.push_back(receiverIsRef);
       }
@@ -779,8 +784,8 @@ void Binder::visit(FunCall &node) {
       if (auto conversion = conversions_.classifyImplicit(
               funcSymbol->returnType, expectedReturnType)) {
         match.returnCost = conversion->cost();
-        match.notes.push_back(
-            "return: " + std::string(conversion->description()));
+        match.notes.push_back("return: " +
+                              std::string(conversion->description()));
       } else {
         match.returnCost = 50;
         match.notes.push_back("return: incompatible with expected " +

@@ -1,0 +1,17 @@
+struct Box<T> {
+    value: T
+}
+
+extend<T> Box<T> {
+    fun get() T {
+        return self.value;
+    }
+}
+
+fun main() Int {
+    var box: Box<Int> = Box<Int>{ value: 42 };
+    if box.get() != 42 {
+        return 1;
+    }
+    return 0;
+}

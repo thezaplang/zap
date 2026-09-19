@@ -1,0 +1,18 @@
+class Box<T> {
+}
+
+extend<T> Box<T> {
+    fun marker() Int {
+        return 1;
+    }
+}
+
+extend<U> Box<U> {
+    fun marker() Int {
+        return 2;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

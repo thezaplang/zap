@@ -1,0 +1,9 @@
+extend<T> Int {
+    fun value() Int {
+        return self;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

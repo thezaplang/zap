@@ -1,0 +1,16 @@
+extend<T> *T {
+    unsafe fun is_null() Bool {
+        return self == null;
+    }
+}
+
+fun main() Int {
+    unsafe {
+        var value: Int = 42;
+        var pointer: *Int = &value;
+        if pointer.is_null() {
+            return 1;
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,15 @@
+extend<T> *T {
+    unsafe fun marker() Int {
+        return 1;
+    }
+}
+
+extend<U> *U {
+    unsafe fun marker() Int {
+        return 2;
+    }
+}
+
+fun main() Int {
+    return 0;
+}

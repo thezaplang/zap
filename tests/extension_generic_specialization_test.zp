@@ -1,0 +1,22 @@
+extend<T> *T {
+    unsafe fun marker() Int {
+        return 1;
+    }
+}
+
+extend *Int {
+    unsafe fun marker() Int {
+        return 2;
+    }
+}
+
+fun main() Int {
+    unsafe {
+        var value: Int = 42;
+        var pointer: *Int = &value;
+        if pointer.marker() != 2 {
+            return 1;
+        }
+    }
+    return 0;
+}

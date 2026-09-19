@@ -1,0 +1,17 @@
+extend<T> []T {
+    fun count() Int {
+        return self.len;
+    }
+}
+
+fun count_values(values: []Int) Int {
+    return values.count();
+}
+
+fun main() Int {
+    var values: [3]Int = {1, 2, 3};
+    if count_values(values) != 3 {
+        return 1;
+    }
+    return 0;
+}
