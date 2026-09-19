@@ -70,6 +70,42 @@ pub fun splitOnce(s: noescape StringView, delim: Char) SplitPair {
   };
 }
 
+extend String {
+  pub fun len() Int {
+    return stringLen(self);
+  }
+
+  pub fun trim() String {
+    return trim(self);
+  }
+
+  pub fun splitOnce(delim: Char) SplitPair {
+    return splitOnce(self, delim);
+  }
+
+  pub fun pushChar(c: Char) String {
+    return pushChar(self, c);
+  }
+}
+
+extend StringView {
+  pub fun len() Int {
+    return stringLen(self);
+  }
+
+  pub fun trim() String {
+    return trim(self);
+  }
+
+  pub fun splitOnce(delim: Char) SplitPair {
+    return splitOnce(self, delim);
+  }
+
+  pub fun pushChar(c: Char) String {
+    return pushChar(self, c);
+  }
+}
+
 pub class TextBuf {
   priv data: String;
 

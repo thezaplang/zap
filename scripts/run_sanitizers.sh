@@ -23,6 +23,8 @@ cd "$repo_dir"
 python3 run_tests.py --zapc "$build_dir/zapc" -j 1 \
   tests/string_ownership_runtime_test.zp \
   tests/string_view_owned_semantics_test.zp \
+  tests/extension_stdlib_test.zp \
+  tests/extension_convert_test.zp \
   tests/extension_generic_managed_receiver_test.zp \
   tests/extension_class_receiver_ownership_test.zp \
   tests/class_arc_test.zp \

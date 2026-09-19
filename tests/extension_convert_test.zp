@@ -1,0 +1,32 @@
+import "std/convert";
+import "std/string" { eq };
+
+fun main() Int {
+    if !eq(1.toString(), "1") {
+        return 1;
+    }
+    if !eq((-2).toString(), "-2") {
+        return 2;
+    }
+
+    var signed8: Int8 = -8;
+    var signed32: Int32 = -32;
+    var unsigned8: UInt8 = 8;
+    var unsigned32: UInt32 = 32;
+    if !eq(signed8.toString(), "-8") || !eq(signed32.toString(), "-32") {
+        return 3;
+    }
+    if !eq(unsigned8.toString(), "8") || !eq(unsigned32.toString(), "32") {
+        return 4;
+    }
+
+    var floating: Float64 = 2.5;
+    if !eq(floating.toString(), "2.5") || !eq(true.toString(), "true") {
+        return 5;
+    }
+    if !eq('Z'.toString(), "Z") || !eq("zap".toString(), "zap") {
+        return 6;
+    }
+
+    return 0;
+}

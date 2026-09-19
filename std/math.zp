@@ -135,3 +135,57 @@ pub fun nextPowerOfTwo(n: Int) Int {
     }
     return p;
 }
+
+extend Int {
+    pub fun abs() Int {
+        return abs(self);
+    }
+
+    pub fun clamp(low: Int, high: Int) Int {
+        return clamp(self, low, high);
+    }
+
+    pub fun gcd(other: Int) Int {
+        return gcd(self, other);
+    }
+
+    pub fun lcm(other: Int) Int {
+        return lcm(self, other);
+    }
+
+    pub fun isPowerOfTwo() Bool {
+        return isPowerOfTwo(self);
+    }
+
+    pub fun nextPowerOfTwo() Int {
+        return nextPowerOfTwo(self);
+    }
+}
+
+extend Float64 {
+    pub fun abs() Float64 {
+        return abs(self);
+    }
+
+    pub fun clamp(low: Float64, high: Float64) Float64 {
+        return clamp(self, low, high);
+    }
+
+    pub fun sqrt() Float64 {
+        return sqrt(self);
+    }
+
+    pub fun degToRad() Float64 {
+        return degToRad(self);
+    }
+
+    pub fun radToDeg() Float64 {
+        return radToDeg(self);
+    }
+}
+
+extend Float {
+    pub fun abs() Float {
+        return abs(self);
+    }
+}

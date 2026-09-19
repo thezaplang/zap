@@ -140,6 +140,36 @@ void testImplIsAnIdentifier() {
           "ordinary function acquired an extension receiver");
 }
 
+void testIntegerLiteralMemberAccess() {
+  const std::string source =
+      "fun text() String { return 1.toString(); }";
+  zap::DiagnosticEngine diagnostics(source);
+  Lexer lexer(diagnostics);
+  const auto tokens = lexer.tokenize(source);
+
+  bool foundIntegerMemberAccess = false;
+  for (size_t index = 0; index + 2 < tokens.size(); ++index) {
+    foundIntegerMemberAccess |=
+        tokens[index].type == TokenType::INTEGER && tokens[index].value == "1" &&
+        tokens[index + 1].type == TokenType::DOT &&
+        tokens[index + 2].type == TokenType::ID &&
+        tokens[index + 2].value == "toString";
+  }
+  require(foundIntegerMemberAccess,
+          "integer literal member access was lexed as a float literal");
+
+  const auto decimalTokens = lexer.tokenize("1.5 1.");
+  require(decimalTokens.size() == 2 && decimalTokens[0].type == TokenType::FLOAT &&
+              decimalTokens[0].value == "1.5" &&
+              decimalTokens[1].type == TokenType::FLOAT &&
+              decimalTokens[1].value == "1.",
+          "decimal literals no longer retain their previous tokenization");
+
+  auto result = parse(source);
+  require(!result.diagnostics->hadErrors(),
+          "integer literal member access produced parser diagnostics");
+}
+
 void testInvalidReceiverRecovers() {
   const std::string source = R"(
 extend Int {
@@ -176,5 +206,6 @@ int main() {
   testGenericQualifiedExtension();
   testPointerAndArrayTargets();
   testImplIsAnIdentifier();
+  testIntegerLiteralMemberAccess();
   testInvalidReceiverRecovers();
 }

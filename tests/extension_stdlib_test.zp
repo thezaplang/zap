@@ -1,0 +1,49 @@
+import "std/math";
+import "std/string";
+
+fun main() Int {
+    var value: Int = -12;
+    if value.abs() != 12 {
+        return 1;
+    }
+    if (17).clamp(0, 10) != 10 {
+        return 2;
+    }
+    if (48).gcd(18) != 6 || (4).lcm(6) != 12 {
+        return 3;
+    }
+    if !(16).isPowerOfTwo() || (10).nextPowerOfTwo() != 16 {
+        return 4;
+    }
+
+    var zero: Float64 = 0.0;
+    if zero.degToRad().radToDeg() != 0.0 {
+        return 5;
+    }
+    var root: Float64 = 9.0;
+    var negative: Float64 = -4.5;
+    if root.sqrt() != 3.0 || negative.abs() != 4.5 {
+        return 6;
+    }
+    var large: Float64 = 12.0;
+    if large.clamp(0.0, 10.0) != 10.0 {
+        return 7;
+    }
+    var small: Float = -1.5;
+    if small.abs() != 1.5 {
+        return 8;
+    }
+
+    var text: String = "  zap";
+    if text.trim().pushChar('!') != "zap!" {
+        return 9;
+    }
+    if text.len() != 5 {
+        return 10;
+    }
+    var pair: string.SplitPair = ("left:right").splitOnce(':');
+    if !pair.found || pair.left != "left" || pair.right != "right" {
+        return 11;
+    }
+    return 0;
+}

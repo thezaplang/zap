@@ -1,4 +1,5 @@
 import "std/string" as string;
+import "core" { StringView };
 
 ext fun zap_to_string_i64(x: Int64) String;
 ext fun zap_to_string_u64(x: UInt64) String;
@@ -27,15 +28,82 @@ pub fun toString(x: Char) String {
   return string.fromChar(x);
 }
 
+pub fun toString(x: Int8) String { return zap_to_string_i64(x); }
 pub fun toString(x: Int16) String { return zap_to_string_i64(x); }
+pub fun toString(x: Int32) String { return zap_to_string_i64(x); }
 pub fun toString(x: Int64) String { return zap_to_string_i64(x); }
 pub fun toString(x: Int) String { return zap_to_string_i64(x); }
 pub fun toString(x: UInt8) String { return zap_to_string_u64(x); }
 pub fun toString(x: UInt16) String { return zap_to_string_u64(x); }
+pub fun toString(x: UInt32) String { return zap_to_string_u64(x); }
 pub fun toString(x: UInt64) String { return zap_to_string_u64(x); }
 pub fun toString(x: UInt) String { return zap_to_string_u64(x); }
 pub fun toString(x: Float) String { return zap_to_string_f64(x); }
 pub fun toString(x: Float64) String { return zap_to_string_f64(x); }
+
+extend String {
+  pub fun toString() String { return self; }
+}
+
+extend StringView {
+  pub fun toString() String { return string.owned(self); }
+}
+
+extend Bool {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Char {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Int8 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Int16 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Int32 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Int64 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Int {
+  pub fun toString() String { return toString(self); }
+}
+
+extend UInt8 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend UInt16 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend UInt32 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend UInt64 {
+  pub fun toString() String { return toString(self); }
+}
+
+extend UInt {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Float {
+  pub fun toString() String { return toString(self); }
+}
+
+extend Float64 {
+  pub fun toString() String { return toString(self); }
+}
 
 pub fun toInt(x: Int16) Int { return x; }
 pub fun toInt(x: Int64) Int { return x; }

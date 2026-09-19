@@ -1,0 +1,11 @@
+fun main() Int {
+    var text: String = " zap ";
+    if text.trim() != "zap" {
+        return 1;
+    }
+    if text.len() != 5 {
+        return 2;
+    }
+
+    return 0;
+}
