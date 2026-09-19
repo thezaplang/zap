@@ -17,14 +17,14 @@ OBJECT_OUTPUT="${OUTPUT}.o"
 
 "$ZAPC" "$INPUT" -emit-zir -o "$ZIR_OUTPUT"
 
-for required_symbol in 'library$used_24' used_5Fdependency retained_c_api retained_5Fentry 'extern @exit'; do
+for required_symbol in 'library$used_24' used_5Fdependency extension_5Fonly_5Freachable retained_c_api retained_5Fentry 'extern @exit'; do
     if ! grep -Fq "$required_symbol" "$ZIR_OUTPUT"; then
         echo "Expected reachable symbol '$required_symbol' is absent from ZIR." >&2
         exit 1
     fi
 done
 
-for removed_symbol in unused_imported unused_external; do
+for removed_symbol in unused_imported unused_external extension_5Funused; do
     if grep -Fq "$removed_symbol" "$ZIR_OUTPUT"; then
         echo "Unreachable symbol '$removed_symbol' is present in ZIR." >&2
         exit 1

@@ -1,0 +1,35 @@
+class Counter {
+    value: Int;
+
+    fun init(value: Int) {
+        self.value = value;
+    }
+
+    pub fun set_value(value: Int) {
+        self.value = value;
+    }
+
+    pub fun get_value() Int {
+        return self.value;
+    }
+}
+
+extend Counter {
+    fun copy() Counter {
+        return self;
+    }
+
+    fun set(ref self, value: Int) {
+        self.set_value(value);
+    }
+}
+
+fun main() Int {
+    var original: Counter = new Counter(1);
+    var retained: Counter = original.copy();
+    retained.set(42);
+    if original.get_value() != 42 {
+        return 1;
+    }
+    return 0;
+}

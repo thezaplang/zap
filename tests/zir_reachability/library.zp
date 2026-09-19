@@ -6,6 +6,16 @@ priv fun used_dependency() Int {
     return 42;
 }
 
+extend Int {
+    pub fun extension_only_reachable() Int {
+        return self + 1;
+    }
+
+    pub fun extension_unused() Int {
+        return 0;
+    }
+}
+
 pub fun unused_imported() Int {
     return 1;
 }

@@ -4,5 +4,8 @@ fun main() Int {
     if used() != 42 {
         return 1;
     }
+    if (41).extension_only_reachable() != 42 {
+        return 2;
+    }
     return 0;
 }

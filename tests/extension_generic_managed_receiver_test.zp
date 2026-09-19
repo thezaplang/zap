@@ -1,0 +1,23 @@
+struct Holder<T> {
+    value: T
+}
+
+extend<T> Holder<T> {
+    fun replace(ref self, value: T) {
+        self.value = value;
+    }
+
+    fun get() T {
+        return self.value;
+    }
+}
+
+fun main() Int {
+    var holder: Holder<String> = Holder<String>{ value: "first" };
+    var replacement: String = "second";
+    holder.replace(replacement);
+    if holder.get() != "second" {
+        return 1;
+    }
+    return 0;
+}
