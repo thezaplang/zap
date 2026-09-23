@@ -5,6 +5,7 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace zap {
 namespace {
@@ -58,8 +59,8 @@ std::string qualifiedNameFromExpression(const ExpressionNode *expr) {
 }
 } // namespace
 
-Parser::Parser(const std::vector<Token> &tokens, DiagnosticEngine &diag)
-    : _diag(diag), _tokens(tokens), _pos(0) {}
+Parser::Parser(std::vector<Token> tokens, DiagnosticEngine &diag)
+    : _diag(diag), _tokens(std::move(tokens)), _cursor(_tokens) {}
 
 Parser::~Parser() {}
 
@@ -233,13 +234,13 @@ std::unique_ptr<RootNode> Parser::parse() {
         } else {
           _diag.report(peek().span, DiagnosticLevel::Error,
                        "Expected 'var' after 'global'");
-          _pos++;
+          _cursor.advance();
           synchronize(SyncContext::TopLevel);
         }
       } else {
         _diag.report(peek().span, DiagnosticLevel::Error,
                      "Unexpected token " + peek().value);
-        _pos++;
+        _cursor.advance();
         synchronize(SyncContext::TopLevel);
       }
     } catch (const ParseError &e) {
@@ -971,7 +972,7 @@ std::unique_ptr<TypeNode> Parser::parseType() {
   }
 
   _builder.setSpan(typeNode.get(),
-                   SourceSpan::merge(startToken.span, _tokens[_pos - 1].span));
+                   SourceSpan::merge(startToken.span, _cursor.previous().span));
   return typeNode;
 }
 
@@ -1008,7 +1009,7 @@ std::unique_ptr<IfNode> Parser::parseIf() {
   eat(TokenType::RBRACE);
 
   std::unique_ptr<BodyNode> elseBody = nullptr;
-  SourceSpan endSpan = _tokens[_pos - 1].span;
+  SourceSpan endSpan = _cursor.previous().span;
 
   if (peek().type == TokenType::ELSE) {
     eat(TokenType::ELSE);
@@ -1191,7 +1192,7 @@ CasePattern Parser::parseCasePattern() {
         eat(TokenType::RPAREN);
       }
     }
-    pattern.span = SourceSpan::merge(startToken.span, _tokens[_pos - 1].span);
+    pattern.span = SourceSpan::merge(startToken.span, _cursor.previous().span);
     return pattern;
   }
 
@@ -1241,7 +1242,7 @@ std::unique_ptr<IfTypeNode> Parser::parseIfType() {
   eat(TokenType::RBRACE);
 
   std::unique_ptr<BodyNode> elseBody = nullptr;
-  SourceSpan endSpan = _tokens[_pos - 1].span;
+  SourceSpan endSpan = _cursor.previous().span;
 
   if (peek().type == TokenType::ELSE) {
     eat(TokenType::ELSE);
@@ -1962,13 +1963,7 @@ int Parser::getPrecedence(TokenType type) {
   }
 }
 
-const Token &Parser::peek(size_t offset) const {
-  if (_pos + offset >= _tokens.size()) {
-    static const Token dummy(TokenType::SEMICOLON, "", SourceSpan(0, 0, 0, 0));
-    return dummy;
-  }
-  return _tokens[_pos + offset];
-}
+const Token &Parser::peek(size_t offset) const { return _cursor.peek(offset); }
 
 Token Parser::eat(TokenType expectedType) {
   if (isAtEnd()) {
@@ -1977,9 +1972,9 @@ Token Parser::eat(TokenType expectedType) {
                      " but reached end of file.");
     throw ParseError();
   }
-  Token current = _tokens[_pos];
+  Token current = _cursor.peek();
   if (current.type == expectedType) {
-    _pos++;
+    _cursor.advance();
     return current;
   } else {
     _diag.report(current.span, DiagnosticLevel::Error,
@@ -1996,24 +1991,24 @@ SourceSpan Parser::pointAfter(const SourceSpan &span) const {
 }
 
 void Parser::synchronize(SyncContext context) {
-  size_t lastPos = _pos;
+  size_t lastPos = _cursor.position();
   size_t stalledIterations = 0;
   const size_t kMaxStalledIterations = 8;
   const size_t kMaxScanTokens = 4096;
   size_t scannedTokens = 0;
 
   while (!isAtEnd()) {
-    if (_pos == lastPos) {
+    if (_cursor.position() == lastPos) {
       ++stalledIterations;
     } else {
       stalledIterations = 0;
-      lastPos = _pos;
+      lastPos = _cursor.position();
     }
 
     if (stalledIterations > kMaxStalledIterations ||
         scannedTokens > kMaxScanTokens) {
       if (!isAtEnd()) {
-        ++_pos; // force progress to avoid anti-recovery infinite cascade
+        _cursor.advance(); // force progress to avoid anti-recovery infinite cascade
       }
       return;
     }
@@ -2022,7 +2017,7 @@ void Parser::synchronize(SyncContext context) {
 
     switch (peek().type) {
     case TokenType::SEMICOLON:
-      _pos++;
+      _cursor.advance();
       return;
     case TokenType::RBRACE:
       return;
@@ -2046,7 +2041,7 @@ void Parser::synchronize(SyncContext context) {
       if (context == SyncContext::TopLevel) {
         return;
       }
-      _pos++;
+      _cursor.advance();
       break;
 
     case TokenType::VAR:
@@ -2058,13 +2053,13 @@ void Parser::synchronize(SyncContext context) {
     case TokenType::RETURN:
     case TokenType::UNSAFE:
       if (context == SyncContext::TopLevel) {
-        _pos++;
+        _cursor.advance();
         break;
       }
       return;
 
     default:
-      _pos++;
+      _cursor.advance();
       break;
     }
   }
@@ -2076,20 +2071,20 @@ void Parser::synchronizeExtensionMember() {
     switch (peek().type) {
     case TokenType::LBRACE:
       ++braceDepth;
-      ++_pos;
+      _cursor.advance();
       break;
     case TokenType::RBRACE:
       if (braceDepth == 0) {
         return;
       }
       --braceDepth;
-      ++_pos;
+      _cursor.advance();
       if (braceDepth == 0) {
         return;
       }
       break;
     case TokenType::SEMICOLON:
-      ++_pos;
+      _cursor.advance();
       if (braceDepth == 0) {
         return;
       }
@@ -2104,10 +2099,10 @@ void Parser::synchronizeExtensionMember() {
       if (braceDepth == 0) {
         return;
       }
-      ++_pos;
+      _cursor.advance();
       break;
     default:
-      ++_pos;
+      _cursor.advance();
       break;
     }
   }
@@ -2120,7 +2115,7 @@ void Parser::synchronizeCaseArm() {
     switch (peek().type) {
     case TokenType::LBRACE:
       ++braceDepth;
-      ++_pos;
+      _cursor.advance();
       break;
 
     case TokenType::RBRACE:
@@ -2128,14 +2123,14 @@ void Parser::synchronizeCaseArm() {
         return;
       }
       --braceDepth;
-      ++_pos;
+      _cursor.advance();
       if (braceDepth == 0) {
         return;
       }
       break;
 
     default:
-      ++_pos;
+      _cursor.advance();
       break;
     }
   }
@@ -2151,7 +2146,7 @@ std::vector<std::string> Parser::parseQualifiedIdentifier() {
   return parts;
 }
 
-bool Parser::isAtEnd() const { return _pos >= _tokens.size(); }
+bool Parser::isAtEnd() const { return _cursor.isAtEnd(); }
 
 std::unique_ptr<EnumDecl> Parser::parseEnumDecl() {
   Token enumKeyword = eat(TokenType::ENUM);

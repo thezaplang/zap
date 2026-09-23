@@ -101,6 +101,7 @@ enum TokenType {
   LET,            ///< "let" keyword.
   DOTDOT,         ///< ".." keyword.
   DEFER,          ///< "defer" keyword.
+  EOF_TOKEN,      ///< End of the current token range.
 };
 
 /// @brief Contains in-file related information like line, column, offset, and
@@ -301,6 +302,8 @@ inline std::string tokenTypeToString(TokenType type) {
     return "weak";
   case TokenType::DOTDOT:
     return "..";
+  case TokenType::EOF_TOKEN:
+    return "end of file";
   default:
     return "unknown token";
   }

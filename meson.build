@@ -103,6 +103,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
+                            'src/parser/token_cursor.cpp',
                             dependencies : zap_support_dep,
                             include_directories : inc
 )
@@ -190,6 +191,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('token-cursor', executable('zap-token-cursor-tests',
+                                    'tests/cpp/token_cursor_test.cpp',
+                                    dependencies : zap_syntax_dep))
     test('parser-extensions', executable('zap-parser-extension-tests',
                                          'tests/cpp/parser_extension_test.cpp',
                                          dependencies : zap_syntax_dep))

@@ -36,6 +36,7 @@
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
 #include "ast_builder.hpp"
+#include "token_cursor.hpp"
 #include <memory>
 #include <optional>
 #include <string>
@@ -50,14 +51,14 @@ public:
     ParseError() : std::runtime_error("Parse error") {}
   };
 
-  Parser(const std::vector<Token> &toks, DiagnosticEngine &diag);
+  Parser(std::vector<Token> tokens, DiagnosticEngine &diag);
   ~Parser();
   std::unique_ptr<RootNode> parse(); // Returns the root of the AST
 
 private:
   DiagnosticEngine &_diag;
   std::vector<Token> _tokens;
-  size_t _pos;
+  TokenCursor _cursor;
   AstBuilder _builder;
   bool _allowStructLiteral = true;
 

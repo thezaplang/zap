@@ -47,7 +47,7 @@ std::unique_ptr<ExtensionDecl> Parser::parseExtensionDecl() {
           peek().type != TokenType::STATIC) {
         _diag.report(peek().span, DiagnosticLevel::Error,
                      "Only methods may be declared inside an extension.");
-        ++_pos;
+        _cursor.advance();
         synchronizeExtensionMember();
         continue;
       }
