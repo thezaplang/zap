@@ -191,6 +191,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('token-syntax', executable('zap-token-syntax-tests',
+                                    'tests/cpp/token_syntax_test.cpp',
+                                    dependencies : zap_syntax_dep))
     test('token-cursor', executable('zap-token-cursor-tests',
                                     'tests/cpp/token_cursor_test.cpp',
                                     dependencies : zap_syntax_dep))

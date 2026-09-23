@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <unordered_map>
+#include <utility>
 
 static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"if", TokenType::IF},
@@ -57,6 +58,14 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
   _line = 1;
   _column = 1;
   _input = input;
+
+  auto finish = [&]() {
+    for (auto &token : tokens) {
+      token.span.sourceName = _diag.sourceName();
+      token.spelling = input.substr(token.span.offset, token.span.length);
+    }
+    return std::move(tokens);
+  };
 
   while (!isAtEnd()) {
     char _cur = _input[_pos];
@@ -244,7 +253,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           _diag.report(
               SourceSpan(startLine, startColumn, startPos, _pos - startPos),
               zap::DiagnosticLevel::Error, "Unterminated block comment");
-          return tokens;
+          return finish();
         }
         continue;
       } else if (Peek2() == '=') {
@@ -458,7 +467,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           _diag.report(
               SourceSpan(startLine, startColumn, startPos, _pos - startPos),
               zap::DiagnosticLevel::Error, "Invalid integer literal");
-          return tokens;
+          return finish();
         }
 
         std::string parsed;
@@ -473,7 +482,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           _diag.report(
               SourceSpan(startLine, startColumn, startPos, _pos - startPos),
               zap::DiagnosticLevel::Error, "Integer literal out of range");
-          return tokens;
+          return finish();
         }
 
         size_t len = _pos - startPos;
@@ -507,7 +516,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           ++_column;
         }
       }
-      size_t len = numStr.length();
+      size_t len = _pos - startPos;
       if (isFloat) {
         tokens.emplace_back(TokenType::FLOAT, std::move(numStr), startLine,
                             startColumn, startPos, len);
@@ -605,7 +614,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         _diag.report(
             SourceSpan(startLine, startColumn, strStart, _pos - strStart),
             zap::DiagnosticLevel::Error, "Unterminated string literal");
-        return tokens;
+        return finish();
       }
     } else if (_cur == '\'') {
       size_t charStart = _pos;
@@ -614,7 +623,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       if (isAtEnd()) {
         _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
                      zap::DiagnosticLevel::Error, "Unterminated char literal");
-        return tokens;
+        return finish();
       }
       char ch;
       if (_input[_pos] == '\\') {
@@ -623,7 +632,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
           _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
                        zap::DiagnosticLevel::Error,
                        "Unterminated char literal");
-          return tokens;
+          return finish();
         }
         switch (_input[_pos]) {
         case 'n':
@@ -656,12 +665,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       if (isAtEnd() || _input[_pos] != '\'') {
         _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
                      zap::DiagnosticLevel::Error, "Unterminated char literal");
-        return tokens;
+        return finish();
       }
       ++_pos;
       ++_column;
       tokens.emplace_back(TokenType::CHAR, std::string(1, ch), startLine,
-                          startColumn, startPos, 3);
+                          startColumn, startPos, _pos - startPos);
       continue;
     } else {
       _diag.report(SourceSpan(startLine, startColumn, _pos, 1),
@@ -671,10 +680,7 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       ++_column;
     }
   }
-  for (auto &token : tokens) {
-    token.span.sourceName = _diag.sourceName();
-  }
-  return tokens;
+  return finish();
 }
 
 char Lexer::Peek2() {

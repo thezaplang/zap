@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+#include <limits>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -129,21 +132,45 @@ struct SourceSpan {
   /// @return Merged 'SourceSpan'.
   static SourceSpan merge(const SourceSpan &start,
                           const SourceSpan &end) noexcept {
+    if ((!start.sourceName.empty() && !end.sourceName.empty() &&
+         start.sourceName != end.sourceName) ||
+        end.offset < start.offset ||
+        end.length > std::numeric_limits<size_t>::max() - end.offset) {
+      return start;
+    }
+
     size_t newLen = (end.offset + end.length) - start.offset;
     return SourceSpan(start.line, start.column, start.offset, newLen,
                       start.sourceName);
   }
 };
 
+using SyntaxContextId = uint32_t;
+constexpr SyntaxContextId ROOT_SYNTAX_CONTEXT = 0;
+
+struct ExpansionOrigin {
+  SourceSpan invocationSpan;
+  SourceSpan definitionSpan;
+  std::shared_ptr<const ExpansionOrigin> parent;
+};
+
 class Token {
 public:
-  SourceSpan span;   ///< Source of the token in the file.
-  TokenType type;    ///< Type of the token.
-  std::string value; ///< String of the token.
+  SourceSpan span; ///< Source of the token in the file.
+  TokenType type;  ///< Type of the token.
+  std::string value; ///< Normalized token value consumed by the parser.
+  std::string spelling; ///< Exact source spelling, including escapes and separators.
+  SyntaxContextId syntaxContext = ROOT_SYNTAX_CONTEXT;
+  std::shared_ptr<const ExpansionOrigin> expansionOrigin;
 
   /// @brief Default constructor of the 'Token' class.
-  Token(TokenType type, const std::string &value, SourceSpan span)
-      : span(span), type(type), value(value) {}
+  Token(TokenType type, std::string value, SourceSpan span,
+        std::string spelling = "",
+        SyntaxContextId syntaxContext = ROOT_SYNTAX_CONTEXT,
+        std::shared_ptr<const ExpansionOrigin> expansionOrigin = nullptr)
+      : span(std::move(span)), type(type), value(std::move(value)),
+        spelling(spelling.empty() ? this->value : std::move(spelling)),
+        syntaxContext(syntaxContext), expansionOrigin(std::move(expansionOrigin)) {}
 
   /// @brief Helper constructor for when we build span component-wise.
   Token(TokenType type, const std::string &value, size_t line, size_t column,
