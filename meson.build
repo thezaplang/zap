@@ -104,6 +104,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
                             'src/parser/token_cursor.cpp',
+                            'src/token/token_tree.cpp',
                             dependencies : zap_support_dep,
                             include_directories : inc
 )
@@ -191,6 +192,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('token-tree', executable('zap-token-tree-tests',
+                                  'tests/cpp/token_tree_test.cpp',
+                                  dependencies : zap_syntax_dep))
     test('token-syntax', executable('zap-token-syntax-tests',
                                     'tests/cpp/token_syntax_test.cpp',
                                     dependencies : zap_syntax_dep))
