@@ -113,6 +113,7 @@ zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories 
 
 zap_frontend = static_library('zap_frontend',
                               'src/frontend/frontend_session.cpp',
+                              'src/frontend/macro_registry.cpp',
                               'src/frontend/module_loader.cpp',
                               'src/frontend/module_outline.cpp',
                               'src/frontend/project_configuration.cpp',

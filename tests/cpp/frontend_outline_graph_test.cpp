@@ -128,6 +128,8 @@ void testCyclesAndPrelude() {
       withPrelude.outlines.at(entry.string()).hasImportPath("std/prelude") &&
           withPrelude.outlines.at(prelude.string()).macros.size() == 1,
       "prelude macro was not available in the discovered outlines");
+  require(withPrelude.macros.find(entry.string(), "prelude_macro") != nullptr,
+          "implicit prelude macro was not visible without qualification");
   require(withPrelude.modules.at(entry.string())->imports.size() == 2,
           "implicit prelude was not resolved before full parsing");
 
@@ -157,11 +159,73 @@ void testMalformedImportStillDiscoversLaterDependency() {
           "malformed import prevented later dependency discovery");
 }
 
+void testMacroVisibilityAliasesAndReexports() {
+  TemporaryDirectory temporary;
+  const auto leaf = temporary.path / "leaf.zp";
+  const auto facade = temporary.path / "facade.zp";
+  const auto plain = temporary.path / "plain.zp";
+  const auto entry = temporary.path / "main.zp";
+  writeFile(leaf, "pub macro shown() {} macro hidden() {} "
+                  "pub fun ordinary() Int { return 2; }");
+  writeFile(facade, "pub import \"leaf.zp\" as leaf { shown as renamed }; ");
+  writeFile(plain, "pub import \"leaf.zp\";");
+  writeFile(entry, "import \"facade.zp\" as api; "
+                   "import \"plain.zp\" as plain; "
+                   "import \"leaf.zp\" as direct { shown as local, "
+                   "ordinary as value }; "
+                   "fun local() Int { return 1; } "
+                   "fun main() Int { return local() + value(); }");
+
+  auto session = makeSession({}, false);
+  auto project = session.load(entry);
+  require(project.loaded, "macro imports did not load");
+  require(project.macros.find(entry.string(), "local") != nullptr &&
+              project.macros.findQualified(entry.string(), "direct", "shown") !=
+                  nullptr &&
+              project.macros.findQualified(entry.string(), "api", "renamed") !=
+                  nullptr &&
+              project.macros.findQualified(entry.string(), "plain", "shown") !=
+                  nullptr &&
+              project.macros.findQualified(entry.string(), "direct",
+                                           "hidden") == nullptr &&
+              project.macros.find(entry.string(), "hidden") == nullptr,
+          "macro visibility, aliases, or re-exports resolved incorrectly");
+  require(session.bind(project),
+          "macro-only selective import interfered with runtime binding");
+}
+
+void testMacroNameConflictsAreDeterministic() {
+  TemporaryDirectory temporary;
+  const auto entry = temporary.path / "main.zp";
+  writeFile(temporary.path / "first.zp", "pub macro same() {}");
+  writeFile(temporary.path / "second.zp", "pub macro same() {}");
+  writeFile(entry, "pub import \"first.zp\" { same as duplicate }; "
+                   "pub import \"second.zp\" { same as duplicate }; "
+                   "fun main() Int { return 1; }");
+
+  auto session = makeSession({}, false);
+  auto project = session.load(entry);
+  require(!project.loaded, "conflicting macro imports were accepted");
+  size_t conflicts = 0;
+  for (const auto &diagnostic : project.diagnostics) {
+    if (diagnostic.message.find("Macro name 'duplicate' conflicts") !=
+        std::string::npos)
+      ++conflicts;
+  }
+  require(conflicts == 1, "macro conflict was not reported exactly once");
+
+  auto permissive = makeSession({}, false, true).load(entry);
+  require(permissive.loaded && !permissive.diagnostics.empty(),
+          "entry diagnostics unexpectedly prevented permissive loading");
+}
+
 } // namespace
 
 int main() {
   testImportedAndForwardMacros();
   testCyclesAndPrelude();
   testMalformedImportStillDiscoversLaterDependency();
+  testMacroVisibilityAliasesAndReexports();
+  testMacroNameConflictsAreDeterministic();
   return 0;
 }

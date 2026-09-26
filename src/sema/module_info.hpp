@@ -13,6 +13,7 @@ struct ResolvedImport {
   struct Binding {
     std::string sourceName;
     std::string localName;
+    bool importsMacro = false;
   };
 
   std::string rawPath;

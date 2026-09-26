@@ -106,6 +106,37 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
       };
 
   const bool graphComplete = discover(canonicalEntry);
+  MacroRegistrySet::ImportGraph imports;
+  for (auto &[moduleId, staged] : pending) {
+    project.outlines.emplace(moduleId, std::move(staged->outline));
+    imports.emplace(moduleId, std::move(staged->imports));
+  }
+
+  std::vector<MacroResolutionError> macroErrors;
+  project.macros =
+      MacroRegistrySet::resolve(project.outlines, imports, macroErrors);
+  bool macrosComplete = true;
+  for (const auto &error : macroErrors) {
+    pending.at(error.moduleId)
+        ->diagnostics.report(error.span, DiagnosticLevel::Error, error.message);
+    if (!config_.allowEntryErrors || error.moduleId != project.entryModuleId)
+      macrosComplete = false;
+  }
+  for (auto &[_, moduleImports] : imports) {
+    for (auto &import : moduleImports) {
+      if (import.targetModuleIds.size() != 1)
+        continue;
+      const auto *target =
+          project.macros.module(import.targetModuleIds.front());
+      if (!target)
+        continue;
+      for (auto &binding : import.bindings) {
+        binding.importsMacro =
+            target->findExported(binding.sourceName) != nullptr;
+      }
+    }
+  }
+
   bool parseComplete = true;
   for (auto &[moduleId, staged] : pending) {
     Parser parser(std::move(staged->tokens), staged->diagnostics);
@@ -117,7 +148,6 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
     project.diagnostics.insert(project.diagnostics.end(),
                                moduleDiagnostics.begin(),
                                moduleDiagnostics.end());
-    project.outlines.emplace(moduleId, std::move(staged->outline));
     if (!accepted) {
       parseComplete = false;
       continue;
@@ -131,12 +161,12 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
     module->sourceText = std::move(staged->source);
     module->isEntry = isEntry;
     module->root = std::move(root);
-    module->imports = std::move(staged->imports);
+    module->imports = std::move(imports.at(moduleId));
     injectImplicitPreludeImportIfNeeded(*module, config_.includePrelude);
     project.modules.emplace(moduleId, std::move(module));
   }
 
-  project.loaded = graphComplete && parseComplete &&
+  project.loaded = graphComplete && macrosComplete && parseComplete &&
                    project.modules.count(project.entryModuleId) != 0;
   return project;
 }

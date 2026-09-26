@@ -621,6 +621,9 @@ void Binder::applyImports(ModuleState &module, bool allowIncomplete) {
       for (const auto &binding : import.bindings) {
         auto exportedIt = target.symbol->exports.find(binding.sourceName);
         if (exportedIt == target.symbol->exports.end()) {
+          if (binding.importsMacro) {
+            continue;
+          }
           if (allowIncomplete) {
             continue;
           }

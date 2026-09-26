@@ -1,5 +1,6 @@
 #pragma once
 
+#include "frontend/macro_registry.hpp"
 #include "frontend/module_loader.hpp"
 #include "frontend/module_outline.hpp"
 #include "sema/bound_nodes.hpp"
@@ -31,6 +32,7 @@ struct FrontendProject {
   std::string entryModuleId;
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> modules;
   std::map<std::string, ModuleOutline> outlines;
+  MacroRegistrySet macros;
   std::unordered_set<std::string> visitedModuleIds;
   std::vector<Diagnostic> diagnostics;
   std::vector<std::string> errors;

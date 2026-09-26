@@ -1,0 +1,57 @@
+#pragma once
+
+#include "frontend/module_outline.hpp"
+#include "sema/module_info.hpp"
+
+#include <map>
+#include <string>
+#include <vector>
+
+namespace zap::frontend {
+
+struct MacroBinding {
+  // The outline map passed to resolve() must outlive the registry set.
+  const MacroDefinition *definition;
+  std::string definingModuleId;
+};
+
+struct MacroResolutionError {
+  std::string moduleId;
+  SourceSpan span;
+  std::string message;
+};
+
+class MacroRegistry {
+public:
+  const MacroBinding *find(const std::string &name) const;
+  const MacroBinding *findExported(const std::string &name) const;
+  const std::string *findModule(const std::string &alias) const;
+
+private:
+  friend class MacroRegistrySet;
+  std::map<std::string, MacroBinding> visible_;
+  std::map<std::string, MacroBinding> exported_;
+  std::map<std::string, std::string> modules_;
+};
+
+class MacroRegistrySet {
+public:
+  using ImportGraph = std::map<std::string, std::vector<sema::ResolvedImport>>;
+
+  static MacroRegistrySet
+  resolve(const std::map<std::string, ModuleOutline> &outlines,
+          const ImportGraph &imports,
+          std::vector<MacroResolutionError> &errors);
+
+  const MacroRegistry *module(const std::string &moduleId) const;
+  const MacroBinding *find(const std::string &moduleId,
+                           const std::string &name) const;
+  const MacroBinding *findQualified(const std::string &moduleId,
+                                    const std::string &alias,
+                                    const std::string &name) const;
+
+private:
+  std::map<std::string, MacroRegistry> modules_;
+};
+
+} // namespace zap::frontend
