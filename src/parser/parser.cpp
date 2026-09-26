@@ -1,5 +1,6 @@
 #include "parser.hpp"
 #include "../ast/fun_call.hpp"
+#include "../macros/macro_parser.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <limits>
@@ -67,6 +68,14 @@ Parser::Parser(std::vector<Token> tokens, DiagnosticEngine &diag, size_t begin,
     : _diag(diag), _tokens(std::move(tokens)), _cursor(_tokens, begin, end) {}
 
 Parser::~Parser() {}
+
+const std::vector<MacroDefinition> &Parser::macroDefinitions() const noexcept {
+  return _macroDefinitions;
+}
+
+std::vector<MacroDefinition> Parser::takeMacroDefinitions() {
+  return std::move(_macroDefinitions);
+}
 
 std::optional<ParsedFragment> Parser::parseFragment(FragmentKind kind) {
   if (isAtEnd()) {
@@ -212,7 +221,22 @@ std::unique_ptr<RootNode> Parser::parse() {
             }
           };
 
-      if (peek().type == TokenType::IMPORT) {
+      if (peek().type == TokenType::MACRO) {
+        const bool hasAttributes = !attributes.empty();
+        if (hasAttributes) {
+          _diag.report(peek().span, DiagnosticLevel::Error,
+                       "Attributes on macro declarations are not supported yet.");
+        }
+        const size_t start = _cursor.position();
+        auto result = MacroParser::parse(_tokens, start, _cursor.end(),
+                                         visibility, _diag);
+        _cursor.advance(result.nextPosition - start);
+        if (result.definition && !hasAttributes) {
+          _macroDefinitions.push_back(std::move(*result.definition));
+        } else if (!result.definition) {
+          synchronize(SyncContext::TopLevel);
+        }
+      } else if (peek().type == TokenType::IMPORT) {
         auto importDecl = parseImportDecl();
         applyMetadata(importDecl.get(), std::move(attributes));
         root->addChild(std::move(importDecl));
@@ -2102,6 +2126,7 @@ void Parser::synchronize(SyncContext context) {
     case TokenType::PRIV:
     case TokenType::PROT:
     case TokenType::AT:
+    case TokenType::MACRO:
       if (context == SyncContext::TopLevel) {
         return;
       }

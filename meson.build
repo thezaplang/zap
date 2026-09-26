@@ -101,6 +101,7 @@ zap_sema_dep = declare_dependency(link_with : zap_sema, include_directories : in
 
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
+                            'src/macros/macro_parser.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
                             'src/parser/token_cursor.cpp',
@@ -192,6 +193,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('macro-parser', executable('zap-macro-parser-tests',
+                                    'tests/cpp/macro_parser_test.cpp',
+                                    dependencies : zap_syntax_dep))
     test('parser-fragments', executable('zap-parser-fragment-tests',
                                         'tests/cpp/parser_fragment_test.cpp',
                                         dependencies : zap_syntax_dep))

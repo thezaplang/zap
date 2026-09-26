@@ -38,12 +38,16 @@ private:
 struct TokenTreeResult {
   std::vector<TokenTree> trees;
   bool hadDelimiterErrors = false;
+  size_t nextPosition = 0;
 };
 
 class TokenTreeBuilder {
 public:
   static TokenTreeResult build(const std::vector<Token> &tokens,
                                zap::DiagnosticEngine &diagnostics);
+  static TokenTreeResult buildPrefix(const std::vector<Token> &tokens,
+                                     size_t begin, size_t end,
+                                     zap::DiagnosticEngine &diagnostics);
 };
 
 std::vector<Token> flattenTokenTrees(const std::vector<TokenTree> &trees);

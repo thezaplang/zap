@@ -33,6 +33,7 @@
 #include "../ast/struct_literal.hpp"
 #include "../ast/unsafe_block_node.hpp"
 #include "../ast/while_node.hpp"
+#include "../macros/macro_definition.hpp"
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
 #include "ast_builder.hpp"
@@ -73,12 +74,15 @@ public:
   ~Parser();
   std::unique_ptr<RootNode> parse(); // Returns the root of the AST
   std::optional<ParsedFragment> parseFragment(FragmentKind kind);
+  const std::vector<MacroDefinition> &macroDefinitions() const noexcept;
+  std::vector<MacroDefinition> takeMacroDefinitions();
 
 private:
   DiagnosticEngine &_diag;
   std::vector<Token> _tokens;
   TokenCursor _cursor;
   AstBuilder _builder;
+  std::vector<MacroDefinition> _macroDefinitions;
   bool _allowStructLiteral = true;
 
   // Helper methods

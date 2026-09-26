@@ -1,5 +1,6 @@
 #include "token_tree.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 #include <utility>
 
@@ -37,21 +38,24 @@ TokenType closingTokenFor(Delimiter delimiter) {
 
 class TreeParser {
 public:
-  TreeParser(const std::vector<Token> &tokens, zap::DiagnosticEngine &diagnostics)
-      : tokens_(tokens), diagnostics_(diagnostics) {}
+  TreeParser(const std::vector<Token> &tokens, size_t begin, size_t end,
+             zap::DiagnosticEngine &diagnostics)
+      : tokens_(tokens), diagnostics_(diagnostics), position_(begin), end_(end) {}
 
-  TokenTreeResult parse() {
+  TokenTreeResult parse(bool firstOnly = false) {
     TokenTreeResult result;
-    result.trees = parseSequence(false);
+    result.trees = parseSequence(false, firstOnly);
     result.hadDelimiterErrors = hadDelimiterErrors_;
+    result.nextPosition = position_;
     return result;
   }
 
 private:
-  std::vector<TokenTree> parseSequence(bool stopAtClosingDelimiter) {
+  std::vector<TokenTree> parseSequence(bool stopAtClosingDelimiter,
+                                        bool firstOnly = false) {
     std::vector<TokenTree> trees;
 
-    while (position_ < tokens_.size()) {
+    while (position_ < end_) {
       const Token &current = tokens_[position_];
       if (const auto delimiter = delimiterForOpening(current.type)) {
         Token opening = current;
@@ -59,7 +63,7 @@ private:
         openDelimiters_.push_back(*delimiter);
         auto children = parseSequence(true);
         std::optional<Token> closing;
-        if (position_ < tokens_.size() &&
+        if (position_ < end_ &&
             isClosingDelimiter(tokens_[position_].type)) {
           const Token &candidate = tokens_[position_];
           if (candidate.type == closingTokenFor(*delimiter)) {
@@ -86,6 +90,9 @@ private:
         trees.push_back(TokenTree::group(*delimiter, std::move(opening),
                                          std::move(children),
                                          std::move(closing)));
+        if (firstOnly) {
+          return trees;
+        }
         continue;
       }
 
@@ -99,6 +106,9 @@ private:
 
       trees.push_back(TokenTree::leaf(current));
       ++position_;
+      if (firstOnly) {
+        return trees;
+      }
     }
 
     return trees;
@@ -121,6 +131,7 @@ private:
   const std::vector<Token> &tokens_;
   zap::DiagnosticEngine &diagnostics_;
   size_t position_ = 0;
+  size_t end_;
   std::vector<Delimiter> openDelimiters_;
   bool hadDelimiterErrors_ = false;
 };
@@ -211,7 +222,15 @@ SourceSpan TokenTree::span() const {
 
 TokenTreeResult TokenTreeBuilder::build(
     const std::vector<Token> &tokens, zap::DiagnosticEngine &diagnostics) {
-  return TreeParser(tokens, diagnostics).parse();
+  return TreeParser(tokens, 0, tokens.size(), diagnostics).parse();
+}
+
+TokenTreeResult TokenTreeBuilder::buildPrefix(
+    const std::vector<Token> &tokens, size_t begin, size_t end,
+    zap::DiagnosticEngine &diagnostics) {
+  const size_t clampedBegin = std::min(begin, tokens.size());
+  const size_t clampedEnd = std::min(std::max(clampedBegin, end), tokens.size());
+  return TreeParser(tokens, clampedBegin, clampedEnd, diagnostics).parse(true);
 }
 
 std::vector<Token> flattenTokenTrees(const std::vector<TokenTree> &trees) {

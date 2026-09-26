@@ -49,6 +49,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"new", TokenType::NEW},
     {"weak", TokenType::WEAK},
     {"defer", TokenType::DEFER},
+    {"macro", TokenType::MACRO},
 };
 
 std::vector<Token> Lexer::tokenize(const std::string &input) {
@@ -158,6 +159,12 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
     } else if (_cur == '@') {
       tokens.emplace_back(TokenType::AT, "@", startLine, startColumn, startPos,
                           1);
+      ++_pos;
+      ++_column;
+      continue;
+    } else if (_cur == '$') {
+      tokens.emplace_back(TokenType::DOLLAR, "$", startLine, startColumn,
+                          startPos, 1);
       ++_pos;
       ++_column;
       continue;
