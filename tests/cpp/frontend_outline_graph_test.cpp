@@ -208,7 +208,7 @@ void testMacroNameConflictsAreDeterministic() {
   require(!project.loaded, "conflicting macro imports were accepted");
   size_t conflicts = 0;
   for (const auto &diagnostic : project.diagnostics) {
-    if (diagnostic.message.find("Macro name 'duplicate' conflicts") !=
+    if (diagnostic.message.find("Macro signature for 'duplicate' conflicts") !=
         std::string::npos)
       ++conflicts;
   }

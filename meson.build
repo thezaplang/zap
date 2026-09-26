@@ -116,6 +116,7 @@ zap_frontend = static_library('zap_frontend',
                               'src/frontend/macro_registry.cpp',
                               'src/frontend/module_loader.cpp',
                               'src/frontend/module_outline.cpp',
+                              'src/macros/macro_expander.cpp',
                               'src/frontend/project_configuration.cpp',
                               dependencies : [zap_syntax_dep, zap_sema_dep, tomlc17_dep],
                               include_directories : inc
@@ -195,6 +196,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('macro-expander', executable('zap-macro-expander-tests',
+                                      'tests/cpp/macro_expander_test.cpp',
+                                      dependencies : zap_frontend_dep))
     test('frontend-outline-graph', executable('zap-frontend-outline-graph-tests',
                                               'tests/cpp/frontend_outline_graph_test.cpp',
                                               dependencies : zap_frontend_dep))

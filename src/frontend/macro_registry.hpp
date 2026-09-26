@@ -15,6 +15,8 @@ struct MacroBinding {
   std::string definingModuleId;
 };
 
+using MacroOverloadSet = std::vector<MacroBinding>;
+
 struct MacroResolutionError {
   std::string moduleId;
   SourceSpan span;
@@ -23,14 +25,14 @@ struct MacroResolutionError {
 
 class MacroRegistry {
 public:
-  const MacroBinding *find(const std::string &name) const;
-  const MacroBinding *findExported(const std::string &name) const;
+  const MacroOverloadSet *find(const std::string &name) const;
+  const MacroOverloadSet *findExported(const std::string &name) const;
   const std::string *findModule(const std::string &alias) const;
 
 private:
   friend class MacroRegistrySet;
-  std::map<std::string, MacroBinding> visible_;
-  std::map<std::string, MacroBinding> exported_;
+  std::map<std::string, MacroOverloadSet> visible_;
+  std::map<std::string, MacroOverloadSet> exported_;
   std::map<std::string, std::string> modules_;
 };
 
@@ -44,11 +46,11 @@ public:
           std::vector<MacroResolutionError> &errors);
 
   const MacroRegistry *module(const std::string &moduleId) const;
-  const MacroBinding *find(const std::string &moduleId,
-                           const std::string &name) const;
-  const MacroBinding *findQualified(const std::string &moduleId,
-                                    const std::string &alias,
-                                    const std::string &name) const;
+  const MacroOverloadSet *find(const std::string &moduleId,
+                               const std::string &name) const;
+  const MacroOverloadSet *findQualified(const std::string &moduleId,
+                                        const std::string &alias,
+                                        const std::string &name) const;
 
 private:
   std::map<std::string, MacroRegistry> modules_;

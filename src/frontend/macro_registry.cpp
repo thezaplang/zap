@@ -7,12 +7,27 @@
 
 namespace zap::frontend {
 
-const MacroBinding *MacroRegistry::find(const std::string &name) const {
+namespace {
+
+bool sameSignature(const MacroDefinition &left, const MacroDefinition &right) {
+  if (left.parameters.size() != right.parameters.size())
+    return false;
+  for (size_t index = 0; index < left.parameters.size(); ++index) {
+    if (left.parameters[index].kind != right.parameters[index].kind)
+      return false;
+  }
+  return true;
+}
+
+} // namespace
+
+const MacroOverloadSet *MacroRegistry::find(const std::string &name) const {
   const auto it = visible_.find(name);
   return it == visible_.end() ? nullptr : &it->second;
 }
 
-const MacroBinding *MacroRegistry::findExported(const std::string &name) const {
+const MacroOverloadSet *
+MacroRegistry::findExported(const std::string &name) const {
   const auto it = exported_.find(name);
   return it == exported_.end() ? nullptr : &it->second;
 }
@@ -41,18 +56,25 @@ MacroRegistrySet::resolve(const std::map<std::string, ModuleOutline> &outlines,
 
         auto &registry = result.modules_.at(moduleId);
         std::set<std::pair<std::string, size_t>> reportedConflicts;
-        auto insertMacro = [&](std::map<std::string, MacroBinding> &names,
+        auto insertMacro = [&](std::map<std::string, MacroOverloadSet> &names,
                                const std::string &name,
                                const MacroBinding &binding,
                                const SourceSpan &span) {
-          const auto [it, inserted] = names.emplace(name, binding);
-          if (!inserted && it->second.definition != binding.definition &&
-              reportedConflicts.emplace(name, span.offset).second) {
-            errors.push_back({moduleId, span,
-                              "Macro name '" + name +
-                                  "' conflicts with another "
-                                  "macro in this module."});
+          auto &overloads = names[name];
+          for (const auto &existing : overloads) {
+            if (existing.definition == binding.definition)
+              return;
+            if (sameSignature(*existing.definition, *binding.definition)) {
+              if (reportedConflicts.emplace(name, span.offset).second) {
+                errors.push_back({moduleId, span,
+                                  "Macro signature for '" + name +
+                                      "' conflicts with another macro in this "
+                                      "module."});
+              }
+              return;
+            }
           }
+          overloads.push_back(binding);
         };
 
         for (const auto &definition : outlines.at(moduleId).macros) {
@@ -94,27 +116,35 @@ MacroRegistrySet::resolve(const std::map<std::string, ModuleOutline> &outlines,
               if (import.bindings.empty()) {
                 const bool prelude = import.rawPath == "std/prelude" &&
                                      import.moduleAlias.empty();
-                for (const auto &[name, binding] : target.exported_) {
-                  if (prelude && registry.visible_.count(name) == 0) {
-                    registry.visible_.emplace(name, binding);
-                  }
-                  if (import.visibility == Visibility::Public) {
-                    insertMacro(registry.exported_, name, binding, import.span);
+                for (const auto &[name, overloads] : target.exported_) {
+                  const bool visibleFromPrelude =
+                      prelude && registry.visible_.count(name) == 0;
+                  for (const auto &binding : overloads) {
+                    if (visibleFromPrelude) {
+                      insertMacro(registry.visible_, name, binding,
+                                  import.span);
+                    }
+                    if (import.visibility == Visibility::Public) {
+                      insertMacro(registry.exported_, name, binding,
+                                  import.span);
+                    }
                   }
                 }
                 continue;
               }
 
               for (const auto &binding : import.bindings) {
-                const MacroBinding *macro =
+                const MacroOverloadSet *macros =
                     target.findExported(binding.sourceName);
-                if (!macro)
+                if (!macros)
                   continue; // This binding may name a non-macro symbol.
-                insertMacro(registry.visible_, binding.localName, *macro,
-                            import.span);
-                if (import.visibility == Visibility::Public) {
-                  insertMacro(registry.exported_, binding.localName, *macro,
+                for (const auto &macro : *macros) {
+                  insertMacro(registry.visible_, binding.localName, macro,
                               import.span);
+                  if (import.visibility == Visibility::Public) {
+                    insertMacro(registry.exported_, binding.localName, macro,
+                                import.span);
+                  }
                 }
               }
             }
@@ -134,13 +164,13 @@ MacroRegistrySet::module(const std::string &moduleId) const {
   return it == modules_.end() ? nullptr : &it->second;
 }
 
-const MacroBinding *MacroRegistrySet::find(const std::string &moduleId,
-                                           const std::string &name) const {
+const MacroOverloadSet *MacroRegistrySet::find(const std::string &moduleId,
+                                               const std::string &name) const {
   const MacroRegistry *registry = module(moduleId);
   return registry ? registry->find(name) : nullptr;
 }
 
-const MacroBinding *
+const MacroOverloadSet *
 MacroRegistrySet::findQualified(const std::string &moduleId,
                                 const std::string &alias,
                                 const std::string &name) const {
