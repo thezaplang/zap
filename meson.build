@@ -192,6 +192,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('parser-fragments', executable('zap-parser-fragment-tests',
+                                        'tests/cpp/parser_fragment_test.cpp',
+                                        dependencies : zap_syntax_dep))
     test('token-tree', executable('zap-token-tree-tests',
                                   'tests/cpp/token_tree_test.cpp',
                                   dependencies : zap_syntax_dep))

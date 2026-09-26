@@ -40,9 +40,24 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <variant>
 #include <vector>
 
 namespace zap {
+
+enum class FragmentKind { Expression, Type, Statement, Block, Item };
+
+struct StatementFragment {
+  std::unique_ptr<Node> node;
+};
+
+struct ItemFragment {
+  std::unique_ptr<Node> node;
+};
+
+using ParsedFragment =
+    std::variant<std::unique_ptr<ExpressionNode>, std::unique_ptr<TypeNode>,
+                 StatementFragment, std::unique_ptr<BodyNode>, ItemFragment>;
 
 class Parser {
 public:
@@ -52,8 +67,12 @@ public:
   };
 
   Parser(std::vector<Token> tokens, DiagnosticEngine &diag);
+  // The selected token range is half-open and is owned by this parser.
+  Parser(std::vector<Token> tokens, DiagnosticEngine &diag, size_t begin,
+         size_t end);
   ~Parser();
   std::unique_ptr<RootNode> parse(); // Returns the root of the AST
+  std::optional<ParsedFragment> parseFragment(FragmentKind kind);
 
 private:
   DiagnosticEngine &_diag;
