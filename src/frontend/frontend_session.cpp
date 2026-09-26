@@ -5,6 +5,27 @@
 #include "parser/parser.hpp"
 #include "sema/binder.hpp"
 
+#include <functional>
+#include <map>
+#include <unordered_set>
+#include <utility>
+
+namespace {
+
+struct PendingModule {
+  std::string source;
+  zap::DiagnosticEngine diagnostics;
+  std::vector<Token> tokens;
+  zap::frontend::ModuleOutline outline;
+  std::vector<sema::ResolvedImport> imports;
+  std::string logicalPath;
+
+  PendingModule(std::string sourceText, const std::string &moduleId)
+      : source(std::move(sourceText)), diagnostics(source, moduleId) {}
+};
+
+} // namespace
+
 namespace zap::frontend {
 
 FrontendSession::FrontendSession(FrontendSessionConfig config,
@@ -15,95 +36,109 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
   FrontendProject project;
   const auto canonicalEntry = std::filesystem::weakly_canonical(entryPath);
   project.entryModuleId = canonicalEntry.string();
-  std::unordered_map<std::string, bool> visiting;
-  project.loaded = loadModule(canonicalEntry, canonicalEntry.string(), project,
-                              visiting);
-  auto entry = project.modules.find(canonicalEntry.string());
-  if (entry != project.modules.end()) {
-    entry->second->isEntry = true;
-  }
-  return project;
-}
+  std::map<std::string, std::unique_ptr<PendingModule>> pending;
+  std::unordered_set<std::string> visiting;
 
-bool FrontendSession::loadModule(
-    const std::filesystem::path &modulePath, const std::string &entryModuleId,
-    FrontendProject &project, std::unordered_map<std::string, bool> &visiting) {
-  const auto canonicalPath = std::filesystem::weakly_canonical(modulePath);
-  const auto moduleId = canonicalPath.string();
-  project.visitedModuleIds.insert(moduleId);
-  if (project.modules.count(moduleId) != 0) {
-    return true;
-  }
-  if (visiting[moduleId]) {
-    project.errors.push_back("cyclic import detected involving " + moduleId);
-    return false;
-  }
+  std::function<bool(const std::filesystem::path &)> discover =
+      [&](const std::filesystem::path &modulePath) {
+        const auto canonicalPath =
+            std::filesystem::weakly_canonical(modulePath);
+        const auto moduleId = canonicalPath.string();
+        project.visitedModuleIds.insert(moduleId);
+        if (visiting.count(moduleId) != 0) {
+          project.errors.push_back("cyclic import detected involving " +
+                                   moduleId);
+          return false;
+        }
+        if (pending.count(moduleId) != 0)
+          return true;
 
-  auto source = sourceLoader_(canonicalPath);
-  if (!source) {
-    project.errors.push_back("couldn't open source file: " + moduleId);
-    return false;
-  }
+        auto source = sourceLoader_(canonicalPath);
+        if (!source) {
+          project.errors.push_back("couldn't open source file: " + moduleId);
+          return false;
+        }
 
-  visiting[moduleId] = true;
-  DiagnosticEngine diagnostics(*source, moduleId);
-  Lexer lexer(diagnostics);
-  Parser parser(lexer.tokenize(*source), diagnostics);
-  auto root = parser.parse();
-  const bool isEntry = moduleId == entryModuleId;
-  if (!root ||
-      (diagnostics.hadErrors() && !(config_.allowEntryErrors && isEntry))) {
-    const auto &moduleDiagnostics = diagnostics.diagnostics();
+        auto module =
+            std::make_unique<PendingModule>(std::move(*source), moduleId);
+        Lexer lexer(module->diagnostics);
+        module->tokens = lexer.tokenize(module->source);
+        module->outline =
+            ModuleOutline::scan(module->tokens, module->diagnostics);
+        module->logicalPath = computeLogicalModulePath(
+            canonicalPath, config_.runtimePaths, config_.importMap);
+        if (shouldIncludeImplicitPrelude(module->logicalPath,
+                                         config_.includePrelude) &&
+            !module->outline.hasImportPath("std/prelude")) {
+          module->outline.imports.insert(
+              module->outline.imports.begin(),
+              std::make_unique<ImportNode>("std/prelude"));
+        }
+
+        visiting.insert(moduleId);
+        auto &staged =
+            *pending.emplace(moduleId, std::move(module)).first->second;
+        bool complete =
+            !staged.diagnostics.hadErrors() ||
+            (config_.allowEntryErrors && moduleId == project.entryModuleId);
+        for (const auto &import : staged.outline.imports) {
+          std::vector<std::filesystem::path> targets;
+          std::string error;
+          if (!resolveImportTargets(canonicalPath, *import, targets,
+                                    config_.importMap, config_.runtimePaths,
+                                    &error)) {
+            staged.diagnostics.report(import->span, DiagnosticLevel::Error,
+                                      error);
+            complete = false;
+            continue;
+          }
+          staged.imports.push_back(makeResolvedImport(*import, targets));
+        }
+
+        for (const auto &import : staged.imports) {
+          for (const auto &target : import.targetModuleIds) {
+            if (!discover(target))
+              complete = false;
+          }
+        }
+        visiting.erase(moduleId);
+        return complete;
+      };
+
+  const bool graphComplete = discover(canonicalEntry);
+  bool parseComplete = true;
+  for (auto &[moduleId, staged] : pending) {
+    Parser parser(std::move(staged->tokens), staged->diagnostics);
+    auto root = parser.parse();
+    const bool isEntry = moduleId == project.entryModuleId;
+    const bool accepted = root && (!staged->diagnostics.hadErrors() ||
+                                   (config_.allowEntryErrors && isEntry));
+    const auto &moduleDiagnostics = staged->diagnostics.diagnostics();
     project.diagnostics.insert(project.diagnostics.end(),
                                moduleDiagnostics.begin(),
                                moduleDiagnostics.end());
-    visiting.erase(moduleId);
-    return false;
-  }
-
-  auto module = std::make_unique<sema::ModuleInfo>();
-  module->moduleId = moduleId;
-  module->moduleName = canonicalPath.stem().string();
-  module->linkPath =
-      computeLogicalModulePath(canonicalPath, config_.runtimePaths, config_.importMap);
-  module->sourceName = moduleId;
-  module->sourceText = std::move(*source);
-  module->root = std::move(root);
-  injectImplicitPreludeImportIfNeeded(*module, config_.includePrelude);
-
-  bool complete = true;
-  for (const auto &child : module->root->children) {
-    auto *importNode = dynamic_cast<ImportNode *>(child.get());
-    if (!importNode) {
+    project.outlines.emplace(moduleId, std::move(staged->outline));
+    if (!accepted) {
+      parseComplete = false;
       continue;
     }
-    std::vector<std::filesystem::path> targets;
-    std::string error;
-    if (!resolveImportTargets(canonicalPath, *importNode, targets,
-                              config_.importMap, config_.runtimePaths,
-                              &error)) {
-      diagnostics.report(importNode->span, DiagnosticLevel::Error, error);
-      complete = false;
-      continue;
-    }
-    module->imports.push_back(makeResolvedImport(*importNode, targets));
+
+    auto module = std::make_unique<sema::ModuleInfo>();
+    module->moduleId = moduleId;
+    module->moduleName = std::filesystem::path(moduleId).stem().string();
+    module->linkPath = std::move(staged->logicalPath);
+    module->sourceName = moduleId;
+    module->sourceText = std::move(staged->source);
+    module->isEntry = isEntry;
+    module->root = std::move(root);
+    module->imports = std::move(staged->imports);
+    injectImplicitPreludeImportIfNeeded(*module, config_.includePrelude);
+    project.modules.emplace(moduleId, std::move(module));
   }
 
-  for (const auto &import : module->imports) {
-    for (const auto &target : import.targetModuleIds) {
-      if (!loadModule(target, entryModuleId, project, visiting)) {
-        complete = false;
-      }
-    }
-  }
-
-  const auto &moduleDiagnostics = diagnostics.diagnostics();
-  project.diagnostics.insert(project.diagnostics.end(),
-                             moduleDiagnostics.begin(),
-                             moduleDiagnostics.end());
-  visiting.erase(moduleId);
-  project.modules[moduleId] = std::move(module);
-  return complete;
+  project.loaded = graphComplete && parseComplete &&
+                   project.modules.count(project.entryModuleId) != 0;
+  return project;
 }
 
 bool FrontendSession::bind(FrontendProject &project) {
@@ -128,7 +163,8 @@ bool FrontendSession::bind(FrontendProject &project) {
                       config_.targetInfo);
   project.boundRoot = binder.bind(std::move(modules));
   const auto &bindingDiagnostics = diagnostics.diagnostics();
-  project.diagnostics.insert(project.diagnostics.end(), bindingDiagnostics.begin(),
+  project.diagnostics.insert(project.diagnostics.end(),
+                             bindingDiagnostics.begin(),
                              bindingDiagnostics.end());
   return static_cast<bool>(project.boundRoot);
 }

@@ -50,6 +50,8 @@ std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
                                      const ImportMap &importMap = {});
 
 bool hasImplicitImport(const RootNode &root, std::string_view path);
+bool shouldIncludeImplicitPrelude(std::string_view logicalPath,
+                                  bool includePrelude);
 void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
                                          bool includePrelude);
 

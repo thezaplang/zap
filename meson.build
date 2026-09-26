@@ -114,6 +114,7 @@ zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories 
 zap_frontend = static_library('zap_frontend',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/module_loader.cpp',
+                              'src/frontend/module_outline.cpp',
                               'src/frontend/project_configuration.cpp',
                               dependencies : [zap_syntax_dep, zap_sema_dep, tomlc17_dep],
                               include_directories : inc
@@ -193,6 +194,12 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('frontend-outline-graph', executable('zap-frontend-outline-graph-tests',
+                                              'tests/cpp/frontend_outline_graph_test.cpp',
+                                              dependencies : zap_frontend_dep))
+    test('module-outline', executable('zap-module-outline-tests',
+                                       'tests/cpp/module_outline_test.cpp',
+                                       dependencies : zap_frontend_dep))
     test('macro-parser', executable('zap-macro-parser-tests',
                                     'tests/cpp/macro_parser_test.cpp',
                                     dependencies : zap_syntax_dep))

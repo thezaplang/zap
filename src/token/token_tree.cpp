@@ -40,7 +40,8 @@ class TreeParser {
 public:
   TreeParser(const std::vector<Token> &tokens, size_t begin, size_t end,
              zap::DiagnosticEngine &diagnostics)
-      : tokens_(tokens), diagnostics_(diagnostics), position_(begin), end_(end) {}
+      : tokens_(tokens), diagnostics_(diagnostics), position_(begin),
+        end_(end) {}
 
   TokenTreeResult parse(bool firstOnly = false) {
     TokenTreeResult result;
@@ -52,7 +53,7 @@ public:
 
 private:
   std::vector<TokenTree> parseSequence(bool stopAtClosingDelimiter,
-                                        bool firstOnly = false) {
+                                       bool firstOnly = false) {
     std::vector<TokenTree> trees;
 
     while (position_ < end_) {
@@ -63,8 +64,7 @@ private:
         openDelimiters_.push_back(*delimiter);
         auto children = parseSequence(true);
         std::optional<Token> closing;
-        if (position_ < end_ &&
-            isClosingDelimiter(tokens_[position_].type)) {
+        if (position_ < end_ && isClosingDelimiter(tokens_[position_].type)) {
           const Token &candidate = tokens_[position_];
           if (candidate.type == closingTokenFor(*delimiter)) {
             closing = candidate;
@@ -220,16 +220,28 @@ SourceSpan TokenTree::span() const {
   return opening().span;
 }
 
-TokenTreeResult TokenTreeBuilder::build(
-    const std::vector<Token> &tokens, zap::DiagnosticEngine &diagnostics) {
+size_t TokenTree::tokenCount() const noexcept {
+  if (isLeaf()) {
+    return 1;
+  }
+  size_t count = 1 + (closing_ ? 1 : 0);
+  for (const TokenTree &child : children_) {
+    count += child.tokenCount();
+  }
+  return count;
+}
+
+TokenTreeResult TokenTreeBuilder::build(const std::vector<Token> &tokens,
+                                        zap::DiagnosticEngine &diagnostics) {
   return TreeParser(tokens, 0, tokens.size(), diagnostics).parse();
 }
 
-TokenTreeResult TokenTreeBuilder::buildPrefix(
-    const std::vector<Token> &tokens, size_t begin, size_t end,
-    zap::DiagnosticEngine &diagnostics) {
+TokenTreeResult
+TokenTreeBuilder::buildPrefix(const std::vector<Token> &tokens, size_t begin,
+                              size_t end, zap::DiagnosticEngine &diagnostics) {
   const size_t clampedBegin = std::min(begin, tokens.size());
-  const size_t clampedEnd = std::min(std::max(clampedBegin, end), tokens.size());
+  const size_t clampedEnd =
+      std::min(std::max(clampedBegin, end), tokens.size());
   return TreeParser(tokens, clampedBegin, clampedEnd, diagnostics).parse(true);
 }
 

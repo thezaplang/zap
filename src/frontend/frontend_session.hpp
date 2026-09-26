@@ -1,6 +1,7 @@
 #pragma once
 
 #include "frontend/module_loader.hpp"
+#include "frontend/module_outline.hpp"
 #include "sema/bound_nodes.hpp"
 #include "sema/module_info.hpp"
 #include "sema/semantic_info.hpp"
@@ -29,6 +30,7 @@ struct FrontendSessionConfig {
 struct FrontendProject {
   std::string entryModuleId;
   std::map<std::string, std::unique_ptr<sema::ModuleInfo>> modules;
+  std::map<std::string, ModuleOutline> outlines;
   std::unordered_set<std::string> visitedModuleIds;
   std::vector<Diagnostic> diagnostics;
   std::vector<std::string> errors;
@@ -50,10 +52,6 @@ public:
 private:
   FrontendSessionConfig config_;
   SourceLoader sourceLoader_;
-
-  bool loadModule(const std::filesystem::path &modulePath,
-                  const std::string &entryModuleId, FrontendProject &project,
-                  std::unordered_map<std::string, bool> &visiting);
 };
 
 } // namespace zap::frontend

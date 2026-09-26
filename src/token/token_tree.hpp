@@ -22,6 +22,7 @@ public:
   const std::optional<Token> &closing() const;
   const std::vector<TokenTree> &children() const;
   SourceSpan span() const;
+  size_t tokenCount() const noexcept;
 
 private:
   explicit TokenTree(Token token);

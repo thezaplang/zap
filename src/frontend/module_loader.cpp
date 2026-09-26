@@ -188,15 +188,22 @@ bool hasImplicitImport(const RootNode &root, std::string_view path) {
   return false;
 }
 
+bool shouldIncludeImplicitPrelude(std::string_view logicalPath,
+                                  bool includePrelude) {
+  if (!includePrelude) {
+    return false;
+  }
+  if (logicalPath == "core" || logicalPath.rfind("core/", 0) == 0 ||
+      logicalPath.rfind("std/", 0) == 0) {
+    return false;
+  }
+  return true;
+}
+
 void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
                                          bool includePrelude) {
-  if (!includePrelude) {
+  if (!shouldIncludeImplicitPrelude(module.linkPath, includePrelude))
     return;
-  }
-  if (module.linkPath == "core" || module.linkPath.rfind("core/", 0) == 0 ||
-      module.linkPath.rfind("std/", 0) == 0) {
-    return;
-  }
   if (!module.root || hasImplicitImport(*module.root, "std/prelude")) {
     return;
   }
