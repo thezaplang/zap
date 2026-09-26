@@ -60,8 +60,12 @@ std::string qualifiedNameFromExpression(const ExpressionNode *expr) {
 }
 } // namespace
 
-Parser::Parser(std::vector<Token> tokens, DiagnosticEngine &diag)
-    : _diag(diag), _tokens(std::move(tokens)), _cursor(_tokens) {}
+Parser::Parser(std::vector<Token> tokens, DiagnosticEngine &diag,
+               MacroExpander *macroExpander, std::string moduleId,
+               MacroParseMode macroMode)
+    : _diag(diag), _tokens(std::move(tokens)), _cursor(_tokens),
+      _macroExpander(macroExpander), _moduleId(std::move(moduleId)),
+      _macroMode(macroMode) {}
 
 Parser::Parser(std::vector<Token> tokens, DiagnosticEngine &diag, size_t begin,
                size_t end)
@@ -224,8 +228,9 @@ std::unique_ptr<RootNode> Parser::parse() {
       if (peek().type == TokenType::MACRO) {
         const bool hasAttributes = !attributes.empty();
         if (hasAttributes) {
-          _diag.report(peek().span, DiagnosticLevel::Error,
-                       "Attributes on macro declarations are not supported yet.");
+          _diag.report(
+              peek().span, DiagnosticLevel::Error,
+              "Attributes on macro declarations are not supported yet.");
         }
         const size_t start = _cursor.position();
         auto result = MacroParser::parse(_tokens, start, _cursor.end(),
@@ -424,8 +429,8 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe,
       eat(TokenType::COMMA);
     }
   } else if (context == FunctionContext::ExtensionMethod &&
-             !funDecl->isStatic_ &&
-             peek().type == TokenType::ID && peek().value == "self") {
+             !funDecl->isStatic_ && peek().type == TokenType::ID &&
+             peek().value == "self") {
     _diag.report(peek().span, DiagnosticLevel::Error,
                  "Extension receiver is implicit; only 'ref self' may be "
                  "declared explicitly.");
@@ -802,52 +807,14 @@ bool Parser::isTryPostfixContext(TokenType type) const {
 }
 
 bool Parser::isGenericCallStart() const {
-  if (peek().type != TokenType::LESS || !isTypeStartToken(peek(1).type)) {
-    return false;
-  }
-
-  size_t i = 1;
-  int depth = 0;
-  bool sawTypeToken = false;
-
-  while (!isAtEnd()) {
-    TokenType t = peek(i).type;
-
-    if (t == TokenType::LESS && isTypeStartToken(peek(i + 1).type)) {
-      ++depth;
-      sawTypeToken = true;
-      ++i;
-      continue;
-    }
-
-    if (t == TokenType::GREATER) {
-      if (depth == 0) {
-        if (!sawTypeToken) {
-          return false;
-        }
-        return peek(i + 1).type == TokenType::LPAREN;
-      }
-      --depth;
-      ++i;
-      continue;
-    }
-
-    if (t == TokenType::COMMA || t == TokenType::DOT || t == TokenType::ID ||
-        t == TokenType::MULTIPLY || t == TokenType::ELLIPSIS ||
-        t == TokenType::SQUARE_LBRACE || t == TokenType::SQUARE_RBRACE ||
-        t == TokenType::INTEGER || t == TokenType::WEAK) {
-      sawTypeToken = true;
-      ++i;
-      continue;
-    }
-
-    return false;
-  }
-
-  return false;
+  return isGenericPostfixStart(TokenType::LPAREN);
 }
 
 bool Parser::isGenericStructLiteralStart() const {
+  return isGenericPostfixStart(TokenType::LBRACE);
+}
+
+bool Parser::isGenericPostfixStart(TokenType following) const {
   if (peek().type != TokenType::LESS || !isTypeStartToken(peek(1).type)) {
     return false;
   }
@@ -856,8 +823,36 @@ bool Parser::isGenericStructLiteralStart() const {
   int depth = 0;
   bool sawTypeToken = false;
 
-  while (!isAtEnd()) {
+  while (peek(i).type != TokenType::EOF_TOKEN) {
     TokenType t = peek(i).type;
+
+    if (t == TokenType::NOT && i > 1 && peek(i - 1).type == TokenType::ID &&
+        (peek(i + 1).type == TokenType::LPAREN ||
+         peek(i + 1).type == TokenType::LBRACE ||
+         peek(i + 1).type == TokenType::SQUARE_LBRACE)) {
+      ++i;
+      std::vector<TokenType> closing;
+      do {
+        const TokenType groupToken = peek(i).type;
+        if (groupToken == TokenType::EOF_TOKEN)
+          return false;
+        if (groupToken == TokenType::LPAREN)
+          closing.push_back(TokenType::RPAREN);
+        else if (groupToken == TokenType::LBRACE)
+          closing.push_back(TokenType::RBRACE);
+        else if (groupToken == TokenType::SQUARE_LBRACE)
+          closing.push_back(TokenType::SQUARE_RBRACE);
+        else if (groupToken == TokenType::RPAREN ||
+                 groupToken == TokenType::RBRACE ||
+                 groupToken == TokenType::SQUARE_RBRACE) {
+          if (closing.empty() || closing.back() != groupToken)
+            return false;
+          closing.pop_back();
+        }
+        ++i;
+      } while (!closing.empty());
+      continue;
+    }
 
     if (t == TokenType::LESS && isTypeStartToken(peek(i + 1).type)) {
       ++depth;
@@ -871,7 +866,7 @@ bool Parser::isGenericStructLiteralStart() const {
         if (!sawTypeToken) {
           return false;
         }
-        return peek(i + 1).type == TokenType::LBRACE;
+        return peek(i + 1).type == following;
       }
       --depth;
       ++i;
@@ -1034,6 +1029,10 @@ std::unique_ptr<TypeNode> Parser::parseType() {
         arrayType.get(),
         SourceSpan::merge(lbracket.span, arrayType->baseType->span));
     return arrayType;
+  }
+  if (isMacroInvocationStart()) {
+    auto fragment = parseMacroInvocation(FragmentKind::Type);
+    return std::move(std::get<std::unique_ptr<TypeNode>>(fragment));
   }
   Token startToken = peek();
   auto identifiers = parseQualifiedIdentifier();
@@ -1886,6 +1885,10 @@ std::unique_ptr<ExpressionNode> Parser::parsePostfixExpression() {
 }
 
 std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
+  if (isMacroInvocationStart()) {
+    auto fragment = parseMacroInvocation(FragmentKind::Expression);
+    return std::move(std::get<std::unique_ptr<ExpressionNode>>(fragment));
+  }
   Token current = peek();
   if (current.type == TokenType::NEW) {
     Token newToken = eat(TokenType::NEW);
@@ -2096,7 +2099,8 @@ void Parser::synchronize(SyncContext context) {
     if (stalledIterations > kMaxStalledIterations ||
         scannedTokens > kMaxScanTokens) {
       if (!isAtEnd()) {
-        _cursor.advance(); // force progress to avoid anti-recovery infinite cascade
+        _cursor.advance(); // force progress to avoid anti-recovery infinite
+                           // cascade
       }
       return;
     }
@@ -2465,8 +2469,8 @@ std::unique_ptr<InterfaceDecl> Parser::parseInterfaceDecl() {
   }
 
   Token rbraceToken = eat(TokenType::RBRACE);
-  _builder.setSpan(interfaceDecl.get(), SourceSpan::merge(interfaceKeyword.span,
-                                                          rbraceToken.span));
+  _builder.setSpan(interfaceDecl.get(),
+                   SourceSpan::merge(interfaceKeyword.span, rbraceToken.span));
   return interfaceDecl;
 }
 
@@ -2573,7 +2577,8 @@ std::unique_ptr<ExpressionNode> Parser::parseRangeExpression() {
   }
 
   SourceSpan sSpan = start->span;
-  auto range = _builder.makeRangeExpr(std::move(start), std::move(end), std::move(step));
+  auto range =
+      _builder.makeRangeExpr(std::move(start), std::move(end), std::move(step));
   _builder.setSpan(range.get(), SourceSpan::merge(sSpan, eSpan));
   return range;
 }
@@ -2597,7 +2602,8 @@ std::unique_ptr<DeferNode> Parser::parseDefer() {
       auto value = parseExpression();
       Token semi = eat(TokenType::SEMICOLON);
       auto assign = _builder.makeAssign(std::move(expr), std::move(value));
-      _builder.setSpan(assign.get(), SourceSpan::merge(assign->target_->span, semi.span));
+      _builder.setSpan(assign.get(),
+                       SourceSpan::merge(assign->target_->span, semi.span));
       stmt = std::move(assign);
       eSpan = semi.span;
     } else {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "frontend/macro_registry.hpp"
+#include "macros/macro_resolver.hpp"
 #include "token/token_tree.hpp"
 #include "utils/diagnostics.hpp"
 
@@ -27,14 +27,14 @@ struct MacroCall {
 
 class MacroExpander {
 public:
-  MacroExpander(const frontend::MacroRegistrySet &registry,
-                DiagnosticEngine &diagnostics, MacroLimits limits = {});
+  MacroExpander(const MacroResolver &registry, DiagnosticEngine &diagnostics,
+                MacroLimits limits = {});
 
   std::optional<std::vector<TokenTree>> expand(const std::string &moduleId,
                                                const MacroCall &call);
 
 private:
-  const frontend::MacroRegistrySet &registry_;
+  const MacroResolver &registry_;
   DiagnosticEngine &diagnostics_;
   MacroLimits limits_;
   std::map<std::string, size_t> generatedTokensByModule_;

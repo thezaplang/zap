@@ -80,7 +80,8 @@ bool matchesArgument(const std::vector<TokenTree> &argument,
   if (!expected)
     return false;
   DiagnosticEngine scratch(diagnostics.sourceText(), diagnostics.sourceName());
-  Parser parser(flattenTokenTrees(argument), scratch);
+  Parser parser(flattenTokenTrees(argument), scratch, nullptr, {},
+                MacroParseMode::ValidateFragmentSyntax);
   return parser.parseFragment(*expected).has_value();
 }
 
@@ -181,7 +182,7 @@ splice(const std::vector<TokenTree> &templateTrees, const Captures &captures,
 
 } // namespace
 
-MacroExpander::MacroExpander(const frontend::MacroRegistrySet &registry,
+MacroExpander::MacroExpander(const MacroResolver &registry,
                              DiagnosticEngine &diagnostics, MacroLimits limits)
     : registry_(registry), diagnostics_(diagnostics), limits_(limits) {}
 
@@ -218,7 +219,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     return std::nullopt;
   }
 
-  const frontend::MacroBinding *selected = nullptr;
+  const MacroBinding *selected = nullptr;
   int bestScore = -1;
   bool ambiguous = false;
   size_t attempts = 0;

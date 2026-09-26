@@ -10,7 +10,6 @@
 #include "../ast/case_node.hpp"
 #include "../ast/cast_expr.hpp"
 #include "../ast/class_decl.hpp"
-#include "../ast/interface_decl.hpp"
 #include "../ast/const/const_id.hpp"
 #include "../ast/const/const_int.hpp"
 #include "../ast/continue_node.hpp"
@@ -24,6 +23,7 @@
 #include "../ast/fun_decl.hpp"
 #include "../ast/if_node.hpp"
 #include "../ast/import_node.hpp"
+#include "../ast/interface_decl.hpp"
 #include "../ast/member_access.hpp"
 #include "../ast/new_expr.hpp"
 #include "../ast/record_decl.hpp"
@@ -46,7 +46,10 @@
 
 namespace zap {
 
+class MacroExpander;
+
 enum class FragmentKind { Expression, Type, Statement, Block, Item };
+enum class MacroParseMode { Expand, ValidateFragmentSyntax };
 
 struct StatementFragment {
   std::unique_ptr<Node> node;
@@ -67,7 +70,9 @@ public:
     ParseError() : std::runtime_error("Parse error") {}
   };
 
-  Parser(std::vector<Token> tokens, DiagnosticEngine &diag);
+  Parser(std::vector<Token> tokens, DiagnosticEngine &diag,
+         MacroExpander *macroExpander = nullptr, std::string moduleId = {},
+         MacroParseMode macroMode = MacroParseMode::Expand);
   // The selected token range is half-open and is owned by this parser.
   Parser(std::vector<Token> tokens, DiagnosticEngine &diag, size_t begin,
          size_t end);
@@ -83,6 +88,9 @@ private:
   TokenCursor _cursor;
   AstBuilder _builder;
   std::vector<MacroDefinition> _macroDefinitions;
+  MacroExpander *_macroExpander = nullptr;
+  std::string _moduleId;
+  MacroParseMode _macroMode = MacroParseMode::Expand;
   bool _allowStructLiteral = true;
 
   // Helper methods
@@ -142,6 +150,8 @@ private:
   std::unique_ptr<ExpressionNode> parseUnaryExpression();
   std::unique_ptr<ExpressionNode> parsePostfixExpression();
   std::unique_ptr<ExpressionNode> parsePrimaryExpression();
+  bool isMacroInvocationStart() const;
+  ParsedFragment parseMacroInvocation(FragmentKind kind);
   std::unique_ptr<ExpressionNode> parseRangeExpression();
   std::unique_ptr<DeferNode> parseDefer();
 
@@ -166,6 +176,7 @@ private:
   bool isTryPostfixContext(TokenType type) const;
   bool isGenericCallStart() const;
   bool isGenericStructLiteralStart() const;
+  bool isGenericPostfixStart(TokenType following) const;
   std::unique_ptr<TypeNode>
   typeNodeFromQualifiedExpression(const ExpressionNode *expr);
 };

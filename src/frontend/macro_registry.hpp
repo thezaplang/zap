@@ -1,6 +1,7 @@
 #pragma once
 
 #include "frontend/module_outline.hpp"
+#include "macros/macro_resolver.hpp"
 #include "sema/module_info.hpp"
 
 #include <map>
@@ -8,14 +9,6 @@
 #include <vector>
 
 namespace zap::frontend {
-
-struct MacroBinding {
-  // The outline map passed to resolve() must outlive the registry set.
-  const MacroDefinition *definition;
-  std::string definingModuleId;
-};
-
-using MacroOverloadSet = std::vector<MacroBinding>;
 
 struct MacroResolutionError {
   std::string moduleId;
@@ -36,7 +29,7 @@ private:
   std::map<std::string, std::string> modules_;
 };
 
-class MacroRegistrySet {
+class MacroRegistrySet : public MacroResolver {
 public:
   using ImportGraph = std::map<std::string, std::vector<sema::ResolvedImport>>;
 
@@ -47,10 +40,10 @@ public:
 
   const MacroRegistry *module(const std::string &moduleId) const;
   const MacroOverloadSet *find(const std::string &moduleId,
-                               const std::string &name) const;
+                               const std::string &name) const override;
   const MacroOverloadSet *findQualified(const std::string &moduleId,
                                         const std::string &alias,
-                                        const std::string &name) const;
+                                        const std::string &name) const override;
 
 private:
   std::map<std::string, MacroRegistry> modules_;

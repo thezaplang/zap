@@ -2,6 +2,7 @@
 
 #include "ast/import_node.hpp"
 #include "lexer/lexer.hpp"
+#include "macros/macro_expander.hpp"
 #include "parser/parser.hpp"
 #include "sema/binder.hpp"
 
@@ -139,7 +140,9 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
 
   bool parseComplete = true;
   for (auto &[moduleId, staged] : pending) {
-    Parser parser(std::move(staged->tokens), staged->diagnostics);
+    MacroExpander expander(project.macros, staged->diagnostics);
+    Parser parser(std::move(staged->tokens), staged->diagnostics, &expander,
+                  moduleId);
     auto root = parser.parse();
     const bool isEntry = moduleId == project.entryModuleId;
     const bool accepted = root && (!staged->diagnostics.hadErrors() ||
