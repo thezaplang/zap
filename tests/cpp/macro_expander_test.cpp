@@ -541,6 +541,180 @@ macro no_output($args: tokens...) { for $x in $args {} }
           "empty template iterations bypassed the iteration limit");
 }
 
+void testCompileTimeTemplateControl() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro choose($args: tokens...) {
+  when $args.isEmpty { empty } else { nonempty }
+}
+macro nested_when($args: tokens...) {
+  when !$args.isEmpty { when $args.count > 1 { many } else { one } }
+}
+macro kinds($value: tokens) {
+  case $value.kind {
+    ident { identifier }
+    literal { literal_value }
+    else { other }
+  }
+}
+macro count_kind($values: tokens...) {
+  $let count = $values.count;
+  case $count {
+    0 { zero }
+    1 { one }
+    else { many }
+  }
+}
+macro binding($value: ident) {
+  $let name = $value.text;
+  $let copy = $name;
+  when $copy == "abc" { matched } else { missed }
+  when true { $let name = "nested"; $name }
+  $name
+}
+macro introspect($values: ident...) {
+  $values.count : $values.first.text : $values.last.text
+  for ($value, $position) in $values {
+    $value.kind : $value.isIdent : $position.index : $position.isLast
+  }
+}
+macro loop_control($values: ident...) {
+  for $value in $values {
+    when $value.text == "skip" { $continue; }
+    when $value.text == "stop" { $break; }
+    $value
+  }
+}
+macro filtered($values: ident...) {
+  for $value in $values separated by { + } {
+    when $value.text == "skip" { $continue; }
+    when $value.text == "stop" { $break; }
+    $value
+  }
+}
+macro runtime() { if true { break; continue; } }
+macro runtime_case($value: tokens) { case $value { 1 { yes } else { no } } }
+macro source($value: tokens) { $let text = sourceText($value); $text }
+macro warnings($value: ident) {
+  compileWarning($value.span, "warning from macro");
+  compileNote("note from macro");
+  done
+}
+macro fresh() {
+  $let first = freshIdent("item");
+  $let second = freshIdent("item");
+  $first $second
+}
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "compile-time control fixture is invalid");
+
+  const std::vector<std::tuple<std::string, std::string, std::string>> cases = {
+      {"choose!()", "choose", "empty"},
+      {"choose!(x)", "choose", "nonempty"},
+      {"nested_when!(x)", "nested_when", "one"},
+      {"nested_when!(x, y)", "nested_when", "many"},
+      {"kinds!(name)", "kinds", "identifier"},
+      {"kinds!(42)", "kinds", "literal_value"},
+      {"kinds!(a + b)", "kinds", "other"},
+      {"count_kind!()", "count_kind", "zero"},
+      {"count_kind!(a)", "count_kind", "one"},
+      {"count_kind!(a, b)", "count_kind", "many"},
+      {"binding!(abc)", "binding", "matched\"nested\"\"abc\""},
+      {"introspect!(a, b)", "introspect",
+       "2:\"a\":\"b\"ident:true:0:falseident:true:1:true"},
+      {"loop_control!(a, skip, b, stop, c)", "loop_control", "ab"},
+      {"filtered!(a, skip, b, stop, c)", "filtered", "a+b"},
+      {"runtime!()", "runtime", "iftrue{break;continue;}"},
+      {"runtime_case!(x)", "runtime_case", "casex{1{yes}else{no}}"},
+      {"source!(a + b)", "source", "\"a + b\""},
+  };
+  for (const auto &[source, name, expected] : cases) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {name}, diagnostics));
+    if (!output || spellings(*output) != expected || diagnostics.hadErrors()) {
+      std::cerr << source << ": got "
+                << (output ? spellings(*output) : "<none>") << ", expected "
+                << expected << '\n';
+      for (const auto &diagnostic : diagnostics.diagnostics())
+        std::cerr << diagnostic.message << '\n';
+    }
+    require(output && spellings(*output) == expected &&
+                !diagnostics.hadErrors(),
+            "compile-time template control produced unexpected tokens");
+  }
+
+  const std::string source = "fresh!()";
+  zap::DiagnosticEngine diagnostics(source, "call.zp");
+  zap::MacroExpander expander(fixture.registry, diagnostics);
+  auto output =
+      expander.expand("module.zp", makeCall(source, {"fresh"}, diagnostics));
+  require(output && output->size() == 2 && spellings(*output) == "itemitem" &&
+              output->front().token().syntaxContext !=
+                  output->back().token().syntaxContext &&
+              !diagnostics.hadErrors(),
+          "freshIdent did not create distinct identifier contexts");
+
+  const std::string warningCall = "warnings!(name)";
+  zap::DiagnosticEngine warningDiagnostics(warningCall, "call.zp");
+  zap::MacroExpander warningExpander(fixture.registry, warningDiagnostics);
+  auto warningOutput = warningExpander.expand(
+      "module.zp", makeCall(warningCall, {"warnings"}, warningDiagnostics));
+  require(warningOutput && spellings(*warningOutput) == "done" &&
+              warningDiagnostics.diagnostics().size() == 2 &&
+              warningDiagnostics.diagnostics()[0].level ==
+                  zap::DiagnosticLevel::Warning &&
+              warningDiagnostics.diagnostics()[0].span.offset ==
+                  warningCall.find("name") &&
+              warningDiagnostics.diagnostics()[1].level ==
+                  zap::DiagnosticLevel::Note &&
+              !warningDiagnostics.hadErrors(),
+          "compile-time warning, note, or explicit source span failed");
+}
+
+void testInvalidCompileTimeTemplateControl() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro bad_identifier($value: ident) { compileError($value.span, "bad identifier"); }
+macro bad_break() { $break; }
+macro bad_continue() { $continue; }
+macro bad_while($values: tokens...) { while $values.isEmpty {} }
+macro bad_state() { $var shared = 1; }
+macro bad_property($value: ident) { when $value.missing { yes } }
+macro bad_let() { $let name = 1; $let name = 2; }
+macro bad_fresh() { $let name = freshIdent("not valid"); $name }
+macro keyword_fresh() { $let name = freshIdent("if"); $name }
+macro grouped_break($values: tokens...) { for $value in $values { { $break; } } }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "invalid-control fixture is invalid");
+  for (const auto &[source, name, message] :
+       std::vector<std::tuple<std::string, std::string, std::string>>{
+           {"bad_identifier!(x)", "bad_identifier", "bad identifier"},
+           {"bad_break!()", "bad_break", "compile-time loop"},
+           {"bad_continue!()", "bad_continue", "compile-time loop"},
+           {"bad_while!()", "bad_while", "while"},
+           {"bad_state!()", "bad_state", "Mutable compile-time state"},
+           {"bad_property!(x)", "bad_property",
+            "Unknown compile-time property"},
+           {"bad_let!()", "bad_let", "Duplicate compile-time binding"},
+           {"bad_fresh!()", "bad_fresh", "valid identifier"},
+           {"keyword_fresh!()", "keyword_fresh", "reserved keyword"},
+           {"grouped_break!(x)", "grouped_break", "syntax group"},
+       }) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {name}, diagnostics));
+    require(!output && diagnostics.hadErrors() &&
+                diagnostics.diagnostics().front().message.find(message) !=
+                    std::string::npos,
+            "invalid compile-time template was not rejected clearly");
+  }
+}
+
 } // namespace
 
 int main() {
@@ -554,5 +728,7 @@ int main() {
   testVariadicFragmentKinds();
   testTemplateForLoops();
   testInvalidTemplateForLoops();
+  testCompileTimeTemplateControl();
+  testInvalidCompileTimeTemplateControl();
   return 0;
 }

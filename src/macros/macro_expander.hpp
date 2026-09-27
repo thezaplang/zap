@@ -39,6 +39,7 @@ private:
   DiagnosticEngine &diagnostics_;
   MacroLimits limits_;
   std::map<std::string, size_t> generatedTokensByModule_;
+  SyntaxContextId nextFreshContext_ = 1;
 
   std::optional<std::vector<TokenTree>>
   expandCall(const std::string &lookupModuleId,

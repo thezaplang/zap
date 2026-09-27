@@ -4,6 +4,7 @@
 #include "parser/parser.hpp"
 
 #include <functional>
+#include <limits>
 #include <map>
 #include <utility>
 
@@ -231,6 +232,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   const auto &parameters = selected->definition->parameters;
   for (size_t index = 0; index < parameters.size(); ++index) {
     MacroCapture capture;
+    capture.kind = parameters[index].kind;
     capture.isVariadic = parameters[index].isVariadic;
     if (parameters[index].isVariadic) {
       capture.elements.insert(capture.elements.end(),
@@ -256,7 +258,12 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   MacroTemplateExpander templateExpander(
       captures, call.span, origin, diagnostics_,
       limits_.maxGeneratedTokens - generatedTokens,
-      limits_.maxTemplateIterations);
+      limits_.maxTemplateIterations,
+      [this]() -> std::optional<SyntaxContextId> {
+        if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max())
+          return std::nullopt;
+        return nextFreshContext_++;
+      });
   auto output =
       templateExpander.expand(selected->definition->expansion.children());
   if (!output)

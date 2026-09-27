@@ -1,9 +1,8 @@
 #pragma once
 
-#include "token/token_tree.hpp"
+#include "macros/macro_meta.hpp"
 #include "utils/diagnostics.hpp"
 
-#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -11,29 +10,28 @@
 
 namespace zap {
 
-struct MacroCapture {
-  std::vector<std::vector<TokenTree>> elements;
-  // A final separator represents a trailing comma in the invocation.
-  std::vector<TokenTree> separators;
-  bool isVariadic = false;
-};
-
-using MacroCaptures = std::map<std::string, MacroCapture>;
-
 class MacroTemplateExpander {
 public:
   MacroTemplateExpander(const MacroCaptures &captures,
                         const SourceSpan &invocation,
                         std::shared_ptr<const ExpansionOrigin> origin,
                         DiagnosticEngine &diagnostics, size_t maxTokens,
-                        size_t maxIterations);
+                        size_t maxIterations,
+                        MacroMetaEvaluator::FreshContext freshContext);
 
   std::optional<std::vector<TokenTree>>
   expand(const std::vector<TokenTree> &templateTrees);
 
 private:
-  struct Scope;
   struct Loop;
+  struct When;
+  struct Case;
+  struct Let;
+  enum class Flow { Normal, Break, Continue };
+  struct ExpansionResult {
+    std::vector<TokenTree> trees;
+    Flow flow = Flow::Normal;
+  };
 
   const MacroCaptures &captures_;
   const SourceSpan &invocation_;
@@ -43,12 +41,21 @@ private:
   size_t maxIterations_;
   size_t emittedTokens_ = 0;
   size_t expandedIterations_ = 0;
+  MacroMetaEvaluator meta_;
 
-  std::optional<std::vector<TokenTree>>
-  expandTrees(const std::vector<TokenTree> &trees, const Scope &scope);
-  bool validateTrees(const std::vector<TokenTree> &trees, const Scope &scope);
+  std::optional<ExpansionResult>
+  expandTrees(const std::vector<TokenTree> &trees, const MetaScope &scope,
+              size_t loopDepth = 0);
+  bool validateTrees(const std::vector<TokenTree> &trees,
+                     const MetaScope &scope, size_t loopDepth = 0);
   std::optional<Loop> parseLoop(const std::vector<TokenTree> &trees,
                                 size_t start);
+  std::optional<When> parseWhen(const std::vector<TokenTree> &trees,
+                                size_t start);
+  std::optional<Case> parseCase(const std::vector<TokenTree> &trees,
+                                size_t start);
+  std::optional<Let> parseLet(const std::vector<TokenTree> &trees,
+                              size_t start);
   bool reserve(size_t count);
   void report(const std::string &message);
 };

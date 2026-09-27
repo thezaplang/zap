@@ -102,6 +102,7 @@ zap_sema_dep = declare_dependency(link_with : zap_sema, include_directories : in
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
                             'src/macros/macro_expander.cpp',
+                            'src/macros/macro_meta.cpp',
                             'src/macros/macro_parser.cpp',
                             'src/macros/macro_template.cpp',
                             'src/parser/parser.cpp',
