@@ -1,0 +1,4 @@
+macro make_import() { import "missing.zp"; }
+make_import!()
+
+fun main() Int { return 0; }

@@ -47,6 +47,7 @@
 namespace zap {
 
 class MacroExpander;
+struct MacroCall;
 
 enum class FragmentKind { Expression, Type, Statement, Block, Item };
 enum class MacroParseMode { Expand, ValidateFragmentSyntax };
@@ -118,7 +119,7 @@ private:
   std::unique_ptr<ExtDecl> parseExtDecl();
   std::optional<std::string> parseResultBorrowSource();
   std::unique_ptr<ImportNode> parseImportDecl();
-  std::unique_ptr<BodyNode> parseBody();
+  std::unique_ptr<BodyNode> parseBody(bool allowEndResult = false);
   std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
   std::unique_ptr<AsmStmtNode> parseAsm();
   std::vector<AsmOperandNode> parseAsmOperandList();
@@ -151,6 +152,10 @@ private:
   std::unique_ptr<ExpressionNode> parsePostfixExpression();
   std::unique_ptr<ExpressionNode> parsePrimaryExpression();
   bool isMacroInvocationStart() const;
+  bool isStandaloneMacroInvocation() const;
+  MacroCall readMacroInvocation();
+  std::unique_ptr<BodyNode> parseMacroStatements();
+  std::unique_ptr<RootNode> parseMacroItems();
   ParsedFragment parseMacroInvocation(FragmentKind kind);
   std::unique_ptr<ExpressionNode> parseRangeExpression();
   std::unique_ptr<DeferNode> parseDefer();

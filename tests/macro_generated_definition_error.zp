@@ -1,0 +1,4 @@
+macro make_macro() { macro nested() { 1 } }
+make_macro!()
+
+fun main() Int { return 0; }

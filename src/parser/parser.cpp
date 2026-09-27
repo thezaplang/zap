@@ -211,6 +211,8 @@ std::unique_ptr<RootNode> Parser::parse() {
       auto attributes = parseAttributes();
 
       Visibility visibility = Visibility::Private;
+      const bool hasVisibility =
+          peek().type == TokenType::PUB || peek().type == TokenType::PRIV;
       if (peek().type == TokenType::PUB || peek().type == TokenType::PRIV) {
         visibility = (eat(peek().type).type == TokenType::PUB)
                          ? Visibility::Public
@@ -225,7 +227,16 @@ std::unique_ptr<RootNode> Parser::parse() {
             }
           };
 
-      if (peek().type == TokenType::MACRO) {
+      if (isMacroInvocationStart()) {
+        if (!attributes.empty() || hasVisibility) {
+          _diag.report(peek().span, DiagnosticLevel::Error,
+                       "Attributes and visibility cannot decorate a macro "
+                       "invocation.");
+        }
+        auto generated = parseMacroItems();
+        for (auto &item : generated->children)
+          root->addChild(std::move(item));
+      } else if (peek().type == TokenType::MACRO) {
         const bool hasAttributes = !attributes.empty();
         if (hasAttributes) {
           _diag.report(
@@ -532,11 +543,26 @@ std::optional<std::string> Parser::parseResultBorrowSource() {
   return source;
 }
 
-std::unique_ptr<BodyNode> Parser::parseBody() {
+std::unique_ptr<BodyNode> Parser::parseBody(bool allowEndResult) {
   auto body = _builder.makeBody();
   while (!isAtEnd() && peek().type != TokenType::RBRACE) {
     try {
-      if (peek().type == TokenType::VAR) {
+      if (isStandaloneMacroInvocation()) {
+        auto generated = parseMacroStatements();
+        for (auto &statement : generated->statements)
+          body->addStatement(std::move(statement));
+        if (generated->result) {
+          if (peek().type == TokenType::RBRACE ||
+              (allowEndResult && isAtEnd())) {
+            body->setResult(std::move(generated->result));
+          } else {
+            _diag.report(pointAfter(generated->result->span),
+                         DiagnosticLevel::Error,
+                         "Expected ';' after expression.");
+            body->addStatement(std::move(generated->result));
+          }
+        }
+      } else if (peek().type == TokenType::VAR) {
         body->addStatement(parseBindingDecl(BindingKind::Mutable));
       } else if (peek().type == TokenType::LET) {
         body->addStatement(parseBindingDecl(BindingKind::Immutable));
@@ -656,7 +682,8 @@ std::unique_ptr<BodyNode> Parser::parseBody() {
           }
           body->addStatement(std::move(expr));
         } else {
-          if (peek().type == TokenType::RBRACE) {
+          if (peek().type == TokenType::RBRACE ||
+              (allowEndResult && isAtEnd())) {
             body->setResult(std::move(expr));
           } else {
             _diag.report(pointAfter(expr->span), DiagnosticLevel::Error,
