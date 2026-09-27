@@ -1,4 +1,5 @@
 #include "macros/macro_expander.hpp"
+#include "macros/macro_template.hpp"
 
 #include "parser/parser.hpp"
 
@@ -9,22 +10,14 @@
 namespace zap {
 namespace {
 
-struct MacroArguments {
-  std::vector<std::vector<TokenTree>> elements;
-  // A final separator represents a trailing comma in the invocation.
-  std::vector<TokenTree> separators;
-};
-
-using Captures = std::map<std::string, MacroArguments>;
-
 bool isLeaf(const TokenTree &tree, TokenType type) {
   return tree.isLeaf() && tree.token().type == type;
 }
 
-std::optional<MacroArguments> splitArguments(const TokenTree &group) {
+std::optional<MacroCapture> splitArguments(const TokenTree &group) {
   if (group.isLeaf() || !group.closing())
     return std::nullopt;
-  MacroArguments arguments;
+  MacroCapture arguments;
   if (group.children().empty())
     return arguments;
 
@@ -128,67 +121,6 @@ const char *fragmentName(MacroParameterKind kind) {
     return "tokens";
   }
   return "fragment";
-}
-
-Token generatedToken(const Token &source, const SourceSpan &invocation,
-                     const std::shared_ptr<const ExpansionOrigin> &origin) {
-  Token token = source;
-  token.span = invocation;
-  token.expansionOrigin = origin;
-  return token;
-}
-
-std::optional<std::vector<TokenTree>>
-splice(const std::vector<TokenTree> &templateTrees, const Captures &captures,
-       const SourceSpan &invocation,
-       const std::shared_ptr<const ExpansionOrigin> &origin,
-       DiagnosticEngine &diagnostics) {
-  std::vector<TokenTree> output;
-  for (size_t index = 0; index < templateTrees.size(); ++index) {
-    const TokenTree &tree = templateTrees[index];
-    if (isLeaf(tree, TokenType::DOLLAR)) {
-      if (index + 1 >= templateTrees.size() ||
-          !isLeaf(templateTrees[index + 1], TokenType::ID)) {
-        diagnostics.report(invocation, DiagnosticLevel::Error,
-                           "Expected a capture name after '$'.");
-        return std::nullopt;
-      }
-      const std::string &name = templateTrees[++index].token().value;
-      const auto capture = captures.find(name);
-      if (capture == captures.end()) {
-        diagnostics.report(invocation, DiagnosticLevel::Error,
-                           "Unknown macro capture '$" + name + "'.");
-        return std::nullopt;
-      }
-      for (size_t element = 0; element < capture->second.elements.size();
-           ++element) {
-        const auto &tokens = capture->second.elements[element];
-        output.insert(output.end(), tokens.begin(), tokens.end());
-        if (element + 1 < capture->second.elements.size())
-          output.push_back(capture->second.separators[element]);
-      }
-      continue;
-    }
-
-    if (tree.isLeaf()) {
-      output.push_back(
-          TokenTree::leaf(generatedToken(tree.token(), invocation, origin)));
-      continue;
-    }
-
-    auto children =
-        splice(tree.children(), captures, invocation, origin, diagnostics);
-    if (!children)
-      return std::nullopt;
-    std::optional<Token> closing;
-    if (tree.closing()) {
-      closing = generatedToken(*tree.closing(), invocation, origin);
-    }
-    output.push_back(TokenTree::group(
-        tree.delimiter(), generatedToken(tree.opening(), invocation, origin),
-        std::move(*children), std::move(closing)));
-  }
-  return output;
 }
 
 } // namespace
@@ -295,10 +227,11 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     return std::nullopt;
   }
 
-  Captures captures;
+  MacroCaptures captures;
   const auto &parameters = selected->definition->parameters;
   for (size_t index = 0; index < parameters.size(); ++index) {
-    MacroArguments capture;
+    MacroCapture capture;
+    capture.isVariadic = parameters[index].isVariadic;
     if (parameters[index].isVariadic) {
       capture.elements.insert(capture.elements.end(),
                               arguments->elements.begin() + index,
@@ -315,8 +248,17 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   }
   auto origin = std::make_shared<ExpansionOrigin>(ExpansionOrigin{
       call.span, selected->definition->span, call.parentOrigin});
-  auto output = splice(selected->definition->expansion.children(), captures,
-                       call.span, origin, diagnostics_);
+  auto &generatedTokens = generatedTokensByModule_[outputModuleId];
+  if (generatedTokens > limits_.maxGeneratedTokens) {
+    report(call.span, "Macro generated token limit exceeded.");
+    return std::nullopt;
+  }
+  MacroTemplateExpander templateExpander(
+      captures, call.span, origin, diagnostics_,
+      limits_.maxGeneratedTokens - generatedTokens,
+      limits_.maxTemplateIterations);
+  auto output =
+      templateExpander.expand(selected->definition->expansion.children());
   if (!output)
     return std::nullopt;
   size_t count = 0;
@@ -327,7 +269,6 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     }
     count += tree.tokenCount();
   }
-  auto &generatedTokens = generatedTokensByModule_[outputModuleId];
   if (generatedTokens > limits_.maxGeneratedTokens - count) {
     report(call.span, "Macro generated token limit exceeded.");
     return std::nullopt;

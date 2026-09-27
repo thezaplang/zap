@@ -194,8 +194,7 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
                                "Unexpected token after macro statements.");
   }
   forwardDiagnostics(fragmentDiagnostics, _diag);
-  if (fragmentDiagnostics.hadErrors() ||
-      (body->statements.empty() && !body->result)) {
+  if (fragmentDiagnostics.hadErrors()) {
     _diag.report(call.span, DiagnosticLevel::Error,
                  "Macro expansion is not a valid statement fragment.");
     throw ParseError();
@@ -240,7 +239,7 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
     }
   }
   forwardDiagnostics(fragmentDiagnostics, _diag);
-  if (fragmentDiagnostics.hadErrors() || root->children.empty()) {
+  if (fragmentDiagnostics.hadErrors()) {
     _diag.report(call.span, DiagnosticLevel::Error,
                  "Macro expansion is not a valid item fragment.");
     throw ParseError();

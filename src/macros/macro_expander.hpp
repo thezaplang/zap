@@ -15,6 +15,7 @@ namespace zap {
 struct MacroLimits {
   size_t maxDepth = 128;
   size_t maxGeneratedTokens = 1'000'000;
+  size_t maxTemplateIterations = 1'000'000;
   size_t maxMatchAttempts = 256;
 };
 

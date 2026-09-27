@@ -8,6 +8,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -438,6 +439,108 @@ void testVariadicFragmentKinds() {
   }
 }
 
+void testTemplateForLoops() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro joined($args: tokens...) {
+  for $x in $args separated by { + } { $x }
+}
+macro indexed($args: tokens...) {
+  for ($x, $p) in $args separated by { ; } {
+    $p.index : $p.isFirst : $p.isLast : $x
+  }
+}
+macro nested($args: tokens...) {
+  for $x in $args separated by { ; } {
+    $x for $x in $args separated by { + } { $x } $x
+  }
+}
+macro runtime($args: tokens...) { for value in values { $args } }
+macro empty($args: tokens...) { for $x in $args { $x } }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "template loop fixture is invalid");
+
+  const std::vector<std::tuple<std::string, std::string, std::string>> cases = {
+      {"joined!(a, b, c,)", "joined", "a+b+c"},
+      {"indexed!(a, b)", "indexed", "0:true:false:a;1:false:true:b"},
+      {"nested!(a, b)", "nested", "aa+ba;ba+bb"},
+      {"runtime!(x)", "runtime", "forvalueinvalues{x}"},
+      {"empty!()", "empty", ""},
+  };
+  for (const auto &[source, name, expected] : cases) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {name}, diagnostics));
+    require(output && spellings(*output) == expected &&
+                !diagnostics.hadErrors(),
+            "template loop expansion, nesting, shadowing, or separator failed");
+    if (name == "indexed") {
+      require(output->front().token().type == TokenType::INTEGER &&
+                  output->front().token().expansionOrigin &&
+                  output->front().token().span.sourceName == "call.zp",
+              "loop position token lost its origin");
+    }
+  }
+}
+
+void testInvalidTemplateForLoops() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro scalar($value: tokens) { for $x in $value { $x } }
+macro property($args: tokens...) {
+  for ($x, $p) in $args { $p.unknown }
+}
+macro malformed($args: tokens...) {
+  for $x in $args separated { $x }
+}
+macro dormant($args: tokens...) {
+  for $x in $args { $missing }
+}
+macro repeated($args: tokens...) { for $x in $args { $x $x } }
+macro no_output($args: tokens...) { for $x in $args {} }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "invalid loop fixture declaration failed");
+
+  for (const auto &[source, name] :
+       std::vector<std::pair<std::string, std::string>>{
+           {"scalar!(x)", "scalar"},
+           {"property!(x)", "property"},
+           {"malformed!(x)", "malformed"},
+           {"dormant!()", "dormant"}}) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    require(
+        !expander.expand("module.zp", makeCall(source, {name}, diagnostics)) &&
+            diagnostics.hadErrors(),
+        "invalid template loop was accepted");
+  }
+
+  const std::string source = "repeated!(a, b)";
+  zap::DiagnosticEngine diagnostics(source, "call.zp");
+  zap::MacroLimits limits;
+  limits.maxGeneratedTokens = 3;
+  zap::MacroExpander expander(fixture.registry, diagnostics, limits);
+  require(!expander.expand("module.zp",
+                           makeCall(source, {"repeated"}, diagnostics)) &&
+              diagnostics.hadErrors(),
+          "template loop bypassed the generated-token limit");
+
+  const std::string emptySource = "no_output!(a, b)";
+  zap::DiagnosticEngine iterationDiagnostics(emptySource, "call.zp");
+  zap::MacroLimits iterationLimits;
+  iterationLimits.maxTemplateIterations = 1;
+  zap::MacroExpander iterationExpander(fixture.registry, iterationDiagnostics,
+                                       iterationLimits);
+  require(!iterationExpander.expand(
+              "module.zp",
+              makeCall(emptySource, {"no_output"}, iterationDiagnostics)) &&
+              iterationDiagnostics.hadErrors(),
+          "empty template iterations bypassed the iteration limit");
+}
+
 } // namespace
 
 int main() {
@@ -449,5 +552,7 @@ int main() {
   testSignatureConflictsAndMatcherLimit();
   testVariadicCapturesAndRanking();
   testVariadicFragmentKinds();
+  testTemplateForLoops();
+  testInvalidTemplateForLoops();
   return 0;
 }

@@ -1,0 +1,51 @@
+import "std/io";
+
+macro writeln($args: expr...) {
+    for $arg in $args {
+        io.print(toString($arg));
+    }
+    io.print("\n");
+}
+
+macro sum($args: expr...) {
+    for $arg in $args separated by { + } { $arg }
+}
+
+macro positions($args: expr...) {
+    var position_sum: Int = 0;
+    for ($arg, $position) in $args {
+        position_sum += $position.index;
+        if $position.isFirst { position_sum += 10; }
+        if $position.isLast { position_sum += 100; }
+    }
+}
+
+macro nested($values: expr...) {
+    0 for $x in $values {
+        for $y in $values { + ($x * $y) }
+    }
+}
+
+macro shadow($values: expr...) {
+    0 for $x in $values {
+        + (0 for $x in $values { + $x })
+    }
+}
+
+macro empty($args: expr...) {
+    for $arg in $args { io.print(toString($arg)); }
+}
+
+fun main() Int {
+    var name: String = "Ada";
+    var age: Int = 37;
+    writeln!("hello ", name, "! you are ", age, " years old");
+    writeln!();
+    empty!();
+    if sum!(1, 2, 3) != 6 { return 1; }
+    if nested!(2, 3) != 25 { return 2; }
+    positions!(1, 2);
+    if position_sum != 111 { return 3; }
+    if shadow!(3, 4) != 14 { return 4; }
+    return 0;
+}
