@@ -11,12 +11,12 @@ macro sum($args: expr...) {
     for $arg in $args separated by { + } { $arg }
 }
 
-macro positions($args: expr...) {
-    var position_sum: Int = 0;
+macro positions($out: ident, $args: expr...) {
+    var $out: Int = 0;
     for ($arg, $position) in $args {
-        position_sum += $position.index;
-        if $position.isFirst { position_sum += 10; }
-        if $position.isLast { position_sum += 100; }
+        $out += $position.index;
+        if $position.isFirst { $out += 10; }
+        if $position.isLast { $out += 100; }
     }
 }
 
@@ -44,7 +44,7 @@ fun main() Int {
     empty!();
     if sum!(1, 2, 3) != 6 { return 1; }
     if nested!(2, 3) != 25 { return 2; }
-    positions!(1, 2);
+    positions!(position_sum, 1, 2);
     if position_sum != 111 { return 3; }
     if shadow!(3, 4) != 14 { return 4; }
     return 0;

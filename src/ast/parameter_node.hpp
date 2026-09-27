@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "../visibility.hpp"
 #include "expr_node.hpp"
 #include "node.hpp"
@@ -11,6 +12,7 @@
 class ParameterNode : public Node {
 public:
   std::string name;
+  SyntaxName syntaxName;
   std::unique_ptr<TypeNode> type;
   std::unique_ptr<ExpressionNode> defaultValue;
   bool isRef = false;
@@ -23,7 +25,7 @@ public:
                 bool isRef = false, bool isSink = false,
                 bool isNoEscape = false, bool isVariadic = false,
                 std::unique_ptr<ExpressionNode> defaultValue = nullptr)
-      : name(name), type(std::move(type)),
+      : name(name), syntaxName(name), type(std::move(type)),
         defaultValue(std::move(defaultValue)), isRef(isRef), isSink(isSink),
         isNoEscape(isNoEscape), isVariadic(isVariadic) {}
 

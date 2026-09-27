@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../token/syntax_name.hpp"
 #include "body_node.hpp"
 #include "expr_node.hpp"
 #include "statement_node.hpp"
@@ -35,13 +36,14 @@ class FailableHandleExpr : public ExpressionNode {
 public:
   std::unique_ptr<ExpressionNode> expression_;
   std::string errorName_;
+  SyntaxName errorSyntaxName_;
   std::unique_ptr<BodyNode> handler_;
 
   FailableHandleExpr() noexcept = default;
   FailableHandleExpr(std::unique_ptr<ExpressionNode> expression,
                      std::string errorName, std::unique_ptr<BodyNode> handler)
       : expression_(std::move(expression)), errorName_(std::move(errorName)),
-        handler_(std::move(handler)) {}
+        errorSyntaxName_(errorName_), handler_(std::move(handler)) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

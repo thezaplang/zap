@@ -75,6 +75,7 @@ public:
   std::unique_ptr<FunDecl> makeFunDecl(const std::string &name) {
     auto f = std::make_unique<FunDecl>();
     f->name_ = name;
+    f->syntaxName_ = SyntaxName(name);
     return f;
   }
 

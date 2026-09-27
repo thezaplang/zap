@@ -95,6 +95,7 @@ std::unique_ptr<BindingDecl> Parser::parseBindingDecl(BindingKind kind) {
   Token semicolon = eat(TokenType::SEMICOLON);
   auto declaration = _builder.makeBindingDecl(name.value, std::move(type),
                                               std::move(initializer), kind);
+  declaration->syntaxName_ = SyntaxName(name);
   _builder.setSpan(declaration.get(),
                    SourceSpan::merge(keyword.span, semicolon.span));
   return declaration;
@@ -118,6 +119,7 @@ std::unique_ptr<BindingDecl> Parser::parseForInitBindingDecl() {
   auto declaration =
       _builder.makeBindingDecl(varNameToken.value, std::move(typeNode),
                                std::move(initializer), BindingKind::Mutable);
+  declaration->syntaxName_ = SyntaxName(varNameToken);
   _builder.setSpan(declaration.get(),
                    SourceSpan::merge(varKeyword.span, endSpan));
   return declaration;

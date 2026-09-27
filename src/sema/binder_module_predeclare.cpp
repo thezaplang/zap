@@ -760,6 +760,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         auto symbol = std::make_shared<VariableSymbol>(
             p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
             module.info->moduleName, Visibility::Private);
+        symbol->syntaxName = p->syntaxName;
         symbol->is_sink = p->isSink;
         symbol->is_noescape = p->isNoEscape;
         if (p->isVariadic) {
@@ -932,6 +933,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           params.push_back(std::make_shared<VariableSymbol>(
               "self", classType, BindingKind::Mutable, false, "self",
               module.info->moduleName, Visibility::Private));
+          params.back()->syntaxName = methodDecl->syntaxName_;
+          params.back()->syntaxName.text = "self";
         }
 
         for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
@@ -967,6 +970,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           auto parameter = std::make_shared<VariableSymbol>(
               p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
               module.info->moduleName, Visibility::Private);
+          parameter->syntaxName = p->syntaxName;
           parameter->is_sink = p->isSink;
           parameter->is_noescape = p->isNoEscape;
           params.push_back(std::move(parameter));
@@ -1074,6 +1078,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         params.push_back(std::make_shared<VariableSymbol>(
             "self", interfaceType, BindingKind::Mutable, false, "self",
             module.info->moduleName, Visibility::Private));
+        params.back()->syntaxName = methodDecl->syntaxName_;
+        params.back()->syntaxName.text = "self";
 
         for (const auto &p : methodDecl->params_) {
           auto mappedType = mapType(*p->type);
@@ -1085,6 +1091,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
           auto parameter = std::make_shared<VariableSymbol>(
               p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
               module.info->moduleName, Visibility::Private);
+          parameter->syntaxName = p->syntaxName;
           parameter->is_sink = p->isSink;
           params.push_back(std::move(parameter));
         }
@@ -1161,6 +1168,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         auto parameter = std::make_shared<VariableSymbol>(
             p->name, mappedType, BindingKind::Mutable, p->isRef, p->name,
             module.info->moduleName, Visibility::Private);
+        parameter->syntaxName = p->syntaxName;
         parameter->is_sink = p->isSink;
         parameter->is_noescape = p->isNoEscape;
         params.push_back(std::move(parameter));
@@ -1363,6 +1371,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
         params.push_back(std::make_shared<VariableSymbol>(
             "self", targetType, BindingKind::Mutable, receiverIsRef, "self",
             module.info->moduleName, Visibility::Private));
+        params.back()->syntaxName = methodDecl->syntaxName_;
+        params.back()->syntaxName.text = "self";
         bool valid = true;
         for (size_t i = 0; i < methodDecl->params_.size(); ++i) {
           const auto &parameterDecl = methodDecl->params_[i];
@@ -1419,6 +1429,7 @@ void Binder::predeclareModuleValues(ModuleState &module) {
               parameterDecl->name, parameterType, BindingKind::Mutable,
               parameterDecl->isRef, parameterDecl->name,
               module.info->moduleName, Visibility::Private);
+          parameter->syntaxName = parameterDecl->syntaxName;
           parameter->is_sink = parameterDecl->isSink;
           parameter->is_noescape = parameterDecl->isNoEscape;
           if (parameterDecl->isVariadic) {

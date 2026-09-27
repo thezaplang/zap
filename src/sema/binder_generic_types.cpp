@@ -469,7 +469,7 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
 
       pushScope();
       for (const auto &param : methodSymbol->parameters) {
-        if (!currentScope_->declare(param->name, param)) {
+        if (!currentScope_->declare(param->syntaxName, param)) {
           error(methodDecl->span,
                 "Parameter '" + param->name + "' already declared.");
         }

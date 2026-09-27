@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "body_node.hpp"
 #include "statement_node.hpp"
 #include "visitor.hpp"
@@ -25,11 +26,13 @@ struct CaseRecordFieldPattern {
   std::string name;
   std::unique_ptr<CasePattern> nested;
   std::string binding;
+  SyntaxName bindingSyntaxName;
 };
 
 struct CasePattern {
   CasePatternKind kind = CasePatternKind::Literal;
   SourceSpan span;
+  SyntaxName pathSyntaxName;
   std::unique_ptr<ExpressionNode> literal;
   std::vector<std::string> variantPath;
   std::vector<std::string> recordPath;
@@ -38,6 +41,7 @@ struct CasePattern {
   std::unique_ptr<ExpressionNode> payloadLiteral;
   std::unique_ptr<CasePattern> payloadPattern;
   std::string payloadBinding;
+  SyntaxName payloadSyntaxName;
   SourceSpan payloadBindingSpan;
 };
 

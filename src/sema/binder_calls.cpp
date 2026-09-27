@@ -395,12 +395,17 @@ void Binder::visit(FunCall &node) {
     return;
   }
 
-  auto symbol =
-      resolveQualifiedSymbol(calleeParts, node.span, SymbolKind::Function);
+  const ExpressionNode *firstPart = node.callee_.get();
+  while (const auto *member = dynamic_cast<const MemberAccessNode *>(firstPart))
+    firstPart = member->left_.get();
+  const auto *firstId = dynamic_cast<const ConstId *>(firstPart);
+  const SyntaxName *firstName = firstId ? &firstId->syntaxName_ : nullptr;
+  auto symbol = resolveQualifiedSymbol(calleeParts, node.span,
+                                       SymbolKind::Function, false, firstName);
   if (!symbol) {
     // Check if it's a variable holding a function pointer
-    auto varSym =
-        resolveQualifiedSymbol(calleeParts, node.span, SymbolKind::Variable);
+    auto varSym = resolveQualifiedSymbol(
+        calleeParts, node.span, SymbolKind::Variable, false, firstName);
     if (varSym && varSym->getKind() == SymbolKind::Variable) {
       auto varSymbol = std::static_pointer_cast<VariableSymbol>(varSym);
       if (varSymbol->type &&

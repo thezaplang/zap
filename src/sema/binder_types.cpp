@@ -255,7 +255,8 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
         std::vector<std::string> errParts = typeNode.errorType->qualifiers;
         errParts.push_back(typeNode.errorType->typeName);
         auto errSymbol = resolveQualifiedSymbol(
-            errParts, typeNode.errorType->span, SymbolKind::Type);
+            errParts, typeNode.errorType->span, SymbolKind::Type, false,
+            &typeNode.errorType->syntaxName);
         if (errSymbol && errSymbol->getKind() == SymbolKind::Type) {
           auto errTypeSymbol = std::static_pointer_cast<TypeSymbol>(errSymbol);
           if (!errTypeSymbol->isErrorType) {
@@ -379,9 +380,9 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
           error(typeNode.span,
                 "Function pointer 'borrows' source must be a valid parameter "
                 "index.");
-          } else if (typeNode.funPtrReturnsRef ||
+        } else if (typeNode.funPtrReturnsRef ||
                    ret->getIntrinsicKind() !=
-                   zir::IntrinsicTypeKind::StringView) {
+                       zir::IntrinsicTypeKind::StringView) {
           error(typeNode.span,
                 "Function pointer 'borrows' requires a StringView result.");
         } else if (params[sourceIndex]->getIntrinsicKind() !=
@@ -394,8 +395,7 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
                 "A noescape function pointer parameter cannot back the "
                 "result.");
         } else {
-          resultBorrow =
-              zir::ResultBorrowContract::fromParameter(sourceIndex);
+          resultBorrow = zir::ResultBorrowContract::fromParameter(sourceIndex);
         }
       }
       return std::make_shared<zir::FunctionPointerType>(
@@ -405,8 +405,8 @@ std::shared_ptr<zir::Type> Binder::mapType(const TypeNode &typeNode) {
 
     std::vector<std::string> parts = typeNode.qualifiers;
     parts.push_back(typeNode.typeName);
-    auto symbol =
-        resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type);
+    auto symbol = resolveQualifiedSymbol(parts, typeNode.span, SymbolKind::Type,
+                                         false, &typeNode.syntaxName);
     if (symbol && symbol->getKind() == SymbolKind::Type) {
       auto typeSymbol = std::static_pointer_cast<TypeSymbol>(symbol);
       if (!typeSymbol->genericParameterNames.empty()) {

@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "symbol.hpp"
 #include <map>
 #include <memory>
@@ -13,25 +14,37 @@ public:
       : parent_(std::move(parent)) {}
 
   bool declare(const std::string &name, std::shared_ptr<Symbol> symbol) {
-    if (symbols_.find(name) != symbols_.end()) {
+    return declare(SyntaxName(name), std::move(symbol));
+  }
+
+  bool declare(const SyntaxName &name, std::shared_ptr<Symbol> symbol) {
+    const Key key{name.text, name.context};
+    if (symbols_.find(key) != symbols_.end()) {
       return false; // Already declared in this scope
     }
-    symbols_[name] = std::move(symbol);
+    symbols_[key] = std::move(symbol);
     return true;
   }
 
   std::shared_ptr<OverloadSetSymbol>
   declareFunction(const std::string &name,
                   std::shared_ptr<FunctionSymbol> function) {
-    auto it = symbols_.find(name);
+    return declareFunction(SyntaxName(name), std::move(function));
+  }
+
+  std::shared_ptr<OverloadSetSymbol>
+  declareFunction(const SyntaxName &name,
+                  std::shared_ptr<FunctionSymbol> function) {
+    const Key key{name.text, name.context};
+    auto it = symbols_.find(key);
     if (it == symbols_.end()) {
       auto set = std::make_shared<OverloadSetSymbol>(
-          name, function ? function->moduleName : "");
+          name.text, function ? function->moduleName : "");
       set->visibility = function ? function->visibility : Visibility::Private;
       if (function) {
         set->addOverload(function);
       }
-      symbols_[name] = set;
+      symbols_[key] = set;
       return set;
     }
 
@@ -46,7 +59,11 @@ public:
   }
 
   std::shared_ptr<Symbol> lookup(const std::string &name) const {
-    auto it = symbols_.find(name);
+    return lookup(SyntaxName(name));
+  }
+
+  std::shared_ptr<Symbol> lookup(const SyntaxName &name) const {
+    auto it = symbols_.find(Key{name.text, name.context});
     if (it != symbols_.end()) {
       return it->second;
     }
@@ -57,7 +74,11 @@ public:
   }
 
   std::shared_ptr<Symbol> lookupLocal(const std::string &name) const {
-    auto it = symbols_.find(name);
+    return lookupLocal(SyntaxName(name));
+  }
+
+  std::shared_ptr<Symbol> lookupLocal(const SyntaxName &name) const {
+    auto it = symbols_.find(Key{name.text, name.context});
     if (it != symbols_.end()) {
       return it->second;
     }
@@ -67,8 +88,9 @@ public:
   std::shared_ptr<SymbolTable> getParent() const { return parent_; }
 
 private:
+  using Key = std::pair<std::string, SyntaxContextId>;
   std::shared_ptr<SymbolTable> parent_;
-  std::map<std::string, std::shared_ptr<Symbol>> symbols_;
+  std::map<Key, std::shared_ptr<Symbol>> symbols_;
 };
 
 } // namespace sema

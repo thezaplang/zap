@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "body_node.hpp"
 #include "generic_constraint.hpp"
 #include "node.hpp"
@@ -21,6 +22,7 @@ enum class ExtensionReceiverMode {
 class FunDecl : public TopLevel {
 public:
   std::string name_;
+  SyntaxName syntaxName_;
   std::vector<std::unique_ptr<TypeNode>> genericParams_;
   std::vector<GenericConstraint> genericConstraints_;
   std::vector<std::unique_ptr<ParameterNode>> params_;
@@ -44,10 +46,11 @@ public:
           std::unique_ptr<TypeNode> returnType, std::unique_ptr<BodyNode> body,
           std::unique_ptr<ExpressionNode> lambdaExpr, bool isExtern = false,
           bool isStatic = false, bool isUnsafe = false)
-      : name_(name), genericParams_(std::move(genericParams)),
-        params_(std::move(params)), returnType_(std::move(returnType)),
-        body_(std::move(body)), lambdaExpr_(std::move(lambdaExpr)),
-        isExtern_(isExtern), isStatic_(isStatic), isUnsafe_(isUnsafe) {}
+      : name_(name), syntaxName_(name),
+        genericParams_(std::move(genericParams)), params_(std::move(params)),
+        returnType_(std::move(returnType)), body_(std::move(body)),
+        lambdaExpr_(std::move(lambdaExpr)), isExtern_(isExtern),
+        isStatic_(isStatic), isUnsafe_(isUnsafe) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
 };

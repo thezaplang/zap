@@ -57,8 +57,7 @@ void testRawSpellingForEscapedCharAndLexicalErrors() {
   zap::DiagnosticEngine characterDiagnostics(characterSource);
   Lexer characterLexer(characterDiagnostics);
   const auto characterTokens = characterLexer.tokenize(characterSource);
-  const Token &escapedCharacter =
-      findToken(characterTokens, TokenType::CHAR);
+  const Token &escapedCharacter = findToken(characterTokens, TokenType::CHAR);
   require(escapedCharacter.value == "\n", "char escape was not normalized");
   require(escapedCharacter.spelling == "'\\n'",
           "char escape spelling was not preserved");
@@ -76,15 +75,15 @@ void testSyntaxContextAndOrigin() {
   const SourceSpan invocation(3, 7, 42, 4, "call.zp");
   const SourceSpan definition(1, 1, 0, 5, "macro.zp");
   auto origin = std::make_shared<ExpansionOrigin>(
-      ExpansionOrigin{invocation, definition, nullptr});
-  Token token(TokenType::ID, "generated", definition, "generated", 12,
-              origin);
+      ExpansionOrigin{invocation, definition, nullptr, "module.zp", 1});
+  Token token(TokenType::ID, "generated", definition, "generated", 12, origin);
 
   require(token.syntaxContext == 12, "syntax context was not retained");
-  require(token.expansionOrigin == origin,
-          "expansion origin was not retained");
+  require(token.expansionOrigin == origin, "expansion origin was not retained");
   require(token.expansionOrigin->invocationSpan.sourceName == "call.zp" &&
-              token.expansionOrigin->definitionSpan.sourceName == "macro.zp",
+              token.expansionOrigin->definitionSpan.sourceName == "macro.zp" &&
+              token.expansionOrigin->definitionModuleId == "module.zp" &&
+              token.expansionOrigin->mark == 1,
           "expansion origin spans were not retained");
 }
 

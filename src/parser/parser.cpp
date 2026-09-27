@@ -277,6 +277,7 @@ std::unique_ptr<RootNode> Parser::parse() {
           auto varDecl =
               _builder.makeBindingDecl(nameToken.value, std::move(typeNode),
                                        nullptr, BindingKind::Mutable);
+          varDecl->syntaxName_ = SyntaxName(nameToken);
           varDecl->isGlobal_ = true;
           varDecl->isExternal_ = true;
           _builder.setSpan(varDecl.get(),
@@ -406,6 +407,7 @@ std::unique_ptr<FunDecl> Parser::parseFunDecl(bool isUnsafe,
 
   Token funNameToken = eat(TokenType::ID);
   auto funDecl = _builder.makeFunDecl(funNameToken.value);
+  funDecl->syntaxName_ = SyntaxName(funNameToken);
   funDecl->isUnsafe_ = isUnsafe;
   funDecl->isStatic_ = isStatic;
   if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
@@ -730,6 +732,7 @@ std::unique_ptr<ParameterNode> Parser::parseParameter(bool allowDefault) {
   auto paramNode = _builder.makeParam(paramNameToken.value, std::move(typeNode),
                                       isRef, isSink, isVariadic, isNoEscape,
                                       std::move(defaultValue));
+  paramNode->syntaxName = SyntaxName(paramNameToken);
   _builder.setSpan(paramNode.get(),
                    SourceSpan::merge(paramNameToken.span, endSpan));
   return paramNode;
@@ -1064,6 +1067,7 @@ std::unique_ptr<TypeNode> Parser::parseType() {
   Token startToken = peek();
   auto identifiers = parseQualifiedIdentifier();
   auto typeNode = _builder.makeType(identifiers.back());
+  typeNode->syntaxName = SyntaxName(startToken);
   identifiers.pop_back();
   typeNode->qualifiers = std::move(identifiers);
   if (peek().type == TokenType::LESS && isTypeStartToken(peek(1).type)) {
@@ -1245,6 +1249,7 @@ CasePattern Parser::parseCasePattern() {
 
   case TokenType::ID: {
     pattern.variantPath = parseQualifiedIdentifier();
+    pattern.pathSyntaxName = SyntaxName(startToken);
     const bool startsRecordFields = peek().type == TokenType::LBRACE &&
                                     ((pattern.variantPath.size() == 1 &&
                                       peek(1).type == TokenType::RBRACE) ||
@@ -1253,8 +1258,10 @@ CasePattern Parser::parseCasePattern() {
                                        peek(2).type == TokenType::COMMA ||
                                        peek(2).type == TokenType::RBRACE)));
     if (startsRecordFields) {
-      return parseCaseRecordPattern(std::move(pattern.variantPath),
-                                    startToken.span);
+      auto record = parseCaseRecordPattern(std::move(pattern.variantPath),
+                                           startToken.span);
+      record.pathSyntaxName = SyntaxName(startToken);
+      return record;
     }
     pattern.kind = CasePatternKind::Variant;
     if (peek().type == TokenType::LPAREN) {
@@ -1282,6 +1289,7 @@ CasePattern Parser::parseCasePattern() {
             pattern.payloadKind = CasePayloadPatternKind::Wildcard;
           } else {
             pattern.payloadKind = CasePayloadPatternKind::Binding;
+            pattern.payloadSyntaxName = SyntaxName(bindingToken);
             pattern.payloadBinding = std::move(bindingToken.value);
             pattern.payloadBindingSpan = bindingToken.span;
           }
@@ -1334,6 +1342,7 @@ CasePattern Parser::parseCaseRecordPattern(std::vector<std::string> typePath,
       field.span = SourceSpan::merge(field.span, field.nested->span);
     } else {
       field.binding = name.value;
+      field.bindingSyntaxName = SyntaxName(name);
     }
     pattern.recordFields.push_back(std::move(field));
     if (peek().type != TokenType::COMMA)
@@ -1486,6 +1495,7 @@ std::unique_ptr<ForInNode> Parser::parseForIn() {
 
   std::string indexName = "";
   Token itemToken = eat(TokenType::ID);
+  Token indexToken = itemToken;
   if (peek().type == TokenType::COMMA) {
     eat(TokenType::COMMA);
     indexName = itemToken.value;
@@ -1514,6 +1524,9 @@ std::unique_ptr<ForInNode> Parser::parseForIn() {
 
   auto forInNode = _builder.makeForIn(indexName, itemToken.value,
                                       std::move(iterable), std::move(body));
+  forInNode->itemSyntaxName_ = SyntaxName(itemToken);
+  if (!indexName.empty())
+    forInNode->indexSyntaxName_ = SyntaxName(indexToken);
   _builder.setSpan(forInNode.get(),
                    SourceSpan::merge(forKeyword.span, rbraceToken.span));
   return forInNode;
@@ -1584,6 +1597,7 @@ std::unique_ptr<ExpressionNode> Parser::parseFailableExpression() {
 
       auto handled = _builder.makeFailableHandleExpr(
           std::move(expr), errToken.value, std::move(handler));
+      handled->errorSyntaxName_ = SyntaxName(errToken);
       _builder.setSpan(handled.get(),
                        SourceSpan::merge(startSpan, rbraceToken.span));
       expr = std::move(handled);
@@ -1597,6 +1611,7 @@ std::unique_ptr<ExpressionNode> Parser::parseFailableExpression() {
     if (peek().type == TokenType::ID && peek(1).type == TokenType::LBRACE) {
       Token typeToken = eat(TokenType::ID);
       auto typeNode = _builder.makeType(typeToken.value);
+      typeNode->syntaxName = SyntaxName(typeToken);
       _builder.setSpan(typeNode.get(), typeToken.span);
       fallback = parseStructLiteral(std::move(typeNode));
     } else {
@@ -2007,6 +2022,7 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
     if (_allowStructLiteral && peek().type == TokenType::LESS &&
         isGenericStructLiteralStart()) {
       auto typeNode = _builder.makeType(idToken.value);
+      typeNode->syntaxName = SyntaxName(idToken);
       _builder.setSpan(typeNode.get(), idToken.span);
       typeNode->genericArgs = parseGenericTypeArguments();
       if (!typeNode->genericArgs.empty()) {
@@ -2017,10 +2033,12 @@ std::unique_ptr<ExpressionNode> Parser::parsePrimaryExpression() {
       return parseStructLiteral(std::move(typeNode));
     } else if (_allowStructLiteral && peek().type == TokenType::LBRACE) {
       auto typeNode = _builder.makeType(idToken.value);
+      typeNode->syntaxName = SyntaxName(idToken);
       _builder.setSpan(typeNode.get(), idToken.span);
       return parseStructLiteral(std::move(typeNode));
     } else {
       auto constId = _builder.makeConstId(idToken.value);
+      constId->syntaxName_ = SyntaxName(idToken);
       _builder.setSpan(constId.get(), idToken.span);
       return constId;
     }
@@ -2473,6 +2491,7 @@ std::unique_ptr<InterfaceDecl> Parser::parseInterfaceDecl() {
     Token funKeyword = eat(TokenType::FUN);
     Token methodNameToken = eat(TokenType::ID);
     auto methodDecl = _builder.makeFunDecl(methodNameToken.value);
+    methodDecl->syntaxName_ = SyntaxName(methodNameToken);
 
     eat(TokenType::LPAREN);
     if (peek().type != TokenType::RPAREN) {

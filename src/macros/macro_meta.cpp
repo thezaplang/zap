@@ -484,8 +484,8 @@ TokenTree MacroMetaEvaluator::literal(TokenType type,
                                       const std::string &value) const {
   return TokenTree::leaf(
       Token(type, value, invocation_,
-            type == TokenType::STRING ? quoted(value) : value,
-            ROOT_SYNTAX_CONTEXT, origin_));
+            type == TokenType::STRING ? quoted(value) : value, origin_->mark,
+            origin_));
 }
 
 void MacroMetaEvaluator::report(const std::string &message) {

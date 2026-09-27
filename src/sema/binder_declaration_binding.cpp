@@ -69,8 +69,8 @@ std::shared_ptr<zir::ClassType> Binder::resolveClassImplementsList(
     if (classType->isInterface()) {
       interfaces.push_back(classType);
     } else if (base) {
-      error(typeNode->span, "Class '" + node.name_ +
-                                "' cannot have more than one base class.");
+      error(typeNode->span,
+            "Class '" + node.name_ + "' cannot have more than one base class.");
     } else {
       base = classType;
     }
@@ -217,7 +217,7 @@ void Binder::visit(FunDecl &node) {
 
   for (size_t i = 0; i < symbol->parameters.size(); ++i) {
     const auto &param = symbol->parameters[i];
-    if (!currentScope_->declare(param->name, param)) {
+    if (!currentScope_->declare(param->syntaxName, param)) {
       error(node.span, "Parameter '" + param->name + "' already declared.");
     }
     const size_t parameterNodeIndex =
@@ -243,29 +243,27 @@ void Binder::visit(FunDecl &node) {
 
   if (!symbol->returnType) {
     std::vector<BoundReturnStatement *> returns;
-    std::function<void(BoundBlock *)> collectReturns =
-        [&](BoundBlock *block) {
-          if (!block)
-            return;
-          for (auto &stmt : block->statements) {
-            if (auto *ret = dynamic_cast<BoundReturnStatement *>(stmt.get())) {
-              returns.push_back(ret);
-            } else if (auto *ifStmt =
-                           dynamic_cast<BoundIfStatement *>(stmt.get())) {
-              collectReturns(ifStmt->thenBody.get());
-              collectReturns(ifStmt->elseBody.get());
-            } else if (auto *whileStmt =
-                           dynamic_cast<BoundWhileStatement *>(stmt.get())) {
-              collectReturns(whileStmt->body.get());
-            } else if (auto *forStmt =
-                           dynamic_cast<BoundForStatement *>(stmt.get())) {
-              collectReturns(forStmt->body.get());
-            } else if (auto *nested =
-                           dynamic_cast<BoundBlock *>(stmt.get())) {
-              collectReturns(nested);
-            }
-          }
-        };
+    std::function<void(BoundBlock *)> collectReturns = [&](BoundBlock *block) {
+      if (!block)
+        return;
+      for (auto &stmt : block->statements) {
+        if (auto *ret = dynamic_cast<BoundReturnStatement *>(stmt.get())) {
+          returns.push_back(ret);
+        } else if (auto *ifStmt =
+                       dynamic_cast<BoundIfStatement *>(stmt.get())) {
+          collectReturns(ifStmt->thenBody.get());
+          collectReturns(ifStmt->elseBody.get());
+        } else if (auto *whileStmt =
+                       dynamic_cast<BoundWhileStatement *>(stmt.get())) {
+          collectReturns(whileStmt->body.get());
+        } else if (auto *forStmt =
+                       dynamic_cast<BoundForStatement *>(stmt.get())) {
+          collectReturns(forStmt->body.get());
+        } else if (auto *nested = dynamic_cast<BoundBlock *>(stmt.get())) {
+          collectReturns(nested);
+        }
+      }
+    };
     collectReturns(boundBody.get());
 
     if (returns.empty()) {
@@ -331,8 +329,7 @@ void Binder::visit(FunDecl &node) {
   if (!hasReturn && symbol->returnType->getKind() != zir::TypeKind::Void) {
     auto kind = symbol->returnType->getKind();
     if (symbol->returnType->isInteger() ||
-        symbol->returnType->isFloatingPoint() ||
-        kind == zir::TypeKind::Bool) {
+        symbol->returnType->isFloatingPoint() || kind == zir::TypeKind::Bool) {
       std::string litVal = "0";
       if (symbol->returnType->isFloatingPoint())
         litVal = "0.0";
@@ -379,7 +376,9 @@ void Binder::visit(ExtensionDecl &node) {
 }
 
 void Binder::visit(BindingDecl &node) {
-  auto existing = currentScope_->lookupLocal(node.name_);
+  const SyntaxName name =
+      currentBlock_ ? node.syntaxName_ : SyntaxName(node.name_);
+  auto existing = currentScope_->lookupLocal(name);
   std::shared_ptr<VariableSymbol> symbol;
   if (existing) {
     symbol = std::dynamic_pointer_cast<VariableSymbol>(existing);
@@ -467,8 +466,9 @@ void Binder::visit(BindingDecl &node) {
     symbol = std::make_shared<VariableSymbol>(
         node.name_, type, node.kind_, isRef, std::move(linkName),
         modules_[currentModuleId_].info->moduleName, node.visibility_);
+    symbol->syntaxName = name;
     symbol->is_external = node.isExternal_;
-    if (!currentScope_->declare(node.name_, symbol)) {
+    if (!currentScope_->declare(name, symbol)) {
       if (isConstant) {
         error(node.span, "Identifier '" + node.name_ + "' already declared.");
       } else {

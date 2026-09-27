@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../binding_kind.hpp"
+#include "../token/syntax_name.hpp"
 #include "expr_node.hpp"
 #include "statement_node.hpp"
 #include "top_level.hpp"
@@ -11,6 +12,7 @@
 class BindingDecl : public StatementNode, public TopLevel {
 public:
   std::string name_;
+  SyntaxName syntaxName_;
   std::unique_ptr<TypeNode> type_;
   std::unique_ptr<ExpressionNode> initializer_;
   BindingKind kind_ = BindingKind::Mutable;
@@ -21,7 +23,7 @@ public:
       std::is_nothrow_default_constructible<std::string>::value) = default;
   BindingDecl(std::string name, std::unique_ptr<TypeNode> type,
               std::unique_ptr<ExpressionNode> initializer, BindingKind kind)
-      : name_(std::move(name)), type_(std::move(type)),
+      : name_(std::move(name)), syntaxName_(name_), type_(std::move(type)),
         initializer_(std::move(initializer)), kind_(kind) {}
 
   void accept(Visitor &v) override { v.visit(*this); }

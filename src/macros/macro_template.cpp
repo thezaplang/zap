@@ -99,6 +99,7 @@ Token generatedToken(const Token &source, const SourceSpan &invocation,
                      const std::shared_ptr<const ExpansionOrigin> &origin) {
   Token token = source;
   token.span = invocation;
+  token.syntaxContext = origin->mark;
   token.expansionOrigin = origin;
   return token;
 }

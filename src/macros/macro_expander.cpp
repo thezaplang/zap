@@ -248,8 +248,13 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     }
     captures.emplace(parameters[index].name.value, std::move(capture));
   }
-  auto origin = std::make_shared<ExpansionOrigin>(ExpansionOrigin{
-      call.span, selected->definition->span, call.parentOrigin});
+  if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
+    report(call.span, "Macro syntax context limit exceeded.");
+    return std::nullopt;
+  }
+  auto origin = std::make_shared<ExpansionOrigin>(
+      ExpansionOrigin{call.span, selected->definition->span, call.parentOrigin,
+                      selected->definingModuleId, nextFreshContext_++});
   auto &generatedTokens = generatedTokensByModule_[outputModuleId];
   if (generatedTokens > limits_.maxGeneratedTokens) {
     report(call.span, "Macro generated token limit exceeded.");

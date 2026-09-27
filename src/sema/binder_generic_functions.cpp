@@ -113,6 +113,7 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
     auto instParam = std::make_shared<VariableSymbol>(
         param->name, instType, param->binding_kind, param->is_ref,
         param->linkName, param->moduleName, param->visibility);
+    instParam->syntaxName = param->syntaxName;
     instParam->is_sink = param->is_sink;
     instParam->is_noescape = param->is_noescape;
     instParam->is_variadic_pack = param->is_variadic_pack;
@@ -201,7 +202,7 @@ std::shared_ptr<FunctionSymbol> Binder::ensureGenericFunctionInstantiation(
 
   pushScope();
   for (const auto &param : instantiated->parameters) {
-    if (!currentScope_->declare(param->name, param)) {
+    if (!currentScope_->declare(param->syntaxName, param)) {
       error(callSpan, "Parameter '" + param->name +
                           "' already declared in generic instantiation.");
     }

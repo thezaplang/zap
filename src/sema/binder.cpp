@@ -1023,6 +1023,19 @@ Binder::lookupVisibleSymbol(const std::string &name) const {
   return currentScope_ ? currentScope_->lookup(name) : nullptr;
 }
 
+std::shared_ptr<Symbol> Binder::lookupSyntaxName(const SyntaxName &name) const {
+  if (!currentScope_)
+    return nullptr;
+  if (auto symbol = currentScope_->lookup(name))
+    return symbol;
+  if (name.context == ROOT_SYNTAX_CONTEXT ||
+      name.context != name.expansionMark || name.definitionModuleId.empty())
+    return nullptr;
+  auto module = modules_.find(name.definitionModuleId);
+  return module == modules_.end() ? nullptr
+                                  : module->second.scope->lookup(name.text);
+}
+
 std::shared_ptr<Symbol>
 Binder::resolveModuleMember(const std::string &moduleName,
                             const std::string &memberName, SourceSpan span) {
@@ -1052,12 +1065,14 @@ Binder::resolveModuleMember(const std::string &moduleName,
 std::shared_ptr<Symbol>
 Binder::resolveQualifiedSymbol(const std::vector<std::string> &parts,
                                SourceSpan span, SymbolKind expectedKind,
-                               bool allowAnyKind) {
+                               bool allowAnyKind, const SyntaxName *firstName) {
   if (parts.empty()) {
     return nullptr;
   }
 
-  auto symbol = lookupVisibleSymbol(parts.front());
+  auto symbol = firstName && firstName->text == parts.front()
+                    ? lookupSyntaxName(*firstName)
+                    : lookupVisibleSymbol(parts.front());
   if (!symbol) {
     error(span, "Undefined identifier: " + parts.front());
     return nullptr;

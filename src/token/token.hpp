@@ -154,14 +154,17 @@ struct ExpansionOrigin {
   SourceSpan invocationSpan;
   SourceSpan definitionSpan;
   std::shared_ptr<const ExpansionOrigin> parent;
+  std::string definitionModuleId;
+  SyntaxContextId mark = ROOT_SYNTAX_CONTEXT;
 };
 
 class Token {
 public:
-  SourceSpan span; ///< Source of the token in the file.
-  TokenType type;  ///< Type of the token.
+  SourceSpan span;   ///< Source of the token in the file.
+  TokenType type;    ///< Type of the token.
   std::string value; ///< Normalized token value consumed by the parser.
-  std::string spelling; ///< Exact source spelling, including escapes and separators.
+  std::string
+      spelling; ///< Exact source spelling, including escapes and separators.
   SyntaxContextId syntaxContext = ROOT_SYNTAX_CONTEXT;
   std::shared_ptr<const ExpansionOrigin> expansionOrigin;
 
@@ -172,7 +175,8 @@ public:
         std::shared_ptr<const ExpansionOrigin> expansionOrigin = nullptr)
       : span(std::move(span)), type(type), value(std::move(value)),
         spelling(spelling.empty() ? this->value : std::move(spelling)),
-        syntaxContext(syntaxContext), expansionOrigin(std::move(expansionOrigin)) {}
+        syntaxContext(syntaxContext),
+        expansionOrigin(std::move(expansionOrigin)) {}
 
   /// @brief Helper constructor for when we build span component-wise.
   Token(TokenType type, const std::string &value, size_t line, size_t column,

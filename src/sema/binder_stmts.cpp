@@ -177,9 +177,11 @@ std::string canonicalCasePattern(const BoundCasePattern &pattern,
 
 } // namespace
 
-void Binder::emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target, bool stopAtLoop) {
+void Binder::emitDefersUpTo(
+    std::vector<std::unique_ptr<BoundStatement>> &target, bool stopAtLoop) {
   for (auto it = deferScopes_.rbegin(); it != deferScopes_.rend(); ++it) {
-    for (auto defIt = it->defers.rbegin(); defIt != it->defers.rend(); ++defIt) {
+    for (auto defIt = it->defers.rbegin(); defIt != it->defers.rend();
+         ++defIt) {
       const auto *defer = *defIt;
       if (!defer || !defer->statement_) {
         continue;
@@ -194,7 +196,8 @@ void Binder::emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target
         } else if (!expressionStack_.empty()) {
           auto boundExpr = std::move(expressionStack_.top());
           expressionStack_.pop();
-          target.push_back(std::make_unique<BoundExpressionStatement>(std::move(boundExpr)));
+          target.push_back(
+              std::make_unique<BoundExpressionStatement>(std::move(boundExpr)));
         }
       }
     }
@@ -225,12 +228,14 @@ std::unique_ptr<BoundBlock> Binder::bindBody(BodyNode *body, bool createScope) {
   deferScopes_.pop_back();
 
   if (!blockAlwaysReturns(boundBody.get())) {
-    for (auto defIt = currentScopeDefers.defers.rbegin(); defIt != currentScopeDefers.defers.rend(); ++defIt) {
+    for (auto defIt = currentScopeDefers.defers.rbegin();
+         defIt != currentScopeDefers.defers.rend(); ++defIt) {
       const auto *deferNode = *defIt;
       if (!deferNode || !deferNode->statement_) {
         continue;
       }
-      if (auto *bodyNode = dynamic_cast<BodyNode *>(deferNode->statement_.get())) {
+      if (auto *bodyNode =
+              dynamic_cast<BodyNode *>(deferNode->statement_.get())) {
         boundBody->statements.push_back(bindBody(bodyNode, true));
       } else {
         deferNode->statement_->accept(*this);
@@ -240,7 +245,8 @@ std::unique_ptr<BoundBlock> Binder::bindBody(BodyNode *body, bool createScope) {
         } else if (!expressionStack_.empty()) {
           auto bound = std::move(expressionStack_.top());
           expressionStack_.pop();
-          boundBody->statements.push_back(std::make_unique<BoundExpressionStatement>(std::move(bound)));
+          boundBody->statements.push_back(
+              std::make_unique<BoundExpressionStatement>(std::move(bound)));
         }
       }
     }
@@ -416,7 +422,9 @@ void Binder::visit(ReturnNode &node) {
           tempName, expr->type, BindingKind::Immutable, false, tempName,
           modules_[currentModuleId_].info->moduleName, Visibility::Private);
       currentScope_->declare(tempName, tempReturnSymbol);
-      returnBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(tempReturnSymbol, std::move(expr)));
+      returnBlock->statements.push_back(
+          std::make_unique<BoundVariableDeclaration>(tempReturnSymbol,
+                                                     std::move(expr)));
     }
 
     for (auto &defStmt : deferStmts) {
@@ -425,12 +433,15 @@ void Binder::visit(ReturnNode &node) {
 
     std::unique_ptr<BoundExpression> finalReturnExpr = nullptr;
     if (tempReturnSymbol) {
-      finalReturnExpr = std::make_unique<BoundVariableExpression>(tempReturnSymbol);
+      finalReturnExpr =
+          std::make_unique<BoundVariableExpression>(tempReturnSymbol);
     } else if (expr) {
       finalReturnExpr = std::move(expr);
     }
 
-    returnBlock->statements.push_back(std::make_unique<BoundReturnStatement>(std::move(finalReturnExpr), currentFunction_ && currentFunction_->returnsRef));
+    returnBlock->statements.push_back(std::make_unique<BoundReturnStatement>(
+        std::move(finalReturnExpr),
+        currentFunction_ && currentFunction_->returnsRef));
     statementStack_.push(std::move(returnBlock));
     return;
   }
@@ -474,13 +485,16 @@ void Binder::visit(FailNode &node) {
         name, errExpr->type, BindingKind::Immutable, false, name,
         modules_[currentModuleId_].info->moduleName, Visibility::Private);
     currentScope_->declare(name, err);
-    fail->statements.push_back(std::make_unique<BoundVariableDeclaration>(err, std::move(errExpr)));
+    fail->statements.push_back(
+        std::make_unique<BoundVariableDeclaration>(err, std::move(errExpr)));
 
     for (auto &defStmt : deferStmts) {
       fail->statements.push_back(std::move(defStmt));
     }
 
-    fail->statements.push_back(std::make_unique<BoundFailStatement>(std::make_unique<BoundVariableExpression>(err), propagatedType, expectedErrorType));
+    fail->statements.push_back(std::make_unique<BoundFailStatement>(
+        std::make_unique<BoundVariableExpression>(err), propagatedType,
+        expectedErrorType));
     statementStack_.push(std::move(fail));
     return;
   }
@@ -523,7 +537,7 @@ void Binder::visit(IfNode &node) {
   std::unique_ptr<BoundBlock> thenBody;
   if (narrowedVariable) {
     pushScope();
-    currentScope_->declare(narrowedVariable->name, narrowedVariable);
+    currentScope_->declare(narrowedVariable->syntaxName, narrowedVariable);
     thenBody = bindBody(node.thenBody_.get(), false);
     popScope();
   } else {
@@ -551,12 +565,12 @@ std::unique_ptr<BoundBlock> Binder::bindCaseArmBody(
 
   pushScope();
   if (payloadBinding &&
-      !currentScope_->declare(payloadBinding->name, payloadBinding)) {
+      !currentScope_->declare(payloadBinding->syntaxName, payloadBinding)) {
     error(arm.span, "Duplicate payload binding '" + payloadBinding->name +
                         "' in case arm.");
   }
   for (const auto &binding : recordBindings) {
-    if (!currentScope_->declare(binding->name, binding)) {
+    if (!currentScope_->declare(binding->syntaxName, binding)) {
       error(arm.span,
             "Duplicate record binding '" + binding->name + "' in case arm.");
     }
@@ -631,7 +645,8 @@ Binder::bindCaseRecordPattern(const CasePattern &record,
           continue;
         }
         auto nestedSymbol = resolveQualifiedSymbol(
-            field.nested->recordPath, field.nested->span, SymbolKind::Type);
+            field.nested->recordPath, field.nested->span, SymbolKind::Type,
+            false, &field.nested->pathSyntaxName);
         if (!nestedSymbol || !zir::sameType(nestedSymbol->type, fieldType)) {
           error(field.nested->span,
                 "Nested record pattern does not match field '" + field.name +
@@ -662,7 +677,8 @@ Binder::bindCaseRecordPattern(const CasePattern &record,
         }
         std::vector<std::string> typePath(path.begin(), path.end() - 1);
         auto enumSymbol = resolveQualifiedSymbol(typePath, field.nested->span,
-                                                 SymbolKind::Type);
+                                                 SymbolKind::Type, false,
+                                                 &field.nested->pathSyntaxName);
         if (!enumSymbol || !zir::sameType(enumSymbol->type, fieldType)) {
           error(field.nested->span,
                 "Enum field pattern does not match field '" + field.name +
@@ -788,7 +804,8 @@ Binder::bindCaseRecordPattern(const CasePattern &record,
             continue;
           }
           auto payloadSymbol = resolveQualifiedSymbol(
-              payload.recordPath, payload.span, SymbolKind::Type);
+              payload.recordPath, payload.span, SymbolKind::Type, false,
+              &payload.pathSyntaxName);
           if (!payloadSymbol ||
               !zir::sameType(payloadSymbol->type, variant->payloadType)) {
             error(payload.span,
@@ -812,6 +829,7 @@ Binder::bindCaseRecordPattern(const CasePattern &record,
               field.nested->payloadBinding, variant->payloadType,
               BindingKind::Immutable, false, field.nested->payloadBinding,
               currentModuleId_);
+          payloadBinding->syntaxName = field.nested->payloadSyntaxName;
           recordBindings.push_back(payloadBinding);
         }
         fields.push_back(
@@ -874,6 +892,7 @@ Binder::bindCaseRecordPattern(const CasePattern &record,
       auto binding = std::make_shared<VariableSymbol>(
           field.binding, fieldType, BindingKind::Immutable, false,
           field.binding, currentModuleId_);
+      binding->syntaxName = field.bindingSyntaxName;
       recordBindings.push_back(binding);
       fields.push_back({index, nullptr, std::move(binding)});
     }
@@ -936,7 +955,8 @@ void Binder::bindCaseStatement(CaseNode &node) {
             continue;
           }
           auto typeSymbol = resolveQualifiedSymbol(
-              pattern.recordPath, pattern.span, SymbolKind::Type);
+              pattern.recordPath, pattern.span, SymbolKind::Type, false,
+              &pattern.pathSyntaxName);
           if (!typeSymbol || !zir::sameType(typeSymbol->type, scrutineeType)) {
             error(pattern.span,
                   "Record pattern does not match scrutinee type '" +
@@ -974,7 +994,8 @@ void Binder::bindCaseStatement(CaseNode &node) {
 
           std::vector<std::string> typePath(path.begin(), path.end() - 1);
           auto typeSymbol =
-              resolveQualifiedSymbol(typePath, pattern.span, SymbolKind::Type);
+              resolveQualifiedSymbol(typePath, pattern.span, SymbolKind::Type,
+                                     false, &pattern.pathSyntaxName);
           if (!typeSymbol || !zir::sameType(typeSymbol->type, scrutineeType)) {
             error(pattern.span,
                   "Case variant does not belong to scrutinee type '" +
@@ -1023,8 +1044,8 @@ void Binder::bindCaseStatement(CaseNode &node) {
           if (!variant->payloadType &&
               pattern.payloadKind != CasePayloadPatternKind::None &&
               pattern.payloadKind != CasePayloadPatternKind::Empty) {
-            error(pattern.span,
-                  "Enum variant '" + variantName + "' does not take a payload pattern.");
+            error(pattern.span, "Enum variant '" + variantName +
+                                    "' does not take a payload pattern.");
             continue;
           }
           if (variant->payloadType &&
@@ -1049,6 +1070,7 @@ void Binder::bindCaseStatement(CaseNode &node) {
                 pattern.payloadBinding, variant->payloadType,
                 BindingKind::Immutable, false, pattern.payloadBinding,
                 currentModuleId_);
+            payloadBinding->syntaxName = pattern.payloadSyntaxName;
           }
           std::unique_ptr<BoundExpression> payloadValue;
           std::unique_ptr<BoundCasePattern> payloadPattern;
@@ -1116,7 +1138,8 @@ void Binder::bindCaseStatement(CaseNode &node) {
               continue;
             }
             auto typeSymbol = resolveQualifiedSymbol(
-                payload.recordPath, payload.span, SymbolKind::Type);
+                payload.recordPath, payload.span, SymbolKind::Type, false,
+                &payload.pathSyntaxName);
             if (!typeSymbol ||
                 !zir::sameType(typeSymbol->type, variant->payloadType)) {
               error(payload.span,
@@ -1379,7 +1402,8 @@ void Binder::visit(ForInNode &node) {
 
   auto intType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int);
 
-  if (auto rangeExpr = dynamic_cast<BoundRangeExpression *>(iterableValue.get())) {
+  if (auto rangeExpr =
+          dynamic_cast<BoundRangeExpression *>(iterableValue.get())) {
     auto rangeType = rangeExpr->type;
     auto start = std::move(rangeExpr->start);
     auto end = std::move(rangeExpr->end);
@@ -1404,16 +1428,20 @@ void Binder::visit(ForInNode &node) {
         valCounterSymbol, std::move(start)));
 
     auto endName = makeSyntheticLoopName("end");
-    auto endCounterSymbol = std::make_shared<VariableSymbol>(endName, rangeType, BindingKind::Immutable, false, endName,moduleName, Visibility::Private);
+    auto endCounterSymbol = std::make_shared<VariableSymbol>(
+        endName, rangeType, BindingKind::Immutable, false, endName, moduleName,
+        Visibility::Private);
     currentScope_->declare(endName, endCounterSymbol);
-    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(endCounterSymbol, std::move(end)));
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+        endCounterSymbol, std::move(end)));
 
     auto stepCounterName = makeSyntheticLoopName("step");
     auto stepCounterSymbol = std::make_shared<VariableSymbol>(
-        stepCounterName, rangeType, BindingKind::Immutable, false, stepCounterName,
-        moduleName, Visibility::Private);
+        stepCounterName, rangeType, BindingKind::Immutable, false,
+        stepCounterName, moduleName, Visibility::Private);
     currentScope_->declare(stepCounterName, stepCounterSymbol);
-    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(stepCounterSymbol, std::move(step)));
+    initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(
+        stepCounterSymbol, std::move(step)));
 
     std::shared_ptr<VariableSymbol> idxCounterSymbol = nullptr;
     if (!node.indexName_.empty()) {
@@ -1422,7 +1450,9 @@ void Binder::visit(ForInNode &node) {
           idxCounterName, intType, BindingKind::Mutable, false, idxCounterName,
           moduleName, Visibility::Private);
       currentScope_->declare(idxCounterName, idxCounterSymbol);
-      initBlock->statements.push_back(std::make_unique<BoundVariableDeclaration>(idxCounterSymbol, std::make_unique<BoundLiteral>("0", intType)));
+      initBlock->statements.push_back(
+          std::make_unique<BoundVariableDeclaration>(
+              idxCounterSymbol, std::make_unique<BoundLiteral>("0", intType)));
     }
 
     auto boolType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
@@ -1430,25 +1460,41 @@ void Binder::visit(ForInNode &node) {
 
     if (constantStep.has_value()) {
       std::string cmpOp = (*constantStep < 0) ? ">" : "<";
-      condition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), cmpOp,std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
+      condition = std::make_unique<BoundBinaryExpression>(
+          std::make_unique<BoundVariableExpression>(valCounterSymbol), cmpOp,
+          std::make_unique<BoundVariableExpression>(endCounterSymbol),
+          boolType);
     } else {
       auto zeroLiteral = std::make_unique<BoundLiteral>("0", rangeType);
-      auto stepIsPositive = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(stepCounterSymbol), ">",std::move(zeroLiteral), boolType);
-      auto posCondition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), "<", std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
-      auto negCondition = std::make_unique<BoundBinaryExpression>(std::make_unique<BoundVariableExpression>(valCounterSymbol), ">",std::make_unique<BoundVariableExpression>(endCounterSymbol), boolType);
+      auto stepIsPositive = std::make_unique<BoundBinaryExpression>(
+          std::make_unique<BoundVariableExpression>(stepCounterSymbol), ">",
+          std::move(zeroLiteral), boolType);
+      auto posCondition = std::make_unique<BoundBinaryExpression>(
+          std::make_unique<BoundVariableExpression>(valCounterSymbol), "<",
+          std::make_unique<BoundVariableExpression>(endCounterSymbol),
+          boolType);
+      auto negCondition = std::make_unique<BoundBinaryExpression>(
+          std::make_unique<BoundVariableExpression>(valCounterSymbol), ">",
+          std::make_unique<BoundVariableExpression>(endCounterSymbol),
+          boolType);
 
-      condition = std::make_unique<BoundTernaryExpression>(std::move(stepIsPositive), std::move(posCondition),std::move(negCondition), boolType);
+      condition = std::make_unique<BoundTernaryExpression>(
+          std::move(stepIsPositive), std::move(posCondition),
+          std::move(negCondition), boolType);
     }
 
     auto increment = std::make_unique<BoundAssignment>(
         std::make_unique<BoundVariableExpression>(valCounterSymbol),
         std::make_unique<BoundBinaryExpression>(
             std::make_unique<BoundVariableExpression>(valCounterSymbol), "+",
-            std::make_unique<BoundVariableExpression>(stepCounterSymbol), rangeType));
+            std::make_unique<BoundVariableExpression>(stepCounterSymbol),
+            rangeType));
 
     pushScope();
-    auto itemSymbol = std::make_shared<VariableSymbol>(node.itemName_, rangeType, BindingKind::Immutable, false,node.itemName_, moduleName, Visibility::Private);
-    if (!currentScope_->declare(node.itemName_, itemSymbol)) {
+    auto itemSymbol = std::make_shared<VariableSymbol>(
+        node.itemName_, rangeType, BindingKind::Immutable, false,
+        node.itemName_, moduleName, Visibility::Private);
+    if (!currentScope_->declare(node.itemSyntaxName_, itemSymbol)) {
       error(node.span, "Variable '" + node.itemName_ + "' already declared.");
     }
     if (semanticInfo_) {
@@ -1462,8 +1508,9 @@ void Binder::visit(ForInNode &node) {
       indexUserSymbol = std::make_shared<VariableSymbol>(
           node.indexName_, intType, BindingKind::Immutable, false,
           node.indexName_, moduleName, Visibility::Private);
-      if (!currentScope_->declare(node.indexName_, indexUserSymbol)) {
-        error(node.span, "Variable '" + node.indexName_ + "' already declared.");
+      if (!currentScope_->declare(node.indexSyntaxName_, indexUserSymbol)) {
+        error(node.span,
+              "Variable '" + node.indexName_ + "' already declared.");
       }
     }
 
@@ -1606,7 +1653,7 @@ void Binder::visit(ForInNode &node) {
   auto itemSymbol = std::make_shared<VariableSymbol>(
       node.itemName_, elementValue->type, BindingKind::Immutable, false,
       node.itemName_, moduleName, Visibility::Private);
-  if (!currentScope_->declare(node.itemName_, itemSymbol)) {
+  if (!currentScope_->declare(node.itemSyntaxName_, itemSymbol)) {
     error(node.span, "Variable '" + node.itemName_ + "' already declared.");
   }
   if (semanticInfo_) {
@@ -1620,7 +1667,7 @@ void Binder::visit(ForInNode &node) {
     indexUserSymbol = std::make_shared<VariableSymbol>(
         node.indexName_, intType, BindingKind::Immutable, false,
         node.indexName_, moduleName, Visibility::Private);
-    if (!currentScope_->declare(node.indexName_, indexUserSymbol)) {
+    if (!currentScope_->declare(node.indexSyntaxName_, indexUserSymbol)) {
       error(node.span, "Variable '" + node.indexName_ + "' already declared.");
     }
   }
@@ -1682,7 +1729,8 @@ void Binder::visit(ContinueNode &node) {
     for (auto &defStmt : deferStmts) {
       continueBlock->statements.push_back(std::move(defStmt));
     }
-    continueBlock->statements.push_back(std::make_unique<BoundContinueStatement>());
+    continueBlock->statements.push_back(
+        std::make_unique<BoundContinueStatement>());
     statementStack_.push(std::move(continueBlock));
     return;
   }

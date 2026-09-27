@@ -226,9 +226,9 @@ private:
   };
   std::unordered_map<std::string, InterfaceInfo> interfaceInfos_;
 
-  std::shared_ptr<zir::ClassType>
-  resolveClassImplementsList(const ClassDecl &node,
-                             std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
+  std::shared_ptr<zir::ClassType> resolveClassImplementsList(
+      const ClassDecl &node,
+      std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
   void bindInterfaceConformances(
       const ClassDecl &node, const std::shared_ptr<zir::ClassType> &classType,
       ClassInfo &classInfo,
@@ -246,7 +246,8 @@ private:
   std::shared_ptr<Symbol>
   resolveQualifiedSymbol(const std::vector<std::string> &parts, SourceSpan span,
                          SymbolKind expectedKind = SymbolKind::Variable,
-                         bool allowAnyKind = false);
+                         bool allowAnyKind = false,
+                         const SyntaxName *firstName = nullptr);
   std::shared_ptr<Symbol> resolveModuleMember(const std::string &moduleName,
                                               const std::string &memberName,
                                               SourceSpan span);
@@ -365,13 +366,15 @@ private:
   void applyImports(ModuleState &module, bool allowIncomplete = false);
   void ensureModuleValuesReady(ModuleState &module);
   std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
+  std::shared_ptr<Symbol> lookupSyntaxName(const SyntaxName &name) const;
 
   struct DeferScope {
-      bool isLoopBoundary = false;
-      std::vector<const DeferNode *> defers;
+    bool isLoopBoundary = false;
+    std::vector<const DeferNode *> defers;
   };
   std::vector<DeferScope> deferScopes_;
-  void emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target, bool stopAtLoop);
+  void emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target,
+                      bool stopAtLoop);
 
   bool isNumeric(std::shared_ptr<zir::Type> type) const;
   bool isPointerType(std::shared_ptr<zir::Type> type) const;

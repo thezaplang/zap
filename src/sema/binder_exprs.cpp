@@ -65,7 +65,8 @@ void Binder::visit(BinExpr &node) {
       return;
     }
     expressionStack_.push(std::make_unique<BoundClassTypeTest>(
-        std::move(left), std::static_pointer_cast<zir::ClassType>(right->type)));
+        std::move(left),
+        std::static_pointer_cast<zir::ClassType>(right->type)));
     return;
   }
 
@@ -465,7 +466,8 @@ void Binder::visit(FailableHandleExpr &node) {
   auto errorSymbol = std::make_shared<VariableSymbol>(
       node.errorName_, errorType, BindingKind::Mutable, false, node.errorName_,
       modules_[currentModuleId_].info->moduleName, Visibility::Private);
-  if (!currentScope_->declare(node.errorName_, errorSymbol)) {
+  errorSymbol->syntaxName = node.errorSyntaxName_;
+  if (!currentScope_->declare(node.errorSyntaxName_, errorSymbol)) {
     error(node.span, "Handler variable '" + node.errorName_ +
                          "' is already declared in this scope.");
   }
@@ -509,7 +511,7 @@ void Binder::visit(FailableHandleExpr &node) {
 }
 
 void Binder::visit(ConstId &node) {
-  auto symbol = currentScope_->lookup(node.value_);
+  auto symbol = lookupSyntaxName(node.syntaxName_);
   if (!symbol) {
     error(node.span, "Undefined identifier: " + node.value_);
     return;
@@ -582,10 +584,10 @@ void Binder::visit(ConstId &node) {
       for (size_t i = 0; i < match->parameters.size(); ++i) {
         const auto &p = match->parameters[i];
         params.push_back(p->type);
-        const bool borrowedSelf =
-            i == 0 &&
-            (match->isExtensionMethod || !match->ownerTypeCodegenName.empty()) &&
-            p->name == "self";
+        const bool borrowedSelf = i == 0 &&
+                                  (match->isExtensionMethod ||
+                                   !match->ownerTypeCodegenName.empty()) &&
+                                  p->name == "self";
         const bool transfers = !match->isExternal && !p->is_ref &&
                                !p->is_variadic_pack && !borrowedSelf &&
                                zir::containsManagedValues(p->type);
@@ -1112,7 +1114,8 @@ void Binder::visit(StructLiteralNode &node) {
   }
 
   auto parts = splitQualified(node.type_->qualifiedName());
-  auto symbol = resolveQualifiedSymbol(parts, node.span, SymbolKind::Type);
+  auto symbol = resolveQualifiedSymbol(parts, node.span, SymbolKind::Type,
+                                       false, &node.type_->syntaxName);
   if (!symbol || symbol->getKind() != SymbolKind::Type) {
     error(node.span, "Unknown type: " + node.type_->qualifiedName());
     return;
@@ -1325,19 +1328,24 @@ void Binder::visit(StructLiteralNode &node) {
 
 void Binder::visit(RangeExpr &node) {
   auto start = bindExpressionWithExpected(node.start_.get(), nullptr);
-  auto end = bindExpressionWithExpected(node.end_.get(), start ? start->type : nullptr);
+  auto end = bindExpressionWithExpected(node.end_.get(),
+                                        start ? start->type : nullptr);
   if (!start || !end) {
     return;
   }
 
   if (!start->type->isInteger() || !end->type->isInteger()) {
-    error(node.span, "Range bounds must be integer types, got '" + renderTypeForUser(start->type) + "' and '" + renderTypeForUser(end->type) + "'");
+    error(node.span, "Range bounds must be integer types, got '" +
+                         renderTypeForUser(start->type) + "' and '" +
+                         renderTypeForUser(end->type) + "'");
     return;
   }
 
   auto join = conversions_.joinTypes(start->type, end->type);
   if (!join) {
-    error(node.span, "Range bounds must have compatible types, got '" + renderTypeForUser(start->type) + "' and '" + renderTypeForUser(end->type) + "'");
+    error(node.span, "Range bounds must have compatible types, got '" +
+                         renderTypeForUser(start->type) + "' and '" +
+                         renderTypeForUser(end->type) + "'");
     return;
   }
 
@@ -1350,19 +1358,24 @@ void Binder::visit(RangeExpr &node) {
     step = bindExpressionWithExpected(node.step_.get(), type);
     if (step) {
       if (!step->type->isInteger()) {
-        error(node.step_->span, "Range step must be an integer, got '" + renderTypeForUser(step->type) + "'");
+        error(node.step_->span, "Range step must be an integer, got '" +
+                                    renderTypeForUser(step->type) + "'");
         return;
       }
       auto conv = conversions_.classifyImplicit(step->type, type);
       if (!conv) {
-        error(node.step_->span, "Range step type '" + renderTypeForUser(step->type) + "' is incompatible with range type '" + renderTypeForUser(type) + "'");
+        error(node.step_->span, "Range step type '" +
+                                    renderTypeForUser(step->type) +
+                                    "' is incompatible with range type '" +
+                                    renderTypeForUser(type) + "'");
         return;
       }
       step = applyConversion(std::move(step), *conv);
     }
   }
 
-  expressionStack_.push(std::make_unique<BoundRangeExpression>(std::move(start), std::move(end), std::move(step), type));
+  expressionStack_.push(std::make_unique<BoundRangeExpression>(
+      std::move(start), std::move(end), std::move(step), type));
 }
 
 } // namespace sema

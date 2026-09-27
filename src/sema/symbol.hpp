@@ -2,6 +2,7 @@
 
 #include "../binding_kind.hpp"
 #include "../ir/type.hpp"
+#include "../token/syntax_name.hpp"
 #include "../visibility.hpp"
 #include <map>
 #include <memory>
@@ -44,6 +45,7 @@ protected:
 
 class VariableSymbol : public Symbol {
 public:
+  SyntaxName syntaxName;
   BindingKind binding_kind = BindingKind::Mutable;
   bool is_ref = false;
   bool is_sink = false;
@@ -59,7 +61,7 @@ public:
                  Visibility vis = Visibility::Private)
       : Symbol(std::move(n), std::move(t), std::move(link), std::move(module),
                vis),
-        binding_kind(kind), is_ref(isRef) {}
+        syntaxName(name), binding_kind(kind), is_ref(isRef) {}
   SymbolKind getKind() const noexcept override { return SymbolKind::Variable; }
 
   bool isMutableBinding() const noexcept {

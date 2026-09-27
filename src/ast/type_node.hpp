@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "expr_node.hpp"
 #include "node.hpp"
 #include "visitor.hpp"
@@ -10,6 +11,7 @@
 class TypeNode : public Node {
 public:
   std::string typeName;
+  SyntaxName syntaxName;
   std::vector<std::string> qualifiers;
   std::vector<std::unique_ptr<TypeNode>> genericArgs;
   std::unique_ptr<TypeNode> defaultType;
@@ -33,7 +35,8 @@ public:
 
   TypeNode() noexcept(
       std::is_nothrow_default_constructible<std::string>::value) = default;
-  explicit TypeNode(const std::string &typeName_) : typeName(typeName_) {}
+  explicit TypeNode(const std::string &typeName_)
+      : typeName(typeName_), syntaxName(typeName_) {}
 
   std::string qualifiedName() const {
     if (qualifiers.empty()) {
