@@ -23,6 +23,7 @@ struct MacroParameter {
   Token name;
   MacroParameterKind kind;
   SourceSpan span;
+  bool isVariadic = false;
 };
 
 struct MacroDefinition {

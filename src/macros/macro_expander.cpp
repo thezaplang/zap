@@ -9,17 +9,22 @@
 namespace zap {
 namespace {
 
-using Captures = std::map<std::string, std::vector<TokenTree>>;
+struct MacroArguments {
+  std::vector<std::vector<TokenTree>> elements;
+  // A final separator represents a trailing comma in the invocation.
+  std::vector<TokenTree> separators;
+};
+
+using Captures = std::map<std::string, MacroArguments>;
 
 bool isLeaf(const TokenTree &tree, TokenType type) {
   return tree.isLeaf() && tree.token().type == type;
 }
 
-std::optional<std::vector<std::vector<TokenTree>>>
-splitArguments(const TokenTree &group) {
+std::optional<MacroArguments> splitArguments(const TokenTree &group) {
   if (group.isLeaf() || !group.closing())
     return std::nullopt;
-  std::vector<std::vector<TokenTree>> arguments;
+  MacroArguments arguments;
   if (group.children().empty())
     return arguments;
 
@@ -28,14 +33,15 @@ splitArguments(const TokenTree &group) {
     if (isLeaf(tree, TokenType::COMMA)) {
       if (current.empty())
         return std::nullopt;
-      arguments.push_back(std::move(current));
+      arguments.elements.push_back(std::move(current));
+      arguments.separators.push_back(tree);
       current.clear();
     } else {
       current.push_back(tree);
     }
   }
   if (!current.empty())
-    arguments.push_back(std::move(current));
+    arguments.elements.push_back(std::move(current));
   return arguments;
 }
 
@@ -154,8 +160,13 @@ splice(const std::vector<TokenTree> &templateTrees, const Captures &captures,
                            "Unknown macro capture '$" + name + "'.");
         return std::nullopt;
       }
-      output.insert(output.end(), capture->second.begin(),
-                    capture->second.end());
+      for (size_t element = 0; element < capture->second.elements.size();
+           ++element) {
+        const auto &tokens = capture->second.elements[element];
+        output.insert(output.end(), tokens.begin(), tokens.end());
+        if (element + 1 < capture->second.elements.size())
+          output.push_back(capture->second.separators[element]);
+      }
       continue;
     }
 
@@ -220,7 +231,8 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   }
 
   const MacroBinding *selected = nullptr;
-  int bestScore = -1;
+  size_t bestScore = 0;
+  bool bestIsFixed = false;
   bool ambiguous = false;
   size_t attempts = 0;
   size_t matchingArity = 0;
@@ -231,28 +243,36 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
       return std::nullopt;
     }
     const auto &parameters = candidate.definition->parameters;
-    if (parameters.size() != arguments->size())
+    const bool isVariadic = !parameters.empty() && parameters.back().isVariadic;
+    const size_t fixedCount = parameters.size() - (isVariadic ? 1 : 0);
+    if (arguments->elements.size() < fixedCount ||
+        (!isVariadic && arguments->elements.size() != fixedCount))
       continue;
     ++matchingArity;
-    int score = 0;
+    size_t score = 0;
     bool matches = true;
-    for (size_t index = 0; index < parameters.size(); ++index) {
-      if (!matchesArgument((*arguments)[index], parameters[index].kind,
+    for (size_t index = 0; index < arguments->elements.size(); ++index) {
+      const auto &parameter =
+          index < fixedCount ? parameters[index] : parameters.back();
+      if (!matchesArgument(arguments->elements[index], parameter.kind,
                            diagnostics_)) {
         matches = false;
         if (matchingArity == 1)
-          mismatch = std::make_pair(index, parameters[index].kind);
+          mismatch = std::make_pair(index, parameter.kind);
         break;
       }
-      score += specificity(parameters[index].kind);
+      score += specificity(parameter.kind);
     }
     if (!matches)
       continue;
-    if (score > bestScore) {
+    const bool isFixed = !isVariadic;
+    if (!selected || (isFixed && !bestIsFixed) ||
+        (isFixed == bestIsFixed && score > bestScore)) {
       selected = &candidate;
       bestScore = score;
+      bestIsFixed = isFixed;
       ambiguous = false;
-    } else if (score == bestScore) {
+    } else if (isFixed == bestIsFixed && score == bestScore) {
       ambiguous = true;
     }
   }
@@ -268,17 +288,30 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
                             "' is not a valid " +
                             fragmentName(mismatch->second) + " fragment.");
     } else {
-      report(call.span, "No matching macro overload for '" + call.path.back() +
-                            "' with " + std::to_string(arguments->size()) +
-                            " argument(s).");
+      report(call.span,
+             "No matching macro overload for '" + call.path.back() + "' with " +
+                 std::to_string(arguments->elements.size()) + " argument(s).");
     }
     return std::nullopt;
   }
 
   Captures captures;
-  for (size_t index = 0; index < arguments->size(); ++index) {
-    captures.emplace(selected->definition->parameters[index].name.value,
-                     (*arguments)[index]);
+  const auto &parameters = selected->definition->parameters;
+  for (size_t index = 0; index < parameters.size(); ++index) {
+    MacroArguments capture;
+    if (parameters[index].isVariadic) {
+      capture.elements.insert(capture.elements.end(),
+                              arguments->elements.begin() + index,
+                              arguments->elements.end());
+      if (!capture.elements.empty()) {
+        capture.separators.insert(capture.separators.end(),
+                                  arguments->separators.begin() + index,
+                                  arguments->separators.end());
+      }
+    } else {
+      capture.elements.push_back(arguments->elements[index]);
+    }
+    captures.emplace(parameters[index].name.value, std::move(capture));
   }
   auto origin = std::make_shared<ExpansionOrigin>(ExpansionOrigin{
       call.span, selected->definition->span, call.parentOrigin});

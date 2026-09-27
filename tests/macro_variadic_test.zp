@@ -1,0 +1,20 @@
+macro invoke($args: expr...) { add($args) }
+macro first($head: expr, $tail: expr...) { $head }
+macro add_tail($head: expr, $tail: expr...) { add($tail) }
+macro identity($args: expr...) { $args }
+macro empty($args: expr...) { no_args($args) }
+
+fun add(a: Int, b: Int) Int { return a + b; }
+fun no_args() Int { return 0; }
+
+fun main() Int {
+    if empty!() != 0 { return 1; }
+    if identity!(4) != 4 { return 2; }
+    if invoke!(2, 3) != 5 { return 3; }
+    if invoke!(2, 3,) != 5 { return 4; }
+    if first!(9) != 9 { return 5; }
+    if first!(9,) != 9 { return 6; }
+    if first!(8, 1, 2,) != 8 { return 7; }
+    if add_tail!(0, 2, 3,) != 5 { return 8; }
+    return 0;
+}

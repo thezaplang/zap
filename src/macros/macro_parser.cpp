@@ -64,19 +64,25 @@ public:
         report(parameterName->span,
                "Duplicate macro parameter '$" + parameterName->value + "'.");
       }
+      bool isVariadic = false;
+      SourceSpan parameterEnd = kindToken->span;
       if (cursor_.peek().type == TokenType::ELLIPSIS) {
-        report(cursor_.peek().span,
-               "Variadic macro parameters are not supported yet.");
+        parameterEnd = cursor_.peek().span;
         cursor_.advance();
+        isVariadic = true;
       }
       if (kind) {
-        parameters.push_back(
-            {*parameterName, *kind,
-             SourceSpan::merge(dollar->span, kindToken->span)});
+        parameters.push_back({*parameterName, *kind,
+                              SourceSpan::merge(dollar->span, parameterEnd),
+                              isVariadic});
       }
 
       if (cursor_.peek().type == TokenType::COMMA) {
         cursor_.advance();
+        if (isVariadic && cursor_.peek().type != TokenType::RPAREN) {
+          report(parameterEnd, "Variadic macro parameter must be last.");
+          return failure();
+        }
       } else if (cursor_.peek().type != TokenType::RPAREN) {
         report(cursor_.peek().span,
                "Expected ',' or ')' after macro parameter.");

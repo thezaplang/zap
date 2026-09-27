@@ -1,0 +1,6 @@
+macro ambiguous($items: expr...) { 1 }
+macro ambiguous($items: type...) { 2 }
+
+fun main() Int {
+    return ambiguous!(Name);
+}

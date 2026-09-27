@@ -13,7 +13,8 @@ bool sameSignature(const MacroDefinition &left, const MacroDefinition &right) {
   if (left.parameters.size() != right.parameters.size())
     return false;
   for (size_t index = 0; index < left.parameters.size(); ++index) {
-    if (left.parameters[index].kind != right.parameters[index].kind)
+    if (left.parameters[index].kind != right.parameters[index].kind ||
+        left.parameters[index].isVariadic != right.parameters[index].isVariadic)
       return false;
   }
   return true;

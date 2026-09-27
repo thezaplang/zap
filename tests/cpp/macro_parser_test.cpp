@@ -105,12 +105,40 @@ fun regular() Int { return 1; }
           "empty parameters or private macro visibility were not retained");
 }
 
+void testVariadicParameters() {
+  for (const char *kind : {"ident", "literal", "expr", "type", "stmt", "block",
+                           "item", "tokens"}) {
+    auto each =
+        parse(std::string("macro pack($items: ") + kind + "...) { $items }");
+    require(!each.diagnostics->hadErrors() && each.macros.size() == 1 &&
+                each.macros[0].parameters[0].isVariadic,
+            "a supported variadic capture kind was rejected");
+  }
+  auto result = parse(R"(
+macro empty($args: expr...) { $args }
+macro mixed($first: ident, $rest: tokens...) { $rest }
+macro kinds($a: literal..., $b: type...) {}
+)");
+  require(result.diagnostics->hadErrors() && result.macros.size() == 2,
+          "valid packs were rejected or a non-final pack was accepted");
+  require(result.macros[0].parameters.size() == 1 &&
+              result.macros[0].parameters[0].isVariadic &&
+              result.macros[0].parameters[0].kind ==
+                  zap::MacroParameterKind::Expression &&
+              result.macros[1].parameters.size() == 2 &&
+              !result.macros[1].parameters[0].isVariadic &&
+              result.macros[1].parameters[1].isVariadic &&
+              result.macros[1].parameters[1].kind ==
+                  zap::MacroParameterKind::Tokens,
+          "pack flag or parameter kind was not retained");
+}
+
 void testInvalidParameters() {
   const std::vector<std::string> invalid = {
       "macro duplicate($x: expr, $x: type) {}",
       "macro unknown($x: bogus) {}",
       "macro source($x: source) {}",
-      "macro pack($x: expr...) {}",
+      "macro pack($x: expr..., $y: type) {}",
       "macro missing($x expr) {}",
   };
   for (const auto &source : invalid) {
@@ -132,6 +160,7 @@ int main() {
   testDeclarationAndTemplate();
   testScalarParameterKinds();
   testConsecutiveDeclarations();
+  testVariadicParameters();
   testInvalidParameters();
   testMalformedTemplate();
   return 0;

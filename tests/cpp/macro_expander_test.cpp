@@ -305,6 +305,13 @@ void testSignatureConflictsAndMatcherLimit() {
   require(duplicate.errors.size() == 1,
           "duplicate macro signature was not diagnosed once");
 
+  RegistryFixture duplicatePack;
+  duplicatePack.add("module.zp", "macro same($a: expr...) {} "
+                                 "macro same($b: expr...) {}");
+  duplicatePack.resolve();
+  require(duplicatePack.errors.size() == 1,
+          "duplicate variadic signature was not diagnosed once");
+
   RegistryFixture overloads;
   overloads.add("module.zp", "macro choose($x: tokens) { 0 } "
                              "macro choose($x: literal) { 1 }");
@@ -320,6 +327,117 @@ void testSignatureConflictsAndMatcherLimit() {
           "matcher attempt limit was ignored");
 }
 
+void testVariadicCapturesAndRanking() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro echo($items: expr...) { ($items) }
+macro tail($head: literal, $items: expr...) { ($items) }
+macro choose($x: tokens) { 10 }
+macro choose($x: literal...) { 20 }
+macro typed($head: literal, $rest: type...) { $head }
+macro ambiguous($items: expr...) { 1 }
+macro ambiguous($items: type...) { 2 }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(),
+          "variadic and fixed signatures conflicted in the registry");
+
+  for (const auto &[source, expected] :
+       std::vector<std::pair<std::string, std::string>>{
+           {"echo!()", "()"},
+           {"echo!(1)", "(1)"},
+           {"echo!(1, 2, 3)", "(1,2,3)"},
+           {"echo!(1, 2, 3,)", "(1,2,3)"}}) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {"echo"}, diagnostics));
+    require(output && spellings(*output) == expected &&
+                !diagnostics.hadErrors(),
+            "zero, one, many, or trailing-comma pack splice failed");
+    if (source == "echo!(1, 2, 3,)") {
+      auto tokens = flattenTokenTrees(*output);
+      require(tokens[2].type == TokenType::COMMA &&
+                  !tokens[2].expansionOrigin &&
+                  tokens[2].span.sourceName == "call.zp",
+              "pack separator lost its caller origin");
+    }
+  }
+
+  for (const auto &[source, expected] :
+       std::vector<std::pair<std::string, std::string>>{
+           {"tail!(9,)", "()"}, {"tail!(9, 1, 2,)", "(1,2)"}}) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {"tail"}, diagnostics));
+    require(output && spellings(*output) == expected &&
+                !diagnostics.hadErrors(),
+            "fixed-prefix pack lost its elements or separators");
+  }
+
+  const std::string fixed = "choose!(7)";
+  zap::DiagnosticEngine fixedDiagnostics(fixed, "call.zp");
+  zap::MacroExpander fixedExpander(fixture.registry, fixedDiagnostics);
+  auto fixedOutput = fixedExpander.expand(
+      "module.zp", makeCall(fixed, {"choose"}, fixedDiagnostics));
+  require(fixedOutput && spellings(*fixedOutput) == "10",
+          "exact fixed-arity overload did not beat a variadic overload");
+
+  const std::string variadic = "choose!(7, 8)";
+  zap::DiagnosticEngine variadicDiagnostics(variadic, "call.zp");
+  zap::MacroExpander variadicExpander(fixture.registry, variadicDiagnostics);
+  auto variadicOutput = variadicExpander.expand(
+      "module.zp", makeCall(variadic, {"choose"}, variadicDiagnostics));
+  require(variadicOutput && spellings(*variadicOutput) == "20",
+          "variadic overload did not match multiple arguments");
+
+  const std::string bad = "typed!(7, Int, 1 +)";
+  zap::DiagnosticEngine badDiagnostics(bad, "call.zp");
+  zap::MacroExpander badExpander(fixture.registry, badDiagnostics);
+  require(!badExpander.expand("module.zp",
+                              makeCall(bad, {"typed"}, badDiagnostics)) &&
+              badDiagnostics.hadErrors() &&
+              badDiagnostics.diagnostics().front().message.find("Argument 3") !=
+                  std::string::npos,
+          "invalid pack element was accepted or misidentified");
+
+  const std::string ambiguous = "ambiguous!(Name)";
+  zap::DiagnosticEngine ambiguityDiagnostics(ambiguous, "call.zp");
+  zap::MacroExpander ambiguityExpander(fixture.registry, ambiguityDiagnostics);
+  require(
+      !ambiguityExpander.expand("module.zp", makeCall(ambiguous, {"ambiguous"},
+                                                      ambiguityDiagnostics)) &&
+          ambiguityDiagnostics.hadErrors(),
+      "equal-ranked variadic overloads were not ambiguous");
+}
+
+void testVariadicFragmentKinds() {
+  const std::vector<std::pair<std::string, std::string>> cases = {
+      {"ident", "name, other"},
+      {"literal", "1, true"},
+      {"expr", "1 + 2, 3"},
+      {"type", "Int, Bool"},
+      {"stmt", "return 1;, return 2;"},
+      {"block", "{ return 1; }, { return 2; }"},
+      {"item", "fun first() {}, fun second() {}"},
+      {"tokens", "a + b, { c }"},
+  };
+  for (const auto &[kind, arguments] : cases) {
+    RegistryFixture fixture;
+    fixture.add("module.zp", "macro pack($items: " + kind + "...) { 1 }");
+    fixture.resolve();
+    require(fixture.errors.empty(), "variadic fragment fixture is invalid");
+    const std::string source = "pack!(" + arguments + ")";
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {"pack"}, diagnostics));
+    require(output && spellings(*output) == "1" && !diagnostics.hadErrors(),
+            "a supported variadic fragment kind did not match");
+  }
+}
+
 } // namespace
 
 int main() {
@@ -329,5 +447,7 @@ int main() {
   testLimitsAndInvalidTemplates();
   testDefinitionScopeAndPerModuleBudgets();
   testSignatureConflictsAndMatcherLimit();
+  testVariadicCapturesAndRanking();
+  testVariadicFragmentKinds();
   return 0;
 }
