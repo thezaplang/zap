@@ -57,7 +57,7 @@ private:
   std::optional<Let> parseLet(const std::vector<TokenTree> &trees,
                               size_t start);
   bool reserve(size_t count);
-  void report(const std::string &message);
+  void report(const std::string &message, const char *code = nullptr);
 };
 
 } // namespace zap

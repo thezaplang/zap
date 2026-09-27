@@ -1,4 +1,5 @@
 #include "macro_parser.hpp"
+#include "macro_diagnostic_codes.hpp"
 
 #include "../parser/token_cursor.hpp"
 
@@ -127,7 +128,8 @@ private:
   }
 
   void report(const SourceSpan &span, const std::string &message) {
-    diagnostics_.report(span, DiagnosticLevel::Error, message);
+    diagnostics_.report(span, DiagnosticLevel::Error,
+                        macro_diagnostic::Declaration, message);
     invalid_ = true;
   }
 

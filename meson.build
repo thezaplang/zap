@@ -229,6 +229,9 @@ if get_option('build_testing')
     test('frontend-session', executable('zap-frontend-session-tests',
                                        'tests/cpp/frontend_session_test.cpp',
                                        dependencies : libzap_dep))
+    test('macro-diagnostics', executable('zap-macro-diagnostics-tests',
+                                        'tests/cpp/macro_diagnostics_test.cpp',
+                                        dependencies : libzap_dep))
     test('type-identity', executable('zap-type-identity-tests', 'tests/cpp/type_identity_test.cpp', dependencies : zap_type_system_dep))
     test('conversions', executable('zap-conversion-tests', 'tests/cpp/conversion_test.cpp', dependencies : zap_sema_conversions_dep))
     test('type-layout', executable('zap-type-layout-tests', 'tests/cpp/type_layout_test.cpp', dependencies : zap_type_layout_dep))

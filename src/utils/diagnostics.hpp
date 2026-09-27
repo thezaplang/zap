@@ -424,6 +424,11 @@ public:
     }
   }
 
+  void inheritSourcesFrom(const DiagnosticEngine &other) {
+    for (const auto &sourceEntry : other.sources_)
+      sources_.insert(sourceEntry);
+  }
+
   void report(SourceSpan span, DiagnosticLevel level,
               const std::string &message) {
     report(span, level, defaultCodeFor(level, message), message);
@@ -431,13 +436,22 @@ public:
 
   void report(SourceSpan span, DiagnosticLevel level, const std::string &code,
               const std::string &message) {
+    const auto origin = span.expansionOrigin;
+    if (origin) {
+      auto outermost = origin;
+      while (outermost->parent)
+        outermost = outermost->parent;
+      span = outermost->invocationSpan;
+      span.expansionOrigin.reset();
+    }
     // Deduplicate identical diagnostics (same level, message and span).
     for (const auto &existing : diagnostics_) {
-      if (existing.level == level && existing.message == message &&
-          existing.span.line == span.line &&
+      if (existing.level == level && existing.code == code &&
+          existing.message == message && existing.span.line == span.line &&
           existing.span.column == span.column &&
           existing.span.offset == span.offset &&
-          existing.span.length == span.length) {
+          existing.span.length == span.length &&
+          existing.fileName == fileNameFor(span)) {
         return;
       }
     }
@@ -472,6 +486,8 @@ public:
       ++errorCount;
       maybeAddHelpHint(span, message);
     }
+    if (origin)
+      addMacroTrace(origin);
   }
 
   bool hadErrors() const { return errorCount > 0; }
@@ -519,6 +535,34 @@ public:
   }
 
 private:
+  void addMacroTrace(std::shared_ptr<const ExpansionOrigin> origin) {
+    std::vector<std::shared_ptr<const ExpansionOrigin>> frames;
+    for (auto frame = std::move(origin); frame; frame = frame->parent)
+      frames.push_back(frame);
+
+    constexpr size_t MAX_MACRO_FRAMES = 8;
+    const size_t shown = std::min(frames.size(), MAX_MACRO_FRAMES);
+    for (size_t index = 0; index < shown; ++index) {
+      const auto &frame = frames[frames.size() - index - 1];
+      if (index != 0) {
+        SourceSpan invocation = frame->invocationSpan;
+        invocation.expansionOrigin.reset();
+        report(invocation, DiagnosticLevel::Note, "M2001",
+               "macro invoked here during expansion");
+      }
+      SourceSpan definition = frame->definitionSpan;
+      definition.expansionOrigin.reset();
+      report(definition, DiagnosticLevel::Note, "M2002", "macro defined here");
+    }
+    if (frames.size() > shown) {
+      SourceSpan omitted = frames[frames.size() - shown]->invocationSpan;
+      omitted.expansionOrigin.reset();
+      report(omitted, DiagnosticLevel::Note, "M2003",
+             std::to_string(frames.size() - shown) +
+                 " more macro expansion frame(s) omitted");
+    }
+  }
+
   void addNote(SourceSpan span, const std::string &message) {
     for (const auto &existing : diagnostics_) {
       if (existing.level == DiagnosticLevel::Note &&

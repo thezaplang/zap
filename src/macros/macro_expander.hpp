@@ -49,7 +49,8 @@ private:
       const std::vector<TokenTree> &trees,
       const std::string &definitionModuleId, const std::string &outputModuleId,
       const std::shared_ptr<const ExpansionOrigin> &origin, size_t depth);
-  void report(const SourceSpan &span, const std::string &message);
+  void report(const SourceSpan &span, const char *code,
+              const std::string &message);
 };
 
 } // namespace zap

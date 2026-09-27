@@ -1,4 +1,5 @@
 #include "macros/macro_template.hpp"
+#include "macros/macro_diagnostic_codes.hpp"
 
 #include <utility>
 #include <variant>
@@ -99,6 +100,7 @@ Token generatedToken(const Token &source, const SourceSpan &invocation,
                      const std::shared_ptr<const ExpansionOrigin> &origin) {
   Token token = source;
   token.span = invocation;
+  token.span.expansionOrigin = origin;
   token.syntaxContext = origin->mark;
   token.expansionOrigin = origin;
   return token;
@@ -566,6 +568,7 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
         return std::nullopt;
       }
       SourceSpan span = invocation_;
+      span.expansionOrigin = origin_;
       std::vector<TokenTree> messageTokens;
       if (comma == args.size()) {
         messageTokens = args;
@@ -586,7 +589,7 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
       auto message = meta_.string(*messageValue);
       if (!message)
         return std::nullopt;
-      diagnostics_.report(span, *level, *message);
+      diagnostics_.report(span, *level, macro_diagnostic::Expansion, *message);
       if (*level == DiagnosticLevel::Error)
         return std::nullopt;
       index += 2;
@@ -609,7 +612,8 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
       std::optional<size_t> previousEmittedElement;
       for (size_t element = 0; element < elements.size(); ++element) {
         if (expandedIterations_ == maxIterations_) {
-          report("Macro template iteration limit exceeded.");
+          report("Macro template iteration limit exceeded.",
+                 macro_diagnostic::Limit);
           return std::nullopt;
         }
         ++expandedIterations_;
@@ -730,15 +734,19 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
 
 bool MacroTemplateExpander::reserve(size_t count) {
   if (count > maxTokens_ - emittedTokens_) {
-    report("Macro generated token limit exceeded.");
+    report("Macro generated token limit exceeded.", macro_diagnostic::Limit);
     return false;
   }
   emittedTokens_ += count;
   return true;
 }
 
-void MacroTemplateExpander::report(const std::string &message) {
-  diagnostics_.report(invocation_, DiagnosticLevel::Error, message);
+void MacroTemplateExpander::report(const std::string &message,
+                                   const char *code) {
+  SourceSpan span = invocation_;
+  span.expansionOrigin = origin_;
+  diagnostics_.report(span, DiagnosticLevel::Error,
+                      code ? code : macro_diagnostic::Expansion, message);
 }
 
 } // namespace zap

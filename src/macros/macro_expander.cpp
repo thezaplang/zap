@@ -1,4 +1,5 @@
 #include "macros/macro_expander.hpp"
+#include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_template.hpp"
 
 #include "parser/parser.hpp"
@@ -140,11 +141,13 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
                           const std::string &outputModuleId,
                           const MacroCall &call, size_t depth) {
   if (depth > limits_.maxDepth) {
-    report(call.span, "Macro expansion depth limit exceeded.");
+    report(call.span, macro_diagnostic::Limit,
+           "Macro expansion depth limit exceeded.");
     return std::nullopt;
   }
   if (call.path.empty() || call.path.size() > 2) {
-    report(call.span, "Expected a macro name or module-qualified macro name.");
+    report(call.span, macro_diagnostic::Resolution,
+           "Expected a macro name or module-qualified macro name.");
     return std::nullopt;
   }
   const auto *overloads =
@@ -153,12 +156,13 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
           : registry_.findQualified(lookupModuleId, call.path.front(),
                                     call.path[1]);
   if (!overloads) {
-    report(call.span, "Unknown or private macro '" + call.path.back() + "'.");
+    report(call.span, macro_diagnostic::Resolution,
+           "Unknown or private macro '" + call.path.back() + "'.");
     return std::nullopt;
   }
   const auto arguments = splitArguments(call.arguments);
   if (!arguments) {
-    report(call.span,
+    report(call.span, macro_diagnostic::Arguments,
            "Macro arguments must be a balanced, comma-separated group.");
     return std::nullopt;
   }
@@ -172,7 +176,8 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   std::optional<std::pair<size_t, MacroParameterKind>> mismatch;
   for (const auto &candidate : *overloads) {
     if (++attempts > limits_.maxMatchAttempts) {
-      report(call.span, "Macro matcher attempt limit exceeded.");
+      report(call.span, macro_diagnostic::Limit,
+             "Macro matcher attempt limit exceeded.");
       return std::nullopt;
     }
     const auto &parameters = candidate.definition->parameters;
@@ -210,18 +215,18 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     }
   }
   if (ambiguous) {
-    report(call.span,
+    report(call.span, macro_diagnostic::Arguments,
            "Ambiguous macro overload for '" + call.path.back() + "'.");
     return std::nullopt;
   }
   if (!selected) {
     if (matchingArity == 1 && mismatch) {
-      report(call.span, "Argument " + std::to_string(mismatch->first + 1) +
-                            " for macro '" + call.path.back() +
-                            "' is not a valid " +
-                            fragmentName(mismatch->second) + " fragment.");
+      report(call.span, macro_diagnostic::Arguments,
+             "Argument " + std::to_string(mismatch->first + 1) +
+                 " for macro '" + call.path.back() + "' is not a valid " +
+                 fragmentName(mismatch->second) + " fragment.");
     } else {
-      report(call.span,
+      report(call.span, macro_diagnostic::Arguments,
              "No matching macro overload for '" + call.path.back() + "' with " +
                  std::to_string(arguments->elements.size()) + " argument(s).");
     }
@@ -249,7 +254,8 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     captures.emplace(parameters[index].name.value, std::move(capture));
   }
   if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
-    report(call.span, "Macro syntax context limit exceeded.");
+    report(call.span, macro_diagnostic::Limit,
+           "Macro syntax context limit exceeded.");
     return std::nullopt;
   }
   auto origin = std::make_shared<ExpansionOrigin>(
@@ -257,7 +263,8 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
                       selected->definingModuleId, nextFreshContext_++});
   auto &generatedTokens = generatedTokensByModule_[outputModuleId];
   if (generatedTokens > limits_.maxGeneratedTokens) {
-    report(call.span, "Macro generated token limit exceeded.");
+    report(call.span, macro_diagnostic::Limit,
+           "Macro generated token limit exceeded.");
     return std::nullopt;
   }
   MacroTemplateExpander templateExpander(
@@ -276,13 +283,15 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   size_t count = 0;
   for (const auto &tree : *output) {
     if (tree.tokenCount() > limits_.maxGeneratedTokens - count) {
-      report(call.span, "Macro generated token limit exceeded.");
+      report(call.span, macro_diagnostic::Limit,
+             "Macro generated token limit exceeded.");
       return std::nullopt;
     }
     count += tree.tokenCount();
   }
   if (generatedTokens > limits_.maxGeneratedTokens - count) {
-    report(call.span, "Macro generated token limit exceeded.");
+    report(call.span, macro_diagnostic::Limit,
+           "Macro generated token limit exceeded.");
     return std::nullopt;
   }
   generatedTokens += count;
@@ -338,8 +347,9 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandGenerated(
   return output;
 }
 
-void MacroExpander::report(const SourceSpan &span, const std::string &message) {
-  diagnostics_.report(span, DiagnosticLevel::Error, message);
+void MacroExpander::report(const SourceSpan &span, const char *code,
+                           const std::string &message) {
+  diagnostics_.report(span, DiagnosticLevel::Error, code, message);
 }
 
 } // namespace zap

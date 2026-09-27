@@ -238,6 +238,10 @@ macro missing() { $unknown }
           "module.zp", makeCall(recursive, {"loop"}, recursiveDiagnostics)) &&
           recursiveDiagnostics.hadErrors(),
       "recursive expansion exceeded its depth limit without an error");
+  require(recursiveDiagnostics.diagnostics().front().code == "M1004" &&
+              recursiveDiagnostics.diagnostics().front().span.offset == 0 &&
+              recursiveDiagnostics.diagnostics().size() > 1,
+          "recursive expansion did not retain a coded invocation trace");
 
   const std::string many = "many!()";
   zap::DiagnosticEngine manyDiagnostics(many, "call.zp");
@@ -247,7 +251,8 @@ macro missing() { $unknown }
                                   tokenLimits);
   require(!manyExpander.expand("module.zp",
                                makeCall(many, {"many"}, manyDiagnostics)) &&
-              manyDiagnostics.hadErrors(),
+              manyDiagnostics.hadErrors() &&
+              manyDiagnostics.diagnostics().front().code == "M1004",
           "generated token limit was ignored");
 
   const std::string missing = "missing!()";
@@ -537,7 +542,8 @@ macro no_output($args: tokens...) { for $x in $args {} }
   require(!iterationExpander.expand(
               "module.zp",
               makeCall(emptySource, {"no_output"}, iterationDiagnostics)) &&
-              iterationDiagnostics.hadErrors(),
+              iterationDiagnostics.hadErrors() &&
+              iterationDiagnostics.diagnostics().front().code == "M1004",
           "empty template iterations bypassed the iteration limit");
 }
 
@@ -663,13 +669,14 @@ macro fresh() {
   auto warningOutput = warningExpander.expand(
       "module.zp", makeCall(warningCall, {"warnings"}, warningDiagnostics));
   require(warningOutput && spellings(*warningOutput) == "done" &&
-              warningDiagnostics.diagnostics().size() == 2 &&
+              warningDiagnostics.diagnostics().size() == 3 &&
               warningDiagnostics.diagnostics()[0].level ==
                   zap::DiagnosticLevel::Warning &&
               warningDiagnostics.diagnostics()[0].span.offset ==
                   warningCall.find("name") &&
               warningDiagnostics.diagnostics()[1].level ==
                   zap::DiagnosticLevel::Note &&
+              warningDiagnostics.diagnostics()[2].code == "M2002" &&
               !warningDiagnostics.hadErrors(),
           "compile-time warning, note, or explicit source span failed");
 }

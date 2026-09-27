@@ -109,6 +109,8 @@ enum TokenType {
   DOLLAR,         ///< '$' symbol.
 };
 
+struct ExpansionOrigin;
+
 /// @brief Contains in-file related information like line, column, offset, and
 /// length.
 struct SourceSpan {
@@ -117,6 +119,7 @@ struct SourceSpan {
   size_t offset;          ///< Offset of the source in the file.
   size_t length;          ///< Length of the source.
   std::string sourceName; ///< Source file this span belongs to.
+  std::shared_ptr<const ExpansionOrigin> expansionOrigin;
 
   /// @brief Basic constructor of the source span.
   /// @param l Line.
@@ -138,12 +141,18 @@ struct SourceSpan {
          start.sourceName != end.sourceName) ||
         end.offset < start.offset ||
         end.length > std::numeric_limits<size_t>::max() - end.offset) {
-      return start;
+      SourceSpan merged = start;
+      if (!merged.expansionOrigin)
+        merged.expansionOrigin = end.expansionOrigin;
+      return merged;
     }
 
     size_t newLen = (end.offset + end.length) - start.offset;
-    return SourceSpan(start.line, start.column, start.offset, newLen,
+    SourceSpan merged(start.line, start.column, start.offset, newLen,
                       start.sourceName);
+    merged.expansionOrigin =
+        start.expansionOrigin ? start.expansionOrigin : end.expansionOrigin;
+    return merged;
   }
 };
 
@@ -176,7 +185,10 @@ public:
       : span(std::move(span)), type(type), value(std::move(value)),
         spelling(spelling.empty() ? this->value : std::move(spelling)),
         syntaxContext(syntaxContext),
-        expansionOrigin(std::move(expansionOrigin)) {}
+        expansionOrigin(std::move(expansionOrigin)) {
+    if (this->expansionOrigin)
+      this->span.expansionOrigin = this->expansionOrigin;
+  }
 
   /// @brief Helper constructor for when we build span component-wise.
   Token(TokenType type, const std::string &value, size_t line, size_t column,

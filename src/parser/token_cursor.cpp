@@ -1,6 +1,7 @@
 #include "token_cursor.hpp"
 
 #include <algorithm>
+#include <utility>
 
 namespace zap {
 
@@ -47,9 +48,9 @@ void TokenCursor::advance(size_t count) noexcept {
 Token TokenCursor::makeEndToken(const std::vector<Token> &tokens, size_t end) {
   if (end < tokens.size()) {
     const SourceSpan &next = tokens[end].span;
-    return Token(TokenType::EOF_TOKEN, "",
-                 SourceSpan(next.line, next.column, next.offset, 0,
-                            next.sourceName));
+    SourceSpan span(next.line, next.column, next.offset, 0, next.sourceName);
+    span.expansionOrigin = next.expansionOrigin;
+    return Token(TokenType::EOF_TOKEN, "", std::move(span));
   }
 
   if (end == 0 || tokens.empty()) {
@@ -57,9 +58,9 @@ Token TokenCursor::makeEndToken(const std::vector<Token> &tokens, size_t end) {
   }
 
   const SourceSpan &last = tokens[end - 1].span;
-  return Token(TokenType::EOF_TOKEN, "",
-               SourceSpan(0, 0, last.offset + last.length, 0,
-                          last.sourceName));
+  SourceSpan span(0, 0, last.offset + last.length, 0, last.sourceName);
+  span.expansionOrigin = last.expansionOrigin;
+  return Token(TokenType::EOF_TOKEN, "", std::move(span));
 }
 
 } // namespace zap

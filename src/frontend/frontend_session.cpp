@@ -2,6 +2,7 @@
 
 #include "ast/import_node.hpp"
 #include "lexer/lexer.hpp"
+#include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_expander.hpp"
 #include "parser/parser.hpp"
 #include "sema/binder.hpp"
@@ -107,6 +108,10 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
       };
 
   const bool graphComplete = discover(canonicalEntry);
+  for (auto &[_, module] : pending) {
+    for (const auto &[sourceId, sourceModule] : pending)
+      module->diagnostics.registerSource(sourceId, sourceModule->source);
+  }
   MacroRegistrySet::ImportGraph imports;
   for (auto &[moduleId, staged] : pending) {
     project.outlines.emplace(moduleId, std::move(staged->outline));
@@ -119,7 +124,8 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
   bool macrosComplete = true;
   for (const auto &error : macroErrors) {
     pending.at(error.moduleId)
-        ->diagnostics.report(error.span, DiagnosticLevel::Error, error.message);
+        ->diagnostics.report(error.span, DiagnosticLevel::Error,
+                             macro_diagnostic::Resolution, error.message);
     if (!config_.allowEntryErrors || error.moduleId != project.entryModuleId)
       macrosComplete = false;
   }

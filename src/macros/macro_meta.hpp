@@ -27,7 +27,7 @@ public:
   std::optional<bool> boolean(const MetaValue &value);
   std::optional<std::string> string(const MetaValue &value);
   std::optional<SourceSpan> span(const MetaValue &value);
-  void report(const std::string &message);
+  void report(const std::string &message, const char *code = nullptr);
 
 private:
   struct Parser;

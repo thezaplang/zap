@@ -1,5 +1,6 @@
 #include "macros/macro_meta.hpp"
 #include "lexer/lexer.hpp"
+#include "macros/macro_diagnostic_codes.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -416,7 +417,7 @@ std::optional<MetaValue> MacroMetaEvaluator::call(const std::string &name,
   }
   auto context = freshContext_();
   if (!context) {
-    report("freshIdent exhausted syntax contexts.");
+    report("freshIdent exhausted syntax contexts.", macro_diagnostic::Limit);
     return std::nullopt;
   }
   auto tokens =
@@ -488,8 +489,11 @@ TokenTree MacroMetaEvaluator::literal(TokenType type,
             origin_));
 }
 
-void MacroMetaEvaluator::report(const std::string &message) {
-  diagnostics_.report(invocation_, DiagnosticLevel::Error, message);
+void MacroMetaEvaluator::report(const std::string &message, const char *code) {
+  SourceSpan span = invocation_;
+  span.expansionOrigin = origin_;
+  diagnostics_.report(span, DiagnosticLevel::Error,
+                      code ? code : macro_diagnostic::Expansion, message);
 }
 
 } // namespace zap

@@ -1,5 +1,6 @@
 #include "parser.hpp"
 
+#include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_expander.hpp"
 #include "token/token_tree.hpp"
 
@@ -138,6 +139,7 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
   }
   if (!_macroExpander) {
     _diag.report(call.span, DiagnosticLevel::Error,
+                 macro_diagnostic::Resolution,
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
@@ -147,13 +149,14 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
     throw ParseError();
 
   DiagnosticEngine fragmentDiagnostics(_diag.sourceText(), _diag.sourceName());
+  fragmentDiagnostics.inheritSourcesFrom(_diag);
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
   auto fragment = fragmentParser.parseFragment(kind);
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (!fragment) {
-    _diag.report(call.span, DiagnosticLevel::Error,
+    _diag.report(call.span, DiagnosticLevel::Error, macro_diagnostic::Fragment,
                  "Macro expansion is not a valid " +
                      std::string(fragmentName(kind)) + " fragment.");
     throw ParseError();
@@ -176,6 +179,7 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
   }
   if (!_macroExpander) {
     _diag.report(call.span, DiagnosticLevel::Error,
+                 macro_diagnostic::Resolution,
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
@@ -184,6 +188,7 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
     throw ParseError();
 
   DiagnosticEngine fragmentDiagnostics(_diag.sourceText(), _diag.sourceName());
+  fragmentDiagnostics.inheritSourcesFrom(_diag);
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
@@ -195,7 +200,7 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
   }
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (fragmentDiagnostics.hadErrors()) {
-    _diag.report(call.span, DiagnosticLevel::Error,
+    _diag.report(call.span, DiagnosticLevel::Error, macro_diagnostic::Fragment,
                  "Macro expansion is not a valid statement fragment.");
     throw ParseError();
   }
@@ -217,6 +222,7 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
   }
   if (!_macroExpander) {
     _diag.report(call.span, DiagnosticLevel::Error,
+                 macro_diagnostic::Resolution,
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
@@ -225,22 +231,25 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
     throw ParseError();
 
   DiagnosticEngine fragmentDiagnostics(_diag.sourceText(), _diag.sourceName());
+  fragmentDiagnostics.inheritSourcesFrom(_diag);
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   auto root = fragmentParser.parse();
   if (!fragmentParser.macroDefinitions().empty()) {
     fragmentDiagnostics.report(call.span, DiagnosticLevel::Error,
+                               macro_diagnostic::Fragment,
                                "Macro expansion cannot define macros.");
   }
   for (const auto &item : root->children) {
     if (dynamic_cast<const ImportNode *>(item.get())) {
       fragmentDiagnostics.report(item->span, DiagnosticLevel::Error,
+                                 macro_diagnostic::Fragment,
                                  "Macro expansion cannot generate imports.");
     }
   }
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (fragmentDiagnostics.hadErrors()) {
-    _diag.report(call.span, DiagnosticLevel::Error,
+    _diag.report(call.span, DiagnosticLevel::Error, macro_diagnostic::Fragment,
                  "Macro expansion is not a valid item fragment.");
     throw ParseError();
   }
