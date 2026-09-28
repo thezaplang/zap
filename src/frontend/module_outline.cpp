@@ -125,9 +125,8 @@ ModuleOutline ModuleOutline::scan(const std::vector<Token> &tokens,
     if (type == TokenType::MACRO) {
       auto parsed = MacroParser::parse(tokens, ranges[index].begin,
                                        tokens.size(), visibility, diagnostics);
-      if (parsed.definition) {
-        outline.macros.push_back(std::move(*parsed.definition));
-      }
+      for (auto &definition : parsed.definitions)
+        outline.macros.push_back(std::move(definition));
       index = treeIndexAtOrAfter(ranges, index + 1, parsed.nextPosition);
       continue;
     }

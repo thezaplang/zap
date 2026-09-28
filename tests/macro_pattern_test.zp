@@ -1,0 +1,13 @@
+macro pipe {
+    ($value: expr |> $transform: expr) { $transform($value) }
+    ($value: expr ; $transform: expr) { $transform($value) + 1 }
+}
+
+fun double(value: Int) Int { return value * 2; }
+
+fun main() Int {
+    if pipe!(3 + 4 |> double) != 14 { return 1; }
+    if pipe!(3 + 4 ; double) != 15 { return 2; }
+    if pipe!{3 + 4 |> double} != 14 { return 3; }
+    return 0;
+}

@@ -40,10 +40,15 @@ public:
   MacroParseResult parse() {
     const auto keyword = take(TokenType::MACRO);
     const auto name = take(TokenType::ID);
-    if (!keyword || !name || !take(TokenType::LPAREN))
+    if (!keyword || !name)
+      return failure();
+    if (cursor_.peek().type == TokenType::LBRACE)
+      return parsePatternArms(*name);
+    if (!take(TokenType::LPAREN))
       return failure();
 
     std::vector<MacroParameter> parameters;
+    std::vector<MacroPatternPart> pattern;
     std::unordered_set<std::string> names;
     while (!cursor_.isAtEnd() && cursor_.peek().type != TokenType::RPAREN) {
       const auto dollar = take(TokenType::DOLLAR);
@@ -73,13 +78,18 @@ public:
         isVariadic = true;
       }
       if (kind) {
-        parameters.push_back({*parameterName, *kind,
-                              SourceSpan::merge(dollar->span, parameterEnd),
-                              isVariadic});
+        MacroParameter parameter{*parameterName, *kind,
+                                 SourceSpan::merge(dollar->span, parameterEnd),
+                                 isVariadic};
+        parameters.push_back(parameter);
+        pattern.emplace_back(std::move(parameter));
       }
 
       if (cursor_.peek().type == TokenType::COMMA) {
+        Token comma = cursor_.peek();
         cursor_.advance();
+        if (cursor_.peek().type != TokenType::RPAREN)
+          pattern.emplace_back(TokenTree::leaf(std::move(comma)));
         if (isVariadic && cursor_.peek().type != TokenType::RPAREN) {
           report(parameterEnd, "Variadic macro parameter must be last.");
           return failure();
@@ -110,12 +120,120 @@ public:
     if (invalid_)
       return failure();
     MacroDefinition definition{
-        *name, visibility_, std::move(parameters), std::move(expansion),
+        *name,
+        visibility_,
+        std::move(parameters),
+        std::move(pattern),
+        false,
+        std::move(expansion),
         SourceSpan::merge(keyword->span, cursor_.previous().span)};
-    return {std::move(definition), cursor_.position()};
+    std::vector<MacroDefinition> definitions;
+    definitions.push_back(std::move(definition));
+    return {std::move(definitions), cursor_.position()};
   }
 
 private:
+  MacroParseResult parsePatternArms(const Token &name) {
+    auto body = TokenTreeBuilder::buildPrefix(tokens_, cursor_.position(),
+                                              cursor_.end(), diagnostics_);
+    cursor_.advance(body.nextPosition - cursor_.position());
+    if (body.hadDelimiterErrors || body.trees.size() != 1 ||
+        !body.trees.front().closing())
+      return failure();
+    const auto &arms = body.trees.front().children();
+    if (arms.empty() || arms.size() % 2 != 0) {
+      report(body.trees.front().span(),
+             "Pattern macro requires one or more '(pattern) {template}' arms.");
+      return failure();
+    }
+
+    std::vector<MacroDefinition> definitions;
+    for (size_t index = 0; index < arms.size(); index += 2) {
+      if (arms[index].isLeaf() ||
+          arms[index].delimiter() != Delimiter::Parenthesis ||
+          arms[index + 1].isLeaf() ||
+          arms[index + 1].delimiter() != Delimiter::Brace) {
+        report(arms[index].span(),
+               "Expected '(pattern) {template}' macro arm.");
+        return failure();
+      }
+      std::vector<MacroParameter> parameters;
+      std::vector<MacroPatternPart> pattern;
+      std::unordered_set<std::string> names;
+      const auto &tokens = arms[index].children();
+      for (size_t position = 0; position < tokens.size();) {
+        if (tokens[position].isLeaf() &&
+            tokens[position].token().type == TokenType::DOLLAR) {
+          if (position + 3 >= tokens.size() || !tokens[position + 1].isLeaf() ||
+              tokens[position + 1].token().type != TokenType::ID ||
+              !tokens[position + 2].isLeaf() ||
+              tokens[position + 2].token().type != TokenType::COLON ||
+              !tokens[position + 3].isLeaf() ||
+              tokens[position + 3].token().type != TokenType::ID) {
+            report(tokens[position].span(),
+                   "Expected '$name: kind' in macro pattern.");
+            return failure();
+          }
+          const Token &parameterName = tokens[position + 1].token();
+          const Token &kindToken = tokens[position + 3].token();
+          auto kind = parameterKind(kindToken.value);
+          if (!kind || !names.insert(parameterName.value).second) {
+            report(kindToken.span, !kind ? "Unknown macro capture kind '" +
+                                               kindToken.value + "'."
+                                         : "Duplicate macro capture '$" +
+                                               parameterName.value + "'.");
+            return failure();
+          }
+          MacroParameter parameter{
+              parameterName, *kind,
+              SourceSpan::merge(tokens[position].span(), kindToken.span),
+              false};
+          parameters.push_back(parameter);
+          pattern.emplace_back(std::move(parameter));
+          position += 4;
+        } else {
+          pattern.emplace_back(tokens[position]);
+          ++position;
+        }
+      }
+      for (size_t part = 0; part + 1 < pattern.size(); ++part) {
+        const auto *capture = std::get_if<MacroParameter>(&pattern[part]);
+        if (!capture || (capture->kind != MacroParameterKind::Expression &&
+                         capture->kind != MacroParameterKind::Type &&
+                         capture->kind != MacroParameterKind::Statement))
+          continue;
+        const auto *next = std::get_if<TokenTree>(&pattern[part + 1]);
+        if (!next || !next->isLeaf()) {
+          report(capture->span,
+                 "Typed macro capture needs an unambiguous follow token.");
+          return failure();
+        }
+        const TokenType follow = next->token().type;
+        const bool pipeline =
+            follow == TokenType::BIT_OR && part + 2 < pattern.size() &&
+            std::holds_alternative<TokenTree>(pattern[part + 2]) &&
+            std::get<TokenTree>(pattern[part + 2]).isLeaf() &&
+            std::get<TokenTree>(pattern[part + 2]).token().type ==
+                TokenType::GREATER;
+        const bool allowed =
+            (pipeline && capture->kind == MacroParameterKind::Expression) ||
+            follow == TokenType::COMMA || follow == TokenType::SEMICOLON ||
+            (capture->kind == MacroParameterKind::Type &&
+             (follow == TokenType::ASSIGN || follow == TokenType::GREATER));
+        if (!allowed) {
+          report(next->span(),
+                 "Illegal token after typed macro capture in pattern.");
+          return failure();
+        }
+      }
+      definitions.push_back(MacroDefinition{
+          name, visibility_, std::move(parameters), std::move(pattern), true,
+          arms[index + 1],
+          SourceSpan::merge(arms[index].span(), arms[index + 1].span())});
+    }
+    return {std::move(definitions), cursor_.position()};
+  }
+
   std::optional<Token> take(TokenType expected) {
     if (cursor_.peek().type != expected) {
       report(cursor_.peek().span, "Expected " + tokenTypeToString(expected) +
@@ -133,9 +251,7 @@ private:
     invalid_ = true;
   }
 
-  MacroParseResult failure() const {
-    return {std::nullopt, cursor_.position()};
-  }
+  MacroParseResult failure() const { return {{}, cursor_.position()}; }
 
   const std::vector<Token> &tokens_;
   TokenCursor cursor_;

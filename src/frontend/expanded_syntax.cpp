@@ -17,8 +17,13 @@ size_t macroDeclarationEnd(const std::vector<TokenTree> &trees, size_t index) {
   if (index < trees.size() && (leafIs(trees[index], TokenType::PUB) ||
                                leafIs(trees[index], TokenType::PRIV)))
     ++index;
-  if (index + 3 >= trees.size() || !leafIs(trees[index], TokenType::MACRO) ||
-      !leafIs(trees[index + 1], TokenType::ID) || trees[index + 2].isLeaf() ||
+  if (index + 2 >= trees.size() || !leafIs(trees[index], TokenType::MACRO) ||
+      !leafIs(trees[index + 1], TokenType::ID))
+    return 0;
+  if (!trees[index + 2].isLeaf() &&
+      trees[index + 2].delimiter() == Delimiter::Brace)
+    return index + 3;
+  if (index + 3 >= trees.size() || trees[index + 2].isLeaf() ||
       trees[index + 2].delimiter() != Delimiter::Parenthesis ||
       trees[index + 3].isLeaf() ||
       trees[index + 3].delimiter() != Delimiter::Brace)

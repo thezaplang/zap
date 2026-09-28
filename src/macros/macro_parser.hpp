@@ -9,7 +9,7 @@
 namespace zap {
 
 struct MacroParseResult {
-  std::optional<MacroDefinition> definition;
+  std::vector<MacroDefinition> definitions;
   size_t nextPosition;
 };
 

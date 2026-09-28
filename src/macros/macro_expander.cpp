@@ -125,6 +125,161 @@ const char *fragmentName(MacroParameterKind kind) {
   return "fragment";
 }
 
+bool sameTree(const TokenTree &left, const TokenTree &right) {
+  if (left.isLeaf() != right.isLeaf())
+    return false;
+  if (left.isLeaf())
+    return left.token().type == right.token().type &&
+           left.token().spelling == right.token().spelling;
+  if (left.delimiter() != right.delimiter() ||
+      left.children().size() != right.children().size())
+    return false;
+  for (size_t index = 0; index < left.children().size(); ++index) {
+    if (!sameTree(left.children()[index], right.children()[index]))
+      return false;
+  }
+  return true;
+}
+
+struct PatternMatch {
+  std::optional<MacroCaptures> captures;
+  bool ambiguous = false;
+  bool limitReached = false;
+  size_t score = 0;
+};
+
+PatternMatch matchPattern(const MacroDefinition &definition,
+                          const std::vector<TokenTree> &input,
+                          const DiagnosticEngine &diagnostics, size_t &attempts,
+                          size_t maxAttempts) {
+  PatternMatch result;
+  MacroCaptures captures;
+  std::function<void(size_t, size_t, size_t)> visit = [&](size_t part,
+                                                          size_t position,
+                                                          size_t score) {
+    if (++attempts > maxAttempts) {
+      result.limitReached = true;
+      return;
+    }
+    if (part == definition.pattern.size()) {
+      const bool trailingComma = !definition.customPattern &&
+                                 position + 1 == input.size() &&
+                                 isLeaf(input[position], TokenType::COMMA);
+      if (position == input.size() || trailingComma) {
+        if (result.captures)
+          result.ambiguous = true;
+        else {
+          result.captures = captures;
+          result.score = score;
+        }
+      }
+      return;
+    }
+    const auto &piece = definition.pattern[part];
+    if (const auto *literal = std::get_if<TokenTree>(&piece)) {
+      if (!definition.customPattern && position == input.size() &&
+          part + 2 == definition.pattern.size()) {
+        const auto *pack =
+            std::get_if<MacroParameter>(&definition.pattern[part + 1]);
+        if (pack && pack->isVariadic) {
+          MacroCapture empty;
+          empty.kind = pack->kind;
+          empty.isVariadic = true;
+          captures[pack->name.value] = std::move(empty);
+          visit(part + 2, position, score);
+          captures.erase(pack->name.value);
+        }
+      }
+      if (position < input.size() && sameTree(*literal, input[position]))
+        visit(part + 1, position + 1,
+              score + (definition.customPattern ? 4 : 0));
+      return;
+    }
+    const auto &parameter = std::get<MacroParameter>(piece);
+    if (parameter.isVariadic) {
+      MacroCapture pack;
+      pack.kind = parameter.kind;
+      pack.isVariadic = true;
+      size_t start = position;
+      bool valid = true;
+      for (size_t cursor = position; cursor <= input.size(); ++cursor) {
+        if (cursor != input.size() && !isLeaf(input[cursor], TokenType::COMMA))
+          continue;
+        if (cursor > start) {
+          std::vector<TokenTree> element(input.begin() + start,
+                                         input.begin() + cursor);
+          if (!matchesArgument(element, parameter.kind, diagnostics)) {
+            valid = false;
+            break;
+          }
+          pack.elements.push_back(std::move(element));
+        } else if (cursor != input.size()) {
+          valid = false;
+          break;
+        }
+        if (cursor != input.size()) {
+          pack.separators.push_back(input[cursor]);
+          start = cursor + 1;
+        }
+      }
+      if (valid) {
+        const size_t count = pack.elements.size();
+        captures[parameter.name.value] = std::move(pack);
+        visit(part + 1, input.size(),
+              score + count * specificity(parameter.kind));
+        captures.erase(parameter.name.value);
+      }
+      return;
+    }
+    if (!definition.customPattern) {
+      size_t end = position;
+      while (end < input.size() && !isLeaf(input[end], TokenType::COMMA))
+        ++end;
+      if (end == position)
+        return;
+      std::vector<TokenTree> fragment(input.begin() + position,
+                                      input.begin() + end);
+      if (!matchesArgument(fragment, parameter.kind, diagnostics))
+        return;
+      MacroCapture capture;
+      capture.kind = parameter.kind;
+      capture.elements.push_back(std::move(fragment));
+      captures[parameter.name.value] = std::move(capture);
+      visit(part + 1, end, score + specificity(parameter.kind));
+      captures.erase(parameter.name.value);
+      return;
+    }
+    for (size_t end = position + 1; end <= input.size(); ++end) {
+      if (result.ambiguous || result.limitReached)
+        break;
+      if (part + 1 == definition.pattern.size() && end != input.size())
+        continue;
+      if (part + 1 < definition.pattern.size()) {
+        const auto *next =
+            std::get_if<TokenTree>(&definition.pattern[part + 1]);
+        if (next && (end == input.size() || !sameTree(*next, input[end])))
+          continue;
+      }
+      if (++attempts > maxAttempts) {
+        result.limitReached = true;
+        break;
+      }
+      std::vector<TokenTree> fragment(input.begin() + position,
+                                      input.begin() + end);
+      if (!matchesArgument(fragment, parameter.kind, diagnostics))
+        continue;
+      MacroCapture capture;
+      capture.kind = parameter.kind;
+      capture.elements.push_back(std::move(fragment));
+      captures[parameter.name.value] = std::move(capture);
+      visit(part + 1, end, score + specificity(parameter.kind));
+      captures.erase(parameter.name.value);
+    }
+  };
+  visit(0, 0, 0);
+  return result;
+}
+
 } // namespace
 
 MacroExpander::MacroExpander(const MacroResolver &registry,
@@ -160,14 +315,15 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
            "Unknown or private macro '" + call.path.back() + "'.");
     return std::nullopt;
   }
-  const auto arguments = splitArguments(call.arguments);
-  if (!arguments) {
+  if (call.arguments.isLeaf() || !call.arguments.closing()) {
     report(call.span, macro_diagnostic::Arguments,
-           "Macro arguments must be a balanced, comma-separated group.");
+           "Macro arguments must be a balanced group.");
     return std::nullopt;
   }
+  const auto arguments = splitArguments(call.arguments);
 
   const MacroBinding *selected = nullptr;
+  std::optional<MacroCaptures> selectedCaptures;
   size_t bestScore = 0;
   bool bestIsFixed = false;
   bool ambiguous = false;
@@ -180,37 +336,51 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
              "Macro matcher attempt limit exceeded.");
       return std::nullopt;
     }
+    if (!candidate.definition->customPattern && !arguments)
+      continue;
     const auto &parameters = candidate.definition->parameters;
     const bool isVariadic = !parameters.empty() && parameters.back().isVariadic;
     const size_t fixedCount = parameters.size() - (isVariadic ? 1 : 0);
-    if (arguments->elements.size() < fixedCount ||
-        (!isVariadic && arguments->elements.size() != fixedCount))
-      continue;
-    ++matchingArity;
-    size_t score = 0;
-    bool matches = true;
-    for (size_t index = 0; index < arguments->elements.size(); ++index) {
-      const auto &parameter =
-          index < fixedCount ? parameters[index] : parameters.back();
-      if (!matchesArgument(arguments->elements[index], parameter.kind,
-                           diagnostics_)) {
-        matches = false;
-        if (matchingArity == 1)
-          mismatch = std::make_pair(index, parameter.kind);
-        break;
+    if (!candidate.definition->customPattern && arguments &&
+        arguments->elements.size() >= fixedCount &&
+        (isVariadic || arguments->elements.size() == fixedCount)) {
+      ++matchingArity;
+      if (matchingArity == 1) {
+        for (size_t index = 0; index < arguments->elements.size(); ++index) {
+          const auto &parameter =
+              index < fixedCount ? parameters[index] : parameters.back();
+          if (!matchesArgument(arguments->elements[index], parameter.kind,
+                               diagnostics_)) {
+            mismatch = std::make_pair(index, parameter.kind);
+            break;
+          }
+        }
       }
-      score += specificity(parameter.kind);
     }
-    if (!matches)
+    auto matched =
+        matchPattern(*candidate.definition, call.arguments.children(),
+                     diagnostics_, attempts, limits_.maxMatchAttempts);
+    if (matched.limitReached) {
+      report(call.span, macro_diagnostic::Limit,
+             "Macro matcher attempt limit exceeded.");
+      return std::nullopt;
+    }
+    if (matched.ambiguous) {
+      report(call.span, macro_diagnostic::Arguments,
+             "Ambiguous macro pattern for '" + call.path.back() + "'.");
+      return std::nullopt;
+    }
+    if (!matched.captures)
       continue;
-    const bool isFixed = !isVariadic;
+    const bool isFixed = candidate.definition->customPattern || !isVariadic;
     if (!selected || (isFixed && !bestIsFixed) ||
-        (isFixed == bestIsFixed && score > bestScore)) {
+        (isFixed == bestIsFixed && matched.score > bestScore)) {
       selected = &candidate;
-      bestScore = score;
+      selectedCaptures = std::move(matched.captures);
+      bestScore = matched.score;
       bestIsFixed = isFixed;
       ambiguous = false;
-    } else if (isFixed == bestIsFixed && score == bestScore) {
+    } else if (isFixed == bestIsFixed && matched.score == bestScore) {
       ambiguous = true;
     }
   }
@@ -228,31 +398,13 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     } else {
       report(call.span, macro_diagnostic::Arguments,
              "No matching macro overload for '" + call.path.back() + "' with " +
-                 std::to_string(arguments->elements.size()) + " argument(s).");
+                 std::to_string(arguments ? arguments->elements.size() : 0) +
+                 " argument(s).");
     }
     return std::nullopt;
   }
 
-  MacroCaptures captures;
-  const auto &parameters = selected->definition->parameters;
-  for (size_t index = 0; index < parameters.size(); ++index) {
-    MacroCapture capture;
-    capture.kind = parameters[index].kind;
-    capture.isVariadic = parameters[index].isVariadic;
-    if (parameters[index].isVariadic) {
-      capture.elements.insert(capture.elements.end(),
-                              arguments->elements.begin() + index,
-                              arguments->elements.end());
-      if (!capture.elements.empty()) {
-        capture.separators.insert(capture.separators.end(),
-                                  arguments->separators.begin() + index,
-                                  arguments->separators.end());
-      }
-    } else {
-      capture.elements.push_back(arguments->elements[index]);
-    }
-    captures.emplace(parameters[index].name.value, std::move(capture));
-  }
+  MacroCaptures captures = std::move(*selectedCaptures);
   if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
     report(call.span, macro_diagnostic::Limit,
            "Macro syntax context limit exceeded.");

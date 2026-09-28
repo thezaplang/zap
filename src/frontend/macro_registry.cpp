@@ -9,13 +9,38 @@ namespace zap::frontend {
 
 namespace {
 
-bool sameSignature(const MacroDefinition &left, const MacroDefinition &right) {
-  if (left.parameters.size() != right.parameters.size())
+bool sameLiteral(const TokenTree &left, const TokenTree &right) {
+  if (left.isLeaf() != right.isLeaf())
     return false;
-  for (size_t index = 0; index < left.parameters.size(); ++index) {
-    if (left.parameters[index].kind != right.parameters[index].kind ||
-        left.parameters[index].isVariadic != right.parameters[index].isVariadic)
+  if (left.isLeaf())
+    return left.token().type == right.token().type &&
+           left.token().spelling == right.token().spelling;
+  if (left.delimiter() != right.delimiter() ||
+      left.children().size() != right.children().size())
+    return false;
+  for (size_t index = 0; index < left.children().size(); ++index) {
+    if (!sameLiteral(left.children()[index], right.children()[index]))
       return false;
+  }
+  return true;
+}
+
+bool sameSignature(const MacroDefinition &left, const MacroDefinition &right) {
+  if (left.pattern.size() != right.pattern.size())
+    return false;
+  for (size_t index = 0; index < left.pattern.size(); ++index) {
+    const auto &a = left.pattern[index];
+    const auto &b = right.pattern[index];
+    if (a.index() != b.index())
+      return false;
+    if (const auto *capture = std::get_if<MacroParameter>(&a)) {
+      const auto &other = std::get<MacroParameter>(b);
+      if (capture->kind != other.kind ||
+          capture->isVariadic != other.isVariadic)
+        return false;
+    } else if (!sameLiteral(std::get<TokenTree>(a), std::get<TokenTree>(b))) {
+      return false;
+    }
   }
   return true;
 }

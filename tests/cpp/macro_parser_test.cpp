@@ -61,6 +61,10 @@ fun regular() Int { return 1; }
               macro.parameters[0].kind == zap::MacroParameterKind::Expression &&
               macro.parameters[1].kind == zap::MacroParameterKind::Block,
           "typed fixed-arity parameters were not retained");
+  require(!macro.customPattern && macro.pattern.size() == 3 &&
+              std::holds_alternative<zap::MacroParameter>(macro.pattern[0]) &&
+              std::holds_alternative<TokenTree>(macro.pattern[1]),
+          "signature macro was not compiled to a simple token pattern");
   require(macro.expansion.delimiter() == Delimiter::Brace &&
               macro.expansion.closing().has_value() &&
               macro.expansion.span().length > 2,
@@ -154,6 +158,37 @@ void testMalformedTemplate() {
           "mismatched template delimiter was accepted");
 }
 
+void testPatternArmsAndFollowTokens() {
+  auto valid = parse(R"(
+macro pipe {
+  ($value: expr |> $transform: expr) { $transform($value) }
+  ($value: expr ; $transform: expr) { $transform($value) }
+}
+fun main() Int { return 0; }
+)");
+  require(!valid.diagnostics->hadErrors() && valid.macros.size() == 2 &&
+              valid.root->children.size() == 1,
+          "pattern macro arms were not parsed or skipped correctly");
+  require(valid.macros[0].customPattern && valid.macros[1].customPattern &&
+              valid.macros[0].pattern.size() == 4 &&
+              valid.macros[0].parameters.size() == 2,
+          "pattern macro captures or punctuation were lost");
+
+  for (const char *kind : {"expr", "type", "stmt"}) {
+    auto invalid = parse(std::string("macro bad { ($x: ") + kind +
+                         " + $y: ident) { $x } }");
+    require(invalid.diagnostics->hadErrors() && invalid.macros.empty() &&
+                invalid.diagnostics->diagnostics().front().message.find(
+                    "Illegal token after typed macro capture") !=
+                    std::string::npos,
+            "illegal typed fragment follow token was accepted");
+  }
+  auto legal = parse("macro types { ($x: type = $name: ident) { $x } } "
+                     "macro statements { ($x: stmt ; $name: ident) { $x } }");
+  require(!legal.diagnostics->hadErrors() && legal.macros.size() == 2,
+          "legal type or statement follow token was rejected");
+}
+
 } // namespace
 
 int main() {
@@ -163,5 +198,6 @@ int main() {
   testVariadicParameters();
   testInvalidParameters();
   testMalformedTemplate();
+  testPatternArmsAndFollowTokens();
   return 0;
 }

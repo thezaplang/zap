@@ -135,6 +135,83 @@ macro kinds($a: ident, $b: literal, $c: expr, $d: type,
           "a valid typed scalar capture was rejected");
 }
 
+void testCustomPatternMatching() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro pipe {
+  ($value: expr |> $transform: expr) { $transform($value) }
+  ($value: expr ; $transform: expr) { $transform($value) + 1 }
+}
+macro ambiguous { ($a: tokens $b: tokens) { $a } }
+macro bounded { ($a: tokens $b: tokens) { $a } }
+macro overload { ($value: expr) { 1 } ($value: type) { 2 } }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "distinct pattern arms conflicted");
+
+  const std::string pipe = "pipe!(3 + 4 |> double)";
+  zap::DiagnosticEngine pipeDiagnostics(pipe, "call.zp");
+  zap::MacroExpander expander(fixture.registry, pipeDiagnostics);
+  auto result =
+      expander.expand("module.zp", makeCall(pipe, {"pipe"}, pipeDiagnostics));
+  require(result && spellings(*result) == "double(3+4)" &&
+              !pipeDiagnostics.hadErrors(),
+          "custom pipeline pattern failed to capture typed fragments");
+
+  std::string longPipe = "pipe!(1";
+  for (size_t index = 0; index < 150; ++index)
+    longPipe += " + 1";
+  longPipe += " |> double)";
+  zap::DiagnosticEngine longDiagnostics(longPipe, "call.zp");
+  zap::MacroExpander longExpander(fixture.registry, longDiagnostics);
+  require(longExpander.expand("module.zp",
+                              makeCall(longPipe, {"pipe"}, longDiagnostics)) &&
+              !longDiagnostics.hadErrors(),
+          "unambiguous long capture exhausted the backtracking budget");
+
+  const std::string ambiguous = "ambiguous!(a b c)";
+  zap::DiagnosticEngine ambiguityDiagnostics(ambiguous, "call.zp");
+  zap::MacroExpander ambiguityExpander(fixture.registry, ambiguityDiagnostics);
+  require(
+      !ambiguityExpander.expand("module.zp", makeCall(ambiguous, {"ambiguous"},
+                                                      ambiguityDiagnostics)) &&
+          ambiguityDiagnostics.hadErrors() &&
+          ambiguityDiagnostics.diagnostics().front().message.find(
+              "Ambiguous macro pattern") != std::string::npos,
+      "ambiguous custom pattern split was accepted");
+
+  const std::string bounded = "bounded!(a b c)";
+  zap::DiagnosticEngine boundedDiagnostics(bounded, "call.zp");
+  zap::MacroLimits limits;
+  limits.maxMatchAttempts = 3;
+  zap::MacroExpander boundedExpander(fixture.registry, boundedDiagnostics,
+                                     limits);
+  require(!boundedExpander.expand("module.zp", makeCall(bounded, {"bounded"},
+                                                        boundedDiagnostics)) &&
+              boundedDiagnostics.hadErrors() &&
+              boundedDiagnostics.diagnostics().front().message.find(
+                  "matcher attempt limit") != std::string::npos,
+          "custom pattern matcher ignored its backtracking limit");
+
+  const std::string overload = "overload!(Name)";
+  zap::DiagnosticEngine overloadDiagnostics(overload, "call.zp");
+  zap::MacroExpander overloadExpander(fixture.registry, overloadDiagnostics);
+  require(
+      !overloadExpander.expand(
+          "module.zp", makeCall(overload, {"overload"}, overloadDiagnostics)) &&
+          overloadDiagnostics.hadErrors() &&
+          overloadDiagnostics.diagnostics().front().message.find(
+              "Ambiguous macro overload") != std::string::npos,
+      "equally specific pattern arms were not diagnosed as ambiguous");
+
+  RegistryFixture duplicate;
+  duplicate.add("module.zp", "macro same($x: expr) { $x } "
+                             "macro same { ($value: expr) { $value } }");
+  duplicate.resolve();
+  require(duplicate.errors.size() == 1,
+          "signature macro and equivalent pattern arm did not conflict");
+}
+
 void testInvalidAndAmbiguousCalls() {
   RegistryFixture fixture;
   fixture.add("module.zp", R"(
@@ -726,6 +803,7 @@ macro grouped_break($values: tokens...) { for $value in $values { { $break; } } 
 
 int main() {
   testTypedCapturesAndOverloadSelection();
+  testCustomPatternMatching();
   testInvalidAndAmbiguousCalls();
   testTokenSplicingOriginsAndNestedExpansion();
   testLimitsAndInvalidTemplates();

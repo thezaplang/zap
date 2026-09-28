@@ -247,9 +247,10 @@ std::unique_ptr<RootNode> Parser::parse() {
         auto result = MacroParser::parse(_tokens, start, _cursor.end(),
                                          visibility, _diag);
         _cursor.advance(result.nextPosition - start);
-        if (result.definition && !hasAttributes) {
-          _macroDefinitions.push_back(std::move(*result.definition));
-        } else if (!result.definition) {
+        if (!result.definitions.empty() && !hasAttributes) {
+          for (auto &definition : result.definitions)
+            _macroDefinitions.push_back(std::move(definition));
+        } else if (result.definitions.empty()) {
           synchronize(SyncContext::TopLevel);
         }
       } else if (peek().type == TokenType::IMPORT) {

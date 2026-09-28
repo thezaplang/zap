@@ -4,6 +4,7 @@
 #include "../visibility.hpp"
 
 #include <string>
+#include <variant>
 #include <vector>
 
 namespace zap {
@@ -26,10 +27,14 @@ struct MacroParameter {
   bool isVariadic = false;
 };
 
+using MacroPatternPart = std::variant<TokenTree, MacroParameter>;
+
 struct MacroDefinition {
   Token name;
   Visibility visibility;
   std::vector<MacroParameter> parameters;
+  std::vector<MacroPatternPart> pattern;
+  bool customPattern = false;
   TokenTree expansion;
   SourceSpan span;
 };
