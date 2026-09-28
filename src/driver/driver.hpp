@@ -84,6 +84,9 @@ public:
   bool emits_zir() const noexcept {
     return cmdArgs.output.type == args::OutputType::ZIR;
   }
+  bool emits_expanded() const noexcept {
+    return cmdArgs.output.type == args::OutputType::EXPANDED;
+  }
   const std::unordered_map<std::string, std::string> &
   get_import_map() const noexcept {
     return cmdArgs.importMap;
@@ -95,6 +98,7 @@ public:
   bool emits_text_output() const noexcept {
     return cmdArgs.output.type == args::OutputType::TEXT_LLVM ||
            cmdArgs.output.type == args::OutputType::ZIR ||
+           cmdArgs.output.type == args::OutputType::EXPANDED ||
            cmdArgs.output.type == args::OutputType::ASM;
   }
 
@@ -153,6 +157,8 @@ public:
       return ".bc";
     case args::OutputType::ZIR:
       return ".zir";
+    case args::OutputType::EXPANDED:
+      return ".expanded.zp";
     }
   }
 

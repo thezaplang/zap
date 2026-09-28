@@ -2,6 +2,7 @@
 #include "ast/import_node.hpp"
 #include "codegen/llvm_codegen.hpp"
 #include "driver/process.hpp"
+#include "frontend/expanded_syntax.hpp"
 #include "frontend/frontend_session.hpp"
 #include "frontend/module_loader.hpp"
 #include "ir/ir_generator.hpp"
@@ -183,6 +184,57 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   if (!project.loaded) {
     DiagnosticTextFormatter::print(err(), project.diagnostics);
     return true;
+  }
+  if (drv.emits_expanded()) {
+    DiagnosticTextFormatter::print(err(), project.diagnostics);
+    std::string rendered;
+    for (const auto &[moduleId, module] : project.modules) {
+      DiagnosticEngine diagnostics(module->sourceText, moduleId);
+      for (const auto &[sourceId, sourceModule] : project.modules)
+        diagnostics.registerSource(sourceId, sourceModule->sourceText);
+      Lexer lexer(diagnostics);
+      auto tokens = lexer.tokenize(module->sourceText);
+      frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
+      auto expanded = emitter.expand(moduleId, tokens);
+      if (!expanded || diagnostics.hadErrors()) {
+        diagnostics.printText(err());
+        return true;
+      }
+      rendered += frontend::ExpandedSyntaxEmitter::render(project.entryModuleId,
+                                                          moduleId, *expanded);
+    }
+    if (drv.is_implicit_output()) {
+      std::cout << rendered;
+      return !std::cout.good();
+    }
+    std::error_code pathError;
+    const auto outputPath =
+        std::filesystem::weakly_canonical(drv.get_output(), pathError);
+    if (pathError) {
+      driver::reportError("couldn't resolve expanded output: ",
+                          drv.get_output(), "\nreason: ", pathError.message());
+      return true;
+    }
+    for (const auto &[moduleId, _] : project.modules) {
+      std::error_code equivalentError;
+      if (outputPath.string() == moduleId ||
+          std::filesystem::equivalent(outputPath, moduleId, equivalentError)) {
+        driver::reportError("expanded output would overwrite a source file: ",
+                            outputPath);
+        return true;
+      }
+    }
+    std::ofstream output(drv.get_output(), std::ios::binary);
+    if (!output) {
+      driver::reportError("couldn't open expanded output: ", drv.get_output());
+      return true;
+    }
+    output << rendered;
+    if (!output) {
+      driver::reportError("couldn't write expanded output: ", drv.get_output());
+      return true;
+    }
+    return false;
   }
   if (!session.bind(project)) {
     DiagnosticTextFormatter::print(err(), project.diagnostics);

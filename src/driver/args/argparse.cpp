@@ -198,6 +198,12 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
   bool compileOnly = holder.has(ArgTypes::CompileOnly);
   bool emitLLVM = holder.has(ArgTypes::EmitLLVM);
   bool emitZIR = holder.has(ArgTypes::EmitZIR);
+  bool emitExpanded = holder.has(ArgTypes::EmitExpanded);
+
+  if (emitExpanded && (emitLLVM || emitZIR || emitS || compileOnly)) {
+    reportError("--emit-expanded cannot be combined with other output modes");
+    return ParseResult::Failed;
+  }
 
   if (holder.has(ArgTypes::OptLevel)) {
     std::string_view optL = holder.get(ArgTypes::OptLevel)->optional;
@@ -258,7 +264,9 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
   if (!ok)
     return ParseResult::Failed;
 
-  if (emitZIR) {
+  if (emitExpanded) {
+    args.output.type = OutputType::EXPANDED;
+  } else if (emitZIR) {
     args.output.type = OutputType::ZIR;
   } else if (emitLLVM) {
     args.output.type = emitS ? OutputType::TEXT_LLVM : OutputType::LLVM;

@@ -18,6 +18,7 @@ enum class OutputType : uint8_t {
   TEXT_LLVM, ///< Textual LLVM IR (-S -emit-llvm).
   LLVM,      ///< LLVM IR (.bc).
   ZIR,       ///< ZIR.
+  EXPANDED,  ///< Macro-expanded Zap syntax.
 };
 
 /// @brief Optimization level used by the compiler.

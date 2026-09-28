@@ -53,6 +53,10 @@ ZAP_FLAG(EmitLLVM, "-emit-llvm", "Emit LLVM IR as the output format.", Flag)
 // -emit-zir
 ZAP_FLAG(EmitZIR, "-emit-zir", "Emit ZIR as the output format.", Flag)
 
+// --emit-expanded
+ZAP_FLAG(EmitExpanded, "--emit-expanded",
+         "Print macro-expanded syntax without semantic analysis.", Flag)
+
 // --allow-unsafe
 ZAP_FLAG(AllowUnsafe, "--allow-unsafe",
          "Enables unsafe blocks, unsafe functions, and raw pointers. (deprecated, unsafe allowed by default)", Flag)

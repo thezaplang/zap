@@ -116,6 +116,7 @@ zap_syntax = static_library('zap_syntax',
 zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories : inc)
 
 zap_frontend = static_library('zap_frontend',
+                              'src/frontend/expanded_syntax.cpp',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/macro_registry.cpp',
                               'src/frontend/module_loader.cpp',
@@ -232,6 +233,9 @@ if get_option('build_testing')
     test('macro-diagnostics', executable('zap-macro-diagnostics-tests',
                                         'tests/cpp/macro_diagnostics_test.cpp',
                                         dependencies : libzap_dep))
+    test('expanded-syntax', executable('zap-expanded-syntax-tests',
+                                      'tests/cpp/expanded_syntax_test.cpp',
+                                      dependencies : libzap_dep))
     test('type-identity', executable('zap-type-identity-tests', 'tests/cpp/type_identity_test.cpp', dependencies : zap_type_system_dep))
     test('conversions', executable('zap-conversion-tests', 'tests/cpp/conversion_test.cpp', dependencies : zap_sema_conversions_dep))
     test('type-layout', executable('zap-type-layout-tests', 'tests/cpp/type_layout_test.cpp', dependencies : zap_type_layout_dep))
@@ -239,6 +243,16 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('emit-expanded-cli', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_emit_expanded.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_import/main.zp',
+                 meson.current_source_dir() / 'tests/snapshots/macro_import.expanded.snap',
+                 meson.current_source_dir() / 'tests/diagnostics/macro_hygiene_free_name_error.zp',
+                 meson.current_build_dir() / 'emit-expanded-cli.zp'
+             ],
+             depends : zapc)
         test('zir-verifier', executable('zap-zir-verifier-tests', 'tests/cpp/zir_verifier_test.cpp', dependencies : zap_zir_verifier_dep))
         test('ownership-lowering', executable('zap-ownership-lowering-tests', 'tests/cpp/ownership_lowering_test.cpp', dependencies : zap_zir_verifier_dep))
         test('borrow-analysis', executable('zap-borrow-analysis-tests', 'tests/cpp/borrow_analysis_test.cpp', dependencies : zap_zir_verifier_dep))
