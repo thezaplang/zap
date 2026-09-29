@@ -18,6 +18,7 @@ enum class MacroParameterKind {
   Block,
   Item,
   Tokens,
+  Source,
 };
 
 struct MacroParameter {

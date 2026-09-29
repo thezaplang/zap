@@ -157,9 +157,12 @@ MacroTemplateExpander::expand(const std::vector<TokenTree> &templateTrees) {
   for (const auto &[name, capture] : captures_) {
     if (capture.isVariadic)
       root.bindings.emplace(name, &capture);
-    else
+    else if (capture.source)
       root.bindings.emplace(
-          name, MetaFragment{&capture.elements.front(), capture.kind, nullptr});
+          name, MetaFragment{nullptr, capture.kind, nullptr, capture.source});
+    else
+      root.bindings.emplace(name, MetaFragment{&capture.elements.front(),
+                                               capture.kind, nullptr, nullptr});
   }
   if (!validateTrees(templateTrees, root))
     return std::nullopt;
@@ -405,7 +408,7 @@ bool MacroTemplateExpander::validateTrees(const std::vector<TokenTree> &trees,
           loop->elementName,
           MetaFragment{&placeholder,
                        pack ? (*pack)->kind : MacroParameterKind::Tokens,
-                       nullptr});
+                       nullptr, nullptr});
       if (loop->positionName)
         iteration.bindings.emplace(*loop->positionName, MetaPosition{0, 1});
       if (!validateTrees(loop->body->children(), iteration, loopDepth + 1) ||
@@ -447,6 +450,17 @@ bool MacroTemplateExpander::validateTrees(const std::vector<TokenTree> &trees,
         }
         index += 2;
       }
+      continue;
+    }
+
+    if (isLeaf(tree, TokenType::ID) &&
+        (tree.token().value == "sourceText" ||
+         tree.token().value == "sourceArguments") &&
+        index + 1 < trees.size() &&
+        isGroup(trees[index + 1], Delimiter::Parenthesis)) {
+      if (!meta_.evaluate({tree, trees[index + 1]}, current))
+        return false;
+      index += 2;
       continue;
     }
 
@@ -621,7 +635,7 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
         iteration.parent = &current;
         iteration.bindings.emplace(
             loop->elementName,
-            MetaFragment{&elements[element], (*pack)->kind, nullptr});
+            MetaFragment{&elements[element], (*pack)->kind, nullptr, nullptr});
         if (loop->positionName) {
           iteration.bindings.emplace(*loop->positionName,
                                      MetaPosition{element, elements.size()});
@@ -636,7 +650,7 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
           previous.bindings.emplace(
               loop->elementName,
               MetaFragment{&elements[*previousEmittedElement], (*pack)->kind,
-                           nullptr});
+                           nullptr, nullptr});
           if (loop->positionName) {
             previous.bindings.emplace(
                 *loop->positionName,
@@ -701,6 +715,26 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
           return std::nullopt;
         output.trees.push_back(token);
       }
+      continue;
+    }
+
+    if (isLeaf(tree, TokenType::ID) &&
+        (tree.token().value == "sourceText" ||
+         tree.token().value == "sourceArguments") &&
+        index + 1 < trees.size() &&
+        isGroup(trees[index + 1], Delimiter::Parenthesis)) {
+      auto value = meta_.evaluate({tree, trees[index + 1]}, current);
+      if (!value)
+        return std::nullopt;
+      auto replacement = meta_.emit(*value);
+      if (!replacement)
+        return std::nullopt;
+      for (const auto &token : *replacement) {
+        if (!reserve(token.tokenCount()))
+          return std::nullopt;
+        output.trees.push_back(token);
+      }
+      index += 2;
       continue;
     }
 

@@ -27,6 +27,8 @@ std::optional<MacroParameterKind> parameterKind(const std::string &name) {
     return MacroParameterKind::Item;
   if (name == "tokens")
     return MacroParameterKind::Tokens;
+  if (name == "source")
+    return MacroParameterKind::Source;
   return std::nullopt;
 }
 
@@ -61,10 +63,8 @@ public:
 
       const auto kind = parameterKind(kindToken->value);
       if (!kind) {
-        report(kindToken->span, kindToken->value == "source"
-                                    ? "Source captures are not supported yet."
-                                    : "Unknown macro parameter kind '" +
-                                          kindToken->value + "'.");
+        report(kindToken->span,
+               "Unknown macro parameter kind '" + kindToken->value + "'.");
       }
       if (!names.insert(parameterName->value).second) {
         report(parameterName->span,
@@ -78,6 +78,12 @@ public:
         isVariadic = true;
       }
       if (kind) {
+        if (*kind == MacroParameterKind::Source &&
+            (isVariadic || !parameters.empty() ||
+             cursor_.peek().type != TokenType::RPAREN)) {
+          report(kindToken->span,
+                 "Source capture must be the only, non-variadic parameter.");
+        }
         MacroParameter parameter{*parameterName, *kind,
                                  SourceSpan::merge(dollar->span, parameterEnd),
                                  isVariadic};
@@ -182,6 +188,11 @@ private:
                                                kindToken.value + "'."
                                          : "Duplicate macro capture '$" +
                                                parameterName.value + "'.");
+            return failure();
+          }
+          if (*kind == MacroParameterKind::Source) {
+            report(kindToken.span,
+                   "Source captures require a single signature parameter.");
             return failure();
           }
           MacroParameter parameter{

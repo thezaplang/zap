@@ -17,6 +17,7 @@ struct MacroCapture {
   std::vector<TokenTree> separators;
   MacroParameterKind kind = MacroParameterKind::Tokens;
   bool isVariadic = false;
+  std::shared_ptr<const SourceFragment> source;
 };
 
 using MacroCaptures = std::map<std::string, MacroCapture>;
@@ -25,6 +26,7 @@ struct MetaFragment {
   const std::vector<TokenTree> *tokens = nullptr;
   MacroParameterKind kind = MacroParameterKind::Tokens;
   std::shared_ptr<const std::vector<TokenTree>> owner;
+  std::shared_ptr<const SourceFragment> source;
 };
 
 struct MetaPosition {

@@ -56,6 +56,7 @@ std::optional<FragmentKind> fragmentKind(MacroParameterKind kind) {
   case MacroParameterKind::Identifier:
   case MacroParameterKind::Literal:
   case MacroParameterKind::Tokens:
+  case MacroParameterKind::Source:
     return std::nullopt;
   }
   return std::nullopt;
@@ -72,6 +73,8 @@ bool matchesArgument(const std::vector<TokenTree> &argument,
                      const DiagnosticEngine &diagnostics) {
   if (kind == MacroParameterKind::Tokens)
     return true;
+  if (kind == MacroParameterKind::Source)
+    return false;
   if (kind == MacroParameterKind::Identifier)
     return argument.size() == 1 && isLeaf(argument.front(), TokenType::ID);
   if (kind == MacroParameterKind::Literal)
@@ -92,6 +95,7 @@ int specificity(MacroParameterKind kind) {
   case MacroParameterKind::Identifier:
   case MacroParameterKind::Literal:
   case MacroParameterKind::Block:
+  case MacroParameterKind::Source:
     return 2;
   case MacroParameterKind::Expression:
   case MacroParameterKind::Type:
@@ -122,6 +126,8 @@ const char *fragmentName(MacroParameterKind kind) {
     return "item";
   case MacroParameterKind::Tokens:
     return "tokens";
+  case MacroParameterKind::Source:
+    return "source";
   }
   return "fragment";
 }
@@ -321,6 +327,28 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
            "Macro arguments must be a balanced group.");
     return std::nullopt;
   }
+  if (call.arguments.opening().sourceFragment) {
+    size_t sourceAttempts = 0;
+    for (const auto &candidate : *overloads) {
+      if (++sourceAttempts > limits_.maxMatchAttempts) {
+        report(call.span, macro_diagnostic::Limit,
+               "Macro matcher attempt limit exceeded.");
+        return std::nullopt;
+      }
+      const auto &definition = *candidate.definition;
+      if (definition.customPattern || definition.parameters.size() != 1 ||
+          definition.parameters.front().kind != MacroParameterKind::Source)
+        continue;
+      MacroCapture capture;
+      capture.kind = MacroParameterKind::Source;
+      capture.source = call.arguments.opening().sourceFragment;
+      MacroCaptures captures;
+      captures.emplace(definition.parameters.front().name.value,
+                       std::move(capture));
+      return expandSelected(candidate, std::move(captures), outputModuleId,
+                            call, depth);
+    }
+  }
   auto materialized = materializeSourceGroup(call.arguments, diagnostics_);
   if (!materialized)
     return std::nullopt;
@@ -408,15 +436,21 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     return std::nullopt;
   }
 
-  MacroCaptures captures = std::move(*selectedCaptures);
+  return expandSelected(*selected, std::move(*selectedCaptures), outputModuleId,
+                        call, depth);
+}
+
+std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
+    const MacroBinding &binding, MacroCaptures captures,
+    const std::string &outputModuleId, const MacroCall &call, size_t depth) {
   if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
     report(call.span, macro_diagnostic::Limit,
            "Macro syntax context limit exceeded.");
     return std::nullopt;
   }
   auto origin = std::make_shared<ExpansionOrigin>(
-      ExpansionOrigin{call.span, selected->definition->span, call.parentOrigin,
-                      selected->definingModuleId, nextFreshContext_++});
+      ExpansionOrigin{call.span, binding.definition->span, call.parentOrigin,
+                      binding.definingModuleId, nextFreshContext_++});
   auto &generatedTokens = generatedTokensByModule_[outputModuleId];
   if (generatedTokens > limits_.maxGeneratedTokens) {
     report(call.span, macro_diagnostic::Limit,
@@ -433,7 +467,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
         return nextFreshContext_++;
       });
   auto output =
-      templateExpander.expand(selected->definition->expansion.children());
+      templateExpander.expand(binding.definition->expansion.children());
   if (!output)
     return std::nullopt;
   size_t count = 0;
@@ -451,7 +485,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
     return std::nullopt;
   }
   generatedTokens += count;
-  return expandGenerated(*output, selected->definingModuleId, outputModuleId,
+  return expandGenerated(*output, binding.definingModuleId, outputModuleId,
                          origin, depth);
 }
 

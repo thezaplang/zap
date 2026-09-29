@@ -1,6 +1,8 @@
 #include "macros/macro_meta.hpp"
 #include "lexer/lexer.hpp"
 #include "macros/macro_diagnostic_codes.hpp"
+#include "parser/parser.hpp"
+#include "token/source_fragment.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -291,7 +293,7 @@ std::optional<MetaValue> MacroMetaEvaluator::member(const MetaValue &value,
       }
       const auto &fragment = name == "first" ? (*pack)->elements.front()
                                              : (*pack)->elements.back();
-      return MetaFragment{&fragment, (*pack)->kind, nullptr};
+      return MetaFragment{&fragment, (*pack)->kind, nullptr, nullptr};
     }
   } else if (const auto *fragment = std::get_if<MetaFragment>(&value)) {
     if (name == "kind")
@@ -305,6 +307,8 @@ std::optional<MetaValue> MacroMetaEvaluator::member(const MetaValue &value,
     if (name == "text" && fragmentKind(*fragment) == "ident")
       return fragment->tokens->front().token().value;
     if (name == "span") {
+      if (fragment->source)
+        return fragment->source->spanAt(0, fragment->source->text.size());
       if (!fragment->tokens || fragment->tokens->empty()) {
         report("Empty fragment has no source span.");
         return std::nullopt;
@@ -326,8 +330,10 @@ std::optional<MetaValue> MacroMetaEvaluator::member(const MetaValue &value,
 
 std::optional<std::vector<TokenTree>>
 MacroMetaEvaluator::emit(const MetaValue &value) {
-  if (const auto *fragment = std::get_if<MetaFragment>(&value))
-    return *fragment->tokens;
+  if (const auto *fragment = std::get_if<MetaFragment>(&value)) {
+    if (fragment->tokens)
+      return *fragment->tokens;
+  }
   if (const auto *pack = std::get_if<const MacroCapture *>(&value)) {
     std::vector<TokenTree> output;
     for (size_t i = 0; i < (*pack)->elements.size(); ++i) {
@@ -380,7 +386,8 @@ std::optional<MetaValue> MacroMetaEvaluator::call(const std::string &name,
     report("Unterminated compile-time function call.");
     return std::nullopt;
   }
-  if (name != "sourceText" && name != "freshIdent") {
+  if (name != "sourceText" && name != "sourceArguments" &&
+      name != "freshIdent") {
     report("Unknown compile-time function '" + name + "'.");
     return std::nullopt;
   }
@@ -399,6 +406,46 @@ std::optional<MetaValue> MacroMetaEvaluator::call(const std::string &name,
       return sourceText(*fragment);
     report("sourceText expects a captured fragment.");
     return std::nullopt;
+  }
+  if (name == "sourceArguments") {
+    const auto *fragment = std::get_if<MetaFragment>(&*argument);
+    if (!fragment || !fragment->source) {
+      report("sourceArguments expects a source capture.");
+      return std::nullopt;
+    }
+    std::vector<TokenTree> expressions;
+    const auto &interpolations = fragment->source->interpolations;
+    for (size_t index = 0; index < interpolations.size(); ++index) {
+      const auto &interpolation = interpolations[index];
+      DiagnosticEngine scratch(diagnostics_.sourceText(),
+                               diagnostics_.sourceName());
+      auto built = TokenTreeBuilder::build(interpolation.tokens, scratch);
+      if (built.hadDelimiterErrors || built.trees.empty()) {
+        diagnostics_.report(interpolation.span, DiagnosticLevel::Error,
+                            macro_diagnostic::Arguments,
+                            "Invalid source interpolation expression.");
+        return std::nullopt;
+      }
+      zap::Parser parser(interpolation.tokens, scratch, nullptr, {},
+                         MacroParseMode::ValidateFragmentSyntax);
+      if (!parser.parseFragment(FragmentKind::Expression)) {
+        diagnostics_.report(interpolation.span, DiagnosticLevel::Error,
+                            macro_diagnostic::Arguments,
+                            "Invalid source interpolation expression.");
+        return std::nullopt;
+      }
+      if (index) {
+        Token comma(TokenType::COMMA, ",", interpolation.span, ",",
+                    origin_->mark, origin_);
+        expressions.push_back(TokenTree::leaf(std::move(comma)));
+      }
+      expressions.insert(expressions.end(), built.trees.begin(),
+                         built.trees.end());
+    }
+    auto owner =
+        std::make_shared<const std::vector<TokenTree>>(std::move(expressions));
+    return MetaFragment{owner.get(), MacroParameterKind::Tokens,
+                        std::move(owner), nullptr};
   }
   auto nameValue = string(*argument);
   if (!nameValue)
@@ -425,10 +472,22 @@ std::optional<MetaValue> MacroMetaEvaluator::call(const std::string &name,
           TokenTree::leaf(Token(TokenType::ID, *nameValue, invocation_,
                                 *nameValue, *context, origin_))});
   return MetaFragment{tokens.get(), MacroParameterKind::Identifier,
-                      std::move(tokens)};
+                      std::move(tokens), nullptr};
 }
 
 std::string MacroMetaEvaluator::sourceText(const MetaFragment &fragment) const {
+  if (fragment.source) {
+    std::string result;
+    size_t position = 0;
+    for (const auto &interpolation : fragment.source->interpolations) {
+      const size_t begin = interpolation.bodyBegin - 2;
+      result.append(fragment.source->text, position, begin - position);
+      result += '?';
+      position = interpolation.bodyEnd + 1;
+    }
+    result.append(fragment.source->text, position, std::string::npos);
+    return result;
+  }
   if (!fragment.tokens || fragment.tokens->empty())
     return {};
   const auto flattened = flattenTokenTrees(*fragment.tokens);
@@ -477,6 +536,8 @@ MacroMetaEvaluator::fragmentKind(const MetaFragment &fragment) const {
     return "item";
   case MacroParameterKind::Tokens:
     return "tokens";
+  case MacroParameterKind::Source:
+    return "source";
   }
   return "tokens";
 }

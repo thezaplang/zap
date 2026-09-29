@@ -81,6 +81,19 @@ void testNestedSourceGroupInInterpolation() {
           "nested source group offsets were not rebased to the outer file");
 }
 
+void testNestedInterpolationBelongsToInnerGroup() {
+  const std::string source = "sql!{WHERE id = ${wrap!{id = ${value}}}}";
+  zap::DiagnosticEngine diagnostics(source, "nested.zp");
+  const auto tokens = lex(source, diagnostics);
+  require(!diagnostics.hadErrors() && tokens[2].sourceFragment &&
+              tokens[2].sourceFragment->interpolations.size() == 1,
+          "nested interpolation was duplicated in the outer source group");
+  const auto &outer = tokens[2].sourceFragment->interpolations.front();
+  require(outer.tokens.size() == 4 && outer.tokens[2].sourceFragment &&
+              outer.tokens[2].sourceFragment->interpolations.size() == 1,
+          "nested source group lost its own interpolation");
+}
+
 void testInvalidGroups() {
   for (const char *source :
        {"sql!{SELECT (value] FROM table}", "sql!{SELECT '${unterminated}'",
@@ -127,6 +140,7 @@ int main() {
   testLosslessSourceAndOffsets();
   testQuotedInterpolationIsText();
   testNestedSourceGroupInInterpolation();
+  testNestedInterpolationBelongsToInnerGroup();
   testInvalidGroups();
   testOrdinaryBlocksStillLexNormally();
   testDecrementIsNotSqlComment();

@@ -187,8 +187,9 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
       const Frame frame = frames.back();
       frames.pop_back();
       if (frame.interpolation) {
-        interpolations.push_back(
-            {frame.opening, frame.bodyBegin, cursor, cursor});
+        if (interpolationDepth == 1)
+          interpolations.push_back(
+              {frame.opening, frame.bodyBegin, cursor, cursor});
         --interpolationDepth;
       }
       ++cursor;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "macros/macro_resolver.hpp"
+#include "macros/macro_value.hpp"
 #include "token/token_tree.hpp"
 #include "utils/diagnostics.hpp"
 
@@ -45,6 +46,10 @@ private:
   expandCall(const std::string &lookupModuleId,
              const std::string &outputModuleId, const MacroCall &call,
              size_t depth);
+  std::optional<std::vector<TokenTree>>
+  expandSelected(const MacroBinding &binding, MacroCaptures captures,
+                 const std::string &outputModuleId, const MacroCall &call,
+                 size_t depth);
   std::optional<std::vector<TokenTree>> expandGenerated(
       const std::vector<TokenTree> &trees,
       const std::string &definitionModuleId, const std::string &outputModuleId,

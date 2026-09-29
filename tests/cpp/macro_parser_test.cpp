@@ -138,10 +138,19 @@ macro kinds($a: literal..., $b: type...) {}
 }
 
 void testInvalidParameters() {
+  auto sourceCapture =
+      parse("macro sql($query: source) { sourceText($query) }");
+  require(!sourceCapture.diagnostics->hadErrors() &&
+              sourceCapture.macros.size() == 1 &&
+              sourceCapture.macros[0].parameters[0].kind ==
+                  zap::MacroParameterKind::Source,
+          "source capture declaration was not accepted");
   const std::vector<std::string> invalid = {
       "macro duplicate($x: expr, $x: type) {}",
       "macro unknown($x: bogus) {}",
-      "macro source($x: source) {}",
+      "macro source($x: source, $y: expr) {}",
+      "macro source_pack($x: source...) {}",
+      "macro source_pattern { ($x: source) { $x } }",
       "macro pack($x: expr..., $y: type) {}",
       "macro missing($x expr) {}",
   };

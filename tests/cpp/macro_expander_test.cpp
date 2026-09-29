@@ -799,6 +799,69 @@ macro grouped_break($values: tokens...) { for $value in $values { { $break; } } 
   }
 }
 
+void testSourceCaptureAndInterpolation() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro sql($query: source) {
+  prepare(sourceText($query), sourceArguments($query))
+}
+macro raw($query: source) { sourceText($query) }
+macro raw($query: tokens) { "tokenized" }
+macro wrong($value: tokens) { sourceArguments($value) }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "source macro fixture is invalid");
+
+  const std::string call =
+      "sql!{SELECT * FROM users WHERE id = ${user.id + 1} AND age > ${age}}";
+  zap::DiagnosticEngine diagnostics(call, "call.zp");
+  zap::MacroExpander expander(fixture.registry, diagnostics);
+  auto output =
+      expander.expand("module.zp", makeCall(call, {"sql"}, diagnostics));
+  require(output && !diagnostics.hadErrors() &&
+              spellings(*output) ==
+                  "prepare(\"SELECT * FROM users WHERE id = ? AND age > "
+                  "?\",user.id+1,age)",
+          "source text and interpolated expressions were not emitted");
+  const auto flattened = flattenTokenTrees(*output);
+  bool foundUser = false;
+  for (const auto &token : flattened) {
+    if (token.value == "user") {
+      foundUser =
+          token.span.offset == call.find("user.id") && !token.expansionOrigin;
+    }
+  }
+  require(foundUser, "interpolation lost its call-site span or hygiene");
+
+  const std::string plain = "raw!{SELECT `odd` FROM tab WHERE x = '@#?'}";
+  zap::DiagnosticEngine plainDiagnostics(plain, "call.zp");
+  zap::MacroExpander plainExpander(fixture.registry, plainDiagnostics);
+  auto plainOutput = plainExpander.expand(
+      "module.zp", makeCall(plain, {"raw"}, plainDiagnostics));
+  require(plainOutput && !plainDiagnostics.hadErrors() &&
+              spellings(*plainOutput) ==
+                  "\"SELECT `odd` FROM tab WHERE x = '@#?'\"",
+          "foreign syntax was lexed instead of captured as source");
+
+  const std::string invalid = "sql!{SELECT ${value +}}";
+  zap::DiagnosticEngine invalidDiagnostics(invalid, "call.zp");
+  zap::MacroExpander invalidExpander(fixture.registry, invalidDiagnostics);
+  auto invalidOutput = invalidExpander.expand(
+      "module.zp", makeCall(invalid, {"sql"}, invalidDiagnostics));
+  require(!invalidOutput && invalidDiagnostics.hadErrors() &&
+              invalidDiagnostics.diagnostics().front().span.offset ==
+                  invalid.find("${"),
+          "invalid interpolation was not reported at its source span");
+
+  const std::string wrong = "wrong!(x)";
+  zap::DiagnosticEngine wrongDiagnostics(wrong, "call.zp");
+  zap::MacroExpander wrongExpander(fixture.registry, wrongDiagnostics);
+  auto wrongOutput = wrongExpander.expand(
+      "module.zp", makeCall(wrong, {"wrong"}, wrongDiagnostics));
+  require(!wrongOutput && wrongDiagnostics.hadErrors(),
+          "sourceArguments accepted a non-source capture");
+}
+
 } // namespace
 
 int main() {
@@ -815,5 +878,6 @@ int main() {
   testInvalidTemplateForLoops();
   testCompileTimeTemplateControl();
   testInvalidCompileTimeTemplateControl();
+  testSourceCaptureAndInterpolation();
   return 0;
 }
