@@ -106,6 +106,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/macro_meta.cpp',
                             'src/macros/macro_parser.cpp',
                             'src/macros/macro_template.cpp',
+                            'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
                             'src/parser/parser_macros.cpp',
@@ -201,6 +202,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('syntax-protocol', executable('zap-syntax-protocol-tests',
+                                       'tests/cpp/syntax_protocol_test.cpp',
+                                       dependencies : zap_syntax_dep))
     test('macro-expander', executable('zap-macro-expander-tests',
                                       'tests/cpp/macro_expander_test.cpp',
                                       dependencies : zap_frontend_dep))
