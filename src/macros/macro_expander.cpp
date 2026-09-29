@@ -2,6 +2,7 @@
 #include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_template.hpp"
 
+#include "lexer/source_group.hpp"
 #include "parser/parser.hpp"
 
 #include <functional>
@@ -320,7 +321,10 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
            "Macro arguments must be a balanced group.");
     return std::nullopt;
   }
-  const auto arguments = splitArguments(call.arguments);
+  auto materialized = materializeSourceGroup(call.arguments, diagnostics_);
+  if (!materialized)
+    return std::nullopt;
+  const auto arguments = splitArguments(*materialized);
 
   const MacroBinding *selected = nullptr;
   std::optional<MacroCaptures> selectedCaptures;
@@ -358,7 +362,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
       }
     }
     auto matched =
-        matchPattern(*candidate.definition, call.arguments.children(),
+        matchPattern(*candidate.definition, materialized->children(),
                      diagnostics_, attempts, limits_.maxMatchAttempts);
     if (matched.limitReached) {
       report(call.span, macro_diagnostic::Limit,

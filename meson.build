@@ -101,6 +101,7 @@ zap_sema_dep = declare_dependency(link_with : zap_sema, include_directories : in
 
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
+                            'src/lexer/source_group.cpp',
                             'src/macros/macro_expander.cpp',
                             'src/macros/macro_meta.cpp',
                             'src/macros/macro_parser.cpp',
@@ -220,6 +221,9 @@ if get_option('build_testing')
                                   dependencies : zap_syntax_dep))
     test('token-syntax', executable('zap-token-syntax-tests',
                                     'tests/cpp/token_syntax_test.cpp',
+                                    dependencies : zap_syntax_dep))
+    test('source-group', executable('zap-source-group-tests',
+                                    'tests/cpp/source_group_test.cpp',
                                     dependencies : zap_syntax_dep))
     test('token-cursor', executable('zap-token-cursor-tests',
                                     'tests/cpp/token_cursor_test.cpp',

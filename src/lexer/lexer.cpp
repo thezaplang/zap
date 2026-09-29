@@ -1,4 +1,5 @@
 #include "lexer.hpp"
+#include "lexer/source_group.hpp"
 #include <cctype>
 #include <cstdlib>
 #include <stdexcept>
@@ -87,6 +88,22 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
       ++_column;
       continue;
     } else if (_cur == '{') {
+      if (tokens.size() >= 2 && tokens.back().type == TokenType::NOT &&
+          tokens[tokens.size() - 2].type == TokenType::ID) {
+        auto group = zap::captureSourceGroup(_input, startPos, startLine,
+                                             startColumn, _diag);
+        if (!group)
+          return finish();
+        tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn,
+                            startPos, 1);
+        tokens.back().sourceFragment = std::move(group->fragment);
+        tokens.emplace_back(TokenType::RBRACE, "}", group->closingLine,
+                            group->closingColumn, group->nextOffset - 1, 1);
+        _pos = group->nextOffset;
+        _line = group->nextLine;
+        _column = group->nextColumn;
+        continue;
+      }
       tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn,
                           startPos, 1);
       ++_pos;
@@ -515,7 +532,8 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
         isFloat = true;
         numStr += _input[_pos++];
         ++_column;
-        while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+        while (!isAtEnd() &&
+               (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
           if (_input[_pos] != '_') {
             numStr += _input[_pos];
           }

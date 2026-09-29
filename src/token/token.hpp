@@ -110,6 +110,7 @@ enum TokenType {
 };
 
 struct ExpansionOrigin;
+struct SourceFragment;
 
 /// @brief Contains in-file related information like line, column, offset, and
 /// length.
@@ -176,6 +177,7 @@ public:
       spelling; ///< Exact source spelling, including escapes and separators.
   SyntaxContextId syntaxContext = ROOT_SYNTAX_CONTEXT;
   std::shared_ptr<const ExpansionOrigin> expansionOrigin;
+  std::shared_ptr<const SourceFragment> sourceFragment;
 
   /// @brief Default constructor of the 'Token' class.
   Token(TokenType type, std::string value, SourceSpan span,
