@@ -106,6 +106,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/macro_meta.cpp',
                             'src/macros/macro_parser.cpp',
                             'src/macros/macro_template.cpp',
+                            'src/macros/ctfe_interpreter.cpp',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_declarations.cpp',
@@ -202,6 +203,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('ctfe-interpreter', executable('zap-ctfe-interpreter-tests',
+                                        'tests/cpp/ctfe_interpreter_test.cpp',
+                                        dependencies : zap_syntax_dep))
     test('syntax-protocol', executable('zap-syntax-protocol-tests',
                                        'tests/cpp/syntax_protocol_test.cpp',
                                        dependencies : zap_syntax_dep))
