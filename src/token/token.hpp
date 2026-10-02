@@ -160,6 +160,13 @@ struct SourceSpan {
 using SyntaxContextId = uint32_t;
 constexpr SyntaxContextId ROOT_SYNTAX_CONTEXT = 0;
 
+struct SyntaxOccurrence {};
+
+struct SyntaxRange {
+  std::shared_ptr<const SyntaxOccurrence> first;
+  std::shared_ptr<const SyntaxOccurrence> last;
+};
+
 struct ExpansionOrigin {
   SourceSpan invocationSpan;
   SourceSpan definitionSpan;
@@ -175,6 +182,9 @@ public:
   std::string value; ///< Normalized token value consumed by the parser.
   std::string
       spelling; ///< Exact source spelling, including escapes and separators.
+  // Identity of this occurrence in its owning parser buffer, not its spelling
+  // or source span (both can be shared by macro substitutions).
+  std::shared_ptr<const SyntaxOccurrence> occurrence;
   SyntaxContextId syntaxContext = ROOT_SYNTAX_CONTEXT;
   std::shared_ptr<const ExpansionOrigin> expansionOrigin;
   std::shared_ptr<const SourceFragment> sourceFragment;

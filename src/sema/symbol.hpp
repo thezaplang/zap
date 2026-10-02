@@ -181,4 +181,7 @@ public:
   SymbolKind getKind() const noexcept override { return SymbolKind::Module; }
 };
 
+bool sameFunctionSignature(const FunctionSymbol &lhs,
+                           const FunctionSymbol &rhs);
+
 } // namespace sema

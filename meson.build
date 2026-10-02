@@ -83,10 +83,15 @@ zap_type_layout_dep = declare_dependency(link_with : zap_type_layout, include_di
 
 zap_sema = static_library('zap_sema',
                           'src/sema/binder.cpp',
+                          'src/sema/symbol.cpp',
+                          'src/sema/binder_names.cpp',
+                          'src/sema/binder_members.cpp',
+                          'src/sema/binder_loops.cpp',
                           'src/sema/binder_calls.cpp',
                           'src/sema/binder_conversions.cpp',
                           'src/sema/binder_declaration_binding.cpp',
                           'src/sema/binder_module_predeclare.cpp',
+                          'src/sema/binder_module_types.cpp',
                           'src/sema/binder_stmts.cpp',
                           'src/sema/binder_exprs.cpp',
                           'src/sema/binder_mutability.cpp',
@@ -111,6 +116,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
                             'src/parser/parser_items.cpp',
+                            'src/parser/parser_patterns.cpp',
                             'src/parser/parser_fragments.cpp',
                             'src/parser/parser_declarations.cpp',
                             'src/parser/parser_macros.cpp',
@@ -123,6 +129,7 @@ zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories 
 
 zap_frontend = static_library('zap_frontend',
                               'src/frontend/expanded_syntax.cpp',
+                              'src/frontend/expanded_names.cpp',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/macro_registry.cpp',
                               'src/frontend/module_loader.cpp',
@@ -269,6 +276,37 @@ if get_option('build_testing')
                  meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
                  zapc.full_path(),
                  meson.current_source_dir() / 'tests/macro_expansion_semantics_test.zp'
+             ], depends : zapc)
+        test('macro-hygiene-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_hygiene/main.zp'
+             ], depends : zapc)
+        test('macro-expanded-names-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_names_test.zp'
+             ], depends : zapc)
+        test('macro-expanded-borrow-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_borrow_test.zp'
+             ], depends : zapc)
+        test('macro-expanded-imports-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_imports/main.zp'
+             ], depends : zapc)
+        test('macro-expanded-stdlib-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/string_view_stdlib_test.zp',
+                 'with-prelude'
              ], depends : zapc)
         test('emit-expanded-cli', find_program('bash'),
              args : [

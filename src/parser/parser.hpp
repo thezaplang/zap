@@ -144,7 +144,8 @@ private:
                     Visibility visibility, FunctionContext context);
   Visibility parseMemberVisibility();
   std::unique_ptr<ExtDecl> parseExtDecl();
-  std::optional<std::string> parseResultBorrowSource();
+  std::optional<std::string>
+  parseResultBorrowSource(SyntaxName *name = nullptr);
   std::unique_ptr<ImportNode> parseImportDecl();
   std::unique_ptr<BodyNode> parseBody(bool allowEndResult = false);
   std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();

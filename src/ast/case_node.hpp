@@ -27,6 +27,7 @@ struct CaseRecordFieldPattern {
   std::unique_ptr<CasePattern> nested;
   std::string binding;
   SyntaxName bindingSyntaxName;
+  bool isShorthand = false;
 };
 
 struct CasePattern {

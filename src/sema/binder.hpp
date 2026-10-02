@@ -53,8 +53,6 @@ bool extractQualifiedPath(const ExpressionNode *expr,
                           std::vector<std::string> &parts);
 std::vector<std::shared_ptr<FunctionSymbol>>
 collectOverloads(const std::shared_ptr<Symbol> &symbol);
-bool sameFunctionSignature(const FunctionSymbol &lhs,
-                           const FunctionSymbol &rhs);
 bool stmtAlwaysReturns(const BoundStatement *stmt);
 bool blockAlwaysReturns(const BoundBlock *block);
 std::unique_ptr<BoundExpression>
@@ -280,7 +278,7 @@ private:
       const std::optional<std::string> &source,
       const std::vector<std::shared_ptr<VariableSymbol>> &parameters,
       const std::shared_ptr<zir::Type> &returnType, bool returnsRef,
-      SourceSpan span);
+      SourceSpan span, const SyntaxName *sourceName = nullptr);
   std::shared_ptr<FunctionSymbol>
   findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
                           const FunctionSymbol &prototype) const;
@@ -367,6 +365,8 @@ private:
   void ensureModuleValuesReady(ModuleState &module);
   std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
   std::shared_ptr<Symbol> lookupSyntaxName(const SyntaxName &name) const;
+  void recordModuleMemberName(ExpressionNode &expression,
+                              const std::shared_ptr<Symbol> &symbol);
 
   struct DeferScope {
     bool isLoopBoundary = false;

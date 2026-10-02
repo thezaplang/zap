@@ -919,6 +919,18 @@ void Binder::visit(FunCall &node) {
   }
 
   auto &best = matches[bestIndex];
+  if (semanticInfo_) {
+    for (const auto &argument : node.params_) {
+      if (argument->name.empty())
+        continue;
+      for (const auto &parameter : best.symbol->parameters) {
+        if (parameter->name == argument->name) {
+          semanticInfo_->recordName(argument->syntaxName, parameter);
+          break;
+        }
+      }
+    }
+  }
   expressionStack_.push(std::make_unique<BoundFunctionCall>(
       best.symbol, std::move(best.arguments), std::move(best.argumentIsRef),
       std::move(best.variadicPack)));

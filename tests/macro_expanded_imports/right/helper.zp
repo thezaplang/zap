@@ -1,0 +1,4 @@
+pub fun helper(value: Int) Int { return value + 100; }
+pub const answer: Int = 42;
+pub ext fun abs(input: Int) Int;
+pub ext var optind: Int32;

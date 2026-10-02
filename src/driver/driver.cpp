@@ -187,11 +187,12 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
   }
   if (drv.emits_expanded()) {
     DiagnosticTextFormatter::print(err(), project.diagnostics);
-    std::string rendered;
-    for (const auto &[moduleId, module] : project.modules) {
-      rendered += frontend::ExpandedSyntaxEmitter::render(
-          project.entryModuleId, moduleId, module->expandedTokens);
-    }
+    // Semantic failures must not hide expansions needed to diagnose them.
+    // Successful binding supplies the identities needed for source hygiene.
+    if (!session.bind(project))
+      project.boundRoot.reset();
+    const auto rendered =
+        frontend::ExpandedSyntaxEmitter::renderProject(project);
     if (drv.is_implicit_output()) {
       std::cout << rendered;
       return !std::cout.good();

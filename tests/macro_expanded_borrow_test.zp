@@ -1,0 +1,18 @@
+import "core" { StringView, view, len, slice };
+
+macro define_view() {
+    fun borrowed(value: StringView) StringView borrows(value) {
+        return value;
+    }
+}
+
+define_view!()
+
+fun main() Int {
+    var text: String = "zap";
+    var result: StringView = borrowed(value = view(s = text));
+    if len(result) != 3 { return 1; }
+    var shortened: StringView = slice(s = result, start = 0, len = 2);
+    if len(shortened) != 2 { return 2; }
+    return 0;
+}

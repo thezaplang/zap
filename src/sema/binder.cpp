@@ -220,27 +220,6 @@ collectOverloads(const std::shared_ptr<Symbol> &symbol) {
   return {};
 }
 
-bool sameFunctionSignature(const FunctionSymbol &lhs,
-                           const FunctionSymbol &rhs) {
-  if (lhs.parameters.size() != rhs.parameters.size() ||
-      lhs.isCVariadic != rhs.isCVariadic) {
-    return false;
-  }
-  for (size_t i = 0; i < lhs.parameters.size(); ++i) {
-    const auto &left = lhs.parameters[i];
-    const auto &right = rhs.parameters[i];
-    if (left->is_ref != right->is_ref ||
-        left->is_variadic_pack != right->is_variadic_pack) {
-      return false;
-    }
-    if (!left->type || !right->type ||
-        !zir::sameType(left->type, right->type)) {
-      return false;
-    }
-  }
-  return true;
-}
-
 bool blockAlwaysReturns(const BoundBlock *block) {
   if (!block)
     return false;
@@ -606,7 +585,7 @@ zir::ResultBorrowContract Binder::resolveResultBorrowContract(
     const std::optional<std::string> &source,
     const std::vector<std::shared_ptr<VariableSymbol>> &parameters,
     const std::shared_ptr<zir::Type> &returnType, bool returnsRef,
-    SourceSpan span) {
+    SourceSpan span, const SyntaxName *sourceName) {
   if (!source) {
     return {};
   }
@@ -657,6 +636,8 @@ zir::ResultBorrowContract Binder::resolveResultBorrowContract(
           "method self.");
     return {};
   }
+  if (semanticInfo_ && sourceName)
+    semanticInfo_->recordName(*sourceName, parameter);
   return zir::ResultBorrowContract::fromParameter(*sourceIndex);
 }
 
@@ -1016,97 +997,6 @@ std::string Binder::currentModuleLinkPath() const {
   }
   return it->second.info->linkPath.empty() ? it->second.info->moduleId
                                            : it->second.info->linkPath;
-}
-
-std::shared_ptr<Symbol>
-Binder::lookupVisibleSymbol(const std::string &name) const {
-  return currentScope_ ? currentScope_->lookup(name) : nullptr;
-}
-
-std::shared_ptr<Symbol> Binder::lookupSyntaxName(const SyntaxName &name) const {
-  if (!currentScope_)
-    return nullptr;
-  if (auto symbol = currentScope_->lookup(name))
-    return symbol;
-  if (name.context == ROOT_SYNTAX_CONTEXT ||
-      name.context != name.expansionMark || name.definitionModuleId.empty())
-    return nullptr;
-  auto module = modules_.find(name.definitionModuleId);
-  return module == modules_.end() ? nullptr
-                                  : module->second.scope->lookup(name.text);
-}
-
-std::shared_ptr<Symbol>
-Binder::resolveModuleMember(const std::string &moduleName,
-                            const std::string &memberName, SourceSpan span) {
-  auto moduleSym = std::dynamic_pointer_cast<ModuleSymbol>(
-      currentScope_->lookup(moduleName));
-  if (!moduleSym) {
-    error(span, "Undefined module: " + moduleName);
-    return nullptr;
-  }
-
-  auto exportedIt = moduleSym->exports.find(memberName);
-  if (exportedIt != moduleSym->exports.end()) {
-    return exportedIt->second;
-  }
-
-  auto memberIt = moduleSym->members.find(memberName);
-  if (memberIt == moduleSym->members.end()) {
-    error(span,
-          "Module '" + moduleName + "' has no member '" + memberName + "'.");
-    return nullptr;
-  }
-  error(span, "Member '" + memberName + "' of module '" + moduleName +
-                  "' is private.");
-  return nullptr;
-}
-
-std::shared_ptr<Symbol>
-Binder::resolveQualifiedSymbol(const std::vector<std::string> &parts,
-                               SourceSpan span, SymbolKind expectedKind,
-                               bool allowAnyKind, const SyntaxName *firstName) {
-  if (parts.empty()) {
-    return nullptr;
-  }
-
-  auto symbol = firstName && firstName->text == parts.front()
-                    ? lookupSyntaxName(*firstName)
-                    : lookupVisibleSymbol(parts.front());
-  if (!symbol) {
-    error(span, "Undefined identifier: " + parts.front());
-    return nullptr;
-  }
-
-  for (size_t i = 1; i < parts.size(); ++i) {
-    auto moduleSym = std::dynamic_pointer_cast<ModuleSymbol>(symbol);
-    if (!moduleSym) {
-      error(span, "'" + parts[i - 1] + "' is not a module.");
-      return nullptr;
-    }
-
-    auto memberIt = moduleSym->exports.find(parts[i]);
-    if (memberIt == moduleSym->exports.end()) {
-      auto privateIt = moduleSym->members.find(parts[i]);
-      if (privateIt != moduleSym->members.end()) {
-        error(span, "Member '" + parts[i] + "' of module '" + moduleSym->name +
-                        "' is private.");
-      } else {
-        error(span, "Module '" + moduleSym->name + "' has no member '" +
-                        parts[i] + "'.");
-      }
-      return nullptr;
-    }
-
-    symbol = memberIt->second;
-  }
-
-  if (!allowAnyKind && symbol->getKind() != expectedKind &&
-      !(expectedKind == SymbolKind::Function &&
-        symbol->getKind() == SymbolKind::OverloadSet)) {
-    return nullptr;
-  }
-  return symbol;
 }
 
 std::string Binder::makeSyntheticLoopName(std::string_view prefix) {

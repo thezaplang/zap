@@ -7,6 +7,7 @@
 
 struct SyntaxName {
   std::string text;
+  std::shared_ptr<const SyntaxOccurrence> occurrence;
   SyntaxContextId context = ROOT_SYNTAX_CONTEXT;
   SyntaxContextId expansionMark = ROOT_SYNTAX_CONTEXT;
   std::string definitionModuleId;
@@ -14,7 +15,8 @@ struct SyntaxName {
   SyntaxName() = default;
   explicit SyntaxName(std::string spelling) : text(std::move(spelling)) {}
   explicit SyntaxName(const Token &token)
-      : text(token.value), context(token.syntaxContext),
+      : text(token.value), occurrence(token.occurrence),
+        context(token.syntaxContext),
         expansionMark(token.expansionOrigin ? token.expansionOrigin->mark
                                             : ROOT_SYNTAX_CONTEXT),
         definitionModuleId(token.expansionOrigin

@@ -413,7 +413,8 @@ std::shared_ptr<TypeSymbol> Binder::instantiateGenericTypeSymbol(
           instantiatedClassType->getCodegenName();
       methodSymbol->resultBorrow = resolveResultBorrowContract(
           methodDecl->resultBorrowSource_, methodSymbol->parameters,
-          methodSymbol->returnType, methodSymbol->returnsRef, methodDecl->span);
+          methodSymbol->returnType, methodSymbol->returnsRef, methodDecl->span,
+          &methodDecl->resultBorrowName_);
       validateAndApplyFunctionAttributes(*methodDecl, methodSymbol, false);
       if (methodSymbol->isMethod && !methodSymbol->isStatic &&
           !methodSymbol->isConstructor && !methodSymbol->isDestructor) {

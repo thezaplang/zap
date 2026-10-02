@@ -1,0 +1,12 @@
+pub struct Value { value: Int }
+pub alias Number = Int;
+pub const answer: Number = 7;
+pub global var count: Int = 3;
+pub ext fun abs(value: Int) Int;
+pub ext var optind: Int32;
+
+fun helper(value: Int) Int { return value + answer; }
+fun helper(value: Bool) Int { if value { return 10; } return 0; }
+
+pub macro read($input: expr) { helper($input) }
+pub macro private_number() { Number }

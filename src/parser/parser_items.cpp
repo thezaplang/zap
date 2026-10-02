@@ -22,13 +22,31 @@ std::unique_ptr<RootNode> Parser::parse() {
                          : Visibility::Private;
       }
 
-      auto applyMetadata =
-          [&visibility](Node *node, std::vector<AttributeNode> attrs = {}) {
-            if (auto topLevel = dynamic_cast<TopLevel *>(node)) {
-              topLevel->visibility_ = visibility;
-              topLevel->attributes_ = std::move(attrs);
+      const size_t itemStart = _cursor.position();
+      auto applyMetadata = [this, &visibility, itemStart, declarationStart](
+                               Node *node,
+                               std::vector<AttributeNode> attrs = {}) {
+        if (auto topLevel = dynamic_cast<TopLevel *>(node)) {
+          topLevel->visibility_ = visibility;
+          topLevel->attributes_ = std::move(attrs);
+          auto &first = _tokens[declarationStart];
+          auto &last = _tokens[_cursor.position() - 1];
+          if (!first.occurrence)
+            first.occurrence = std::make_shared<const SyntaxOccurrence>();
+          if (!last.occurrence)
+            last.occurrence = std::make_shared<const SyntaxOccurrence>();
+          topLevel->syntaxRange_ = {first.occurrence, last.occurrence};
+          if (_tokens[itemStart].type != TokenType::IMPORT &&
+              _tokens[itemStart].type != TokenType::EXTEND) {
+            for (size_t i = itemStart; i < _cursor.position(); ++i) {
+              if (_tokens[i].type == TokenType::ID) {
+                topLevel->declarationName_ = SyntaxName(_tokens[i]);
+                break;
+              }
             }
-          };
+          }
+        }
+      };
 
       if (isMacroInvocationStart()) {
         if (!attributes.empty() || hasVisibility) {
