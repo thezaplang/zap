@@ -1,4 +1,4 @@
-syntax macro answer($query: source) expr {
+macro answer($query: source) expr {
     var count: Int = 0;
     while count < 3 { count = count + 1; }
     if query.text == "answer" && count == 3 {
@@ -7,19 +7,19 @@ syntax macro answer($query: source) expr {
     panic("expected answer");
 }
 
-syntax macro generated($input: source) item {
+macro generated($input: source) item {
     return syntaxItem("fun generated_answer() Int { return 42; }");
 }
 
-syntax macro integer($input: source) type {
+macro integer($input: source) type {
     return syntaxTokens("Int");
 }
 
-syntax macro check($input: source) stmt {
+macro check($input: source) stmt {
     return syntaxTokens("if generated_answer() != 42 { return 2; }");
 }
 
-syntax macro forward($input: tokens) stmt {
+macro forward($input: tokens) stmt {
     return input;
 }
 

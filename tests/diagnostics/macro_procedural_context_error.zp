@@ -1,8 +1,8 @@
-syntax macro inner($input: tokens) stmt {
+macro inner($input: tokens) stmt {
     return syntaxTokens("42");
 }
 
-syntax macro outer($input: source) expr {
+macro outer($input: source) expr {
     return syntaxExpr("inner!(1)");
 }
 

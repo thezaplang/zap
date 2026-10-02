@@ -1,4 +1,4 @@
-syntax macro checked($input: source) expr {
+macro checked($input: source) expr {
     panic("unsupported DSL input");
 }
 

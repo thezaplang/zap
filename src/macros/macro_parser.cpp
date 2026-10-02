@@ -40,10 +40,6 @@ public:
         diagnostics_(diagnostics) {}
 
   MacroParseResult parse() {
-    if (cursor_.peek().type == TokenType::ID &&
-        cursor_.peek().value == "syntax" &&
-        cursor_.peek(1).type == TokenType::MACRO)
-      return parseProcedural();
     const auto keyword = take(TokenType::MACRO);
     const auto name = take(TokenType::ID);
     if (!keyword || !name)
@@ -113,6 +109,9 @@ public:
 
     if (!take(TokenType::RPAREN))
       return failure();
+    if (cursor_.peek().type == TokenType::ID)
+      return parseProcedural(*keyword, *name, std::move(parameters),
+                             std::move(pattern));
     if (cursor_.peek().type != TokenType::LBRACE) {
       report(cursor_.peek().span, "Expected '{' after macro parameters.");
       return failure();
@@ -143,24 +142,19 @@ public:
   }
 
 private:
-  MacroParseResult parseProcedural() {
-    const Token syntax = *take(TokenType::ID);
-    take(TokenType::MACRO);
-    const auto name = take(TokenType::ID);
-    if (!name || !take(TokenType::LPAREN) || !take(TokenType::DOLLAR))
+  MacroParseResult parseProcedural(const Token &keyword, const Token &name,
+                                   std::vector<MacroParameter> parameters,
+                                   std::vector<MacroPatternPart> pattern) {
+    if (invalid_)
       return failure();
-    const auto parameterName = take(TokenType::ID);
-    if (!parameterName || !take(TokenType::COLON))
-      return failure();
-    const auto kind = take(TokenType::ID);
-    if (!kind)
-      return failure();
-    if (kind->value != "source" && kind->value != "tokens") {
-      report(kind->span, "Syntax macro input must be 'source' or 'tokens'.");
+    if (parameters.size() != 1 || parameters.front().isVariadic ||
+        (parameters.front().kind != MacroParameterKind::Source &&
+         parameters.front().kind != MacroParameterKind::Tokens)) {
+      report(name.span,
+             "Procedural macro requires exactly one non-variadic 'source' or "
+             "'tokens' parameter.");
       return failure();
     }
-    if (!take(TokenType::RPAREN))
-      return failure();
     const auto output = take(TokenType::ID);
     if (!output)
       return failure();
@@ -180,11 +174,11 @@ private:
       resultType = "SyntaxTokens";
     } else {
       report(output->span,
-             "Expected expr, stmt, type or item after syntax macro signature.");
+             "Expected expr, stmt, type or item after macro signature.");
       return failure();
     }
     if (cursor_.peek().type != TokenType::LBRACE) {
-      report(cursor_.peek().span, "Expected syntax macro body.");
+      report(cursor_.peek().span, "Expected procedural macro body.");
       return failure();
     }
     auto body = TokenTreeBuilder::buildPrefix(tokens_, cursor_.position(),
@@ -197,29 +191,24 @@ private:
     const auto &source = diagnostics_.sourceText();
     if (bodySpan.offset > source.size() ||
         bodySpan.length > source.size() - bodySpan.offset) {
-      report(bodySpan, "Syntax macro body has no source text.");
+      report(bodySpan, "Procedural macro body has no source text.");
       return failure();
     }
-    const auto parameterKind = kind->value == "source"
-                                   ? MacroParameterKind::Source
-                                   : MacroParameterKind::Tokens;
-    MacroParameter parameter{*parameterName, parameterKind,
-                             SourceSpan::merge(parameterName->span, kind->span),
-                             false};
+    const auto &parameter = parameters.front();
     std::string functionSource =
-        "fun __syntax_macro__(" + parameterName->value + ": " +
-        (parameterKind == MacroParameterKind::Source ? "SyntaxSource"
-                                                     : "SyntaxTokens") +
+        "fun __syntax_macro__(" + parameter.name.value + ": " +
+        (parameter.kind == MacroParameterKind::Source ? "SyntaxSource"
+                                                      : "SyntaxTokens") +
         ") " + resultType + " " +
         source.substr(bodySpan.offset, bodySpan.length);
     MacroDefinition definition{
-        *name,
+        name,
         visibility_,
-        {parameter},
-        {parameter},
+        std::move(parameters),
+        std::move(pattern),
         false,
         body.trees.front(),
-        SourceSpan::merge(syntax.span, bodySpan),
+        SourceSpan::merge(keyword.span, bodySpan),
         ProceduralMacro{outputKind, std::move(functionSource)}};
     return {{std::move(definition)}, cursor_.position()};
   }

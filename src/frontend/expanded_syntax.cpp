@@ -18,31 +18,23 @@ size_t macroDeclarationEnd(const std::vector<TokenTree> &trees, size_t index) {
   if (index < trees.size() && (leafIs(trees[index], TokenType::PUB) ||
                                leafIs(trees[index], TokenType::PRIV)))
     ++index;
-  const bool procedural = index < trees.size() &&
-                          leafIs(trees[index], TokenType::ID) &&
-                          trees[index].token().value == "syntax";
-  if (procedural)
-    ++index;
   if (index + 2 >= trees.size() || !leafIs(trees[index], TokenType::MACRO) ||
       !leafIs(trees[index + 1], TokenType::ID))
     return 0;
-  if (procedural) {
-    if (index + 4 < trees.size() && !trees[index + 2].isLeaf() &&
-        trees[index + 2].delimiter() == Delimiter::Parenthesis &&
-        leafIs(trees[index + 3], TokenType::ID) && !trees[index + 4].isLeaf() &&
-        trees[index + 4].delimiter() == Delimiter::Brace)
-      return index + 5;
+  const auto &signature = trees[index + 2];
+  if (signature.isLeaf())
     return 0;
-  }
-  if (!trees[index + 2].isLeaf() &&
-      trees[index + 2].delimiter() == Delimiter::Brace)
+  if (signature.delimiter() == Delimiter::Brace)
     return index + 3;
-  if (index + 3 >= trees.size() || trees[index + 2].isLeaf() ||
-      trees[index + 2].delimiter() != Delimiter::Parenthesis ||
-      trees[index + 3].isLeaf() ||
-      trees[index + 3].delimiter() != Delimiter::Brace)
+  if (signature.delimiter() != Delimiter::Parenthesis)
     return 0;
-  return index + 4;
+  size_t bodyIndex = index + 3;
+  if (bodyIndex < trees.size() && leafIs(trees[bodyIndex], TokenType::ID))
+    ++bodyIndex;
+  if (bodyIndex >= trees.size() || trees[bodyIndex].isLeaf() ||
+      trees[bodyIndex].delimiter() != Delimiter::Brace)
+    return 0;
+  return bodyIndex + 1;
 }
 
 std::string relativePath(const std::filesystem::path &entryDirectory,

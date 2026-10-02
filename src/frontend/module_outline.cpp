@@ -19,25 +19,15 @@ TokenType leadingType(const TokenTree &tree) {
   return tree.isLeaf() ? tree.token().type : tree.opening().type;
 }
 
-bool startsSyntaxMacro(const std::vector<TokenTree> &trees, size_t index) {
-  return index + 1 < trees.size() && trees[index].isLeaf() &&
-         trees[index].token().type == TokenType::ID &&
-         trees[index].token().value == "syntax" &&
-         leadingType(trees[index + 1]) == TokenType::MACRO;
-}
-
 bool startsOutlineDeclaration(const std::vector<TokenTree> &trees,
                               size_t index) {
   const TokenType type = leadingType(trees[index]);
   if (type == TokenType::IMPORT || type == TokenType::MACRO)
     return true;
-  if (startsSyntaxMacro(trees, index))
-    return true;
   if ((type == TokenType::PUB || type == TokenType::PRIV) &&
       index + 1 < trees.size()) {
     const TokenType next = leadingType(trees[index + 1]);
-    return next == TokenType::IMPORT || next == TokenType::MACRO ||
-           startsSyntaxMacro(trees, index + 1);
+    return next == TokenType::IMPORT || next == TokenType::MACRO;
   }
   return false;
 }
@@ -132,7 +122,7 @@ ModuleOutline ModuleOutline::scan(const std::vector<Token> &tokens,
       break;
 
     const TokenType type = leadingType(trees[index]);
-    if (type == TokenType::MACRO || startsSyntaxMacro(trees, index)) {
+    if (type == TokenType::MACRO) {
       auto parsed = MacroParser::parse(tokens, ranges[index].begin,
                                        tokens.size(), visibility, diagnostics);
       for (auto &definition : parsed.definitions)

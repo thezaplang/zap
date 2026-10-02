@@ -176,9 +176,7 @@ std::unique_ptr<RootNode> Parser::parse() {
         auto generated = parseMacroItems();
         for (auto &item : generated->children)
           root->addChild(std::move(item));
-      } else if (peek().type == TokenType::MACRO ||
-                 (peek().type == TokenType::ID && peek().value == "syntax" &&
-                  peek(1).type == TokenType::MACRO)) {
+      } else if (peek().type == TokenType::MACRO) {
         const bool hasAttributes = !attributes.empty();
         if (hasAttributes) {
           _diag.report(

@@ -1,4 +1,4 @@
-syntax macro answer($query: source) expr {
+macro answer($query: source) expr {
     if query.text == "ultimate_answer" {
         return syntaxExpr("40 + 2");
     }

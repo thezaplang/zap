@@ -66,10 +66,12 @@ const zap::Diagnostic *findError(const zap::frontend::FrontendProject &project,
 
 void testSignatures() {
   for (const auto &source :
-       {"syntax macro bad() expr {}", "syntax macro bad($x: expr) expr {}",
-        "syntax macro bad($x: source...) expr {}",
-        "syntax macro bad($x: source, $y: source) expr {}",
-        "syntax macro bad($x: source) bogus {}"}) {
+       {"macro bad() expr {}", "macro bad($x: expr) expr {}",
+        "macro bad($x: source...) expr {}",
+        "macro bad($x: source, $y: source) expr {}",
+        "macro bad($x: source) bogus {}", "macro bad($x: tokens...) expr {}",
+        "macro bad($x: tokens, $y: tokens) expr {}",
+        "macro bad($x: tokens) expr;"}) {
     zap::DiagnosticEngine diagnostics(source, "signature.zp");
     Lexer lexer(diagnostics);
     zap::Parser parser(lexer.tokenize(source), diagnostics);
@@ -79,29 +81,84 @@ void testSignatures() {
   }
 }
 
+void testUnifiedDeclarations() {
+  const std::string source = R"(
+macro template_expr($x: expr) { $x }
+macro template_source($x: source) { sourceText($x) }
+macro patterned { ($x: literal) { $x } }
+pub macro expression($x: source) expr { return syntaxExpr("42"); }
+priv macro statement($x: tokens,) stmt { return x; }
+macro integer($x: source) type { return syntaxTokens("Int"); }
+macro function($x: source) item { return syntaxItem("fun value() Int { return 42; }"); }
+)";
+  zap::DiagnosticEngine diagnostics(source, "declarations.zp");
+  Lexer lexer(diagnostics);
+  const auto tokens = lexer.tokenize(source);
+  auto outline = zap::frontend::ModuleOutline::scan(tokens, diagnostics);
+  zap::Parser parser(tokens, diagnostics);
+  parser.parse();
+  const auto &definitions = parser.macroDefinitions();
+  require(!diagnostics.hadErrors() && definitions.size() == 7 &&
+              outline.macros.size() == definitions.size(),
+          "parser and outline disagree on unified macro declarations");
+  for (size_t index = 0; index < 3; ++index)
+    require(!definitions[index].procedural,
+            "ordinary template was mistaken for a procedural macro");
+  const zap::ProceduralMacroOutput outputs[] = {
+      zap::ProceduralMacroOutput::Expression,
+      zap::ProceduralMacroOutput::Statement, zap::ProceduralMacroOutput::Type,
+      zap::ProceduralMacroOutput::Item};
+  for (size_t index = 0; index < 4; ++index) {
+    const auto &definition = definitions[index + 3];
+    require(definition.procedural &&
+                definition.procedural->output == outputs[index] &&
+                outline.macros[index + 3].procedural &&
+                outline.macros[index + 3].procedural->output == outputs[index],
+            "procedural output suffix was not preserved");
+    require(definition.span.offset ==
+                source.find("macro " + definition.name.value),
+            "procedural definition span did not start at macro keyword");
+  }
+  require(definitions[3].visibility == Visibility::Public &&
+              definitions[4].visibility == Visibility::Private,
+          "procedural macro visibility was lost");
+
+  const std::string obsolete =
+      "syntax macro removed($x: source) expr { return syntaxExpr(\"42\"); }";
+  zap::DiagnosticEngine obsoleteDiagnostics(obsolete, "obsolete.zp");
+  Lexer obsoleteLexer(obsoleteDiagnostics);
+  zap::Parser obsoleteParser(obsoleteLexer.tokenize(obsolete),
+                             obsoleteDiagnostics);
+  obsoleteParser.parse();
+  require(obsoleteDiagnostics.hadErrors(),
+          "obsolete syntax keyword declaration was accepted");
+}
+
 void testImportsHygieneAndEmitter() {
   Fixture fixture;
   fixture.sources[fixture.entry] = R"(
 import "helper.zp" as helper { value, check };
 fun hidden() Int { return 1; }
+fun syntax() Int { return 5; }
 fun main() Int {
     var temporary: Int = 5;
     var result: Int = value!{SELECT ${temporary}};
     check!{};
     check!{};
     if temporary != 5 { return 2; }
+    if syntax() != 5 { return 4; }
     return result;
 }
 )";
   fixture.sources[fixture.helper] = R"zp(
 fun hidden() Int { return 42; }
-pub syntax macro value($query: source) expr {
+pub macro value($query: source) expr {
     if query.interpolationCount == 1 {
         return syntaxExpr("hidden()");
     }
     panic("missing interpolation");
 }
-pub syntax macro check($input: source) stmt {
+pub macro check($input: source) stmt {
     return syntaxTokens("var temporary: Int = 9; if temporary != 9 { return 3; }");
 }
 )zp";
@@ -144,7 +201,7 @@ void testFailures() {
   for (const auto &test : cases) {
     Fixture fixture;
     fixture.sources[fixture.entry] =
-        std::string("syntax macro bad($input: source) ") + test.kind + " { " +
+        std::string("macro bad($input: source) ") + test.kind + " { " +
         test.body + " }\nfun main() Int { " + test.use + " }\n";
     auto project = fixture.load();
     const auto *error = findError(project, test.code);
@@ -159,7 +216,7 @@ void testFailures() {
 
   Fixture fixture;
   fixture.sources[fixture.entry] =
-      "syntax macro bad($input: source) item { "
+      "macro bad($input: source) item { "
       "return syntaxItem(\"import \\\"helper.zp\\\";\"); }\nbad!{}\n";
   auto project = fixture.load();
   require(!project.loaded && findError(project, "M1005"),
@@ -169,7 +226,7 @@ void testFailures() {
       "import \"helper.zp\" as helper;\n"
       "fun main() Int { return helper.stop!{}; }\n";
   fixture.sources[fixture.helper] =
-      "pub syntax macro stop($input: source) expr { panic(\"stopped\"); }\n";
+      "pub macro stop($input: source) expr { panic(\"stopped\"); }\n";
   auto importedPanic = fixture.load();
   bool definitionNote = false;
   for (const auto &diagnostic : importedPanic.diagnostics)
@@ -182,7 +239,7 @@ void testFailures() {
 
 void testCachedOutputFreshHygiene() {
   const std::string source =
-      "syntax macro generate($input: source) stmt { "
+      "macro generate($input: source) stmt { "
       "return syntaxTokens(\"var temporary: Int = 1;\"); }";
   zap::DiagnosticEngine diagnostics(source, "definition.zp");
   Lexer lexer(diagnostics);
@@ -215,8 +272,8 @@ void testCachedOutputFreshHygiene() {
 void testNestedContextAndDepth() {
   Fixture fixture;
   fixture.sources[fixture.entry] =
-      "syntax macro inner($x: tokens) stmt { return syntaxTokens(\"42\"); }\n"
-      "syntax macro outer($x: source) expr { return syntaxExpr(\"inner!(1)\"); "
+      "macro inner($x: tokens) stmt { return syntaxTokens(\"42\"); }\n"
+      "macro outer($x: source) expr { return syntaxExpr(\"inner!(1)\"); "
       "}\n"
       "fun main() Int { return outer!{}; }\n";
   auto project = fixture.load();
@@ -229,7 +286,7 @@ void testNestedContextAndDepth() {
   require(!emitter.expand(fixture.entry.string(), lexer.tokenize(source)),
           "token emitter bypassed nested procedural fragment validation");
 
-  fixture.sources[fixture.entry] = "syntax macro loop($x: tokens) expr { "
+  fixture.sources[fixture.entry] = "macro loop($x: tokens) expr { "
                                    "return syntaxExpr(\"loop!(1)\"); }\n"
                                    "fun main() Int { return loop!(1); }\n";
   auto recursive = fixture.load();
@@ -239,8 +296,8 @@ void testNestedContextAndDepth() {
   fixture.sources[fixture.entry] = "import \"helper.zp\" as helper { outer };\n"
                                    "fun main() Int { return outer!{}; }\n";
   fixture.sources[fixture.helper] =
-      "syntax macro inner($x: tokens) expr { return syntaxExpr(\"42\"); }\n"
-      "pub syntax macro outer($x: source) expr { return "
+      "macro inner($x: tokens) expr { return syntaxExpr(\"42\"); }\n"
+      "pub macro outer($x: source) expr { return "
       "syntaxExpr(\"inner!(1)\"); }\n";
   require(fixture.load(true).loaded,
           "deferred procedural call lost its definition-site macro lookup");
@@ -249,7 +306,7 @@ void testNestedContextAndDepth() {
                                    "fun main() Int { outer!(); return 0; }\n";
   fixture.sources[fixture.helper] =
       "fun hidden() Int { return 42; }\n"
-      "syntax macro forward($x: tokens) stmt { return x; }\n"
+      "macro forward($x: tokens) stmt { return x; }\n"
       "pub macro outer() { forward!(var result: Int = hidden();); "
       "if result != 42 { return 4; } }\n";
   require(fixture.load(true).loaded,
@@ -259,7 +316,7 @@ void testNestedContextAndDepth() {
 void testExpressionStatementAndTail() {
   Fixture fixture;
   fixture.sources[fixture.entry] = R"(
-syntax macro answer($input: source) expr { return syntaxExpr("42"); }
+macro answer($input: source) expr { return syntaxExpr("42"); }
 fun tail() Int { answer!{} }
 fun main() Int { answer!{}; return tail(); }
 )";
@@ -316,6 +373,7 @@ void testCapturedTokenProtocolRoundTrip() {
 
 int main() {
   testSignatures();
+  testUnifiedDeclarations();
   testImportsHygieneAndEmitter();
   testFailures();
   testCachedOutputFreshHygiene();
