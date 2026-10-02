@@ -44,6 +44,7 @@ struct TokenTreeResult {
 
 class TokenTreeBuilder {
 public:
+  static constexpr size_t MaxNesting = 256;
   static TokenTreeResult build(const std::vector<Token> &tokens,
                                zap::DiagnosticEngine &diagnostics);
   static TokenTreeResult buildPrefix(const std::vector<Token> &tokens,

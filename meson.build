@@ -115,6 +115,9 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/syntax_bridge.cpp',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
+                            'src/parser/parser_expressions.cpp',
+                            'src/parser/parser_statements.cpp',
+                            'src/parser/parser_types.cpp',
                             'src/parser/parser_items.cpp',
                             'src/parser/parser_patterns.cpp',
                             'src/parser/parser_fragments.cpp',
@@ -317,6 +320,10 @@ if get_option('build_testing')
                  meson.current_source_dir() / 'tests/diagnostics/macro_hygiene_free_name_error.zp',
                  meson.current_build_dir() / 'emit-expanded-cli.zp'
              ],
+             depends : zapc)
+        test('syntax-nesting-cli', find_program('python3'),
+             args : [meson.current_source_dir() / 'tests/scripts/check_syntax_nesting.py',
+                     zapc.full_path()],
              depends : zapc)
         test('zir-verifier', executable('zap-zir-verifier-tests', 'tests/cpp/zir_verifier_test.cpp', dependencies : zap_zir_verifier_dep))
         test('ownership-lowering', executable('zap-ownership-lowering-tests', 'tests/cpp/ownership_lowering_test.cpp', dependencies : zap_zir_verifier_dep))

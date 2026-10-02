@@ -174,6 +174,7 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
   fragmentParser._macroDepth = _macroDepth + 1;
+  fragmentParser._syntaxDepth = _syntaxDepth;
   auto fragment = fragmentParser.parseFragment(kind);
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (!fragment) {
@@ -227,18 +228,15 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
   fragmentParser._macroDepth = _macroDepth + 1;
-  auto body = fragmentParser.parseBody(true);
-  if (!fragmentParser.isAtEnd()) {
-    fragmentDiagnostics.report(fragmentParser.peek().span,
-                               DiagnosticLevel::Error,
-                               "Unexpected token after macro statements.");
-  }
+  fragmentParser._syntaxDepth = _syntaxDepth;
+  auto fragment = fragmentParser.parseFragment(FragmentKind::StatementList);
   forwardDiagnostics(fragmentDiagnostics, _diag);
-  if (fragmentDiagnostics.hadErrors()) {
+  if (!fragment || fragmentDiagnostics.hadErrors()) {
     _diag.report(call.span, DiagnosticLevel::Error, macro_diagnostic::Fragment,
                  "Macro expansion is not a valid statement fragment.");
     throw ParseError();
   }
+  auto body = std::move(std::get<std::unique_ptr<BodyNode>>(*fragment));
   auto tokens = fragmentParser.expandedTokens();
   if (hasSemicolon && body->result) {
     tokens.push_back(following);
@@ -276,6 +274,7 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   fragmentParser._macroDepth = _macroDepth + 1;
+  fragmentParser._syntaxDepth = _syntaxDepth;
   auto fragment = fragmentParser.parseFragment(FragmentKind::ItemList);
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (!fragment || fragmentDiagnostics.hadErrors()) {

@@ -140,6 +140,70 @@ void testGenericPrefixes() {
   }
 }
 
+void testNestingLimit() {
+  const size_t limit = zap::Parser::MaxSyntaxDepth;
+  require(parse(std::string(limit, '!') + "true", zap::FragmentKind::Expression)
+              .fragment.has_value(),
+          "parser rejected the syntax depth boundary");
+  require(parse(std::string(limit, '(') + "1" + std::string(limit, ')'),
+                zap::FragmentKind::Expression)
+                  .fragment.has_value() &&
+              parse(std::string(limit, '*') + "Int", zap::FragmentKind::Type)
+                  .fragment.has_value(),
+          "parser rejected the parenthesis or type boundary");
+  for (size_t depth : {limit + 1, size_t(4000)}) {
+    for (const auto &[source, kind] :
+         std::vector<std::pair<std::string, zap::FragmentKind>>{
+             {std::string(depth, '(') + "1" + std::string(depth, ')'),
+              zap::FragmentKind::Expression},
+             {std::string(depth, '!') + "true", zap::FragmentKind::Expression},
+             {std::string(depth, '*') + "Int", zap::FragmentKind::Type}}) {
+      zap::DiagnosticEngine diagnostics(source);
+      Lexer lexer(diagnostics);
+      zap::Parser parser(lexer.tokenize(source), diagnostics);
+      require(!parser.parseFragment(kind) && diagnostics.hadErrors() &&
+                  diagnostics.diagnostics().front().code == "P1006",
+              "recursive syntax overflow was not safely rejected");
+    }
+  }
+  std::string ternary = "1";
+  std::string blocks = "return 1;";
+  std::string elseIf = "if true {}";
+  std::string elseIfType = "iftype T == Int {}";
+  std::string members = "Value";
+  std::string binary = "1";
+  std::string casts = "1";
+  for (size_t i = 0; i < 4000; ++i) {
+    ternary = "true ? 1 : " + ternary;
+    blocks = "if true { " + blocks + " }";
+    elseIf += " else if true {}";
+    elseIfType += " else iftype T == Int {}";
+    members += ".field";
+    binary += " + 1";
+    casts += " as Int";
+  }
+  for (const auto &[source, kind] :
+       std::vector<std::pair<std::string, zap::FragmentKind>>{
+           {ternary, zap::FragmentKind::Expression},
+           {blocks, zap::FragmentKind::StatementList},
+           {elseIf, zap::FragmentKind::StatementList},
+           {elseIfType, zap::FragmentKind::StatementList},
+           {members + "{}", zap::FragmentKind::Expression},
+           {binary, zap::FragmentKind::Expression},
+           {casts, zap::FragmentKind::Expression}}) {
+    zap::DiagnosticEngine diagnostics(source);
+    Lexer lexer(diagnostics);
+    zap::Parser parser(lexer.tokenize(source), diagnostics);
+    require(!parser.parseFragment(kind) && diagnostics.hadErrors() &&
+                diagnostics.diagnostics().front().code == "P1006",
+            "recursive or iterative syntax bypassed the nesting limit");
+  }
+  const std::string outside = std::string(4000, '!') + "true 42";
+  require(parse(outside, zap::FragmentKind::Expression, 4001, 4002)
+              .fragment.has_value(),
+          "nesting outside the selected token range affected the fragment");
+}
+
 } // namespace
 
 int main() {
@@ -148,5 +212,6 @@ int main() {
   testEntireRangeIsRequired();
   testTokenSubrange();
   testMalformedFragment();
+  testNestingLimit();
   return 0;
 }

@@ -45,13 +45,18 @@ public:
 
   TokenTreeResult parse(bool firstOnly = false) {
     TokenTreeResult result;
-    result.trees = parseSequence(false, firstOnly);
+    try {
+      result.trees = parseSequence(false, firstOnly);
+    } catch (const NestingLimit &) {
+      position_ = end_;
+    }
     result.hadDelimiterErrors = hadDelimiterErrors_;
     result.nextPosition = position_;
     return result;
   }
 
 private:
+  struct NestingLimit {};
   std::vector<TokenTree> parseSequence(bool stopAtClosingDelimiter,
                                        bool firstOnly = false) {
     std::vector<TokenTree> trees;
@@ -59,6 +64,14 @@ private:
     while (position_ < end_) {
       const Token &current = tokens_[position_];
       if (const auto delimiter = delimiterForOpening(current.type)) {
+        if (openDelimiters_.size() >= TokenTreeBuilder::MaxNesting) {
+          diagnostics_.report(
+              current.span, zap::DiagnosticLevel::Error, "P1006",
+              "Token tree nesting limit exceeded (" +
+                  std::to_string(TokenTreeBuilder::MaxNesting) + ").");
+          hadDelimiterErrors_ = true;
+          throw NestingLimit();
+        }
         Token opening = current;
         ++position_;
         openDelimiters_.push_back(*delimiter);

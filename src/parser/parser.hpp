@@ -80,6 +80,8 @@ struct ParsedFragmentPrefix {
 
 class Parser {
 public:
+  // Recursive descents beyond the outermost grammar rule.
+  static constexpr size_t MaxSyntaxDepth = 256;
   class ParseError : public std::runtime_error {
   public:
     ParseError() : std::runtime_error("Parse error") {}
@@ -112,6 +114,18 @@ private:
   MacroParseMode _macroMode = MacroParseMode::Expand;
   bool _allowStructLiteral = true;
   size_t _macroDepth = 0;
+  size_t _syntaxDepth = 0;
+  void checkSyntaxDepth(size_t depth);
+  class DepthGuard {
+  public:
+    explicit DepthGuard(Parser &parser);
+    ~DepthGuard();
+    DepthGuard(const DepthGuard &) = delete;
+    DepthGuard &operator=(const DepthGuard &) = delete;
+
+  private:
+    Parser &parser_;
+  };
   struct TokenReplacement {
     size_t begin;
     size_t end;
@@ -197,8 +211,6 @@ private:
   std::unique_ptr<InterfaceDecl> parseInterfaceDecl();
   std::unique_ptr<ExtensionDecl> parseExtensionDecl();
   std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
-  std::unique_ptr<StructLiteralNode>
-  parseStructLiteral(const std::string &type_name);
   std::unique_ptr<StructLiteralNode>
   parseStructLiteral(std::unique_ptr<TypeNode> type);
   std::unique_ptr<BreakNode> parseBreak();

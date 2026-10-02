@@ -66,6 +66,7 @@ CaseArm Parser::parseCaseArm() {
 }
 
 CasePattern Parser::parseCasePattern() {
+  DepthGuard depth(*this);
   CasePattern pattern;
   Token startToken = peek();
 

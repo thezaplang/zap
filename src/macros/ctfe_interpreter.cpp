@@ -261,8 +261,12 @@ private:
                          MacroParseMode::ValidateFragmentSyntax);
       const auto kind = name == "syntaxExpr" ? FragmentKind::Expression
                                              : FragmentKind::ItemList;
-      if (!parser.parseFragment(kind) || diagnostics.hadErrors())
+      if (!parser.parseFragment(kind) || diagnostics.hadErrors()) {
+        for (const auto &diagnostic : diagnostics.diagnostics())
+          if (diagnostic.code == "P1006")
+            throw Failure{"M3003", diagnostic.message};
         throw Failure{"M3001", "Invalid generated syntax fragment."};
+      }
     }
     SyntaxTokens result;
     result.tokens.reserve(tokens.size());

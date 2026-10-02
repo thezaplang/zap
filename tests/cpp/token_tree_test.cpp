@@ -17,12 +17,13 @@ void require(bool condition, const char *message) {
 }
 
 struct TreeResult {
+  std::string source;
   std::vector<Token> tokens;
   TokenTreeResult trees;
   zap::DiagnosticEngine diagnostics;
 
-  explicit TreeResult(const std::string &source)
-      : diagnostics(source, "token_tree_test.zp") {
+  explicit TreeResult(const std::string &input)
+      : source(input), diagnostics(source, "token_tree_test.zp") {
     Lexer lexer(diagnostics);
     tokens = lexer.tokenize(source);
     trees = TokenTreeBuilder::build(tokens, diagnostics);
@@ -35,7 +36,8 @@ void requireFlattened(const TreeResult &result, const char *message) {
   for (size_t index = 0; index < flattened.size(); ++index) {
     require(flattened[index].type == result.tokens[index].type &&
                 flattened[index].spelling == result.tokens[index].spelling &&
-                flattened[index].span.offset == result.tokens[index].span.offset,
+                flattened[index].span.offset ==
+                    result.tokens[index].span.offset,
             message);
   }
 }
@@ -83,7 +85,8 @@ void testEmptyGroupAndLiteralDelimiter() {
 
 void testDelimiterDiagnosticsAreLossless() {
   TreeResult mismatched("(]");
-  require(mismatched.trees.hadDelimiterErrors && mismatched.diagnostics.hadErrors(),
+  require(mismatched.trees.hadDelimiterErrors &&
+              mismatched.diagnostics.hadErrors(),
           "mismatched delimiter did not produce a diagnostic");
   require(mismatched.trees.trees.size() == 1 &&
               mismatched.trees.trees.front().closing().has_value() &&
@@ -96,7 +99,8 @@ void testDelimiterDiagnosticsAreLossless() {
   require(unterminated.trees.hadDelimiterErrors &&
               !unterminated.trees.trees.front().closing().has_value(),
           "unterminated delimiter did not produce an open group");
-  requireFlattened(unterminated, "flattening lost unterminated opening delimiter");
+  requireFlattened(unterminated,
+                   "flattening lost unterminated opening delimiter");
 
   TreeResult unexpected(")");
   require(unexpected.trees.hadDelimiterErrors &&
@@ -126,11 +130,38 @@ void testDelimiterDiagnosticsAreLossless() {
                    "flattening lost crossed closing delimiters");
 }
 
+void testNestingLimit() {
+  const size_t limit = TokenTreeBuilder::MaxNesting;
+  TreeResult boundary(std::string(limit, '(') + "1" + std::string(limit, ')'));
+  require(!boundary.trees.hadDelimiterErrors,
+          "token trees rejected the nesting boundary");
+  requireFlattened(boundary, "nesting boundary did not round-trip");
+  for (size_t depth : {limit + 1, size_t(4000)}) {
+    TreeResult result(std::string(depth, '(') + "1" + std::string(depth, ')'));
+    require(result.trees.hadDelimiterErrors && result.trees.trees.empty() &&
+                result.trees.nextPosition == result.tokens.size() &&
+                result.diagnostics.diagnostics().front().code == "P1006",
+            "token tree nesting overflow was not safely rejected");
+    zap::DiagnosticEngine diagnostics(result.diagnostics.sourceText());
+    auto prefix = TokenTreeBuilder::buildPrefix(
+        result.tokens, 0, result.tokens.size(), diagnostics);
+    require(prefix.hadDelimiterErrors && prefix.trees.empty(),
+            "prefix grouping bypassed the nesting limit");
+  }
+  TreeResult shallow("() " + std::string(limit + 1, '('));
+  zap::DiagnosticEngine diagnostics(shallow.diagnostics.sourceText());
+  auto prefix = TokenTreeBuilder::buildPrefix(
+      shallow.tokens, 0, shallow.tokens.size(), diagnostics);
+  require(!prefix.hadDelimiterErrors && prefix.nextPosition == 2,
+          "prefix grouping inspected unrelated trailing input");
+}
+
 } // namespace
 
 int main() {
   testNestedGroupsAndSpan();
   testEmptyGroupAndLiteralDelimiter();
   testDelimiterDiagnosticsAreLossless();
+  testNestingLimit();
   return 0;
 }

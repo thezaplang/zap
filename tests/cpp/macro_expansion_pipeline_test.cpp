@@ -67,8 +67,10 @@ void testDepthIsNotHygiene() {
     require(emitted.has_value() == project.loaded,
             "parser and emitter disagree on macro depth");
     if (depth > 128)
-      require(hasCode(project.diagnostics, "M1004") &&
-                  hasCode(diagnostics.diagnostics(), "M1004"),
+      require((hasCode(project.diagnostics, "M1004") &&
+               hasCode(diagnostics.diagnostics(), "M1004")) ||
+                  (hasCode(project.diagnostics, "P1006") &&
+                   hasCode(diagnostics.diagnostics(), "P1006")),
               "depth overflow did not have a consistent diagnostic");
   }
   const std::string source = R"(
@@ -146,10 +148,56 @@ void testItemListsAndSingleCaptures() {
   require(!project.loaded && hasCode(project.diagnostics, "M1002"),
           "single item capture silently became an item-list capture");
 }
+
+void testSyntaxNestingLimits() {
+  const std::string parens =
+      std::string(4000, '(') + "1" + std::string(4000, ')');
+  const std::string unary = std::string(513, '!') + "true";
+  const std::string generated =
+      std::string(257, '(') + "1" + std::string(257, ')');
+  for (const std::string &source :
+       {"macro identity($x: expr) { $x }\nfun main() Int { return identity!(" +
+            parens + "); }",
+        "macro generate($x: tokens) expr { return syntaxExpr(\"" + generated +
+            "\"); }\nfun main() Int { return generate!(1); }",
+        "macro generate($x: tokens) expr { return syntaxExpr(\"" + unary +
+            "\"); }\nfun main() Bool { return generate!(1); }"}) {
+    auto project = load(source);
+    require(!project.loaded && (hasCode(project.diagnostics, "P1006") ||
+                                hasCode(project.diagnostics, "M3003")),
+            "source or generated syntax nesting was not rejected");
+    zap::DiagnosticEngine diagnostics(source, project.entryModuleId);
+    Lexer lexer(diagnostics);
+    zap::frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
+    require(!emitter.expand(project.entryModuleId, lexer.tokenize(source)) &&
+                (hasCode(diagnostics.diagnostics(), "P1006") ||
+                 hasCode(diagnostics.diagnostics(), "M3003")),
+            "expanded-source path bypassed syntax nesting limits");
+  }
+  std::string chain;
+  for (size_t i = 0; i < 100; ++i) {
+    chain += "macro m" + std::to_string(i) + "() { ((((((m" +
+             std::to_string(i + 1) + "!())))))) }\n";
+  }
+  chain += "macro m100() { 1 }\nfun main() Int { return m0!(); }";
+  auto project = load(chain);
+  require(!project.loaded && hasCode(project.diagnostics, "P1006"),
+          "child expansion parsers reset the active syntax depth");
+  chain.clear();
+  for (size_t i = 0; i < 100; ++i) {
+    chain += "macro s" + std::to_string(i) + "() { if true { if true { s" +
+             std::to_string(i + 1) + "!(); } } }\n";
+  }
+  chain += "macro s100() { return 1; }\nfun main() Int { s0!(); return 0; }";
+  project = load(chain);
+  require(!project.loaded && hasCode(project.diagnostics, "P1006"),
+          "statement expansions lost the child's nesting diagnostic");
+}
 } // namespace
 
 int main() {
   testSharedParsedExpansion();
   testDepthIsNotHygiene();
   testItemListsAndSingleCaptures();
+  testSyntaxNestingLimits();
 }
