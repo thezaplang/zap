@@ -33,9 +33,12 @@ public:
   MacroExpander(const MacroResolver &registry, DiagnosticEngine &diagnostics,
                 MacroLimits limits = {});
 
+  // Expands one call. The parser supplies semantic depth and expands nested
+  // calls in their actual fragment contexts; hygiene origins are not counters.
   std::optional<std::vector<TokenTree>>
   expand(const std::string &moduleId, const MacroCall &call,
-         std::optional<ctfe::SyntaxContext> expected = std::nullopt);
+         std::optional<ctfe::SyntaxContext> expected = std::nullopt,
+         size_t depth = 1);
 
 private:
   const MacroResolver &registry_;
@@ -52,11 +55,7 @@ private:
   std::optional<std::vector<TokenTree>>
   expandSelected(const MacroBinding &binding, MacroCaptures captures,
                  const std::string &outputModuleId, const MacroCall &call,
-                 size_t depth, std::optional<ctfe::SyntaxContext> expected);
-  std::optional<std::vector<TokenTree>> expandGenerated(
-      const std::vector<TokenTree> &trees,
-      const std::string &definitionModuleId, const std::string &outputModuleId,
-      const std::shared_ptr<const ExpansionOrigin> &origin, size_t depth);
+                 std::optional<ctfe::SyntaxContext> expected);
   void report(const SourceSpan &span, const char *code,
               const std::string &message);
 };

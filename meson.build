@@ -110,6 +110,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/syntax_bridge.cpp',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
+                            'src/parser/parser_items.cpp',
                             'src/parser/parser_fragments.cpp',
                             'src/parser/parser_declarations.cpp',
                             'src/parser/parser_macros.cpp',
@@ -205,6 +206,9 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('macro-expansion-pipeline', executable('zap-macro-expansion-pipeline-tests',
+                                                'tests/cpp/macro_expansion_pipeline_test.cpp',
+                                                dependencies : zap_frontend_dep))
     test('procedural-macros', executable('zap-procedural-macro-tests',
                                          'tests/cpp/procedural_macro_test.cpp',
                                          dependencies : zap_frontend_dep))
@@ -260,6 +264,12 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('macro-expansion-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expansion_semantics_test.zp'
+             ], depends : zapc)
         test('emit-expanded-cli', find_program('bash'),
              args : [
                  meson.current_source_dir() / 'tests/scripts/check_emit_expanded.sh',

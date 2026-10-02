@@ -4,6 +4,7 @@
 #include "macros/macro_expander.hpp"
 #include "token/token_tree.hpp"
 
+#include <cassert>
 #include <utility>
 
 namespace zap {
@@ -30,6 +31,7 @@ ctfe::SyntaxContext syntaxContext(FragmentKind kind) {
   case FragmentKind::Type:
     return ctfe::SyntaxContext::Type;
   case FragmentKind::Item:
+  case FragmentKind::ItemList:
     return ctfe::SyntaxContext::Item;
   }
   return ctfe::SyntaxContext::Expression;
@@ -142,6 +144,7 @@ MacroCall Parser::readMacroInvocation() {
 }
 
 ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
+  const size_t begin = _cursor.position();
   auto call = readMacroInvocation();
   if (_macroMode == MacroParseMode::ValidateFragmentSyntax) {
     if (kind == FragmentKind::Type) {
@@ -160,7 +163,8 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
     throw ParseError();
   }
 
-  auto expanded = _macroExpander->expand(_moduleId, call, syntaxContext(kind));
+  auto expanded = _macroExpander->expand(_moduleId, call, syntaxContext(kind),
+                                         _macroDepth + 1);
   if (!expanded)
     throw ParseError();
 
@@ -169,6 +173,7 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
+  fragmentParser._macroDepth = _macroDepth + 1;
   auto fragment = fragmentParser.parseFragment(kind);
   forwardDiagnostics(fragmentDiagnostics, _diag);
   if (!fragment) {
@@ -177,12 +182,24 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
                      std::string(fragmentName(kind)) + " fragment.");
     throw ParseError();
   }
+  auto tokens = fragmentParser.expandedTokens();
+  if (kind == FragmentKind::Expression) {
+    const auto &name = _tokens[begin];
+    tokens.insert(tokens.begin(),
+                  Token(TokenType::LPAREN, "(", call.span, "(",
+                        name.syntaxContext, name.expansionOrigin));
+    tokens.emplace_back(TokenType::RPAREN, ")", call.span, ")",
+                        name.syntaxContext, name.expansionOrigin);
+  }
+  recordExpansion(begin, std::move(tokens));
   return std::move(*fragment);
 }
 
 std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
+  const size_t begin = _cursor.position();
   auto call = readMacroInvocation();
   const bool hasSemicolon = peek().type == TokenType::SEMICOLON;
+  const Token following = peek();
   if (hasSemicolon)
     eat(TokenType::SEMICOLON);
 
@@ -199,8 +216,8 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
-  auto expanded =
-      _macroExpander->expand(_moduleId, call, ctfe::SyntaxContext::Statement);
+  auto expanded = _macroExpander->expand(
+      _moduleId, call, ctfe::SyntaxContext::Statement, _macroDepth + 1);
   if (!expanded)
     throw ParseError();
 
@@ -209,6 +226,7 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
   fragmentParser._allowStructLiteral = _allowStructLiteral;
+  fragmentParser._macroDepth = _macroDepth + 1;
   auto body = fragmentParser.parseBody(true);
   if (!fragmentParser.isAtEnd()) {
     fragmentDiagnostics.report(fragmentParser.peek().span,
@@ -221,12 +239,17 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
                  "Macro expansion is not a valid statement fragment.");
     throw ParseError();
   }
-  if (hasSemicolon && body->result)
+  auto tokens = fragmentParser.expandedTokens();
+  if (hasSemicolon && body->result) {
+    tokens.push_back(following);
     body->addStatement(std::move(body->result));
+  }
+  recordExpansion(begin, std::move(tokens));
   return body;
 }
 
 std::unique_ptr<RootNode> Parser::parseMacroItems() {
+  const size_t begin = _cursor.position();
   auto call = readMacroInvocation();
   if (peek().type == TokenType::SEMICOLON)
     eat(TokenType::SEMICOLON);
@@ -243,8 +266,8 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
-  auto expanded =
-      _macroExpander->expand(_moduleId, call, ctfe::SyntaxContext::Item);
+  auto expanded = _macroExpander->expand(
+      _moduleId, call, ctfe::SyntaxContext::Item, _macroDepth + 1);
   if (!expanded)
     throw ParseError();
 
@@ -252,26 +275,36 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
   fragmentDiagnostics.inheritSourcesFrom(_diag);
   Parser fragmentParser(flattenTokenTrees(*expanded), fragmentDiagnostics,
                         _macroExpander, _moduleId);
-  auto root = fragmentParser.parse();
-  if (!fragmentParser.macroDefinitions().empty()) {
-    fragmentDiagnostics.report(call.span, DiagnosticLevel::Error,
-                               macro_diagnostic::Fragment,
-                               "Macro expansion cannot define macros.");
-  }
-  for (const auto &item : root->children) {
-    if (dynamic_cast<const ImportNode *>(item.get())) {
-      fragmentDiagnostics.report(item->span, DiagnosticLevel::Error,
-                                 macro_diagnostic::Fragment,
-                                 "Macro expansion cannot generate imports.");
-    }
-  }
+  fragmentParser._macroDepth = _macroDepth + 1;
+  auto fragment = fragmentParser.parseFragment(FragmentKind::ItemList);
   forwardDiagnostics(fragmentDiagnostics, _diag);
-  if (fragmentDiagnostics.hadErrors()) {
+  if (!fragment || fragmentDiagnostics.hadErrors()) {
     _diag.report(call.span, DiagnosticLevel::Error, macro_diagnostic::Fragment,
                  "Macro expansion is not a valid item fragment.");
     throw ParseError();
   }
-  return root;
+  recordExpansion(begin, fragmentParser.expandedTokens());
+  return std::move(std::get<std::unique_ptr<RootNode>>(*fragment));
+}
+
+void Parser::recordExpansion(size_t begin, std::vector<Token> tokens) {
+  _tokenReplacements.push_back({begin, _cursor.position(), std::move(tokens)});
+}
+
+std::vector<Token> Parser::expandedTokens() const {
+  std::vector<Token> output;
+  size_t position = _cursor.begin();
+  for (const auto &replacement : _tokenReplacements) {
+    assert(replacement.begin >= position && replacement.end <= _cursor.end());
+    output.insert(output.end(), _tokens.begin() + position,
+                  _tokens.begin() + replacement.begin);
+    output.insert(output.end(), replacement.tokens.begin(),
+                  replacement.tokens.end());
+    position = replacement.end;
+  }
+  output.insert(output.end(), _tokens.begin() + position,
+                _tokens.begin() + _cursor.end());
+  return output;
 }
 
 } // namespace zap

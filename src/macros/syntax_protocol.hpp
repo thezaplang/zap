@@ -67,6 +67,8 @@ struct SyntaxExpr {
 };
 
 struct SyntaxItem {
+  // Top-level macro output is a (possibly empty) declaration list. The typed
+  // capture `item` is distinct: it accepts exactly one declaration.
   SyntaxTokens syntax;
 };
 

@@ -55,7 +55,8 @@ enum class FragmentKind {
   Statement,
   StatementList,
   Block,
-  Item
+  Item,
+  ItemList
 };
 enum class MacroParseMode { Expand, ValidateFragmentSyntax };
 
@@ -69,7 +70,8 @@ struct ItemFragment {
 
 using ParsedFragment =
     std::variant<std::unique_ptr<ExpressionNode>, std::unique_ptr<TypeNode>,
-                 StatementFragment, std::unique_ptr<BodyNode>, ItemFragment>;
+                 StatementFragment, std::unique_ptr<BodyNode>, ItemFragment,
+                 std::unique_ptr<RootNode>>;
 
 struct ParsedFragmentPrefix {
   ParsedFragment fragment;
@@ -97,6 +99,7 @@ public:
   std::optional<ParsedFragmentPrefix> parseFragmentPrefix(FragmentKind kind);
   const std::vector<MacroDefinition> &macroDefinitions() const noexcept;
   std::vector<MacroDefinition> takeMacroDefinitions();
+  std::vector<Token> expandedTokens() const;
 
 private:
   DiagnosticEngine &_diag;
@@ -108,6 +111,15 @@ private:
   std::string _moduleId;
   MacroParseMode _macroMode = MacroParseMode::Expand;
   bool _allowStructLiteral = true;
+  size_t _macroDepth = 0;
+  struct TokenReplacement {
+    size_t begin;
+    size_t end;
+    std::vector<Token> tokens;
+  };
+  std::vector<TokenReplacement> _tokenReplacements;
+  void recordExpansion(size_t begin, std::vector<Token> tokens);
+  std::unique_ptr<RootNode> parseItemFragmentRoot();
 
   // Helper methods
   const Token &peek(size_t offset = 0) const;

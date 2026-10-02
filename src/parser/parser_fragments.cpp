@@ -26,7 +26,8 @@ Parser::parseFragmentPrefix(FragmentKind kind) {
 }
 
 std::optional<ParsedFragment> Parser::parseFragment(FragmentKind kind) {
-  if (isAtEnd() && kind != FragmentKind::StatementList) {
+  if (isAtEnd() && kind != FragmentKind::StatementList &&
+      kind != FragmentKind::ItemList) {
     _diag.report(peek().span, DiagnosticLevel::Error,
                  "Expected a non-empty syntax fragment.");
     return std::nullopt;
@@ -75,6 +76,9 @@ std::optional<ParsedFragment> Parser::parseFragment(FragmentKind kind) {
       fragment.emplace(ItemFragment{std::move(root->children.front())});
       break;
     }
+    case FragmentKind::ItemList:
+      fragment.emplace(parseItemFragmentRoot());
+      break;
     }
   } catch (const ParseError &) {
     return std::nullopt;

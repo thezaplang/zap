@@ -49,14 +49,7 @@ bool validateProceduralOutput(const std::vector<TokenTree> &trees,
                 MacroParseMode::ValidateFragmentSyntax);
   bool valid = false;
   if (expected == ctfe::SyntaxContext::Item) {
-    auto root = parser.parse();
-    valid =
-        root && !root->children.empty() && parser.macroDefinitions().empty();
-    if (root) {
-      for (const auto &node : root->children)
-        if (dynamic_cast<const ImportNode *>(node.get()))
-          valid = false;
-    }
+    valid = parser.parseFragment(FragmentKind::ItemList).has_value();
   } else if (expected == ctfe::SyntaxContext::Statement) {
     valid = parser.parseFragment(FragmentKind::StatementList).has_value();
   } else {
@@ -394,15 +387,8 @@ MacroExpander::MacroExpander(const MacroResolver &registry,
 
 std::optional<std::vector<TokenTree>>
 MacroExpander::expand(const std::string &moduleId, const MacroCall &call,
-                      std::optional<ctfe::SyntaxContext> expected) {
-  size_t depth = 1;
-  for (auto origin = call.parentOrigin; origin; origin = origin->parent) {
-    if (++depth > limits_.maxDepth) {
-      report(call.span, macro_diagnostic::Limit,
-             "Macro expansion depth limit exceeded.");
-      return std::nullopt;
-    }
-  }
+                      std::optional<ctfe::SyntaxContext> expected,
+                      size_t depth) {
   const auto &lookupModuleId =
       call.parentOrigin ? call.parentOrigin->definitionModuleId : moduleId;
   return expandCall(lookupModuleId, moduleId, call, depth, expected);
@@ -457,7 +443,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
       captures.emplace(definition.parameters.front().name.value,
                        std::move(capture));
       return expandSelected(candidate, std::move(captures), outputModuleId,
-                            call, depth, expected);
+                            call, expected);
     }
   }
   auto materialized = materializeSourceGroup(call.arguments, diagnostics_);
@@ -546,12 +532,12 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   }
 
   return expandSelected(*selected, std::move(*selectedCaptures), outputModuleId,
-                        call, depth, expected);
+                        call, expected);
 }
 
 std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
     const MacroBinding &binding, MacroCaptures captures,
-    const std::string &outputModuleId, const MacroCall &call, size_t depth,
+    const std::string &outputModuleId, const MacroCall &call,
     std::optional<ctfe::SyntaxContext> expected) {
   if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
     report(call.span, macro_diagnostic::Limit,
@@ -666,12 +652,10 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
       return std::nullopt;
     }
     generatedTokens += syntax->tokens.size();
-    auto output = expandGenerated(grouped.trees, binding.definingModuleId,
-                                  outputModuleId, origin, depth);
-    if (!output || !validateProceduralOutput(*output, request.expected,
-                                             diagnostics_, invocation))
+    if (!validateProceduralOutput(grouped.trees, request.expected, diagnostics_,
+                                  invocation))
       return std::nullopt;
-    return output;
+    return std::move(grouped.trees);
   }
   MacroTemplateExpander templateExpander(
       captures, call.span, origin, diagnostics_,
@@ -720,70 +704,6 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
     return std::nullopt;
   }
   generatedTokens += count;
-  return expandGenerated(*output, binding.definingModuleId, outputModuleId,
-                         origin, depth);
-}
-
-std::optional<std::vector<TokenTree>> MacroExpander::expandGenerated(
-    const std::vector<TokenTree> &trees, const std::string &definitionModuleId,
-    const std::string &outputModuleId,
-    const std::shared_ptr<const ExpansionOrigin> &origin, size_t depth) {
-  std::vector<TokenTree> output;
-  for (size_t index = 0; index < trees.size();) {
-    if (isLeaf(trees[index], TokenType::ID) &&
-        trees[index].token().expansionOrigin == origin) {
-      size_t groupIndex = index + 2;
-      std::vector<std::string> path{trees[index].token().value};
-      if (index + 3 < trees.size() &&
-          isLeaf(trees[index + 1], TokenType::DOT) &&
-          isLeaf(trees[index + 2], TokenType::ID)) {
-        path.push_back(trees[index + 2].token().value);
-        groupIndex = index + 4;
-      }
-      if (groupIndex < trees.size() &&
-          isLeaf(trees[groupIndex - 1], TokenType::NOT) &&
-          !trees[groupIndex].isLeaf()) {
-        const auto *overloads =
-            path.size() == 1
-                ? registry_.find(definitionModuleId, path[0])
-                : registry_.findQualified(definitionModuleId, path[0], path[1]);
-        if (overloads &&
-            std::any_of(overloads->begin(), overloads->end(),
-                        [](const MacroBinding &binding) {
-                          return binding.definition->procedural.has_value();
-                        })) {
-          // The parser supplies the actual fragment context of nested calls.
-          output.insert(output.end(), trees.begin() + index,
-                        trees.begin() + groupIndex + 1);
-          index = groupIndex + 1;
-          continue;
-        }
-        const MacroCall nested{
-            path, trees[groupIndex],
-            SourceSpan::merge(trees[index].span(), trees[groupIndex].span()),
-            origin};
-        auto expansion = expandCall(definitionModuleId, outputModuleId, nested,
-                                    depth + 1, std::nullopt);
-        if (!expansion)
-          return std::nullopt;
-        output.insert(output.end(), expansion->begin(), expansion->end());
-        index = groupIndex + 1;
-        continue;
-      }
-    }
-
-    const TokenTree &tree = trees[index++];
-    if (tree.isLeaf()) {
-      output.push_back(tree);
-      continue;
-    }
-    auto children = expandGenerated(tree.children(), definitionModuleId,
-                                    outputModuleId, origin, depth);
-    if (!children)
-      return std::nullopt;
-    output.push_back(TokenTree::group(tree.delimiter(), tree.opening(),
-                                      std::move(*children), tree.closing()));
-  }
   return output;
 }
 

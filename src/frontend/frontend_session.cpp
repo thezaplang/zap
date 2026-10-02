@@ -170,6 +170,7 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
     module->sourceText = std::move(staged->source);
     module->isEntry = isEntry;
     module->root = std::move(root);
+    module->expandedTokens = parser.expandedTokens();
     module->imports = std::move(imports.at(moduleId));
     injectImplicitPreludeImportIfNeeded(*module, config_.includePrelude);
     project.modules.emplace(moduleId, std::move(module));

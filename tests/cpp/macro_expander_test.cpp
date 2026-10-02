@@ -1,7 +1,9 @@
+#include "ast/const/const_int.hpp"
 #include "frontend/macro_registry.hpp"
 #include "frontend/module_outline.hpp"
 #include "lexer/lexer.hpp"
 #include "macros/macro_expander.hpp"
+#include "parser/parser.hpp"
 #include "token/source_fragment.hpp"
 #include "token/token_tree.hpp"
 
@@ -266,10 +268,11 @@ macro pass($x: tokens) { $x }
   zap::MacroExpander nestedExpander(fixture.registry, nestedDiagnostics);
   auto nestedOutput = nestedExpander.expand(
       "module.zp", makeCall(nested, {"outer"}, nestedDiagnostics));
-  require(nestedOutput && spellings(*nestedOutput) == "7" &&
+  require(nestedOutput && spellings(*nestedOutput) == "inner!()" &&
               nestedOutput->front().token().expansionOrigin &&
-              nestedOutput->front().token().expansionOrigin->parent,
-          "template-created invocation was not recursively expanded");
+              nestedOutput->front().token().syntaxContext !=
+                  ROOT_SYNTAX_CONTEXT,
+          "nested invocation was not left for contextual parser expansion");
 
   const std::string wrapped = "wrap!(2)";
   zap::DiagnosticEngine wrappedDiagnostics(wrapped, "call.zp");
@@ -311,11 +314,13 @@ macro missing() { $unknown }
   depthLimits.maxDepth = 3;
   zap::MacroExpander recursiveExpander(fixture.registry, recursiveDiagnostics,
                                        depthLimits);
-  require(
-      !recursiveExpander.expand(
-          "module.zp", makeCall(recursive, {"loop"}, recursiveDiagnostics)) &&
-          recursiveDiagnostics.hadErrors(),
-      "recursive expansion exceeded its depth limit without an error");
+  Lexer recursiveLexer(recursiveDiagnostics);
+  zap::Parser recursiveParser(recursiveLexer.tokenize(recursive),
+                              recursiveDiagnostics, &recursiveExpander,
+                              "module.zp");
+  require(!recursiveParser.parseFragment(zap::FragmentKind::Expression) &&
+              recursiveDiagnostics.hadErrors(),
+          "recursive expansion exceeded its depth limit without an error");
   require(recursiveDiagnostics.diagnostics().front().code == "M1004" &&
               recursiveDiagnostics.diagnostics().front().span.offset == 0 &&
               recursiveDiagnostics.diagnostics().size() > 1,
@@ -356,10 +361,14 @@ void testDefinitionScopeAndPerModuleBudgets() {
   const std::string source = "definition.outer!()";
   zap::DiagnosticEngine diagnostics(source, "call.zp");
   zap::MacroExpander expander(fixture.registry, diagnostics);
-  auto expanded = expander.expand(
-      "caller.zp", makeCall(source, {"definition", "outer"}, diagnostics));
+  Lexer lexer(diagnostics);
+  zap::Parser parser(lexer.tokenize(source), diagnostics, &expander,
+                     "caller.zp");
+  auto expanded = parser.parseFragment(zap::FragmentKind::Expression);
   require(
-      expanded && spellings(*expanded) == "7" &&
+      expanded &&
+          dynamic_cast<ConstInt *>(
+              std::get<std::unique_ptr<ExpressionNode>>(*expanded).get()) &&
           !fixture.registry.findQualified("caller.zp", "definition", "helper"),
       "template-created call did not resolve a private helper in its "
       "definition module");
@@ -893,9 +902,9 @@ macro forward($m: ident) { $m!{SELECT `odd` @ # ?} }
        "(combine<Int,Int>(1,2))"},
       {"pack!(combine<Int, Int>(1, 2), 3 < 4)", "pack",
        "(combine<Int,Int>(1,2))*2+(3<4)*2"},
-      {"outer!(1 + 2)", "outer", "(1+2)*2"},
-      {"deep!(1 + 2)", "deep", "(1+2)*2"},
-      {"foreign!()", "foreign", "\"SELECT `odd` @ # ?\""},
+      {"outer!(1 + 2)", "outer", "inner!{(1+2)}"},
+      {"deep!(1 + 2)", "deep", "outer!{(1+2)}"},
+      {"foreign!()", "foreign", "raw!{}"},
       {"pass!(raw!{SELECT `odd` @ # ?})", "pass", "(raw!{})"},
       {"text!(1 + 2)", "text", "\"1 + 2\""},
       {"forward!(raw)", "forward", "raw!{}"},

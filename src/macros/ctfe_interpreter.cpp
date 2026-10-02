@@ -259,8 +259,8 @@ private:
     if (name != "syntaxTokens") {
       zap::Parser parser(tokens, diagnostics, nullptr, {},
                          MacroParseMode::ValidateFragmentSyntax);
-      const auto kind =
-          name == "syntaxExpr" ? FragmentKind::Expression : FragmentKind::Item;
+      const auto kind = name == "syntaxExpr" ? FragmentKind::Expression
+                                             : FragmentKind::ItemList;
       if (!parser.parseFragment(kind) || diagnostics.hadErrors())
         throw Failure{"M3001", "Invalid generated syntax fragment."};
     }

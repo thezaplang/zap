@@ -22,11 +22,6 @@ public:
                             const std::vector<Token> &tokens);
 
 private:
-  std::optional<std::vector<TokenTree>>
-  expandTrees(const std::string &moduleId, const std::vector<TokenTree> &trees,
-              bool topLevel, size_t depth);
-
-  MacroExpander expander_;
   const MacroResolver &macros_;
   DiagnosticEngine &diagnostics_;
 };

@@ -163,6 +163,8 @@ pub macro check($input: source) stmt {
 }
 )zp";
   auto project = fixture.load(true);
+  if (!project.loaded)
+    zap::DiagnosticTextFormatter::print(std::cerr, project.diagnostics);
   require(project.loaded, "imported procedural macros were not resolved");
   for (const auto &[moduleId, module] : project.modules) {
     zap::DiagnosticEngine diagnostics(module->sourceText, moduleId);
@@ -219,7 +221,7 @@ void testFailures() {
       "macro bad($input: source) item { "
       "return syntaxItem(\"import \\\"helper.zp\\\";\"); }\nbad!{}\n";
   auto project = fixture.load();
-  require(!project.loaded && findError(project, "M1005"),
+  require(!project.loaded && findError(project, "M3001"),
           "procedural macro generated a forbidden import");
 
   fixture.sources[fixture.entry] =

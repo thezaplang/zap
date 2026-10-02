@@ -1,41 +1,12 @@
 #include "frontend/expanded_syntax.hpp"
 
-#include "macros/macro_diagnostic_codes.hpp"
 #include "parser/parser.hpp"
-#include "token/token_tree.hpp"
 
 #include <filesystem>
 #include <utility>
 
 namespace zap::frontend {
 namespace {
-
-bool leafIs(const TokenTree &tree, TokenType type) {
-  return tree.isLeaf() && tree.token().type == type;
-}
-
-size_t macroDeclarationEnd(const std::vector<TokenTree> &trees, size_t index) {
-  if (index < trees.size() && (leafIs(trees[index], TokenType::PUB) ||
-                               leafIs(trees[index], TokenType::PRIV)))
-    ++index;
-  if (index + 2 >= trees.size() || !leafIs(trees[index], TokenType::MACRO) ||
-      !leafIs(trees[index + 1], TokenType::ID))
-    return 0;
-  const auto &signature = trees[index + 2];
-  if (signature.isLeaf())
-    return 0;
-  if (signature.delimiter() == Delimiter::Brace)
-    return index + 3;
-  if (signature.delimiter() != Delimiter::Parenthesis)
-    return 0;
-  size_t bodyIndex = index + 3;
-  if (bodyIndex < trees.size() && leafIs(trees[bodyIndex], TokenType::ID))
-    ++bodyIndex;
-  if (bodyIndex >= trees.size() || trees[bodyIndex].isLeaf() ||
-      trees[bodyIndex].delimiter() != Delimiter::Brace)
-    return 0;
-  return bodyIndex + 1;
-}
 
 std::string relativePath(const std::filesystem::path &entryDirectory,
                          const std::string &sourceName) {
@@ -74,92 +45,17 @@ std::string originLabel(const std::filesystem::path &entryDirectory,
 
 ExpandedSyntaxEmitter::ExpandedSyntaxEmitter(const MacroResolver &macros,
                                              DiagnosticEngine &diagnostics)
-    : expander_(macros, diagnostics), macros_(macros),
-      diagnostics_(diagnostics) {}
+    : macros_(macros), diagnostics_(diagnostics) {}
 
 std::optional<std::vector<Token>>
 ExpandedSyntaxEmitter::expand(const std::string &moduleId,
                               const std::vector<Token> &tokens) {
-  // Token emission has no expression/statement context of its own.
-  DiagnosticEngine validation(diagnostics_.sourceText(),
-                              diagnostics_.sourceName());
-  validation.inheritSourcesFrom(diagnostics_);
-  MacroExpander validator(macros_, validation);
-  Parser parser(tokens, validation, &validator, moduleId);
+  MacroExpander expander(macros_, diagnostics_);
+  Parser parser(tokens, diagnostics_, &expander, moduleId);
   parser.parse();
-  for (const auto &diagnostic : validation.diagnostics())
-    diagnostics_.report(diagnostic.span, diagnostic.level, diagnostic.code,
-                        diagnostic.message);
-  if (validation.hadErrors())
+  if (diagnostics_.hadErrors())
     return std::nullopt;
-  auto grouped = TokenTreeBuilder::build(tokens, diagnostics_);
-  if (grouped.hadDelimiterErrors)
-    return std::nullopt;
-  auto expanded = expandTrees(moduleId, grouped.trees, true, 1);
-  if (!expanded)
-    return std::nullopt;
-  return flattenTokenTrees(*expanded);
-}
-
-std::optional<std::vector<TokenTree>>
-ExpandedSyntaxEmitter::expandTrees(const std::string &moduleId,
-                                   const std::vector<TokenTree> &trees,
-                                   bool topLevel, size_t depth) {
-  std::vector<TokenTree> output;
-  for (size_t index = 0; index < trees.size();) {
-    if (topLevel) {
-      const size_t end = macroDeclarationEnd(trees, index);
-      if (end != 0) {
-        index = end;
-        continue;
-      }
-    }
-
-    if (leafIs(trees[index], TokenType::ID)) {
-      std::vector<std::string> path{trees[index].token().value};
-      size_t cursor = index + 1;
-      while (cursor + 1 < trees.size() &&
-             leafIs(trees[cursor], TokenType::DOT) &&
-             leafIs(trees[cursor + 1], TokenType::ID)) {
-        path.push_back(trees[cursor + 1].token().value);
-        cursor += 2;
-      }
-      if (cursor + 1 < trees.size() && leafIs(trees[cursor], TokenType::NOT) &&
-          !trees[cursor + 1].isLeaf()) {
-        const SourceSpan span =
-            SourceSpan::merge(trees[index].span(), trees[cursor + 1].span());
-        if (depth > MacroLimits{}.maxDepth) {
-          diagnostics_.report(span, DiagnosticLevel::Error,
-                              macro_diagnostic::Limit,
-                              "Macro expansion depth limit exceeded.");
-          return std::nullopt;
-        }
-        MacroCall call{std::move(path), trees[cursor + 1], span,
-                       trees[index].token().expansionOrigin};
-        auto expanded = expander_.expand(moduleId, call);
-        if (!expanded)
-          return std::nullopt;
-        auto nested = expandTrees(moduleId, *expanded, false, depth + 1);
-        if (!nested)
-          return std::nullopt;
-        output.insert(output.end(), nested->begin(), nested->end());
-        index = cursor + 2;
-        continue;
-      }
-    }
-
-    const TokenTree &tree = trees[index++];
-    if (tree.isLeaf()) {
-      output.push_back(tree);
-      continue;
-    }
-    auto children = expandTrees(moduleId, tree.children(), false, depth);
-    if (!children)
-      return std::nullopt;
-    output.push_back(TokenTree::group(tree.delimiter(), tree.opening(),
-                                      std::move(*children), tree.closing()));
-  }
-  return output;
+  return parser.expandedTokens();
 }
 
 std::string ExpandedSyntaxEmitter::render(const std::string &entryModuleId,

@@ -189,19 +189,8 @@ bool compileLoadedModules(driver &drv, const std::filesystem::path &entryPath) {
     DiagnosticTextFormatter::print(err(), project.diagnostics);
     std::string rendered;
     for (const auto &[moduleId, module] : project.modules) {
-      DiagnosticEngine diagnostics(module->sourceText, moduleId);
-      for (const auto &[sourceId, sourceModule] : project.modules)
-        diagnostics.registerSource(sourceId, sourceModule->sourceText);
-      Lexer lexer(diagnostics);
-      auto tokens = lexer.tokenize(module->sourceText);
-      frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
-      auto expanded = emitter.expand(moduleId, tokens);
-      if (!expanded || diagnostics.hadErrors()) {
-        diagnostics.printText(err());
-        return true;
-      }
-      rendered += frontend::ExpandedSyntaxEmitter::render(project.entryModuleId,
-                                                          moduleId, *expanded);
+      rendered += frontend::ExpandedSyntaxEmitter::render(
+          project.entryModuleId, moduleId, module->expandedTokens);
     }
     if (drv.is_implicit_output()) {
       std::cout << rendered;

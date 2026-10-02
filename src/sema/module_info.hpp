@@ -32,6 +32,8 @@ struct ModuleInfo {
   std::string sourceText;
   bool isEntry = false;
   std::unique_ptr<RootNode> root;
+  // Parser-produced syntax for the same macro expansions used to build root.
+  std::vector<Token> expandedTokens;
   std::vector<ResolvedImport> imports;
 };
 
