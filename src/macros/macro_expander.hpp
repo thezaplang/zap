@@ -1,5 +1,6 @@
 #pragma once
 
+#include "macros/ctfe_interpreter.hpp"
 #include "macros/macro_resolver.hpp"
 #include "macros/macro_value.hpp"
 #include "token/token_tree.hpp"
@@ -32,8 +33,9 @@ public:
   MacroExpander(const MacroResolver &registry, DiagnosticEngine &diagnostics,
                 MacroLimits limits = {});
 
-  std::optional<std::vector<TokenTree>> expand(const std::string &moduleId,
-                                               const MacroCall &call);
+  std::optional<std::vector<TokenTree>>
+  expand(const std::string &moduleId, const MacroCall &call,
+         std::optional<ctfe::SyntaxContext> expected = std::nullopt);
 
 private:
   const MacroResolver &registry_;
@@ -41,15 +43,16 @@ private:
   MacroLimits limits_;
   std::map<std::string, size_t> generatedTokensByModule_;
   SyntaxContextId nextFreshContext_ = 1;
+  ctfe::CtfeInterpreter interpreter_;
 
   std::optional<std::vector<TokenTree>>
   expandCall(const std::string &lookupModuleId,
              const std::string &outputModuleId, const MacroCall &call,
-             size_t depth);
+             size_t depth, std::optional<ctfe::SyntaxContext> expected);
   std::optional<std::vector<TokenTree>>
   expandSelected(const MacroBinding &binding, MacroCaptures captures,
                  const std::string &outputModuleId, const MacroCall &call,
-                 size_t depth);
+                 size_t depth, std::optional<ctfe::SyntaxContext> expected);
   std::optional<std::vector<TokenTree>> expandGenerated(
       const std::vector<TokenTree> &trees,
       const std::string &definitionModuleId, const std::string &outputModuleId,

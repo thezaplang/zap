@@ -1,6 +1,7 @@
 #include "frontend/expanded_syntax.hpp"
 
 #include "macros/macro_diagnostic_codes.hpp"
+#include "parser/parser.hpp"
 #include "token/token_tree.hpp"
 
 #include <filesystem>
@@ -17,9 +18,22 @@ size_t macroDeclarationEnd(const std::vector<TokenTree> &trees, size_t index) {
   if (index < trees.size() && (leafIs(trees[index], TokenType::PUB) ||
                                leafIs(trees[index], TokenType::PRIV)))
     ++index;
+  const bool procedural = index < trees.size() &&
+                          leafIs(trees[index], TokenType::ID) &&
+                          trees[index].token().value == "syntax";
+  if (procedural)
+    ++index;
   if (index + 2 >= trees.size() || !leafIs(trees[index], TokenType::MACRO) ||
       !leafIs(trees[index + 1], TokenType::ID))
     return 0;
+  if (procedural) {
+    if (index + 4 < trees.size() && !trees[index + 2].isLeaf() &&
+        trees[index + 2].delimiter() == Delimiter::Parenthesis &&
+        leafIs(trees[index + 3], TokenType::ID) && !trees[index + 4].isLeaf() &&
+        trees[index + 4].delimiter() == Delimiter::Brace)
+      return index + 5;
+    return 0;
+  }
   if (!trees[index + 2].isLeaf() &&
       trees[index + 2].delimiter() == Delimiter::Brace)
     return index + 3;
@@ -68,11 +82,24 @@ std::string originLabel(const std::filesystem::path &entryDirectory,
 
 ExpandedSyntaxEmitter::ExpandedSyntaxEmitter(const MacroResolver &macros,
                                              DiagnosticEngine &diagnostics)
-    : expander_(macros, diagnostics), diagnostics_(diagnostics) {}
+    : expander_(macros, diagnostics), macros_(macros),
+      diagnostics_(diagnostics) {}
 
 std::optional<std::vector<Token>>
 ExpandedSyntaxEmitter::expand(const std::string &moduleId,
                               const std::vector<Token> &tokens) {
+  // Token emission has no expression/statement context of its own.
+  DiagnosticEngine validation(diagnostics_.sourceText(),
+                              diagnostics_.sourceName());
+  validation.inheritSourcesFrom(diagnostics_);
+  MacroExpander validator(macros_, validation);
+  Parser parser(tokens, validation, &validator, moduleId);
+  parser.parse();
+  for (const auto &diagnostic : validation.diagnostics())
+    diagnostics_.report(diagnostic.span, diagnostic.level, diagnostic.code,
+                        diagnostic.message);
+  if (validation.hadErrors())
+    return std::nullopt;
   auto grouped = TokenTreeBuilder::build(tokens, diagnostics_);
   if (grouped.hadDelimiterErrors)
     return std::nullopt;

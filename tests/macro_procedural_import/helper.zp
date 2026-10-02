@@ -1,0 +1,18 @@
+fun hidden() Int { return 42; }
+
+pub syntax macro value($input: source) expr {
+    return syntaxExpr("hidden()");
+}
+
+pub syntax macro check($input: source) stmt {
+    return syntaxTokens("var temporary: Int = 9; if temporary != 9 { return 3; }");
+}
+
+syntax macro forward($input: tokens) stmt {
+    return input;
+}
+
+pub macro nested() {
+    forward!(var nested_answer: Int = hidden(););
+    if nested_answer != 42 { return 4; }
+}

@@ -27,6 +27,7 @@ private:
               bool topLevel, size_t depth);
 
   MacroExpander expander_;
+  const MacroResolver &macros_;
   DiagnosticEngine &diagnostics_;
 };
 

@@ -1,0 +1,11 @@
+syntax macro answer($query: source) expr {
+    if query.text == "ultimate_answer" {
+        return syntaxExpr("40 + 2");
+    }
+    panic("expected ultimate_answer");
+}
+
+fun main() Int {
+    var value: Int = answer!{ultimate_answer};
+    return value - 42;
+}

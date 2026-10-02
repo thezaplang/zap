@@ -1,4 +1,5 @@
 #include "macros/ctfe_interpreter.hpp"
+#include "token/token.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -191,6 +192,33 @@ void testForbiddenCapabilities() {
           "CTFE accepted an unsupported protocol version");
 }
 
+void testForwardedOutputLimits() {
+  const std::string source =
+      "fun run(input: SyntaxTokens) SyntaxTokens { return input; }";
+  auto input = request();
+  SyntaxTokens tokens;
+  tokens.tokens.resize(CtfeLimits{}.maxDefinitionTokens + 1,
+                       {static_cast<uint32_t>(TokenType::ID), "x", "x",
+                        input.invocation, 0, nullptr});
+  input.input = std::move(tokens);
+  CtfeInterpreter interpreter;
+  require(failsWith(interpreter.execute(source, "run", input), "M3003"),
+          "forwarded syntax bypassed the CTFE output token limit");
+
+  SyntaxTokens nested;
+  for (size_t index = 0; index < 4; ++index)
+    nested.tokens.push_back({static_cast<uint32_t>(TokenType::LPAREN), "(", "(",
+                             input.invocation, 0, nullptr});
+  for (size_t index = 0; index < 4; ++index)
+    nested.tokens.push_back({static_cast<uint32_t>(TokenType::RPAREN), ")", ")",
+                             input.invocation, 0, nullptr});
+  input.input = std::move(nested);
+  CtfeLimits limits;
+  limits.maxSyntaxDepth = 3;
+  require(failsWith(interpreter.execute(source, "run", input, limits), "M3003"),
+          "forwarded syntax bypassed the CTFE output nesting limit");
+}
+
 } // namespace
 
 int main() {
@@ -198,4 +226,5 @@ int main() {
   testSourceInput();
   testLimitsAndFailures();
   testForbiddenCapabilities();
+  testForwardedOutputLimits();
 }

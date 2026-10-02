@@ -15,6 +15,7 @@ inline constexpr uint16_t SyntaxProtocolVersion = 1;
 inline constexpr size_t MaxSyntaxMessageBytes = 16 * 1024 * 1024;
 inline constexpr size_t MaxSyntaxEntries = 100'000;
 inline constexpr size_t MaxSyntaxNesting = 32;
+inline constexpr uint32_t GeneratedSyntaxContext = UINT32_MAX;
 
 struct SyntaxSpan {
   std::string sourceName;

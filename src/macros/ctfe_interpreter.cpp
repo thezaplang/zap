@@ -56,7 +56,8 @@ SyntaxDiagnostic diagnostic(const SyntaxMacroRequest &request, const char *code,
   return {SyntaxSeverity::Error, code, std::move(message), request.invocation};
 }
 
-void checkSyntaxDepth(const std::vector<Token> &tokens, size_t maximum) {
+template <typename TokenEntry>
+void checkSyntaxDepth(const std::vector<TokenEntry> &tokens, size_t maximum) {
   size_t depth = 0;
   for (const auto &token : tokens) {
     if (token.type == TokenType::LPAREN || token.type == TokenType::LBRACE ||
@@ -270,8 +271,8 @@ private:
         throw Failure{"M3002", "Nested source groups in generated syntax are "
                                "not supported by CTFE yet."};
       result.tokens.push_back({static_cast<uint32_t>(token.type), token.value,
-                               token.spelling, request_.invocation, 0,
-                               nullptr});
+                               token.spelling, request_.invocation,
+                               GeneratedSyntaxContext, nullptr});
       charge(token.value.size() + token.spelling.size() + sizeof(SyntaxToken));
     }
     if (name == "syntaxExpr")
@@ -521,9 +522,21 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
       throw Failure{"M3002", "Invalid CTFE function source."};
     Evaluator evaluator(*root, request, limits, memoryUsed);
     Value value = evaluator.run(std::string(entryName));
-    if (auto *syntax = std::get_if<SyntaxHandle>(&value))
+    if (auto *syntax = std::get_if<SyntaxHandle>(&value)) {
+      const SyntaxTokens *outputTokens =
+          std::get_if<SyntaxTokens>(syntax->get());
+      if (const auto *expr = std::get_if<SyntaxExpr>(syntax->get()))
+        outputTokens = &expr->syntax;
+      if (const auto *item = std::get_if<SyntaxItem>(syntax->get()))
+        outputTokens = &item->syntax;
+      if (outputTokens) {
+        if (outputTokens->tokens.size() > limits.maxDefinitionTokens)
+          throw Failure{"M3003", "CTFE output token limit exceeded."};
+        checkSyntaxDepth(outputTokens->tokens, limits.maxSyntaxDepth);
+        evaluator.reserveParseMemory(outputTokens->tokens.size(), 256);
+      }
       result.output = **syntax;
-    else
+    } else
       throw Failure{"M3001", "CTFE macro must return syntax."};
 
     auto encodedResult = encodeResult(result);

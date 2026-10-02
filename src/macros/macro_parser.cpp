@@ -40,6 +40,10 @@ public:
         diagnostics_(diagnostics) {}
 
   MacroParseResult parse() {
+    if (cursor_.peek().type == TokenType::ID &&
+        cursor_.peek().value == "syntax" &&
+        cursor_.peek(1).type == TokenType::MACRO)
+      return parseProcedural();
     const auto keyword = take(TokenType::MACRO);
     const auto name = take(TokenType::ID);
     if (!keyword || !name)
@@ -139,6 +143,87 @@ public:
   }
 
 private:
+  MacroParseResult parseProcedural() {
+    const Token syntax = *take(TokenType::ID);
+    take(TokenType::MACRO);
+    const auto name = take(TokenType::ID);
+    if (!name || !take(TokenType::LPAREN) || !take(TokenType::DOLLAR))
+      return failure();
+    const auto parameterName = take(TokenType::ID);
+    if (!parameterName || !take(TokenType::COLON))
+      return failure();
+    const auto kind = take(TokenType::ID);
+    if (!kind)
+      return failure();
+    if (kind->value != "source" && kind->value != "tokens") {
+      report(kind->span, "Syntax macro input must be 'source' or 'tokens'.");
+      return failure();
+    }
+    if (!take(TokenType::RPAREN))
+      return failure();
+    const auto output = take(TokenType::ID);
+    if (!output)
+      return failure();
+    ProceduralMacroOutput outputKind;
+    const char *resultType;
+    if (output->value == "expr") {
+      outputKind = ProceduralMacroOutput::Expression;
+      resultType = "SyntaxExpr";
+    } else if (output->value == "item") {
+      outputKind = ProceduralMacroOutput::Item;
+      resultType = "SyntaxItem";
+    } else if (output->value == "stmt") {
+      outputKind = ProceduralMacroOutput::Statement;
+      resultType = "SyntaxTokens";
+    } else if (output->value == "type") {
+      outputKind = ProceduralMacroOutput::Type;
+      resultType = "SyntaxTokens";
+    } else {
+      report(output->span,
+             "Expected expr, stmt, type or item after syntax macro signature.");
+      return failure();
+    }
+    if (cursor_.peek().type != TokenType::LBRACE) {
+      report(cursor_.peek().span, "Expected syntax macro body.");
+      return failure();
+    }
+    auto body = TokenTreeBuilder::buildPrefix(tokens_, cursor_.position(),
+                                              cursor_.end(), diagnostics_);
+    cursor_.advance(body.nextPosition - cursor_.position());
+    if (body.hadDelimiterErrors || body.trees.size() != 1 ||
+        !body.trees.front().closing())
+      return failure();
+    const auto &bodySpan = body.trees.front().span();
+    const auto &source = diagnostics_.sourceText();
+    if (bodySpan.offset > source.size() ||
+        bodySpan.length > source.size() - bodySpan.offset) {
+      report(bodySpan, "Syntax macro body has no source text.");
+      return failure();
+    }
+    const auto parameterKind = kind->value == "source"
+                                   ? MacroParameterKind::Source
+                                   : MacroParameterKind::Tokens;
+    MacroParameter parameter{*parameterName, parameterKind,
+                             SourceSpan::merge(parameterName->span, kind->span),
+                             false};
+    std::string functionSource =
+        "fun __syntax_macro__(" + parameterName->value + ": " +
+        (parameterKind == MacroParameterKind::Source ? "SyntaxSource"
+                                                     : "SyntaxTokens") +
+        ") " + resultType + " " +
+        source.substr(bodySpan.offset, bodySpan.length);
+    MacroDefinition definition{
+        *name,
+        visibility_,
+        {parameter},
+        {parameter},
+        false,
+        body.trees.front(),
+        SourceSpan::merge(syntax.span, bodySpan),
+        ProceduralMacro{outputKind, std::move(functionSource)}};
+    return {{std::move(definition)}, cursor_.position()};
+  }
+
   MacroParseResult parsePatternArms(const Token &name) {
     auto body = TokenTreeBuilder::buildPrefix(tokens_, cursor_.position(),
                                               cursor_.end(), diagnostics_);

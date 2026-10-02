@@ -19,6 +19,22 @@ const char *fragmentName(FragmentKind kind) {
   return kind == FragmentKind::Type ? "type" : "expression";
 }
 
+ctfe::SyntaxContext syntaxContext(FragmentKind kind) {
+  switch (kind) {
+  case FragmentKind::Expression:
+    return ctfe::SyntaxContext::Expression;
+  case FragmentKind::Statement:
+  case FragmentKind::StatementList:
+  case FragmentKind::Block:
+    return ctfe::SyntaxContext::Statement;
+  case FragmentKind::Type:
+    return ctfe::SyntaxContext::Type;
+  case FragmentKind::Item:
+    return ctfe::SyntaxContext::Item;
+  }
+  return ctfe::SyntaxContext::Expression;
+}
+
 void forwardDiagnostics(const DiagnosticEngine &from, DiagnosticEngine &to) {
   for (const auto &diagnostic : from.diagnostics()) {
     to.report(diagnostic.span, diagnostic.level, diagnostic.code,
@@ -144,7 +160,7 @@ ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {
     throw ParseError();
   }
 
-  auto expanded = _macroExpander->expand(_moduleId, call);
+  auto expanded = _macroExpander->expand(_moduleId, call, syntaxContext(kind));
   if (!expanded)
     throw ParseError();
 
@@ -183,7 +199,8 @@ std::unique_ptr<BodyNode> Parser::parseMacroStatements() {
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
-  auto expanded = _macroExpander->expand(_moduleId, call);
+  auto expanded =
+      _macroExpander->expand(_moduleId, call, ctfe::SyntaxContext::Statement);
   if (!expanded)
     throw ParseError();
 
@@ -226,7 +243,8 @@ std::unique_ptr<RootNode> Parser::parseMacroItems() {
                  "Macro invocation requires a resolved macro registry.");
     throw ParseError();
   }
-  auto expanded = _macroExpander->expand(_moduleId, call);
+  auto expanded =
+      _macroExpander->expand(_moduleId, call, ctfe::SyntaxContext::Item);
   if (!expanded)
     throw ParseError();
 

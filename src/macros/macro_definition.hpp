@@ -3,6 +3,7 @@
 #include "../token/token_tree.hpp"
 #include "../visibility.hpp"
 
+#include <optional>
 #include <string>
 #include <variant>
 #include <vector>
@@ -30,6 +31,13 @@ struct MacroParameter {
 
 using MacroPatternPart = std::variant<TokenTree, MacroParameter>;
 
+enum class ProceduralMacroOutput { Expression, Statement, Type, Item };
+
+struct ProceduralMacro {
+  ProceduralMacroOutput output;
+  std::string functionSource;
+};
+
 struct MacroDefinition {
   Token name;
   Visibility visibility;
@@ -38,6 +46,7 @@ struct MacroDefinition {
   bool customPattern = false;
   TokenTree expansion;
   SourceSpan span;
+  std::optional<ProceduralMacro> procedural = std::nullopt;
 };
 
 } // namespace zap

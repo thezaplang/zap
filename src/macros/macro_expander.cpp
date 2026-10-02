@@ -1,10 +1,12 @@
 #include "macros/macro_expander.hpp"
 #include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_template.hpp"
+#include "macros/syntax_bridge.hpp"
 
 #include "lexer/source_group.hpp"
 #include "parser/parser.hpp"
 
+#include <algorithm>
 #include <functional>
 #include <limits>
 #include <map>
@@ -13,8 +15,67 @@
 namespace zap {
 namespace {
 
+using ctfe_bridge::compilerTokens;
+using ctfe_bridge::sourceSpan;
+using ctfe_bridge::syntaxSource;
+using ctfe_bridge::syntaxSpan;
+using ctfe_bridge::syntaxTokens;
+
 bool isLeaf(const TokenTree &tree, TokenType type) {
   return tree.isLeaf() && tree.token().type == type;
+}
+
+std::optional<ctfe::SyntaxContext> outputContext(ProceduralMacroOutput output) {
+  switch (output) {
+  case ProceduralMacroOutput::Expression:
+    return ctfe::SyntaxContext::Expression;
+  case ProceduralMacroOutput::Statement:
+    return ctfe::SyntaxContext::Statement;
+  case ProceduralMacroOutput::Type:
+    return ctfe::SyntaxContext::Type;
+  case ProceduralMacroOutput::Item:
+    return ctfe::SyntaxContext::Item;
+  }
+  return std::nullopt;
+}
+
+bool validateProceduralOutput(const std::vector<TokenTree> &trees,
+                              ctfe::SyntaxContext expected,
+                              DiagnosticEngine &diagnostics,
+                              const SourceSpan &invocation) {
+  DiagnosticEngine scratch(diagnostics.sourceText(), diagnostics.sourceName());
+  scratch.inheritSourcesFrom(diagnostics);
+  Parser parser(flattenTokenTrees(trees), scratch, nullptr, {},
+                MacroParseMode::ValidateFragmentSyntax);
+  bool valid = false;
+  if (expected == ctfe::SyntaxContext::Item) {
+    auto root = parser.parse();
+    valid =
+        root && !root->children.empty() && parser.macroDefinitions().empty();
+    if (root) {
+      for (const auto &node : root->children)
+        if (dynamic_cast<const ImportNode *>(node.get()))
+          valid = false;
+    }
+  } else if (expected == ctfe::SyntaxContext::Statement) {
+    valid = parser.parseFragment(FragmentKind::StatementList).has_value();
+  } else {
+    valid = parser
+                .parseFragment(expected == ctfe::SyntaxContext::Type
+                                   ? FragmentKind::Type
+                                   : FragmentKind::Expression)
+                .has_value();
+  }
+  for (const auto &diagnostic : scratch.diagnostics())
+    diagnostics.report(diagnostic.span, diagnostic.level, diagnostic.code,
+                       diagnostic.message);
+  if (!valid || scratch.hadErrors()) {
+    diagnostics.report(
+        invocation, DiagnosticLevel::Error, macro_diagnostic::Fragment,
+        "Syntax macro returned an invalid fragment or forbidden declaration.");
+    return false;
+  }
+  return true;
 }
 
 std::optional<MacroCapture> splitArguments(const TokenTree &group) {
@@ -294,14 +355,26 @@ MacroExpander::MacroExpander(const MacroResolver &registry,
     : registry_(registry), diagnostics_(diagnostics), limits_(limits) {}
 
 std::optional<std::vector<TokenTree>>
-MacroExpander::expand(const std::string &moduleId, const MacroCall &call) {
-  return expandCall(moduleId, moduleId, call, 1);
+MacroExpander::expand(const std::string &moduleId, const MacroCall &call,
+                      std::optional<ctfe::SyntaxContext> expected) {
+  size_t depth = 1;
+  for (auto origin = call.parentOrigin; origin; origin = origin->parent) {
+    if (++depth > limits_.maxDepth) {
+      report(call.span, macro_diagnostic::Limit,
+             "Macro expansion depth limit exceeded.");
+      return std::nullopt;
+    }
+  }
+  const auto &lookupModuleId =
+      call.parentOrigin ? call.parentOrigin->definitionModuleId : moduleId;
+  return expandCall(lookupModuleId, moduleId, call, depth, expected);
 }
 
 std::optional<std::vector<TokenTree>>
 MacroExpander::expandCall(const std::string &lookupModuleId,
                           const std::string &outputModuleId,
-                          const MacroCall &call, size_t depth) {
+                          const MacroCall &call, size_t depth,
+                          std::optional<ctfe::SyntaxContext> expected) {
   if (depth > limits_.maxDepth) {
     report(call.span, macro_diagnostic::Limit,
            "Macro expansion depth limit exceeded.");
@@ -346,7 +419,7 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
       captures.emplace(definition.parameters.front().name.value,
                        std::move(capture));
       return expandSelected(candidate, std::move(captures), outputModuleId,
-                            call, depth);
+                            call, depth, expected);
     }
   }
   auto materialized = materializeSourceGroup(call.arguments, diagnostics_);
@@ -437,12 +510,13 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
   }
 
   return expandSelected(*selected, std::move(*selectedCaptures), outputModuleId,
-                        call, depth);
+                        call, depth, expected);
 }
 
 std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
     const MacroBinding &binding, MacroCaptures captures,
-    const std::string &outputModuleId, const MacroCall &call, size_t depth) {
+    const std::string &outputModuleId, const MacroCall &call, size_t depth,
+    std::optional<ctfe::SyntaxContext> expected) {
   if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max()) {
     report(call.span, macro_diagnostic::Limit,
            "Macro syntax context limit exceeded.");
@@ -456,6 +530,112 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
     report(call.span, macro_diagnostic::Limit,
            "Macro generated token limit exceeded.");
     return std::nullopt;
+  }
+  if (binding.definition->procedural) {
+    auto invocation = call.span;
+    invocation.expansionOrigin = origin;
+    const auto &procedure = *binding.definition->procedural;
+    const auto declaredContext = outputContext(procedure.output);
+    const bool expressionStatement =
+        expected == ctfe::SyntaxContext::Statement &&
+        declaredContext == ctfe::SyntaxContext::Expression;
+    if (!declaredContext ||
+        (expected && declaredContext != expected && !expressionStatement)) {
+      report(invocation, macro_diagnostic::Fragment,
+             "Syntax macro used in the wrong fragment context.");
+      return std::nullopt;
+    }
+    const auto &parameter = binding.definition->parameters.front();
+    const auto capture = captures.find(parameter.name.value);
+    if (capture == captures.end()) {
+      report(invocation, macro_diagnostic::Arguments,
+             "Missing syntax macro input.");
+      return std::nullopt;
+    }
+    ctfe::SyntaxMacroRequest request;
+    request.definitionId = binding.definingModuleId + ":" +
+                           binding.definition->name.value + ":" +
+                           std::to_string(binding.definition->span.offset);
+    request.invocation = syntaxSpan(call.span);
+    request.expected = *declaredContext;
+    std::optional<ctfe_bridge::SyntaxInput> input;
+    if (parameter.kind == MacroParameterKind::Source) {
+      if (!capture->second.source) {
+        report(invocation, macro_diagnostic::Arguments,
+               "Syntax macro requires a source group.");
+        return std::nullopt;
+      }
+      input = syntaxSource(*capture->second.source,
+                           ctfe::CtfeLimits{}.maxMemoryBytes);
+    } else {
+      if (capture->second.elements.size() != 1) {
+        report(invocation, macro_diagnostic::Arguments,
+               "Syntax macro requires one token argument.");
+        return std::nullopt;
+      }
+      input = syntaxTokens(capture->second.elements.front(),
+                           ctfe::CtfeLimits{}.maxMemoryBytes);
+    }
+    if (!input) {
+      report(invocation, macro_diagnostic::Limit,
+             "Syntax macro input exceeds protocol or allocation limits.");
+      return std::nullopt;
+    }
+    request.input = std::move(input->value);
+    auto result = interpreter_.execute(procedure.functionSource,
+                                       "__syntax_macro__", request);
+    for (const auto &diagnostic : result.diagnostics) {
+      const auto level = diagnostic.severity == ctfe::SyntaxSeverity::Error
+                             ? DiagnosticLevel::Error
+                         : diagnostic.severity == ctfe::SyntaxSeverity::Warning
+                             ? DiagnosticLevel::Warning
+                             : DiagnosticLevel::Note;
+      auto span = sourceSpan(diagnostic.span);
+      span.expansionOrigin = origin;
+      diagnostics_.report(std::move(span), level, diagnostic.code,
+                          diagnostic.message);
+    }
+    if (!result.output)
+      return std::nullopt;
+    const ctfe::SyntaxTokens *syntax = nullptr;
+    if (request.expected == ctfe::SyntaxContext::Expression) {
+      if (auto *expr = std::get_if<ctfe::SyntaxExpr>(&*result.output))
+        syntax = &expr->syntax;
+    } else if (request.expected == ctfe::SyntaxContext::Item) {
+      if (auto *item = std::get_if<ctfe::SyntaxItem>(&*result.output))
+        syntax = &item->syntax;
+    } else {
+      syntax = std::get_if<ctfe::SyntaxTokens>(&*result.output);
+    }
+    if (!syntax) {
+      report(invocation, macro_diagnostic::Fragment,
+             "Syntax macro returned the wrong syntax value.");
+      return std::nullopt;
+    }
+    if (syntax->tokens.size() > limits_.maxGeneratedTokens - generatedTokens) {
+      report(invocation, macro_diagnostic::Limit,
+             "Macro generated token limit exceeded.");
+      return std::nullopt;
+    }
+    auto tokens = compilerTokens(*syntax, call.span, origin, *input);
+    if (!tokens) {
+      report(invocation, macro_diagnostic::Fragment,
+             "Syntax macro returned unsupported tokens.");
+      return std::nullopt;
+    }
+    auto grouped = TokenTreeBuilder::build(*tokens, diagnostics_);
+    if (grouped.hadDelimiterErrors) {
+      report(invocation, macro_diagnostic::Fragment,
+             "Syntax macro returned unbalanced tokens.");
+      return std::nullopt;
+    }
+    generatedTokens += syntax->tokens.size();
+    auto output = expandGenerated(grouped.trees, binding.definingModuleId,
+                                  outputModuleId, origin, depth);
+    if (!output || !validateProceduralOutput(*output, request.expected,
+                                             diagnostics_, invocation))
+      return std::nullopt;
+    return output;
   }
   MacroTemplateExpander templateExpander(
       captures, call.span, origin, diagnostics_,
@@ -508,12 +688,27 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandGenerated(
       if (groupIndex < trees.size() &&
           isLeaf(trees[groupIndex - 1], TokenType::NOT) &&
           !trees[groupIndex].isLeaf()) {
+        const auto *overloads =
+            path.size() == 1
+                ? registry_.find(definitionModuleId, path[0])
+                : registry_.findQualified(definitionModuleId, path[0], path[1]);
+        if (overloads &&
+            std::any_of(overloads->begin(), overloads->end(),
+                        [](const MacroBinding &binding) {
+                          return binding.definition->procedural.has_value();
+                        })) {
+          // The parser supplies the actual fragment context of nested calls.
+          output.insert(output.end(), trees.begin() + index,
+                        trees.begin() + groupIndex + 1);
+          index = groupIndex + 1;
+          continue;
+        }
         const MacroCall nested{
             path, trees[groupIndex],
             SourceSpan::merge(trees[index].span(), trees[groupIndex].span()),
             origin};
-        auto expansion =
-            expandCall(definitionModuleId, outputModuleId, nested, depth + 1);
+        auto expansion = expandCall(definitionModuleId, outputModuleId, nested,
+                                    depth + 1, std::nullopt);
         if (!expansion)
           return std::nullopt;
         output.insert(output.end(), expansion->begin(), expansion->end());

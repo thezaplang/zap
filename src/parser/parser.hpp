@@ -49,7 +49,14 @@ namespace zap {
 class MacroExpander;
 struct MacroCall;
 
-enum class FragmentKind { Expression, Type, Statement, Block, Item };
+enum class FragmentKind {
+  Expression,
+  Type,
+  Statement,
+  StatementList,
+  Block,
+  Item
+};
 enum class MacroParseMode { Expand, ValidateFragmentSyntax };
 
 struct StatementFragment {
