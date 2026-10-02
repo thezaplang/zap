@@ -3,6 +3,7 @@
 #include "macros/macro_meta.hpp"
 #include "utils/diagnostics.hpp"
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -12,12 +13,15 @@ namespace zap {
 
 class MacroTemplateExpander {
 public:
+  using SourceMacroLookup =
+      std::function<bool(const std::vector<std::string> &, const Token &)>;
   MacroTemplateExpander(const MacroCaptures &captures,
                         const SourceSpan &invocation,
                         std::shared_ptr<const ExpansionOrigin> origin,
                         DiagnosticEngine &diagnostics, size_t maxTokens,
                         size_t maxIterations,
-                        MacroMetaEvaluator::FreshContext freshContext);
+                        MacroMetaEvaluator::FreshContext freshContext,
+                        SourceMacroLookup sourceMacroLookup);
 
   std::optional<std::vector<TokenTree>>
   expand(const std::vector<TokenTree> &templateTrees);
@@ -42,6 +46,7 @@ private:
   size_t emittedTokens_ = 0;
   size_t expandedIterations_ = 0;
   MacroMetaEvaluator meta_;
+  SourceMacroLookup sourceMacroLookup_;
 
   std::optional<ExpansionResult>
   expandTrees(const std::vector<TokenTree> &trees, const MetaScope &scope,

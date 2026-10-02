@@ -59,6 +59,24 @@ bool validIdentifier(const std::string &name) {
   return true;
 }
 
+std::vector<TokenTree> emitFragment(const std::vector<TokenTree> &tokens,
+                                    MacroParameterKind kind) {
+  if (kind != MacroParameterKind::Expression || tokens.size() <= 1)
+    return tokens;
+  // The capture remains unchanged for introspection. Only its insertion gains
+  // a syntactic boundary; captured tokens retain their caller-side hygiene.
+  const auto &first = tokens.front().isLeaf() ? tokens.front().token()
+                                              : tokens.front().opening();
+  const auto &last =
+      tokens.back().isLeaf() ? tokens.back().token() : *tokens.back().closing();
+  Token opening(TokenType::LPAREN, "(", first.span, "(", first.syntaxContext,
+                first.expansionOrigin);
+  Token closing(TokenType::RPAREN, ")", last.span, ")", last.syntaxContext,
+                last.expansionOrigin);
+  return {TokenTree::group(Delimiter::Parenthesis, std::move(opening), tokens,
+                           std::move(closing))};
+}
+
 } // namespace
 
 struct MacroMetaEvaluator::Parser {
@@ -332,13 +350,13 @@ std::optional<std::vector<TokenTree>>
 MacroMetaEvaluator::emit(const MetaValue &value) {
   if (const auto *fragment = std::get_if<MetaFragment>(&value)) {
     if (fragment->tokens)
-      return *fragment->tokens;
+      return emitFragment(*fragment->tokens, fragment->kind);
   }
   if (const auto *pack = std::get_if<const MacroCapture *>(&value)) {
     std::vector<TokenTree> output;
     for (size_t i = 0; i < (*pack)->elements.size(); ++i) {
-      output.insert(output.end(), (*pack)->elements[i].begin(),
-                    (*pack)->elements[i].end());
+      auto element = emitFragment((*pack)->elements[i], (*pack)->kind);
+      output.insert(output.end(), element.begin(), element.end());
       if (i + 1 < (*pack)->elements.size())
         output.push_back((*pack)->separators[i]);
     }

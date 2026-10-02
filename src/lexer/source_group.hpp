@@ -25,6 +25,7 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
                    size_t openingLine, size_t openingColumn,
                    DiagnosticEngine &diagnostics);
 
+// Tokenize only this group, leaving nested source groups opaque.
 std::optional<TokenTree> materializeSourceGroup(const TokenTree &group,
                                                 DiagnosticEngine &diagnostics);
 } // namespace zap

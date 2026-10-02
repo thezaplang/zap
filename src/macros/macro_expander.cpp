@@ -169,6 +169,49 @@ int specificity(MacroParameterKind kind) {
   return 0;
 }
 
+std::optional<size_t> argumentEnd(const std::vector<TokenTree> &input,
+                                  size_t start, MacroParameterKind kind,
+                                  const DiagnosticEngine &diagnostics,
+                                  size_t &attempts, size_t maxAttempts) {
+  if (start == input.size() || isLeaf(input[start], TokenType::COMMA))
+    return std::nullopt;
+  if (kind == MacroParameterKind::Expression ||
+      kind == MacroParameterKind::Type) {
+    std::vector<TokenTree> remaining(input.begin() + start, input.end());
+    DiagnosticEngine scratch(diagnostics.sourceText(),
+                             diagnostics.sourceName());
+    scratch.inheritSourcesFrom(diagnostics);
+    Parser parser(flattenTokenTrees(remaining), scratch, nullptr, {},
+                  MacroParseMode::ValidateFragmentSyntax);
+    auto prefix = parser.parseFragmentPrefix(*fragmentKind(kind));
+    if (!prefix)
+      return std::nullopt;
+    size_t consumed = 0;
+    size_t end = start;
+    while (end < input.size() && consumed < prefix->tokenCount)
+      consumed += input[end++].tokenCount();
+    if (consumed != prefix->tokenCount ||
+        (end != input.size() && !isLeaf(input[end], TokenType::COMMA)))
+      return std::nullopt;
+    return end;
+  }
+  bool firstCandidate = true;
+  for (size_t end = start + 1; end <= input.size(); ++end) {
+    if (end != input.size() && !isLeaf(input[end], TokenType::COMMA))
+      continue;
+    if (!firstCandidate && ++attempts > maxAttempts)
+      return std::nullopt;
+    firstCandidate = false;
+    std::vector<TokenTree> fragment(input.begin() + start, input.begin() + end);
+    if (matchesArgument(fragment, kind, diagnostics))
+      return end;
+    // Untyped tokens, identifiers and literals cannot contain generic commas.
+    if (!fragmentKind(kind))
+      return std::nullopt;
+  }
+  return std::nullopt;
+}
+
 const char *fragmentName(MacroParameterKind kind) {
   switch (kind) {
   case MacroParameterKind::Identifier:
@@ -270,26 +313,22 @@ PatternMatch matchPattern(const MacroDefinition &definition,
       pack.isVariadic = true;
       size_t start = position;
       bool valid = true;
-      for (size_t cursor = position; cursor <= input.size(); ++cursor) {
-        if (cursor != input.size() && !isLeaf(input[cursor], TokenType::COMMA))
-          continue;
-        if (cursor > start) {
-          std::vector<TokenTree> element(input.begin() + start,
-                                         input.begin() + cursor);
-          if (!matchesArgument(element, parameter.kind, diagnostics)) {
-            valid = false;
-            break;
-          }
-          pack.elements.push_back(std::move(element));
-        } else if (cursor != input.size()) {
+      while (start < input.size()) {
+        auto end = argumentEnd(input, start, parameter.kind, diagnostics,
+                               attempts, maxAttempts);
+        if (!end) {
           valid = false;
           break;
         }
-        if (cursor != input.size()) {
-          pack.separators.push_back(input[cursor]);
-          start = cursor + 1;
+        pack.elements.emplace_back(input.begin() + start, input.begin() + *end);
+        start = *end;
+        if (start != input.size()) {
+          pack.separators.push_back(input[start]);
+          ++start;
         }
       }
+      if (attempts > maxAttempts)
+        result.limitReached = true;
       if (valid) {
         const size_t count = pack.elements.size();
         captures[parameter.name.value] = std::move(pack);
@@ -300,20 +339,19 @@ PatternMatch matchPattern(const MacroDefinition &definition,
       return;
     }
     if (!definition.customPattern) {
-      size_t end = position;
-      while (end < input.size() && !isLeaf(input[end], TokenType::COMMA))
-        ++end;
-      if (end == position)
+      auto end = argumentEnd(input, position, parameter.kind, diagnostics,
+                             attempts, maxAttempts);
+      if (attempts > maxAttempts)
+        result.limitReached = true;
+      if (!end)
         return;
       std::vector<TokenTree> fragment(input.begin() + position,
-                                      input.begin() + end);
-      if (!matchesArgument(fragment, parameter.kind, diagnostics))
-        return;
+                                      input.begin() + *end);
       MacroCapture capture;
       capture.kind = parameter.kind;
       capture.elements.push_back(std::move(fragment));
       captures[parameter.name.value] = std::move(capture);
-      visit(part + 1, end, score + specificity(parameter.kind));
+      visit(part + 1, *end, score + specificity(parameter.kind));
       captures.erase(parameter.name.value);
       return;
     }
@@ -441,8 +479,6 @@ MacroExpander::expandCall(const std::string &lookupModuleId,
              "Macro matcher attempt limit exceeded.");
       return std::nullopt;
     }
-    if (!candidate.definition->customPattern && !arguments)
-      continue;
     const auto &parameters = candidate.definition->parameters;
     const bool isVariadic = !parameters.empty() && parameters.back().isVariadic;
     const size_t fixedCount = parameters.size() - (isVariadic ? 1 : 0);
@@ -645,6 +681,25 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
         if (nextFreshContext_ == std::numeric_limits<SyntaxContextId>::max())
           return std::nullopt;
         return nextFreshContext_++;
+      },
+      [this, &outputModuleId](const std::vector<std::string> &path,
+                              const Token &name) {
+        const auto &moduleId = name.expansionOrigin
+                                   ? name.expansionOrigin->definitionModuleId
+                                   : outputModuleId;
+        const auto *overloads =
+            path.size() == 1
+                ? registry_.find(moduleId, path.front())
+                : registry_.findQualified(moduleId, path[0], path[1]);
+        return overloads &&
+               std::any_of(overloads->begin(), overloads->end(),
+                           [](const MacroBinding &candidate) {
+                             const auto &definition = *candidate.definition;
+                             return !definition.customPattern &&
+                                    definition.parameters.size() == 1 &&
+                                    definition.parameters.front().kind ==
+                                        MacroParameterKind::Source;
+                           });
       });
   auto output =
       templateExpander.expand(binding.definition->expansion.children());

@@ -2,6 +2,7 @@
 #include "frontend/module_outline.hpp"
 #include "lexer/lexer.hpp"
 #include "macros/macro_expander.hpp"
+#include "token/source_fragment.hpp"
 #include "token/token_tree.hpp"
 
 #include <cstdlib>
@@ -154,7 +155,7 @@ macro overload { ($value: expr) { 1 } ($value: type) { 2 } }
   zap::MacroExpander expander(fixture.registry, pipeDiagnostics);
   auto result =
       expander.expand("module.zp", makeCall(pipe, {"pipe"}, pipeDiagnostics));
-  require(result && spellings(*result) == "double(3+4)" &&
+  require(result && spellings(*result) == "double((3+4))" &&
               !pipeDiagnostics.hadErrors(),
           "custom pipeline pattern failed to capture typed fragments");
 
@@ -805,6 +806,7 @@ void testSourceCaptureAndInterpolation() {
 macro sql($query: source) {
   prepare(sourceText($query), sourceArguments($query))
 }
+
 macro raw($query: source) { sourceText($query) }
 macro raw($query: tokens) { "tokenized" }
 macro wrong($value: tokens) { sourceArguments($value) }
@@ -862,6 +864,83 @@ macro wrong($value: tokens) { sourceArguments($value) }
           "sourceArguments accepted a non-source capture");
 }
 
+void testFragmentBoundariesAndNestedSourceTemplates() {
+  RegistryFixture fixture;
+  fixture.add("module.zp", R"(
+macro double($x: expr) { $x * 2 }
+macro raw_tokens($x: tokens) { $x * 2 }
+macro pack($xs: expr...) { for $x in $xs separated by { + } { $x * 2 } }
+macro types($xs: type...) { $xs }
+macro mixed($t: type, $x: expr) { $x }
+macro inner($x: expr) { $x * 2 }
+macro outer($x: expr) { inner!{$x} }
+macro deep($x: expr) { outer!{$x} }
+macro raw($x: source) { sourceText($x) }
+macro foreign() { raw!{SELECT `odd` @ # ?} }
+macro pass($x: expr) { $x }
+macro text($x: expr) { sourceText($x) }
+macro forward($m: ident) { $m!{SELECT `odd` @ # ?} }
+)");
+  fixture.resolve();
+  require(fixture.errors.empty(), "fragment boundary fixture is invalid");
+  const std::vector<std::tuple<std::string, std::string, std::string>> cases = {
+      {"double!(1 + 2)", "double", "(1+2)*2"},
+      {"raw_tokens!(1 + 2)", "raw_tokens", "1+2*2"},
+      {"pack!(1 + 2, 3 - 1,)", "pack", "(1+2)*2+(3-1)*2"},
+      {"types!(Pair<Int, Int>, Pair<Pair<Int, Int>, Bool>,)", "types",
+       "Pair<Int,Int>,Pair<Pair<Int,Int>,Bool>"},
+      {"mixed!(Pair<Int, Int>, combine<Int, Int>(1, 2))", "mixed",
+       "(combine<Int,Int>(1,2))"},
+      {"pack!(combine<Int, Int>(1, 2), 3 < 4)", "pack",
+       "(combine<Int,Int>(1,2))*2+(3<4)*2"},
+      {"outer!(1 + 2)", "outer", "(1+2)*2"},
+      {"deep!(1 + 2)", "deep", "(1+2)*2"},
+      {"foreign!()", "foreign", "\"SELECT `odd` @ # ?\""},
+      {"pass!(raw!{SELECT `odd` @ # ?})", "pass", "(raw!{})"},
+      {"text!(1 + 2)", "text", "\"1 + 2\""},
+      {"forward!(raw)", "forward", "raw!{}"},
+  };
+  for (const auto &[source, name, expected] : cases) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    auto output =
+        expander.expand("module.zp", makeCall(source, {name}, diagnostics));
+    if (output && spellings(*output) != expected)
+      std::cerr << source << ": " << spellings(*output) << '\n';
+    require(
+        output && spellings(*output) == expected && !diagnostics.hadErrors(),
+        "fragment boundary, generic comma, or nested source template failed");
+    if (name == "pass") {
+      const auto &group = output->front().children().back();
+      require(group.opening().sourceFragment &&
+                  group.opening().sourceFragment->text == "SELECT `odd` @ # ?",
+              "nested foreign source was lost while capturing an expression");
+    }
+    if (name == "forward")
+      require(output->back().opening().sourceFragment &&
+                  output->back().opening().sourceFragment->text ==
+                      "SELECT `odd` @ # ?",
+              "captured macro name caused foreign source to be tokenized");
+    if (name == "outer" || name == "deep") {
+      for (const auto &token : flattenTokenTrees(*output))
+        if (token.type == TokenType::INTEGER && token.value != "2")
+          require(!token.expansionOrigin &&
+                      token.syntaxContext == ROOT_SYNTAX_CONTEXT &&
+                      token.span.sourceName == "call.zp",
+                  "brace template changed capture hygiene or source location");
+    }
+  }
+  for (const auto &source : std::vector<std::string>{
+           "types!(Pair<Int,>, Bool)", "types!(, Int)", "types!(Int,, Bool)"}) {
+    zap::DiagnosticEngine diagnostics(source, "call.zp");
+    zap::MacroExpander expander(fixture.registry, diagnostics);
+    require(!expander.expand("module.zp",
+                             makeCall(source, {"types"}, diagnostics)) &&
+                diagnostics.hadErrors(),
+            "invalid generic type or empty pack element was accepted");
+  }
+}
+
 } // namespace
 
 int main() {
@@ -879,5 +958,6 @@ int main() {
   testCompileTimeTemplateControl();
   testInvalidCompileTimeTemplateControl();
   testSourceCaptureAndInterpolation();
+  testFragmentBoundariesAndNestedSourceTemplates();
   return 0;
 }

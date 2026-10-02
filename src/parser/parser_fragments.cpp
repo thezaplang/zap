@@ -4,6 +4,27 @@
 
 namespace zap {
 
+std::optional<ParsedFragmentPrefix>
+Parser::parseFragmentPrefix(FragmentKind kind) {
+  if (kind != FragmentKind::Expression && kind != FragmentKind::Type) {
+    _diag.report(peek().span, DiagnosticLevel::Error,
+                 "Only expression and type fragments support prefix parsing.");
+    return std::nullopt;
+  }
+  const size_t begin = _cursor.position();
+  try {
+    ParsedFragment fragment = kind == FragmentKind::Expression
+                                  ? ParsedFragment(parseExpression())
+                                  : ParsedFragment(parseType());
+    if (_diag.hadErrors() || _cursor.position() == begin)
+      return std::nullopt;
+    return ParsedFragmentPrefix{std::move(fragment),
+                                _cursor.position() - begin};
+  } catch (const ParseError &) {
+    return std::nullopt;
+  }
+}
+
 std::optional<ParsedFragment> Parser::parseFragment(FragmentKind kind) {
   if (isAtEnd() && kind != FragmentKind::StatementList) {
     _diag.report(peek().span, DiagnosticLevel::Error,
@@ -15,11 +36,13 @@ std::optional<ParsedFragment> Parser::parseFragment(FragmentKind kind) {
   try {
     switch (kind) {
     case FragmentKind::Expression:
-      fragment.emplace(parseExpression());
+    case FragmentKind::Type: {
+      auto prefix = parseFragmentPrefix(kind);
+      if (!prefix)
+        return std::nullopt;
+      fragment.emplace(std::move(prefix->fragment));
       break;
-    case FragmentKind::Type:
-      fragment.emplace(parseType());
-      break;
+    }
     case FragmentKind::Statement: {
       auto body = parseBody();
       if (body->statements.size() != 1 || body->result) {

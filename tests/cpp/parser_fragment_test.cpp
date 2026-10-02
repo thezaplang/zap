@@ -9,6 +9,7 @@
 #include <iostream>
 #include <optional>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -114,10 +115,36 @@ void testMalformedFragment() {
           "malformed item was accepted after error recovery");
 }
 
+void testGenericPrefixes() {
+  for (const auto &[source, kind, spelling] :
+       std::vector<std::tuple<std::string, zap::FragmentKind, std::string>>{
+           {"Pair<Pair<Int, Int>, Bool>, Int", zap::FragmentKind::Type,
+            "Pair<Pair<Int,Int>,Bool>"},
+           {"combine<Int, Int>(1, 2), 3", zap::FragmentKind::Expression,
+            "combine<Int,Int>(1,2)"},
+           {"1 < 2, 3 > 4", zap::FragmentKind::Expression, "1<2"}}) {
+    zap::DiagnosticEngine diagnostics(source);
+    Lexer lexer(diagnostics);
+    const auto tokens = lexer.tokenize(source);
+    zap::Parser parser(tokens, diagnostics);
+    auto prefix = parser.parseFragmentPrefix(kind);
+    require(
+        prefix && !diagnostics.hadErrors() &&
+            prefix->tokenCount < tokens.size() &&
+            tokens[prefix->tokenCount].type == TokenType::COMMA,
+        "fragment prefix stopped at a generic comma instead of a separator");
+    std::string actual;
+    for (size_t i = 0; i < prefix->tokenCount; ++i)
+      actual += tokens[i].spelling;
+    require(actual == spelling, "prefix token count does not describe its AST");
+  }
+}
+
 } // namespace
 
 int main() {
   testTypedFragments();
+  testGenericPrefixes();
   testEntireRangeIsRequired();
   testTokenSubrange();
   testMalformedFragment();

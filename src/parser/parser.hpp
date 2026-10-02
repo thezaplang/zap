@@ -71,6 +71,11 @@ using ParsedFragment =
     std::variant<std::unique_ptr<ExpressionNode>, std::unique_ptr<TypeNode>,
                  StatementFragment, std::unique_ptr<BodyNode>, ItemFragment>;
 
+struct ParsedFragmentPrefix {
+  ParsedFragment fragment;
+  size_t tokenCount;
+};
+
 class Parser {
 public:
   class ParseError : public std::runtime_error {
@@ -87,6 +92,9 @@ public:
   ~Parser();
   std::unique_ptr<RootNode> parse(); // Returns the root of the AST
   std::optional<ParsedFragment> parseFragment(FragmentKind kind);
+  // Expression/type prefixes are parsed with the entire remaining input, so
+  // generic argument commas are distinguished from fragment separators.
+  std::optional<ParsedFragmentPrefix> parseFragmentPrefix(FragmentKind kind);
   const std::vector<MacroDefinition> &macroDefinitions() const noexcept;
   std::vector<MacroDefinition> takeMacroDefinitions();
 

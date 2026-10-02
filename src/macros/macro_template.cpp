@@ -1,4 +1,5 @@
 #include "macros/macro_template.hpp"
+#include "lexer/source_group.hpp"
 #include "macros/macro_diagnostic_codes.hpp"
 
 #include <utility>
@@ -145,11 +146,13 @@ MacroTemplateExpander::MacroTemplateExpander(
     const MacroCaptures &captures, const SourceSpan &invocation,
     std::shared_ptr<const ExpansionOrigin> origin,
     DiagnosticEngine &diagnostics, size_t maxTokens, size_t maxIterations,
-    MacroMetaEvaluator::FreshContext freshContext)
+    MacroMetaEvaluator::FreshContext freshContext,
+    SourceMacroLookup sourceMacroLookup)
     : captures_(captures), invocation_(invocation), origin_(std::move(origin)),
       diagnostics_(diagnostics), maxTokens_(maxTokens),
       maxIterations_(maxIterations),
-      meta_(diagnostics, invocation, origin_, std::move(freshContext)) {}
+      meta_(diagnostics, invocation, origin_, std::move(freshContext)),
+      sourceMacroLookup_(std::move(sourceMacroLookup)) {}
 
 std::optional<std::vector<TokenTree>>
 MacroTemplateExpander::expand(const std::vector<TokenTree> &templateTrees) {
@@ -744,7 +747,30 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
       output.trees.push_back(
           TokenTree::leaf(generatedToken(tree.token(), invocation_, origin_)));
     } else {
-      auto children = expandTrees(tree.children(), current, loopDepth);
+      std::optional<TokenTree> materialized;
+      if (tree.opening().sourceFragment) {
+        const auto &prefix = output.trees;
+        bool isSource = false;
+        if (prefix.size() >= 2 && isLeaf(prefix.back(), TokenType::NOT) &&
+            isLeaf(prefix[prefix.size() - 2], TokenType::ID)) {
+          size_t nameIndex = prefix.size() - 2;
+          std::vector<std::string> path{prefix[nameIndex].token().value};
+          if (nameIndex >= 2 && isLeaf(prefix[nameIndex - 1], TokenType::DOT) &&
+              isLeaf(prefix[nameIndex - 2], TokenType::ID)) {
+            nameIndex -= 2;
+            path.insert(path.begin(), prefix[nameIndex].token().value);
+          }
+          isSource = sourceMacroLookup_(path, prefix[nameIndex].token());
+        }
+        if (!isSource) {
+          materialized = materializeSourceGroup(tree, diagnostics_);
+          if (!materialized)
+            return std::nullopt;
+        }
+      }
+      const auto &content =
+          materialized ? materialized->children() : tree.children();
+      auto children = expandTrees(content, current, loopDepth);
       if (!children)
         return std::nullopt;
       if (children->flow != Flow::Normal) {
@@ -756,9 +782,11 @@ MacroTemplateExpander::expandTrees(const std::vector<TokenTree> &trees,
       std::optional<Token> closing;
       if (tree.closing())
         closing = generatedToken(*tree.closing(), invocation_, origin_);
+      auto opening = generatedToken(tree.opening(), invocation_, origin_);
+      if (materialized)
+        opening.sourceFragment.reset();
       output.trees.push_back(
-          TokenTree::group(tree.delimiter(),
-                           generatedToken(tree.opening(), invocation_, origin_),
+          TokenTree::group(tree.delimiter(), std::move(opening),
                            std::move(children->trees), std::move(closing)));
     }
     ++index;

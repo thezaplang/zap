@@ -261,12 +261,8 @@ std::optional<TokenTree> materializeSourceGroup(const TokenTree &group,
   } else {
     children = group.children();
   }
-  for (auto &child : children) {
-    auto materialized = materializeSourceGroup(child, diagnostics);
-    if (!materialized)
-      return std::nullopt;
-    child = std::move(*materialized);
-  }
+  // Nested macro groups may contain foreign syntax. Their own macro decides
+  // whether they are source captures or Zap tokens.
   return TokenTree::group(group.delimiter(), group.opening(),
                           std::move(children), group.closing());
 }
