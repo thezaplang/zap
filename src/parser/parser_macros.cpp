@@ -2,6 +2,7 @@
 
 #include "macros/macro_diagnostic_codes.hpp"
 #include "macros/macro_expander.hpp"
+#include "token/source_fragment.hpp"
 #include "token/token_tree.hpp"
 
 #include <cassert>
@@ -137,10 +138,42 @@ MacroCall Parser::readMacroInvocation() {
     throw ParseError();
   }
 
+  validateSourceInterpolations(grouped.trees.front());
+
   const SourceSpan invocationSpan =
       SourceSpan::merge(start.span, grouped.trees.front().span());
   return MacroCall{std::move(path), std::move(grouped.trees.front()),
                    invocationSpan, start.expansionOrigin};
+}
+
+void Parser::validateSourceInterpolations(const TokenTree &tree) {
+  std::vector<const TokenTree *> pending{&tree};
+  while (!pending.empty()) {
+    const TokenTree &current = *pending.back();
+    pending.pop_back();
+    if (current.isLeaf())
+      continue;
+    for (const auto &child : current.children())
+      pending.push_back(&child);
+    const auto &source = current.opening().sourceFragment;
+    if (!source)
+      continue;
+    for (const auto &interpolation : source->interpolations) {
+      DiagnosticEngine scratch(_diag.sourceText(), _diag.sourceName());
+      scratch.inheritSourcesFrom(_diag);
+      Parser parser(interpolation.tokens, scratch, nullptr, {},
+                    MacroParseMode::ValidateFragmentSyntax);
+      parser._syntaxDepth = _syntaxDepth + 1;
+      auto expression = parser.parseFragment(FragmentKind::Expression);
+      forwardDiagnostics(scratch, _diag);
+      if (!expression) {
+        _diag.report(interpolation.span, DiagnosticLevel::Error,
+                     macro_diagnostic::Arguments,
+                     "Invalid source interpolation expression.");
+        throw ParseError();
+      }
+    }
+  }
 }
 
 ParsedFragment Parser::parseMacroInvocation(FragmentKind kind) {

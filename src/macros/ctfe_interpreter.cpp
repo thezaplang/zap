@@ -1,11 +1,11 @@
 #include "macros/ctfe_interpreter.hpp"
+#include "macros/ctfe_semantics.hpp"
 
 #include "ast/nodes.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/parser.hpp"
 #include "utils/diagnostics.hpp"
 
-#include <charconv>
 #include <limits>
 #include <memory>
 #include <optional>
@@ -37,7 +37,20 @@ using Value =
 struct Binding {
   Value value;
   bool mutableValue = false;
+  ValueType type = ValueType::Void;
 };
+
+ValueType valueType(const Value &value) {
+  if (std::holds_alternative<std::monostate>(value))
+    return ValueType::Void;
+  if (std::holds_alternative<bool>(value))
+    return ValueType::Bool;
+  if (std::holds_alternative<int64_t>(value))
+    return ValueType::Int;
+  if (std::holds_alternative<std::string>(value))
+    return ValueType::String;
+  return syntaxValueType(*std::get<SyntaxHandle>(value));
+}
 
 struct Frame {
   Frame *parent = nullptr;
@@ -106,24 +119,64 @@ int64_t checkedArithmetic(const std::string &op, int64_t left, int64_t right) {
   return result;
 }
 
+std::unique_ptr<RootNode>
+parseDefinition(const std::string &source, zap::DiagnosticEngine &diagnostics,
+                const CtfeLimits &limits, size_t &memoryUsed,
+                FunctionTypes &types, const SourceSpan *bodySpan = nullptr) {
+  if (limits.maxMemoryBytes == 0 || limits.maxSteps == 0 ||
+      limits.maxCallDepth == 0 || limits.maxSyntaxDepth == 0 ||
+      source.size() > limits.maxDefinitionBytes)
+    throw Failure{"M3003", "CTFE configuration or source limit exceeded."};
+  chargeParseBudget(limits, memoryUsed, source.size(), 256);
+  zap::DiagnosticEngine lexical(source, diagnostics.sourceName());
+  Lexer lexer(lexical);
+  auto tokens = lexer.tokenize(source);
+  const size_t bodyBegin = bodySpan ? source.find('{') : 0;
+  auto rebase = [&](SourceSpan span) {
+    if (!bodySpan)
+      return span;
+    if (span.offset < bodyBegin)
+      return *bodySpan;
+    span.offset = bodySpan->offset + span.offset - bodyBegin;
+    if (span.line == 1)
+      span.column = bodySpan->column + span.column - bodyBegin - 1;
+    span.line += bodySpan->line - 1;
+    span.sourceName = bodySpan->sourceName;
+    return span;
+  };
+  for (const auto &diagnostic : lexical.diagnostics())
+    diagnostics.report(rebase(diagnostic.span), diagnostic.level,
+                       diagnostic.code, diagnostic.message);
+  if (lexical.hadErrors())
+    return nullptr;
+  if (tokens.size() > limits.maxDefinitionTokens)
+    throw Failure{"M3003", "CTFE definition token limit exceeded."};
+  chargeParseBudget(limits, memoryUsed, tokens.size(), 256);
+  checkSyntaxDepth(tokens, limits.maxSyntaxDepth);
+  for (auto &token : tokens)
+    token.span = rebase(token.span);
+  zap::Parser parser(std::move(tokens), diagnostics, nullptr, {},
+                     MacroParseMode::ValidateFragmentSyntax);
+  auto root = parser.parse();
+  if (!parser.macroDefinitions().empty())
+    diagnostics.report(root->span, zap::DiagnosticLevel::Error, "M3002",
+                       "CTFE does not accept macro declarations.");
+  if (!root || diagnostics.hadErrors() ||
+      !zap::ctfe::validateDefinition(*root, diagnostics, types))
+    return nullptr;
+  return root;
+}
+
 class Evaluator {
 public:
   Evaluator(const RootNode &root, const SyntaxMacroRequest &request,
-            const CtfeLimits &limits, size_t initialMemory)
-      : request_(request), limits_(limits), memoryUsed_(initialMemory) {
+            const CtfeLimits &limits, size_t initialMemory,
+            const FunctionTypes &types)
+      : request_(request), limits_(limits), types_(types),
+        memoryUsed_(initialMemory) {
     for (const auto &node : root.children) {
       const auto *function = dynamic_cast<const FunDecl *>(node.get());
-      if (!function || function->isExtern_ || function->isUnsafe_ ||
-          function->isStatic_ || !function->body_ || function->lambdaExpr_ ||
-          !function->genericParams_.empty() ||
-          !function->genericConstraints_.empty())
-        throw Failure{"M3002", "CTFE accepts only ordinary, safe functions."};
-      if (!functions_.emplace(function->name_, function).second)
-        throw Failure{"M3002", "Duplicate CTFE function name."};
-      for (const auto &parameter : function->params_)
-        if (parameter->isRef || parameter->isSink || parameter->isVariadic ||
-            parameter->defaultValue)
-          throw Failure{"M3002", "Unsupported CTFE function parameter."};
+      functions_.emplace(function->name_, function);
     }
   }
 
@@ -138,6 +191,7 @@ public:
 private:
   const SyntaxMacroRequest &request_;
   const CtfeLimits &limits_;
+  const FunctionTypes &types_;
   std::map<std::string, const FunDecl *> functions_;
   size_t steps_ = 0;
   size_t memoryUsed_ = 0;
@@ -175,28 +229,34 @@ private:
 
   Value call(const std::string &name, std::vector<Value> arguments) {
     tick();
+    auto builtin = builtinTypes().find(name);
+    auto declared = types_.find(name);
+    const FunctionType *signature =
+        builtin != builtinTypes().end() ? &builtin->second
+        : declared != types_.end()      ? &declared->second
+                                        : nullptr;
+    if (!signature)
+      throw Failure{"M3002", "Forbidden or unknown CTFE call '" + name + "'."};
+    if (arguments.size() != signature->parameters.size())
+      throw Failure{"M3001", "Wrong CTFE function argument count."};
+    for (size_t i = 0; i < arguments.size(); ++i)
+      if (valueType(arguments[i]) != signature->parameters[i])
+        throw Failure{"M3001", "CTFE argument type mismatch: expected " +
+                                   typeName(signature->parameters[i]) + "."};
     if (name == "panic") {
-      if (arguments.size() != 1)
-        throw Failure{"M3001", "panic expects one String."};
       throw Failure{"M3004", string(arguments.front())};
     }
     if (name == "syntaxExpr" || name == "syntaxItem" ||
         name == "syntaxTokens") {
-      if (arguments.size() != 1)
-        throw Failure{"M3001", "Syntax constructor expects one String."};
       return constructSyntax(name, string(arguments.front()));
     }
     if (name == "length") {
-      if (arguments.size() != 1)
-        throw Failure{"M3001", "length expects one String."};
       const auto size = string(arguments.front()).size();
       if (size > static_cast<size_t>(std::numeric_limits<int64_t>::max()))
         throw Failure{"M3003", "CTFE String is too large."};
       return static_cast<int64_t>(size);
     }
     if (name == "charAt") {
-      if (arguments.size() != 2)
-        throw Failure{"M3001", "charAt expects a String and index."};
       const auto &text = string(arguments[0]);
       const auto index = integer(arguments[1]);
       if (index < 0 || static_cast<uint64_t>(index) >= text.size())
@@ -205,8 +265,6 @@ private:
       return std::string(1, text[static_cast<size_t>(index)]);
     }
     if (name == "slice") {
-      if (arguments.size() != 3)
-        throw Failure{"M3001", "slice expects a String and two indices."};
       const auto &text = string(arguments[0]);
       const auto begin = integer(arguments[1]);
       const auto end = integer(arguments[2]);
@@ -221,8 +279,6 @@ private:
     if (found == functions_.end())
       throw Failure{"M3002", "Forbidden or unknown CTFE call '" + name + "'."};
     const FunDecl &function = *found->second;
-    if (arguments.size() != function.params_.size())
-      throw Failure{"M3001", "Wrong CTFE function argument count."};
     if (depth_ >= limits_.maxCallDepth)
       throw Failure{"M3003", "CTFE recursion limit exceeded."};
     ++depth_;
@@ -235,13 +291,18 @@ private:
       const auto &parameter = *function.params_[index];
       if (!frame.bindings
                .emplace(parameter.name,
-                        Binding{std::move(arguments[index]), false})
+                        Binding{std::move(arguments[index]), false,
+                                signature->parameters[index]})
                .second)
         throw Failure{"M3002", "Duplicate CTFE parameter name."};
     }
     auto returned = body(*function.body_, frame);
+    if (!returned && signature->result == ValueType::Void)
+      return std::monostate{};
     if (!returned)
       throw Failure{"M3001", "CTFE function did not return a value."};
+    if (valueType(*returned) != signature->result)
+      throw Failure{"M3001", "CTFE return type mismatch."};
     return std::move(*returned);
   }
 
@@ -289,13 +350,10 @@ private:
   Value expression(const ExpressionNode &node, Frame &frame) {
     tick();
     if (const auto *literal = dynamic_cast<const ConstInt *>(&node)) {
-      int64_t value = 0;
-      const auto &text = literal->value_;
-      const auto parsed =
-          std::from_chars(text.data(), text.data() + text.size(), value);
-      if (parsed.ec != std::errc{} || parsed.ptr != text.data() + text.size())
+      auto value = integerLiteral(literal->value_);
+      if (!value)
         throw Failure{"M3001", "Unsupported CTFE integer literal."};
-      return value;
+      return *value;
     }
     if (const auto *literal = dynamic_cast<const ConstString *>(&node)) {
       charge(literal->value_.size());
@@ -313,6 +371,15 @@ private:
       return binding->value;
     }
     if (const auto *unary = dynamic_cast<const UnaryExpr *>(&node)) {
+      if (unary->op_ == "-") {
+        if (const auto *literal =
+                dynamic_cast<const ConstInt *>(unary->expr_.get())) {
+          auto value = integerLiteral(literal->value_, true);
+          if (!value)
+            throw Failure{"M3001", "Unsupported CTFE integer literal."};
+          return *value;
+        }
+      }
       Value operand = expression(*unary->expr_, frame);
       if (unary->op_ == "!")
         return !boolean(operand);
@@ -416,10 +483,11 @@ private:
       if (!binding->initializer_ || binding->isGlobal_ || binding->isExternal_)
         throw Failure{"M3002", "Unsupported CTFE binding."};
       Value value = expression(*binding->initializer_, frame);
+      auto type = valueType(value);
       if (!frame.bindings
                .emplace(binding->name_,
                         Binding{std::move(value),
-                                binding->kind_ == BindingKind::Mutable})
+                                binding->kind_ == BindingKind::Mutable, type})
                .second)
         throw Failure{"M3001", "Duplicate CTFE binding."};
       return std::nullopt;
@@ -432,7 +500,10 @@ private:
       auto *binding = frame.find(target->value_);
       if (!binding || !binding->mutableValue)
         throw Failure{"M3002", "CTFE assignment requires a mutable local."};
-      binding->value = expression(*assignment->expr_, frame);
+      Value value = expression(*assignment->expr_, frame);
+      if (valueType(value) != binding->type)
+        throw Failure{"M3001", "CTFE assignment type mismatch."};
+      binding->value = std::move(value);
       return std::nullopt;
     }
     if (const auto *returned = dynamic_cast<const ReturnNode *>(&node)) {
@@ -470,12 +541,35 @@ private:
       if (auto returned = statement(*node, frame))
         return returned;
     if (block.result)
-      return expression(*block.result, frame);
+      (void)expression(*block.result, frame);
     return std::nullopt;
   }
 };
 
 } // namespace
+
+bool CtfeInterpreter::validateDefinition(const std::string &source,
+                                         const SourceSpan &bodySpan,
+                                         zap::DiagnosticEngine &diagnostics,
+                                         CtfeLimits limits) {
+  zap::DiagnosticEngine local(diagnostics.sourceText(),
+                              diagnostics.sourceName());
+  local.inheritSourcesFrom(diagnostics);
+  bool valid = false;
+  try {
+    size_t memoryUsed = source.size();
+    FunctionTypes types;
+    valid = static_cast<bool>(
+        parseDefinition(source, local, limits, memoryUsed, types, &bodySpan));
+  } catch (const Failure &failure) {
+    local.report(bodySpan, zap::DiagnosticLevel::Error, failure.code,
+                 failure.message);
+  }
+  for (const auto &diagnostic : local.diagnostics())
+    diagnostics.report(diagnostic.span, diagnostic.level, diagnostic.code,
+                       diagnostic.message);
+  return valid;
+}
 
 SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
                                            std::string_view entryName,
@@ -510,21 +604,15 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
     }
 
     size_t memoryUsed = definitionSource.size() + requestBytes.size();
-    chargeParseBudget(limits, memoryUsed, definitionSource.size(), 256);
     std::string source(definitionSource);
     zap::DiagnosticEngine diagnostics(source, "<ctfe-definition>");
-    Lexer lexer(diagnostics);
-    auto tokens = lexer.tokenize(source);
-    if (diagnostics.hadErrors() || tokens.size() > limits.maxDefinitionTokens)
-      throw Failure{"M3002", "Invalid or oversized CTFE function source."};
-    chargeParseBudget(limits, memoryUsed, tokens.size(), 256);
-    checkSyntaxDepth(tokens, limits.maxSyntaxDepth);
-    zap::Parser parser(std::move(tokens), diagnostics, nullptr, {},
-                       MacroParseMode::ValidateFragmentSyntax);
-    auto root = parser.parse();
-    if (!root || diagnostics.hadErrors() || !parser.macroDefinitions().empty())
-      throw Failure{"M3002", "Invalid CTFE function source."};
-    Evaluator evaluator(*root, request, limits, memoryUsed);
+    FunctionTypes types;
+    auto root = parseDefinition(source, diagnostics, limits, memoryUsed, types);
+    if (!root)
+      throw Failure{"M3002", diagnostics.empty()
+                                 ? "Invalid CTFE function source."
+                                 : diagnostics.diagnostics().front().message};
+    Evaluator evaluator(*root, request, limits, memoryUsed, types);
     Value value = evaluator.run(std::string(entryName));
     if (auto *syntax = std::get_if<SyntaxHandle>(&value)) {
       const SyntaxTokens *outputTokens =

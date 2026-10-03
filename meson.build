@@ -112,6 +112,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/macro_parser.cpp',
                             'src/macros/macro_template.cpp',
                             'src/macros/ctfe_interpreter.cpp',
+                            'src/macros/ctfe_semantics.cpp',
                             'src/macros/syntax_bridge.cpp',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
@@ -323,6 +324,10 @@ if get_option('build_testing')
              depends : zapc)
         test('syntax-nesting-cli', find_program('python3'),
              args : [meson.current_source_dir() / 'tests/scripts/check_syntax_nesting.py',
+                     zapc.full_path()],
+             depends : zapc)
+        test('ctfe-validation-cli', find_program('python3'),
+             args : [meson.current_source_dir() / 'tests/scripts/check_ctfe_validation.py',
                      zapc.full_path()],
              depends : zapc)
         test('zir-verifier', executable('zap-zir-verifier-tests', 'tests/cpp/zir_verifier_test.cpp', dependencies : zap_zir_verifier_dep))

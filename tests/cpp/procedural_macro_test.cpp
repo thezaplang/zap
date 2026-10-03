@@ -186,17 +186,19 @@ void testFailures() {
     const char *kind;
     const char *use;
     const char *code;
+    bool definitionError = false;
   };
   const Case cases[] = {
       {"panic(\"stopped\");", "expr", "return bad!{};", "M3004"},
       {"while true {}", "expr", "return bad!{};", "M3003"},
-      {"return readFile(\"/etc/passwd\");", "expr", "return bad!{};", "M3002"},
+      {"return readFile(\"/etc/passwd\");", "expr", "return bad!{};", "M3002",
+       true},
       {"return syntaxExpr(\"1 +\");", "expr", "return bad!{};", "M3001"},
       {"return syntaxTokens(\"return +;\");", "stmt", "bad!{}; return 0;",
        "M1005"},
       {"return syntaxTokens(\"1 +\");", "type", "var x: bad!{} = 1; return 0;",
        "M1005"},
-      {"return syntaxTokens(\"42\");", "expr", "return bad!{};", "M1005"},
+      {"return syntaxTokens(\"42\");", "expr", "return bad!{};", "M3002", true},
       {"return syntaxItem(\"fun generated() Int { return 0; }\");", "item",
        "return bad!{};", "M1005"},
   };
@@ -211,7 +213,8 @@ void testFailures() {
       zap::DiagnosticTextFormatter::print(std::cerr, project.diagnostics);
       std::cerr << "case: " << test.body << '\n';
     }
-    require(!project.loaded && error && error->span.line == 2 &&
+    require(!project.loaded && error &&
+                error->span.line == (test.definitionError ? 1u : 2u) &&
                 error->fileName == fixture.entry.string(),
             "procedural macro failure lost its code or call-site location");
   }
@@ -371,6 +374,41 @@ void testCapturedTokenProtocolRoundTrip() {
           "groups");
 }
 
+void testEagerDefinitionsAndInterpolations() {
+  Fixture fixture;
+  fixture.sources[fixture.entry] = "macro unused($q: source) expr {\n"
+                                   "    var number: String = 42;\n"
+                                   "    return syntaxExpr(\"0\");\n"
+                                   "}\nfun main() Int { return 0; }";
+  auto project = fixture.load();
+  auto *error = findError(project, "M3002");
+  require(
+      !project.loaded && error && error->span.line == 2 &&
+          error->span.column == 5 && error->fileName == fixture.entry.string(),
+      "unused CTFE definition was not checked at its original source location");
+  fixture.sources[fixture.entry] =
+      "import \"helper\"; fun main() Int { return 0; }";
+  fixture.sources[fixture.helper] =
+      "macro unused($q: source) expr { return syntaxItem(\"\"); }";
+  project = fixture.load();
+  error = findError(project, "M3002");
+  require(!project.loaded && error &&
+              error->fileName == fixture.helper.string(),
+          "unused invalid macro in an imported module escaped validation");
+  fixture.sources.erase(fixture.helper);
+  for (const std::string call :
+       {"answer!{${1 + }}", "answer!{${}}", "answer!{${other!{${1 + }}}}"}) {
+    fixture.sources[fixture.entry] =
+        "macro answer($q: source) expr { return syntaxExpr(\"42\"); }\n"
+        "fun main() Int { return " +
+        call + "; }";
+    project = fixture.load();
+    error = findError(project, "M1002");
+    require(!project.loaded && error && error->span.line == 2,
+            "ignored source interpolation escaped syntax validation");
+  }
+}
+
 } // namespace
 
 int main() {
@@ -382,4 +420,5 @@ int main() {
   testNestedContextAndDepth();
   testExpressionStatementAndTail();
   testCapturedTokenProtocolRoundTrip();
+  testEagerDefinitionsAndInterpolations();
 }

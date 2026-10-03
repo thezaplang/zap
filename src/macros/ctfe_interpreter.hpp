@@ -1,6 +1,7 @@
 #pragma once
 
 #include "macros/syntax_protocol.hpp"
+#include "token/token.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -8,6 +9,10 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+
+namespace zap {
+class DiagnosticEngine;
+}
 
 namespace zap::ctfe {
 
@@ -30,6 +35,10 @@ struct CtfeLimits {
 
 class CtfeInterpreter {
 public:
+  static bool validateDefinition(const std::string &source,
+                                 const SourceSpan &bodySpan,
+                                 zap::DiagnosticEngine &diagnostics,
+                                 CtfeLimits limits = {});
   SyntaxMacroResult execute(std::string_view definitionSource,
                             std::string_view entryName,
                             const SyntaxMacroRequest &request,

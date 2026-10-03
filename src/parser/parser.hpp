@@ -196,6 +196,7 @@ private:
   bool isMacroInvocationStart() const;
   bool isStandaloneMacroInvocation() const;
   MacroCall readMacroInvocation();
+  void validateSourceInterpolations(const TokenTree &tree);
   std::unique_ptr<BodyNode> parseMacroStatements();
   std::unique_ptr<RootNode> parseMacroItems();
   ParsedFragment parseMacroInvocation(FragmentKind kind);

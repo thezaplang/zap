@@ -219,6 +219,87 @@ void testForwardedOutputLimits() {
           "forwarded syntax bypassed the CTFE output nesting limit");
 }
 
+void testTypeValidation() {
+  CtfeInterpreter interpreter;
+  for (const std::string body :
+       {"var number: String = 42; return syntaxExpr(\"0\");",
+        "var number: Int = 42; number = \"wrong\"; return syntaxExpr(\"0\");",
+        "let number: Int = 42; number = 43; return syntaxExpr(\"0\");",
+        "if false { var number: String = 42; } return syntaxExpr(\"0\");",
+        "if false { readFile(\"bad\"); } return syntaxExpr(\"0\");",
+        "return syntaxExpr(42);", "return syntaxItem(\"\");", "return;",
+        "if 1 { return syntaxExpr(\"0\"); } return syntaxExpr(\"0\");",
+        "return true ? syntaxExpr(\"0\") : \"bad\";",
+        "var syntaxExpr: Int = 1; return syntaxExpr(\"0\");",
+        "var value: *Int = 1; return syntaxExpr(\"0\");",
+        "syntaxExpr(\"0\")"}) {
+    auto result = interpreter.execute(
+        "fun run(input: SyntaxTokens) SyntaxExpr { " + body + " }", "run",
+        request());
+    require(
+        failsWith(result, "M3002"),
+        "invalid CTFE definition escaped static type/control-flow validation");
+  }
+  auto wrongParameter =
+      interpreter.execute("fun helper(number: String) Int { return 1; } "
+                          "fun run(input: SyntaxTokens) SyntaxExpr { "
+                          "helper(42); return syntaxExpr(\"0\"); }",
+                          "run", request());
+  require(failsWith(wrongParameter, "M3002"),
+          "CTFE helper call ignored its parameter type");
+  auto wrongReturn = interpreter.execute(
+      "fun unused() Int { return \"bad\"; } "
+      "fun run(input: SyntaxTokens) SyntaxExpr { return syntaxExpr(\"0\"); }",
+      "run", request());
+  require(failsWith(wrongReturn, "M3002"),
+          "unused CTFE helper ignored its return type");
+  auto wrongInput = request();
+  wrongInput.input = SyntaxExpr{};
+  require(
+      failsWith(interpreter.execute("fun run(input: SyntaxTokens) SyntaxExpr { "
+                                    "return syntaxExpr(\"0\"); }",
+                                    "run", wrongInput),
+                "M3001"),
+      "CTFE protocol boundary ignored the entry parameter type");
+}
+
+void testBlockValuesAreNotReturns() {
+  CtfeInterpreter interpreter;
+  for (const std::string body :
+       {"if true { syntaxExpr(\"42\") } return syntaxExpr(\"0\");",
+        "var count: Int = 0; while count < 2 { count = count + 1; "
+        "syntaxExpr(\"42\") } return syntaxExpr(\"0\");",
+        "noop(); return syntaxExpr(\"0\");"}) {
+    auto result =
+        interpreter.execute("fun noop() { if true { 123 } } "
+                            "fun run(input: SyntaxTokens) SyntaxExpr { " +
+                                body + " }",
+                            "run", request());
+    require(result.output &&
+                std::get<SyntaxExpr>(*result.output).syntax.tokens[0].value ==
+                    "0",
+            "CTFE treated a block value as an explicit function return");
+  }
+  auto nestedReturn =
+      interpreter.execute("fun run(input: SyntaxTokens) SyntaxExpr { while "
+                          "true { if true { return syntaxExpr(\"42\"); } } }",
+                          "run", request());
+  require(
+      nestedReturn.output &&
+          std::get<SyntaxExpr>(*nestedReturn.output).syntax.tokens[0].value ==
+              "42",
+      "CTFE failed to propagate an explicit return across blocks");
+  auto minimum = interpreter.execute(
+      "fun run(input: SyntaxTokens) SyntaxExpr { var n: Int = "
+      "-9223372036854775808; "
+      "if n < 0 { return syntaxExpr(\"42\"); } return syntaxExpr(\"0\"); }",
+      "run", request());
+  require(minimum.output &&
+              std::get<SyntaxExpr>(*minimum.output).syntax.tokens[0].value ==
+                  "42",
+          "typed CTFE rejected the minimum signed Int literal");
+}
+
 } // namespace
 
 int main() {
@@ -227,4 +308,6 @@ int main() {
   testLimitsAndFailures();
   testForbiddenCapabilities();
   testForwardedOutputLimits();
+  testTypeValidation();
+  testBlockValuesAreNotReturns();
 }
