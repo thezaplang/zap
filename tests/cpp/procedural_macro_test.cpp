@@ -409,6 +409,249 @@ void testEagerDefinitionsAndInterpolations() {
   }
 }
 
+void testModuleHelpers() {
+  Fixture fixture;
+  fixture.sources[fixture.entry] = R"(
+import "helper" as h { build as imported };
+fun twice(x: Int) Int { return x * 2; }
+@ctfe fun local() SyntaxExpr {
+  if twice(21) == 42 { return imported(); }
+  return syntaxExpr("0");
+}
+macro answer($q: source) expr { return local(); }
+macro qualified($q: source) expr { return h.build(); }
+fun main() Int { return answer!{} + qualified!{} + twice(21); }
+)";
+  fixture.sources[fixture.helper] = R"(
+fun private_number() Int { return 42; }
+@ctfe pub fun build() SyntaxExpr {
+  if private_number() == 42 { return syntaxExpr("42"); }
+  return syntaxExpr("0");
+}
+)";
+  auto project = fixture.load(true);
+  require(project.loaded && project.boundRoot,
+          "local/qualified/selective CTFE helpers or shared runtime function "
+          "failed");
+  for (const auto &[moduleId, module] : project.modules) {
+    zap::DiagnosticEngine diagnostics(module->sourceText, moduleId);
+    require(zap::frontend::ExpandedSyntaxEmitter::render(
+                project.entryModuleId, moduleId, module->expandedTokens)
+                        .find("@ ctfe") != std::string::npos ||
+                moduleId == fixture.entry.string(),
+            "expanded output lost a compile-time helper declaration");
+  }
+
+  fixture.sources[fixture.entry] = R"(
+@ctfe fun capture(q: SyntaxSource) SyntaxExpr { return sourceInterpolation(q, 0); }
+macro forward($q: source) expr { return capture(q); }
+fun main() Int { var caller: Int = 42; return forward!{SELECT ${caller}}; }
+)";
+  fixture.sources.erase(fixture.helper);
+  project = fixture.load(true);
+  require(project.loaded && project.boundRoot,
+          "helper lost caller capture hygiene");
+
+  const auto facade = fixture.entry.parent_path().parent_path() /
+                      "macro_expanded_imports" / "main.zp";
+  fixture.sources[fixture.helper] = R"(
+fun private_value() Int { return 42; }
+@ctfe pub fun build() SyntaxExpr {
+  if private_value() == 42 { return syntaxExpr("42"); }
+  return syntaxExpr("0");
+}
+pub macro imported_macro($q: source) expr { return build(); }
+)";
+  fixture.sources[facade] = "pub import \"../macro_import/helper\" as h { "
+                            "build as answer, imported_macro };";
+  fixture.sources[fixture.entry] = R"(
+import "../macro_expanded_imports/main.zp" as f { answer, imported_macro };
+fun private_value() Int { return 0; }
+macro local($q: source) expr { return f.answer(); }
+fun main() Int { return local!{} + imported_macro!{}; }
+)";
+  project = fixture.load(true);
+  if (!project.loaded)
+    for (const auto &diagnostic : project.diagnostics)
+      std::cerr << diagnostic.code << ": " << diagnostic.message << '\n';
+  require(project.loaded && project.boundRoot,
+          "reexport or imported macro used the caller's helper environment");
+  const auto expanded =
+      zap::frontend::ExpandedSyntaxEmitter::renderProject(project);
+  require(expanded.find("@ ctfe") == std::string::npos,
+          "bound expanded output retained compile-time-only helpers");
+  fixture.sources.clear();
+
+  for (const std::string helper :
+       {"@ctfe fun bad() Int { return \"wrong\"; }",
+        "@ctfe(1) fun bad() Int { return 0; }",
+        "@ctfe @ctfe fun bad() Int { return 0; }",
+        "@ctfe unsafe fun bad() Int { return 0; }",
+        "@ctfe fun bad() Int { if false { readFile(\"bad\"); } return 0; }"}) {
+    fixture.sources[fixture.entry] = helper + "\nfun main() Int { return 0; }";
+    project = fixture.load();
+    require(!project.loaded && findError(project, "M3002"),
+            "invalid unused @ctfe helper escaped validation");
+  }
+  fixture.sources[fixture.entry] = R"(
+fun dangerous() Int { if false { readFile("bad"); } return 42; }
+macro unused($q: source) expr {
+  if dangerous() == 42 { return syntaxExpr("42"); }
+  return syntaxExpr("0");
+}
+fun main() Int { return 0; }
+)";
+  project = fixture.load();
+  require(!project.loaded && findError(project, "M3002"),
+          "ordinary helper dependency bypassed eager sandbox validation");
+  fixture.sources[fixture.entry] = R"(
+fun capture(q: SyntaxSource) SyntaxExpr { return sourceInterpolation(q, 0); }
+macro forward($q: source) expr { return capture(q); }
+fun main() Int { return 0; }
+)";
+  project = fixture.load();
+  require(!project.loaded && findError(project, "M3002"),
+          "Syntax* helper was accepted without @ctfe");
+  fixture.sources[fixture.entry] = R"(
+macro generate() { @ctfe fun hidden() Int { return "wrong"; } }
+generate!()
+fun main() Int { return 0; }
+)";
+  project = fixture.load();
+  require(!project.loaded && findError(project, "M1005"),
+          "generated @ctfe helper bypassed module-environment validation");
+}
+
+void testHelperVisibilityAndRuntimeBoundary() {
+  Fixture fixture;
+  fixture.sources[fixture.helper] =
+      "@ctfe fun hidden() SyntaxExpr { return syntaxExpr(\"42\"); }";
+  for (const std::string import :
+       {"import \"helper\" as h;", "import \"helper\" as h { hidden };"}) {
+    fixture.sources[fixture.entry] =
+        import + " macro answer($q: source) expr { return " +
+        (import.find("{") == std::string::npos ? "h.hidden()" : "hidden()") +
+        "; } fun main() Int { return answer!{}; }";
+    auto project = fixture.load();
+    require(!project.loaded && findError(project, "M3002"),
+            "private imported helper became visible to CTFE");
+  }
+  fixture.sources[fixture.helper] =
+      "@ctfe pub fun build() SyntaxExpr { return syntaxExpr(\"42\"); }";
+  for (const std::string use :
+       {"h.build();", "build();", "var callback = build;"}) {
+    fixture.sources[fixture.entry] =
+        "import \"helper\" as h { build }; fun main() Int { " + use +
+        " return 0; }";
+    auto project = fixture.load();
+    require(project.loaded, "valid @ctfe helper failed frontend validation");
+    zap::frontend::FrontendSessionConfig config{
+        zap::frontend::RuntimePaths(
+            {}, {}, {}, {}, zap::frontend::EnvironmentOverrides::Ignore),
+        {}};
+    config.includePrelude = false;
+    zap::frontend::FrontendSession session(config, {});
+    require(!session.bind(project), "runtime used a compile-time-only helper");
+  }
+}
+
+void testHelperCacheDependencies() {
+  Fixture fixture;
+  fixture.sources[fixture.entry] =
+      "import \"helper\" as h; macro answer($q: source) expr { return "
+      "h.build(); } fun main() Int { return answer!{}; }";
+  fixture.sources[fixture.helper] =
+      "@ctfe pub fun build() SyntaxExpr { return syntaxExpr(\"42\"); }";
+  auto first = fixture.load();
+  require(first.loaded, "helper cache fixture failed");
+  const auto *definition =
+      first.macros.find(first.entryModuleId, "answer")->front().definition;
+  const auto *program = first.macros.program(*definition);
+  require(program, "macro was not assigned its verified module program");
+  zap::ctfe::SyntaxMacroRequest request;
+  request.definitionId = "answer";
+  request.invocation = {"caller.zp", 1, 1, 0, 1};
+  zap::ctfe::SyntaxSource input;
+  input.sourceName = "caller.zp";
+  input.offsets.push_back({1, 1, 0});
+  request.input = std::move(input);
+  zap::ctfe::CtfeInterpreter interpreter;
+  auto result = interpreter.execute(*program, "__syntax_macro__", request);
+  require(result.output && std::get<zap::ctfe::SyntaxExpr>(*result.output)
+                                   .syntax.tokens.front()
+                                   .value == "42",
+          "prepared helper program did not execute");
+  require(interpreter.execute(*program, "__syntax_macro__", request).output &&
+              interpreter.cacheHits() == 1,
+          "prepared program missed cache");
+  fixture.sources[fixture.helper] =
+      "@ctfe pub fun build() SyntaxExpr { return syntaxExpr(\"43\"); }";
+  auto second = fixture.load();
+  require(second.loaded, "changed helper failed");
+  definition =
+      second.macros.find(second.entryModuleId, "answer")->front().definition;
+  result = interpreter.execute(*second.macros.program(*definition),
+                               "__syntax_macro__", request);
+  require(result.output &&
+              std::get<zap::ctfe::SyntaxExpr>(*result.output)
+                      .syntax.tokens.front()
+                      .value == "43" &&
+              interpreter.cacheHits() == 1,
+          "changed helper source reused stale cache result");
+  zap::ctfe::CtfeLimits limits;
+  limits.maxDefinitionTokens = 1;
+  result = interpreter.execute(*program, "__syntax_macro__", request, limits);
+  require(!result.output && result.diagnostics.front().code == "M3003",
+          "prepared program bypassed stricter execution limits");
+
+  const auto left = fixture.entry.parent_path().parent_path() /
+                    "macro_expanded_imports" / "left" / "helper.zp";
+  const auto right = fixture.entry.parent_path().parent_path() /
+                     "macro_expanded_imports" / "right" / "helper.zp";
+  fixture.sources[left] = "pub fun number() Int { return 41; }";
+  fixture.sources[right] = "pub fun number() Int { return 42; }";
+  const std::string helperBody = R"(
+@ctfe pub fun build() SyntaxExpr {
+  var keep: Int = a.number() + b.number();
+  if chosen() == 41 { return syntaxExpr("41"); }
+  return syntaxExpr("42");
+}
+)";
+  fixture.sources[fixture.helper] =
+      "import \"../macro_expanded_imports/left/helper.zp\" as a { number as "
+      "chosen }; import \"../macro_expanded_imports/right/helper.zp\" as b { "
+      "number as unused };" +
+      helperBody;
+  auto third = fixture.load();
+  require(third.loaded, "resolved-import cache fixture failed");
+  definition =
+      third.macros.find(third.entryModuleId, "answer")->front().definition;
+  result = interpreter.execute(*third.macros.program(*definition),
+                               "__syntax_macro__", request);
+  require(result.output && std::get<zap::ctfe::SyntaxExpr>(*result.output)
+                                   .syntax.tokens.front()
+                                   .value == "41",
+          "initial imported helper binding failed");
+  fixture.sources[fixture.helper] =
+      "import \"../macro_expanded_imports/left/helper.zp\" as a { number as "
+      "unused }; import \"../macro_expanded_imports/right/helper.zp\" as b { "
+      "number as chosen };" +
+      helperBody;
+  auto fourth = fixture.load();
+  require(fourth.loaded, "changed-import cache fixture failed");
+  definition =
+      fourth.macros.find(fourth.entryModuleId, "answer")->front().definition;
+  result = interpreter.execute(*fourth.macros.program(*definition),
+                               "__syntax_macro__", request);
+  require(result.output &&
+              std::get<zap::ctfe::SyntaxExpr>(*result.output)
+                      .syntax.tokens.front()
+                      .value == "42" &&
+              interpreter.cacheHits() == 1,
+          "changed lookup reused a cache result despite identical reachable "
+          "function sources");
+}
+
 } // namespace
 
 int main() {
@@ -421,4 +664,7 @@ int main() {
   testExpressionStatementAndTail();
   testCapturedTokenProtocolRoundTrip();
   testEagerDefinitionsAndInterpolations();
+  testModuleHelpers();
+  testHelperVisibilityAndRuntimeBoundary();
+  testHelperCacheDependencies();
 }

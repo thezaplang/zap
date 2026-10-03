@@ -124,8 +124,8 @@ FrontendProject FrontendSession::load(const std::filesystem::path &entryPath) {
   bool macrosComplete = true;
   for (const auto &error : macroErrors) {
     pending.at(error.moduleId)
-        ->diagnostics.report(error.span, DiagnosticLevel::Error,
-                             macro_diagnostic::Resolution, error.message);
+        ->diagnostics.report(error.span, DiagnosticLevel::Error, error.code,
+                             error.message);
     if (!config_.allowEntryErrors || error.moduleId != project.entryModuleId)
       macrosComplete = false;
   }

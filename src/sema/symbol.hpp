@@ -11,7 +11,14 @@
 
 namespace sema {
 
-enum class SymbolKind { Variable, Function, OverloadSet, Type, Module };
+enum class SymbolKind {
+  Variable,
+  Function,
+  OverloadSet,
+  Type,
+  Module,
+  CompileTimeFunction
+};
 
 class BoundExpression;
 
@@ -41,6 +48,16 @@ protected:
          std::string module = "", Visibility vis = Visibility::Private)
       : name(std::move(n)), linkName(link.empty() ? name : std::move(link)),
         moduleName(std::move(module)), type(std::move(t)), visibility(vis) {}
+};
+
+class CompileTimeFunctionSymbol : public Symbol {
+public:
+  CompileTimeFunctionSymbol(std::string name, std::string module,
+                            Visibility visibility)
+      : Symbol(std::move(name), nullptr, "", std::move(module), visibility) {}
+  SymbolKind getKind() const noexcept override {
+    return SymbolKind::CompileTimeFunction;
+  }
 };
 
 class VariableSymbol : public Symbol {

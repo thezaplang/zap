@@ -120,48 +120,65 @@ struct Scope {
 
 class Validator {
 public:
-  Validator(zap::DiagnosticEngine &diagnostics, FunctionTypes &functions)
-      : diagnostics_(diagnostics), functions_(functions) {}
+  Validator(zap::DiagnosticEngine &diagnostics, ValidatedFunctions &functions,
+            const FunctionLookup &lookup)
+      : diagnostics_(diagnostics), functions_(functions), lookup_(lookup) {}
 
-  void validate(const RootNode &root) {
-    for (const auto &node : root.children) {
-      const auto *function = dynamic_cast<const FunDecl *>(node.get());
-      if (!function || function->isExtern_ || function->isUnsafe_ ||
-          function->isStatic_ || !function->body_ || function->lambdaExpr_ ||
-          function->returnsRef_ || function->resultBorrowSource_ ||
-          !function->attributes_.empty() || !function->genericParams_.empty() ||
-          !function->genericConstraints_.empty())
-        fail(*node, "CTFE accepts only ordinary, safe functions.");
-      FunctionType signature{{}, declaredType(function->returnType_.get())};
-      for (const auto &parameter : function->params_) {
-        if (parameter->isRef || parameter->isSink || parameter->isNoEscape ||
-            parameter->isVariadic || parameter->defaultValue)
-          fail(*parameter, "Unsupported CTFE function parameter.");
-        auto type = declaredType(parameter->type.get());
-        requireValue(*parameter, type);
-        signature.parameters.push_back(type);
-      }
-      if (builtinTypes().count(function->name_) ||
-          !functions_.emplace(function->name_, std::move(signature)).second)
-        fail(*function, "Duplicate or reserved CTFE function name.");
+  const FunctionType &validate(const FunctionDefinition &definition) {
+    auto known = functions_.types.find(definition.id);
+    if (known != functions_.types.end()) {
+      if (functions_.declarations.at(definition.id) != definition.declaration)
+        fail(*definition.declaration, "Conflicting CTFE function identities.");
+      return known->second; // Recursive calls share the declared signature.
     }
-    for (const auto &node : root.children) {
-      const auto &function = dynamic_cast<const FunDecl &>(*node);
-      const auto &signature = functions_.at(function.name_);
-      Scope parameters{nullptr, {}};
-      for (size_t i = 0; i < function.params_.size(); ++i)
-        declare(*function.params_[i], parameters, function.params_[i]->name,
-                signature.parameters[i], false);
-      bool terminates = body(*function.body_, parameters, signature.result);
-      if (!terminates && signature.result != ValueType::Void)
-        fail(function, "CTFE function '" + function.name_ +
-                           "' does not return a value on every path.");
+    const auto *function = definition.declaration;
+    const bool ctfeAttribute = function && function->isCtfeOnly() &&
+                               function->attributes_.size() == 1 &&
+                               !function->attributes_.front().hasArguments();
+    if (!function)
+      throw std::logic_error("missing CTFE function declaration");
+    if (function->isExtern_ || function->isUnsafe_ || function->isStatic_ ||
+        !function->body_ || function->lambdaExpr_ || function->returnsRef_ ||
+        function->resultBorrowSource_ ||
+        (!function->attributes_.empty() && !ctfeAttribute) ||
+        !function->genericParams_.empty() ||
+        !function->genericConstraints_.empty())
+      fail(*function,
+           "CTFE accepts only safe functions without runtime attributes.");
+    FunctionType signature{{}, declaredType(function->returnType_.get())};
+    for (const auto &parameter : function->params_) {
+      if (parameter->isRef || parameter->isSink || parameter->isNoEscape ||
+          parameter->isVariadic || parameter->defaultValue)
+        fail(*parameter, "Unsupported CTFE function parameter.");
+      auto type = declaredType(parameter->type.get());
+      requireValue(*parameter, type);
+      signature.parameters.push_back(type);
     }
+    if (builtinTypes().count(definition.id))
+      fail(*function, "Duplicate or reserved CTFE function name.");
+    const auto &stored =
+        functions_.types.emplace(definition.id, std::move(signature))
+            .first->second;
+    functions_.declarations.emplace(definition.id, function);
+    const FunDecl *previous = current_;
+    current_ = function;
+    Scope parameters{nullptr, {}};
+    for (size_t i = 0; i < function->params_.size(); ++i)
+      declare(*function->params_[i], parameters, function->params_[i]->name,
+              stored.parameters[i], false);
+    bool terminates = body(*function->body_, parameters, stored.result);
+    if (!terminates && stored.result != ValueType::Void)
+      fail(*function, "CTFE function '" + function->name_ +
+                          "' does not return a value on every path.");
+    current_ = previous;
+    return stored;
   }
 
 private:
   zap::DiagnosticEngine &diagnostics_;
-  FunctionTypes &functions_;
+  ValidatedFunctions &functions_;
+  const FunctionLookup &lookup_;
+  const FunDecl *current_ = nullptr;
 
   [[noreturn]] void fail(const Node &node, const std::string &message) {
     diagnostics_.report(node.span, zap::DiagnosticLevel::Error, "M3002",
@@ -298,19 +315,32 @@ private:
     }
     if (const auto *call = dynamic_cast<const FunCall *>(&node)) {
       const auto *callee = dynamic_cast<const ConstId *>(call->callee_.get());
-      if (!callee || !call->genericArgs_.empty())
+      const auto *member =
+          dynamic_cast<const MemberAccessNode *>(call->callee_.get());
+      const auto *qualifier =
+          member ? dynamic_cast<const ConstId *>(member->left_.get()) : nullptr;
+      if ((!callee && !qualifier) || !call->genericArgs_.empty())
         fail(node, "Only direct CTFE function calls are allowed.");
-      if (scope.find(callee->value_))
+      if (scope.find(callee ? callee->value_ : qualifier->value_))
         fail(node, "CTFE function call is shadowed by a local binding.");
       const FunctionType *signature = nullptr;
-      auto builtin = builtinTypes().find(callee->value_);
-      auto function = functions_.find(callee->value_);
-      if (builtin != builtinTypes().end())
-        signature = &builtin->second;
-      else if (function != functions_.end())
-        signature = &function->second;
+      std::string target;
+      if (auto function = lookup_(*current_, *call->callee_)) {
+        target = function->id;
+        signature = &validate(*function);
+      } else if (callee) {
+        auto builtin = builtinTypes().find(callee->value_);
+        if (builtin != builtinTypes().end()) {
+          signature = &builtin->second;
+          target = callee->value_;
+        }
+      }
       if (!signature)
-        fail(node, "Forbidden or unknown CTFE call '" + callee->value_ + "'.");
+        fail(node, "Forbidden or unknown CTFE call '" +
+                       (callee ? callee->value_
+                               : qualifier->value_ + "." + member->member_) +
+                       "'.");
+      functions_.calls.emplace(call, std::move(target));
       if (call->params_.size() != signature->parameters.size())
         fail(node, "Wrong CTFE function argument count.");
       bool never = false;
@@ -399,15 +429,18 @@ private:
 
 } // namespace
 
-bool validateDefinition(const RootNode &root,
-                        zap::DiagnosticEngine &diagnostics,
-                        FunctionTypes &functions) {
-  functions.clear();
+bool validateFunctions(const std::vector<FunctionDefinition> &entries,
+                       const FunctionLookup &lookup,
+                       zap::DiagnosticEngine &diagnostics,
+                       ValidatedFunctions &functions) {
+  functions = {};
   try {
-    Validator(diagnostics, functions).validate(root);
+    Validator validator(diagnostics, functions, lookup);
+    for (const auto &entry : entries)
+      validator.validate(entry);
     return true;
   } catch (const InvalidDefinition &) {
-    functions.clear();
+    functions = {};
     return false;
   }
 }

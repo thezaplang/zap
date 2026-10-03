@@ -361,6 +361,7 @@ private:
   void predeclareModuleTypes(ModuleState &module);
   void predeclareModuleAliases(ModuleState &module);
   void predeclareModuleValues(ModuleState &module);
+  bool predeclareCtfeFunction(ModuleState &module, FunDecl &function);
   void applyImports(ModuleState &module, bool allowIncomplete = false);
   void ensureModuleValuesReady(ModuleState &module);
   std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;

@@ -1,5 +1,4 @@
 #include "macro_parser.hpp"
-#include "ctfe_interpreter.hpp"
 #include "macro_diagnostic_codes.hpp"
 
 #include "../parser/token_cursor.hpp"
@@ -202,9 +201,6 @@ private:
                                                       : "SyntaxTokens") +
         ") " + resultType + " " +
         source.substr(bodySpan.offset, bodySpan.length);
-    if (!ctfe::CtfeInterpreter::validateDefinition(functionSource, bodySpan,
-                                                   diagnostics_))
-      return failure();
     MacroDefinition definition{
         name,
         visibility_,

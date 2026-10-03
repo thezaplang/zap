@@ -7,6 +7,10 @@
 
 namespace zap {
 
+namespace ctfe {
+class CtfeProgram;
+}
+
 struct MacroBinding {
   // Definitions must outlive the resolver and any expansion using it.
   const MacroDefinition *definition;
@@ -23,6 +27,9 @@ public:
   virtual const MacroOverloadSet *
   findQualified(const std::string &moduleId, const std::string &alias,
                 const std::string &name) const = 0;
+  virtual const ctfe::CtfeProgram *program(const MacroDefinition &) const {
+    return nullptr;
+  }
 };
 
 } // namespace zap

@@ -64,10 +64,29 @@ void testMalformedImportDoesNotHideLaterDeclaration() {
           "malformed import hid a later top-level declaration");
 }
 
+void testHelperAttributes() {
+  const std::string source = R"(
+@other(ctfe) fun ordinary() Int { return 0; }
+@ctfe pub fun one() Int { return 1; }
+@{ctfe} fun two() Int { return 2; }
+)";
+  zap::DiagnosticEngine diagnostics(source, "helpers.zp");
+  Lexer lexer(diagnostics);
+  const auto outline =
+      zap::frontend::ModuleOutline::scan(lexer.tokenize(source), diagnostics);
+  require(!diagnostics.hadErrors() && outline.functions.size() == 3 &&
+              !outline.functions[0].ctfeOnly && outline.functions[1].ctfeOnly &&
+              outline.functions[2].ctfeOnly &&
+              outline.functions[1].visibility == Visibility::Public,
+          "outline confused attribute arguments with @ctfe or lost grouped "
+          "attributes");
+}
+
 } // namespace
 
 int main() {
   testOutlineDiscoversOnlyTopLevelSyntax();
   testMalformedImportDoesNotHideLaterDeclaration();
+  testHelperAttributes();
   return 0;
 }

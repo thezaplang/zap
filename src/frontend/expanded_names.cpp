@@ -1,3 +1,4 @@
+#include "ast/fun_decl.hpp"
 #include "frontend/expanded_syntax.hpp"
 #include "frontend/frontend_session.hpp"
 #include "ir/type_identity.hpp"
@@ -42,6 +43,12 @@ public:
       }
       for (const auto &child : module->root->children) {
         auto declaration = dynamic_cast<const TopLevel *>(child.get());
+        if (const auto *function = dynamic_cast<const FunDecl *>(child.get())) {
+          if (function->isCtfeOnly()) {
+            omit(*function);
+            continue;
+          }
+        }
         if (!runtimeModule(*module) &&
             dynamic_cast<const ImportNode *>(child.get())) {
           omit(*declaration);

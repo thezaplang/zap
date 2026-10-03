@@ -23,6 +23,11 @@ bool Binder::isSupportedBuiltInAttribute(const std::string &name) const {
 
 void Binder::warnUnknownAttributes(const TopLevel &node) {
   for (const auto &attr : node.attributes_) {
+    if (attr.name == "ctfe") {
+      error(attr.span,
+            "@ctfe can only decorate top-level compile-time functions.");
+      continue;
+    }
     if (!isSupportedBuiltInAttribute(attr.name)) {
       _diag.report(attr.span, zap::DiagnosticLevel::Warning,
                    "unknown attribute '" + attr.name + "'");

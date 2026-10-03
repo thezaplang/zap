@@ -101,6 +101,10 @@ Binder::resolveQualifiedSymbol(const std::vector<std::string> &parts,
     symbol = memberIt->second;
   }
 
+  if (symbol->getKind() == SymbolKind::CompileTimeFunction) {
+    error(span, "Cannot use @ctfe function '" + symbol->name + "' at runtime.");
+    return nullptr;
+  }
   if (!allowAnyKind && symbol->getKind() != expectedKind &&
       !(expectedKind == SymbolKind::Function &&
         symbol->getKind() == SymbolKind::OverloadSet)) {

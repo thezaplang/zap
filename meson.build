@@ -83,6 +83,7 @@ zap_type_layout_dep = declare_dependency(link_with : zap_type_layout, include_di
 
 zap_sema = static_library('zap_sema',
                           'src/sema/binder.cpp',
+                          'src/sema/binder_ctfe.cpp',
                           'src/sema/symbol.cpp',
                           'src/sema/binder_names.cpp',
                           'src/sema/binder_members.cpp',
@@ -112,6 +113,7 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/macro_parser.cpp',
                             'src/macros/macro_template.cpp',
                             'src/macros/ctfe_interpreter.cpp',
+                            'src/macros/ctfe_program.cpp',
                             'src/macros/ctfe_semantics.cpp',
                             'src/macros/ctfe_syntax.cpp',
                             'src/macros/ctfe_provenance.cpp',
@@ -135,6 +137,7 @@ zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories 
 
 zap_frontend = static_library('zap_frontend',
                               'src/frontend/expanded_syntax.cpp',
+                              'src/frontend/ctfe_environment.cpp',
                               'src/frontend/expanded_names.cpp',
                               'src/frontend/frontend_session.cpp',
                               'src/frontend/macro_registry.cpp',
@@ -277,6 +280,12 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('macro-module-helpers-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_module_helpers_test.zp'
+             ], depends : zapc)
         test('macro-structured-syntax-roundtrip', find_program('bash'),
              args : [
                  meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',

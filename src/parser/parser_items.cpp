@@ -12,6 +12,9 @@ std::unique_ptr<RootNode> Parser::parse() {
     try {
       const size_t declarationStart = _cursor.position();
       auto attributes = parseAttributes();
+      bool ctfeOnly = false;
+      for (const auto &attribute : attributes)
+        ctfeOnly |= attribute.name == "ctfe";
 
       Visibility visibility = Visibility::Private;
       const bool hasVisibility =
@@ -29,6 +32,10 @@ std::unique_ptr<RootNode> Parser::parse() {
         if (auto topLevel = dynamic_cast<TopLevel *>(node)) {
           topLevel->visibility_ = visibility;
           topLevel->attributes_ = std::move(attrs);
+          for (const auto &attribute : topLevel->attributes_)
+            if (attribute.name == "ctfe" && !dynamic_cast<FunDecl *>(node))
+              _diag.report(attribute.span, DiagnosticLevel::Error,
+                           "@ctfe can only decorate top-level functions.");
           auto &first = _tokens[declarationStart];
           auto &last = _tokens[_cursor.position() - 1];
           if (!first.occurrence)
@@ -79,14 +86,20 @@ std::unique_ptr<RootNode> Parser::parse() {
         auto importDecl = parseImportDecl();
         applyMetadata(importDecl.get(), std::move(attributes));
         root->addChild(std::move(importDecl));
-      } else if (peek().type == TokenType::UNSAFE &&
-                 peek(1).type == TokenType::FUN) {
-        eat(TokenType::UNSAFE);
-        auto decl = parseFunDecl(true);
-        applyMetadata(decl.get(), std::move(attributes));
-        root->addChild(std::move(decl));
-      } else if (peek().type == TokenType::FUN) {
-        auto decl = parseFunDecl();
+      } else if (peek().type == TokenType::FUN ||
+                 (peek().type == TokenType::UNSAFE &&
+                  peek(1).type == TokenType::FUN)) {
+        struct ModeGuard {
+          MacroParseMode &mode;
+          MacroParseMode previous;
+          ~ModeGuard() { mode = previous; }
+        } guard{_macroMode, _macroMode};
+        if (ctfeOnly)
+          _macroMode = MacroParseMode::ValidateFragmentSyntax;
+        const bool unsafe = peek().type == TokenType::UNSAFE;
+        if (unsafe)
+          eat(TokenType::UNSAFE);
+        auto decl = parseFunDecl(unsafe);
         applyMetadata(decl.get(), std::move(attributes));
         root->addChild(std::move(decl));
       } else if (peek().type == TokenType::EXTERN) {
@@ -184,11 +197,17 @@ std::unique_ptr<RootNode> Parser::parseItemFragmentRoot() {
     _diag.report(_macroDefinitions.front().span, DiagnosticLevel::Error,
                  macro_diagnostic::Fragment,
                  "Macro expansion cannot define macros.");
-  for (const auto &item : root->children)
+  for (const auto &item : root->children) {
     if (dynamic_cast<const ImportNode *>(item.get()))
       _diag.report(item->span, DiagnosticLevel::Error,
                    macro_diagnostic::Fragment,
                    "Macro expansion cannot generate imports.");
+    if (const auto *function = dynamic_cast<const FunDecl *>(item.get()))
+      if (function->isCtfeOnly())
+        _diag.report(function->span, DiagnosticLevel::Error,
+                     macro_diagnostic::Fragment,
+                     "Macro expansion cannot generate @ctfe helpers.");
+  }
   return root;
 }
 

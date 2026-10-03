@@ -32,21 +32,29 @@ bool startsOutlineDeclaration(const std::vector<TokenTree> &trees,
   return false;
 }
 
-void skipAttribute(const std::vector<TokenTree> &trees, size_t &index) {
+bool skipAttribute(const std::vector<TokenTree> &trees, size_t &index) {
   ++index;
   if (index >= trees.size())
-    return;
+    return false;
   if (!trees[index].isLeaf() && trees[index].delimiter() == Delimiter::Brace) {
+    bool ctfeOnly = false;
+    for (const auto &attribute : trees[index].children())
+      ctfeOnly |= attribute.isLeaf() &&
+                  attribute.token().type == TokenType::ID &&
+                  attribute.token().value == "ctfe";
     ++index;
-    return;
+    return ctfeOnly;
   }
   if (leadingType(trees[index]) == TokenType::ID) {
+    const bool ctfeOnly = trees[index].token().value == "ctfe";
     ++index;
     if (index < trees.size() && !trees[index].isLeaf() &&
         trees[index].delimiter() == Delimiter::Parenthesis) {
       ++index;
     }
+    return ctfeOnly;
   }
+  return false;
 }
 
 size_t treeIndexAtOrAfter(const std::vector<TreeRange> &ranges, size_t from,
@@ -105,8 +113,9 @@ ModuleOutline ModuleOutline::scan(const std::vector<Token> &tokens,
 
   for (size_t index = 0; index < trees.size();) {
     const size_t itemStart = index;
+    bool ctfeOnly = false;
     while (index < trees.size() && leadingType(trees[index]) == TokenType::AT) {
-      skipAttribute(trees, index);
+      ctfeOnly |= skipAttribute(trees, index);
     }
 
     Visibility visibility = Visibility::Private;
@@ -122,6 +131,35 @@ ModuleOutline ModuleOutline::scan(const std::vector<Token> &tokens,
       break;
 
     const TokenType type = leadingType(trees[index]);
+    if (type == TokenType::FUN ||
+        (type == TokenType::UNSAFE && index + 1 < trees.size() &&
+         leadingType(trees[index + 1]) == TokenType::FUN)) {
+      const size_t funIndex = type == TokenType::FUN ? index : index + 1;
+      size_t end = funIndex;
+      while (end < trees.size() &&
+             !(!trees[end].isLeaf() &&
+               trees[end].delimiter() == Delimiter::Brace) &&
+             leadingType(trees[end]) != TokenType::SEMICOLON)
+        ++end;
+      if (end < trees.size() && funIndex + 1 < trees.size() &&
+          trees[funIndex + 1].isLeaf() &&
+          leadingType(trees[funIndex + 1]) == TokenType::ID) {
+        const size_t beginToken = ranges[itemStart].begin;
+        const size_t endToken = ranges[end].end;
+        const SourceSpan span = SourceSpan::merge(tokens[beginToken].span,
+                                                  tokens[endToken - 1].span);
+        const auto &source = diagnostics.sourceText();
+        if (span.offset <= source.size() &&
+            span.length <= source.size() - span.offset)
+          outline.functions.push_back(
+              {trees[funIndex + 1].token(), visibility, ctfeOnly,
+               std::vector<Token>(tokens.begin() + beginToken,
+                                  tokens.begin() + endToken),
+               source.substr(span.offset, span.length)});
+      }
+      index = end < trees.size() ? end + 1 : end;
+      continue;
+    }
     if (type == TokenType::MACRO) {
       auto parsed = MacroParser::parse(tokens, ranges[index].begin,
                                        tokens.size(), visibility, diagnostics);

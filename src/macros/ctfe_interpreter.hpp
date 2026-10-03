@@ -16,6 +16,8 @@ class DiagnosticEngine;
 
 namespace zap::ctfe {
 
+class CtfeProgram;
+
 struct CtfeLimits {
   size_t maxSteps = 100'000;
   size_t maxMemoryBytes = 4 * 1024 * 1024;
@@ -35,11 +37,11 @@ struct CtfeLimits {
 
 class CtfeInterpreter {
 public:
-  static bool validateDefinition(const std::string &source,
-                                 const SourceSpan &bodySpan,
-                                 zap::DiagnosticEngine &diagnostics,
-                                 CtfeLimits limits = {});
   SyntaxMacroResult execute(std::string_view definitionSource,
+                            std::string_view entryName,
+                            const SyntaxMacroRequest &request,
+                            CtfeLimits limits = {});
+  SyntaxMacroResult execute(const CtfeProgram &program,
                             std::string_view entryName,
                             const SyntaxMacroRequest &request,
                             CtfeLimits limits = {});
@@ -48,6 +50,11 @@ public:
   size_t cacheEntries() const noexcept { return cache_.size(); }
 
 private:
+  SyntaxMacroResult executeProgram(std::string_view definitionSource,
+                                   std::string_view entryName,
+                                   const SyntaxMacroRequest &request,
+                                   CtfeLimits limits,
+                                   const CtfeProgram *program);
   struct CacheKey {
     std::string definitionSource;
     std::string entryName;

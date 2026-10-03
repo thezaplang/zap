@@ -379,6 +379,8 @@ void Binder::predeclareModuleValues(ModuleState &module) {
 
   for (const auto &child : module.info->root->children) {
     if (auto funDecl = dynamic_cast<FunDecl *>(child.get())) {
+      if (predeclareCtfeFunction(module, *funDecl))
+        continue;
       if (funDecl->isUnsafe_) {
         ++unsafeTypeContextDepth_;
       }

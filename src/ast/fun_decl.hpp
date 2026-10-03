@@ -53,4 +53,11 @@ public:
         isStatic_(isStatic), isUnsafe_(isUnsafe) {}
 
   void accept(Visitor &v) override { v.visit(*this); }
+
+  bool isCtfeOnly() const {
+    for (const auto &attribute : attributes_)
+      if (attribute.name == "ctfe")
+        return true;
+    return false;
+  }
 };
