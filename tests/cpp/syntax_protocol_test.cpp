@@ -179,6 +179,34 @@ void testRejectsExcessiveNesting() {
 }
 
 void testRejectsMalformedMessages() {
+  SyntaxMacroRequest reserved;
+  reserved.input = SyntaxTokens{{{TokenType::ID, "name", "name", span(0, 4),
+                                  GeneratedSyntaxContext, nullptr}}};
+  require(std::get<SyntaxProtocolError>(encodeRequest(reserved)) ==
+                  SyntaxProtocolError::InvalidMessage &&
+              std::get<SyntaxProtocolError>(
+                  encodeCacheRequest(reserved, MaxSyntaxMessageBytes)) ==
+                  SyntaxProtocolError::InvalidMessage,
+          "request accepted the reserved generated-output context");
+  SyntaxMacroResult generated;
+  generated.output = reserved.input;
+  require(std::holds_alternative<std::string>(encodeResult(generated)),
+          "result rejected its legitimate generated-output marker");
+  std::get<SyntaxTokens>(reserved.input).tokens[0].context = 0;
+  auto forged = std::get<std::string>(encodeRequest(reserved));
+  for (size_t i = forged.size() - 5; i < forged.size() - 1; ++i)
+    forged[i] = static_cast<char>(0xff);
+  require(std::get<SyntaxProtocolError>(decodeRequest(forged)) ==
+              SyntaxProtocolError::InvalidMessage,
+          "wire request decoder accepted the reserved context");
+  auto nestedReserved = sourceRequest();
+  std::get<SyntaxSource>(nestedReserved.input)
+      .interpolations[0]
+      .expression.tokens[0]
+      .context = GeneratedSyntaxContext;
+  require(std::get<SyntaxProtocolError>(encodeRequest(nestedReserved)) ==
+              SyntaxProtocolError::InvalidMessage,
+          "nested source interpolation accepted the reserved context");
   const auto encoded = std::get<std::string>(encodeRequest(sourceRequest()));
   auto truncated = encoded.substr(0, encoded.size() - 1);
   require(std::holds_alternative<SyntaxProtocolError>(decodeRequest(truncated)),

@@ -340,6 +340,33 @@ bool validValue(const SyntaxValue &value) {
   return validTokens(std::get<SyntaxItem>(value).syntax, 0);
 }
 
+bool capturedSource(const SyntaxSource &source);
+bool capturedTokens(const SyntaxTokens &tokens) {
+  for (const auto &token : tokens.tokens)
+    if (token.context == GeneratedSyntaxContext ||
+        (token.sourceFragment && !capturedSource(*token.sourceFragment)))
+      return false;
+  return true;
+}
+bool capturedSource(const SyntaxSource &source) {
+  for (const auto &interpolation : source.interpolations)
+    if (!capturedTokens(interpolation.expression))
+      return false;
+  return true;
+}
+bool validRequestValue(const SyntaxValue &value) {
+  // Validate depth/shape first, before walking possibly cyclic source pointers.
+  if (!validValue(value))
+    return false;
+  if (const auto *tokens = std::get_if<SyntaxTokens>(&value))
+    return capturedTokens(*tokens);
+  if (const auto *source = std::get_if<SyntaxSource>(&value))
+    return capturedSource(*source);
+  if (const auto *expr = std::get_if<SyntaxExpr>(&value))
+    return capturedTokens(expr->syntax);
+  return capturedTokens(std::get<SyntaxItem>(value).syntax);
+}
+
 bool readValue(Reader &reader, SyntaxValue &value) {
   uint8_t kind = 0;
   if (!reader.byte(kind))
@@ -393,7 +420,7 @@ encodeRequest(const SyntaxMacroRequest &request, size_t maxBytes) {
   if (request.version != SyntaxProtocolVersion)
     return SyntaxProtocolError::UnsupportedVersion;
   const auto context = static_cast<uint8_t>(request.expected);
-  if (!validContext(context) || !validValue(request.input))
+  if (!validContext(context) || !validRequestValue(request.input))
     return SyntaxProtocolError::InvalidMessage;
   Writer writer(maxBytes);
   if (!writeHeader(writer, RequestTag) ||
@@ -409,7 +436,7 @@ encodeCacheRequest(const SyntaxMacroRequest &request, size_t maxBytes) {
   if (request.version != SyntaxProtocolVersion)
     return SyntaxProtocolError::UnsupportedVersion;
   const auto context = static_cast<uint8_t>(request.expected);
-  if (!validContext(context) || !validValue(request.input))
+  if (!validContext(context) || !validRequestValue(request.input))
     return SyntaxProtocolError::InvalidMessage;
   Writer writer(maxBytes, Writer::Purpose::CacheKey);
   if (!writeHeader(writer, RequestTag) ||
@@ -434,7 +461,7 @@ decodeRequest(std::string_view bytes) {
   if (!reader.string(request.definitionId) ||
       !readSpan(reader, request.invocation) || !reader.byte(context) ||
       !validContext(context) || !readValue(reader, request.input) ||
-      reader.remaining() != 0)
+      reader.remaining() != 0 || !validRequestValue(request.input))
     return reader.error();
   request.expected = static_cast<SyntaxContext>(context);
   return request;

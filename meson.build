@@ -113,6 +113,8 @@ zap_syntax = static_library('zap_syntax',
                             'src/macros/macro_template.cpp',
                             'src/macros/ctfe_interpreter.cpp',
                             'src/macros/ctfe_semantics.cpp',
+                            'src/macros/ctfe_syntax.cpp',
+                            'src/macros/ctfe_provenance.cpp',
                             'src/macros/syntax_bridge.cpp',
                             'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
@@ -275,6 +277,12 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('macro-structured-syntax-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_structured_syntax_test.zp'
+             ], depends : zapc)
         test('macro-expansion-roundtrip', find_program('bash'),
              args : [
                  meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',

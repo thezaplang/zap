@@ -19,14 +19,10 @@ SourceSpan sourceSpan(const ctfe::SyntaxSpan &span) {
 
 namespace {
 
-using CapturedTokenKey =
-    std::tuple<uint32_t, std::string_view, std::string_view, uint32_t,
-               std::string_view, uint64_t, uint64_t, uint64_t, uint64_t>;
+using CapturedTokenKey = ctfe::SyntaxTokenIdentity;
 
 CapturedTokenKey tokenKey(const ctfe::SyntaxToken &token) {
-  return {token.type,        token.value,           token.spelling,
-          token.context,     token.span.sourceName, token.span.line,
-          token.span.column, token.span.offset,     token.span.length};
+  return ctfe::syntaxTokenIdentity(token);
 }
 
 CapturedTokenKey tokenKey(const Token &token) {

@@ -1,4 +1,6 @@
 #include "macros/ctfe_interpreter.hpp"
+#include "macros/ctfe_provenance.hpp"
+#include "macros/ctfe_runtime.hpp"
 #include "macros/ctfe_semantics.hpp"
 
 #include "ast/nodes.hpp"
@@ -15,24 +17,8 @@
 namespace zap::ctfe {
 namespace {
 
-struct Failure {
-  const char *code;
-  std::string message;
-};
-
-// Reserve parser/lexer working space before either can allocate from input.
-// This is a conservative logical budget, not a process-wide RSS limit.
-void chargeParseBudget(const CtfeLimits &limits, size_t &used, size_t count,
-                       size_t bytesPerUnit) {
-  if (used > limits.maxMemoryBytes ||
-      count > (limits.maxMemoryBytes - used) / bytesPerUnit)
-    throw Failure{"M3003", "CTFE memory limit exceeded."};
-  used += count * bytesPerUnit;
-}
-
-using SyntaxHandle = std::shared_ptr<const SyntaxValue>;
-using Value =
-    std::variant<std::monostate, bool, int64_t, std::string, SyntaxHandle>;
+using Failure = CtfeFailure;
+using Value = CtfeValue;
 
 struct Binding {
   Value value;
@@ -186,6 +172,10 @@ public:
   }
 
   bool returnsInput(const SyntaxHandle &value) const { return value == input_; }
+  bool observesLocations() const { return observesLocations_; }
+  CtfeSyntaxBudget syntaxBudget() {
+    return {limits_, memoryUsed_, observesLocations_};
+  }
   size_t remainingMemory() const {
     return limits_.maxMemoryBytes - memoryUsed_;
   }
@@ -196,6 +186,7 @@ public:
 
 private:
   SyntaxHandle input_;
+  bool observesLocations_ = false;
   const SyntaxMacroRequest &request_;
   const CtfeLimits &limits_;
   const FunctionTypes &types_;
@@ -253,10 +244,10 @@ private:
     if (name == "panic") {
       throw Failure{"M3004", string(arguments.front())};
     }
-    if (name == "syntaxExpr" || name == "syntaxItem" ||
-        name == "syntaxTokens") {
-      return constructSyntax(name, string(arguments.front()));
-    }
+    CtfeSyntaxBudget syntaxBudget{limits_, memoryUsed_, observesLocations_};
+    if (auto result =
+            evaluateSyntaxBuiltin(name, arguments, request_, syntaxBudget))
+      return std::move(*result);
     if (name == "length") {
       const auto size = string(arguments.front()).size();
       if (size > static_cast<size_t>(std::numeric_limits<int64_t>::max()))
@@ -312,51 +303,6 @@ private:
     if (valueType(*returned) != signature->result)
       throw Failure{"M3001", "CTFE return type mismatch."};
     return std::move(*returned);
-  }
-
-  Value constructSyntax(const std::string &name, const std::string &source) {
-    if (source.size() > limits_.maxDefinitionBytes)
-      throw Failure{"M3003", "Generated CTFE syntax size limit exceeded."};
-    reserveParseMemory(source.size(), 256);
-    zap::DiagnosticEngine diagnostics(source, request_.invocation.sourceName);
-    Lexer lexer(diagnostics);
-    auto tokens = lexer.tokenize(source);
-    if (diagnostics.hadErrors() || tokens.size() > limits_.maxDefinitionTokens)
-      throw Failure{"M3001", "Invalid or oversized generated syntax."};
-    reserveParseMemory(tokens.size(), 256);
-    checkSyntaxDepth(tokens, limits_.maxSyntaxDepth);
-    if (name != "syntaxTokens") {
-      zap::Parser parser(tokens, diagnostics, nullptr, {},
-                         MacroParseMode::ValidateFragmentSyntax);
-      const auto kind = name == "syntaxExpr" ? FragmentKind::Expression
-                                             : FragmentKind::ItemList;
-      if (!parser.parseFragment(kind) || diagnostics.hadErrors()) {
-        for (const auto &diagnostic : diagnostics.diagnostics())
-          if (diagnostic.code == "P1006")
-            throw Failure{"M3003", diagnostic.message};
-        throw Failure{"M3001", "Invalid generated syntax fragment."};
-      }
-    }
-    SyntaxTokens result;
-    result.tokens.reserve(tokens.size());
-    for (const auto &token : tokens) {
-      if (token.sourceFragment)
-        throw Failure{"M3002", "Nested source groups in generated syntax are "
-                               "not supported by CTFE yet."};
-      // Include the owned output copy and its wire encoding before allocation.
-      reserveParseMemory(token.value.size() + token.spelling.size() +
-                             request_.invocation.sourceName.size() +
-                             sizeof(SyntaxToken),
-                         3);
-      result.tokens.push_back({static_cast<uint32_t>(token.type), token.value,
-                               token.spelling, request_.invocation,
-                               GeneratedSyntaxContext, nullptr});
-    }
-    if (name == "syntaxExpr")
-      return std::make_shared<const SyntaxValue>(SyntaxExpr{std::move(result)});
-    if (name == "syntaxItem")
-      return std::make_shared<const SyntaxValue>(SyntaxItem{std::move(result)});
-    return std::make_shared<const SyntaxValue>(std::move(result));
   }
 
   Value expression(const ExpressionNode &node, Frame &frame) {
@@ -616,6 +562,16 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
     constexpr size_t cacheEntryOverhead =
         sizeof(CacheKey) + sizeof(CacheEntry) + 64;
     auto cached = cache_.find(key);
+    auto eraseCached = [&]() {
+      cacheBytes_ -= key.definitionSource.size() + key.entryName.size() +
+                     key.request.size() + cached->second.ownedBytes() +
+                     cacheEntryOverhead;
+      cache_.erase(cached);
+      cached = cache_.end();
+    };
+    if (cached != cache_.end() && !cached->second.locationRequest.empty() &&
+        cached->second.locationRequest != requestBytes)
+      eraseCached();
     if (cached != cache_.end()) {
       if (cached->second.returnsInput) {
         ++cacheHits_;
@@ -627,19 +583,10 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
       auto decoded = decodeResult(cached->second.generatedResult);
       if (auto *value = std::get_if<SyntaxMacroResult>(&decoded)) {
         if (value->output) {
-          SyntaxTokens *tokens = std::get_if<SyntaxTokens>(&*value->output);
-          if (auto *expr = std::get_if<SyntaxExpr>(&*value->output))
-            tokens = &expr->syntax;
-          if (auto *item = std::get_if<SyntaxItem>(&*value->output))
-            tokens = &item->syntax;
-          if (tokens) {
-            // Rebinding a short cached filename to a long current filename can
-            // grow every output token. Reserve copies before changing spans.
-            chargeParseBudget(limits, memoryUsed, tokens->tokens.size(),
-                              3 * request.invocation.sourceName.size() + 1);
-            for (auto &token : tokens->tokens)
-              token.span = request.invocation;
-          }
+          bool ignored = false;
+          CtfeSyntaxBudget budget{limits, memoryUsed, ignored};
+          restoreSyntaxOutput(*value->output, request,
+                              cached->second.provenance, budget);
         }
         auto encoded = encodeResult(*value, limits.maxMemoryBytes - memoryUsed);
         if (!std::holds_alternative<std::string>(encoded))
@@ -649,10 +596,7 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
         ++cacheHits_;
         return *value;
       }
-      cacheBytes_ -= key.definitionSource.size() + key.entryName.size() +
-                     key.request.size() +
-                     cached->second.generatedResult.size() + cacheEntryOverhead;
-      cache_.erase(cached);
+      eraseCached();
     }
 
     std::string source(definitionSource);
@@ -684,10 +628,18 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
     } else
       throw Failure{"M3001", "CTFE macro must return syntax."};
 
-    std::string resultBytes;
+    CacheEntry entry;
+    entry.returnsInput = returnsInput;
+    if (evaluator.observesLocations()) {
+      evaluator.reserveParseMemory(requestBytes.size(), 1);
+      entry.locationRequest = requestBytes;
+    }
     // The request encoder already validates and budgets input. A passthrough
     // needs no second serialization, on either a cache hit or a miss.
     if (!returnsInput) {
+      auto budget = evaluator.syntaxBudget();
+      entry.provenance =
+          syntaxOutputProvenance(*result.output, request.input, budget);
       auto encodedResult = encodeResult(result, evaluator.remainingMemory());
       if (!std::holds_alternative<std::string>(encodedResult))
         throw Failure{std::get<SyntaxProtocolError>(encodedResult) ==
@@ -695,18 +647,18 @@ SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
                           ? "M3003"
                           : "M3001",
                       "CTFE macro returned invalid or oversized syntax data."};
-      resultBytes = std::move(std::get<std::string>(encodedResult));
+      entry.generatedResult = std::move(std::get<std::string>(encodedResult));
     }
     const size_t entryBytes = key.definitionSource.size() +
                               key.entryName.size() + key.request.size() +
-                              resultBytes.size() + cacheEntryOverhead;
+                              entry.ownedBytes() + cacheEntryOverhead;
     if (limits.maxCacheEntries && entryBytes <= limits.maxCacheBytes) {
       if (cacheBytes_ > limits.maxCacheBytes - entryBytes ||
           cache_.size() >= limits.maxCacheEntries) {
         cache_.clear();
         cacheBytes_ = 0;
       }
-      cache_.emplace(std::move(key), CacheEntry{resultBytes, returnsInput});
+      cache_.emplace(std::move(key), std::move(entry));
       cacheBytes_ += entryBytes;
     }
   } catch (const Failure &failure) {

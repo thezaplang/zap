@@ -167,6 +167,94 @@ void testSourceInput() {
           "CTFE source capture or member access failed");
 }
 
+void testStructuredSyntax() {
+  CtfeInterpreter helpers;
+  auto prefixedHelper = helpers.execute(
+      "fun syntaxTokenHelper(value: Int) Int { return value * 2; } "
+      "fun run(input: SyntaxTokens) SyntaxExpr { if syntaxTokenHelper(21) == "
+      "42 { "
+      "return syntaxExpr(\"42\"); } return syntaxExpr(\"0\"); }",
+      "run", request());
+  require(
+      prefixedHelper.output &&
+          std::get<SyntaxExpr>(*prefixedHelper.output).syntax.tokens[0].value ==
+              "42",
+      "syntax builtin dispatcher intercepted an ordinary helper name");
+  auto input = request();
+  input.input = SyntaxTokens{
+      {{TokenType::ID, "name", "name", input.invocation, 7, nullptr}}};
+  const std::string definition = R"zp(
+fun run(input: SyntaxTokens) SyntaxExpr {
+  var selected = syntaxSlice(input, 0, 1);
+  if syntaxCount(selected) != 1 { panic("count"); }
+  if syntaxTokenText(selected, 0) != "name" { panic("text"); }
+  if syntaxTokenSpelling(selected, 0) != "name" { panic("spelling"); }
+  if syntaxTokenKind(selected, 0) != "identifier" { panic("kind"); }
+  var result = syntaxConcat(syntaxTokens("("), syntaxConcat(selected, syntaxTokens(" + 2)")));
+  return syntaxExprFromTokens(result);
+}
+)zp";
+  CtfeInterpreter interpreter;
+  auto first = interpreter.execute(definition, "run", input);
+  require(first.output.has_value(), "structured token composition failed");
+  input.invocation = {"next.zp", 20, 1, 100, 8};
+  std::get<SyntaxTokens>(input.input).tokens[0].span = {"next.zp", 20, 5, 104,
+                                                        4};
+  std::get<SyntaxTokens>(input.input).tokens[0].context = 99;
+  auto second = interpreter.execute(definition, "run", input);
+  require(second.output && interpreter.cacheHits() == 1,
+          "composed syntax did not share its semantic cache");
+  const auto &tokens = std::get<SyntaxExpr>(*second.output).syntax.tokens;
+  require(tokens.size() == 5 && tokens[1].context == 99 &&
+              tokens[1].span.offset == 104 &&
+              tokens[0].context == GeneratedSyntaxContext &&
+              tokens[0].span.offset == 100,
+          "composed cache lost captured versus generated token provenance");
+
+  for (const std::string body :
+       {"return syntaxExprFromTokens(syntaxTokens(\"1 +\"));",
+        "return syntaxExprFromTokens(syntaxSlice(input, -1, 0));",
+        "return syntaxExprFromTokens(syntaxSlice(input, 1, 0));"}) {
+    auto failure = interpreter.execute(
+        "fun run(input: SyntaxTokens) SyntaxExpr { " + body + " }", "run",
+        request());
+    require(failsWith(failure, "M3001"),
+            "invalid structured syntax or index was accepted");
+  }
+}
+
+void testLocationObservingCache() {
+  auto input = request();
+  input.input = SyntaxTokens{
+      {{TokenType::ID, "name", "name", input.invocation, 7, nullptr}}};
+  const std::string definition = R"(
+fun run(input: SyntaxTokens) SyntaxExpr {
+  if syntaxTokenSourceName(input, 0) == "" { panic("source"); }
+  if syntaxTokenColumn(input, 0) < 1 { panic("column"); }
+  if syntaxTokenOffset(input, 0) < 0 { panic("offset"); }
+  if syntaxTokenLength(input, 0) < 0 { panic("length"); }
+  if syntaxTokenLine(input, 0) == 3 { return syntaxExpr("42"); }
+  return syntaxExpr("0");
+}
+)";
+  CtfeInterpreter interpreter;
+  auto first = interpreter.execute(definition, "run", input);
+  require(first.output &&
+              std::get<SyntaxExpr>(*first.output).syntax.tokens[0].value ==
+                  "42",
+          "span read failed");
+  std::get<SyntaxTokens>(input.input).tokens[0].span.line = 50;
+  auto second = interpreter.execute(definition, "run", input);
+  require(second.output &&
+              std::get<SyntaxExpr>(*second.output).syntax.tokens[0].value ==
+                  "0" &&
+              interpreter.cacheHits() == 0 && interpreter.cacheEntries() == 1,
+          "span-sensitive macro reused a location-independent result");
+  interpreter.execute(definition, "run", input);
+  require(interpreter.cacheHits() == 1,
+          "identical span-sensitive call missed its cache");
+}
+
 void testNestedSourceCache() {
   auto nestedRequest = [](const std::string &name, size_t padding) {
     const std::string text =
@@ -201,6 +289,23 @@ void testNestedSourceCache() {
           nested.interpolations.front().expression.tokens.front().span.offset >
               50,
       "nested source cache leaked old interpolation spans");
+
+  const std::string extract = "fun run(input: SyntaxSource) SyntaxExpr { "
+                              "return sourceInterpolation(input, 0); }";
+  require(interpreter.execute(extract, "run", first).output.has_value(),
+          "nested interpolation extraction failed");
+  const auto oldHits = interpreter.cacheHits();
+  result = interpreter.execute(extract, "run", second);
+  require(result.output && interpreter.cacheHits() == oldHits + 1 &&
+              std::get<SyntaxExpr>(*result.output)
+                      .syntax.tokens[2]
+                      .sourceFragment->sourceName == "second.zp",
+          "structured cache lost nested source capture provenance");
+  result = interpreter.execute("fun run(input: SyntaxSource) SyntaxExpr { "
+                               "return sourceInterpolation(input, -1); }",
+                               "run", first);
+  require(!result.output && result.diagnostics.front().code == "M3001",
+          "source interpolation accepted a negative index");
 
   const std::string failing =
       "fun run(input: SyntaxSource) SyntaxExpr { panic(\"failed\"); }";
@@ -425,6 +530,8 @@ int main() {
   testCapturedCacheOutput();
   testCacheRebindingBudget();
   testSourceInput();
+  testStructuredSyntax();
+  testLocationObservingCache();
   testNestedSourceCache();
   testLimitsAndFailures();
   testForbiddenCapabilities();

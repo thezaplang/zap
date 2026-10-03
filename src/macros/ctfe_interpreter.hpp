@@ -65,10 +65,14 @@ private:
 
   struct CacheEntry {
     std::string generatedResult;
-    // Input is returned by identity; recover captures and hygiene from this
-    // call. ponytail: whole-input or generated output only; syntax composition
-    // will require per-fragment provenance instead of this identity flag.
+    std::vector<uint32_t> provenance;
+    // Only metadata-observing executions depend on the exact located request.
+    std::string locationRequest;
     bool returnsInput = false;
+    size_t ownedBytes() const {
+      return generatedResult.size() + provenance.size() * sizeof(uint32_t) +
+             locationRequest.size();
+    }
   };
   std::map<CacheKey, CacheEntry> cache_;
   size_t cacheBytes_ = 0;

@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <variant>
 #include <vector>
 
@@ -35,6 +36,15 @@ struct SyntaxToken {
   uint32_t context = 0;
   std::shared_ptr<const SyntaxSource> sourceFragment;
 };
+
+using SyntaxTokenIdentity =
+    std::tuple<uint32_t, std::string_view, std::string_view, uint32_t,
+               std::string_view, uint64_t, uint64_t, uint64_t, uint64_t>;
+inline SyntaxTokenIdentity syntaxTokenIdentity(const SyntaxToken &token) {
+  return {token.type,        token.value,           token.spelling,
+          token.context,     token.span.sourceName, token.span.line,
+          token.span.column, token.span.offset,     token.span.length};
+}
 
 struct SyntaxTokens {
   std::vector<SyntaxToken> tokens;
@@ -117,9 +127,9 @@ using SyntaxProtocolOutcome = std::variant<T, SyntaxProtocolError>;
 SyntaxProtocolOutcome<std::string>
 encodeRequest(const SyntaxMacroRequest &request,
               size_t maxBytes = MaxSyntaxMessageBytes);
-// Semantic key for the current CTFE subset: location and hygiene are not
-// readable. Captured output must be restored from the current request, never
-// from this key.
+// Location-neutral key. Executions that observe locations additionally compare
+// the full wire request. Captures are restored by input ordinal, never old
+// marks.
 SyntaxProtocolOutcome<std::string>
 encodeCacheRequest(const SyntaxMacroRequest &request, size_t maxBytes);
 SyntaxProtocolOutcome<SyntaxMacroRequest> decodeRequest(std::string_view bytes);
