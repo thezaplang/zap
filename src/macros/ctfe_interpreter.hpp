@@ -63,7 +63,14 @@ private:
     }
   };
 
-  std::map<CacheKey, std::string> cache_;
+  struct CacheEntry {
+    std::string generatedResult;
+    // Input is returned by identity; recover captures and hygiene from this
+    // call. ponytail: whole-input or generated output only; syntax composition
+    // will require per-fragment provenance instead of this identity flag.
+    bool returnsInput = false;
+  };
+  std::map<CacheKey, CacheEntry> cache_;
   size_t cacheBytes_ = 0;
   size_t cacheHits_ = 0;
 };

@@ -134,6 +134,53 @@ void testDecrementIsNotSqlComment() {
   }
 }
 
+void testCaptureBudget() {
+  const std::string source = "{abcdefgh}";
+  zap::DiagnosticEngine diagnostics(source, "budget.zp");
+  zap::SourceCaptureBudget measured;
+  const size_t initial = measured.remaining;
+  require(zap::captureSourceGroup(source, 0, 1, 1, diagnostics, measured)
+              .has_value(),
+          "small capture exceeded its default budget");
+  const size_t required = initial - measured.remaining;
+  zap::SourceCaptureBudget exact{required};
+  require(
+      zap::captureSourceGroup(source, 0, 1, 1, diagnostics, exact).has_value(),
+      "capture at the budget boundary failed");
+  zap::SourceCaptureBudget insufficient{required - 1};
+  require(
+      !zap::captureSourceGroup(source, 0, 1, 1, diagnostics, insufficient) &&
+          diagnostics.hadErrors() &&
+          diagnostics.diagnostics().back().code == "M3003",
+      "capture above the budget boundary was allocated");
+
+  const std::string huge = "raw!{" + std::string(200'000, 'x') + "}";
+  zap::DiagnosticEngine large(huge, "large.zp");
+  auto tokens = lex(huge, large);
+  require(large.hadErrors() && large.diagnostics().back().code == "M3003" &&
+              tokens.size() == 2,
+          "oversized raw capture reached fragment allocation");
+
+  const std::string spaced = "raw!{" + std::string(8'000, ' ') + "value}";
+  zap::DiagnosticEngine materialization(spaced, "large-valid.zp");
+  auto spacedTokens = lex(spaced, materialization);
+  auto trees = TokenTreeBuilder::build(spacedTokens, materialization);
+  auto materialized =
+      zap::materializeSourceGroup(trees.trees.back(), materialization);
+  require(
+      materialized && !materialization.hadErrors() &&
+          materialized->children().size() == 1,
+      "materialization rejected an otherwise small token group above 4 KiB");
+
+  std::string nested = "value";
+  for (size_t i = 0; i < zap::SourceCaptureBudget::MaxDepth + 1; ++i)
+    nested = "raw!{${" + nested + "}}";
+  zap::DiagnosticEngine nesting(nested, "nested-budget.zp");
+  lex(nested, nesting);
+  require(nesting.hadErrors() && nesting.diagnostics().back().code == "M3003",
+          "nested interpolation lexers did not inherit capture limits");
+}
+
 } // namespace
 
 int main() {
@@ -144,4 +191,5 @@ int main() {
   testInvalidGroups();
   testOrdinaryBlocksStillLexNormally();
   testDecrementIsNotSqlComment();
+  testCaptureBudget();
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "../token/token.hpp"
 #include "../utils/diagnostics.hpp"
+#include "lexer/source_group.hpp"
 #include <string>
 #include <vector>
 
@@ -11,6 +12,7 @@ public:
   size_t _line;
   size_t _column;
   std::string _input;
+  zap::SourceCaptureBudget *sourceCaptureBudget = nullptr;
 
   Lexer(zap::DiagnosticEngine &diag) noexcept(
       std::is_nothrow_default_constructible<std::string>::value)

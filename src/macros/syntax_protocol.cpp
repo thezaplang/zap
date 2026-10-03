@@ -2,6 +2,7 @@
 
 #include "token/token.hpp"
 
+#include <algorithm>
 #include <limits>
 #include <utility>
 
@@ -14,6 +15,19 @@ constexpr uint8_t ResultTag = 2;
 
 class Writer {
 public:
+  enum class Purpose { Wire, CacheKey };
+  explicit Writer(size_t maximum = MaxSyntaxMessageBytes,
+                  Purpose purpose = Purpose::Wire)
+      : maximum_(std::min(maximum, MaxSyntaxMessageBytes)), purpose_(purpose) {}
+  bool sourceName(std::string_view value) {
+    return string(purpose_ == Purpose::Wire ? value : std::string_view{});
+  }
+  bool location(uint64_t value) {
+    return u64(purpose_ == Purpose::Wire ? value : 0);
+  }
+  bool context(uint32_t value) {
+    return u32(purpose_ == Purpose::Wire ? value : 0);
+  }
   bool byte(uint8_t value) { return append(&value, 1); }
 
   bool u16(uint16_t value) {
@@ -49,13 +63,15 @@ public:
 
 private:
   bool append(const void *data, size_t size) {
-    if (size > MaxSyntaxMessageBytes - bytes_.size())
+    if (size > maximum_ - bytes_.size())
       return false;
     bytes_.append(static_cast<const char *>(data), size);
     return true;
   }
 
   std::string bytes_;
+  size_t maximum_;
+  Purpose purpose_;
 };
 
 class Reader {
@@ -137,9 +153,9 @@ private:
 };
 
 bool writeSpan(Writer &writer, const SyntaxSpan &span) {
-  return writer.string(span.sourceName) && writer.u64(span.line) &&
-         writer.u64(span.column) && writer.u64(span.offset) &&
-         writer.u64(span.length);
+  return writer.sourceName(span.sourceName) && writer.location(span.line) &&
+         writer.location(span.column) && writer.location(span.offset) &&
+         writer.location(span.length);
 }
 
 bool readSpan(Reader &reader, SyntaxSpan &span) {
@@ -160,7 +176,7 @@ bool writeTokens(Writer &writer, const SyntaxTokens &syntax, size_t depth) {
     if (token.type < TokenType::IMPORT || token.type > TokenType::DOLLAR ||
         !writer.u32(token.type) || !writer.string(token.value) ||
         !writer.string(token.spelling) || !writeSpan(writer, token.span) ||
-        !writer.u32(token.context) ||
+        !writer.context(token.context) ||
         !writer.byte(token.sourceFragment ? 1 : 0) ||
         (token.sourceFragment &&
          !writeSource(writer, *token.sourceFragment, depth + 1)))
@@ -254,12 +270,12 @@ bool validSource(const SyntaxSource &source, size_t depth) {
 
 bool writeSource(Writer &writer, const SyntaxSource &source, size_t depth) {
   if (!validSource(source, depth) || !writer.string(source.text) ||
-      !writer.string(source.sourceName) ||
+      !writer.sourceName(source.sourceName) ||
       !writer.u32(static_cast<uint32_t>(source.offsets.size())))
     return false;
   for (const auto &offset : source.offsets)
-    if (!writer.u64(offset.line) || !writer.u64(offset.column) ||
-        !writer.u64(offset.offset))
+    if (!writer.location(offset.line) || !writer.location(offset.column) ||
+        !writer.location(offset.offset))
       return false;
   if (!writer.u32(static_cast<uint32_t>(source.interpolations.size())))
     return false;
@@ -373,13 +389,29 @@ bool readHeader(Reader &reader, uint8_t tag, uint16_t &version) {
 } // namespace
 
 SyntaxProtocolOutcome<std::string>
-encodeRequest(const SyntaxMacroRequest &request) {
+encodeRequest(const SyntaxMacroRequest &request, size_t maxBytes) {
   if (request.version != SyntaxProtocolVersion)
     return SyntaxProtocolError::UnsupportedVersion;
   const auto context = static_cast<uint8_t>(request.expected);
   if (!validContext(context) || !validValue(request.input))
     return SyntaxProtocolError::InvalidMessage;
-  Writer writer;
+  Writer writer(maxBytes);
+  if (!writeHeader(writer, RequestTag) ||
+      !writer.string(request.definitionId) ||
+      !writeSpan(writer, request.invocation) || !writer.byte(context) ||
+      !writeValue(writer, request.input))
+    return SyntaxProtocolError::LimitExceeded;
+  return writer.take();
+}
+
+SyntaxProtocolOutcome<std::string>
+encodeCacheRequest(const SyntaxMacroRequest &request, size_t maxBytes) {
+  if (request.version != SyntaxProtocolVersion)
+    return SyntaxProtocolError::UnsupportedVersion;
+  const auto context = static_cast<uint8_t>(request.expected);
+  if (!validContext(context) || !validValue(request.input))
+    return SyntaxProtocolError::InvalidMessage;
+  Writer writer(maxBytes, Writer::Purpose::CacheKey);
   if (!writeHeader(writer, RequestTag) ||
       !writer.string(request.definitionId) ||
       !writeSpan(writer, request.invocation) || !writer.byte(context) ||
@@ -408,8 +440,8 @@ decodeRequest(std::string_view bytes) {
   return request;
 }
 
-SyntaxProtocolOutcome<std::string>
-encodeResult(const SyntaxMacroResult &result) {
+SyntaxProtocolOutcome<std::string> encodeResult(const SyntaxMacroResult &result,
+                                                size_t maxBytes) {
   if (result.version != SyntaxProtocolVersion)
     return SyntaxProtocolError::UnsupportedVersion;
   if (result.diagnostics.size() > MaxSyntaxEntries)
@@ -419,7 +451,7 @@ encodeResult(const SyntaxMacroResult &result) {
   for (const auto &diagnostic : result.diagnostics)
     if (!validSeverity(static_cast<uint8_t>(diagnostic.severity)))
       return SyntaxProtocolError::InvalidMessage;
-  Writer writer;
+  Writer writer(maxBytes);
   if (!writeHeader(writer, ResultTag) || !writer.byte(result.output ? 1 : 0) ||
       (result.output && !writeValue(writer, *result.output)) ||
       !writer.u32(static_cast<uint32_t>(result.diagnostics.size())))

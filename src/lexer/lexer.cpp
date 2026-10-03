@@ -90,8 +90,10 @@ std::vector<Token> Lexer::tokenize(const std::string &input) {
     } else if (_cur == '{') {
       if (tokens.size() >= 2 && tokens.back().type == TokenType::NOT &&
           tokens[tokens.size() - 2].type == TokenType::ID) {
+        zap::SourceCaptureBudget localBudget;
+        auto &budget = sourceCaptureBudget ? *sourceCaptureBudget : localBudget;
         auto group = zap::captureSourceGroup(_input, startPos, startLine,
-                                             startColumn, _diag);
+                                             startColumn, _diag, budget);
         if (!group)
           return finish();
         tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn,

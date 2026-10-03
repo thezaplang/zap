@@ -73,12 +73,22 @@ void rebaseFragment(SourceFragment &child, const SourceFragment &parent,
 }
 
 bool lexInterpolation(SourceFragment &fragment, const InterpolationRange &range,
-                      size_t bodyOffset, DiagnosticEngine &diagnostics) {
+                      size_t bodyOffset, DiagnosticEngine &diagnostics,
+                      SourceCaptureBudget &budget) {
   const size_t begin = range.bodyBegin - bodyOffset;
   const size_t end = range.bodyEnd - bodyOffset;
+  // Cover lexer tokens, input copies and rebasing copies before lexing.
+  if (!budget.charge(end - begin, 1024) ||
+      !budget.charge(fragment.sourceName.size(), 4 * (end - begin))) {
+    diagnostics.report(fragment.spanAt(begin, end - begin),
+                       DiagnosticLevel::Error, "M3003",
+                       "Source capture memory limit exceeded.");
+    return false;
+  }
   const std::string source = fragment.text.substr(begin, end - begin);
   DiagnosticEngine local(source, fragment.sourceName);
   Lexer lexer(local);
+  lexer.sourceCaptureBudget = &budget;
   auto tokens = lexer.tokenize(source);
   for (auto &token : tokens)
     rebaseToken(token, fragment, begin);
@@ -101,9 +111,26 @@ bool lexInterpolation(SourceFragment &fragment, const InterpolationRange &range,
 std::optional<SourceGroupCapture>
 captureSourceGroup(const std::string &input, size_t openingOffset,
                    size_t openingLine, size_t openingColumn,
-                   DiagnosticEngine &diagnostics) {
+                   DiagnosticEngine &diagnostics, SourceCaptureBudget &budget) {
   if (openingOffset >= input.size() || input[openingOffset] != '{')
     return std::nullopt;
+  auto limit = [&]() -> std::optional<SourceGroupCapture> {
+    diagnostics.report(SourceSpan(openingLine, openingColumn, openingOffset, 1,
+                                  diagnostics.sourceName()),
+                       DiagnosticLevel::Error, "M3003",
+                       "Source capture memory or nesting limit exceeded.");
+    return std::nullopt;
+  };
+  if (budget.depth >= SourceCaptureBudget::MaxDepth ||
+      !budget.charge(sizeof(SourceFragment) +
+                     diagnostics.sourceName().size()) ||
+      !budget.charge(2, sizeof(Frame)))
+    return limit();
+  ++budget.depth;
+  struct DepthGuard {
+    size_t &depth;
+    ~DepthGuard() { --depth; }
+  } guard{budget.depth};
   std::vector<Frame> frames{{'}', false, openingOffset, openingOffset + 1}};
   std::vector<InterpolationRange> interpolations;
   size_t interpolationDepth = 0;
@@ -112,6 +139,8 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
   Mode mode = Mode::Normal;
   char quote = '\0';
   while (cursor < input.size() && !frames.empty()) {
+    if (cursor - openingOffset > budget.remaining / (sizeof(SourceOffset) + 1))
+      return limit();
     const char ch = input[cursor];
     const char next = cursor + 1 < input.size() ? input[cursor + 1] : '\0';
     if (mode == Mode::LineComment) {
@@ -162,12 +191,16 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
       continue;
     }
     if (ch == '$' && next == '{') {
+      if (!budget.charge(2, sizeof(Frame)))
+        return limit();
       frames.push_back({'}', true, cursor, cursor + 2});
       ++interpolationDepth;
       cursor += 2;
       continue;
     }
     if (ch == '{' || ch == '(' || ch == '[') {
+      if (!budget.charge(2, sizeof(Frame)))
+        return limit();
       frames.push_back({ch == '{'   ? '}'
                         : ch == '(' ? ')'
                                     : ']',
@@ -187,9 +220,13 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
       const Frame frame = frames.back();
       frames.pop_back();
       if (frame.interpolation) {
-        if (interpolationDepth == 1)
+        if (interpolationDepth == 1) {
+          if (!budget.charge(2, sizeof(InterpolationRange) +
+                                    sizeof(SourceInterpolation)))
+            return limit();
           interpolations.push_back(
               {frame.opening, frame.bodyBegin, cursor, cursor});
+        }
         --interpolationDepth;
       }
       ++cursor;
@@ -210,6 +247,8 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
 
   const size_t bodyOffset = openingOffset + 1;
   const size_t closingOffset = cursor - 1;
+  if (!budget.charge(closingOffset - bodyOffset + 1, sizeof(SourceOffset) + 1))
+    return limit();
   auto fragment = std::make_shared<SourceFragment>();
   fragment->text = input.substr(bodyOffset, closingOffset - bodyOffset);
   fragment->sourceName = diagnostics.sourceName();
@@ -222,7 +261,7 @@ captureSourceGroup(const std::string &input, size_t openingOffset,
   }
   fragment->offsetMap.push_back({line, column, closingOffset});
   for (const auto &range : interpolations) {
-    if (!lexInterpolation(*fragment, range, bodyOffset, diagnostics))
+    if (!lexInterpolation(*fragment, range, bodyOffset, diagnostics, budget))
       return std::nullopt;
   }
   SourceGroupCapture capture;
@@ -243,8 +282,16 @@ std::optional<TokenTree> materializeSourceGroup(const TokenTree &group,
   std::vector<TokenTree> children;
   if (group.opening().sourceFragment) {
     const auto &fragment = *group.opening().sourceFragment;
+    SourceCaptureBudget budget;
+    if (!budget.charge(fragment.text.size(), 256) ||
+        !budget.charge(fragment.sourceName.size(), 4 * fragment.text.size())) {
+      diagnostics.report(group.opening().span, DiagnosticLevel::Error, "M3003",
+                         "Source materialization memory limit exceeded.");
+      return std::nullopt;
+    }
     DiagnosticEngine local(fragment.text, fragment.sourceName);
     Lexer lexer(local);
+    lexer.sourceCaptureBudget = &budget;
     auto tokens = lexer.tokenize(fragment.text);
     for (auto &token : tokens)
       rebaseToken(token, fragment, 0);

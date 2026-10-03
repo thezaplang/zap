@@ -43,6 +43,24 @@ void testCanonicalRequest() {
   const auto second = encodeRequest(request);
   require(std::get<std::string>(encoded) == std::get<std::string>(second),
           "request encoding was not deterministic");
+  const auto size = std::get<std::string>(encoded).size();
+  require(std::holds_alternative<std::string>(encodeRequest(request, size)) &&
+              std::get<SyntaxProtocolError>(encodeRequest(request, size - 1)) ==
+                  SyntaxProtocolError::LimitExceeded,
+          "request encoder bypassed the caller's allocation budget");
+  const auto key = encodeCacheRequest(request, size);
+  require(std::holds_alternative<std::string>(key) &&
+              std::get<SyntaxProtocolError>(encodeCacheRequest(request, 0)) ==
+                  SyntaxProtocolError::LimitExceeded,
+          "semantic key encoder bypassed its allocation budget");
+  SyntaxMacroResult result;
+  result.output = request.input;
+  const auto resultSize = std::get<std::string>(encodeResult(result)).size();
+  require(
+      std::holds_alternative<std::string>(encodeResult(result, resultSize)) &&
+          std::get<SyntaxProtocolError>(encodeResult(result, resultSize - 1)) ==
+              SyntaxProtocolError::LimitExceeded,
+      "result encoder bypassed the caller's allocation budget");
   const auto decoded = decodeRequest(std::get<std::string>(encoded));
   require(std::holds_alternative<SyntaxMacroRequest>(decoded),
           "source request did not round trip");

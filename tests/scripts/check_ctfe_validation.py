@@ -6,6 +6,7 @@ import tempfile
 
 zapc = str(pathlib.Path(sys.argv[1]).resolve())
 invalid = [
+    ('macro answer($q: source) expr { return syntaxExpr("42"); }\nfun main() Int { return answer!{' + 'x' * 200_000 + '}; }', "M3003"),
     ('macro broken($q: source) expr { var = ; }\nfun main() Int { return 0; }', None),
     ('macro broken($q: source) expr { var x: String = 42; return syntaxExpr("0"); }\nfun main() Int { return 0; }', "M3002"),
     ('macro broken($q: source) expr { if false { readFile("bad"); } return syntaxExpr("0"); }\nfun main() Int { return 0; }', "M3002"),

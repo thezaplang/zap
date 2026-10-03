@@ -115,10 +115,17 @@ template <typename T>
 using SyntaxProtocolOutcome = std::variant<T, SyntaxProtocolError>;
 
 SyntaxProtocolOutcome<std::string>
-encodeRequest(const SyntaxMacroRequest &request);
+encodeRequest(const SyntaxMacroRequest &request,
+              size_t maxBytes = MaxSyntaxMessageBytes);
+// Semantic key for the current CTFE subset: location and hygiene are not
+// readable. Captured output must be restored from the current request, never
+// from this key.
+SyntaxProtocolOutcome<std::string>
+encodeCacheRequest(const SyntaxMacroRequest &request, size_t maxBytes);
 SyntaxProtocolOutcome<SyntaxMacroRequest> decodeRequest(std::string_view bytes);
 SyntaxProtocolOutcome<std::string>
-encodeResult(const SyntaxMacroResult &result);
+encodeResult(const SyntaxMacroResult &result,
+             size_t maxBytes = MaxSyntaxMessageBytes);
 SyntaxProtocolOutcome<SyntaxMacroResult> decodeResult(std::string_view bytes);
 
 } // namespace zap::ctfe

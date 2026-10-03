@@ -1,4 +1,6 @@
+#include "lexer/lexer.hpp"
 #include "macros/ctfe_interpreter.hpp"
+#include "macros/syntax_bridge.hpp"
 #include "token/token.hpp"
 
 #include <cstdlib>
@@ -50,6 +52,17 @@ fun answer(input: SyntaxTokens) SyntaxExpr {
               interpreter.cacheEntries() == 1,
           "identical CTFE request missed the deterministic cache");
   auto changedRequest = request();
+  changedRequest.invocation = {"other.zp", 20, 2, 500, 12};
+  auto relocated = interpreter.execute(source, "answer", changedRequest);
+  require(relocated.output && interpreter.cacheHits() == 2 &&
+              interpreter.cacheEntries() == 1 &&
+              std::get<SyntaxExpr>(*relocated.output)
+                      .syntax.tokens.front()
+                      .span.sourceName == "other.zp" &&
+              std::get<SyntaxExpr>(*relocated.output)
+                      .syntax.tokens.front()
+                      .span.offset == 500,
+          "semantic cache did not rebase generated syntax to the current call");
   changedRequest.expected = SyntaxContext::Item;
   interpreter.execute(source, "answer", changedRequest);
   require(interpreter.cacheEntries() == 2,
@@ -74,6 +87,66 @@ fun answer(input: SyntaxTokens) SyntaxExpr {
           "CTFE cache exceeded its entry limit");
 }
 
+void testCapturedCacheOutput() {
+  CtfeInterpreter interpreter;
+  const std::string definition =
+      "fun run(input: SyntaxTokens) SyntaxTokens { return input; }";
+  auto first = request();
+  first.input = SyntaxTokens{
+      {{TokenType::ID, "name", "name", first.invocation, 7, nullptr}}};
+  auto original = interpreter.execute(definition, "run", first);
+  require(original.output.has_value(), "CTFE capture passthrough failed");
+  auto second = request();
+  second.invocation = {"second.zp", 8, 1, 100, 4};
+  second.input = SyntaxTokens{
+      {{TokenType::ID, "name", "name", second.invocation, 99, nullptr}}};
+  auto relocated = interpreter.execute(definition, "run", second);
+  require(
+      relocated.output && interpreter.cacheHits() == 1 &&
+          std::get<SyntaxTokens>(*relocated.output).tokens.front().context ==
+              99 &&
+          std::get<SyntaxTokens>(*relocated.output)
+                  .tokens.front()
+                  .span.offset == 100,
+      "cache reused another call's capture or hygiene");
+  std::get<SyntaxTokens>(second.input).tokens.front().value = "different";
+  interpreter.execute(definition, "run", second);
+  require(interpreter.cacheEntries() == 2,
+          "semantic cache omitted captured token contents");
+}
+
+void testCacheRebindingBudget() {
+  std::string tokens;
+  for (size_t i = 0; i < 600; ++i)
+    tokens += "x ";
+  const std::string definition =
+      "fun run(input: SyntaxTokens) SyntaxTokens { return syntaxTokens(\"" +
+      tokens + "\"); }";
+  CtfeInterpreter warm;
+  require(warm.execute(definition, "run", request()).output.has_value(),
+          "small-location cache budget setup failed");
+  auto relocated = request();
+  relocated.invocation.sourceName = std::string(4'000, 'p');
+  CtfeInterpreter cold;
+  const auto hit = warm.execute(definition, "run", relocated);
+  const auto miss = cold.execute(definition, "run", relocated);
+  require(!hit.output && !miss.output &&
+              hit.diagnostics.front().code == "M3003" &&
+              miss.diagnostics.front().code == "M3003",
+          "cache rebinding bypassed the current output allocation budget");
+  CtfeLimits largeBudget;
+  largeBudget.maxMemoryBytes = 128 * 1024 * 1024;
+  CtfeInterpreter protocolCache;
+  require(protocolCache.execute(definition, "run", request(), largeBudget)
+              .output.has_value(),
+          "large-budget cache setup failed");
+  relocated.invocation.sourceName = std::string(30'000, 'p');
+  const auto oversized =
+      protocolCache.execute(definition, "run", relocated, largeBudget);
+  require(!oversized.output && oversized.diagnostics.front().code == "M3003",
+          "rebased cache output bypassed the wire protocol size limit");
+}
+
 void testSourceInput() {
   auto input = request();
   SyntaxSource source;
@@ -92,6 +165,51 @@ void testSourceInput() {
               std::get<SyntaxExpr>(*result.output).syntax.tokens[0].value ==
                   "42",
           "CTFE source capture or member access failed");
+}
+
+void testNestedSourceCache() {
+  auto nestedRequest = [](const std::string &name, size_t padding) {
+    const std::string text =
+        std::string(padding, ' ') + "raw!{${inner!{${name}}}}";
+    zap::DiagnosticEngine diagnostics(text, name);
+    Lexer lexer(diagnostics);
+    auto tokens = lexer.tokenize(text);
+    require(!diagnostics.hadErrors() && tokens[2].sourceFragment,
+            "nested cache test input failed to lex");
+    auto input = zap::ctfe_bridge::syntaxSource(*tokens[2].sourceFragment);
+    require(input.has_value(), "nested cache input failed conversion");
+    auto result = request();
+    result.invocation = {name, 1, padding + 1, padding, text.size() - padding};
+    result.input = std::move(input->value);
+    return result;
+  };
+  auto first = nestedRequest("first.zp", 0);
+  auto second = nestedRequest("second.zp", 50);
+  CtfeInterpreter interpreter;
+  const std::string definition =
+      "fun run(input: SyntaxSource) SyntaxSource { return input; }";
+  require(interpreter.execute(definition, "run", first).output.has_value(),
+          "nested source passthrough failed");
+  auto result = interpreter.execute(definition, "run", second);
+  require(result.output && interpreter.cacheHits() == 1,
+          "source cache key retained call-site metadata");
+  const auto &source = std::get<SyntaxSource>(*result.output);
+  const auto &nested =
+      *source.interpolations.front().expression.tokens[2].sourceFragment;
+  require(
+      source.sourceName == "second.zp" && nested.sourceName == "second.zp" &&
+          nested.interpolations.front().expression.tokens.front().span.offset >
+              50,
+      "nested source cache leaked old interpolation spans");
+
+  const std::string failing =
+      "fun run(input: SyntaxSource) SyntaxExpr { panic(\"failed\"); }";
+  interpreter.execute(failing, "run", first);
+  result = interpreter.execute(failing, "run", second);
+  require(!result.output &&
+              result.diagnostics.front().span.sourceName == "second.zp" &&
+              result.diagnostics.front().span.offset == 50,
+          "CTFE failure retained a previous invocation's location");
 }
 
 void testLimitsAndFailures() {
@@ -304,7 +422,10 @@ void testBlockValuesAreNotReturns() {
 
 int main() {
   testExecutionAndCache();
+  testCapturedCacheOutput();
+  testCacheRebindingBudget();
   testSourceInput();
+  testNestedSourceCache();
   testLimitsAndFailures();
   testForbiddenCapabilities();
   testForwardedOutputLimits();
