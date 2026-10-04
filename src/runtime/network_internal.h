@@ -11,7 +11,7 @@ long netConnect(zap_string_t host, long port);
 #define ZAP_RUNTIME_INTERNAL
 #endif
 
-ZAP_RUNTIME_INTERNAL char *zap_network_copy_path(zap_string_t path);
+ZAP_RUNTIME_INTERNAL char* zap_network_copy_path(zap_string_t path);
 
 #undef ZAP_RUNTIME_INTERNAL
 

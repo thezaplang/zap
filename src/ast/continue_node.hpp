@@ -4,7 +4,7 @@
 
 class ContinueNode : public StatementNode {
 public:
-  ContinueNode() noexcept = default;
+    ContinueNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

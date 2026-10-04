@@ -5,8 +5,10 @@
 
 namespace zir::verifier_detail {
 
-std::vector<VerificationError>
-verifyBorrowContracts(const Module &module, const Function &function,
-                      const ControlFlowGraph &cfg);
+std::vector<VerificationError> verifyBorrowContracts(
+    const Module& module,
+    const Function& function,
+    const ControlFlowGraph& cfg
+);
 
 } // namespace zir::verifier_detail

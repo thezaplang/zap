@@ -4,7 +4,7 @@
 
 class BreakNode : public StatementNode {
 public:
-  BreakNode() noexcept = default;
+    BreakNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

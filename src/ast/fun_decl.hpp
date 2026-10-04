@@ -14,50 +14,59 @@
 #include <vector>
 
 enum class ExtensionReceiverMode {
-  None,
-  Value,
-  Ref,
+    None,
+    Value,
+    Ref,
 };
 
 class FunDecl : public TopLevel {
 public:
-  std::string name_;
-  SyntaxName syntaxName_;
-  std::vector<std::unique_ptr<TypeNode>> genericParams_;
-  std::vector<GenericConstraint> genericConstraints_;
-  std::vector<std::unique_ptr<ParameterNode>> params_;
-  std::unique_ptr<TypeNode> returnType_;
-  std::unique_ptr<BodyNode> body_;
-  std::unique_ptr<ExpressionNode> lambdaExpr_;
-  std::optional<std::string> resultBorrowSource_;
-  bool isExtern_ = false;
-  bool isStatic_ = false;
-  bool isUnsafe_ = false;
-  bool returnsRef_ = false;
-  ExtensionReceiverMode extensionReceiverMode_ = ExtensionReceiverMode::None;
-  SourceSpan extensionReceiverSpan_;
+    std::string name_;
+    SyntaxName syntaxName_;
+    std::vector<std::unique_ptr<TypeNode>> genericParams_;
+    std::vector<GenericConstraint> genericConstraints_;
+    std::vector<std::unique_ptr<ParameterNode>> params_;
+    std::unique_ptr<TypeNode> returnType_;
+    std::unique_ptr<BodyNode> body_;
+    std::unique_ptr<ExpressionNode> lambdaExpr_;
+    std::optional<std::string> resultBorrowSource_;
+    bool isExtern_ = false;
+    bool isStatic_ = false;
+    bool isUnsafe_ = false;
+    bool returnsRef_ = false;
+    ExtensionReceiverMode extensionReceiverMode_ = ExtensionReceiverMode::None;
+    SourceSpan extensionReceiverSpan_;
 
-  FunDecl() noexcept(
-      std::is_nothrow_default_constructible<std::string>::value) = default;
+    FunDecl() noexcept(std::is_nothrow_default_constructible<std::string>::value) = default;
 
-  FunDecl(const std::string &name,
-          std::vector<std::unique_ptr<TypeNode>> genericParams,
-          std::vector<std::unique_ptr<ParameterNode>> params,
-          std::unique_ptr<TypeNode> returnType, std::unique_ptr<BodyNode> body,
-          std::unique_ptr<ExpressionNode> lambdaExpr, bool isExtern = false,
-          bool isStatic = false, bool isUnsafe = false)
-      : name_(name), syntaxName_(name),
-        genericParams_(std::move(genericParams)), params_(std::move(params)),
-        returnType_(std::move(returnType)), body_(std::move(body)),
-        lambdaExpr_(std::move(lambdaExpr)), isExtern_(isExtern),
-        isStatic_(isStatic), isUnsafe_(isUnsafe) {}
+    FunDecl(
+        const std::string& name,
+        std::vector<std::unique_ptr<TypeNode>> genericParams,
+        std::vector<std::unique_ptr<ParameterNode>> params,
+        std::unique_ptr<TypeNode> returnType,
+        std::unique_ptr<BodyNode> body,
+        std::unique_ptr<ExpressionNode> lambdaExpr,
+        bool isExtern = false,
+        bool isStatic = false,
+        bool isUnsafe = false
+    )
+        : name_(name),
+          syntaxName_(name),
+          genericParams_(std::move(genericParams)),
+          params_(std::move(params)),
+          returnType_(std::move(returnType)),
+          body_(std::move(body)),
+          lambdaExpr_(std::move(lambdaExpr)),
+          isExtern_(isExtern),
+          isStatic_(isStatic),
+          isUnsafe_(isUnsafe) {}
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 
-  bool isCtfeOnly() const {
-    for (const auto &attribute : attributes_)
-      if (attribute.name == "ctfe")
-        return true;
-    return false;
-  }
+    bool isCtfeOnly() const {
+        for (const auto& attribute : attributes_)
+            if (attribute.name == "ctfe")
+                return true;
+        return false;
+    }
 };

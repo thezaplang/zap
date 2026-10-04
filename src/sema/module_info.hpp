@@ -10,31 +10,31 @@
 namespace sema {
 
 struct ResolvedImport {
-  struct Binding {
-    std::string sourceName;
-    std::string localName;
-    bool importsMacro = false;
-  };
+    struct Binding {
+        std::string sourceName;
+        std::string localName;
+        bool importsMacro = false;
+    };
 
-  std::string rawPath;
-  std::string moduleAlias;
-  std::vector<std::string> targetModuleIds;
-  std::vector<Binding> bindings;
-  Visibility visibility = Visibility::Private;
-  SourceSpan span;
+    std::string rawPath;
+    std::string moduleAlias;
+    std::vector<std::string> targetModuleIds;
+    std::vector<Binding> bindings;
+    Visibility visibility = Visibility::Private;
+    SourceSpan span;
 };
 
 struct ModuleInfo {
-  std::string moduleId;
-  std::string moduleName;
-  std::string linkPath;
-  std::string sourceName;
-  std::string sourceText;
-  bool isEntry = false;
-  std::unique_ptr<RootNode> root;
-  // Parser-produced syntax for the same macro expansions used to build root.
-  std::vector<Token> expandedTokens;
-  std::vector<ResolvedImport> imports;
+    std::string moduleId;
+    std::string moduleName;
+    std::string linkPath;
+    std::string sourceName;
+    std::string sourceText;
+    bool isEntry = false;
+    std::unique_ptr<RootNode> root;
+    // Parser-produced syntax for the same macro expansions used to build root.
+    std::vector<Token> expandedTokens;
+    std::vector<ResolvedImport> imports;
 };
 
 } // namespace sema

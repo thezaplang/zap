@@ -1,7 +1,7 @@
 #pragma once
 
 enum class Visibility {
-  Private,
-  Protected,
-  Public,
+    Private,
+    Protected,
+    Public,
 };

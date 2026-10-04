@@ -16,1145 +16,1169 @@
 
 namespace sema {
 
-bool isStringType(const std::shared_ptr<zir::Type> &type) {
-  return zir::isIntrinsicStringType(type);
+bool isStringType(const std::shared_ptr<zir::Type>& type) {
+    return zir::isIntrinsicStringType(type);
 }
 
-bool isFailableType(const std::shared_ptr<zir::Type> &type) {
-  return zir::getFailableTypeLayout(type).has_value();
+bool isFailableType(const std::shared_ptr<zir::Type>& type) {
+    return zir::getFailableTypeLayout(type).has_value();
 }
 
-std::shared_ptr<zir::Type>
-failableValueType(const std::shared_ptr<zir::Type> &type) {
-  auto layout = zir::getFailableTypeLayout(type);
-  return layout ? layout->valueType : nullptr;
+std::shared_ptr<zir::Type> failableValueType(const std::shared_ptr<zir::Type>& type) {
+    auto layout = zir::getFailableTypeLayout(type);
+    return layout ? layout->valueType : nullptr;
 }
 
-std::shared_ptr<zir::Type>
-failableErrorType(const std::shared_ptr<zir::Type> &type) {
-  auto layout = zir::getFailableTypeLayout(type);
-  return layout ? layout->errorType : nullptr;
+std::shared_ptr<zir::Type> failableErrorType(const std::shared_ptr<zir::Type>& type) {
+    auto layout = zir::getFailableTypeLayout(type);
+    return layout ? layout->errorType : nullptr;
 }
 
-std::shared_ptr<zir::RecordType>
-makeFailableType(const std::shared_ptr<zir::Type> &valueType,
-                 const std::shared_ptr<zir::Type> &errorType) {
-  return zir::makeFailableRecordType(valueType, errorType);
+std::shared_ptr<zir::RecordType> makeFailableType(
+    const std::shared_ptr<zir::Type>& valueType,
+    const std::shared_ptr<zir::Type>& errorType
+) {
+    return zir::makeFailableRecordType(valueType, errorType);
 }
 
-std::string sanitizeTypeName(const std::string &value) {
-  std::string out;
-  out.reserve(value.size());
-  for (char ch : value) {
-    if (std::isalnum(static_cast<unsigned char>(ch))) {
-      out.push_back(ch);
-    } else {
-      out.push_back('_');
+std::string sanitizeTypeName(const std::string& value) {
+    std::string out;
+    out.reserve(value.size());
+    for (char ch : value) {
+        if (std::isalnum(static_cast<unsigned char>(ch))) {
+            out.push_back(ch);
+        } else {
+            out.push_back('_');
+        }
     }
-  }
-  return out;
+    return out;
 }
 
 std::string renderGenericTypeName(
-    const std::string &baseName,
-    const std::vector<std::shared_ptr<zir::Type>> &arguments) {
-  std::string name = baseName + "<";
-  for (size_t i = 0; i < arguments.size(); ++i) {
-    if (i != 0) {
-      name += ", ";
+    const std::string& baseName,
+    const std::vector<std::shared_ptr<zir::Type>>& arguments
+) {
+    std::string name = baseName + "<";
+    for (size_t i = 0; i < arguments.size(); ++i) {
+        if (i != 0) {
+            name += ", ";
+        }
+        name += arguments[i] ? arguments[i]->toString() : "<?>";
     }
-    name += arguments[i] ? arguments[i]->toString() : "<?>";
-  }
-  name += ">";
-  return name;
+    name += ">";
+    return name;
 }
 
 std::string renderGenericCodegenName(
-    const std::string &baseName,
-    const std::vector<std::shared_ptr<zir::Type>> &arguments) {
-  std::string suffix;
-  for (size_t i = 0; i < arguments.size(); ++i) {
-    if (i != 0) {
-      suffix += "$";
+    const std::string& baseName,
+    const std::vector<std::shared_ptr<zir::Type>>& arguments
+) {
+    std::string suffix;
+    for (size_t i = 0; i < arguments.size(); ++i) {
+        if (i != 0) {
+            suffix += "$";
+        }
+        suffix += arguments[i] ? zir::typeMangleKey(arguments[i]) : "missing";
     }
-    suffix += arguments[i] ? zir::typeMangleKey(arguments[i]) : "missing";
-  }
-  return baseName + "$g$" + suffix;
+    return baseName + "$g$" + suffix;
 }
 
-std::shared_ptr<zir::RecordType>
-makeVariadicViewType(const std::shared_ptr<zir::Type> &elementType) {
-  auto suffix = zir::typeMangleKey(elementType);
-  auto type = std::make_shared<zir::RecordType>(
-      "variadic$" + suffix, "variadic$" + suffix, zir::IntrinsicTypeKind::None,
-      zir::RecordRole::VariadicView);
-  type->addField("data", std::make_shared<zir::PointerType>(elementType));
-  type->addField("len",
-                 std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int));
-  return type;
+std::shared_ptr<zir::RecordType> makeVariadicViewType(
+    const std::shared_ptr<zir::Type>& elementType
+) {
+    auto suffix = zir::typeMangleKey(elementType);
+    auto type = std::make_shared<zir::RecordType>(
+        "variadic$" + suffix,
+        "variadic$" + suffix,
+        zir::IntrinsicTypeKind::None,
+        zir::RecordRole::VariadicView
+    );
+    type->addField("data", std::make_shared<zir::PointerType>(elementType));
+    type->addField("len", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Int));
+    return type;
 }
 
-std::unique_ptr<BoundExpression>
-makeDefaultValueExpr(const std::shared_ptr<zir::Type> &type) {
-  if (!type) {
-    return std::make_unique<BoundLiteral>(
-        "0", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void));
-  }
-
-  switch (type->getKind()) {
-  case zir::TypeKind::Bool:
-    return std::make_unique<BoundLiteral>(
-        "false", std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool));
-  case zir::TypeKind::Float:
-  case zir::TypeKind::Float32:
-  case zir::TypeKind::Float64:
-    return std::make_unique<BoundLiteral>("0.0", type);
-  case zir::TypeKind::Pointer:
-  case zir::TypeKind::NullPtr:
-  case zir::TypeKind::Class:
-    return std::make_unique<BoundLiteral>(
-        "0", std::make_shared<zir::PrimitiveType>(zir::TypeKind::NullPtr));
-  case zir::TypeKind::Record:
-    if (sema::isFailableType(type)) {
-      auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
-      auto valueType = sema::failableValueType(type);
-      auto errorType = sema::failableErrorType(type);
-      std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>>
-          fields;
-      fields.push_back({"ok", std::make_unique<BoundLiteral>("false", okType)});
-      fields.push_back({"value", makeDefaultValueExpr(valueType)});
-      fields.push_back({"error", makeDefaultValueExpr(errorType)});
-      return std::make_unique<BoundStructLiteral>(std::move(fields), type);
+std::unique_ptr<BoundExpression> makeDefaultValueExpr(const std::shared_ptr<zir::Type>& type) {
+    if (!type) {
+        return std::make_unique<BoundLiteral>(
+            "0",
+            std::make_shared<zir::PrimitiveType>(zir::TypeKind::Void)
+        );
     }
+
+    switch (type->getKind()) {
+        case zir::TypeKind::Bool:
+            return std::make_unique<BoundLiteral>(
+                "false",
+                std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool)
+            );
+        case zir::TypeKind::Float:
+        case zir::TypeKind::Float32:
+        case zir::TypeKind::Float64:
+            return std::make_unique<BoundLiteral>("0.0", type);
+        case zir::TypeKind::Pointer:
+        case zir::TypeKind::NullPtr:
+        case zir::TypeKind::Class:
+            return std::make_unique<BoundLiteral>(
+                "0",
+                std::make_shared<zir::PrimitiveType>(zir::TypeKind::NullPtr)
+            );
+        case zir::TypeKind::Record:
+            if (sema::isFailableType(type)) {
+                auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+                auto valueType = sema::failableValueType(type);
+                auto errorType = sema::failableErrorType(type);
+                std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
+                fields.push_back({"ok", std::make_unique<BoundLiteral>("false", okType)});
+                fields.push_back({"value", makeDefaultValueExpr(valueType)});
+                fields.push_back({"error", makeDefaultValueExpr(errorType)});
+                return std::make_unique<BoundStructLiteral>(std::move(fields), type);
+            }
+            return std::make_unique<BoundLiteral>("0", type);
+        case zir::TypeKind::Void:
+        case zir::TypeKind::Char:
+        case zir::TypeKind::Int8:
+        case zir::TypeKind::Int16:
+        case zir::TypeKind::Int32:
+        case zir::TypeKind::Int64:
+        case zir::TypeKind::UInt8:
+        case zir::TypeKind::UInt16:
+        case zir::TypeKind::UInt32:
+        case zir::TypeKind::UInt64:
+        case zir::TypeKind::Int:
+        case zir::TypeKind::UInt:
+        case zir::TypeKind::Enum:
+        case zir::TypeKind::TaggedUnion:
+        case zir::TypeKind::Array:
+        case zir::TypeKind::FunctionPointer:
+            return std::make_unique<BoundLiteral>("0", type);
+    }
+
     return std::make_unique<BoundLiteral>("0", type);
-  case zir::TypeKind::Void:
-  case zir::TypeKind::Char:
-  case zir::TypeKind::Int8:
-  case zir::TypeKind::Int16:
-  case zir::TypeKind::Int32:
-  case zir::TypeKind::Int64:
-  case zir::TypeKind::UInt8:
-  case zir::TypeKind::UInt16:
-  case zir::TypeKind::UInt32:
-  case zir::TypeKind::UInt64:
-  case zir::TypeKind::Int:
-  case zir::TypeKind::UInt:
-  case zir::TypeKind::Enum:
-  case zir::TypeKind::TaggedUnion:
-  case zir::TypeKind::Array:
-  case zir::TypeKind::FunctionPointer:
-    return std::make_unique<BoundLiteral>("0", type);
-  }
-
-  return std::make_unique<BoundLiteral>("0", type);
 }
 
-std::unique_ptr<BoundExpression>
-makeFailableValueExpr(std::unique_ptr<BoundExpression> valueExpr,
-                      const std::shared_ptr<zir::Type> &failableType) {
-  auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
-  auto valueType = sema::failableValueType(failableType);
-  auto errorType = sema::failableErrorType(failableType);
+std::unique_ptr<BoundExpression> makeFailableValueExpr(
+    std::unique_ptr<BoundExpression> valueExpr,
+    const std::shared_ptr<zir::Type>& failableType
+) {
+    auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+    auto valueType = sema::failableValueType(failableType);
+    auto errorType = sema::failableErrorType(failableType);
 
-  std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
-  fields.push_back({"ok", std::make_unique<BoundLiteral>("true", okType)});
-  fields.push_back({"value", std::move(valueExpr)});
-  fields.push_back({"error", makeDefaultValueExpr(errorType)});
-  return std::make_unique<BoundStructLiteral>(std::move(fields), failableType);
+    std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
+    fields.push_back({"ok", std::make_unique<BoundLiteral>("true", okType)});
+    fields.push_back({"value", std::move(valueExpr)});
+    fields.push_back({"error", makeDefaultValueExpr(errorType)});
+    return std::make_unique<BoundStructLiteral>(std::move(fields), failableType);
 }
 
-std::unique_ptr<BoundExpression>
-makeFailableErrorExpr(std::unique_ptr<BoundExpression> errorExpr,
-                      const std::shared_ptr<zir::Type> &failableType) {
-  auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
-  auto valueType = sema::failableValueType(failableType);
+std::unique_ptr<BoundExpression> makeFailableErrorExpr(
+    std::unique_ptr<BoundExpression> errorExpr,
+    const std::shared_ptr<zir::Type>& failableType
+) {
+    auto okType = std::make_shared<zir::PrimitiveType>(zir::TypeKind::Bool);
+    auto valueType = sema::failableValueType(failableType);
 
-  std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
-  fields.push_back({"ok", std::make_unique<BoundLiteral>("false", okType)});
-  fields.push_back({"value", makeDefaultValueExpr(valueType)});
-  fields.push_back({"error", std::move(errorExpr)});
-  return std::make_unique<BoundStructLiteral>(std::move(fields), failableType);
+    std::vector<std::pair<std::string, std::unique_ptr<BoundExpression>>> fields;
+    fields.push_back({"ok", std::make_unique<BoundLiteral>("false", okType)});
+    fields.push_back({"value", makeDefaultValueExpr(valueType)});
+    fields.push_back({"error", std::move(errorExpr)});
+    return std::make_unique<BoundStructLiteral>(std::move(fields), failableType);
 }
 
-std::vector<std::string> splitQualified(const std::string &value) {
-  std::vector<std::string> parts;
-  std::stringstream ss(value);
-  std::string item;
-  while (std::getline(ss, item, '.')) {
-    if (!item.empty()) {
-      parts.push_back(item);
+std::vector<std::string> splitQualified(const std::string& value) {
+    std::vector<std::string> parts;
+    std::stringstream ss(value);
+    std::string item;
+    while (std::getline(ss, item, '.')) {
+        if (!item.empty()) {
+            parts.push_back(item);
+        }
     }
-  }
-  return parts;
+    return parts;
 }
 
-bool extractQualifiedPath(const ExpressionNode *expr,
-                          std::vector<std::string> &parts) {
-  if (auto id = dynamic_cast<const ConstId *>(expr)) {
-    parts.push_back(id->value_);
-    return true;
-  }
-
-  if (auto member = dynamic_cast<const MemberAccessNode *>(expr)) {
-    if (!extractQualifiedPath(member->left_.get(), parts)) {
-      return false;
+bool extractQualifiedPath(const ExpressionNode* expr, std::vector<std::string>& parts) {
+    if (auto id = dynamic_cast<const ConstId*>(expr)) {
+        parts.push_back(id->value_);
+        return true;
     }
-    parts.push_back(member->member_);
-    return true;
-  }
 
-  return false;
+    if (auto member = dynamic_cast<const MemberAccessNode*>(expr)) {
+        if (!extractQualifiedPath(member->left_.get(), parts)) {
+            return false;
+        }
+        parts.push_back(member->member_);
+        return true;
+    }
+
+    return false;
 }
 
-std::vector<std::shared_ptr<FunctionSymbol>>
-collectOverloads(const std::shared_ptr<Symbol> &symbol) {
-  if (!symbol) {
+std::vector<std::shared_ptr<FunctionSymbol>> collectOverloads(
+    const std::shared_ptr<Symbol>& symbol
+) {
+    if (!symbol) {
+        return {};
+    }
+    if (auto function = std::dynamic_pointer_cast<FunctionSymbol>(symbol)) {
+        return {function};
+    }
+    if (auto set = std::dynamic_pointer_cast<OverloadSetSymbol>(symbol)) {
+        return set->overloads;
+    }
     return {};
-  }
-  if (auto function = std::dynamic_pointer_cast<FunctionSymbol>(symbol)) {
-    return {function};
-  }
-  if (auto set = std::dynamic_pointer_cast<OverloadSetSymbol>(symbol)) {
-    return set->overloads;
-  }
-  return {};
 }
 
-bool blockAlwaysReturns(const BoundBlock *block) {
-  if (!block)
-    return false;
-  if (block->result)
-    return true;
-  for (const auto &s : block->statements) {
-    if (stmtAlwaysReturns(s.get()))
-      return true;
-  }
-  return false;
-}
-
-bool stmtAlwaysReturns(const BoundStatement *stmt) {
-  if (!stmt)
-    return false;
-  if (dynamic_cast<const BoundReturnStatement *>(stmt))
-    return true;
-  if (auto *blk = dynamic_cast<const BoundBlock *>(stmt))
-    return blockAlwaysReturns(blk);
-  if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(stmt))
-    return ifStmt->elseBody && blockAlwaysReturns(ifStmt->thenBody.get()) &&
-           blockAlwaysReturns(ifStmt->elseBody.get());
-  if (auto *caseStmt = dynamic_cast<const BoundCaseStatement *>(stmt)) {
-    for (const auto &arm : caseStmt->arms) {
-      if (!blockAlwaysReturns(arm.body.get())) {
+bool blockAlwaysReturns(const BoundBlock* block) {
+    if (!block)
         return false;
-      }
+    if (block->result)
+        return true;
+    for (const auto& s : block->statements) {
+        if (stmtAlwaysReturns(s.get()))
+            return true;
     }
-    return caseStmt->guaranteesMatch;
-  }
-  return false;
+    return false;
 }
 
-std::unique_ptr<BoundExpression>
-deriveValueExpressionFromIf(const BoundIfStatement &stmt) {
-  if (!stmt.thenBody || !stmt.elseBody) {
-    return nullptr;
-  }
-
-  auto thenExpr = deriveValueExpressionFromBlock(*stmt.thenBody);
-  auto elseExpr = deriveValueExpressionFromBlock(*stmt.elseBody);
-  if (!thenExpr || !elseExpr || !thenExpr->type || !elseExpr->type) {
-    return nullptr;
-  }
-
-  if (!zir::sameType(thenExpr->type, elseExpr->type)) {
-    return nullptr;
-  }
-  auto resultType = thenExpr->type;
-
-  return std::make_unique<BoundTernaryExpression>(
-      stmt.condition->clone(), std::move(thenExpr), std::move(elseExpr),
-      resultType);
+bool stmtAlwaysReturns(const BoundStatement* stmt) {
+    if (!stmt)
+        return false;
+    if (dynamic_cast<const BoundReturnStatement*>(stmt))
+        return true;
+    if (auto* blk = dynamic_cast<const BoundBlock*>(stmt))
+        return blockAlwaysReturns(blk);
+    if (auto* ifStmt = dynamic_cast<const BoundIfStatement*>(stmt))
+        return ifStmt->elseBody && blockAlwaysReturns(ifStmt->thenBody.get())
+            && blockAlwaysReturns(ifStmt->elseBody.get());
+    if (auto* caseStmt = dynamic_cast<const BoundCaseStatement*>(stmt)) {
+        for (const auto& arm : caseStmt->arms) {
+            if (!blockAlwaysReturns(arm.body.get())) {
+                return false;
+            }
+        }
+        return caseStmt->guaranteesMatch;
+    }
+    return false;
 }
 
-std::unique_ptr<BoundExpression>
-deriveValueExpressionFromBlock(const BoundBlock &block) {
-  if (block.result && block.statements.empty()) {
-    return block.result->clone();
-  }
+std::unique_ptr<BoundExpression> deriveValueExpressionFromIf(const BoundIfStatement& stmt) {
+    if (!stmt.thenBody || !stmt.elseBody) {
+        return nullptr;
+    }
 
-  if (block.result) {
-    return nullptr;
-  }
+    auto thenExpr = deriveValueExpressionFromBlock(*stmt.thenBody);
+    auto elseExpr = deriveValueExpressionFromBlock(*stmt.elseBody);
+    if (!thenExpr || !elseExpr || !thenExpr->type || !elseExpr->type) {
+        return nullptr;
+    }
 
-  if (block.statements.empty()) {
-    return nullptr;
-  }
+    if (!zir::sameType(thenExpr->type, elseExpr->type)) {
+        return nullptr;
+    }
+    auto resultType = thenExpr->type;
 
-  const auto *tail = block.statements.back().get();
-
-  if (auto *exprStmt = dynamic_cast<const BoundExpressionStatement *>(tail)) {
-    return exprStmt->expression ? exprStmt->expression->clone() : nullptr;
-  }
-
-  if (auto *ifStmt = dynamic_cast<const BoundIfStatement *>(tail)) {
-    return deriveValueExpressionFromIf(*ifStmt);
-  }
-
-  return nullptr;
+    return std::make_unique<BoundTernaryExpression>(
+        stmt.condition->clone(),
+        std::move(thenExpr),
+        std::move(elseExpr),
+        resultType
+    );
 }
 
-Binder::Binder(zap::DiagnosticEngine &diag, bool allowUnsafe,
-               SemanticInfo *semanticInfo, TargetInfo targetInfo)
-    : _diag(diag), semanticInfo_(semanticInfo), targetInfo_(targetInfo),
-      allowUnsafe_(allowUnsafe), hadError_(false) {}
+std::unique_ptr<BoundExpression> deriveValueExpressionFromBlock(const BoundBlock& block) {
+    if (block.result && block.statements.empty()) {
+        return block.result->clone();
+    }
 
-std::unique_ptr<BoundRootNode> Binder::bind(RootNode &root) {
-  (void)root;
-  _diag.report(
-      SourceSpan(), zap::DiagnosticLevel::Error,
-      "Internal error: single-file binder entry point is unsupported.");
-  return nullptr;
+    if (block.result) {
+        return nullptr;
+    }
+
+    if (block.statements.empty()) {
+        return nullptr;
+    }
+
+    const auto* tail = block.statements.back().get();
+
+    if (auto* exprStmt = dynamic_cast<const BoundExpressionStatement*>(tail)) {
+        return exprStmt->expression ? exprStmt->expression->clone() : nullptr;
+    }
+
+    if (auto* ifStmt = dynamic_cast<const BoundIfStatement*>(tail)) {
+        return deriveValueExpressionFromIf(*ifStmt);
+    }
+
+    return nullptr;
 }
 
-std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo> &modules) {
-  std::vector<ModuleInfo *> modulePtrs;
-  modulePtrs.reserve(modules.size());
-  for (auto &module : modules) {
-    modulePtrs.push_back(&module);
-  }
-  return bind(std::move(modulePtrs));
+Binder::Binder(
+    zap::DiagnosticEngine& diag,
+    bool allowUnsafe,
+    SemanticInfo* semanticInfo,
+    TargetInfo targetInfo
+)
+    : _diag(diag),
+      semanticInfo_(semanticInfo),
+      targetInfo_(targetInfo),
+      allowUnsafe_(allowUnsafe),
+      hadError_(false) {}
+
+std::unique_ptr<BoundRootNode> Binder::bind(RootNode& root) {
+    (void)root;
+    _diag.report(
+        SourceSpan(),
+        zap::DiagnosticLevel::Error,
+        "Internal error: single-file binder entry point is unsupported."
+    );
+    return nullptr;
 }
 
-std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo *> modules) {
-  hadError_ = false;
-  boundRoot_ = std::make_unique<BoundRootNode>();
-  modules_.clear();
-  currentScope_.reset();
-  currentFunction_.reset();
-  currentModuleId_.clear();
-  declaredFunctionSymbols_.clear();
-  extensionInfos_.clear();
-  genericExtensionInfos_.clear();
-  recordTypeDeclarationNodes_.clear();
-  structTypeDeclarationNodes_.clear();
-  classTypeDeclarationNodes_.clear();
-  typeDeclarationModuleIds_.clear();
-  functionDeclarationNodes_.clear();
-  functionGenericParamNames_.clear();
-  extensionDeclarationNodes_.clear();
-  genericFunctionInstantiations_.clear();
-  genericTypeInstantiations_.clear();
-  genericFunctionDeclarationKeys_.clear();
-  genericInstantiationEmitted_.clear();
-  genericInstantiationInProgress_.clear();
-  activeGenericBindingsStack_.clear();
-  syntheticLoopCounter_ = 0;
-  unsafeDepth_ = 0;
-  unsafeTypeContextDepth_ = 0;
-  externTypeContextDepth_ = 0;
-  sawPrivacyError_ = false;
-
-  initializeBuiltins();
-
-  for (auto *module : modules) {
-    if (!module) {
-      continue;
+std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo>& modules) {
+    std::vector<ModuleInfo*> modulePtrs;
+    modulePtrs.reserve(modules.size());
+    for (auto& module : modules) {
+        modulePtrs.push_back(&module);
     }
-    ModuleState state;
-    state.info = module;
-    state.scope = std::make_shared<SymbolTable>(builtinScope_);
-    state.symbol =
-        std::make_shared<ModuleSymbol>(module->moduleName, module->moduleId);
-    modules_[module->moduleId] = state;
-  }
+    return bind(std::move(modulePtrs));
+}
 
-  for (auto &[_, module] : modules_) {
-    predeclareModuleTypes(module);
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
+std::unique_ptr<BoundRootNode> Binder::bind(std::vector<ModuleInfo*> modules) {
+    hadError_ = false;
+    boundRoot_ = std::make_unique<BoundRootNode>();
+    modules_.clear();
+    currentScope_.reset();
+    currentFunction_.reset();
+    currentModuleId_.clear();
+    declaredFunctionSymbols_.clear();
+    extensionInfos_.clear();
+    genericExtensionInfos_.clear();
+    recordTypeDeclarationNodes_.clear();
+    structTypeDeclarationNodes_.clear();
+    classTypeDeclarationNodes_.clear();
+    typeDeclarationModuleIds_.clear();
+    functionDeclarationNodes_.clear();
+    functionGenericParamNames_.clear();
+    extensionDeclarationNodes_.clear();
+    genericFunctionInstantiations_.clear();
+    genericTypeInstantiations_.clear();
+    genericFunctionDeclarationKeys_.clear();
+    genericInstantiationEmitted_.clear();
+    genericInstantiationInProgress_.clear();
+    activeGenericBindingsStack_.clear();
+    syntheticLoopCounter_ = 0;
+    unsafeDepth_ = 0;
+    unsafeTypeContextDepth_ = 0;
+    externTypeContextDepth_ = 0;
+    sawPrivacyError_ = false;
 
-  for (auto &[_, module] : modules_) {
-    applyImports(module, true);
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
+    initializeBuiltins();
 
-  for (auto &[_, module] : modules_) {
-    predeclareModuleAliases(module);
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
-
-  for (auto &[_, module] : modules_) {
-    applyImports(module, true);
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
-
-  for (auto &[_, module] : modules_) {
-    ensureModuleValuesReady(module);
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
-
-  for (auto &[_, module] : modules_) {
-    currentModuleId_ = module.info->moduleId;
-    currentScope_ = module.scope;
-    for (const auto &child : module.info->root->children) {
-      if (dynamic_cast<RecordDecl *>(child.get()) ||
-          dynamic_cast<StructDeclarationNode *>(child.get()) ||
-          dynamic_cast<EnumDecl *>(child.get())) {
-        child->accept(*this);
-      }
+    for (auto* module : modules) {
+        if (!module) {
+            continue;
+        }
+        ModuleState state;
+        state.info = module;
+        state.scope = std::make_shared<SymbolTable>(builtinScope_);
+        state.symbol = std::make_shared<ModuleSymbol>(module->moduleName, module->moduleId);
+        modules_[module->moduleId] = state;
     }
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
 
-  for (auto &[_, module] : modules_) {
-    currentModuleId_ = module.info->moduleId;
-    currentScope_ = module.scope;
-    for (const auto &child : module.info->root->children) {
-      if (dynamic_cast<ClassDecl *>(child.get())) {
-        child->accept(*this);
-      }
+    for (auto& [_, module] : modules_) {
+        predeclareModuleTypes(module);
     }
-  }
-  if (hadError_ || _diag.hadErrors()) {
-    return nullptr;
-  }
-
-  for (auto &[_, module] : modules_) {
-    currentModuleId_ = module.info->moduleId;
-    currentScope_ = module.scope;
-    for (const auto &child : module.info->root->children) {
-      if (dynamic_cast<ImportNode *>(child.get()) ||
-          dynamic_cast<RecordDecl *>(child.get()) ||
-          dynamic_cast<ClassDecl *>(child.get()) ||
-          dynamic_cast<StructDeclarationNode *>(child.get()) ||
-          dynamic_cast<EnumDecl *>(child.get()) ||
-          dynamic_cast<TypeAliasDecl *>(child.get())) {
-        continue;
-      }
-      child->accept(*this);
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
     }
-  }
 
-  return (hadError_ || _diag.hadErrors()) ? nullptr : std::move(boundRoot_);
+    for (auto& [_, module] : modules_) {
+        applyImports(module, true);
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        predeclareModuleAliases(module);
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        applyImports(module, true);
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        ensureModuleValuesReady(module);
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        currentModuleId_ = module.info->moduleId;
+        currentScope_ = module.scope;
+        for (const auto& child : module.info->root->children) {
+            if (dynamic_cast<RecordDecl*>(child.get())
+                || dynamic_cast<StructDeclarationNode*>(child.get())
+                || dynamic_cast<EnumDecl*>(child.get())) {
+                child->accept(*this);
+            }
+        }
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        currentModuleId_ = module.info->moduleId;
+        currentScope_ = module.scope;
+        for (const auto& child : module.info->root->children) {
+            if (dynamic_cast<ClassDecl*>(child.get())) {
+                child->accept(*this);
+            }
+        }
+    }
+    if (hadError_ || _diag.hadErrors()) {
+        return nullptr;
+    }
+
+    for (auto& [_, module] : modules_) {
+        currentModuleId_ = module.info->moduleId;
+        currentScope_ = module.scope;
+        for (const auto& child : module.info->root->children) {
+            if (dynamic_cast<ImportNode*>(child.get()) || dynamic_cast<RecordDecl*>(child.get())
+                || dynamic_cast<ClassDecl*>(child.get())
+                || dynamic_cast<StructDeclarationNode*>(child.get())
+                || dynamic_cast<EnumDecl*>(child.get())
+                || dynamic_cast<TypeAliasDecl*>(child.get())) {
+                continue;
+            }
+            child->accept(*this);
+        }
+    }
+
+    return (hadError_ || _diag.hadErrors()) ? nullptr : std::move(boundRoot_);
 }
 
 void Binder::initializeBuiltins() {
-  builtinScope_ = std::make_shared<SymbolTable>();
+    builtinScope_ = std::make_shared<SymbolTable>();
 
-  auto declareType = [&](const std::string &name, zir::TypeKind kind) {
-    builtinScope_->declare(name,
-                           std::make_shared<TypeSymbol>(
-                               name, std::make_shared<zir::PrimitiveType>(kind),
-                               name, "", Visibility::Public));
-  };
+    auto declareType = [&](const std::string& name, zir::TypeKind kind) {
+        builtinScope_->declare(
+            name,
+            std::make_shared<TypeSymbol>(
+                name,
+                std::make_shared<zir::PrimitiveType>(kind),
+                name,
+                "",
+                Visibility::Public
+            )
+        );
+    };
 
-  declareType("Int", zir::TypeKind::Int);
-  declareType("Int8", zir::TypeKind::Int8);
-  declareType("Int16", zir::TypeKind::Int16);
-  declareType("Int32", zir::TypeKind::Int32);
-  declareType("Int64", zir::TypeKind::Int64);
-  declareType("UInt", zir::TypeKind::UInt);
-  declareType("UInt8", zir::TypeKind::UInt8);
-  declareType("UInt16", zir::TypeKind::UInt16);
-  declareType("UInt32", zir::TypeKind::UInt32);
-  declareType("UInt64", zir::TypeKind::UInt64);
-  declareType("Float", zir::TypeKind::Float);
-  declareType("Float32", zir::TypeKind::Float32);
-  declareType("Float64", zir::TypeKind::Float64);
-  declareType("Bool", zir::TypeKind::Bool);
-  declareType("Void", zir::TypeKind::Void);
-  declareType("Char", zir::TypeKind::Char);
+    declareType("Int", zir::TypeKind::Int);
+    declareType("Int8", zir::TypeKind::Int8);
+    declareType("Int16", zir::TypeKind::Int16);
+    declareType("Int32", zir::TypeKind::Int32);
+    declareType("Int64", zir::TypeKind::Int64);
+    declareType("UInt", zir::TypeKind::UInt);
+    declareType("UInt8", zir::TypeKind::UInt8);
+    declareType("UInt16", zir::TypeKind::UInt16);
+    declareType("UInt32", zir::TypeKind::UInt32);
+    declareType("UInt64", zir::TypeKind::UInt64);
+    declareType("Float", zir::TypeKind::Float);
+    declareType("Float32", zir::TypeKind::Float32);
+    declareType("Float64", zir::TypeKind::Float64);
+    declareType("Bool", zir::TypeKind::Bool);
+    declareType("Void", zir::TypeKind::Void);
+    declareType("Char", zir::TypeKind::Char);
 
-  builtinScope_->declare(
-      "String", std::make_shared<TypeSymbol>("String", zir::makeStringType(),
-                                             "String", "", Visibility::Public));
+    builtinScope_->declare(
+        "String",
+        std::make_shared<
+            TypeSymbol>("String", zir::makeStringType(), "String", "", Visibility::Public)
+    );
 }
 
-std::string Binder::mangleName(const std::string &modulePath,
-                               const std::string &name) const {
-  std::string mangled = "zap$";
-  auto appendEscaped = [&](char c) {
-    unsigned char uc = static_cast<unsigned char>(c);
-    if (std::isalnum(uc)) {
-      mangled += c;
-      return;
+std::string Binder::mangleName(const std::string& modulePath, const std::string& name) const {
+    std::string mangled = "zap$";
+    auto appendEscaped = [&](char c) {
+        unsigned char uc = static_cast<unsigned char>(c);
+        if (std::isalnum(uc)) {
+            mangled += c;
+            return;
+        }
+        char buf[8];
+        std::snprintf(buf, sizeof(buf), "_%02X", static_cast<unsigned int>(uc));
+        mangled += buf;
+    };
+    for (char c : modulePath) {
+        appendEscaped(c);
     }
-    char buf[8];
-    std::snprintf(buf, sizeof(buf), "_%02X", static_cast<unsigned int>(uc));
-    mangled += buf;
-  };
-  for (char c : modulePath) {
-    appendEscaped(c);
-  }
-  if (!mangled.empty() && mangled.back() != '$') {
-    mangled += '$';
-  }
-  for (char c : name) {
-    appendEscaped(c);
-  }
-  return mangled;
+    if (!mangled.empty() && mangled.back() != '$') {
+        mangled += '$';
+    }
+    for (char c : name) {
+        appendEscaped(c);
+    }
+    return mangled;
 }
 
-std::string Binder::functionSignatureKey(const FunctionSymbol &function) const {
-  std::string key = "f" + std::to_string(function.parameters.size()) + "_";
-  for (const auto &param : function.parameters) {
-    key += param->is_ref ? "r1_" : "r0_";
-    key += param->is_variadic_pack ? "v1_" : "v0_";
-    key += zir::typeMangleKey(param->type);
-  }
-  key += function.isCVariadic ? "c1" : "c0";
-  return key;
+std::string Binder::functionSignatureKey(const FunctionSymbol& function) const {
+    std::string key = "f" + std::to_string(function.parameters.size()) + "_";
+    for (const auto& param : function.parameters) {
+        key += param->is_ref ? "r1_" : "r0_";
+        key += param->is_variadic_pack ? "v1_" : "v0_";
+        key += zir::typeMangleKey(param->type);
+    }
+    key += function.isCVariadic ? "c1" : "c0";
+    return key;
 }
 
-std::string
-Binder::renderFunctionSignature(const FunctionSymbol &function) const {
-  std::string rendered = function.name;
-  auto genericParamNamesIt = functionGenericParamNames_.find(&function);
-  const auto *genericParamNames =
-      genericParamNamesIt != functionGenericParamNames_.end()
-          ? &genericParamNamesIt->second
-          : &function.genericParameterNames;
-  if (genericParamNames && !genericParamNames->empty()) {
-    rendered += "<";
-    for (size_t i = 0; i < genericParamNames->size(); ++i) {
-      if (i != 0) {
-        rendered += ", ";
-      }
-      const auto &name = (*genericParamNames)[i];
-      auto argIt = function.genericArguments.find(name);
-      rendered += (argIt != function.genericArguments.end() && argIt->second)
-                      ? argIt->second->toString()
-                      : name;
+std::string Binder::renderFunctionSignature(const FunctionSymbol& function) const {
+    std::string rendered = function.name;
+    auto genericParamNamesIt = functionGenericParamNames_.find(&function);
+    const auto* genericParamNames = genericParamNamesIt != functionGenericParamNames_.end()
+        ? &genericParamNamesIt->second
+        : &function.genericParameterNames;
+    if (genericParamNames && !genericParamNames->empty()) {
+        rendered += "<";
+        for (size_t i = 0; i < genericParamNames->size(); ++i) {
+            if (i != 0) {
+                rendered += ", ";
+            }
+            const auto& name = (*genericParamNames)[i];
+            auto argIt = function.genericArguments.find(name);
+            rendered += (argIt != function.genericArguments.end() && argIt->second)
+                ? argIt->second->toString()
+                : name;
+        }
+        rendered += ">";
     }
-    rendered += ">";
-  }
 
-  rendered += "(";
-  for (size_t i = 0; i < function.parameters.size(); ++i) {
-    if (i != 0) {
-      rendered += ", ";
+    rendered += "(";
+    for (size_t i = 0; i < function.parameters.size(); ++i) {
+        if (i != 0) {
+            rendered += ", ";
+        }
+        const auto& param = function.parameters[i];
+        if (param->is_ref) {
+            rendered += "ref ";
+        } else if (param->is_sink) {
+            rendered += "sink ";
+        }
+        if (param->is_noescape) {
+            rendered += "noescape ";
+        }
+        if (param->is_variadic_pack) {
+            rendered += "...";
+            rendered += param->variadic_element_type
+                ? param->variadic_element_type->toString()
+                : (param->type ? param->type->toString() : "Void");
+        } else {
+            rendered += param->type ? param->type->toString() : "Void";
+        }
     }
-    const auto &param = function.parameters[i];
-    if (param->is_ref) {
-      rendered += "ref ";
-    } else if (param->is_sink) {
-      rendered += "sink ";
+    if (function.isCVariadic) {
+        if (!function.parameters.empty()) {
+            rendered += ", ";
+        }
+        rendered += "...";
     }
-    if (param->is_noescape) {
-      rendered += "noescape ";
-    }
-    if (param->is_variadic_pack) {
-      rendered += "...";
-      rendered += param->variadic_element_type
-                      ? param->variadic_element_type->toString()
-                      : (param->type ? param->type->toString() : "Void");
-    } else {
-      rendered += param->type ? param->type->toString() : "Void";
-    }
-  }
-  if (function.isCVariadic) {
-    if (!function.parameters.empty()) {
-      rendered += ", ";
-    }
-    rendered += "...";
-  }
-  rendered += ")";
-  if (function.resultBorrow.hasSource()) {
-    const size_t sourceIndex = *function.resultBorrow.sourceParameter();
-    rendered += " borrows(";
-    rendered += sourceIndex < function.parameters.size()
-                    ? function.parameters[sourceIndex]->name
-                    : std::to_string(sourceIndex);
     rendered += ")";
-  }
-  return rendered;
+    if (function.resultBorrow.hasSource()) {
+        const size_t sourceIndex = *function.resultBorrow.sourceParameter();
+        rendered += " borrows(";
+        rendered += sourceIndex < function.parameters.size()
+            ? function.parameters[sourceIndex]->name
+            : std::to_string(sourceIndex);
+        rendered += ")";
+    }
+    return rendered;
 }
 
 zir::ResultBorrowContract Binder::resolveResultBorrowContract(
-    const std::optional<std::string> &source,
-    const std::vector<std::shared_ptr<VariableSymbol>> &parameters,
-    const std::shared_ptr<zir::Type> &returnType, bool returnsRef,
-    SourceSpan span, const SyntaxName *sourceName) {
-  if (!source) {
-    return {};
-  }
-  if (returnsRef || !returnType ||
-      returnType->getIntrinsicKind() != zir::IntrinsicTypeKind::StringView) {
-    error(span, "'borrows' requires a by-value StringView result.");
-    return {};
-  }
-
-  std::optional<size_t> sourceIndex;
-  const bool numeric =
-      !source->empty() &&
-      std::all_of(source->begin(), source->end(),
-                  [](unsigned char c) { return std::isdigit(c) != 0; });
-  if (numeric) {
-    try {
-      sourceIndex = static_cast<size_t>(std::stoull(*source));
-    } catch (const std::exception &) {
-      sourceIndex.reset();
+    const std::optional<std::string>& source,
+    const std::vector<std::shared_ptr<VariableSymbol>>& parameters,
+    const std::shared_ptr<zir::Type>& returnType,
+    bool returnsRef,
+    SourceSpan span,
+    const SyntaxName* sourceName
+) {
+    if (!source) {
+        return {};
     }
-  } else {
-    for (size_t i = 0; i < parameters.size(); ++i) {
-      if (parameters[i] && parameters[i]->name == *source) {
-        sourceIndex = i;
-        break;
-      }
+    if (returnsRef || !returnType
+        || returnType->getIntrinsicKind() != zir::IntrinsicTypeKind::StringView) {
+        error(span, "'borrows' requires a by-value StringView result.");
+        return {};
     }
-  }
 
-  if (!sourceIndex || *sourceIndex >= parameters.size() ||
-      !parameters[*sourceIndex]) {
-    error(span, "Unknown 'borrows' source parameter '" + *source + "'.");
-    return {};
-  }
-  const auto &parameter = parameters[*sourceIndex];
-  const bool borrowedSelf = parameter->name == "self" && parameter->type &&
-                            parameter->type->getKind() == zir::TypeKind::Class;
-  if (parameter->is_noescape) {
-    error(span, "A 'noescape' parameter cannot back the function result.");
-    return {};
-  }
-  if (parameter->is_ref || parameter->is_sink || parameter->is_variadic_pack ||
-      (!borrowedSelf &&
-       (!parameter->type || parameter->type->getIntrinsicKind() !=
-                                zir::IntrinsicTypeKind::StringView))) {
-    error(span,
-          "'borrows' currently requires a by-value StringView parameter or "
-          "method self.");
-    return {};
-  }
-  if (semanticInfo_ && sourceName)
-    semanticInfo_->recordName(*sourceName, parameter);
-  return zir::ResultBorrowContract::fromParameter(*sourceIndex);
+    std::optional<size_t> sourceIndex;
+    const bool numeric =
+        !source->empty() && std::all_of(source->begin(), source->end(), [](unsigned char c) {
+            return std::isdigit(c) != 0;
+        });
+    if (numeric) {
+        try {
+            sourceIndex = static_cast<size_t>(std::stoull(*source));
+        } catch (const std::exception&) {
+            sourceIndex.reset();
+        }
+    } else {
+        for (size_t i = 0; i < parameters.size(); ++i) {
+            if (parameters[i] && parameters[i]->name == *source) {
+                sourceIndex = i;
+                break;
+            }
+        }
+    }
+
+    if (!sourceIndex || *sourceIndex >= parameters.size() || !parameters[*sourceIndex]) {
+        error(span, "Unknown 'borrows' source parameter '" + *source + "'.");
+        return {};
+    }
+    const auto& parameter = parameters[*sourceIndex];
+    const bool borrowedSelf = parameter->name == "self" && parameter->type
+        && parameter->type->getKind() == zir::TypeKind::Class;
+    if (parameter->is_noescape) {
+        error(span, "A 'noescape' parameter cannot back the function result.");
+        return {};
+    }
+    if (parameter->is_ref || parameter->is_sink || parameter->is_variadic_pack
+        || (!borrowedSelf
+            && (!parameter->type
+                || parameter->type->getIntrinsicKind() != zir::IntrinsicTypeKind::StringView))) {
+        error(
+            span,
+            "'borrows' currently requires a by-value StringView parameter or "
+            "method self."
+        );
+        return {};
+    }
+    if (semanticInfo_ && sourceName)
+        semanticInfo_->recordName(*sourceName, parameter);
+    return zir::ResultBorrowContract::fromParameter(*sourceIndex);
 }
 
-std::string Binder::mangleFunctionName(const std::string &modulePath,
-                                       const FunctionSymbol &function) const {
-  return mangleName(modulePath,
-                    function.name + "$" + functionSignatureKey(function));
+std::string Binder::mangleFunctionName(
+    const std::string& modulePath,
+    const FunctionSymbol& function
+) const {
+    return mangleName(modulePath, function.name + "$" + functionSignatureKey(function));
 }
 
-std::shared_ptr<FunctionSymbol>
-Binder::findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
-                                const FunctionSymbol &prototype) const {
-  for (const auto &candidate : collectOverloads(symbol)) {
-    if (candidate && sameFunctionSignature(*candidate, prototype)) {
-      return candidate;
+std::shared_ptr<FunctionSymbol> Binder::findFunctionBySignature(
+    const std::shared_ptr<Symbol>& symbol,
+    const FunctionSymbol& prototype
+) const {
+    for (const auto& candidate : collectOverloads(symbol)) {
+        if (candidate && sameFunctionSignature(*candidate, prototype)) {
+            return candidate;
+        }
     }
-  }
-  return nullptr;
-}
-
-bool sameMethodDispatchSignature(const FunctionSymbol &lhs,
-                                 const FunctionSymbol &rhs) {
-  const size_t lhsOffset = lhs.isMethod ? 1 : 0;
-  const size_t rhsOffset = rhs.isMethod ? 1 : 0;
-  if (lhs.parameters.size() < lhsOffset || rhs.parameters.size() < rhsOffset) {
-    return false;
-  }
-  if (lhs.parameters.size() - lhsOffset != rhs.parameters.size() - rhsOffset ||
-      lhs.isCVariadic != rhs.isCVariadic) {
-    return false;
-  }
-  for (size_t i = 0; i + lhsOffset < lhs.parameters.size(); ++i) {
-    const auto &left = lhs.parameters[i + lhsOffset];
-    const auto &right = rhs.parameters[i + rhsOffset];
-    if (left->is_ref != right->is_ref ||
-        left->is_variadic_pack != right->is_variadic_pack || !left->type ||
-        !right->type || !zir::sameType(left->type, right->type)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-std::shared_ptr<OverloadSetSymbol>
-Binder::addClassMethodOverload(ClassInfo &classInfo,
-                               const std::shared_ptr<FunctionSymbol> &method) {
-  if (!method) {
     return nullptr;
-  }
+}
 
-  auto &entry = classInfo.methods[method->name];
-  auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
-  auto updated = std::make_shared<OverloadSetSymbol>(
-      method->name, method->moduleName, method->visibility);
-  if (overloads) {
-    updated->overloads = overloads->overloads;
-  } else if (auto existing = std::dynamic_pointer_cast<FunctionSymbol>(entry)) {
-    updated->addOverload(existing);
-  }
-  updated->overloads.erase(
-      std::remove_if(updated->overloads.begin(), updated->overloads.end(),
-                     [&](const std::shared_ptr<FunctionSymbol> &candidate) {
-                       return candidate &&
-                              sameMethodDispatchSignature(*candidate, *method);
-                     }),
-      updated->overloads.end());
-  updated->addOverload(method);
-  entry = updated;
-  return updated;
+bool sameMethodDispatchSignature(const FunctionSymbol& lhs, const FunctionSymbol& rhs) {
+    const size_t lhsOffset = lhs.isMethod ? 1 : 0;
+    const size_t rhsOffset = rhs.isMethod ? 1 : 0;
+    if (lhs.parameters.size() < lhsOffset || rhs.parameters.size() < rhsOffset) {
+        return false;
+    }
+    if (lhs.parameters.size() - lhsOffset != rhs.parameters.size() - rhsOffset
+        || lhs.isCVariadic != rhs.isCVariadic) {
+        return false;
+    }
+    for (size_t i = 0; i + lhsOffset < lhs.parameters.size(); ++i) {
+        const auto& left = lhs.parameters[i + lhsOffset];
+        const auto& right = rhs.parameters[i + rhsOffset];
+        if (left->is_ref != right->is_ref || left->is_variadic_pack != right->is_variadic_pack
+            || !left->type || !right->type || !zir::sameType(left->type, right->type)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::shared_ptr<OverloadSetSymbol> Binder::addClassMethodOverload(
+    ClassInfo& classInfo,
+    const std::shared_ptr<FunctionSymbol>& method
+) {
+    if (!method) {
+        return nullptr;
+    }
+
+    auto& entry = classInfo.methods[method->name];
+    auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
+    auto updated =
+        std::make_shared<OverloadSetSymbol>(method->name, method->moduleName, method->visibility);
+    if (overloads) {
+        updated->overloads = overloads->overloads;
+    } else if (auto existing = std::dynamic_pointer_cast<FunctionSymbol>(entry)) {
+        updated->addOverload(existing);
+    }
+    updated->overloads.erase(
+        std::remove_if(
+            updated->overloads.begin(),
+            updated->overloads.end(),
+            [&](const std::shared_ptr<FunctionSymbol>& candidate) {
+                return candidate && sameMethodDispatchSignature(*candidate, *method);
+            }
+        ),
+        updated->overloads.end()
+    );
+    updated->addOverload(method);
+    entry = updated;
+    return updated;
 }
 
 std::shared_ptr<OverloadSetSymbol> Binder::addExtensionMethodOverload(
-    const std::shared_ptr<zir::Type> &targetType,
-    const std::shared_ptr<FunctionSymbol> &method) {
-  if (!targetType || !method) {
-    return nullptr;
-  }
+    const std::shared_ptr<zir::Type>& targetType,
+    const std::shared_ptr<FunctionSymbol>& method
+) {
+    if (!targetType || !method) {
+        return nullptr;
+    }
 
-  ExtensionInfo *extensionInfo = nullptr;
-  if (method->genericParameterNames.empty()) {
-    const auto targetKey = typeInterner_.mangleKey(targetType);
-    extensionInfo = &extensionInfos_[targetKey];
-  } else {
-    genericExtensionInfos_.push_back({targetType, {}});
-    extensionInfo = &genericExtensionInfos_.back();
-  }
-  if (!extensionInfo->targetType) {
-    extensionInfo->targetType = targetType;
-  }
+    ExtensionInfo* extensionInfo = nullptr;
+    if (method->genericParameterNames.empty()) {
+        const auto targetKey = typeInterner_.mangleKey(targetType);
+        extensionInfo = &extensionInfos_[targetKey];
+    } else {
+        genericExtensionInfos_.push_back({targetType, {}});
+        extensionInfo = &genericExtensionInfos_.back();
+    }
+    if (!extensionInfo->targetType) {
+        extensionInfo->targetType = targetType;
+    }
 
-  auto &entry = extensionInfo->methods[method->name];
-  auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
-  if (!overloads) {
-    overloads = std::make_shared<OverloadSetSymbol>(
-        method->name, method->moduleName, method->visibility);
-    entry = overloads;
-  }
-  overloads->addOverload(method);
-  return overloads;
+    auto& entry = extensionInfo->methods[method->name];
+    auto overloads = std::dynamic_pointer_cast<OverloadSetSymbol>(entry);
+    if (!overloads) {
+        overloads = std::make_shared<OverloadSetSymbol>(
+            method->name,
+            method->moduleName,
+            method->visibility
+        );
+        entry = overloads;
+    }
+    overloads->addOverload(method);
+    return overloads;
 }
 
-std::vector<std::shared_ptr<FunctionSymbol>>
-Binder::collectExtensionMethods(const std::shared_ptr<zir::Type> &targetType,
-                                const std::string &name) const {
-  if (!targetType) {
-    return {};
-  }
-  std::vector<std::shared_ptr<FunctionSymbol>> methods;
-  const auto extensionIt =
-      extensionInfos_.find(typeInterner_.mangleKey(targetType));
-  if (extensionIt != extensionInfos_.end()) {
-    const auto methodIt = extensionIt->second.methods.find(name);
-    if (methodIt != extensionIt->second.methods.end()) {
-      methods = collectOverloads(methodIt->second);
+std::vector<std::shared_ptr<FunctionSymbol>> Binder::collectExtensionMethods(
+    const std::shared_ptr<zir::Type>& targetType,
+    const std::string& name
+) const {
+    if (!targetType) {
+        return {};
     }
-  }
+    std::vector<std::shared_ptr<FunctionSymbol>> methods;
+    const auto extensionIt = extensionInfos_.find(typeInterner_.mangleKey(targetType));
+    if (extensionIt != extensionInfos_.end()) {
+        const auto methodIt = extensionIt->second.methods.find(name);
+        if (methodIt != extensionIt->second.methods.end()) {
+            methods = collectOverloads(methodIt->second);
+        }
+    }
 
-  for (const auto &extensionInfo : genericExtensionInfos_) {
-    if (!extensionTargetMatches(extensionInfo.targetType, targetType)) {
-      continue;
+    for (const auto& extensionInfo : genericExtensionInfos_) {
+        if (!extensionTargetMatches(extensionInfo.targetType, targetType)) {
+            continue;
+        }
+        const auto methodIt = extensionInfo.methods.find(name);
+        if (methodIt != extensionInfo.methods.end()) {
+            const auto overloads = collectOverloads(methodIt->second);
+            methods.insert(methods.end(), overloads.begin(), overloads.end());
+        }
     }
-    const auto methodIt = extensionInfo.methods.find(name);
-    if (methodIt != extensionInfo.methods.end()) {
-      const auto overloads = collectOverloads(methodIt->second);
-      methods.insert(methods.end(), overloads.begin(), overloads.end());
-    }
-  }
-  return methods;
+    return methods;
 }
 
 bool Binder::extensionTargetMatches(
-    const std::shared_ptr<zir::Type> &pattern,
-    const std::shared_ptr<zir::Type> &target) const {
-  if (!pattern || !target) {
-    return false;
-  }
-  if (pattern->getKind() == zir::TypeKind::Record) {
-    const auto patternRecord =
-        std::static_pointer_cast<zir::RecordType>(pattern);
-    if (patternRecord->getRole() == zir::RecordRole::GenericParameter) {
-      return true;
-    }
-    if (isVariadicViewType(pattern) && isVariadicViewType(target)) {
-      const auto targetRecord =
-          std::static_pointer_cast<zir::RecordType>(target);
-      const auto &patternFields = patternRecord->getFields();
-      const auto &targetFields = targetRecord->getFields();
-      if (patternFields.empty() || targetFields.empty() ||
-          patternFields.front().type->getKind() != zir::TypeKind::Pointer ||
-          targetFields.front().type->getKind() != zir::TypeKind::Pointer) {
+    const std::shared_ptr<zir::Type>& pattern,
+    const std::shared_ptr<zir::Type>& target
+) const {
+    if (!pattern || !target) {
         return false;
-      }
-      return extensionTargetMatches(
-          std::static_pointer_cast<zir::PointerType>(patternFields.front().type)
-              ->getBaseType(),
-          std::static_pointer_cast<zir::PointerType>(targetFields.front().type)
-              ->getBaseType());
     }
-    if (patternRecord->isGenericInstance() &&
-        target->getKind() == zir::TypeKind::Record) {
-      const auto targetRecord =
-          std::static_pointer_cast<zir::RecordType>(target);
-      if (!targetRecord->isGenericInstance() ||
-          patternRecord->getGenericBaseName() !=
-              targetRecord->getGenericBaseName() ||
-          patternRecord->getGenericArguments().size() !=
-              targetRecord->getGenericArguments().size()) {
-        return false;
-      }
-      for (size_t i = 0; i < patternRecord->getGenericArguments().size(); ++i) {
-        if (!extensionTargetMatches(patternRecord->getGenericArguments()[i],
-                                    targetRecord->getGenericArguments()[i])) {
-          return false;
+    if (pattern->getKind() == zir::TypeKind::Record) {
+        const auto patternRecord = std::static_pointer_cast<zir::RecordType>(pattern);
+        if (patternRecord->getRole() == zir::RecordRole::GenericParameter) {
+            return true;
         }
-      }
-      return true;
-    }
-  }
-  if (pattern->getKind() == zir::TypeKind::Class) {
-    const auto patternClass = std::static_pointer_cast<zir::ClassType>(pattern);
-    if (patternClass->isGenericInstance() &&
-        target->getKind() == zir::TypeKind::Class) {
-      const auto targetClass = std::static_pointer_cast<zir::ClassType>(target);
-      if (!targetClass->isGenericInstance() ||
-          patternClass->getGenericBaseName() !=
-              targetClass->getGenericBaseName() ||
-          patternClass->getGenericArguments().size() !=
-              targetClass->getGenericArguments().size()) {
-        return false;
-      }
-      for (size_t i = 0; i < patternClass->getGenericArguments().size(); ++i) {
-        if (!extensionTargetMatches(patternClass->getGenericArguments()[i],
-                                    targetClass->getGenericArguments()[i])) {
-          return false;
+        if (isVariadicViewType(pattern) && isVariadicViewType(target)) {
+            const auto targetRecord = std::static_pointer_cast<zir::RecordType>(target);
+            const auto& patternFields = patternRecord->getFields();
+            const auto& targetFields = targetRecord->getFields();
+            if (patternFields.empty() || targetFields.empty()
+                || patternFields.front().type->getKind() != zir::TypeKind::Pointer
+                || targetFields.front().type->getKind() != zir::TypeKind::Pointer) {
+                return false;
+            }
+            return extensionTargetMatches(
+                std::static_pointer_cast<zir::PointerType>(patternFields.front().type)
+                    ->getBaseType(),
+                std::static_pointer_cast<zir::PointerType>(targetFields.front().type)->getBaseType()
+            );
         }
-      }
-      return true;
+        if (patternRecord->isGenericInstance() && target->getKind() == zir::TypeKind::Record) {
+            const auto targetRecord = std::static_pointer_cast<zir::RecordType>(target);
+            if (!targetRecord->isGenericInstance()
+                || patternRecord->getGenericBaseName() != targetRecord->getGenericBaseName()
+                || patternRecord->getGenericArguments().size()
+                    != targetRecord->getGenericArguments().size()) {
+                return false;
+            }
+            for (size_t i = 0; i < patternRecord->getGenericArguments().size(); ++i) {
+                if (!extensionTargetMatches(
+                        patternRecord->getGenericArguments()[i],
+                        targetRecord->getGenericArguments()[i]
+                    )) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-  }
-  if (pattern->getKind() == zir::TypeKind::Pointer &&
-      target->getKind() == zir::TypeKind::Pointer) {
-    return extensionTargetMatches(
-        std::static_pointer_cast<zir::PointerType>(pattern)->getBaseType(),
-        std::static_pointer_cast<zir::PointerType>(target)->getBaseType());
-  }
-  if (pattern->getKind() == zir::TypeKind::Array &&
-      target->getKind() == zir::TypeKind::Array) {
-    const auto patternArray = std::static_pointer_cast<zir::ArrayType>(pattern);
-    const auto targetArray = std::static_pointer_cast<zir::ArrayType>(target);
-    return patternArray->getSize() == targetArray->getSize() &&
-           extensionTargetMatches(patternArray->getBaseType(),
-                                  targetArray->getBaseType());
-  }
-  return typeInterner_.same(pattern, target);
+    if (pattern->getKind() == zir::TypeKind::Class) {
+        const auto patternClass = std::static_pointer_cast<zir::ClassType>(pattern);
+        if (patternClass->isGenericInstance() && target->getKind() == zir::TypeKind::Class) {
+            const auto targetClass = std::static_pointer_cast<zir::ClassType>(target);
+            if (!targetClass->isGenericInstance()
+                || patternClass->getGenericBaseName() != targetClass->getGenericBaseName()
+                || patternClass->getGenericArguments().size()
+                    != targetClass->getGenericArguments().size()) {
+                return false;
+            }
+            for (size_t i = 0; i < patternClass->getGenericArguments().size(); ++i) {
+                if (!extensionTargetMatches(
+                        patternClass->getGenericArguments()[i],
+                        targetClass->getGenericArguments()[i]
+                    )) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    if (pattern->getKind() == zir::TypeKind::Pointer
+        && target->getKind() == zir::TypeKind::Pointer) {
+        return extensionTargetMatches(
+            std::static_pointer_cast<zir::PointerType>(pattern)->getBaseType(),
+            std::static_pointer_cast<zir::PointerType>(target)->getBaseType()
+        );
+    }
+    if (pattern->getKind() == zir::TypeKind::Array && target->getKind() == zir::TypeKind::Array) {
+        const auto patternArray = std::static_pointer_cast<zir::ArrayType>(pattern);
+        const auto targetArray = std::static_pointer_cast<zir::ArrayType>(target);
+        return patternArray->getSize() == targetArray->getSize()
+            && extensionTargetMatches(patternArray->getBaseType(), targetArray->getBaseType());
+    }
+    return typeInterner_.same(pattern, target);
 }
 
-bool Binder::extensionMethodVisible(const FunctionSymbol &method) const {
-  if (method.extensionDeclaringModuleId == currentModuleId_) {
-    return true;
-  }
-  if (method.visibility != Visibility::Public) {
-    return false;
-  }
+bool Binder::extensionMethodVisible(const FunctionSymbol& method) const {
+    if (method.extensionDeclaringModuleId == currentModuleId_) {
+        return true;
+    }
+    if (method.visibility != Visibility::Public) {
+        return false;
+    }
 
-  std::vector<std::string> pending{currentModuleId_};
-  std::unordered_set<std::string> visited;
-  while (!pending.empty()) {
-    const auto moduleId = std::move(pending.back());
-    pending.pop_back();
-    if (!visited.insert(moduleId).second) {
-      continue;
-    }
-    const auto moduleIt = modules_.find(moduleId);
-    if (moduleIt == modules_.end() || !moduleIt->second.info) {
-      continue;
-    }
-    for (const auto &import : moduleIt->second.info->imports) {
-      if (moduleId != currentModuleId_ &&
-          import.visibility != Visibility::Public) {
-        continue;
-      }
-      for (const auto &targetModuleId : import.targetModuleIds) {
-        if (targetModuleId == method.extensionDeclaringModuleId) {
-          return true;
+    std::vector<std::string> pending{currentModuleId_};
+    std::unordered_set<std::string> visited;
+    while (!pending.empty()) {
+        const auto moduleId = std::move(pending.back());
+        pending.pop_back();
+        if (!visited.insert(moduleId).second) {
+            continue;
         }
-        pending.push_back(targetModuleId);
-      }
+        const auto moduleIt = modules_.find(moduleId);
+        if (moduleIt == modules_.end() || !moduleIt->second.info) {
+            continue;
+        }
+        for (const auto& import : moduleIt->second.info->imports) {
+            if (moduleId != currentModuleId_ && import.visibility != Visibility::Public) {
+                continue;
+            }
+            for (const auto& targetModuleId : import.targetModuleIds) {
+                if (targetModuleId == method.extensionDeclaringModuleId) {
+                    return true;
+                }
+                pending.push_back(targetModuleId);
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 
-int Binder::findOverriddenVtableSlot(const ClassInfo &classInfo,
-                                     const FunctionSymbol &method) const {
-  auto existingIt = classInfo.methods.find(method.name);
-  if (existingIt == classInfo.methods.end()) {
+int Binder::findOverriddenVtableSlot(
+    const ClassInfo& classInfo,
+    const FunctionSymbol& method
+) const {
+    auto existingIt = classInfo.methods.find(method.name);
+    if (existingIt == classInfo.methods.end()) {
+        return -1;
+    }
+
+    for (const auto& candidate : collectOverloads(existingIt->second)) {
+        if (candidate && candidate->vtableSlot >= 0
+            && sameMethodDispatchSignature(*candidate, method)) {
+            return candidate->vtableSlot;
+        }
+    }
     return -1;
-  }
-
-  for (const auto &candidate : collectOverloads(existingIt->second)) {
-    if (candidate && candidate->vtableSlot >= 0 &&
-        sameMethodDispatchSignature(*candidate, method)) {
-      return candidate->vtableSlot;
-    }
-  }
-  return -1;
 }
 
-std::string Binder::displayTypeName(const std::string &moduleName,
-                                    const std::string &name) const {
-  if (moduleName.empty() || moduleName == "__single_module__") {
-    return name;
-  }
-  return moduleName + "." + name;
+std::string Binder::displayTypeName(const std::string& moduleName, const std::string& name) const {
+    if (moduleName.empty() || moduleName == "__single_module__") {
+        return name;
+    }
+    return moduleName + "." + name;
 }
 
-std::string
-Binder::renderTypeForUser(const std::shared_ptr<zir::Type> &type) const {
-  if (!type) {
-    return "<unknown>";
-  }
-
-  switch (type->getKind()) {
-  case zir::TypeKind::Void:
-    return "Void";
-  case zir::TypeKind::Bool:
-    return "Bool";
-  case zir::TypeKind::Char:
-    return "Char";
-  case zir::TypeKind::Int:
-    return "Int";
-  case zir::TypeKind::Int8:
-    return "Int8";
-  case zir::TypeKind::Int16:
-    return "Int16";
-  case zir::TypeKind::Int32:
-    return "Int32";
-  case zir::TypeKind::Int64:
-    return "Int64";
-  case zir::TypeKind::UInt:
-    return "UInt";
-  case zir::TypeKind::UInt8:
-    return "UInt8";
-  case zir::TypeKind::UInt16:
-    return "UInt16";
-  case zir::TypeKind::UInt32:
-    return "UInt32";
-  case zir::TypeKind::UInt64:
-    return "UInt64";
-  case zir::TypeKind::Float:
-    return "Float";
-  case zir::TypeKind::Float32:
-    return "Float32";
-  case zir::TypeKind::Float64:
-    return "Float64";
-  case zir::TypeKind::NullPtr:
-    return "null";
-  case zir::TypeKind::Pointer: {
-    auto ptr = std::static_pointer_cast<zir::PointerType>(type);
-    return "*" + renderTypeForUser(ptr->getBaseType());
-  }
-  case zir::TypeKind::Array: {
-    auto arr = std::static_pointer_cast<zir::ArrayType>(type);
-    if (arr->getSize() == 0) {
-      return "[]" + renderTypeForUser(arr->getBaseType());
+std::string Binder::renderTypeForUser(const std::shared_ptr<zir::Type>& type) const {
+    if (!type) {
+        return "<unknown>";
     }
-    return "[" + std::to_string(arr->getSize()) + "]" +
-           renderTypeForUser(arr->getBaseType());
-  }
-  case zir::TypeKind::Record: {
-    auto rec = std::static_pointer_cast<zir::RecordType>(type);
-    return rec->getName();
-  }
-  case zir::TypeKind::Class: {
-    auto cls = std::static_pointer_cast<zir::ClassType>(type);
-    return std::string(cls->isWeak() ? "weak " : "") + cls->getName();
-  }
-  case zir::TypeKind::Enum: {
-    auto en = std::static_pointer_cast<zir::EnumType>(type);
-    return en->getName();
-  }
-  case zir::TypeKind::TaggedUnion: {
-    auto taggedUnion = std::static_pointer_cast<zir::TaggedUnionType>(type);
-    return taggedUnion->getName();
-  }
-  case zir::TypeKind::FunctionPointer:
+
+    switch (type->getKind()) {
+        case zir::TypeKind::Void:
+            return "Void";
+        case zir::TypeKind::Bool:
+            return "Bool";
+        case zir::TypeKind::Char:
+            return "Char";
+        case zir::TypeKind::Int:
+            return "Int";
+        case zir::TypeKind::Int8:
+            return "Int8";
+        case zir::TypeKind::Int16:
+            return "Int16";
+        case zir::TypeKind::Int32:
+            return "Int32";
+        case zir::TypeKind::Int64:
+            return "Int64";
+        case zir::TypeKind::UInt:
+            return "UInt";
+        case zir::TypeKind::UInt8:
+            return "UInt8";
+        case zir::TypeKind::UInt16:
+            return "UInt16";
+        case zir::TypeKind::UInt32:
+            return "UInt32";
+        case zir::TypeKind::UInt64:
+            return "UInt64";
+        case zir::TypeKind::Float:
+            return "Float";
+        case zir::TypeKind::Float32:
+            return "Float32";
+        case zir::TypeKind::Float64:
+            return "Float64";
+        case zir::TypeKind::NullPtr:
+            return "null";
+        case zir::TypeKind::Pointer: {
+            auto ptr = std::static_pointer_cast<zir::PointerType>(type);
+            return "*" + renderTypeForUser(ptr->getBaseType());
+        }
+        case zir::TypeKind::Array: {
+            auto arr = std::static_pointer_cast<zir::ArrayType>(type);
+            if (arr->getSize() == 0) {
+                return "[]" + renderTypeForUser(arr->getBaseType());
+            }
+            return "[" + std::to_string(arr->getSize()) + "]"
+                + renderTypeForUser(arr->getBaseType());
+        }
+        case zir::TypeKind::Record: {
+            auto rec = std::static_pointer_cast<zir::RecordType>(type);
+            return rec->getName();
+        }
+        case zir::TypeKind::Class: {
+            auto cls = std::static_pointer_cast<zir::ClassType>(type);
+            return std::string(cls->isWeak() ? "weak " : "") + cls->getName();
+        }
+        case zir::TypeKind::Enum: {
+            auto en = std::static_pointer_cast<zir::EnumType>(type);
+            return en->getName();
+        }
+        case zir::TypeKind::TaggedUnion: {
+            auto taggedUnion = std::static_pointer_cast<zir::TaggedUnionType>(type);
+            return taggedUnion->getName();
+        }
+        case zir::TypeKind::FunctionPointer:
+            return type->toString();
+    }
+
     return type->toString();
-  }
-
-  return type->toString();
 }
 
 std::string Binder::currentModuleLinkPath() const {
-  auto it = modules_.find(currentModuleId_);
-  if (it == modules_.end() || !it->second.info) {
-    return currentModuleId_;
-  }
-  return it->second.info->linkPath.empty() ? it->second.info->moduleId
-                                           : it->second.info->linkPath;
+    auto it = modules_.find(currentModuleId_);
+    if (it == modules_.end() || !it->second.info) {
+        return currentModuleId_;
+    }
+    return it->second.info->linkPath.empty() ? it->second.info->moduleId
+                                             : it->second.info->linkPath;
 }
 
 std::string Binder::makeSyntheticLoopName(std::string_view prefix) {
-  while (true) {
-    std::string candidate = "__for_" + std::string(prefix) + "_" +
-                            std::to_string(syntheticLoopCounter_++);
-    if (!currentScope_ || !currentScope_->lookupLocal(candidate)) {
-      return candidate;
+    while (true) {
+        std::string candidate =
+            "__for_" + std::string(prefix) + "_" + std::to_string(syntheticLoopCounter_++);
+        if (!currentScope_ || !currentScope_->lookupLocal(candidate)) {
+            return candidate;
+        }
     }
-  }
 }
 
 void Binder::pushScope() {
-  currentScope_ = std::make_shared<SymbolTable>(currentScope_);
+    currentScope_ = std::make_shared<SymbolTable>(currentScope_);
 }
 
 void Binder::popScope() {
-  if (currentScope_) {
-    currentScope_ = currentScope_->getParent();
-  }
+    if (currentScope_) {
+        currentScope_ = currentScope_->getParent();
+    }
 }
 
-std::optional<int64_t>
-Binder::evaluateConstantInt(const BoundExpression *expr) {
-  if (auto variable = dynamic_cast<const BoundVariableExpression *>(expr)) {
-    const auto &symbol = variable->symbol;
-    if (symbol && symbol->isCompileTimeConstant() && symbol->constant_value) {
-      return evaluateConstantInt(symbol->constant_value.get());
+std::optional<int64_t> Binder::evaluateConstantInt(const BoundExpression* expr) {
+    if (auto variable = dynamic_cast<const BoundVariableExpression*>(expr)) {
+        const auto& symbol = variable->symbol;
+        if (symbol && symbol->isCompileTimeConstant() && symbol->constant_value) {
+            return evaluateConstantInt(symbol->constant_value.get());
+        }
+        return std::nullopt;
     }
+
+    if (auto lit = dynamic_cast<const BoundLiteral*>(expr)) {
+        try {
+            const std::string& v = lit->value;
+            if (v.size() > 2 && v[0] == '0') {
+                if (v[1] == 'x' || v[1] == 'X') {
+                    return static_cast<int64_t>(std::stoull(v, nullptr, 16));
+                }
+                if (v[1] == 'b' || v[1] == 'B') {
+                    return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 2));
+                }
+                if (v[1] == 'o' || v[1] == 'O') {
+                    return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 8));
+                }
+            }
+            return std::stoll(v);
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+
+    if (auto unary = dynamic_cast<const BoundUnaryExpression*>(expr)) {
+        auto inner = evaluateConstantInt(unary->expr.get());
+        if (!inner)
+            return std::nullopt;
+        if (unary->op == "-")
+            return -*inner;
+        return inner;
+    }
+
+    if (auto binary = dynamic_cast<const BoundBinaryExpression*>(expr)) {
+        auto left = evaluateConstantInt(binary->left.get());
+        auto right = evaluateConstantInt(binary->right.get());
+        if (!left || !right)
+            return std::nullopt;
+
+        if (binary->op == "+")
+            return *left + *right;
+        if (binary->op == "-")
+            return *left - *right;
+        if (binary->op == "*")
+            return *left * *right;
+        if (binary->op == "/")
+            return *right == 0 ? std::nullopt : std::optional<int64_t>(*left / *right);
+        if (binary->op == "%")
+            return *right == 0 ? std::nullopt : std::optional<int64_t>(*left % *right);
+        if (binary->op == "&")
+            return *left & *right;
+        if (binary->op == "|")
+            return *left | *right;
+        if (binary->op == "^")
+            return *left ^ *right;
+        if (binary->op == "<<") {
+            if (*right < 0)
+                return std::nullopt;
+            unsigned width =
+                binary->left->type ? static_cast<unsigned>(typeBitWidth(binary->left->type)) : 0u;
+            if (width == 0 || static_cast<uint64_t>(*right) >= width)
+                return std::nullopt;
+            return static_cast<int64_t>(
+                static_cast<uint64_t>(*left) << static_cast<uint64_t>(*right)
+            );
+        }
+        if (binary->op == ">>") {
+            if (*right < 0)
+                return std::nullopt;
+            unsigned width =
+                binary->left->type ? static_cast<unsigned>(typeBitWidth(binary->left->type)) : 0u;
+            if (width == 0 || static_cast<uint64_t>(*right) >= width)
+                return std::nullopt;
+            return *left >> static_cast<uint64_t>(*right);
+        }
+    }
+
     return std::nullopt;
-  }
+}
 
-  if (auto lit = dynamic_cast<const BoundLiteral *>(expr)) {
-    try {
-      const std::string &v = lit->value;
-      if (v.size() > 2 && v[0] == '0') {
-        if (v[1] == 'x' || v[1] == 'X') {
-          return static_cast<int64_t>(std::stoull(v, nullptr, 16));
-        }
-        if (v[1] == 'b' || v[1] == 'B') {
-          return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 2));
-        }
-        if (v[1] == 'o' || v[1] == 'O') {
-          return static_cast<int64_t>(std::stoull(v.substr(2), nullptr, 8));
-        }
-      }
-      return std::stoll(v);
-    } catch (...) {
-      return std::nullopt;
-    }
-  }
+std::unique_ptr<BoundExpression> Binder::foldConstantBinary(const BoundBinaryExpression* binary) {
+    if (!binary)
+        return nullptr;
 
-  if (auto unary = dynamic_cast<const BoundUnaryExpression *>(expr)) {
-    auto inner = evaluateConstantInt(unary->expr.get());
-    if (!inner)
-      return std::nullopt;
-    if (unary->op == "-")
-      return -*inner;
-    return inner;
-  }
-
-  if (auto binary = dynamic_cast<const BoundBinaryExpression *>(expr)) {
-    auto left = evaluateConstantInt(binary->left.get());
-    auto right = evaluateConstantInt(binary->right.get());
+    auto* left = dynamic_cast<const BoundLiteral*>(binary->left.get());
+    auto* right = dynamic_cast<const BoundLiteral*>(binary->right.get());
     if (!left || !right)
-      return std::nullopt;
+        return nullptr;
 
-    if (binary->op == "+")
-      return *left + *right;
-    if (binary->op == "-")
-      return *left - *right;
-    if (binary->op == "*")
-      return *left * *right;
-    if (binary->op == "/")
-      return *right == 0 ? std::nullopt
-                         : std::optional<int64_t>(*left / *right);
-    if (binary->op == "%")
-      return *right == 0 ? std::nullopt
-                         : std::optional<int64_t>(*left % *right);
-    if (binary->op == "&")
-      return *left & *right;
-    if (binary->op == "|")
-      return *left | *right;
-    if (binary->op == "^")
-      return *left ^ *right;
-    if (binary->op == "<<") {
-      if (*right < 0)
-        return std::nullopt;
-      unsigned width =
-          binary->left->type
-              ? static_cast<unsigned>(typeBitWidth(binary->left->type))
-              : 0u;
-      if (width == 0 || static_cast<uint64_t>(*right) >= width)
-        return std::nullopt;
-      return static_cast<int64_t>(static_cast<uint64_t>(*left)
-                                  << static_cast<uint64_t>(*right));
+    // String literal concatenation.
+    if (binary->op == "+" && isStringType(binary->type)) {
+        if (isStringType(left->type) && isStringType(right->type)) {
+            return std::make_unique<BoundLiteral>(
+                left->value + right->value,
+                zir::makeStringViewType()
+            );
+        }
+        return nullptr;
     }
-    if (binary->op == ">>") {
-      if (*right < 0)
-        return std::nullopt;
-      unsigned width =
-          binary->left->type
-              ? static_cast<unsigned>(typeBitWidth(binary->left->type))
-              : 0u;
-      if (width == 0 || static_cast<uint64_t>(*right) >= width)
-        return std::nullopt;
-      return *left >> static_cast<uint64_t>(*right);
-    }
-  }
 
-  return std::nullopt;
+    // Integer arithmetic/bitwise.
+    if (binary->type && binary->type->isInteger()) {
+        if (auto value = evaluateConstantInt(binary))
+            return std::make_unique<BoundLiteral>(std::to_string(*value), binary->type);
+    }
+
+    return nullptr;
 }
 
-std::unique_ptr<BoundExpression>
-Binder::foldConstantBinary(const BoundBinaryExpression *binary) {
-  if (!binary)
-    return nullptr;
-
-  auto *left = dynamic_cast<const BoundLiteral *>(binary->left.get());
-  auto *right = dynamic_cast<const BoundLiteral *>(binary->right.get());
-  if (!left || !right)
-    return nullptr;
-
-  // String literal concatenation.
-  if (binary->op == "+" && isStringType(binary->type)) {
-    if (isStringType(left->type) && isStringType(right->type)) {
-      return std::make_unique<BoundLiteral>(left->value + right->value,
-                                            zir::makeStringViewType());
+void Binder::error(SourceSpan span, const std::string& message) {
+    if (message.find(" is private.") != std::string::npos) {
+        sawPrivacyError_ = true;
     }
-    return nullptr;
-  }
 
-  // Integer arithmetic/bitwise.
-  if (binary->type && binary->type->isInteger()) {
-    if (auto value = evaluateConstantInt(binary))
-      return std::make_unique<BoundLiteral>(std::to_string(*value),
-                                            binary->type);
-  }
+    if (sawPrivacyError_
+        && (message.find("Undefined identifier: ") != std::string::npos
+            || message.find("Unknown type: ") != std::string::npos
+            || message.find("Unknown return type in function ") != std::string::npos
+            || message.find("Unknown generic type argument in type ") != std::string::npos)) {
+        return;
+    }
 
-  return nullptr;
-}
-
-void Binder::error(SourceSpan span, const std::string &message) {
-  if (message.find(" is private.") != std::string::npos) {
-    sawPrivacyError_ = true;
-  }
-
-  if (sawPrivacyError_ &&
-      (message.find("Undefined identifier: ") != std::string::npos ||
-       message.find("Unknown type: ") != std::string::npos ||
-       message.find("Unknown return type in function ") != std::string::npos ||
-       message.find("Unknown generic type argument in type ") !=
-           std::string::npos)) {
-    return;
-  }
-
-  hadError_ = true;
-  _diag.report(span, zap::DiagnosticLevel::Error, message);
+    hadError_ = true;
+    _diag.report(span, zap::DiagnosticLevel::Error, message);
 }
 
 } // namespace sema

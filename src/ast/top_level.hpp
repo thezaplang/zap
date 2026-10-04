@@ -8,13 +8,13 @@
 
 class TopLevel : public virtual Node {
 public:
-  Visibility visibility_ = Visibility::Private;
-  std::vector<AttributeNode> attributes_;
-  SyntaxName declarationName_;
-  SyntaxName resultBorrowName_;
-  SyntaxRange syntaxRange_;
+    Visibility visibility_ = Visibility::Private;
+    std::vector<AttributeNode> attributes_;
+    SyntaxName declarationName_;
+    SyntaxName resultBorrowName_;
+    SyntaxRange syntaxRange_;
 
-  virtual ~TopLevel() noexcept = default;
+    virtual ~TopLevel() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

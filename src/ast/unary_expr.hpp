@@ -5,12 +5,13 @@
 
 class UnaryExpr : public ExpressionNode {
 public:
-  std::string op_;
-  std::unique_ptr<ExpressionNode> expr_;
-  UnaryExpr() noexcept(
-      std::is_nothrow_default_constructible<std::string>::value) = default;
-  UnaryExpr(std::string op, std::unique_ptr<ExpressionNode> expr)
-      : op_(op), expr_(std::move(expr)) {}
+    std::string op_;
+    std::unique_ptr<ExpressionNode> expr_;
+    UnaryExpr() noexcept(std::is_nothrow_default_constructible<std::string>::value) = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    UnaryExpr(std::string op, std::unique_ptr<ExpressionNode> expr)
+        : op_(op),
+          expr_(std::move(expr)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

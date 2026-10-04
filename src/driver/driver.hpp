@@ -19,188 +19,179 @@ namespace zap {
 /// like if(verifyOutput()) return 1;
 class driver {
 public:
-  driver();
-  void setExecutablePath(std::filesystem::path path);
+    driver();
+    void setExecutablePath(std::filesystem::path path);
 
-  /// @brief Parses the provided args.
-  /// @param argc How many arguments.
-  /// @param argv Pointer to the arguments.
-  args::ParseResult parseArgs(int argc, char **argv);
+    /// @brief Parses the provided args.
+    /// @param argc How many arguments.
+    /// @param argv Pointer to the arguments.
+    args::ParseResult parseArgs(int argc, char** argv);
 
-  /// @brief Splits inputs based on their file extension.
-  /// @return True if an error has occured.
-  /// This should be called second so that verifyOutput() can work.
-  bool splitInputs();
+    /// @brief Splits inputs based on their file extension.
+    /// @return True if an error has occured.
+    /// This should be called second so that verifyOutput() can work.
+    bool splitInputs();
 
-  /// @brief Verifies that the sources provided actually exist or not.
-  /// @return True if an error has occured.
-  /// This should be called third after splitting the input files.
-  bool verifySources();
+    /// @brief Verifies that the sources provided actually exist or not.
+    /// @return True if an error has occured.
+    /// This should be called third after splitting the input files.
+    bool verifySources();
 
-  /// @brief Checks if the output is valid or not.
-  /// @return True if invalid.
-  /// This should be called fourth after checking the source/object files.
-  bool verifyOutput();
+    /// @brief Checks if the output is valid or not.
+    /// @return True if invalid.
+    /// This should be called fourth after checking the source/object files.
+    bool verifyOutput();
 
-  /// @brief Compiles the files to the chosen output mode.
-  /// @return True if an error has occured.
-  /// Should be called fifth after checking that the output is valid.
-  bool compile();
+    /// @brief Compiles the files to the chosen output mode.
+    /// @return True if an error has occured.
+    /// Should be called fifth after checking that the output is valid.
+    bool compile();
 
-  /// @brief Links everything if the output mode requires it.
-  /// @return True if an error has occured.
-  /// Should be called sixth after compiling.
-  bool link();
+    /// @brief Links everything if the output mode requires it.
+    /// @return True if an error has occured.
+    /// Should be called sixth after compiling.
+    bool link();
 
-  /// @brief Cleans up the files in the cleanup queue.
-  /// @return True if an error has occured.
-  /// Should be called seventh after linking.
-  bool cleanup();
+    /// @brief Cleans up the files in the cleanup queue.
+    /// @return True if an error has occured.
+    /// Should be called seventh after linking.
+    bool cleanup();
 
-  /// @brief Returns the unsplit input files vector.
-  /// @return Const reference to the input files vector.
-  const std::vector<std::string_view> &get_inputs() const noexcept {
-    return cmdArgs.inputs;
-  }
+    /// @brief Returns the unsplit input files vector.
+    /// @return Const reference to the input files vector.
+    const std::vector<std::string_view>& get_inputs() const noexcept { return cmdArgs.inputs; }
 
-  /// @brief Returns the paths to the source files.
-  /// @return Const reference to the source files vector.
-  const std::vector<std::filesystem::path> &get_sources() const noexcept {
-    return cmdArgs.sources;
-  }
+    /// @brief Returns the paths to the source files.
+    /// @return Const reference to the source files vector.
+    const std::vector<std::filesystem::path>& get_sources() const noexcept {
+        return cmdArgs.sources;
+    }
 
-  /// @brief Returns the desired path of the output file.
-  /// @return Const reference to the output file path.
-  const std::filesystem::path &get_output() const noexcept {
-    return cmdArgs.output.path;
-  }
+    /// @brief Returns the desired path of the output file.
+    /// @return Const reference to the output file path.
+    const std::filesystem::path& get_output() const noexcept { return cmdArgs.output.path; }
 
-  /// @brief Returns whether or not the output was explicit (-o) or not.
-  /// @return True if was implicit, false if explicit.
-  bool is_implicit_output() const noexcept { return cmdArgs.output.implicit; }
-  bool emits_llvm_text() const noexcept {
-    return cmdArgs.output.type == args::OutputType::TEXT_LLVM;
-  }
-  bool emits_zir() const noexcept {
-    return cmdArgs.output.type == args::OutputType::ZIR;
-  }
-  bool emits_expanded() const noexcept {
-    return cmdArgs.output.type == args::OutputType::EXPANDED;
-  }
-  const std::unordered_map<std::string, std::string> &
-  get_import_map() const noexcept {
-    return cmdArgs.importMap;
-  }
-  const std::string &get_target_triple() const noexcept {
-    return cmdArgs.targetTriple;
-  }
-  bool is_freestanding() const noexcept { return cmdArgs.freestanding; }
-  bool emits_text_output() const noexcept {
-    return cmdArgs.output.type == args::OutputType::TEXT_LLVM ||
-           cmdArgs.output.type == args::OutputType::ZIR ||
-           cmdArgs.output.type == args::OutputType::EXPANDED ||
-           cmdArgs.output.type == args::OutputType::ASM;
-  }
+    /// @brief Returns whether or not the output was explicit (-o) or not.
+    /// @return True if was implicit, false if explicit.
+    bool is_implicit_output() const noexcept { return cmdArgs.output.implicit; }
 
-  /// @brief Returns the chosen output type.
-  args::OutputType get_output_type() const noexcept {
-    return cmdArgs.output.type;
-  }
+    bool emits_llvm_text() const noexcept {
+        return cmdArgs.output.type == args::OutputType::TEXT_LLVM;
+    }
 
-  /// @brief Returns whether or not the output type needs linking or not.
-  /// @return True if needs, false if not.
-  /// This shouldn't be used along link() since it already checks it.
-  bool needs_linking() const noexcept {
-    return !emits_text_output() &&
-           (cmdArgs.output.type == args::OutputType::EXEC);
-  }
+    bool emits_zir() const noexcept { return cmdArgs.output.type == args::OutputType::ZIR; }
 
-  /// @brief Returns if the current selected format is supported by this
-  /// compiler version.
-  /// @return True if supported, false if not.
-  /// This should change as the compiler evolves, ideally all of the below
-  /// should be true.
-  bool format_supported() const noexcept {
-    return true; // Condition is always true.
-  }
+    bool emits_expanded() const noexcept {
+        return cmdArgs.output.type == args::OutputType::EXPANDED;
+    }
 
-  /// @brief Returns if the current target is windows.
-  bool is_target_windows() const noexcept {
-    const std::string &tt = get_target_triple();
-    if (tt.empty())
+    const std::unordered_map<std::string, std::string>& get_import_map() const noexcept {
+        return cmdArgs.importMap;
+    }
+
+    const std::string& get_target_triple() const noexcept { return cmdArgs.targetTriple; }
+
+    bool is_freestanding() const noexcept { return cmdArgs.freestanding; }
+
+    bool emits_text_output() const noexcept {
+        return cmdArgs.output.type == args::OutputType::TEXT_LLVM
+            || cmdArgs.output.type == args::OutputType::ZIR
+            || cmdArgs.output.type == args::OutputType::EXPANDED
+            || cmdArgs.output.type == args::OutputType::ASM;
+    }
+
+    /// @brief Returns the chosen output type.
+    args::OutputType get_output_type() const noexcept { return cmdArgs.output.type; }
+
+    /// @brief Returns whether or not the output type needs linking or not.
+    /// @return True if needs, false if not.
+    /// This shouldn't be used along link() since it already checks it.
+    bool needs_linking() const noexcept {
+        return !emits_text_output() && (cmdArgs.output.type == args::OutputType::EXEC);
+    }
+
+    /// @brief Returns if the current selected format is supported by this
+    /// compiler version.
+    /// @return True if supported, false if not.
+    /// This should change as the compiler evolves, ideally all of the below
+    /// should be true.
+    bool format_supported() const noexcept {
+        return true; // Condition is always true.
+    }
+
+    /// @brief Returns if the current target is windows.
+    bool is_target_windows() const noexcept {
+        const std::string& tt = get_target_triple();
+        if (tt.empty())
 #ifdef _WIN32
-      return true; // Host target is windows.
+            return true; // Host target is windows.
 #else
-      return false;
+            return false;
 #endif
-    else
-      return get_target_triple().find(
-          "windows"); // Windows targets have "windows" as the OS set.
-  }
-
-  /// @brief Returns a file extension based on the file format given.
-  /// @return Read-only string.
-  constexpr static const char *
-  format_fileextension(args::OutputType type) noexcept {
-    switch (type) {
-    default:
-      [[fallthrough]];
-    case args::OutputType::EXEC:
-      return ""; // No .exe because I never seen this being used on executables.
-    case args::OutputType::OBJECT:
-      return ".o";
-    case args::OutputType::ASM:
-      return ".s";
-    case args::OutputType::TEXT_LLVM:
-      return ".ll";
-    case args::OutputType::LLVM:
-      return ".bc";
-    case args::OutputType::ZIR:
-      return ".zir";
-    case args::OutputType::EXPANDED:
-      return ".expanded.zp";
+        else
+            return get_target_triple().find(
+                "windows"
+            ); // Windows targets have "windows" as the OS set.
     }
-  }
 
-  /// @brief Returns whether the output is binary or text.
-  /// @return True if binary, false if text.
-  bool binary_output() const noexcept {
-    switch (cmdArgs.output.type) {
-    case args::OutputType::EXEC:
-      [[fallthrough]];
-    case args::OutputType::OBJECT:
-      [[fallthrough]];
-    case args::OutputType::LLVM:
-      return true;
-    default:
-      return false;
+    /// @brief Returns a file extension based on the file format given.
+    /// @return Read-only string.
+    constexpr static const char* format_fileextension(args::OutputType type) noexcept {
+        switch (type) {
+            default:
+                [[fallthrough]];
+            case args::OutputType::EXEC:
+                return ""; // No .exe because I never seen this being used on executables.
+            case args::OutputType::OBJECT:
+                return ".o";
+            case args::OutputType::ASM:
+                return ".s";
+            case args::OutputType::TEXT_LLVM:
+                return ".ll";
+            case args::OutputType::LLVM:
+                return ".bc";
+            case args::OutputType::ZIR:
+                return ".zir";
+            case args::OutputType::EXPANDED:
+                return ".expanded.zp";
+        }
     }
-  }
 
-  template <typename... Args> static void reportError(Args &&...args) {
-    zap::reportError(std::forward<Args>(args)...);
-  }
+    /// @brief Returns whether the output is binary or text.
+    /// @return True if binary, false if text.
+    bool binary_output() const noexcept {
+        switch (cmdArgs.output.type) {
+            case args::OutputType::EXEC:
+                [[fallthrough]];
+            case args::OutputType::OBJECT:
+                [[fallthrough]];
+            case args::OutputType::LLVM:
+                return true;
+            default:
+                return false;
+        }
+    }
 
-  template <typename... Args> static void reportWarning(Args &&...args) {
-    ((err() << "zapc: ").changeColor(Color::YELLOW, true) << "warning: ")
-        .resetColor();
-    (err() << ... << args);
-    err() << '\n';
-  }
+    template <typename... Args> static void reportError(Args&&... args) {
+        zap::reportError(std::forward<Args>(args)...);
+    }
+
+    template <typename... Args> static void reportWarning(Args&&... args) {
+        ((err() << "zapc: ").changeColor(Color::YELLOW, true) << "warning: ").resetColor();
+        (err() << ... << args);
+        err() << '\n';
+    }
 
 private:
-  friend bool compileLoadedModules(driver &drv,
-                                   const std::filesystem::path &entryPath);
+    friend bool compileLoadedModules(driver& drv, const std::filesystem::path& entryPath);
 
-  /// @brief Used internally by the compile() function.
-  /// @return True if an error has occured.
-  bool compileSourceFile(const std::string &source,
-                         const std::string &source_name);
+    /// @brief Used internally by the compile() function.
+    /// @return True if an error has occured.
+    bool compileSourceFile(const std::string& source, const std::string& source_name);
 
-  args::CmdlineArgs cmdArgs; ///< Parsed command line arguments.
-  std::vector<std::filesystem::path>
-      cleanups; ///< A vector of files that need to be deleted.
-  std::filesystem::path executable_path; ///< Path to the running executable.
+    args::CmdlineArgs cmdArgs; ///< Parsed command line arguments.
+    std::vector<std::filesystem::path> cleanups; ///< A vector of files that need to be deleted.
+    std::filesystem::path executable_path; ///< Path to the running executable.
 };
 
 } // namespace zap

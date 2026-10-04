@@ -50,180 +50,199 @@ class MacroExpander;
 struct MacroCall;
 
 enum class FragmentKind {
-  Expression,
-  Type,
-  Statement,
-  StatementList,
-  Block,
-  Item,
-  ItemList
+    Expression,
+    Type,
+    Statement,
+    StatementList,
+    Block,
+    Item,
+    ItemList
 };
-enum class MacroParseMode { Expand, ValidateFragmentSyntax };
+enum class MacroParseMode {
+    Expand,
+    ValidateFragmentSyntax
+};
 
 struct StatementFragment {
-  std::unique_ptr<Node> node;
+    std::unique_ptr<Node> node;
 };
 
 struct ItemFragment {
-  std::unique_ptr<Node> node;
+    std::unique_ptr<Node> node;
 };
 
-using ParsedFragment =
-    std::variant<std::unique_ptr<ExpressionNode>, std::unique_ptr<TypeNode>,
-                 StatementFragment, std::unique_ptr<BodyNode>, ItemFragment,
-                 std::unique_ptr<RootNode>>;
+using ParsedFragment = std::variant<
+    std::unique_ptr<ExpressionNode>,
+    std::unique_ptr<TypeNode>,
+    StatementFragment,
+    std::unique_ptr<BodyNode>,
+    ItemFragment,
+    std::unique_ptr<RootNode>>;
 
 struct ParsedFragmentPrefix {
-  ParsedFragment fragment;
-  size_t tokenCount;
+    ParsedFragment fragment;
+    size_t tokenCount;
 };
 
 class Parser {
 public:
-  // Recursive descents beyond the outermost grammar rule.
-  static constexpr size_t MaxSyntaxDepth = 256;
-  class ParseError : public std::runtime_error {
-  public:
-    ParseError() : std::runtime_error("Parse error") {}
-  };
+    // Recursive descents beyond the outermost grammar rule.
+    static constexpr size_t MaxSyntaxDepth = 256;
 
-  Parser(std::vector<Token> tokens, DiagnosticEngine &diag,
-         MacroExpander *macroExpander = nullptr, std::string moduleId = {},
-         MacroParseMode macroMode = MacroParseMode::Expand);
-  // The selected token range is half-open and is owned by this parser.
-  Parser(std::vector<Token> tokens, DiagnosticEngine &diag, size_t begin,
-         size_t end);
-  ~Parser();
-  std::unique_ptr<RootNode> parse(); // Returns the root of the AST
-  std::optional<ParsedFragment> parseFragment(FragmentKind kind);
-  // Expression/type prefixes are parsed with the entire remaining input, so
-  // generic argument commas are distinguished from fragment separators.
-  std::optional<ParsedFragmentPrefix> parseFragmentPrefix(FragmentKind kind);
-  const std::vector<MacroDefinition> &macroDefinitions() const noexcept;
-  std::vector<MacroDefinition> takeMacroDefinitions();
-  std::vector<Token> expandedTokens() const;
+    class ParseError : public std::runtime_error {
+    public:
+        ParseError()
+            : std::runtime_error("Parse error") {}
+    };
+
+    Parser(
+        std::vector<Token> tokens,
+        DiagnosticEngine& diag,
+        MacroExpander* macroExpander = nullptr,
+        std::string moduleId = {},
+        MacroParseMode macroMode = MacroParseMode::Expand
+    );
+    // The selected token range is half-open and is owned by this parser.
+    Parser(std::vector<Token> tokens, DiagnosticEngine& diag, size_t begin, size_t end);
+    ~Parser();
+    std::unique_ptr<RootNode> parse(); // Returns the root of the AST
+    std::optional<ParsedFragment> parseFragment(FragmentKind kind);
+    // Expression/type prefixes are parsed with the entire remaining input, so
+    // generic argument commas are distinguished from fragment separators.
+    std::optional<ParsedFragmentPrefix> parseFragmentPrefix(FragmentKind kind);
+    const std::vector<MacroDefinition>& macroDefinitions() const noexcept;
+    std::vector<MacroDefinition> takeMacroDefinitions();
+    std::vector<Token> expandedTokens() const;
 
 private:
-  DiagnosticEngine &_diag;
-  std::vector<Token> _tokens;
-  TokenCursor _cursor;
-  AstBuilder _builder;
-  std::vector<MacroDefinition> _macroDefinitions;
-  MacroExpander *_macroExpander = nullptr;
-  std::string _moduleId;
-  MacroParseMode _macroMode = MacroParseMode::Expand;
-  bool _allowStructLiteral = true;
-  size_t _macroDepth = 0;
-  size_t _syntaxDepth = 0;
-  void checkSyntaxDepth(size_t depth);
-  class DepthGuard {
-  public:
-    explicit DepthGuard(Parser &parser);
-    ~DepthGuard();
-    DepthGuard(const DepthGuard &) = delete;
-    DepthGuard &operator=(const DepthGuard &) = delete;
+    DiagnosticEngine& _diag;
+    std::vector<Token> _tokens;
+    TokenCursor _cursor;
+    AstBuilder _builder;
+    std::vector<MacroDefinition> _macroDefinitions;
+    MacroExpander* _macroExpander = nullptr;
+    std::string _moduleId;
+    MacroParseMode _macroMode = MacroParseMode::Expand;
+    bool _allowStructLiteral = true;
+    size_t _macroDepth = 0;
+    size_t _syntaxDepth = 0;
+    void checkSyntaxDepth(size_t depth);
 
-  private:
-    Parser &parser_;
-  };
-  struct TokenReplacement {
-    size_t begin;
-    size_t end;
-    std::vector<Token> tokens;
-  };
-  std::vector<TokenReplacement> _tokenReplacements;
-  void recordExpansion(size_t begin, std::vector<Token> tokens);
-  std::unique_ptr<RootNode> parseItemFragmentRoot();
+    class DepthGuard {
+    public:
+        explicit DepthGuard(Parser& parser);
+        ~DepthGuard();
+        DepthGuard(const DepthGuard&) = delete;
+        DepthGuard& operator=(const DepthGuard&) = delete;
 
-  // Helper methods
-  const Token &peek(size_t offset = 0) const;
-  Token eat(TokenType expectedType);
-  bool isAtEnd() const;
-  enum class SyncContext { TopLevel, Block };
-  enum class FunctionContext { Regular, ExtensionMethod };
+    private:
+        Parser& parser_;
+    };
 
-  void synchronize(SyncContext context = SyncContext::Block);
-  void synchronizeExtensionMember();
-  void synchronizeCaseArm();
-  SourceSpan pointAfter(const SourceSpan &span) const;
+    struct TokenReplacement {
+        size_t begin;
+        size_t end;
+        std::vector<Token> tokens;
+    };
 
-  // Parsing rules
-  std::vector<AttributeNode> parseAttributes();
-  AttributeNode parseSingleAttribute();
-  std::unique_ptr<FunDecl>
-  parseFunDecl(bool isUnsafe = false,
-               FunctionContext context = FunctionContext::Regular);
-  std::unique_ptr<FunDecl>
-  parseMemberMethod(std::vector<AttributeNode> attributes,
-                    Visibility visibility, FunctionContext context);
-  Visibility parseMemberVisibility();
-  std::unique_ptr<ExtDecl> parseExtDecl();
-  std::optional<std::string>
-  parseResultBorrowSource(SyntaxName *name = nullptr);
-  std::unique_ptr<ImportNode> parseImportDecl();
-  std::unique_ptr<BodyNode> parseBody(bool allowEndResult = false);
-  std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
-  std::unique_ptr<AsmStmtNode> parseAsm();
-  std::vector<AsmOperandNode> parseAsmOperandList();
-  std::unique_ptr<BindingDecl> parseBindingDecl(BindingKind kind);
-  std::unique_ptr<AssignNode> parseAssign();
-  std::unique_ptr<TypeNode> parseType();
-  std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
-  std::vector<std::unique_ptr<TypeNode>> parseGenericParameterList();
-  std::vector<GenericConstraint> parseWhereClauses();
-  std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
-  std::unique_ptr<IfNode> parseIf();
-  std::unique_ptr<CaseNode> parseCase();
-  CaseArm parseCaseArm();
-  CasePattern parseCasePattern();
-  CasePattern parseCaseRecordPattern(std::vector<std::string> typePath,
-                                     SourceSpan startSpan);
-  std::unique_ptr<IfTypeNode> parseIfType();
-  std::unique_ptr<WhileNode> parseWhile();
-  std::unique_ptr<ForNode> parseFor();
-  std::unique_ptr<ForInNode> parseForIn();
-  std::unique_ptr<BindingDecl> parseForInitBindingDecl();
-  std::unique_ptr<AssignNode> parseForIncrementAssign();
-  std::unique_ptr<ReturnNode> parseReturnStmt();
-  std::unique_ptr<ExpressionNode> parseExpression();
-  std::unique_ptr<ExpressionNode> parseFailableExpression();
-  std::unique_ptr<ExpressionNode> parseCastExpression();
-  std::unique_ptr<ExpressionNode> parseTernaryExpression();
-  std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
-  std::unique_ptr<ExpressionNode> parseUnaryExpression();
-  std::unique_ptr<ExpressionNode> parsePostfixExpression();
-  std::unique_ptr<ExpressionNode> parsePrimaryExpression();
-  bool isMacroInvocationStart() const;
-  bool isStandaloneMacroInvocation() const;
-  MacroCall readMacroInvocation();
-  void validateSourceInterpolations(const TokenTree &tree);
-  std::unique_ptr<BodyNode> parseMacroStatements();
-  std::unique_ptr<RootNode> parseMacroItems();
-  ParsedFragment parseMacroInvocation(FragmentKind kind);
-  std::unique_ptr<ExpressionNode> parseRangeExpression();
-  std::unique_ptr<DeferNode> parseDefer();
+    std::vector<TokenReplacement> _tokenReplacements;
+    void recordExpansion(size_t begin, std::vector<Token> tokens);
+    std::unique_ptr<RootNode> parseItemFragmentRoot();
 
-  int getPrecedence(TokenType type);
-  std::unique_ptr<ParameterNode> parseParameter(bool allowDefault = false);
-  std::unique_ptr<EnumDecl> parseEnumDecl();
-  std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
-  std::unique_ptr<RecordDecl> parseRecordDecl();
-  std::unique_ptr<ClassDecl> parseClassDecl();
-  std::unique_ptr<InterfaceDecl> parseInterfaceDecl();
-  std::unique_ptr<ExtensionDecl> parseExtensionDecl();
-  std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
-  std::unique_ptr<StructLiteralNode>
-  parseStructLiteral(std::unique_ptr<TypeNode> type);
-  std::unique_ptr<BreakNode> parseBreak();
-  std::unique_ptr<ContinueNode> parseContinue();
-  std::unique_ptr<FailNode> parseFail();
-  std::vector<std::string> parseQualifiedIdentifier();
-  bool isTypeStartToken(TokenType type) const;
-  bool isTryPostfixContext(TokenType type) const;
-  bool isGenericCallStart() const;
-  bool isGenericStructLiteralStart() const;
-  bool isGenericPostfixStart(TokenType following) const;
-  std::unique_ptr<TypeNode>
-  typeNodeFromQualifiedExpression(const ExpressionNode *expr);
+    // Helper methods
+    const Token& peek(size_t offset = 0) const;
+    Token eat(TokenType expectedType);
+    bool isAtEnd() const;
+    enum class SyncContext {
+        TopLevel,
+        Block
+    };
+    enum class FunctionContext {
+        Regular,
+        ExtensionMethod
+    };
+
+    void synchronize(SyncContext context = SyncContext::Block);
+    void synchronizeExtensionMember();
+    void synchronizeCaseArm();
+    SourceSpan pointAfter(const SourceSpan& span) const;
+
+    // Parsing rules
+    std::vector<AttributeNode> parseAttributes();
+    AttributeNode parseSingleAttribute();
+    std::unique_ptr<FunDecl> parseFunDecl(
+        bool isUnsafe = false,
+        FunctionContext context = FunctionContext::Regular
+    );
+    std::unique_ptr<FunDecl> parseMemberMethod(
+        std::vector<AttributeNode> attributes,
+        Visibility visibility,
+        FunctionContext context
+    );
+    Visibility parseMemberVisibility();
+    std::unique_ptr<ExtDecl> parseExtDecl();
+    std::optional<std::string> parseResultBorrowSource(SyntaxName* name = nullptr);
+    std::unique_ptr<ImportNode> parseImportDecl();
+    std::unique_ptr<BodyNode> parseBody(bool allowEndResult = false);
+    std::unique_ptr<UnsafeBlockNode> parseUnsafeBlock();
+    std::unique_ptr<AsmStmtNode> parseAsm();
+    std::vector<AsmOperandNode> parseAsmOperandList();
+    std::unique_ptr<BindingDecl> parseBindingDecl(BindingKind kind);
+    std::unique_ptr<AssignNode> parseAssign();
+    std::unique_ptr<TypeNode> parseType();
+    std::vector<std::unique_ptr<TypeNode>> parseGenericTypeArguments();
+    std::vector<std::unique_ptr<TypeNode>> parseGenericParameterList();
+    std::vector<GenericConstraint> parseWhereClauses();
+    std::unique_ptr<ArrayLiteralNode> parseArrayLiteral();
+    std::unique_ptr<IfNode> parseIf();
+    std::unique_ptr<CaseNode> parseCase();
+    CaseArm parseCaseArm();
+    CasePattern parseCasePattern();
+    CasePattern parseCaseRecordPattern(std::vector<std::string> typePath, SourceSpan startSpan);
+    std::unique_ptr<IfTypeNode> parseIfType();
+    std::unique_ptr<WhileNode> parseWhile();
+    std::unique_ptr<ForNode> parseFor();
+    std::unique_ptr<ForInNode> parseForIn();
+    std::unique_ptr<BindingDecl> parseForInitBindingDecl();
+    std::unique_ptr<AssignNode> parseForIncrementAssign();
+    std::unique_ptr<ReturnNode> parseReturnStmt();
+    std::unique_ptr<ExpressionNode> parseExpression();
+    std::unique_ptr<ExpressionNode> parseFailableExpression();
+    std::unique_ptr<ExpressionNode> parseCastExpression();
+    std::unique_ptr<ExpressionNode> parseTernaryExpression();
+    std::unique_ptr<ExpressionNode> parseBinaryExpression(int minPrecedence);
+    std::unique_ptr<ExpressionNode> parseUnaryExpression();
+    std::unique_ptr<ExpressionNode> parsePostfixExpression();
+    std::unique_ptr<ExpressionNode> parsePrimaryExpression();
+    bool isMacroInvocationStart() const;
+    bool isStandaloneMacroInvocation() const;
+    MacroCall readMacroInvocation();
+    void validateSourceInterpolations(const TokenTree& tree);
+    std::unique_ptr<BodyNode> parseMacroStatements();
+    std::unique_ptr<RootNode> parseMacroItems();
+    ParsedFragment parseMacroInvocation(FragmentKind kind);
+    std::unique_ptr<ExpressionNode> parseRangeExpression();
+    std::unique_ptr<DeferNode> parseDefer();
+
+    int getPrecedence(TokenType type);
+    std::unique_ptr<ParameterNode> parseParameter(bool allowDefault = false);
+    std::unique_ptr<EnumDecl> parseEnumDecl();
+    std::unique_ptr<TypeAliasDecl> parseTypeAliasDecl();
+    std::unique_ptr<RecordDecl> parseRecordDecl();
+    std::unique_ptr<ClassDecl> parseClassDecl();
+    std::unique_ptr<InterfaceDecl> parseInterfaceDecl();
+    std::unique_ptr<ExtensionDecl> parseExtensionDecl();
+    std::unique_ptr<StructDeclarationNode> parseStructDecl(bool isUnsafe = false);
+    std::unique_ptr<StructLiteralNode> parseStructLiteral(std::unique_ptr<TypeNode> type);
+    std::unique_ptr<BreakNode> parseBreak();
+    std::unique_ptr<ContinueNode> parseContinue();
+    std::unique_ptr<FailNode> parseFail();
+    std::vector<std::string> parseQualifiedIdentifier();
+    bool isTypeStartToken(TokenType type) const;
+    bool isTryPostfixContext(TokenType type) const;
+    bool isGenericCallStart() const;
+    bool isGenericStructLiteralStart() const;
+    bool isGenericPostfixStart(TokenType following) const;
+    std::unique_ptr<TypeNode> typeNodeFromQualifiedExpression(const ExpressionNode* expr);
 };
 } // namespace zap

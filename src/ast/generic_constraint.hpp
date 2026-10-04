@@ -4,6 +4,6 @@
 #include <string>
 
 struct GenericConstraint {
-  std::string parameterName;
-  std::unique_ptr<TypeNode> boundType;
+    std::string parameterName;
+    std::unique_ptr<TypeNode> boundType;
 };

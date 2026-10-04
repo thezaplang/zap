@@ -6,12 +6,12 @@
 
 class ArrayLiteralNode : public ExpressionNode {
 public:
-  std::vector<std::unique_ptr<ExpressionNode>> elements_;
+    std::vector<std::unique_ptr<ExpressionNode>> elements_;
 
-  ArrayLiteralNode() noexcept = default;
-  explicit ArrayLiteralNode(
-      std::vector<std::unique_ptr<ExpressionNode>> elements)
-      : elements_(std::move(elements)) {}
+    ArrayLiteralNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    explicit ArrayLiteralNode(std::vector<std::unique_ptr<ExpressionNode>> elements)
+        : elements_(std::move(elements)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };
