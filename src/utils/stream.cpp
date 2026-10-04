@@ -11,57 +11,41 @@ namespace zap {
 
 ColorOverride color_override = ColorOverride::AUTO;
 
-Stream::Stream(size_t bufferSize) {
-    start = cur = end = nullptr;
-
-    if (bufferSize) {
-        setBufferSize(bufferSize);
-    }
-}
+Stream::Stream(size_t bufferSize)
+    : buffer_(bufferSize ? std::make_unique<BufferChar[]>(bufferSize) : nullptr),
+      capacity_(bufferSize) {}
 
 void Stream::setBufferSize(size_t bufferSize) {
     if (bufferSize == getBufferSize())
         return;
 
+    auto buffer = bufferSize ? std::make_unique<BufferChar[]>(bufferSize) : nullptr;
     flush();
-    delete[] start;
-
-    start = cur = end = nullptr;
-
-    if (bufferSize) {
-        start = cur = new BufferChar[bufferSize];
-        end = start + bufferSize;
-    }
+    buffer_ = std::move(buffer);
+    capacity_ = bufferSize;
 }
 
 Stream& Stream::write(const BufferChar* ptr, size_t size) {
-    size_t bufferSize = getBufferSize();
-
-    if (!bufferSize) {
+    if (!size)
+        return *this;
+    if (!capacity_) {
+        internalWrite(ptr, size);
+        return *this;
+    }
+    if (size >= capacity_) {
+        flush();
         internalWrite(ptr, size);
         return *this;
     }
 
     size_t bytesLeft = size;
     while (bytesLeft) {
-        size_t spaceLeft = end - cur;
-
-        if (bytesLeft >= bufferSize) {
+        if (used_ == capacity_) {
             flush();
-            internalWrite(ptr, size);
-            break;
         }
-
-        if (!spaceLeft) {
-            flush();
-            spaceLeft = bufferSize;
-        }
-
-        size_t toCpy = std::min(bytesLeft, spaceLeft);
-
-        std::memcpy(cur, ptr, toCpy);
-
-        cur += toCpy;
+        size_t toCpy = std::min(bytesLeft, capacity_ - used_);
+        std::memcpy(buffer_.get() + used_, ptr, toCpy);
+        used_ += toCpy;
         ptr += toCpy;
         bytesLeft -= toCpy;
     }

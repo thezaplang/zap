@@ -222,6 +222,8 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('stream', executable('zap-stream-tests', 'tests/cpp/stream_test.cpp',
+                             dependencies : libzap_dep))
     test('macro-expansion-pipeline', executable('zap-macro-expansion-pipeline-tests',
                                                 'tests/cpp/macro_expansion_pipeline_test.cpp',
                                                 dependencies : zap_frontend_dep))

@@ -6,7 +6,10 @@
 #include <cstdio>
 #include <cstring>
 #include <limits>
+#include <memory>
 #include <string>
+#include <string_view>
+#include <type_traits>
 
 namespace zap {
 
@@ -47,7 +50,9 @@ public:
     constexpr static size_t DEFAULT_BUFFER_SIZE = 0x2000;
 
 private:
-    BufferType start, cur, end;
+    std::unique_ptr<BufferChar[]> buffer_;
+    size_t capacity_;
+    size_t used_ = 0;
 
     /// @brief Implementation for the write function, depends on the class.
     virtual void internalWrite(const BufferChar* ptr, size_t size) = 0;
@@ -62,7 +67,7 @@ public:
     /// @param bufferSize What buffer size should it be, 0 for unbuffered.
     Stream(size_t bufferSize = DEFAULT_BUFFER_SIZE);
 
-    size_t getBufferSize() const noexcept { return end - cur; }
+    size_t getBufferSize() const noexcept { return capacity_; }
 
     /// @brief Writes the provided characters to the stream.
     /// @param ptr Pointer to the characters.
@@ -76,9 +81,9 @@ public:
     void setNoBuffer() noexcept { setBufferSize(0); }
 
     void flush() {
-        if (cur != start) {
-            internalWrite(start, cur - start);
-            cur = start;
+        if (used_) {
+            internalWrite(buffer_.get(), used_);
+            used_ = 0;
         }
         internalFlush();
     }
@@ -89,6 +94,7 @@ public:
     /// @brief Returns whether or not this stream supports colors.
     virtual bool hasColors() const { return false; }
 
+    // Derived streams flush while their sink is alive; the base only releases storage.
     virtual ~Stream() noexcept = default;
 
     Stream& operator<<(std::nullptr_t) { return write("null", 4); }
@@ -186,8 +192,8 @@ public:
           close(closeFile) {}
 
     ~SFStream() override {
-        setNoBuffer();
-        if (close)
+        flush();
+        if (close && file)
             fclose(file);
     }
 };
