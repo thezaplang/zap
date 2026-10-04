@@ -20,9 +20,9 @@ void require(bool condition, const char *message) {
 }
 
 struct Fixture {
-  std::filesystem::path entry =
-      std::filesystem::weakly_canonical(std::filesystem::current_path() / ".." /
-                                        "tests" / "macro_import" / "main.zp");
+  std::filesystem::path entry = std::filesystem::weakly_canonical(
+      std::filesystem::path(ZAP_TEST_SOURCE_DIR) / "tests" / "macro_import" /
+      "main.zp");
   std::filesystem::path helper = entry.parent_path() / "helper.zp";
   std::map<std::filesystem::path, std::string> sources;
 

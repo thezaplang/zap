@@ -52,6 +52,7 @@ makeSession(const std::filesystem::path &stdlib, bool includePrelude,
       {}};
   config.includePrelude = includePrelude;
   config.allowEntryErrors = allowEntryErrors;
+  config.runtimePaths.coreDirOverride = ZAP_TEST_CORE_DIR;
   if (!stdlib.empty())
     config.runtimePaths.stdlibDirOverride = stdlib;
   return zap::frontend::FrontendSession(

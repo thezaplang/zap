@@ -239,6 +239,7 @@ if get_option('build_testing')
                                       dependencies : zap_frontend_dep))
     test('frontend-outline-graph', executable('zap-frontend-outline-graph-tests',
                                               'tests/cpp/frontend_outline_graph_test.cpp',
+                                              cpp_args : ['-DZAP_TEST_CORE_DIR="' + meson.current_source_dir() / 'core' + '"'],
                                               dependencies : zap_frontend_dep))
     test('module-outline', executable('zap-module-outline-tests',
                                        'tests/cpp/module_outline_test.cpp',
@@ -269,6 +270,7 @@ if get_option('build_testing')
                                        dependencies : libzap_dep))
     test('macro-diagnostics', executable('zap-macro-diagnostics-tests',
                                         'tests/cpp/macro_diagnostics_test.cpp',
+                                        cpp_args : ['-DZAP_TEST_SOURCE_DIR="' + meson.current_source_dir() + '"'],
                                         dependencies : libzap_dep))
     test('expanded-syntax', executable('zap-expanded-syntax-tests',
                                       'tests/cpp/expanded_syntax_test.cpp',
@@ -280,6 +282,12 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('macro-pipeline-ownership-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_pipeline/main.zp'
+             ], depends : zapc)
         test('macro-module-helpers-roundtrip', find_program('bash'),
              args : [
                  meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
