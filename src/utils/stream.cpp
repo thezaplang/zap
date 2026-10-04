@@ -15,7 +15,8 @@ Stream::Stream(size_t bufferSize) {
     start = cur = end = nullptr;
 
     if (bufferSize) {
-        setBufferSize(bufferSize);
+        start = cur = new BufferChar[bufferSize];
+        end = start + bufferSize;
     }
 }
 
@@ -23,7 +24,9 @@ void Stream::setBufferSize(size_t bufferSize) {
     if (bufferSize == getBufferSize())
         return;
 
-    flush();
+    if (start) {
+        flush();
+    }
     delete[] start;
 
     start = cur = end = nullptr;
