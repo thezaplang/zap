@@ -5,7 +5,6 @@
 #include "macros/ctfe_semantics.hpp"
 
 #include "ast/nodes.hpp"
-#include "utils/diagnostics.hpp"
 
 #include <limits>
 #include <memory>
@@ -452,37 +451,21 @@ private:
 
 } // namespace
 
-SyntaxMacroResult CtfeInterpreter::execute(std::string_view definitionSource,
-                                           std::string_view entryName,
-                                           const SyntaxMacroRequest &request,
-                                           CtfeLimits limits) {
-  return executeProgram(definitionSource, entryName, request, limits, nullptr);
-}
-
 SyntaxMacroResult CtfeInterpreter::execute(const CtfeProgram &program,
                                            std::string_view entryName,
                                            const SyntaxMacroRequest &request,
                                            CtfeLimits limits) {
-  return executeProgram(program.cacheKey(), entryName, request, limits,
-                        &program);
-}
-
-SyntaxMacroResult
-CtfeInterpreter::executeProgram(std::string_view definitionSource,
-                                std::string_view entryName,
-                                const SyntaxMacroRequest &request,
-                                CtfeLimits limits, const CtfeProgram *program) {
+  const auto &definitionSource = program.cacheKey();
   SyntaxMacroResult result;
   try {
     if (limits.maxMemoryBytes == 0 || limits.maxSteps == 0 ||
-        limits.maxCallDepth == 0 || limits.maxSyntaxDepth == 0 ||
-        (!program && definitionSource.size() > limits.maxDefinitionBytes))
+        limits.maxCallDepth == 0 || limits.maxSyntaxDepth == 0)
       throw Failure{"M3003", "CTFE configuration or source limit exceeded."};
     if (definitionSource.size() > limits.maxMemoryBytes)
       throw Failure{"M3003", "CTFE memory limit exceeded."};
-    if (program && (program->sourceBytes() > limits.maxDefinitionBytes ||
-                    program->tokenCount() > limits.maxDefinitionTokens ||
-                    program->syntaxDepth() > limits.maxSyntaxDepth))
+    if (program.sourceBytes() > limits.maxDefinitionBytes ||
+        program.tokenCount() > limits.maxDefinitionTokens ||
+        program.syntaxDepth() > limits.maxSyntaxDepth)
       throw Failure{"M3003", "CTFE program exceeds definition limits."};
     auto encodedRequest =
         encodeRequest(request, limits.maxMemoryBytes - definitionSource.size());
@@ -496,8 +479,7 @@ CtfeInterpreter::executeProgram(std::string_view definitionSource,
     // Encoding, semantic key and owned syntax values must fit before copying.
     chargeParseBudget(limits, memoryUsed, requestBytes.size(), 4);
     chargeParseBudget(limits, memoryUsed, entryName.size(), 2);
-    if (program)
-      chargeParseBudget(limits, memoryUsed, program->memoryUsed(), 1);
+    chargeParseBudget(limits, memoryUsed, program.memoryUsed(), 1);
     auto semanticRequest = encodeCacheRequest(request, requestBytes.size());
     if (!std::holds_alternative<std::string>(semanticRequest))
       throw Failure{"M3001", "Invalid CTFE cache request."};
@@ -543,42 +525,8 @@ CtfeInterpreter::executeProgram(std::string_view definitionSource,
       eraseCached();
     }
 
-    std::string source(definitionSource);
-    zap::DiagnosticEngine diagnostics(source, "<ctfe-definition>");
-    std::shared_ptr<const CtfeProgram> parsed;
-    if (!program) {
-      CtfeProgramBuilder builder(diagnostics, limits);
-      const auto *root = builder.addSource(source);
-      std::vector<FunctionDefinition> entries;
-      std::map<std::string, const FunDecl *> functions;
-      if (root) {
-        for (const auto &node : root->children) {
-          const auto *function = dynamic_cast<const FunDecl *>(node.get());
-          if (!function || !functions.emplace(function->name_, function).second)
-            throw Failure{"M3002",
-                          "Invalid or duplicate CTFE function declaration."};
-          entries.push_back({function->name_, function});
-        }
-        parsed = builder.finish(
-            entries,
-            [&](const FunDecl &, const ExpressionNode &callee)
-                -> std::optional<FunctionDefinition> {
-              const auto *id = dynamic_cast<const ConstId *>(&callee);
-              auto found = id ? functions.find(id->value_) : functions.end();
-              if (found == functions.end())
-                return std::nullopt;
-              return FunctionDefinition{found->first, found->second};
-            });
-      }
-      if (!parsed)
-        throw Failure{"M3002", diagnostics.empty()
-                                   ? "Invalid CTFE function source."
-                                   : diagnostics.diagnostics().front().message};
-      program = parsed.get();
-      chargeParseBudget(limits, memoryUsed, program->memoryUsed(), 1);
-    }
-    Evaluator evaluator(program->functions(), request, limits, memoryUsed,
-                        program->functions().types);
+    Evaluator evaluator(program.functions(), request, limits, memoryUsed,
+                        program.functions().types);
     Value value = evaluator.run(std::string(entryName));
     bool returnsInput = false;
     if (auto *syntax = std::get_if<SyntaxHandle>(&value)) {

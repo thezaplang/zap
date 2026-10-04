@@ -167,14 +167,9 @@ pub macro check($input: source) stmt {
     zap::DiagnosticTextFormatter::print(std::cerr, project.diagnostics);
   require(project.loaded, "imported procedural macros were not resolved");
   for (const auto &[moduleId, module] : project.modules) {
-    zap::DiagnosticEngine diagnostics(module->sourceText, moduleId);
-    Lexer lexer(diagnostics);
-    zap::frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
-    auto output = emitter.expand(moduleId, lexer.tokenize(module->sourceText));
-    require(
-        output && !diagnostics.hadErrors(),
-        "expanded syntax emitter failed on procedural expr/stmt declarations");
-    for (const auto &token : *output)
+    require(!module->expandedTokens.empty(),
+            "parser did not retain expanded procedural syntax");
+    for (const auto &token : module->expandedTokens)
       require(token.type != TokenType::MACRO,
               "procedural declaration leaked into expanded syntax");
   }
@@ -274,6 +269,33 @@ void testCachedOutputFreshHygiene() {
           "cached procedural output reused a previous expansion hygiene mark");
 }
 
+void testMissingValidatedProgram() {
+  Fixture fixture;
+  fixture.sources[fixture.entry] =
+      "macro bad($input: source) expr { return unknown(); }";
+  auto project = fixture.load();
+  const auto *binding = project.macros.find(project.entryModuleId, "bad");
+  require(!project.loaded && binding && binding->size() == 1 &&
+              !project.macros.program(*binding->front().definition),
+          "invalid macro unexpectedly had a validated CTFE program");
+  const std::string source = "bad!{}";
+  zap::DiagnosticEngine diagnostics(source, "call.zp");
+  Lexer lexer(diagnostics);
+  const auto trees =
+      TokenTreeBuilder::build(lexer.tokenize(source), diagnostics);
+  zap::MacroCall call{
+      {"bad"}, trees.trees.back(), trees.trees.front().span(), nullptr};
+  zap::MacroExpander expander(project.macros, diagnostics);
+  require(!expander.expand(project.entryModuleId, call,
+                           zap::ctfe::SyntaxContext::Expression),
+          "macro without a validated program was executed");
+  require(!diagnostics.empty() &&
+              diagnostics.diagnostics().front().code == "M3002" &&
+              diagnostics.diagnostics().front().message ==
+                  "Procedural macro has no validated CTFE program.",
+          "expander fell back to reparsing an invalid macro definition");
+}
+
 void testNestedContextAndDepth() {
   Fixture fixture;
   fixture.sources[fixture.entry] =
@@ -284,12 +306,6 @@ void testNestedContextAndDepth() {
   auto project = fixture.load();
   require(!project.loaded && findError(project, "M1005"),
           "nested procedural macro bypassed the expected fragment context");
-  const auto &source = fixture.sources[fixture.entry];
-  zap::DiagnosticEngine diagnostics(source, fixture.entry.string());
-  Lexer lexer(diagnostics);
-  zap::frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
-  require(!emitter.expand(fixture.entry.string(), lexer.tokenize(source)),
-          "token emitter bypassed nested procedural fragment validation");
 
   fixture.sources[fixture.entry] = "macro loop($x: tokens) expr { "
                                    "return syntaxExpr(\"loop!(1)\"); }\n"
@@ -328,14 +344,9 @@ fun main() Int { answer!{}; return tail(); }
   auto project = fixture.load(true);
   require(project.loaded,
           "expression macro was rejected in statement or tail position");
-  for (const auto &[moduleId, module] : project.modules) {
-    zap::DiagnosticEngine diagnostics(module->sourceText, moduleId);
-    Lexer lexer(diagnostics);
-    zap::frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
-    require(emitter.expand(moduleId, lexer.tokenize(module->sourceText)) &&
-                !diagnostics.hadErrors(),
-            "expanded syntax rejected an expression macro in a function body");
-  }
+  require(zap::frontend::ExpandedSyntaxEmitter::renderProject(project).find(
+              "answer !") == std::string::npos,
+          "expanded syntax retained an expression macro in a function body");
 }
 
 void testCapturedTokenProtocolRoundTrip() {
@@ -660,6 +671,7 @@ int main() {
   testImportsHygieneAndEmitter();
   testFailures();
   testCachedOutputFreshHygiene();
+  testMissingValidatedProgram();
   testNestedContextAndDepth();
   testExpressionStatementAndTail();
   testCapturedTokenProtocolRoundTrip();

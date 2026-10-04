@@ -10,10 +10,6 @@
 #include <string_view>
 #include <tuple>
 
-namespace zap {
-class DiagnosticEngine;
-}
-
 namespace zap::ctfe {
 
 class CtfeProgram;
@@ -37,10 +33,7 @@ struct CtfeLimits {
 
 class CtfeInterpreter {
 public:
-  SyntaxMacroResult execute(std::string_view definitionSource,
-                            std::string_view entryName,
-                            const SyntaxMacroRequest &request,
-                            CtfeLimits limits = {});
+  // Executes only a program published by CtfeProgramBuilder::finish().
   SyntaxMacroResult execute(const CtfeProgram &program,
                             std::string_view entryName,
                             const SyntaxMacroRequest &request,
@@ -50,11 +43,6 @@ public:
   size_t cacheEntries() const noexcept { return cache_.size(); }
 
 private:
-  SyntaxMacroResult executeProgram(std::string_view definitionSource,
-                                   std::string_view entryName,
-                                   const SyntaxMacroRequest &request,
-                                   CtfeLimits limits,
-                                   const CtfeProgram *program);
   struct CacheKey {
     std::string definitionSource;
     std::string entryName;

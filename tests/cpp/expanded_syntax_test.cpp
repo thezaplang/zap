@@ -1,6 +1,5 @@
 #include "frontend/expanded_syntax.hpp"
 #include "frontend/frontend_session.hpp"
-#include "lexer/lexer.hpp"
 
 #include <cstdlib>
 #include <filesystem>
@@ -42,16 +41,6 @@ void compareSnapshot(const std::filesystem::path &sourcePath,
 
   const auto actual =
       zap::frontend::ExpandedSyntaxEmitter::renderProject(project);
-  for (const auto &[moduleId, module] : project.modules) {
-    zap::DiagnosticEngine diagnostics(module->sourceText, moduleId);
-    Lexer lexer(diagnostics);
-    auto tokens = lexer.tokenize(module->sourceText);
-    zap::frontend::ExpandedSyntaxEmitter emitter(project.macros, diagnostics);
-    auto expanded = emitter.expand(moduleId, tokens);
-    require(expanded && !diagnostics.hadErrors(),
-            "expanded syntax emitter rejected a parsed module");
-  }
-
   const auto expected = readFile(snapshotPath);
   require(expected.has_value(), "expanded syntax snapshot is missing");
   if (actual != *expected) {

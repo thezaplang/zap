@@ -1,7 +1,5 @@
 #include "frontend/expanded_syntax.hpp"
 
-#include "parser/parser.hpp"
-
 #include <filesystem>
 #include <utility>
 
@@ -42,21 +40,6 @@ std::string originLabel(const std::filesystem::path &entryDirectory,
 }
 
 } // namespace
-
-ExpandedSyntaxEmitter::ExpandedSyntaxEmitter(const MacroResolver &macros,
-                                             DiagnosticEngine &diagnostics)
-    : macros_(macros), diagnostics_(diagnostics) {}
-
-std::optional<std::vector<Token>>
-ExpandedSyntaxEmitter::expand(const std::string &moduleId,
-                              const std::vector<Token> &tokens) {
-  MacroExpander expander(macros_, diagnostics_);
-  Parser parser(tokens, diagnostics_, &expander, moduleId);
-  parser.parse();
-  if (diagnostics_.hadErrors())
-    return std::nullopt;
-  return parser.expandedTokens();
-}
 
 std::string ExpandedSyntaxEmitter::render(const std::string &entryModuleId,
                                           const std::string &moduleId,

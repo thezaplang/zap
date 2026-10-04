@@ -605,10 +605,12 @@ std::optional<std::vector<TokenTree>> MacroExpander::expandSelected(
     }
     request.input = std::move(input->value);
     const auto *program = registry_.program(*binding.definition);
-    auto result =
-        program ? interpreter_.execute(*program, "__syntax_macro__", request)
-                : interpreter_.execute(procedure.functionSource,
-                                       "__syntax_macro__", request);
+    if (!program) {
+      report(invocation, "M3002",
+             "Procedural macro has no validated CTFE program.");
+      return std::nullopt;
+    }
+    auto result = interpreter_.execute(*program, "__syntax_macro__", request);
     for (const auto &diagnostic : result.diagnostics) {
       const auto level = diagnostic.severity == ctfe::SyntaxSeverity::Error
                              ? DiagnosticLevel::Error

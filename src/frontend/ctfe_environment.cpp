@@ -14,7 +14,9 @@ MacroRegistrySet::program(const MacroDefinition &definition) const {
 void MacroRegistrySet::prepareCtfe(
     const std::map<std::string, ModuleOutline> &outlines,
     std::vector<MacroResolutionError> &errors) {
-  for (const auto &[moduleId, outline] : outlines) {
+  for (const auto &moduleEntry : outlines) {
+    const auto &moduleId = moduleEntry.first;
+    const auto &outline = moduleEntry.second;
     auto prepare = [&](const MacroDefinition *macro,
                        const FunctionOutline *helper) {
       const std::string emptySource;
