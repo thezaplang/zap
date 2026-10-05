@@ -284,17 +284,52 @@ ParseResult parse(const std::vector<std::string_view>& cmdline, CmdlineArgs& arg
         args.output.type = OutputType::OBJECT;
     }
 
-    if ((emitLLVM || emitZIR) && !args.output.implicit && (emitLLVM == emitZIR)) {
-        reportError("cannot use -o when emitting multiple text outputs");
-        return ParseResult::Failed;
+  if (const ArgVal *val = holder.get(ArgTypes::Target)) {
+    std::string_view target = val->optional;
+    if (target.empty()) {
+      reportError("--target requires a target triple");
+      return ParseResult::Failed;
     }
+    args.targetTriple = std::string(target);
+  }
 
-    args.output.path =
-        holder.has(ArgTypes::Output) ? holder.get(ArgTypes::Output)->optional : "a.out";
+  if (const ArgVal *val = holder.get(ArgTypes::FuseLD)) {
+    std::string_view linker = val->optional;
+    // Valid linkers are:
+    // bfd
+    // gold
+    // lld
+    // mold
+    if (linker == "bfd" || linker == "gold" || linker == "lld" ||
+        linker == "mold") {
+      args.linkerArgs.emplace_back(val->original);
+    } else {
+      reportError("unknown linker '", linker, "' in -fuse-ld flag");
+      return ParseResult::Failed;
+    }
+  }
 
-    if (args.inputs.empty()) {
-        reportError("no input files");
-        return ParseResult::Failed;
+  for (const ArgVal *arg : holder.getAll(ArgTypes::LinkDir)) {
+    std::string val = "-L";
+    val += arg->optional;
+
+    args.linkerArgs.emplace_back(std::move(val));
+  }
+
+  for (const ArgVal *arg : holder.getAll(ArgTypes::LinkLib)) {
+    std::string val = "-l";
+    val += arg->optional;
+
+    args.linkerArgs.emplace_back(std::move(val));
+  }
+
+  for (const ArgVal *arg : holder.getAll(ArgTypes::ImportMap)) {
+    std::string_view entry = arg->optional;
+    auto eq = entry.find('=');
+    if (eq == std::string_view::npos) {
+      reportError("--import-map requires format alias=path, got: ", entry);
+      ok = false;
+      continue;
     }
 
     return ParseResult::Success;
