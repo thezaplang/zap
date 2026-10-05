@@ -220,13 +220,29 @@ ParseResult parse(const std::vector<std::string_view> &cmdline,
   if (!ok)
     return ParseResult::Failed;
 
-  if (holder.has(ArgTypes::Target)) {
-    std::string_view target = holder.get(ArgTypes::Target)->optional;
+  if (const ArgVal *val = holder.get(ArgTypes::Target)) {
+    std::string_view target = val->optional;
     if (target.empty()) {
       reportError("--target requires a target triple");
       return ParseResult::Failed;
     }
     args.targetTriple = std::string(target);
+  }
+
+  if (const ArgVal *val = holder.get(ArgTypes::FuseLD)) {
+    std::string_view linker = val->optional;
+    // Valid linkers are:
+    // bfd
+    // gold
+    // lld
+    // mold
+    if (linker == "bfd" || linker == "gold" || linker == "lld" ||
+        linker == "mold") {
+      args.linkerArgs.emplace_back(val->original);
+    } else {
+      reportError("unknown linker '", linker, "' in -fuse-ld flag");
+      return ParseResult::Failed;
+    }
   }
 
   for (const ArgVal *arg : holder.getAll(ArgTypes::LinkDir)) {
