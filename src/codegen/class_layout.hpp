@@ -16,8 +16,10 @@ constexpr unsigned kClassVTableIndex = ZAP_ARC_VTABLE_INDEX;
 constexpr unsigned kClassInterfaceTableIndex = ZAP_ARC_INTERFACE_TABLE_INDEX;
 constexpr unsigned kClassFieldStartIndex = ZAP_ARC_FIELD_START_INDEX;
 constexpr unsigned kClassHeaderFieldCount = ZAP_ARC_HEADER_FIELD_COUNT;
-static_assert(kClassHeaderFieldCount == kClassFieldStartIndex,
-              "ARC header field count must match the first class field index");
+static_assert(
+    kClassHeaderFieldCount == kClassFieldStartIndex,
+    "ARC header field count must match the first class field index"
+);
 
 // Flag bits packed into the gc_mark byte (see arc_layout.h).
 constexpr unsigned kClassGcGarbageMask = ZAP_ARC_GC_GARBAGE;

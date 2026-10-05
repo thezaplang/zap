@@ -1,0 +1,74 @@
+# Validated with clang-format 22; options follow its current schema.
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++17
+
+# Four-space blocks; wrapped expressions never drift across the page.
+IndentWidth: 4
+ContinuationIndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+AlignAfterOpenBracket: false
+AlignOperands: DontAlign
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignTrailingComments:
+  Kind: Never
+
+# Keep the structure visible without expanding trivial inline accessors.
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortLambdasOnASingleLine: Inline
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+NamespaceIndentation: None
+IndentCaseLabels: true
+AccessModifierOffset: -4
+EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Never
+
+# Long calls and declarations become vertical, not packed staircases.
+BinPackArguments: false
+BinPackParameters: OnePerLine
+BinPackLongBracedList: false
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BreakAfterOpenBracketFunction: true
+BreakBeforeCloseBracketFunction: true
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+PackConstructorInitializers: Never
+ConstructorInitializerIndentWidth: 4
+BreakInheritanceList: BeforeColon
+PenaltyReturnTypeOnItsOwnLine: 200
+
+# Types read as types: const Token& value, Node* pointer.
+DerivePointerAlignment: false
+PointerAlignment: Left
+ReferenceAlignment: Left
+QualifierAlignment: Leave
+SpaceBeforeParens: ControlStatements
+
+# Preserve intentional include groups and comment layouts.
+IncludeBlocks: Preserve
+SortIncludes: CaseSensitive
+SortUsingDeclarations: Never
+ReflowComments: Never
+FixNamespaceComments: true
+MaxEmptyLinesToKeep: 1
+KeepEmptyLines:
+  AtStartOfFile: false
+  AtStartOfBlock: false
+  AtEndOfFile: false
+SeparateDefinitionBlocks: Always
+LineEnding: LF
+InsertNewlineAtEOF: true
+
+# Formatting must not rewrite control flow or qualifiers.
+InsertBraces: false
+RemoveBracesLLVM: false

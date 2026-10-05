@@ -1,0 +1,36 @@
+macro add($a: expr, $b: expr) { $a + $b }
+macro multiply() { add!(1, 2) * 3 }
+macro forward($x: expr) { $x }
+macro one() { 1 }
+macro increment($out: ident) { $out += one!(); }
+macro computed($input: tokens) expr { return syntaxExpr("add!(1, 2) * 3"); }
+macro integer() { Int }
+macro integer_forward() { integer!() }
+macro declarations($input: tokens) item {
+    return syntaxItem("fun first() Int { return 2; } fun second() Int { return 3; }");
+}
+macro no_declarations($input: tokens) item { return syntaxItem(""); }
+macro template_empty() {}
+macro answer($input: tokens) expr { return syntaxExpr("42"); }
+macro tail() { answer!(1) }
+macro declaration_forward() { declarations!(1) }
+
+declaration_forward!()
+no_declarations!(1)
+template_empty!()
+
+fun tail_value() Int { tail!() }
+fun main() Int {
+    if add!(1, 2) * 3 != 9 { return 1; }
+    if multiply!() != 9 { return 2; }
+    if forward!(add!(1, 2) * 3) != 9 { return 3; }
+    if computed!(1) != 9 { return 4; }
+    var value: integer_forward!() = 0;
+    increment!(value);
+    increment!(value);
+    if value != 2 { return 5; }
+    if first() + second() != 5 { return 6; }
+    answer!(1);
+    if tail_value() != 0 { return 7; }
+    return 0;
+}

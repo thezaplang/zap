@@ -1,8 +1,10 @@
 #include "lexer.hpp"
+#include "lexer/source_group.hpp"
 #include <cctype>
 #include <cstdlib>
 #include <stdexcept>
 #include <unordered_map>
+#include <utility>
 
 static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"if", TokenType::IF},
@@ -48,647 +50,767 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"new", TokenType::NEW},
     {"weak", TokenType::WEAK},
     {"defer", TokenType::DEFER},
+    {"macro", TokenType::MACRO},
 };
 
-std::vector<Token> Lexer::tokenize(const std::string &input) {
-  std::vector<Token> tokens;
-  tokens.reserve(input.size() / 4);
-  _pos = 0;
-  _line = 1;
-  _column = 1;
-  _input = input;
+std::vector<Token> Lexer::tokenize(const std::string& input) {
+    std::vector<Token> tokens;
+    tokens.reserve(input.size() / 4);
+    _pos = 0;
+    _line = 1;
+    _column = 1;
+    _input = input;
 
-  while (!isAtEnd()) {
-    char _cur = _input[_pos];
-    size_t startPos = _pos;
-    size_t startLine = _line;
-    size_t startColumn = _column;
-
-    if (_cur == '(') {
-      tokens.emplace_back(TokenType::LPAREN, "(", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == ')') {
-      tokens.emplace_back(TokenType::RPAREN, ")", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '{') {
-      tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '}') {
-      tokens.emplace_back(TokenType::RBRACE, "}", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '[') {
-      tokens.emplace_back(TokenType::SQUARE_LBRACE, "[", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == ']') {
-      tokens.emplace_back(TokenType::SQUARE_RBRACE, "]", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == ';') {
-      tokens.emplace_back(TokenType::SEMICOLON, ";", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == ',') {
-      tokens.emplace_back(TokenType::COMMA, ",", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == ':') {
-      if (Peek2() == ':') {
-        tokens.emplace_back(TokenType::DOUBLECOLON, "::", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::COLON, ":", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '.') {
-      if (Peek2() == '.' && Peek3() == '.') {
-        tokens.emplace_back(TokenType::ELLIPSIS, "...", startLine, startColumn,
-                            startPos, 3);
-        _pos += 3;
-        _column += 3;
-        continue;
-      } else if (Peek2() == '.') {
-        tokens.emplace_back(TokenType::DOTDOT, "..", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::DOT, ".", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '@') {
-      tokens.emplace_back(TokenType::AT, "@", startLine, startColumn, startPos,
-                          1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '?') {
-      tokens.emplace_back(TokenType::QUESTION, "?", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '+') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::PLUS_ASSIGN, "+=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '+') {
-        tokens.emplace_back(TokenType::INCREMENT, "++", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      }
-      tokens.emplace_back(TokenType::PLUS, "+", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '*') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::STAR_ASSIGN, "*=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      }
-      tokens.emplace_back(TokenType::MULTIPLY, "*", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '-') {
-      if (Peek2() == '>') {
-        tokens.emplace_back(TokenType::ARROW, "->", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::MINUS_ASSIGN, "-=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '-') {
-        tokens.emplace_back(TokenType::DECREMENT, "--", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      }
-      tokens.emplace_back(TokenType::MINUS, "-", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '/') {
-      if (Peek2() == '/') {
-        while (!isAtEnd() && _input[_pos] != '\n') {
-          ++_pos;
+    auto finish = [&]() {
+        for (auto& token : tokens) {
+            token.span.sourceName = _diag.sourceName();
+            token.spelling = input.substr(token.span.offset, token.span.length);
         }
-        continue;
-      } else if (Peek2() == '*') {
-        _pos += 2;
-        _column += 2;
-        bool closed = false;
-        while (!isAtEnd()) {
-          if (_input[_pos] == '*' && Peek2() == '/') {
-            _pos += 2;
-            _column += 2;
-            closed = true;
-            break;
-          }
-          if (_input[_pos] == '\n') {
-            ++_line;
-            _column = 1;
-          } else {
+        return std::move(tokens);
+    };
+
+    while (!isAtEnd()) {
+        char _cur = _input[_pos];
+        size_t startPos = _pos;
+        size_t startLine = _line;
+        size_t startColumn = _column;
+
+        if (_cur == '(') {
+            tokens.emplace_back(TokenType::LPAREN, "(", startLine, startColumn, startPos, 1);
+            ++_pos;
             ++_column;
-          }
-          ++_pos;
-        }
-        if (!closed) {
-          _diag.report(
-              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
-              zap::DiagnosticLevel::Error, "Unterminated block comment");
-          return tokens;
-        }
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::SLASH_ASSIGN, "/=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::DIVIDE, "/", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '%') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::PERCENT_ASSIGN, "%=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      }
-      tokens.emplace_back(TokenType::MODULO, "%", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '^') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::CARET_ASSIGN, "^=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      }
-      tokens.emplace_back(TokenType::POW, "^", startLine, startColumn, startPos,
-                          1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '&') {
-      if (Peek2() == '&') {
-        tokens.emplace_back(TokenType::AND, "&&", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::AMP_ASSIGN, "&=", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::REFERENCE, "&", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '|') {
-      if (Peek2() == '|') {
-        tokens.emplace_back(TokenType::OR, "||", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::PIPE_ASSIGN, "|=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::BIT_OR, "|", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '~') {
-      tokens.emplace_back(TokenType::CONCAT, "~", startLine, startColumn,
-                          startPos, 1);
-      ++_pos;
-      ++_column;
-      continue;
-    } else if (_cur == '=') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::EQUAL, "==", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::ASSIGN, "=", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '!') {
-      if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::NOTEQUAL, "!=", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::NOT, "!", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '<') {
-      if (Peek2() == '<' && Peek3() == '=') {
-        tokens.emplace_back(TokenType::LSHIFT_ASSIGN, "<<=", startLine,
-                            startColumn, startPos, 3);
-        _pos += 3;
-        _column += 3;
-        continue;
-      } else if (Peek2() == '<') {
-        tokens.emplace_back(TokenType::LSHIFT, "<<", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::LESSEQUAL, "<=", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::LESS, "<", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (_cur == '>') {
-      if (Peek2() == '>' && Peek3() == '=') {
-        tokens.emplace_back(TokenType::RSHIFT_ASSIGN, ">>=", startLine,
-                            startColumn, startPos, 3);
-        _pos += 3;
-        _column += 3;
-        continue;
-      } else if (Peek2() == '>') {
-        tokens.emplace_back(TokenType::RSHIFT, ">>", startLine, startColumn,
-                            startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else if (Peek2() == '=') {
-        tokens.emplace_back(TokenType::GREATEREQUAL, ">=", startLine,
-                            startColumn, startPos, 2);
-        _pos += 2;
-        _column += 2;
-        continue;
-      } else {
-        tokens.emplace_back(TokenType::GREATER, ">", startLine, startColumn,
-                            startPos, 1);
-        ++_pos;
-        ++_column;
-        continue;
-      }
-    } else if (std::isdigit(_cur)) {
-      bool isFloat = false;
+            continue;
+        } else if (_cur == ')') {
+            tokens.emplace_back(TokenType::RPAREN, ")", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '{') {
+            if (tokens.size() >= 2 && tokens.back().type == TokenType::NOT
+                && tokens[tokens.size() - 2].type == TokenType::ID) {
+                zap::SourceCaptureBudget localBudget;
+                auto& budget = sourceCaptureBudget ? *sourceCaptureBudget : localBudget;
+                auto group = zap::captureSourceGroup(
+                    _input,
+                    startPos,
+                    startLine,
+                    startColumn,
+                    _diag,
+                    budget
+                );
+                if (!group)
+                    return finish();
+                tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn, startPos, 1);
+                tokens.back().sourceFragment = std::move(group->fragment);
+                tokens.emplace_back(
+                    TokenType::RBRACE,
+                    "}",
+                    group->closingLine,
+                    group->closingColumn,
+                    group->nextOffset - 1,
+                    1
+                );
+                _pos = group->nextOffset;
+                _line = group->nextLine;
+                _column = group->nextColumn;
+                continue;
+            }
+            tokens.emplace_back(TokenType::LBRACE, "{", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '}') {
+            tokens.emplace_back(TokenType::RBRACE, "}", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '[') {
+            tokens.emplace_back(TokenType::SQUARE_LBRACE, "[", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == ']') {
+            tokens.emplace_back(TokenType::SQUARE_RBRACE, "]", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == ';') {
+            tokens.emplace_back(TokenType::SEMICOLON, ";", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == ',') {
+            tokens.emplace_back(TokenType::COMMA, ",", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == ':') {
+            if (Peek2() == ':') {
+                tokens.emplace_back(
+                    TokenType::DOUBLECOLON,
+                    "::",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::COLON, ":", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '.') {
+            if (Peek2() == '.' && Peek3() == '.') {
+                tokens
+                    .emplace_back(TokenType::ELLIPSIS, "...", startLine, startColumn, startPos, 3);
+                _pos += 3;
+                _column += 3;
+                continue;
+            } else if (Peek2() == '.') {
+                tokens.emplace_back(TokenType::DOTDOT, "..", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::DOT, ".", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '@') {
+            tokens.emplace_back(TokenType::AT, "@", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '$') {
+            tokens.emplace_back(TokenType::DOLLAR, "$", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '?') {
+            tokens.emplace_back(TokenType::QUESTION, "?", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '+') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::PLUS_ASSIGN,
+                    "+=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '+') {
+                tokens
+                    .emplace_back(TokenType::INCREMENT, "++", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            }
+            tokens.emplace_back(TokenType::PLUS, "+", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '*') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::STAR_ASSIGN,
+                    "*=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            }
+            tokens.emplace_back(TokenType::MULTIPLY, "*", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '-') {
+            if (Peek2() == '>') {
+                tokens.emplace_back(TokenType::ARROW, "->", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::MINUS_ASSIGN,
+                    "-=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '-') {
+                tokens
+                    .emplace_back(TokenType::DECREMENT, "--", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            }
+            tokens.emplace_back(TokenType::MINUS, "-", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '/') {
+            if (Peek2() == '/') {
+                while (!isAtEnd() && _input[_pos] != '\n') {
+                    ++_pos;
+                }
+                continue;
+            } else if (Peek2() == '*') {
+                _pos += 2;
+                _column += 2;
+                bool closed = false;
+                while (!isAtEnd()) {
+                    if (_input[_pos] == '*' && Peek2() == '/') {
+                        _pos += 2;
+                        _column += 2;
+                        closed = true;
+                        break;
+                    }
+                    if (_input[_pos] == '\n') {
+                        ++_line;
+                        _column = 1;
+                    } else {
+                        ++_column;
+                    }
+                    ++_pos;
+                }
+                if (!closed) {
+                    _diag.report(
+                        SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+                        zap::DiagnosticLevel::Error,
+                        "Unterminated block comment"
+                    );
+                    return finish();
+                }
+                continue;
+            } else if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::SLASH_ASSIGN,
+                    "/=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::DIVIDE, "/", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '%') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::PERCENT_ASSIGN,
+                    "%=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            }
+            tokens.emplace_back(TokenType::MODULO, "%", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '^') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::CARET_ASSIGN,
+                    "^=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            }
+            tokens.emplace_back(TokenType::POW, "^", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '&') {
+            if (Peek2() == '&') {
+                tokens.emplace_back(TokenType::AND, "&&", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '=') {
+                tokens
+                    .emplace_back(TokenType::AMP_ASSIGN, "&=", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::REFERENCE, "&", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '|') {
+            if (Peek2() == '|') {
+                tokens.emplace_back(TokenType::OR, "||", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::PIPE_ASSIGN,
+                    "|=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::BIT_OR, "|", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '~') {
+            tokens.emplace_back(TokenType::CONCAT, "~", startLine, startColumn, startPos, 1);
+            ++_pos;
+            ++_column;
+            continue;
+        } else if (_cur == '=') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(TokenType::EQUAL, "==", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::ASSIGN, "=", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '!') {
+            if (Peek2() == '=') {
+                tokens.emplace_back(TokenType::NOTEQUAL, "!=", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::NOT, "!", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '<') {
+            if (Peek2() == '<' && Peek3() == '=') {
+                tokens.emplace_back(
+                    TokenType::LSHIFT_ASSIGN,
+                    "<<=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    3
+                );
+                _pos += 3;
+                _column += 3;
+                continue;
+            } else if (Peek2() == '<') {
+                tokens.emplace_back(TokenType::LSHIFT, "<<", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '=') {
+                tokens
+                    .emplace_back(TokenType::LESSEQUAL, "<=", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::LESS, "<", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (_cur == '>') {
+            if (Peek2() == '>' && Peek3() == '=') {
+                tokens.emplace_back(
+                    TokenType::RSHIFT_ASSIGN,
+                    ">>=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    3
+                );
+                _pos += 3;
+                _column += 3;
+                continue;
+            } else if (Peek2() == '>') {
+                tokens.emplace_back(TokenType::RSHIFT, ">>", startLine, startColumn, startPos, 2);
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else if (Peek2() == '=') {
+                tokens.emplace_back(
+                    TokenType::GREATEREQUAL,
+                    ">=",
+                    startLine,
+                    startColumn,
+                    startPos,
+                    2
+                );
+                _pos += 2;
+                _column += 2;
+                continue;
+            } else {
+                tokens.emplace_back(TokenType::GREATER, ">", startLine, startColumn, startPos, 1);
+                ++_pos;
+                ++_column;
+                continue;
+            }
+        } else if (std::isdigit(_cur)) {
+            bool isFloat = false;
 
-      if (_cur == '0' && (Peek2() == 'x' || Peek2() == 'X' || Peek2() == 'b' ||
-                          Peek2() == 'B' || Peek2() == 'o' || Peek2() == 'O')) {
-        const char prefix = Peek2();
-        int base = 10;
-        auto isValidDigit = [&](char ch) {
-          if (ch == '_')
-            return true;
-          if (prefix == 'x' || prefix == 'X')
-            return std::isxdigit(static_cast<unsigned char>(ch)) != 0;
-          if (prefix == 'b' || prefix == 'B')
-            return ch == '0' || ch == '1';
-          if (prefix == 'o' || prefix == 'O')
-            return ch >= '0' && ch <= '7';
-          return false;
-        };
+            if (_cur == '0'
+                && (Peek2() == 'x' || Peek2() == 'X' || Peek2() == 'b' || Peek2() == 'B'
+                    || Peek2() == 'o' || Peek2() == 'O')) {
+                const char prefix = Peek2();
+                int base = 10;
+                auto isValidDigit = [&](char ch) {
+                    if (ch == '_')
+                        return true;
+                    if (prefix == 'x' || prefix == 'X')
+                        return std::isxdigit(static_cast<unsigned char>(ch)) != 0;
+                    if (prefix == 'b' || prefix == 'B')
+                        return ch == '0' || ch == '1';
+                    if (prefix == 'o' || prefix == 'O')
+                        return ch >= '0' && ch <= '7';
+                    return false;
+                };
 
-        if (prefix == 'x' || prefix == 'X')
-          base = 16;
-        else if (prefix == 'b' || prefix == 'B')
-          base = 2;
-        else if (prefix == 'o' || prefix == 'O')
-          base = 8;
+                if (prefix == 'x' || prefix == 'X')
+                    base = 16;
+                else if (prefix == 'b' || prefix == 'B')
+                    base = 2;
+                else if (prefix == 'o' || prefix == 'O')
+                    base = 8;
 
-        // consume "0x" / "0b" / "0o" prefix
-        _pos += 2;
-        _column += 2;
+                // consume "0x" / "0b" / "0o" prefix
+                _pos += 2;
+                _column += 2;
 
-        size_t digitsStart = _pos;
-        std::string numericPart;
-        numericPart.reserve(16);
+                size_t digitsStart = _pos;
+                std::string numericPart;
+                numericPart.reserve(16);
 
-        while (!isAtEnd() && isValidDigit(_input[_pos])) {
-          if (_input[_pos] != '_') {
-            numericPart += _input[_pos];
-          }
-          ++_pos;
-          ++_column;
-        }
+                while (!isAtEnd() && isValidDigit(_input[_pos])) {
+                    if (_input[_pos] != '_') {
+                        numericPart += _input[_pos];
+                    }
+                    ++_pos;
+                    ++_column;
+                }
 
-        if (_pos == digitsStart || numericPart.empty()) {
-          _diag.report(
-              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
-              zap::DiagnosticLevel::Error, "Invalid integer literal");
-          return tokens;
-        }
+                if (_pos == digitsStart || numericPart.empty()) {
+                    _diag.report(
+                        SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+                        zap::DiagnosticLevel::Error,
+                        "Invalid integer literal"
+                    );
+                    return finish();
+                }
 
-        std::string parsed;
-        parsed.reserve(numericPart.size() + 3);
-        parsed += '0';
-        parsed += prefix;
-        parsed += numericPart;
+                std::string parsed;
+                parsed.reserve(numericPart.size() + 3);
+                parsed += '0';
+                parsed += prefix;
+                parsed += numericPart;
 
-        try {
-          (void)std::stoull(parsed, nullptr, base);
-        } catch (const std::exception &) {
-          _diag.report(
-              SourceSpan(startLine, startColumn, startPos, _pos - startPos),
-              zap::DiagnosticLevel::Error, "Integer literal out of range");
-          return tokens;
-        }
+                try {
+                    (void)std::stoull(parsed, nullptr, base);
+                } catch (const std::exception&) {
+                    _diag.report(
+                        SourceSpan(startLine, startColumn, startPos, _pos - startPos),
+                        zap::DiagnosticLevel::Error,
+                        "Integer literal out of range"
+                    );
+                    return finish();
+                }
 
-        size_t len = _pos - startPos;
-        tokens.emplace_back(TokenType::INTEGER, std::move(parsed), startLine,
-                            startColumn, startPos, len);
-        continue;
-      }
+                size_t len = _pos - startPos;
+                tokens.emplace_back(
+                    TokenType::INTEGER,
+                    std::move(parsed),
+                    startLine,
+                    startColumn,
+                    startPos,
+                    len
+                );
+                continue;
+            }
 
-      // decimal / float: scan forward, strip underscores
-      std::string numStr;
-      numStr.reserve(20);
-      while (!isAtEnd() &&
-             (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
-        if (_input[_pos] != '_') {
-          numStr += _input[_pos];
-        }
-        ++_pos;
-        ++_column;
-      }
-      if (!isAtEnd() && _input[_pos] == '.' && Peek2() != '.' &&
-          !std::isalpha(static_cast<unsigned char>(Peek2())) &&
-          Peek2() != '_') {
-        isFloat = true;
-        numStr += _input[_pos++];
-        ++_column;
-        while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
-          if (_input[_pos] != '_') {
-            numStr += _input[_pos];
-          }
-          ++_pos;
-          ++_column;
-        }
-      }
-      size_t len = numStr.length();
-      if (isFloat) {
-        tokens.emplace_back(TokenType::FLOAT, std::move(numStr), startLine,
-                            startColumn, startPos, len);
-      } else {
-        tokens.emplace_back(TokenType::INTEGER, std::move(numStr), startLine,
-                            startColumn, startPos, len);
-      }
-      continue;
-    } else if (std::isalpha(_cur) || _cur == '_') {
-      // scan to end of identifier, then construct string once
-      size_t identStart = _pos;
-      while (!isAtEnd() &&
-             (std::isalnum(_input[_pos]) || _input[_pos] == '_')) {
-        ++_pos;
-        ++_column;
-      }
-      std::string identStr(_input.data() + identStart, _pos - identStart);
-      size_t len = identStr.size();
+            // decimal / float: scan forward, strip underscores
+            std::string numStr;
+            numStr.reserve(20);
+            while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+                if (_input[_pos] != '_') {
+                    numStr += _input[_pos];
+                }
+                ++_pos;
+                ++_column;
+            }
+            if (!isAtEnd() && _input[_pos] == '.' && Peek2() != '.'
+                && !std::isalpha(static_cast<unsigned char>(Peek2())) && Peek2() != '_') {
+                isFloat = true;
+                numStr += _input[_pos++];
+                ++_column;
+                while (!isAtEnd() && (std::isdigit(_input[_pos]) || _input[_pos] == '_')) {
+                    if (_input[_pos] != '_') {
+                        numStr += _input[_pos];
+                    }
+                    ++_pos;
+                    ++_column;
+                }
+            }
+            size_t len = _pos - startPos;
+            if (isFloat) {
+                tokens.emplace_back(
+                    TokenType::FLOAT,
+                    std::move(numStr),
+                    startLine,
+                    startColumn,
+                    startPos,
+                    len
+                );
+            } else {
+                tokens.emplace_back(
+                    TokenType::INTEGER,
+                    std::move(numStr),
+                    startLine,
+                    startColumn,
+                    startPos,
+                    len
+                );
+            }
+            continue;
+        } else if (std::isalpha(_cur) || _cur == '_') {
+            // scan to end of identifier, then construct string once
+            size_t identStart = _pos;
+            while (!isAtEnd() && (std::isalnum(_input[_pos]) || _input[_pos] == '_')) {
+                ++_pos;
+                ++_column;
+            }
+            std::string identStr(_input.data() + identStart, _pos - identStart);
+            size_t len = identStr.size();
 
-      auto it = KEYWORDS.find(identStr);
-      TokenType type = (it != KEYWORDS.end()) ? it->second : TokenType::ID;
+            auto it = KEYWORDS.find(identStr);
+            TokenType type = (it != KEYWORDS.end()) ? it->second : TokenType::ID;
 
-      tokens.emplace_back(type, std::move(identStr), startLine, startColumn,
-                          startPos, len);
-      continue;
-    } else if (std::isspace(_cur)) {
-      if (_cur == '\n') {
-        ++_line;
-        _column = 1;
-      } else {
-        ++_column;
-      }
-      ++_pos;
-      continue;
-    } else if (_cur == '"') {
-      std::string strVal;
-      strVal.reserve(64);
-      size_t strStart = _pos;
-      ++_pos;
-      ++_column;
+            tokens.emplace_back(type, std::move(identStr), startLine, startColumn, startPos, len);
+            continue;
+        } else if (std::isspace(_cur)) {
+            if (_cur == '\n') {
+                ++_line;
+                _column = 1;
+            } else {
+                ++_column;
+            }
+            ++_pos;
+            continue;
+        } else if (_cur == '"') {
+            std::string strVal;
+            strVal.reserve(64);
+            size_t strStart = _pos;
+            ++_pos;
+            ++_column;
 
-      while (!isAtEnd() && _input[_pos] != '"') {
-        if (_input[_pos] == '\n') {
-          ++_line;
-          _column = 1;
+            while (!isAtEnd() && _input[_pos] != '"') {
+                if (_input[_pos] == '\n') {
+                    ++_line;
+                    _column = 1;
+                } else {
+                    ++_column;
+                }
+
+                if (_input[_pos] == '\\') {
+                    ++_pos;
+                    if (isAtEnd())
+                        break;
+
+                    switch (_input[_pos]) {
+                        case 'n':
+                            strVal += '\n';
+                            break;
+                        case 't':
+                            strVal += '\t';
+                            break;
+                        case 'r':
+                            strVal += '\r';
+                            break;
+                        case '\\':
+                            strVal += '\\';
+                            break;
+                        case '"':
+                            strVal += '"';
+                            break;
+                        case '0':
+                            strVal += '\0';
+                            break;
+                        case 'w':
+                            strVal += ' ';
+                            break;
+                        default:
+                            strVal += _input[_pos];
+                            break;
+                    }
+                } else {
+                    strVal += _input[_pos];
+                }
+                ++_pos;
+            }
+
+            if (!isAtEnd() && _input[_pos] == '"') {
+                ++_pos;
+                ++_column;
+                size_t len = _pos - strStart;
+                tokens.emplace_back(
+                    TokenType::STRING,
+                    std::move(strVal),
+                    startLine,
+                    startColumn,
+                    startPos,
+                    len
+                );
+                continue;
+            } else {
+                _diag.report(
+                    SourceSpan(startLine, startColumn, strStart, _pos - strStart),
+                    zap::DiagnosticLevel::Error,
+                    "Unterminated string literal"
+                );
+                return finish();
+            }
+        } else if (_cur == '\'') {
+            size_t charStart = _pos;
+            ++_pos;
+            ++_column;
+            if (isAtEnd()) {
+                _diag.report(
+                    SourceSpan(startLine, startColumn, charStart, 1),
+                    zap::DiagnosticLevel::Error,
+                    "Unterminated char literal"
+                );
+                return finish();
+            }
+            char ch;
+            if (_input[_pos] == '\\') {
+                ++_pos;
+                if (isAtEnd()) {
+                    _diag.report(
+                        SourceSpan(startLine, startColumn, charStart, 1),
+                        zap::DiagnosticLevel::Error,
+                        "Unterminated char literal"
+                    );
+                    return finish();
+                }
+                switch (_input[_pos]) {
+                    case 'n':
+                        ch = '\n';
+                        break;
+                    case 't':
+                        ch = '\t';
+                        break;
+                    case 'r':
+                        ch = '\r';
+                        break;
+                    case '\\':
+                        ch = '\\';
+                        break;
+                    case '\'':
+                        ch = '\'';
+                        break;
+                    case '0':
+                        ch = '\0';
+                        break;
+                    default:
+                        ch = _input[_pos];
+                        break;
+                }
+            } else {
+                ch = _input[_pos];
+            }
+            ++_pos;
+            ++_column;
+            if (isAtEnd() || _input[_pos] != '\'') {
+                _diag.report(
+                    SourceSpan(startLine, startColumn, charStart, 1),
+                    zap::DiagnosticLevel::Error,
+                    "Unterminated char literal"
+                );
+                return finish();
+            }
+            ++_pos;
+            ++_column;
+            tokens.emplace_back(
+                TokenType::CHAR,
+                std::string(1, ch),
+                startLine,
+                startColumn,
+                startPos,
+                _pos - startPos
+            );
+            continue;
         } else {
-          ++_column;
+            _diag.report(
+                SourceSpan(startLine, startColumn, _pos, 1),
+                zap::DiagnosticLevel::Error,
+                std::string("Unexpected character '") + _cur + "'"
+            );
+            ++_pos;
+            ++_column;
         }
-
-        if (_input[_pos] == '\\') {
-          ++_pos;
-          if (isAtEnd())
-            break;
-
-          switch (_input[_pos]) {
-          case 'n':
-            strVal += '\n';
-            break;
-          case 't':
-            strVal += '\t';
-            break;
-          case 'r':
-            strVal += '\r';
-            break;
-          case '\\':
-            strVal += '\\';
-            break;
-          case '"':
-            strVal += '"';
-            break;
-          case '0':
-            strVal += '\0';
-            break;
-          case 'w':
-            strVal += ' ';
-            break;
-          default:
-            strVal += _input[_pos];
-            break;
-          }
-        } else {
-          strVal += _input[_pos];
-        }
-        ++_pos;
-      }
-
-      if (!isAtEnd() && _input[_pos] == '"') {
-        ++_pos;
-        ++_column;
-        size_t len = _pos - strStart;
-        tokens.emplace_back(TokenType::STRING, std::move(strVal), startLine,
-                            startColumn, startPos, len);
-        continue;
-      } else {
-        _diag.report(
-            SourceSpan(startLine, startColumn, strStart, _pos - strStart),
-            zap::DiagnosticLevel::Error, "Unterminated string literal");
-        return tokens;
-      }
-    } else if (_cur == '\'') {
-      size_t charStart = _pos;
-      ++_pos;
-      ++_column;
-      if (isAtEnd()) {
-        _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
-                     zap::DiagnosticLevel::Error, "Unterminated char literal");
-        return tokens;
-      }
-      char ch;
-      if (_input[_pos] == '\\') {
-        ++_pos;
-        if (isAtEnd()) {
-          _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
-                       zap::DiagnosticLevel::Error,
-                       "Unterminated char literal");
-          return tokens;
-        }
-        switch (_input[_pos]) {
-        case 'n':
-          ch = '\n';
-          break;
-        case 't':
-          ch = '\t';
-          break;
-        case 'r':
-          ch = '\r';
-          break;
-        case '\\':
-          ch = '\\';
-          break;
-        case '\'':
-          ch = '\'';
-          break;
-        case '0':
-          ch = '\0';
-          break;
-        default:
-          ch = _input[_pos];
-          break;
-        }
-      } else {
-        ch = _input[_pos];
-      }
-      ++_pos;
-      ++_column;
-      if (isAtEnd() || _input[_pos] != '\'') {
-        _diag.report(SourceSpan(startLine, startColumn, charStart, 1),
-                     zap::DiagnosticLevel::Error, "Unterminated char literal");
-        return tokens;
-      }
-      ++_pos;
-      ++_column;
-      tokens.emplace_back(TokenType::CHAR, std::string(1, ch), startLine,
-                          startColumn, startPos, 3);
-      continue;
-    } else {
-      _diag.report(SourceSpan(startLine, startColumn, _pos, 1),
-                   zap::DiagnosticLevel::Error,
-                   std::string("Unexpected character '") + _cur + "'");
-      ++_pos;
-      ++_column;
     }
-  }
-  for (auto &token : tokens) {
-    token.span.sourceName = _diag.sourceName();
-  }
-  return tokens;
+    return finish();
 }
 
 char Lexer::Peek2() {
-  if (_pos + 1 < _input.size()) {
-    return _input[_pos + 1];
-  }
-  return '\0';
+    if (_pos + 1 < _input.size()) {
+        return _input[_pos + 1];
+    }
+    return '\0';
 }
 
 char Lexer::Peek3() {
-  if (_pos + 2 < _input.size()) {
-    return _input[_pos + 2];
-  }
-  return '\0';
+    if (_pos + 2 < _input.size()) {
+        return _input[_pos + 2];
+    }
+    return '\0';
 }
 
-bool Lexer::isAtEnd() const noexcept { return _pos >= _input.size(); }
+bool Lexer::isAtEnd() const noexcept {
+    return _pos >= _input.size();
+}

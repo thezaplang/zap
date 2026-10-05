@@ -4,5 +4,5 @@
 
 class UnsafeBlockNode : public BodyNode {
 public:
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

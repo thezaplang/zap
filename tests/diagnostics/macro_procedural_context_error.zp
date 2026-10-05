@@ -1,0 +1,11 @@
+macro inner($input: tokens) stmt {
+    return syntaxTokens("42");
+}
+
+macro outer($input: source) expr {
+    return syntaxExpr("inner!(1)");
+}
+
+fun main() Int {
+    return outer!{};
+}

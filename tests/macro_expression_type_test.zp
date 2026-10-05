@@ -1,0 +1,35 @@
+macro add($left: expr, $right: expr) { $left + $right }
+macro as_int() { Int }
+macro index() { 1 }
+macro one() { 1 }
+
+struct Box<T> {
+    value: T
+}
+
+fun identity<T>(value: T) T {
+    return value;
+}
+
+fun main() Int {
+    var value: as_int!() = add!(1, 2);
+    if 2 * add!(1, 2) != 6 {
+        return 1;
+    }
+    if add!(one!(), 2) != 3 {
+        return 4;
+    }
+    if identity<as_int!()>(add!(value, 3)) != 6 {
+        return 2;
+    }
+
+    var values: [2]Int = {4, 7};
+    if values[index!()] != 7 {
+        return 3;
+    }
+    var box: Box<as_int!()> = Box<as_int!()>{ value: 8 };
+    if box.value != 8 {
+        return 5;
+    }
+    return 0;
+}

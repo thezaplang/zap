@@ -21,6 +21,7 @@
 #include "../ast/const/const_null.hpp"
 #include "../ast/const/const_string.hpp"
 #include "../ast/continue_node.hpp"
+#include "../ast/defer_node.hpp"
 #include "../ast/enum_decl.hpp"
 #include "../ast/extension_decl.hpp"
 #include "../ast/failable_nodes.hpp"
@@ -36,6 +37,7 @@
 #include "../ast/member_access.hpp"
 #include "../ast/new_expr.hpp"
 #include "../ast/parameter_node.hpp"
+#include "../ast/range_expr.hpp"
 #include "../ast/record_decl.hpp"
 #include "../ast/return_node.hpp"
 #include "../ast/root_node.hpp"
@@ -45,273 +47,327 @@
 #include "../ast/unary_expr.hpp"
 #include "../ast/unsafe_block_node.hpp"
 #include "../ast/while_node.hpp"
-#include "../ast/range_expr.hpp"
-#include "../ast/defer_node.hpp"
 
 class AstBuilder {
 public:
-  std::unique_ptr<RootNode> makeRoot() { return std::make_unique<RootNode>(); }
+    std::unique_ptr<RootNode> makeRoot() { return std::make_unique<RootNode>(); }
 
-  std::unique_ptr<AssignNode> makeAssign(std::unique_ptr<ExpressionNode> target,
-                                         std::unique_ptr<ExpressionNode> expr) {
-    return std::make_unique<AssignNode>(std::move(target), std::move(expr));
-  }
-
-  std::unique_ptr<IndexAccessNode>
-  makeIndexAccess(std::unique_ptr<ExpressionNode> left,
-                  std::unique_ptr<ExpressionNode> index) {
-    return std::make_unique<IndexAccessNode>(std::move(left), std::move(index));
-  }
-
-  std::unique_ptr<DeferNode> makeDefer(std::unique_ptr<Node> statement) {
-    return std::make_unique<DeferNode>(std::move(statement));
-  }
-
-  std::unique_ptr<ArrayLiteralNode>
-  makeArrayLiteral(std::vector<std::unique_ptr<ExpressionNode>> elements) {
-    return std::make_unique<ArrayLiteralNode>(std::move(elements));
-  }
-
-  std::unique_ptr<FunDecl> makeFunDecl(const std::string &name) {
-    auto f = std::make_unique<FunDecl>();
-    f->name_ = name;
-    return f;
-  }
-
-  std::unique_ptr<ExtensionDecl> makeExtensionDecl() {
-    return std::make_unique<ExtensionDecl>();
-  }
-
-  std::unique_ptr<MemberAccessNode>
-  makeMemberAccess(std::unique_ptr<ExpressionNode> left,
-                   const std::string &member) {
-    return std::make_unique<MemberAccessNode>(std::move(left), member);
-  }
-
-  std::unique_ptr<FunCall> makeFunCall(std::unique_ptr<ExpressionNode> callee) {
-    auto f = std::make_unique<FunCall>();
-    f->callee_ = std::move(callee);
-    return f;
-  }
-
-  std::unique_ptr<RangeExpr> makeRangeExpr(std::unique_ptr<ExpressionNode> start,
-                  std::unique_ptr<ExpressionNode> end,
-                  std::unique_ptr<ExpressionNode> step = nullptr) {
-      return std::make_unique<RangeExpr>(std::move(start), std::move(end), std::move(step));
-  }
-
-  std::unique_ptr<BodyNode> makeBody() { return std::make_unique<BodyNode>(); }
-
-  std::unique_ptr<UnsafeBlockNode> makeUnsafeBlock() {
-    return std::make_unique<UnsafeBlockNode>();
-  }
-
-  std::unique_ptr<AsmStmtNode> makeAsm(std::string assembly) {
-    auto node = std::make_unique<AsmStmtNode>();
-    node->assembly = std::move(assembly);
-    return node;
-  }
-
-  std::unique_ptr<IfNode> makeIf(std::unique_ptr<ExpressionNode> condition,
-                                 std::unique_ptr<BodyNode> thenBody,
-                                 std::unique_ptr<BodyNode> elseBody) {
-    return std::make_unique<IfNode>(std::move(condition), std::move(thenBody),
-                                    std::move(elseBody));
-  }
-
-  std::unique_ptr<CaseNode> makeCase(std::unique_ptr<ExpressionNode> scrutinee,
-                                     std::vector<CaseArm> arms) {
-    return std::make_unique<CaseNode>(std::move(scrutinee), std::move(arms));
-  }
-
-  std::unique_ptr<IfTypeNode> makeIfType(const std::string &parameterName,
-                                         std::unique_ptr<TypeNode> matchType,
-                                         std::unique_ptr<BodyNode> thenBody,
-                                         std::unique_ptr<BodyNode> elseBody) {
-    return std::make_unique<IfTypeNode>(parameterName, std::move(matchType),
-                                        std::move(thenBody),
-                                        std::move(elseBody));
-  }
-
-  std::unique_ptr<WhileNode>
-  makeWhile(std::unique_ptr<ExpressionNode> condition,
-            std::unique_ptr<BodyNode> body) {
-    return std::make_unique<WhileNode>(std::move(condition), std::move(body));
-  }
-
-  std::unique_ptr<ForNode> makeFor(std::unique_ptr<BindingDecl> initializer,
-                                   std::unique_ptr<ExpressionNode> condition,
-                                   std::unique_ptr<AssignNode> increment,
-                                   std::unique_ptr<BodyNode> body) {
-    return std::make_unique<ForNode>(std::move(initializer),
-                                     std::move(condition), std::move(increment),
-                                     std::move(body));
-  }
-
-  std::unique_ptr<ForInNode> makeForIn(const std::string &indexName,
-                                       const std::string &itemName,
-                                       std::unique_ptr<ExpressionNode> iterable,
-                                       std::unique_ptr<BodyNode> body) {
-    return std::make_unique<ForInNode>(indexName, itemName, std::move(iterable),
-                                       std::move(body));
-  }
-
-  std::unique_ptr<BindingDecl>
-  makeBindingDecl(const std::string &name, std::unique_ptr<TypeNode> type,
-                  std::unique_ptr<ExpressionNode> init, BindingKind kind) {
-    return std::make_unique<BindingDecl>(name, std::move(type), std::move(init),
-                                         kind);
-  }
-
-  std::unique_ptr<ReturnNode>
-  makeReturn(std::unique_ptr<ExpressionNode> value) {
-    return std::make_unique<ReturnNode>(std::move(value));
-  }
-
-  std::unique_ptr<FailNode>
-  makeFail(std::unique_ptr<ExpressionNode> errorValue) {
-    return std::make_unique<FailNode>(std::move(errorValue));
-  }
-
-  std::unique_ptr<BreakNode> makeBreak() {
-    return std::make_unique<BreakNode>();
-  }
-
-  std::unique_ptr<ContinueNode> makeContinue() {
-    return std::make_unique<ContinueNode>();
-  }
-
-  std::unique_ptr<UnaryExpr>
-  makeUnaryExpr(const std::string &op, std::unique_ptr<ExpressionNode> expr) {
-    return std::make_unique<UnaryExpr>(op, std::move(expr));
-  }
-
-  std::unique_ptr<CastExpr> makeCastExpr(std::unique_ptr<ExpressionNode> expr,
-                                         std::unique_ptr<TypeNode> type) {
-    return std::make_unique<CastExpr>(std::move(expr), std::move(type));
-  }
-
-  std::unique_ptr<BinExpr> makeBinExpr(std::unique_ptr<ExpressionNode> left,
-                                       const std::string &op,
-                                       std::unique_ptr<ExpressionNode> right) {
-    return std::make_unique<BinExpr>(std::move(left), op, std::move(right));
-  }
-
-  std::unique_ptr<TernaryExpr>
-  makeTernaryExpr(std::unique_ptr<ExpressionNode> condition,
-                  std::unique_ptr<ExpressionNode> thenExpr,
-                  std::unique_ptr<ExpressionNode> elseExpr) {
-    return std::make_unique<TernaryExpr>(
-        std::move(condition), std::move(thenExpr), std::move(elseExpr));
-  }
-
-  std::unique_ptr<TryExpr>
-  makeTryExpr(std::unique_ptr<ExpressionNode> expression) {
-    return std::make_unique<TryExpr>(std::move(expression));
-  }
-
-  std::unique_ptr<FallbackExpr>
-  makeFallbackExpr(std::unique_ptr<ExpressionNode> expression,
-                   std::unique_ptr<ExpressionNode> fallback) {
-    return std::make_unique<FallbackExpr>(std::move(expression),
-                                          std::move(fallback));
-  }
-
-  std::unique_ptr<FailableHandleExpr>
-  makeFailableHandleExpr(std::unique_ptr<ExpressionNode> expression,
-                         const std::string &errorName,
-                         std::unique_ptr<BodyNode> handler) {
-    return std::make_unique<FailableHandleExpr>(std::move(expression),
-                                                errorName, std::move(handler));
-  }
-
-  std::unique_ptr<ConstInt> makeConstInt(int64_t value) {
-    return std::make_unique<ConstInt>(value);
-  }
-
-  std::unique_ptr<ConstInt> makeConstInt(const std::string &rawLiteralText) {
-    return std::make_unique<ConstInt>(rawLiteralText);
-  }
-
-  std::unique_ptr<ConstFloat> makeConstFloat(double value) {
-    return std::make_unique<ConstFloat>(value);
-  }
-
-  std::unique_ptr<ConstBool> makeConstBool(bool value) {
-    return std::make_unique<ConstBool>(value);
-  }
-
-  std::unique_ptr<ConstId> makeConstId(const std::string &value) {
-    return std::make_unique<ConstId>(value);
-  }
-
-  std::unique_ptr<ConstString> makeConstString(const std::string &value) {
-    return std::make_unique<ConstString>(value);
-  }
-
-  std::unique_ptr<ConstChar> makeConstChar(const std::string &value) {
-    return std::make_unique<ConstChar>(value);
-  }
-
-  std::unique_ptr<ConstNull> makeConstNull() {
-    return std::make_unique<ConstNull>();
-  }
-
-  std::unique_ptr<ParameterNode>
-  makeParam(const std::string &name, std::unique_ptr<TypeNode> type,
-            bool isRef = false, bool isSink = false, bool isVariadic = false,
-            bool isNoEscape = false,
-            std::unique_ptr<ExpressionNode> defaultValue = nullptr) {
-    return std::make_unique<ParameterNode>(name, std::move(type), isRef, isSink,
-                                           isNoEscape, isVariadic,
-                                           std::move(defaultValue));
-  }
-
-  std::unique_ptr<TypeNode> makeType(const std::string &name) {
-    return std::make_unique<TypeNode>(name);
-  }
-
-  std::unique_ptr<ImportNode>
-  makeImport(std::string path, std::string moduleAlias = "",
-             std::vector<ImportBinding> bindings = {}) {
-    return std::make_unique<ImportNode>(std::move(path), std::move(moduleAlias),
-                                        std::move(bindings));
-  }
-
-  std::unique_ptr<EnumDecl> makeEnumDecl(const std::string &name,
-                                         std::vector<EnumDecl::Entry> entries) {
-    return std::make_unique<EnumDecl>(name, std::move(entries));
-  }
-
-  std::unique_ptr<RecordDecl>
-  makeRecordDecl(const std::string &name,
-                 std::vector<std::unique_ptr<TypeNode>> genericParams,
-                 std::vector<std::unique_ptr<ParameterNode>> fields) {
-    return std::make_unique<RecordDecl>(name, std::move(genericParams),
-                                        std::move(fields));
-  }
-
-  std::unique_ptr<ClassDecl> makeClassDecl(const std::string &name) {
-    return std::make_unique<ClassDecl>(name);
-  }
-
-  std::unique_ptr<InterfaceDecl> makeInterfaceDecl(const std::string &name) {
-    return std::make_unique<InterfaceDecl>(name);
-  }
-
-  std::unique_ptr<NewExpr> makeNewExpr(std::unique_ptr<TypeNode> type) {
-    return std::make_unique<NewExpr>(std::move(type));
-  }
-
-  std::unique_ptr<TypeAliasDecl>
-  makeTypeAliasDecl(const std::string &name, std::unique_ptr<TypeNode> type) {
-    return std::make_unique<TypeAliasDecl>(name, std::move(type));
-  }
-
-  template <typename T> T *setSpan(T *node, const SourceSpan &span) {
-    if (node) {
-      node->span = span;
+    std::unique_ptr<AssignNode> makeAssign(
+        std::unique_ptr<ExpressionNode> target,
+        std::unique_ptr<ExpressionNode> expr
+    ) {
+        return std::make_unique<AssignNode>(std::move(target), std::move(expr));
     }
-    return node;
-  }
+
+    std::unique_ptr<IndexAccessNode> makeIndexAccess(
+        std::unique_ptr<ExpressionNode> left,
+        std::unique_ptr<ExpressionNode> index
+    ) {
+        return std::make_unique<IndexAccessNode>(std::move(left), std::move(index));
+    }
+
+    std::unique_ptr<DeferNode> makeDefer(std::unique_ptr<Node> statement) {
+        return std::make_unique<DeferNode>(std::move(statement));
+    }
+
+    std::unique_ptr<ArrayLiteralNode> makeArrayLiteral(
+        std::vector<std::unique_ptr<ExpressionNode>> elements
+    ) {
+        return std::make_unique<ArrayLiteralNode>(std::move(elements));
+    }
+
+    std::unique_ptr<FunDecl> makeFunDecl(const std::string& name) {
+        auto f = std::make_unique<FunDecl>();
+        f->name_ = name;
+        f->syntaxName_ = SyntaxName(name);
+        return f;
+    }
+
+    std::unique_ptr<ExtensionDecl> makeExtensionDecl() { return std::make_unique<ExtensionDecl>(); }
+
+    std::unique_ptr<MemberAccessNode> makeMemberAccess(
+        std::unique_ptr<ExpressionNode> left,
+        const std::string& member
+    ) {
+        return std::make_unique<MemberAccessNode>(std::move(left), member);
+    }
+
+    std::unique_ptr<FunCall> makeFunCall(std::unique_ptr<ExpressionNode> callee) {
+        auto f = std::make_unique<FunCall>();
+        f->callee_ = std::move(callee);
+        return f;
+    }
+
+    std::unique_ptr<RangeExpr> makeRangeExpr(
+        std::unique_ptr<ExpressionNode> start,
+        std::unique_ptr<ExpressionNode> end,
+        std::unique_ptr<ExpressionNode> step = nullptr
+    ) {
+        return std::make_unique<RangeExpr>(std::move(start), std::move(end), std::move(step));
+    }
+
+    std::unique_ptr<BodyNode> makeBody() { return std::make_unique<BodyNode>(); }
+
+    std::unique_ptr<UnsafeBlockNode> makeUnsafeBlock() {
+        return std::make_unique<UnsafeBlockNode>();
+    }
+
+    std::unique_ptr<AsmStmtNode> makeAsm(std::string assembly) {
+        auto node = std::make_unique<AsmStmtNode>();
+        node->assembly = std::move(assembly);
+        return node;
+    }
+
+    std::unique_ptr<IfNode> makeIf(
+        std::unique_ptr<ExpressionNode> condition,
+        std::unique_ptr<BodyNode> thenBody,
+        std::unique_ptr<BodyNode> elseBody
+    ) {
+        return std::make_unique<IfNode>(
+            std::move(condition),
+            std::move(thenBody),
+            std::move(elseBody)
+        );
+    }
+
+    std::unique_ptr<CaseNode> makeCase(
+        std::unique_ptr<ExpressionNode> scrutinee,
+        std::vector<CaseArm> arms
+    ) {
+        return std::make_unique<CaseNode>(std::move(scrutinee), std::move(arms));
+    }
+
+    std::unique_ptr<IfTypeNode> makeIfType(
+        const std::string& parameterName,
+        std::unique_ptr<TypeNode> matchType,
+        std::unique_ptr<BodyNode> thenBody,
+        std::unique_ptr<BodyNode> elseBody
+    ) {
+        return std::make_unique<IfTypeNode>(
+            parameterName,
+            std::move(matchType),
+            std::move(thenBody),
+            std::move(elseBody)
+        );
+    }
+
+    std::unique_ptr<WhileNode> makeWhile(
+        std::unique_ptr<ExpressionNode> condition,
+        std::unique_ptr<BodyNode> body
+    ) {
+        return std::make_unique<WhileNode>(std::move(condition), std::move(body));
+    }
+
+    std::unique_ptr<ForNode> makeFor(
+        std::unique_ptr<BindingDecl> initializer,
+        std::unique_ptr<ExpressionNode> condition,
+        std::unique_ptr<AssignNode> increment,
+        std::unique_ptr<BodyNode> body
+    ) {
+        return std::make_unique<ForNode>(
+            std::move(initializer),
+            std::move(condition),
+            std::move(increment),
+            std::move(body)
+        );
+    }
+
+    std::unique_ptr<ForInNode> makeForIn(
+        const std::string& indexName,
+        const std::string& itemName,
+        std::unique_ptr<ExpressionNode> iterable,
+        std::unique_ptr<BodyNode> body
+    ) {
+        return std::make_unique<ForInNode>(
+            indexName,
+            itemName,
+            std::move(iterable),
+            std::move(body)
+        );
+    }
+
+    std::unique_ptr<BindingDecl> makeBindingDecl(
+        const std::string& name,
+        std::unique_ptr<TypeNode> type,
+        std::unique_ptr<ExpressionNode> init,
+        BindingKind kind
+    ) {
+        return std::make_unique<BindingDecl>(name, std::move(type), std::move(init), kind);
+    }
+
+    std::unique_ptr<ReturnNode> makeReturn(std::unique_ptr<ExpressionNode> value) {
+        return std::make_unique<ReturnNode>(std::move(value));
+    }
+
+    std::unique_ptr<FailNode> makeFail(std::unique_ptr<ExpressionNode> errorValue) {
+        return std::make_unique<FailNode>(std::move(errorValue));
+    }
+
+    std::unique_ptr<BreakNode> makeBreak() { return std::make_unique<BreakNode>(); }
+
+    std::unique_ptr<ContinueNode> makeContinue() { return std::make_unique<ContinueNode>(); }
+
+    std::unique_ptr<UnaryExpr> makeUnaryExpr(
+        const std::string& op,
+        std::unique_ptr<ExpressionNode> expr
+    ) {
+        return std::make_unique<UnaryExpr>(op, std::move(expr));
+    }
+
+    std::unique_ptr<CastExpr> makeCastExpr(
+        std::unique_ptr<ExpressionNode> expr,
+        std::unique_ptr<TypeNode> type
+    ) {
+        return std::make_unique<CastExpr>(std::move(expr), std::move(type));
+    }
+
+    std::unique_ptr<BinExpr> makeBinExpr(
+        std::unique_ptr<ExpressionNode> left,
+        const std::string& op,
+        std::unique_ptr<ExpressionNode> right
+    ) {
+        return std::make_unique<BinExpr>(std::move(left), op, std::move(right));
+    }
+
+    std::unique_ptr<TernaryExpr> makeTernaryExpr(
+        std::unique_ptr<ExpressionNode> condition,
+        std::unique_ptr<ExpressionNode> thenExpr,
+        std::unique_ptr<ExpressionNode> elseExpr
+    ) {
+        return std::make_unique<TernaryExpr>(
+            std::move(condition),
+            std::move(thenExpr),
+            std::move(elseExpr)
+        );
+    }
+
+    std::unique_ptr<TryExpr> makeTryExpr(std::unique_ptr<ExpressionNode> expression) {
+        return std::make_unique<TryExpr>(std::move(expression));
+    }
+
+    std::unique_ptr<FallbackExpr> makeFallbackExpr(
+        std::unique_ptr<ExpressionNode> expression,
+        std::unique_ptr<ExpressionNode> fallback
+    ) {
+        return std::make_unique<FallbackExpr>(std::move(expression), std::move(fallback));
+    }
+
+    std::unique_ptr<FailableHandleExpr> makeFailableHandleExpr(
+        std::unique_ptr<ExpressionNode> expression,
+        const std::string& errorName,
+        std::unique_ptr<BodyNode> handler
+    ) {
+        return std::make_unique<FailableHandleExpr>(
+            std::move(expression),
+            errorName,
+            std::move(handler)
+        );
+    }
+
+    std::unique_ptr<ConstInt> makeConstInt(int64_t value) {
+        return std::make_unique<ConstInt>(value);
+    }
+
+    std::unique_ptr<ConstInt> makeConstInt(const std::string& rawLiteralText) {
+        return std::make_unique<ConstInt>(rawLiteralText);
+    }
+
+    std::unique_ptr<ConstFloat> makeConstFloat(double value) {
+        return std::make_unique<ConstFloat>(value);
+    }
+
+    std::unique_ptr<ConstBool> makeConstBool(bool value) {
+        return std::make_unique<ConstBool>(value);
+    }
+
+    std::unique_ptr<ConstId> makeConstId(const std::string& value) {
+        return std::make_unique<ConstId>(value);
+    }
+
+    std::unique_ptr<ConstString> makeConstString(const std::string& value) {
+        return std::make_unique<ConstString>(value);
+    }
+
+    std::unique_ptr<ConstChar> makeConstChar(const std::string& value) {
+        return std::make_unique<ConstChar>(value);
+    }
+
+    std::unique_ptr<ConstNull> makeConstNull() { return std::make_unique<ConstNull>(); }
+
+    std::unique_ptr<ParameterNode> makeParam(
+        const std::string& name,
+        std::unique_ptr<TypeNode> type,
+        bool isRef = false,
+        bool isSink = false,
+        bool isVariadic = false,
+        bool isNoEscape = false,
+        std::unique_ptr<ExpressionNode> defaultValue = nullptr
+    ) {
+        return std::make_unique<ParameterNode>(
+            name,
+            std::move(type),
+            isRef,
+            isSink,
+            isNoEscape,
+            isVariadic,
+            std::move(defaultValue)
+        );
+    }
+
+    std::unique_ptr<TypeNode> makeType(const std::string& name) {
+        return std::make_unique<TypeNode>(name);
+    }
+
+    std::unique_ptr<ImportNode> makeImport(
+        std::string path,
+        std::string moduleAlias = "",
+        std::vector<ImportBinding> bindings = {}
+    ) {
+        return std::make_unique<ImportNode>(
+            std::move(path),
+            std::move(moduleAlias),
+            std::move(bindings)
+        );
+    }
+
+    std::unique_ptr<EnumDecl> makeEnumDecl(
+        const std::string& name,
+        std::vector<EnumDecl::Entry> entries
+    ) {
+        return std::make_unique<EnumDecl>(name, std::move(entries));
+    }
+
+    std::unique_ptr<RecordDecl> makeRecordDecl(
+        const std::string& name,
+        std::vector<std::unique_ptr<TypeNode>> genericParams,
+        std::vector<std::unique_ptr<ParameterNode>> fields
+    ) {
+        return std::make_unique<RecordDecl>(name, std::move(genericParams), std::move(fields));
+    }
+
+    std::unique_ptr<ClassDecl> makeClassDecl(const std::string& name) {
+        return std::make_unique<ClassDecl>(name);
+    }
+
+    std::unique_ptr<InterfaceDecl> makeInterfaceDecl(const std::string& name) {
+        return std::make_unique<InterfaceDecl>(name);
+    }
+
+    std::unique_ptr<NewExpr> makeNewExpr(std::unique_ptr<TypeNode> type) {
+        return std::make_unique<NewExpr>(std::move(type));
+    }
+
+    std::unique_ptr<TypeAliasDecl> makeTypeAliasDecl(
+        const std::string& name,
+        std::unique_ptr<TypeNode> type
+    ) {
+        return std::make_unique<TypeAliasDecl>(name, std::move(type));
+    }
+
+    template <typename T> T* setSpan(T* node, const SourceSpan& span) {
+        if (node) {
+            node->span = span;
+        }
+        return node;
+    }
 };

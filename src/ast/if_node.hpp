@@ -6,17 +6,20 @@
 
 class IfNode : public StatementNode {
 public:
-  std::unique_ptr<ExpressionNode> condition_;
-  std::unique_ptr<BodyNode> thenBody_;
-  std::unique_ptr<BodyNode> elseBody_;
+    std::unique_ptr<ExpressionNode> condition_;
+    std::unique_ptr<BodyNode> thenBody_;
+    std::unique_ptr<BodyNode> elseBody_;
 
-  IfNode() noexcept = default;
+    IfNode() noexcept = default;
 
-  IfNode(std::unique_ptr<ExpressionNode> condition,
-         std::unique_ptr<BodyNode> thenBody,
-         std::unique_ptr<BodyNode> elseBody = nullptr)
-      : condition_(std::move(condition)), thenBody_(std::move(thenBody)),
-        elseBody_(std::move(elseBody)) {}
+    IfNode(
+        std::unique_ptr<ExpressionNode> condition,
+        std::unique_ptr<BodyNode> thenBody,
+        std::unique_ptr<BodyNode> elseBody = nullptr
+    )
+        : condition_(std::move(condition)),
+          thenBody_(std::move(thenBody)),
+          elseBody_(std::move(elseBody)) {}
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

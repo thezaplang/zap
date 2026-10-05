@@ -8,8 +8,7 @@ class BoundExpression;
 
 class ConstantEvaluator {
 public:
-  static bool isConstant(const BoundExpression &expression,
-                         std::string *failureReason = nullptr);
+    static bool isConstant(const BoundExpression& expression, std::string* failureReason = nullptr);
 };
 
 } // namespace sema

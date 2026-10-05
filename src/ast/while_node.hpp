@@ -7,12 +7,13 @@
 
 class WhileNode : public StatementNode {
 public:
-  std::unique_ptr<ExpressionNode> condition_;
-  std::unique_ptr<BodyNode> body_;
-  WhileNode() noexcept = default;
-  WhileNode(std::unique_ptr<ExpressionNode> condition,
-            std::unique_ptr<BodyNode> body)
-      : condition_(std::move(condition)), body_(std::move(body)) {}
+    std::unique_ptr<ExpressionNode> condition_;
+    std::unique_ptr<BodyNode> body_;
+    WhileNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    WhileNode(std::unique_ptr<ExpressionNode> condition, std::unique_ptr<BodyNode> body)
+        : condition_(std::move(condition)),
+          body_(std::move(body)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

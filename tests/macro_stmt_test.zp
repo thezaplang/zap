@@ -1,0 +1,23 @@
+macro unless($condition: expr, $body: block) {
+    if !($condition) $body
+}
+
+macro initialize($name: ident) {
+    var $name: Int = 2;
+    $name += 3;
+}
+
+macro passthrough($statement: stmt) { $statement }
+macro one() { 1 }
+
+fun main() Int {
+    one!() + 1;
+    one!();
+    initialize!(value)
+    unless!(value == 5, { return 1; })
+    passthrough!(value += one!();)
+    if value != 6 {
+        return 2;
+    }
+    return 0;
+}

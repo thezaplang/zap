@@ -3,5 +3,5 @@
 
 class ConstNull : public ExpressionNode {
 public:
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

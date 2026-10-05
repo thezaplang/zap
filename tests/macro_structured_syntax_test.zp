@@ -1,0 +1,36 @@
+macro twice($query: source) expr {
+    var captured: SyntaxTokens = syntaxExprTokens(sourceInterpolation(query, 0));
+    return syntaxExprFromTokens(syntaxConcat(syntaxTokens("("),
+        syntaxConcat(captured, syntaxTokens(") * 2"))));
+}
+
+macro forward($input: tokens) expr {
+    return syntaxExprFromTokens(syntaxSlice(input, 0, syntaxCount(input)));
+}
+
+macro sum($query: source) expr {
+    var result: SyntaxTokens = syntaxTokens("0");
+    var index: Int = 0;
+    while index < query.interpolationCount {
+        result = syntaxConcat(result, syntaxConcat(syntaxTokens(" + "),
+            syntaxExprTokens(sourceInterpolation(query, index))));
+        index = index + 1;
+    }
+    return syntaxExprFromTokens(result);
+}
+
+macro declaration($input: source) item {
+    return syntaxItemFromTokens(syntaxTokens("fun answer() Int { return 42; }"));
+}
+
+declaration!{}
+
+fun main() Int {
+    var name: Int = 21;
+    if twice!{SELECT ${name}} != 42 { return 1; }
+    if twice!{SELECT ${name}} != 42 { return 2; }
+    if forward!(twice!{SELECT ${name}}) != 42 { return 3; }
+    if answer() != 42 { return 4; }
+    if sum!{SELECT ${name}, ${name + 1}} != 43 { return 5; }
+    return 0;
+}

@@ -1,0 +1,29 @@
+fun twice(x: Int) Int {
+    return x * 2;
+}
+
+@ctfe
+fun build_answer() SyntaxExpr {
+    if twice(21) == 42 { return syntaxExpr("42"); }
+    return syntaxExpr("0");
+}
+
+@ctfe
+fun capture(query: SyntaxSource) SyntaxExpr {
+    return sourceInterpolation(query, 0);
+}
+
+macro answer($query: source) expr {
+    return build_answer();
+}
+
+macro forward($query: source) expr {
+    return capture(query);
+}
+
+fun main() Int {
+    var caller: Int = 42;
+    if answer!{} != twice(21) { return 1; }
+    if forward!{SELECT ${caller}} != 42 { return 2; }
+    return 0;
+}

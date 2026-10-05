@@ -21,6 +21,8 @@ meson test -C "$build_dir" --print-errorlogs
 
 cd "$repo_dir"
 python3 run_tests.py --zapc "$build_dir/zapc" -j 1 \
+  tests/macro \
+  tests/diagnostics/macro \
   tests/string_ownership_runtime_test.zp \
   tests/string_view_owned_semantics_test.zp \
   tests/extension_stdlib_test.zp \
