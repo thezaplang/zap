@@ -284,6 +284,16 @@ ParseResult parse(const std::vector<std::string_view>& cmdline, CmdlineArgs& arg
         args.output.type = OutputType::OBJECT;
     }
 
+    if (const ArgVal* val = holder.get(ArgTypes::FuseLD)) {
+        const std::string_view linker = val->optional;
+        if (linker == "bfd" || linker == "gold" || linker == "lld" || linker == "mold") {
+            args.linkerArgs.emplace_back(val->original);
+        } else {
+            reportError("unknown linker '", linker, "' in -fuse-ld flag");
+            return ParseResult::Failed;
+        }
+    }
+
     if ((emitLLVM || emitZIR) && !args.output.implicit && (emitLLVM == emitZIR)) {
         reportError("cannot use -o when emitting multiple text outputs");
         return ParseResult::Failed;

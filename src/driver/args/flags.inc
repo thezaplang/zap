@@ -80,3 +80,6 @@ ZAP_FLAG(Target, "--target=", "Set LLVM target triple.", Joined)
 ZAP_FLAG(ImportMap, "--import-map",
          "Add an import alias mapping (alias=path). May be repeated.",
          JoinedSeparate)
+
+// -fuse-ld=
+ZAP_FLAG(FuseLD, "-fuse-ld=", "Changes the linker used to the linker specified.", Joined)
