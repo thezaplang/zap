@@ -61,6 +61,8 @@ public:
     ) const override;
 
 private:
+    struct CtfePreparation;
+
     void prepareCtfe(
         const std::map<std::string, ModuleOutline>& outlines,
         std::vector<MacroResolutionError>& errors
