@@ -9,15 +9,17 @@
 
 class ClassDecl : public TopLevel {
 public:
-  std::string name_;
-  std::vector<std::unique_ptr<TypeNode>> genericParams_;
-  std::vector<GenericConstraint> genericConstraints_;
-  std::vector<std::unique_ptr<TypeNode>> implementsList_;
-  std::vector<std::unique_ptr<ParameterNode>> fields_;
-  std::vector<std::unique_ptr<FunDecl>> methods_;
+    std::string name_;
+    std::vector<std::unique_ptr<TypeNode>> genericParams_;
+    std::vector<GenericConstraint> genericConstraints_;
+    std::vector<std::unique_ptr<TypeNode>> implementsList_;
+    std::vector<std::unique_ptr<ParameterNode>> fields_;
+    std::vector<std::unique_ptr<FunDecl>> methods_;
 
-  ClassDecl() = default;
-  explicit ClassDecl(std::string name) : name_(std::move(name)) {}
+    ClassDecl() = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    explicit ClassDecl(std::string name)
+        : name_(std::move(name)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

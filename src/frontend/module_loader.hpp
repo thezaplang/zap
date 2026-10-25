@@ -13,54 +13,63 @@ namespace zap::frontend {
 
 using ImportMap = std::unordered_map<std::string, std::string>;
 
-enum class EnvironmentOverrides { Allow, Ignore };
-
-struct RuntimePaths {
-  std::filesystem::path executablePath;
-  std::filesystem::path configuredCoreDir;
-  std::filesystem::path configuredStdlibDir;
-  std::filesystem::path configuredStdlibObject;
-  EnvironmentOverrides environmentOverrides;
-  std::optional<std::filesystem::path> coreDirOverride;
-  std::optional<std::filesystem::path> stdlibDirOverride;
-
-  RuntimePaths(
-      std::filesystem::path executablePath,
-      std::filesystem::path configuredCoreDir,
-      std::filesystem::path configuredStdlibDir,
-      std::filesystem::path configuredStdlibObject,
-      EnvironmentOverrides environmentOverrides = EnvironmentOverrides::Allow)
-      : executablePath(std::move(executablePath)),
-        configuredCoreDir(std::move(configuredCoreDir)),
-        configuredStdlibDir(std::move(configuredStdlibDir)),
-        configuredStdlibObject(std::move(configuredStdlibObject)),
-        environmentOverrides(environmentOverrides) {}
+enum class EnvironmentOverrides {
+    Allow,
+    Ignore
 };
 
-std::optional<std::filesystem::path>
-currentExecutablePath(const std::filesystem::path &argv0Hint);
+struct RuntimePaths {
+    std::filesystem::path executablePath;
+    std::filesystem::path configuredCoreDir;
+    std::filesystem::path configuredStdlibDir;
+    std::filesystem::path configuredStdlibObject;
+    EnvironmentOverrides environmentOverrides;
+    std::optional<std::filesystem::path> coreDirOverride;
+    std::optional<std::filesystem::path> stdlibDirOverride;
 
-std::filesystem::path stdlibRootPath(const RuntimePaths &paths);
-std::filesystem::path coreRootPath(const RuntimePaths &paths);
-std::filesystem::path stdlibObjectPath(const RuntimePaths &paths);
+    RuntimePaths(
+        std::filesystem::path executablePath,
+        std::filesystem::path configuredCoreDir,
+        std::filesystem::path configuredStdlibDir,
+        std::filesystem::path configuredStdlibObject,
+        EnvironmentOverrides environmentOverrides = EnvironmentOverrides::Allow
+    )
+        : executablePath(std::move(executablePath)),
+          configuredCoreDir(std::move(configuredCoreDir)),
+          configuredStdlibDir(std::move(configuredStdlibDir)),
+          configuredStdlibObject(std::move(configuredStdlibObject)),
+          environmentOverrides(environmentOverrides) {}
+};
 
-std::string stripSourceExtension(const std::filesystem::path &path);
-std::string computeLogicalModulePath(const std::filesystem::path &canonicalPath,
-                                     const RuntimePaths &paths,
-                                     const ImportMap &importMap = {});
+std::optional<std::filesystem::path> currentExecutablePath(const std::filesystem::path& argv0Hint);
 
-bool hasImplicitImport(const RootNode &root, std::string_view path);
-void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo &module,
-                                         bool includePrelude);
+std::filesystem::path stdlibRootPath(const RuntimePaths& paths);
+std::filesystem::path coreRootPath(const RuntimePaths& paths);
+std::filesystem::path stdlibObjectPath(const RuntimePaths& paths);
 
-bool resolveImportTargets(const std::filesystem::path &modulePath,
-                          const ImportNode &importNode,
-                          std::vector<std::filesystem::path> &targets,
-                          const ImportMap &importMap, const RuntimePaths &paths,
-                          std::string *errorMessage = nullptr);
+std::string stripSourceExtension(const std::filesystem::path& path);
+std::string computeLogicalModulePath(
+    const std::filesystem::path& canonicalPath,
+    const RuntimePaths& paths,
+    const ImportMap& importMap = {}
+);
 
-sema::ResolvedImport
-makeResolvedImport(const ImportNode &importNode,
-                   const std::vector<std::filesystem::path> &targets);
+bool hasImplicitImport(const RootNode& root, std::string_view path);
+bool shouldIncludeImplicitPrelude(std::string_view logicalPath, bool includePrelude);
+void injectImplicitPreludeImportIfNeeded(sema::ModuleInfo& module, bool includePrelude);
+
+bool resolveImportTargets(
+    const std::filesystem::path& modulePath,
+    const ImportNode& importNode,
+    std::vector<std::filesystem::path>& targets,
+    const ImportMap& importMap,
+    const RuntimePaths& paths,
+    std::string* errorMessage = nullptr
+);
+
+sema::ResolvedImport makeResolvedImport(
+    const ImportNode& importNode,
+    const std::vector<std::filesystem::path>& targets
+);
 
 } // namespace zap::frontend

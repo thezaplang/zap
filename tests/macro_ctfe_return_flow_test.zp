@@ -1,0 +1,41 @@
+macro branch($q: source) expr {
+    if true { syntaxExpr("42") }
+    return syntaxExpr("0");
+}
+
+macro loop($q: source) expr {
+    var count: Int = 0;
+    while count < 2 {
+        count = count + 1;
+        syntaxExpr("42")
+    }
+    if count == 2 { return syntaxExpr("0"); }
+    panic("loop stopped at a block value");
+}
+
+macro explicit_return($q: source) expr {
+    while true {
+        if true { return syntaxExpr("42"); }
+    }
+}
+
+fun runtime_branch() Int {
+    if true { 42 }
+    return 0;
+}
+
+fun runtime_loop() Int {
+    var count: Int = 0;
+    while count < 2 {
+        count = count + 1;
+        42
+    }
+    return 0;
+}
+
+fun main() Int {
+    if branch!{} != runtime_branch() { return 1; }
+    if loop!{} != runtime_loop() { return 2; }
+    if explicit_return!{} != 42 { return 3; }
+    return 0;
+}

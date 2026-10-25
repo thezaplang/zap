@@ -1,0 +1,3 @@
+pub macro twice($value: expr) { $value + $value }
+pub macro int_type() { Int }
+macro hidden() { 99 }

@@ -6,11 +6,12 @@
 
 class DeferNode : public StatementNode {
 public:
-  std::unique_ptr<Node> statement_;
+    std::unique_ptr<Node> statement_;
 
-  DeferNode() noexcept = default;
-  explicit DeferNode(std::unique_ptr<Node> statement)
-      : statement_(std::move(statement)) {}
+    DeferNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    explicit DeferNode(std::unique_ptr<Node> statement)
+        : statement_(std::move(statement)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

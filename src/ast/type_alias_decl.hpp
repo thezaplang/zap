@@ -6,12 +6,14 @@
 
 class TypeAliasDecl : public TopLevel {
 public:
-  std::string name_;
-  std::unique_ptr<TypeNode> type_;
+    std::string name_;
+    std::unique_ptr<TypeNode> type_;
 
-  TypeAliasDecl() = default;
-  TypeAliasDecl(const std::string &name, std::unique_ptr<TypeNode> type)
-      : name_(name), type_(std::move(type)) {}
+    TypeAliasDecl() = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    TypeAliasDecl(const std::string& name, std::unique_ptr<TypeNode> type)
+        : name_(name),
+          type_(std::move(type)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

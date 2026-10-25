@@ -2,16 +2,20 @@
 
 #include <string_view>
 
-enum class BindingKind { Mutable, Immutable, CompileTimeConstant };
+enum class BindingKind {
+    Mutable,
+    Immutable,
+    CompileTimeConstant
+};
 
 inline std::string_view bindingKindKeyword(BindingKind kind) noexcept {
-  switch (kind) {
-  case BindingKind::Mutable:
+    switch (kind) {
+        case BindingKind::Mutable:
+            return "var";
+        case BindingKind::Immutable:
+            return "let";
+        case BindingKind::CompileTimeConstant:
+            return "const";
+    }
     return "var";
-  case BindingKind::Immutable:
-    return "let";
-  case BindingKind::CompileTimeConstant:
-    return "const";
-  }
-  return "var";
 }

@@ -1,0 +1,99 @@
+import "helper.zp" as support { use_helper };
+
+macro local_value($out: ident, $input: expr) {
+    var temporary: Int = 7;
+    var $out: Int = $input + temporary;
+}
+
+macro fresh_value($out: ident) {
+    $let local = freshIdent("hidden");
+    var $local: Int = 3;
+    var $out: Int = $local;
+}
+
+macro read_member($object: expr) { $object.value }
+macro sum_range($out: ident) {
+    for item in 0..3 { $out += item; }
+}
+
+macro make_function() {
+    fun generated(parameter: Int) Int { return parameter; }
+}
+
+macro make_class() {
+    class GeneratedCounter {
+        priv value: Int;
+        fun init(value: Int) { self.value = value; }
+        pub fun read() Int { return self.value; }
+    }
+}
+
+struct Box { value: Int }
+record Pair { first: Int, second: Int }
+enum Choice { None, Some(Int) }
+@error enum Failure { Oops }
+
+fun might_fail() Int!Failure {
+    fail Failure.Oops;
+    return 0;
+}
+
+macro recover($value: expr) {
+    $value or err {
+        if err == Failure.Oops { 9 } else { 0 }
+    }
+}
+
+macro extract($value: expr) {
+    case $value {
+        Choice.Some(payload) { return payload; }
+        Choice.None() { return 0; }
+    }
+}
+
+macro sum_pair($value: expr) {
+    case $value {
+        Pair { first, second } { return first + second; }
+    }
+}
+
+fun read_choice(choice: Choice) Int {
+    extract!(choice)
+    return -1;
+}
+
+fun read_pair(pair: Pair) Int {
+    sum_pair!(pair)
+    return -1;
+}
+
+make_function!()
+make_class!()
+
+fun helper() Int { return 100; }
+
+fun main() Int {
+    var temporary: Int = 20;
+    local_value!(first, temporary);
+    local_value!(second, temporary);
+    if first != 27 || second != 27 || temporary != 20 { return 1; }
+
+    fresh_value!(third);
+    fresh_value!(fourth);
+    if third != 3 || fourth != 3 { return 2; }
+
+    if use_helper!(temporary) != 25 { return 3; }
+    var box: Box = Box{ value: 9 };
+    if read_member!(box) != 9 { return 4; }
+    if generated(11) != 11 { return 5; }
+    if read_choice(Choice.Some(12)) != 12 { return 6; }
+    var pair: Pair = Pair{ first: 4, second: 8 };
+    if read_pair(pair) != 12 { return 7; }
+    if recover!(might_fail()) != 9 { return 8; }
+    var range_total: Int = 0;
+    sum_range!(range_total);
+    if range_total != 3 { return 9; }
+    var counter: GeneratedCounter = new GeneratedCounter(13);
+    if counter.read() != 13 { return 10; }
+    return 0;
+}

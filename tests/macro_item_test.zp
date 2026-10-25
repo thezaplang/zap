@@ -1,0 +1,22 @@
+macro generate() {
+    fun generated() Int { return 7; }
+    enum Generated { Ready, Failed }
+}
+
+macro forward($declaration: item) { $declaration }
+
+fun main() Int {
+    if generated() != 7 {
+        return 1;
+    }
+    if Generated.Ready == Generated.Failed {
+        return 2;
+    }
+    if forwarded() != 3 {
+        return 3;
+    }
+    return 0;
+}
+
+generate!()
+forward!(fun forwarded() Int { return 3; })

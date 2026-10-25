@@ -1,0 +1,7 @@
+macro checked($input: source) expr {
+    panic("unsupported DSL input");
+}
+
+fun main() Int {
+    return checked!{invalid};
+}

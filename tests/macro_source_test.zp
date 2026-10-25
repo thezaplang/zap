@@ -1,0 +1,16 @@
+macro source_query($query: source) {
+    prepare(sourceText($query), sourceArguments($query))
+}
+
+fun prepare(query: String, first: Int, second: Int) Int {
+    if query != "SELECT * FROM data WHERE a = ? AND b = ?" { return 1; }
+    if first != 7 { return 2; }
+    if second != 9 { return 3; }
+    return 0;
+}
+
+fun main() Int {
+    var a: Int = 6;
+    var b: Int = 9;
+    return source_query!{SELECT * FROM data WHERE a = ${a + 1} AND b = ${b}};
+}

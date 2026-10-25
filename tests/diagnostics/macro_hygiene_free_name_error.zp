@@ -1,0 +1,6 @@
+macro accidental_capture() { caller_local }
+
+fun main() Int {
+    var caller_local: Int = 7;
+    return accidental_capture!();
+}

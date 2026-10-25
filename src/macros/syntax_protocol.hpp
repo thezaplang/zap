@@ -1,0 +1,161 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <variant>
+#include <vector>
+
+namespace zap::ctfe {
+
+inline constexpr uint16_t SyntaxProtocolVersion = 1;
+inline constexpr size_t MaxSyntaxMessageBytes = 16 * 1024 * 1024;
+inline constexpr size_t MaxSyntaxEntries = 100'000;
+inline constexpr size_t MaxSyntaxNesting = 32;
+inline constexpr uint32_t GeneratedSyntaxContext = UINT32_MAX;
+
+struct SyntaxSpan {
+    std::string sourceName;
+    uint64_t line = 0;
+    uint64_t column = 0;
+    uint64_t offset = 0;
+    uint64_t length = 0;
+};
+
+struct SyntaxSource;
+
+struct SyntaxToken {
+    uint32_t type = 0;
+    std::string value;
+    std::string spelling;
+    SyntaxSpan span;
+    uint32_t context = 0;
+    std::shared_ptr<const SyntaxSource> sourceFragment;
+};
+
+using SyntaxTokenIdentity = std::tuple<
+    uint32_t,
+    std::string_view,
+    std::string_view,
+    uint32_t,
+    std::string_view,
+    uint64_t,
+    uint64_t,
+    uint64_t,
+    uint64_t>;
+
+inline SyntaxTokenIdentity syntaxTokenIdentity(const SyntaxToken& token) {
+    return {token.type,
+        token.value,
+        token.spelling,
+        token.context,
+        token.span.sourceName,
+        token.span.line,
+        token.span.column,
+        token.span.offset,
+        token.span.length};
+}
+
+struct SyntaxTokens {
+    std::vector<SyntaxToken> tokens;
+};
+
+struct SyntaxOffset {
+    uint64_t line = 0;
+    uint64_t column = 0;
+    uint64_t offset = 0;
+};
+
+struct SyntaxInterpolation {
+    SyntaxSpan span;
+    uint64_t bodyBegin = 0;
+    uint64_t bodyEnd = 0;
+    SyntaxTokens expression;
+};
+
+struct SyntaxSource {
+    std::string text;
+    std::string sourceName;
+    std::vector<SyntaxOffset> offsets;
+    std::vector<SyntaxInterpolation> interpolations;
+};
+
+// The receiver validates these fragments with its parser before using them.
+// The wire format carries syntax, never compiler-owned AST pointers.
+struct SyntaxExpr {
+    SyntaxTokens syntax;
+};
+
+struct SyntaxItem {
+    // Top-level macro output is a (possibly empty) declaration list. The typed
+    // capture `item` is distinct: it accepts exactly one declaration.
+    SyntaxTokens syntax;
+};
+
+using SyntaxValue = std::variant<SyntaxTokens, SyntaxSource, SyntaxExpr, SyntaxItem>;
+
+enum class SyntaxContext : uint8_t {
+    Expression = 1,
+    Statement = 2,
+    Type = 3,
+    Item = 4,
+};
+
+enum class SyntaxSeverity : uint8_t {
+    Error = 1,
+    Warning = 2,
+    Note = 3
+};
+
+struct SyntaxDiagnostic {
+    SyntaxSeverity severity = SyntaxSeverity::Error;
+    std::string code;
+    std::string message;
+    SyntaxSpan span;
+};
+
+struct SyntaxMacroRequest {
+    uint16_t version = SyntaxProtocolVersion;
+    std::string definitionId;
+    SyntaxSpan invocation;
+    SyntaxContext expected = SyntaxContext::Expression;
+    SyntaxValue input;
+};
+
+struct SyntaxMacroResult {
+    uint16_t version = SyntaxProtocolVersion;
+    std::optional<SyntaxValue> output;
+    std::vector<SyntaxDiagnostic> diagnostics;
+};
+
+enum class SyntaxProtocolError {
+    UnsupportedVersion,
+    InvalidMessage,
+    LimitExceeded,
+};
+
+template <typename T> using SyntaxProtocolOutcome = std::variant<T, SyntaxProtocolError>;
+
+SyntaxProtocolOutcome<std::string> encodeRequest(
+    const SyntaxMacroRequest& request,
+    size_t maxBytes = MaxSyntaxMessageBytes
+);
+// Location-neutral key. Executions that observe locations additionally compare
+// the full wire request. Captures are restored by input ordinal, never old
+// marks.
+SyntaxProtocolOutcome<std::string> encodeCacheRequest(
+    const SyntaxMacroRequest& request,
+    size_t maxBytes
+);
+SyntaxProtocolOutcome<SyntaxMacroRequest> decodeRequest(std::string_view bytes);
+SyntaxProtocolOutcome<std::string> encodeResult(
+    const SyntaxMacroResult& result,
+    size_t maxBytes = MaxSyntaxMessageBytes
+);
+SyntaxProtocolOutcome<SyntaxMacroResult> decodeResult(std::string_view bytes);
+
+} // namespace zap::ctfe

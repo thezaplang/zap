@@ -1,0 +1,30 @@
+import "core" { StringView };
+
+pub fun twice(value: Int) Int {
+    return value * 2;
+}
+
+@ctfe
+fun append_suffix(query: SyntaxSource) SyntaxExpr {
+    var captured: SyntaxTokens = syntaxExprTokens(sourceInterpolation(query, 0));
+    return syntaxExprFromTokens(syntaxConcat(syntaxTokens("("),
+        syntaxConcat(captured, syntaxTokens(") + \"!\""))));
+}
+
+@ctfe
+fun define_borrower() SyntaxItem {
+    if twice(21) != 42 { panic("ordinary helper failed"); }
+    return syntaxItem("fun borrowed(value: StringView) StringView borrows(value) { return value; }");
+}
+
+pub macro suffix($query: source) expr {
+    return append_suffix(query);
+}
+
+pub macro borrower($query: source) item {
+    return define_borrower();
+}
+
+pub macro forward($query: source) expr {
+    return sourceInterpolation(query, 0);
+}

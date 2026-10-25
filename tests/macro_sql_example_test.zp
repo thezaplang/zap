@@ -1,0 +1,13 @@
+import "../example/sql/prepared";
+
+fun main() Int {
+    var malicious: String = "' OR 1=1 --";
+    var role: String = "admin";
+    var query = prepared.sql!{SELECT * FROM users WHERE name = ${malicious} AND role = ${role}};
+
+    if query.text != "SELECT * FROM users WHERE name = ? AND role = ?" { return 1; }
+    if query.parameters.len() != 2 { return 2; }
+    if query.parameters.at(0) != malicious { return 3; }
+    if query.parameters.at(1) != role { return 4; }
+    return 0;
+}

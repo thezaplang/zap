@@ -10,10 +10,10 @@
 
 class ExtensionDecl : public TopLevel {
 public:
-  std::vector<std::unique_ptr<TypeNode>> genericParams_;
-  std::unique_ptr<TypeNode> targetType_;
-  std::vector<GenericConstraint> genericConstraints_;
-  std::vector<std::unique_ptr<FunDecl>> methods_;
+    std::vector<std::unique_ptr<TypeNode>> genericParams_;
+    std::unique_ptr<TypeNode> targetType_;
+    std::vector<GenericConstraint> genericConstraints_;
+    std::vector<std::unique_ptr<FunDecl>> methods_;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

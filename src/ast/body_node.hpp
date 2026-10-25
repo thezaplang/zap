@@ -7,23 +7,21 @@
 
 class BodyNode : public ExpressionNode {
 public:
-  std::vector<std::unique_ptr<Node>> statements;
-  std::unique_ptr<ExpressionNode> result;
+    std::vector<std::unique_ptr<Node>> statements;
+    std::unique_ptr<ExpressionNode> result;
 
-  BodyNode() noexcept = default;
-  ~BodyNode() noexcept override = default;
+    BodyNode() noexcept = default;
+    ~BodyNode() noexcept override = default;
 
-  void addStatement(std::unique_ptr<Node> statement) {
-    if (statement) {
-      statements.push_back(std::move(statement));
-    } else {
-      std::cerr << "Cannot add a null statement to BodyNode" << std::endl;
+    void addStatement(std::unique_ptr<Node> statement) {
+        if (statement) {
+            statements.push_back(std::move(statement));
+        } else {
+            std::cerr << "Cannot add a null statement to BodyNode" << std::endl;
+        }
     }
-  }
 
-  void setResult(std::unique_ptr<ExpressionNode> res) {
-    result = std::move(res);
-  }
+    void setResult(std::unique_ptr<ExpressionNode> res) { result = std::move(res); }
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    void accept(Visitor& v) override { v.visit(*this); }
 };

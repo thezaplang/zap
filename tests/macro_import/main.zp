@@ -1,0 +1,14 @@
+import "helper.zp" as helper { twice as double };
+
+fun main() Int {
+    var answer: helper.int_type!() = double!(20) + helper.twice!(1);
+    if answer != 42 {
+        return 1;
+    }
+    if later!() != 7 {
+        return 2;
+    }
+    return 0;
+}
+
+macro later() { 7 }

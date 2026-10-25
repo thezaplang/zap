@@ -1,0 +1,5 @@
+fun helper() Int { return 5; }
+
+pub macro use_helper($value: expr) {
+    $value + helper()
+}

@@ -464,6 +464,29 @@ EXTRA_TESTS = [
         "compile_flags": ["-o"],
         "exit": 1,
         "stderr_pattern": "missing value for flag '-o'"
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Supported linker selection is accepted",
+        "compile_flags": ["-fuse-ld=bfd", "-c"],
+        "output_file": "/tmp/zap-fuse-ld-valid.o"
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Unknown linker selection is rejected",
+        "compile_flags": ["-fuse-ld=invalid"],
+        "exit": 1,
+        "stderr_pattern": "unknown linker 'invalid' in -fuse-ld flag"
+    },
+    {
+        "file": "tests/valid.zp",
+        "type": "compile",
+        "desc": "Explicit output cannot select multiple text formats",
+        "compile_flags": ["-emit-llvm", "-emit-zir", "-o", "/tmp/zap-flag-conflict.ll"],
+        "exit": 1,
+        "stderr_pattern": "cannot use -o when emitting multiple text outputs"
     }
 ]
 

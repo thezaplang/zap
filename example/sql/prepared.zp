@@ -1,0 +1,18 @@
+pub record PreparedQuery {
+    text: String;
+    parameters: List<String>;
+}
+
+pub fun prepare(text: String, arguments: ...String) PreparedQuery {
+    var parameters = new List<String>();
+    var index: Int = 0;
+    while index < arguments.len {
+        parameters.push(arguments[index]);
+        index += 1;
+    }
+    return PreparedQuery{text: text, parameters: parameters};
+}
+
+pub macro sql($query: source) {
+    prepare(sourceText($query), sourceArguments($query))
+}

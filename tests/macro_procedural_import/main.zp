@@ -1,0 +1,14 @@
+import "helper.zp" as helper { value, check, nested };
+
+fun hidden() Int { return 1; }
+
+fun main() Int {
+    var temporary: Int = 5;
+    var answer: Int = value!{};
+    check!{};
+    check!{};
+    nested!();
+    if answer != 42 { return 1; }
+    if temporary != 5 { return 2; }
+    return 0;
+}

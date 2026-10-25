@@ -1,0 +1,41 @@
+macro answer($query: source) expr {
+    var count: Int = 0;
+    while count < 3 { count = count + 1; }
+    if query.text == "answer" && count == 3 {
+        return syntaxExpr("40 + 2");
+    }
+    panic("expected answer");
+}
+
+macro generated($input: source) item {
+    return syntaxItem("fun generated_answer() Int { return 42; }");
+}
+
+macro integer($input: source) type {
+    return syntaxTokens("Int");
+}
+
+macro check($input: source) stmt {
+    return syntaxTokens("if generated_answer() != 42 { return 2; }");
+}
+
+macro forward($input: tokens) stmt {
+    return input;
+}
+
+generated!{}
+
+fun returned_answer() Int {
+    return answer!{answer};
+}
+
+fun main() Int {
+    answer!{answer};
+    if returned_answer() != 42 { return 4; }
+    var value: integer!{} = answer!{answer};
+    if value != 42 { return 1; }
+    check!{};
+    forward!(var captured: Int = 7;);
+    if captured != 7 { return 3; }
+    return 0;
+}

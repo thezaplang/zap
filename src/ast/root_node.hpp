@@ -4,20 +4,22 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+
 class RootNode : public Node {
 public:
-  std::vector<std::unique_ptr<Node>> children;
+    std::vector<std::unique_ptr<Node>> children;
 
-  RootNode() noexcept = default;
+    RootNode() noexcept = default;
 
-  ~RootNode() noexcept override = default;
+    ~RootNode() noexcept override = default;
 
-  void addChild(std::unique_ptr<Node> child) {
-    if (child) {
-      children.push_back(std::move(child));
-    } else {
-      std::cerr << "Cannot add a null child to RootNode" << std::endl;
+    void addChild(std::unique_ptr<Node> child) {
+        if (child) {
+            children.push_back(std::move(child));
+        } else {
+            std::cerr << "Cannot add a null child to RootNode" << std::endl;
+        }
     }
-  }
-  void accept(Visitor &v) override { v.visit(*this); }
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

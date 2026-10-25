@@ -83,10 +83,16 @@ zap_type_layout_dep = declare_dependency(link_with : zap_type_layout, include_di
 
 zap_sema = static_library('zap_sema',
                           'src/sema/binder.cpp',
+                          'src/sema/binder_ctfe.cpp',
+                          'src/sema/symbol.cpp',
+                          'src/sema/binder_names.cpp',
+                          'src/sema/binder_members.cpp',
+                          'src/sema/binder_loops.cpp',
                           'src/sema/binder_calls.cpp',
                           'src/sema/binder_conversions.cpp',
                           'src/sema/binder_declaration_binding.cpp',
                           'src/sema/binder_module_predeclare.cpp',
+                          'src/sema/binder_module_types.cpp',
                           'src/sema/binder_stmts.cpp',
                           'src/sema/binder_exprs.cpp',
                           'src/sema/binder_mutability.cpp',
@@ -101,16 +107,42 @@ zap_sema_dep = declare_dependency(link_with : zap_sema, include_directories : in
 
 zap_syntax = static_library('zap_syntax',
                             'src/lexer/lexer.cpp',
+                            'src/lexer/source_group.cpp',
+                            'src/macros/macro_expander.cpp',
+                            'src/macros/macro_meta.cpp',
+                            'src/macros/macro_parser.cpp',
+                            'src/macros/macro_template.cpp',
+                            'src/macros/ctfe_interpreter.cpp',
+                            'src/macros/ctfe_program.cpp',
+                            'src/macros/ctfe_semantics.cpp',
+                            'src/macros/ctfe_syntax.cpp',
+                            'src/macros/ctfe_provenance.cpp',
+                            'src/macros/syntax_bridge.cpp',
+                            'src/macros/syntax_protocol.cpp',
                             'src/parser/parser.cpp',
+                            'src/parser/parser_expressions.cpp',
+                            'src/parser/parser_statements.cpp',
+                            'src/parser/parser_types.cpp',
+                            'src/parser/parser_items.cpp',
+                            'src/parser/parser_patterns.cpp',
+                            'src/parser/parser_fragments.cpp',
                             'src/parser/parser_declarations.cpp',
+                            'src/parser/parser_macros.cpp',
+                            'src/parser/token_cursor.cpp',
+                            'src/token/token_tree.cpp',
                             dependencies : zap_support_dep,
                             include_directories : inc
 )
 zap_syntax_dep = declare_dependency(link_with : zap_syntax, include_directories : inc)
 
 zap_frontend = static_library('zap_frontend',
+                              'src/frontend/expanded_syntax.cpp',
+                              'src/frontend/ctfe_environment.cpp',
+                              'src/frontend/expanded_names.cpp',
                               'src/frontend/frontend_session.cpp',
+                              'src/frontend/macro_registry.cpp',
                               'src/frontend/module_loader.cpp',
+                              'src/frontend/module_outline.cpp',
                               'src/frontend/project_configuration.cpp',
                               dependencies : [zap_syntax_dep, zap_sema_dep, tomlc17_dep],
                               include_directories : inc
@@ -190,12 +222,61 @@ if doxygen.found()
 endif
 
 if get_option('build_testing')
+    test('stream', executable('zap-stream-tests', 'tests/cpp/stream_test.cpp',
+                             dependencies : libzap_dep))
+    test('macro-expansion-pipeline', executable('zap-macro-expansion-pipeline-tests',
+                                                'tests/cpp/macro_expansion_pipeline_test.cpp',
+                                                dependencies : zap_frontend_dep))
+    test('procedural-macros', executable('zap-procedural-macro-tests',
+                                         'tests/cpp/procedural_macro_test.cpp',
+                                         dependencies : zap_frontend_dep))
+    test('ctfe-interpreter', executable('zap-ctfe-interpreter-tests',
+                                        'tests/cpp/ctfe_interpreter_test.cpp',
+                                        dependencies : zap_syntax_dep))
+    test('syntax-protocol', executable('zap-syntax-protocol-tests',
+                                       'tests/cpp/syntax_protocol_test.cpp',
+                                       dependencies : zap_syntax_dep))
+    test('macro-expander', executable('zap-macro-expander-tests',
+                                      'tests/cpp/macro_expander_test.cpp',
+                                      dependencies : zap_frontend_dep))
+    test('frontend-outline-graph', executable('zap-frontend-outline-graph-tests',
+                                              'tests/cpp/frontend_outline_graph_test.cpp',
+                                              cpp_args : ['-DZAP_TEST_CORE_DIR="' + meson.current_source_dir() / 'core' + '"'],
+                                              dependencies : zap_frontend_dep))
+    test('module-outline', executable('zap-module-outline-tests',
+                                       'tests/cpp/module_outline_test.cpp',
+                                       dependencies : zap_frontend_dep))
+    test('macro-parser', executable('zap-macro-parser-tests',
+                                    'tests/cpp/macro_parser_test.cpp',
+                                    dependencies : zap_syntax_dep))
+    test('parser-fragments', executable('zap-parser-fragment-tests',
+                                        'tests/cpp/parser_fragment_test.cpp',
+                                        dependencies : zap_syntax_dep))
+    test('token-tree', executable('zap-token-tree-tests',
+                                  'tests/cpp/token_tree_test.cpp',
+                                  dependencies : zap_syntax_dep))
+    test('token-syntax', executable('zap-token-syntax-tests',
+                                    'tests/cpp/token_syntax_test.cpp',
+                                    dependencies : zap_syntax_dep))
+    test('source-group', executable('zap-source-group-tests',
+                                    'tests/cpp/source_group_test.cpp',
+                                    dependencies : zap_syntax_dep))
+    test('token-cursor', executable('zap-token-cursor-tests',
+                                    'tests/cpp/token_cursor_test.cpp',
+                                    dependencies : zap_syntax_dep))
     test('parser-extensions', executable('zap-parser-extension-tests',
                                          'tests/cpp/parser_extension_test.cpp',
                                          dependencies : zap_syntax_dep))
     test('frontend-session', executable('zap-frontend-session-tests',
                                        'tests/cpp/frontend_session_test.cpp',
                                        dependencies : libzap_dep))
+    test('macro-diagnostics', executable('zap-macro-diagnostics-tests',
+                                        'tests/cpp/macro_diagnostics_test.cpp',
+                                        cpp_args : ['-DZAP_TEST_SOURCE_DIR="' + meson.current_source_dir() + '"'],
+                                        dependencies : libzap_dep))
+    test('expanded-syntax', executable('zap-expanded-syntax-tests',
+                                      'tests/cpp/expanded_syntax_test.cpp',
+                                      dependencies : libzap_dep))
     test('type-identity', executable('zap-type-identity-tests', 'tests/cpp/type_identity_test.cpp', dependencies : zap_type_system_dep))
     test('conversions', executable('zap-conversion-tests', 'tests/cpp/conversion_test.cpp', dependencies : zap_sema_conversions_dep))
     test('type-layout', executable('zap-type-layout-tests', 'tests/cpp/type_layout_test.cpp', dependencies : zap_type_layout_dep))
@@ -203,6 +284,79 @@ if get_option('build_testing')
                                               'tests/cpp/project_configuration_test.cpp',
                                               dependencies : zap_frontend_dep))
     if get_option('build_compiler')
+        test('macro-pipeline-ownership-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_pipeline/main.zp'
+             ], depends : zapc)
+        test('macro-module-helpers-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_module_helpers_test.zp'
+             ], depends : zapc)
+        test('macro-structured-syntax-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_structured_syntax_test.zp'
+             ], depends : zapc)
+        test('macro-expansion-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expansion_semantics_test.zp'
+             ], depends : zapc)
+        test('macro-hygiene-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_hygiene/main.zp'
+             ], depends : zapc)
+        test('macro-expanded-names-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_names_test.zp'
+             ], depends : zapc)
+        test('macro-expanded-borrow-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_borrow_test.zp'
+             ], depends : zapc)
+        test('macro-expanded-imports-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_expanded_imports/main.zp'
+             ], depends : zapc)
+        test('macro-expanded-stdlib-roundtrip', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_macro_expansion_roundtrip.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/string_view_stdlib_test.zp',
+                 'with-prelude'
+             ], depends : zapc)
+        test('emit-expanded-cli', find_program('bash'),
+             args : [
+                 meson.current_source_dir() / 'tests/scripts/check_emit_expanded.sh',
+                 zapc.full_path(),
+                 meson.current_source_dir() / 'tests/macro_import/main.zp',
+                 meson.current_source_dir() / 'tests/snapshots/macro_import.expanded.snap',
+                 meson.current_source_dir() / 'tests/diagnostics/macro_hygiene_free_name_error.zp',
+                 meson.current_build_dir() / 'emit-expanded-cli.zp'
+             ],
+             depends : zapc)
+        test('syntax-nesting-cli', find_program('python3'),
+             args : [meson.current_source_dir() / 'tests/scripts/check_syntax_nesting.py',
+                     zapc.full_path()],
+             depends : zapc)
+        test('ctfe-validation-cli', find_program('python3'),
+             args : [meson.current_source_dir() / 'tests/scripts/check_ctfe_validation.py',
+                     zapc.full_path()],
+             depends : zapc)
         test('zir-verifier', executable('zap-zir-verifier-tests', 'tests/cpp/zir_verifier_test.cpp', dependencies : zap_zir_verifier_dep))
         test('ownership-lowering', executable('zap-ownership-lowering-tests', 'tests/cpp/ownership_lowering_test.cpp', dependencies : zap_zir_verifier_dep))
         test('borrow-analysis', executable('zap-borrow-analysis-tests', 'tests/cpp/borrow_analysis_test.cpp', dependencies : zap_zir_verifier_dep))

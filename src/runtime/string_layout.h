@@ -10,11 +10,11 @@
 #define ZAP_STRING_IMMORTAL_REFCOUNT INT64_MIN
 
 typedef struct {
-  int64_t refs;
-  int64_t len;
+    int64_t refs;
+    int64_t len;
 } zap_string_header_t;
 
 typedef struct {
-  const char *ptr;
-  int64_t len;
+    const char* ptr;
+    int64_t len;
 } zap_string_t;

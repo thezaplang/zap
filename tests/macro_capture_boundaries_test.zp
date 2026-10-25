@@ -1,0 +1,47 @@
+macro double($x: expr) { $x * 2 }
+macro subtract($a: expr, $b: expr) { $a - $b }
+macro indexed($x: expr) { $x[0] }
+macro sum($xs: expr...) {
+    for $x in $xs separated by { + } { $x * 2 }
+}
+macro pack_call($xs: expr...) { add($xs) }
+macro same_type($t: type) { $t }
+macro typed_value($t: type, $x: expr) { var result: $t = $x; }
+macro first_type($ts: type...) { $ts.first }
+macro inner($x: expr) { $x * 2 }
+macro outer($x: expr) { inner!{$x} }
+macro deep($x: expr) { outer!{$x} }
+macro raw($query: source) { sourceText($query) }
+macro foreign() { raw!{SELECT `odd` @ # ?} }
+macro pass($x: expr) { $x }
+macro forward($m: ident) { $m!{SELECT `odd` @ # ?} }
+macro forward_expr($m: ident, $x: expr) { $m!{$x} }
+macro set($x: expr) { $x = 9; }
+
+struct Pair<A, B> { first: A; second: B; }
+fun add(a: Int, b: Int) Int { return a + b; }
+fun combine<A, B>(a: A, b: B) Int { return 7; }
+
+fun main() Int {
+    var name: Int = 2;
+    if double!(1 + name) != 6 { return 1; }
+    if subtract!(10, 2 + 3) != 5 { return 2; }
+    if sum!(1 + 2, 3 - 1,) != 10 { return 3; }
+    if pack_call!(1 + 2, 3 - 1) != 5 { return 4; }
+    if sum!(combine<Int, Int>(1, 2), 3) != 20 { return 5; }
+    var pair: same_type!(Pair<Int, Int>);
+    var nested: same_type!(Pair<Pair<Int, Int>, Bool>);
+    var first: first_type!(Pair<Int, Int>, Bool);
+    if outer!(1 + name) != 6 { return 6; }
+    if deep!(1 + name) != 6 { return 7; }
+    if foreign!() != "SELECT `odd` @ # ?" { return 8; }
+    if pass!(raw!{SELECT `odd` @ # ?}) != "SELECT `odd` @ # ?" { return 9; }
+    var values: [2]Int = {4, 8};
+    if indexed!(values) != 4 { return 10; }
+    if forward!(raw) != "SELECT `odd` @ # ?" { return 11; }
+    if forward_expr!(inner, 1 + name) != 6 { return 12; }
+    set!(values[1]);
+    if values[1] != 9 { return 13; }
+    typed_value!(Pair<Int, Int>, Pair<Int, Int>{first: 1, second: 2});
+    return 0;
+}

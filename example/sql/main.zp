@@ -1,0 +1,18 @@
+import "prepared";
+
+fun main() Int {
+    var supplied_name: String = "' OR 1=1 --";
+    var account_id: Int = 42;
+    var query = prepared.sql!{
+        SELECT * FROM accounts
+        WHERE name = ${supplied_name} AND id = ${toString(account_id)}
+    };
+
+    if query.text != "\n        SELECT * FROM accounts\n        WHERE name = ? AND id = ?\n    " {
+        return 1;
+    }
+    if query.parameters.len() != 2 { return 2; }
+    if query.parameters.at(0) != supplied_name { return 3; }
+    if query.parameters.at(1) != "42" { return 4; }
+    return 0;
+}

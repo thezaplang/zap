@@ -1,4 +1,5 @@
 #pragma once
+#include "../token/syntax_name.hpp"
 #include "body_node.hpp"
 #include "expr_node.hpp"
 #include "statement_node.hpp"
@@ -8,17 +9,27 @@
 
 class ForInNode : public StatementNode {
 public:
-  std::string indexName_;
-  std::string itemName_;
-  std::unique_ptr<ExpressionNode> iterable_;
-  std::unique_ptr<BodyNode> body_;
+    std::string indexName_;
+    std::string itemName_;
+    SyntaxName indexSyntaxName_;
+    SyntaxName itemSyntaxName_;
+    std::unique_ptr<ExpressionNode> iterable_;
+    std::unique_ptr<BodyNode> body_;
 
-  ForInNode() noexcept = default;
-  ForInNode(std::string indexName, std::string itemName,
-            std::unique_ptr<ExpressionNode> iterable,
-            std::unique_ptr<BodyNode> body)
-      : indexName_(std::move(indexName)), itemName_(std::move(itemName)),
-        iterable_(std::move(iterable)), body_(std::move(body)) {}
+    ForInNode() noexcept = default;
 
-  void accept(Visitor &v) override { v.visit(*this); }
+    ForInNode(
+        std::string indexName,
+        std::string itemName,
+        std::unique_ptr<ExpressionNode> iterable,
+        std::unique_ptr<BodyNode> body
+    )
+        : indexName_(std::move(indexName)),
+          itemName_(std::move(itemName)),
+          indexSyntaxName_(indexName_),
+          itemSyntaxName_(itemName_),
+          iterable_(std::move(iterable)),
+          body_(std::move(body)) {}
+
+    void accept(Visitor& v) override { v.visit(*this); }
 };

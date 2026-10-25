@@ -1,0 +1,6 @@
+macro number() { 1 + 2 }
+
+fun main() Int {
+    var value: number!() = 3;
+    return value;
+}

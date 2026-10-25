@@ -1,0 +1,36 @@
+macro select($value: expr, $fallback: expr...) {
+    when $fallback.isEmpty {
+        $value
+    } else {
+        $fallback.first
+    }
+}
+
+macro add_until($values: expr...) {
+    0 for ($value, $position) in $values {
+        when $position.index == 2 { $break; }
+        + $value
+    }
+}
+
+macro classify($value: ident) {
+    case $value.kind {
+        ident { 1 }
+        else { 0 }
+    }
+}
+
+macro numeric($value: expr) {
+    $let enabled = true;
+    when $enabled { $value } else { 0 }
+}
+
+fun main() Int {
+    var value: Int = 5;
+    if select!(value) != 5 { return 1; }
+    if select!(value, 9) != 9 { return 2; }
+    if add_until!(1, 2, 100) != 3 { return 3; }
+    if classify!(value) != 1 { return 4; }
+    if numeric!(7) != 7 { return 5; }
+    return 0;
+}

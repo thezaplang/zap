@@ -1,0 +1,6 @@
+macro typed($items: type...) { Int }
+
+fun main() Int {
+    var value: typed!(Int, 1 +) = 0;
+    return value;
+}

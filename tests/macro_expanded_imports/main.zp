@@ -1,0 +1,17 @@
+pub import "left/helper.zp" as left { read, private_number, answer as seven };
+import "right/helper.zp" as right;
+
+fun helper(value: Int) Int { return value + 1000; }
+
+fun main() Int {
+    var helper: Int = 99;
+    var result: private_number!() = read!(5);
+    if result != 12 || helper != 99 { return 1; }
+    if read!(true) != 10 || right.helper(2) != 102 { return 2; }
+    var object: left.Value = left.Value{ value: left.answer };
+    if object.value != 7 || seven != 7 || right.answer != 42 { return 3; }
+    left.count += 1;
+    if left.count != 4 { return 4; }
+    if left.abs(value = -7) != 7 || right.abs(input = -9) != 9 { return 5; }
+    return 0;
+}

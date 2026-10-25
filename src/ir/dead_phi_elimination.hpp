@@ -4,6 +4,6 @@
 
 namespace zir {
 
-void removeDeadPhiInstructions(Function &function);
+void removeDeadPhiInstructions(Function& function);
 
 } // namespace zir

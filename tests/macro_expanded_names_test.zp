@@ -1,0 +1,55 @@
+macro local($out: ident, $input: expr) {
+    var temporary: Int = 7;
+    var $out: Int = temporary + $input;
+}
+
+macro nested($out: ident, $input: expr) {
+    local!($out, $input);
+}
+
+macro accumulate($out: ident) {
+    for item, index in 0..3 { $out += item + index; }
+    var values: [2]Int = { 4, 5 };
+    for item, index in values { $out += item + index; }
+}
+
+record Pair { value: Int }
+@error enum Failure { Oops }
+fun failing() Int!Failure { fail Failure.Oops; return 0; }
+ext fun abs(value: Int) Int;
+
+macro read_pair($pair: expr, $input: expr) {
+    case $pair {
+        Pair { value } { return value + $input; }
+    }
+}
+
+fun unwrap(pair: Pair) Int {
+    var value: Int = 20;
+    read_pair!(pair, value)
+    return 0;
+}
+
+fun explicit_bindings(pair: Pair) Int {
+    case pair { Pair { value: payload } { return payload; } }
+    return 0;
+}
+
+fun combine(left: Int, right: Int) Int { return left * 10 + right; }
+
+fun main() Int {
+    var __zap_expanded_0: Int = 100;
+    var temporary: Int = 20;
+    nested!(first, temporary);
+    nested!(second, temporary);
+    if first != 27 || second != 27 || temporary != 20 { return 1; }
+    var total: Int = 0;
+    accumulate!(total);
+    if total != 16 { return 2; }
+    var pair: Pair = Pair{ value: 7 };
+    if unwrap(pair) != 27 || explicit_bindings(pair) != 7 { return 3; }
+    var recovered: Int = failing() or var failure { if failure == Failure.Oops { 9 } else { 0 } };
+    if recovered != 9 || abs(-7) != 7 || __zap_expanded_0 != 100 { return 4; }
+    if combine(right = 3, left = 2) != 23 { return 5; }
+    return 0;
+}

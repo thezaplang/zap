@@ -1,0 +1,31 @@
+import "core" { StringView, view, len, slice };
+import "facade" as helpers { suffix as decorated, borrower, forward };
+
+borrower!{}
+
+global var calls: Int = 0;
+
+fun owned() String {
+    calls = calls + 1;
+    return "zap";
+}
+
+fun twice(value: String) String {
+    return value;
+}
+
+fun main() Int {
+    var text: String = decorated!{SELECT ${owned()}};
+    if text != "zap!" || calls != 1 { return 1; }
+    var copy: String = text;
+    text = decorated!{SELECT ${owned()}};
+    if text != "zap!" || copy != "zap!" || calls != 2 { return 2; }
+    var forwarded: String = forward!{SELECT ${twice(copy)}};
+    if forwarded != "zap!" { return 3; }
+    var borrowed_view: StringView = borrowed(value = view(s = forwarded));
+    if len(borrowed_view) != 4 { return 4; }
+    var shortened: StringView = slice(s = borrowed_view, start = 0, len = 3);
+    if len(shortened) != 3 { return 5; }
+    if helpers.twice(21) != 42 { return 6; }
+    return 0;
+}

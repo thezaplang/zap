@@ -61,62 +61,113 @@ class RangeExpr;
 /// @brief Visitor interface with empty implementations to allow selective
 /// overrides.
 struct Visitor {
-  virtual ~Visitor() noexcept = default;
+    virtual ~Visitor() noexcept = default;
 
-  virtual void visit(Node &) {}
-  virtual void visit(RootNode &) {}
-  virtual void visit(TopLevel &) {}
-  virtual void visit(FunDecl &) {}
-  virtual void visit(ExtDecl &) {}
-  virtual void visit(BodyNode &) {}
-  virtual void visit(StatementNode &) {}
-  virtual void visit(BindingDecl &) {}
-  virtual void visit(ReturnNode &) {}
-  virtual void visit(IfNode &) {}
-  virtual void visit(IfTypeNode &) {}
-  virtual void visit(WhileNode &) {}
-  virtual void visit(ForNode &) {}
-  virtual void visit(ForInNode &) {}
-  virtual void visit(MemberAccessNode &) {}
-  virtual void visit(BreakNode &) {}
-  virtual void visit(ContinueNode &) {}
-  virtual void visit(EnumDecl &) {}
-  virtual void visit(RecordDecl &) {}
-  virtual void visit(TypeAliasDecl &) {}
-  virtual void visit(StructDeclarationNode &) {}
-  virtual void visit(StructLiteralNode &) {}
-  virtual void visit(ClassDecl &) {}
-  virtual void visit(InterfaceDecl &) {}
-  virtual void visit(ExtensionDecl &) {}
-  virtual void visit(CaseNode &) {}
-  virtual void visit(ImportNode &) {}
-  virtual void visit(ParameterNode &) {}
-  virtual void visit(TypeNode &) {}
-  virtual void visit(IndexAccessNode &) {}
-  virtual void visit(UnsafeBlockNode &) {}
-  virtual void visit(AsmStmtNode &) {}
-  virtual void visit(FailNode &) {}
-  virtual void visit(DeferNode &) {}
+    virtual void visit(Node&) {}
 
-  virtual void visit(ExpressionNode &) {}
-  virtual void visit(BinExpr &) {}
-  virtual void visit(RangeExpr &) {}
-  virtual void visit(TernaryExpr &) {}
-  virtual void visit(UnaryExpr &) {}
-  virtual void visit(CastExpr &) {}
-  virtual void visit(FunCall &) {}
-  virtual void visit(ArrayLiteralNode &) {}
-  virtual void visit(AssignNode &) {}
-  virtual void visit(NewExpr &) {}
-  virtual void visit(TryExpr &) {}
-  virtual void visit(FallbackExpr &) {}
-  virtual void visit(FailableHandleExpr &) {}
+    virtual void visit(RootNode&) {}
 
-  virtual void visit(ConstInt &) {}
-  virtual void visit(ConstFloat &) {}
-  virtual void visit(ConstString &) {}
-  virtual void visit(ConstChar &) {}
-  virtual void visit(ConstBool &) {}
-  virtual void visit(ConstId &) {}
-  virtual void visit(ConstNull &) {}
+    virtual void visit(TopLevel&) {}
+
+    virtual void visit(FunDecl&) {}
+
+    virtual void visit(ExtDecl&) {}
+
+    virtual void visit(BodyNode&) {}
+
+    virtual void visit(StatementNode&) {}
+
+    virtual void visit(BindingDecl&) {}
+
+    virtual void visit(ReturnNode&) {}
+
+    virtual void visit(IfNode&) {}
+
+    virtual void visit(IfTypeNode&) {}
+
+    virtual void visit(WhileNode&) {}
+
+    virtual void visit(ForNode&) {}
+
+    virtual void visit(ForInNode&) {}
+
+    virtual void visit(MemberAccessNode&) {}
+
+    virtual void visit(BreakNode&) {}
+
+    virtual void visit(ContinueNode&) {}
+
+    virtual void visit(EnumDecl&) {}
+
+    virtual void visit(RecordDecl&) {}
+
+    virtual void visit(TypeAliasDecl&) {}
+
+    virtual void visit(StructDeclarationNode&) {}
+
+    virtual void visit(StructLiteralNode&) {}
+
+    virtual void visit(ClassDecl&) {}
+
+    virtual void visit(InterfaceDecl&) {}
+
+    virtual void visit(ExtensionDecl&) {}
+
+    virtual void visit(CaseNode&) {}
+
+    virtual void visit(ImportNode&) {}
+
+    virtual void visit(ParameterNode&) {}
+
+    virtual void visit(TypeNode&) {}
+
+    virtual void visit(IndexAccessNode&) {}
+
+    virtual void visit(UnsafeBlockNode&) {}
+
+    virtual void visit(AsmStmtNode&) {}
+
+    virtual void visit(FailNode&) {}
+
+    virtual void visit(DeferNode&) {}
+
+    virtual void visit(ExpressionNode&) {}
+
+    virtual void visit(BinExpr&) {}
+
+    virtual void visit(RangeExpr&) {}
+
+    virtual void visit(TernaryExpr&) {}
+
+    virtual void visit(UnaryExpr&) {}
+
+    virtual void visit(CastExpr&) {}
+
+    virtual void visit(FunCall&) {}
+
+    virtual void visit(ArrayLiteralNode&) {}
+
+    virtual void visit(AssignNode&) {}
+
+    virtual void visit(NewExpr&) {}
+
+    virtual void visit(TryExpr&) {}
+
+    virtual void visit(FallbackExpr&) {}
+
+    virtual void visit(FailableHandleExpr&) {}
+
+    virtual void visit(ConstInt&) {}
+
+    virtual void visit(ConstFloat&) {}
+
+    virtual void visit(ConstString&) {}
+
+    virtual void visit(ConstChar&) {}
+
+    virtual void visit(ConstBool&) {}
+
+    virtual void visit(ConstId&) {}
+
+    virtual void visit(ConstNull&) {}
 };

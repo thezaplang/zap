@@ -1,0 +1,8 @@
+macro introduce() {
+    var hidden: Int = 7;
+}
+
+fun main() Int {
+    introduce!();
+    return hidden;
+}

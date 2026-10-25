@@ -1,0 +1,37 @@
+macro make_struct($fields: ident...) {
+    struct GeneratedStruct {
+        for $field in $fields separated by { , } { $field: Int }
+    }
+}
+
+macro make_enum($variants: ident...) {
+    enum GeneratedEnum {
+        for $variant in $variants separated by { , } { $variant }
+    }
+}
+
+macro make_functions($names: ident...) {
+    for $name in $names {
+        fun $name() Int { return 1; }
+    }
+}
+
+macro call_add($args: expr...) {
+    add(for $arg in $args separated by { , } { $arg })
+}
+
+fun add(a: Int, b: Int) Int { return a + b; }
+
+fun main() Int {
+    var value: GeneratedStruct = GeneratedStruct{left: 2, right: 3};
+    if value.left + value.right != 5 { return 1; }
+    if GeneratedEnum.Ready == GeneratedEnum.Failed { return 2; }
+    if first() + second() != 2 { return 3; }
+    if call_add!(2, 3,) != 5 { return 4; }
+    return 0;
+}
+
+make_struct!(left, right)
+make_enum!(Ready, Failed)
+make_functions!(first, second)
+make_functions!();

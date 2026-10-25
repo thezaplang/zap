@@ -4,6 +4,6 @@
 
 namespace zir {
 
-void lowerDeadOwnedResults(Module &module);
+void lowerDeadOwnedResults(Module& module);
 
 } // namespace zir

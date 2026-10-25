@@ -20,379 +20,414 @@
 
 namespace sema {
 
-std::string sanitizeTypeName(const std::string &value);
-bool isStringType(const std::shared_ptr<zir::Type> &type);
-bool isFailableType(const std::shared_ptr<zir::Type> &type);
-std::shared_ptr<zir::Type>
-failableValueType(const std::shared_ptr<zir::Type> &type);
-std::shared_ptr<zir::Type>
-failableErrorType(const std::shared_ptr<zir::Type> &type);
-std::shared_ptr<zir::RecordType>
-makeFailableType(const std::shared_ptr<zir::Type> &valueType,
-                 const std::shared_ptr<zir::Type> &errorType);
-std::string
-renderGenericTypeName(const std::string &baseName,
-                      const std::vector<std::shared_ptr<zir::Type>> &arguments);
+std::string sanitizeTypeName(const std::string& value);
+bool isStringType(const std::shared_ptr<zir::Type>& type);
+bool isFailableType(const std::shared_ptr<zir::Type>& type);
+std::shared_ptr<zir::Type> failableValueType(const std::shared_ptr<zir::Type>& type);
+std::shared_ptr<zir::Type> failableErrorType(const std::shared_ptr<zir::Type>& type);
+std::shared_ptr<zir::RecordType> makeFailableType(
+    const std::shared_ptr<zir::Type>& valueType,
+    const std::shared_ptr<zir::Type>& errorType
+);
+std::string renderGenericTypeName(
+    const std::string& baseName,
+    const std::vector<std::shared_ptr<zir::Type>>& arguments
+);
 std::string renderGenericCodegenName(
-    const std::string &baseName,
-    const std::vector<std::shared_ptr<zir::Type>> &arguments);
-std::shared_ptr<zir::RecordType>
-makeVariadicViewType(const std::shared_ptr<zir::Type> &elementType);
-bool isVariadicViewType(const std::shared_ptr<zir::Type> &type);
-bool containsUnresolvedGenericParameter(const std::shared_ptr<zir::Type> &type);
-std::unique_ptr<BoundExpression>
-makeDefaultValueExpr(const std::shared_ptr<zir::Type> &type);
-std::unique_ptr<BoundExpression>
-makeFailableValueExpr(std::unique_ptr<BoundExpression> valueExpr,
-                      const std::shared_ptr<zir::Type> &failableType);
-std::unique_ptr<BoundExpression>
-makeFailableErrorExpr(std::unique_ptr<BoundExpression> errorExpr,
-                      const std::shared_ptr<zir::Type> &failableType);
-std::vector<std::string> splitQualified(const std::string &value);
-bool extractQualifiedPath(const ExpressionNode *expr,
-                          std::vector<std::string> &parts);
-std::vector<std::shared_ptr<FunctionSymbol>>
-collectOverloads(const std::shared_ptr<Symbol> &symbol);
-bool sameFunctionSignature(const FunctionSymbol &lhs,
-                           const FunctionSymbol &rhs);
-bool stmtAlwaysReturns(const BoundStatement *stmt);
-bool blockAlwaysReturns(const BoundBlock *block);
-std::unique_ptr<BoundExpression>
-deriveValueExpressionFromBlock(const BoundBlock &block);
-std::unique_ptr<BoundExpression>
-deriveValueExpressionFromIf(const BoundIfStatement &stmt);
+    const std::string& baseName,
+    const std::vector<std::shared_ptr<zir::Type>>& arguments
+);
+std::shared_ptr<zir::RecordType> makeVariadicViewType(
+    const std::shared_ptr<zir::Type>& elementType
+);
+bool isVariadicViewType(const std::shared_ptr<zir::Type>& type);
+bool containsUnresolvedGenericParameter(const std::shared_ptr<zir::Type>& type);
+std::unique_ptr<BoundExpression> makeDefaultValueExpr(const std::shared_ptr<zir::Type>& type);
+std::unique_ptr<BoundExpression> makeFailableValueExpr(
+    std::unique_ptr<BoundExpression> valueExpr,
+    const std::shared_ptr<zir::Type>& failableType
+);
+std::unique_ptr<BoundExpression> makeFailableErrorExpr(
+    std::unique_ptr<BoundExpression> errorExpr,
+    const std::shared_ptr<zir::Type>& failableType
+);
+std::vector<std::string> splitQualified(const std::string& value);
+bool extractQualifiedPath(const ExpressionNode* expr, std::vector<std::string>& parts);
+std::vector<std::shared_ptr<FunctionSymbol>> collectOverloads(
+    const std::shared_ptr<Symbol>& symbol
+);
+bool stmtAlwaysReturns(const BoundStatement* stmt);
+bool blockAlwaysReturns(const BoundBlock* block);
+std::unique_ptr<BoundExpression> deriveValueExpressionFromBlock(const BoundBlock& block);
+std::unique_ptr<BoundExpression> deriveValueExpressionFromIf(const BoundIfStatement& stmt);
 
 class Binder : public Visitor {
 public:
-  Binder(zap::DiagnosticEngine &diag, bool allowUnsafe = true,
-         SemanticInfo *semanticInfo = nullptr, TargetInfo targetInfo = {});
-  std::unique_ptr<BoundRootNode> bind(RootNode &root);
-  std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo> &modules);
-  std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo *> modules);
+    Binder(
+        zap::DiagnosticEngine& diag,
+        bool allowUnsafe = true,
+        SemanticInfo* semanticInfo = nullptr,
+        TargetInfo targetInfo = {}
+    );
+    std::unique_ptr<BoundRootNode> bind(RootNode& root);
+    std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo>& modules);
+    std::unique_ptr<BoundRootNode> bind(std::vector<ModuleInfo*> modules);
 
-  void visit(RootNode &node) override;
-  void visit(ImportNode &node) override;
-  void visit(FunDecl &node) override;
-  void visit(ExtDecl &node) override;
-  void visit(ExtensionDecl &node) override;
-  void visit(BodyNode &node) override;
-  void visit(BindingDecl &node) override;
-  void visit(RangeExpr &node) override;
-  void visit(ReturnNode &node) override;
-  void visit(BinExpr &node) override;
-  void visit(TernaryExpr &node) override;
-  void visit(ConstInt &node) override;
-  void visit(ConstBool &node) override;
-  void visit(IfNode &node) override;
-  void visit(CaseNode &node) override;
-  void visit(IfTypeNode &node) override;
-  void visit(DeferNode &node) override;
-  void visit(WhileNode &node) override;
-  void visit(ForNode &node) override;
-  void visit(ForInNode &node) override;
-  void visit(MemberAccessNode &node) override;
-  void visit(IndexAccessNode &node) override;
-  void visit(BreakNode &node) override;
-  void visit(ContinueNode &node) override;
-  void visit(AssignNode &node) override;
-  void visit(FunCall &node) override;
-  void visit(ConstId &node) override;
-  void visit(ConstFloat &node) override;
-  void visit(ConstString &node) override;
-  void visit(ConstChar &node) override;
-  void visit(UnaryExpr &node) override;
-  void visit(CastExpr &node) override;
-  void visit(ArrayLiteralNode &node) override;
-  void visit(ConstNull &node) override;
-  void visit(EnumDecl &node) override;
-  void visit(TypeAliasDecl &node) override;
-  void visit(RecordDecl &node) override;
-  void visit(StructDeclarationNode &node) override;
-  void visit(ClassDecl &node) override;
-  void visit(StructLiteralNode &node) override;
-  void visit(UnsafeBlockNode &node) override;
-  void visit(AsmStmtNode &node) override;
-  void visit(NewExpr &node) override;
-  void visit(TryExpr &node) override;
-  void visit(FallbackExpr &node) override;
-  void visit(FailableHandleExpr &node) override;
-  void visit(FailNode &node) override;
+    void visit(RootNode& node) override;
+    void visit(ImportNode& node) override;
+    void visit(FunDecl& node) override;
+    void visit(ExtDecl& node) override;
+    void visit(ExtensionDecl& node) override;
+    void visit(BodyNode& node) override;
+    void visit(BindingDecl& node) override;
+    void visit(RangeExpr& node) override;
+    void visit(ReturnNode& node) override;
+    void visit(BinExpr& node) override;
+    void visit(TernaryExpr& node) override;
+    void visit(ConstInt& node) override;
+    void visit(ConstBool& node) override;
+    void visit(IfNode& node) override;
+    void visit(CaseNode& node) override;
+    void visit(IfTypeNode& node) override;
+    void visit(DeferNode& node) override;
+    void visit(WhileNode& node) override;
+    void visit(ForNode& node) override;
+    void visit(ForInNode& node) override;
+    void visit(MemberAccessNode& node) override;
+    void visit(IndexAccessNode& node) override;
+    void visit(BreakNode& node) override;
+    void visit(ContinueNode& node) override;
+    void visit(AssignNode& node) override;
+    void visit(FunCall& node) override;
+    void visit(ConstId& node) override;
+    void visit(ConstFloat& node) override;
+    void visit(ConstString& node) override;
+    void visit(ConstChar& node) override;
+    void visit(UnaryExpr& node) override;
+    void visit(CastExpr& node) override;
+    void visit(ArrayLiteralNode& node) override;
+    void visit(ConstNull& node) override;
+    void visit(EnumDecl& node) override;
+    void visit(TypeAliasDecl& node) override;
+    void visit(RecordDecl& node) override;
+    void visit(StructDeclarationNode& node) override;
+    void visit(ClassDecl& node) override;
+    void visit(StructLiteralNode& node) override;
+    void visit(UnsafeBlockNode& node) override;
+    void visit(AsmStmtNode& node) override;
+    void visit(NewExpr& node) override;
+    void visit(TryExpr& node) override;
+    void visit(FallbackExpr& node) override;
+    void visit(FailableHandleExpr& node) override;
+    void visit(FailNode& node) override;
 
 private:
-  struct RecordPatternResult {
-    std::unique_ptr<BoundCasePattern> pattern;
-    std::vector<std::shared_ptr<VariableSymbol>> bindings;
-    bool valid = true;
-  };
-
-  enum class MutablePlaceUse {
-    Assignment,
-    MutableReference,
-    Address,
-    AsmOutput,
-  };
-
-  zap::DiagnosticEngine &_diag;
-  SemanticInfo *semanticInfo_ = nullptr;
-  TargetInfo targetInfo_;
-  std::shared_ptr<SymbolTable> currentScope_;
-  std::shared_ptr<SymbolTable> builtinScope_;
-  std::unique_ptr<BoundRootNode> boundRoot_;
-
-  std::stack<std::unique_ptr<BoundExpression>> expressionStack_;
-  std::stack<std::unique_ptr<BoundStatement>> statementStack_;
-  std::unique_ptr<BoundBlock> currentBlock_;
-  std::vector<std::shared_ptr<zir::Type>> expectedExpressionTypes_;
-  mutable zir::TypeInterner typeInterner_;
-  mutable ConversionClassifier conversions_{typeInterner_, targetInfo_};
-
-  int loopDepth_ = 0;
-  size_t syntheticLoopCounter_ = 0;
-  int unsafeDepth_ = 0;
-  int unsafeTypeContextDepth_ = 0;
-  int externTypeContextDepth_ = 0;
-  bool allowUnsafe_ = true;
-
-  void pushScope();
-  void popScope();
-  bool canPassAsMutableReference(const BoundExpression &expression) const;
-  bool requireMutablePlace(const BoundExpression &expression, SourceSpan span,
-                           MutablePlaceUse use);
-
-  std::shared_ptr<FunctionSymbol> currentFunction_ = nullptr;
-  std::shared_ptr<FunctionSymbol> stringIndexFunction_ = nullptr;
-  std::string currentModuleId_;
-
-  struct ModuleState {
-    ModuleInfo *info = nullptr;
-    std::shared_ptr<SymbolTable> scope;
-    std::shared_ptr<ModuleSymbol> symbol;
-    bool valuesPredeclared = false;
-    bool finalImportsApplied = false;
-    bool valuesPreparationInProgress = false;
-  };
-  std::map<std::string, ModuleState> modules_;
-  std::unordered_map<const Node *, std::shared_ptr<FunctionSymbol>>
-      declaredFunctionSymbols_;
-  std::unordered_map<const TypeSymbol *, const RecordDecl *>
-      recordTypeDeclarationNodes_;
-  std::unordered_map<const TypeSymbol *, const StructDeclarationNode *>
-      structTypeDeclarationNodes_;
-  std::unordered_map<const TypeSymbol *, const ClassDecl *>
-      classTypeDeclarationNodes_;
-  std::unordered_map<const TypeSymbol *, std::string> typeDeclarationModuleIds_;
-  std::unordered_map<const FunctionSymbol *, const FunDecl *>
-      functionDeclarationNodes_;
-  std::unordered_map<const FunctionSymbol *, std::string>
-      functionDeclarationModuleIds_;
-  std::unordered_map<const FunctionSymbol *, std::vector<std::string>>
-      functionGenericParamNames_;
-  std::unordered_map<const FunctionSymbol *, const ExtensionDecl *>
-      extensionDeclarationNodes_;
-  std::unordered_map<std::string, std::shared_ptr<FunctionSymbol>>
-      genericFunctionInstantiations_;
-  std::unordered_map<std::string, std::shared_ptr<TypeSymbol>>
-      genericTypeInstantiations_;
-  std::unordered_map<const FunctionSymbol *, std::string>
-      genericFunctionDeclarationKeys_;
-  std::unordered_map<const FunctionSymbol *, bool> genericInstantiationEmitted_;
-  std::vector<std::unordered_map<std::string, std::shared_ptr<zir::Type>>>
-      activeGenericBindingsStack_;
-  std::vector<std::string> genericInstantiationInProgress_;
-  struct ClassInfo {
-    std::shared_ptr<TypeSymbol> typeSymbol;
-    std::shared_ptr<zir::ClassType> classType;
-    std::shared_ptr<FunctionSymbol> constructor;
-    std::shared_ptr<FunctionSymbol> destructor;
-    std::map<std::string, std::shared_ptr<VariableSymbol>> fields;
-    std::map<std::string, std::shared_ptr<Symbol>> methods;
-    int nextVirtualSlot = 0;
-    std::string ownerQualifiedName;
-  };
-  std::unordered_map<std::string, ClassInfo> classInfos_;
-  std::vector<std::string> currentClassStack_;
-
-  struct ExtensionInfo {
-    std::shared_ptr<zir::Type> targetType;
-    std::map<std::string, std::shared_ptr<Symbol>> methods;
-  };
-  std::unordered_map<std::string, ExtensionInfo> extensionInfos_;
-  std::vector<ExtensionInfo> genericExtensionInfos_;
-
-  struct InterfaceInfo {
-    std::shared_ptr<TypeSymbol> typeSymbol;
-    std::shared_ptr<zir::ClassType> classType;
-    std::map<std::string, std::shared_ptr<Symbol>> methods;
-  };
-  std::unordered_map<std::string, InterfaceInfo> interfaceInfos_;
-
-  std::shared_ptr<zir::ClassType>
-  resolveClassImplementsList(const ClassDecl &node,
-                             std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
-  void bindInterfaceConformances(
-      const ClassDecl &node, const std::shared_ptr<zir::ClassType> &classType,
-      ClassInfo &classInfo,
-      const std::vector<std::shared_ptr<zir::ClassType>> &interfaces);
-
-  std::unordered_map<const TypeNode *, std::shared_ptr<zir::Type>>
-      mapTypeCache_;
-
-  std::shared_ptr<zir::Type> mapType(const TypeNode &typeNode);
-  std::shared_ptr<zir::Type> mapTypeWithGenericBindings(
-      const TypeNode &typeNode,
-      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
-          &genericBindings);
-  bool isGenericTypeParameterName(std::string_view name) const;
-  std::shared_ptr<Symbol>
-  resolveQualifiedSymbol(const std::vector<std::string> &parts, SourceSpan span,
-                         SymbolKind expectedKind = SymbolKind::Variable,
-                         bool allowAnyKind = false);
-  std::shared_ptr<Symbol> resolveModuleMember(const std::string &moduleName,
-                                              const std::string &memberName,
-                                              SourceSpan span);
-  std::optional<int64_t> evaluateConstantInt(const BoundExpression *expr);
-  // Fold a binary expression with literal operands into a single literal.
-  // Returns nullptr when it cannot be folded.
-  std::unique_ptr<BoundExpression>
-  foldConstantBinary(const BoundBinaryExpression *binary);
-  std::string makeSyntheticLoopName(std::string_view prefix);
-  std::unique_ptr<BoundExpression>
-  applyConversion(std::unique_ptr<BoundExpression> expr,
-                  const Conversion &conversion);
-  std::unique_ptr<BoundExpression>
-  buildBinaryExpression(std::unique_ptr<BoundExpression> left,
-                        const std::string &op,
-                        std::unique_ptr<BoundExpression> right,
-                        SourceSpan leftSpan, SourceSpan rightSpan);
-  void error(SourceSpan span, const std::string &message);
-  std::string mangleName(const std::string &modulePath,
-                         const std::string &name) const;
-  std::string mangleFunctionName(const std::string &modulePath,
-                                 const FunctionSymbol &function) const;
-  std::string currentModuleLinkPath() const;
-  std::string displayTypeName(const std::string &moduleName,
-                              const std::string &name) const;
-  std::string renderTypeForUser(const std::shared_ptr<zir::Type> &type) const;
-  std::string functionSignatureKey(const FunctionSymbol &function) const;
-  std::string renderFunctionSignature(const FunctionSymbol &function) const;
-  zir::ResultBorrowContract resolveResultBorrowContract(
-      const std::optional<std::string> &source,
-      const std::vector<std::shared_ptr<VariableSymbol>> &parameters,
-      const std::shared_ptr<zir::Type> &returnType, bool returnsRef,
-      SourceSpan span);
-  std::shared_ptr<FunctionSymbol>
-  findFunctionBySignature(const std::shared_ptr<Symbol> &symbol,
-                          const FunctionSymbol &prototype) const;
-  struct MemberOverloadResult {
-    enum class Status {
-      NoMatch,
-      Match,
-      Ambiguous,
+    struct RecordPatternResult {
+        std::unique_ptr<BoundCasePattern> pattern;
+        std::vector<std::shared_ptr<VariableSymbol>> bindings;
+        bool valid = true;
     };
 
-    Status status = Status::NoMatch;
-    std::shared_ptr<FunctionSymbol> symbol;
-  };
-  MemberOverloadResult selectMemberOverload(
-      const std::vector<std::shared_ptr<FunctionSymbol>> &candidates,
-      const BoundExpression &receiver,
-      const std::vector<std::unique_ptr<BoundExpression>> &arguments,
-      const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
-      SourceSpan callSpan, bool calledOnType);
-  std::shared_ptr<OverloadSetSymbol>
-  addClassMethodOverload(ClassInfo &classInfo,
-                         const std::shared_ptr<FunctionSymbol> &method);
-  std::shared_ptr<OverloadSetSymbol>
-  addExtensionMethodOverload(const std::shared_ptr<zir::Type> &targetType,
-                             const std::shared_ptr<FunctionSymbol> &method);
-  std::vector<std::shared_ptr<FunctionSymbol>>
-  collectExtensionMethods(const std::shared_ptr<zir::Type> &targetType,
-                          const std::string &name) const;
-  bool extensionTargetMatches(const std::shared_ptr<zir::Type> &pattern,
-                              const std::shared_ptr<zir::Type> &target) const;
-  bool extensionMethodVisible(const FunctionSymbol &method) const;
-  int findOverriddenVtableSlot(const ClassInfo &classInfo,
-                               const FunctionSymbol &method) const;
-  std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(
-      const std::shared_ptr<FunctionSymbol> &baseFunction,
-      const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
-          &genericBindings,
-      SourceSpan callSpan);
-  std::unordered_map<std::string, std::shared_ptr<zir::Type>>
-  buildGenericBindings(
-      const FunctionSymbol &function,
-      const std::vector<std::unique_ptr<BoundExpression>> &arguments,
-      const std::vector<std::unique_ptr<TypeNode>> &explicitTypeArgs,
-      SourceSpan callSpan, std::string *failureReason = nullptr);
-  std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>
-  orderedGenericBindings(
-      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
-          &genericBindings) const;
-  std::shared_ptr<zir::Type> substituteGenericType(
-      std::shared_ptr<zir::Type> type,
-      const std::unordered_map<std::string, std::shared_ptr<zir::Type>>
-          &genericBindings) const;
-  bool validateGenericConstraints(
-      const std::vector<GenericConstraint> &constraints,
-      std::unordered_map<std::string, std::shared_ptr<zir::Type>> &bindings,
-      std::string *failureReason = nullptr);
-  std::shared_ptr<TypeSymbol>
-  instantiateGenericTypeSymbol(const std::shared_ptr<TypeSymbol> &baseSymbol,
-                               const TypeNode &typeNode);
-  std::unique_ptr<BoundExpression>
-  bindExpressionWithExpected(ExpressionNode *expr,
-                             std::shared_ptr<zir::Type> expectedType);
-  std::shared_ptr<zir::Type> currentExpectedExpressionType() const;
-  bool bindSizeOfBuiltinCall(FunCall &node);
-  bool bindWeakBuiltinCall(FunCall &node);
-  int typeBitWidth(std::shared_ptr<zir::Type> type) const;
-  std::unique_ptr<BoundBlock> bindBody(BodyNode *body, bool createScope);
-  std::unique_ptr<BoundBlock> bindCaseArmBody(
-      const CaseArm &arm, const std::shared_ptr<VariableSymbol> &payloadBinding,
-      const std::vector<std::shared_ptr<VariableSymbol>> &recordBindings);
-  bool
-  hasExhaustiveCaseCoverage(const std::shared_ptr<zir::Type> &scrutineeType,
-                            const std::unordered_set<int64_t> &coveredVariants,
-                            bool hasIrrefutableRecordPattern) const;
-  RecordPatternResult
-  bindCaseRecordPattern(const CasePattern &record,
-                        std::shared_ptr<zir::RecordType> type);
-  void bindCaseStatement(CaseNode &node);
-  void initializeBuiltins();
-  void predeclareModuleTypes(ModuleState &module);
-  void predeclareModuleAliases(ModuleState &module);
-  void predeclareModuleValues(ModuleState &module);
-  void applyImports(ModuleState &module, bool allowIncomplete = false);
-  void ensureModuleValuesReady(ModuleState &module);
-  std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string &name) const;
+    enum class MutablePlaceUse {
+        Assignment,
+        MutableReference,
+        Address,
+        AsmOutput,
+    };
 
-  struct DeferScope {
-      bool isLoopBoundary = false;
-      std::vector<const DeferNode *> defers;
-  };
-  std::vector<DeferScope> deferScopes_;
-  void emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>> &target, bool stopAtLoop);
+    zap::DiagnosticEngine& _diag;
+    SemanticInfo* semanticInfo_ = nullptr;
+    TargetInfo targetInfo_;
+    std::shared_ptr<SymbolTable> currentScope_;
+    std::shared_ptr<SymbolTable> builtinScope_;
+    std::unique_ptr<BoundRootNode> boundRoot_;
 
-  bool isNumeric(std::shared_ptr<zir::Type> type) const;
-  bool isPointerType(std::shared_ptr<zir::Type> type) const;
-  bool isNullType(std::shared_ptr<zir::Type> type) const;
-  bool isUnsafeActive() const;
-  void requireUnsafeEnabled(SourceSpan span, const std::string &feature);
-  void requireUnsafeContext(SourceSpan span, const std::string &feature);
-  std::shared_ptr<zir::Type>
-  getCVariadicArgumentType(std::shared_ptr<zir::Type> type);
+    std::stack<std::unique_ptr<BoundExpression>> expressionStack_;
+    std::stack<std::unique_ptr<BoundStatement>> statementStack_;
+    std::unique_ptr<BoundBlock> currentBlock_;
+    std::vector<std::shared_ptr<zir::Type>> expectedExpressionTypes_;
+    mutable zir::TypeInterner typeInterner_;
+    mutable ConversionClassifier conversions_{typeInterner_, targetInfo_};
 
-  bool isSupportedBuiltInAttribute(const std::string &name) const;
-  void warnUnknownAttributes(const TopLevel &node);
-  void validateAndApplyTypeAttributes(const TopLevel &node,
-                                      const std::shared_ptr<TypeSymbol> &symbol,
-                                      bool allowErrorAttribute);
-  void validateAndApplyFunctionAttributes(
-      const TopLevel &node, const std::shared_ptr<FunctionSymbol> &symbol,
-      bool isExternalDeclaration);
+    int loopDepth_ = 0;
+    size_t syntheticLoopCounter_ = 0;
+    int unsafeDepth_ = 0;
+    int unsafeTypeContextDepth_ = 0;
+    int externTypeContextDepth_ = 0;
+    bool allowUnsafe_ = true;
 
-  bool hadError_ = false;
-  bool sawPrivacyError_ = false;
+    void pushScope();
+    void popScope();
+    bool canPassAsMutableReference(const BoundExpression& expression) const;
+    bool requireMutablePlace(
+        const BoundExpression& expression,
+        SourceSpan span,
+        MutablePlaceUse use
+    );
+
+    std::shared_ptr<FunctionSymbol> currentFunction_ = nullptr;
+    std::shared_ptr<FunctionSymbol> stringIndexFunction_ = nullptr;
+    std::string currentModuleId_;
+
+    struct ModuleState {
+        ModuleInfo* info = nullptr;
+        std::shared_ptr<SymbolTable> scope;
+        std::shared_ptr<ModuleSymbol> symbol;
+        bool valuesPredeclared = false;
+        bool finalImportsApplied = false;
+        bool valuesPreparationInProgress = false;
+    };
+
+    std::map<std::string, ModuleState> modules_;
+    std::unordered_map<const Node*, std::shared_ptr<FunctionSymbol>> declaredFunctionSymbols_;
+    std::unordered_map<const TypeSymbol*, const RecordDecl*> recordTypeDeclarationNodes_;
+    std::unordered_map<const TypeSymbol*, const StructDeclarationNode*> structTypeDeclarationNodes_;
+    std::unordered_map<const TypeSymbol*, const ClassDecl*> classTypeDeclarationNodes_;
+    std::unordered_map<const TypeSymbol*, std::string> typeDeclarationModuleIds_;
+    std::unordered_map<const FunctionSymbol*, const FunDecl*> functionDeclarationNodes_;
+    std::unordered_map<const FunctionSymbol*, std::string> functionDeclarationModuleIds_;
+    std::unordered_map<const FunctionSymbol*, std::vector<std::string>> functionGenericParamNames_;
+    std::unordered_map<const FunctionSymbol*, const ExtensionDecl*> extensionDeclarationNodes_;
+    std::unordered_map<std::string, std::shared_ptr<FunctionSymbol>> genericFunctionInstantiations_;
+    std::unordered_map<std::string, std::shared_ptr<TypeSymbol>> genericTypeInstantiations_;
+    std::unordered_map<const FunctionSymbol*, std::string> genericFunctionDeclarationKeys_;
+    std::unordered_map<const FunctionSymbol*, bool> genericInstantiationEmitted_;
+    std::vector<std::unordered_map<std::string, std::shared_ptr<zir::Type>>>
+        activeGenericBindingsStack_;
+    std::vector<std::string> genericInstantiationInProgress_;
+
+    struct ClassInfo {
+        std::shared_ptr<TypeSymbol> typeSymbol;
+        std::shared_ptr<zir::ClassType> classType;
+        std::shared_ptr<FunctionSymbol> constructor;
+        std::shared_ptr<FunctionSymbol> destructor;
+        std::map<std::string, std::shared_ptr<VariableSymbol>> fields;
+        std::map<std::string, std::shared_ptr<Symbol>> methods;
+        int nextVirtualSlot = 0;
+        std::string ownerQualifiedName;
+    };
+
+    std::unordered_map<std::string, ClassInfo> classInfos_;
+    std::vector<std::string> currentClassStack_;
+
+    struct ExtensionInfo {
+        std::shared_ptr<zir::Type> targetType;
+        std::map<std::string, std::shared_ptr<Symbol>> methods;
+    };
+
+    std::unordered_map<std::string, ExtensionInfo> extensionInfos_;
+    std::vector<ExtensionInfo> genericExtensionInfos_;
+
+    struct InterfaceInfo {
+        std::shared_ptr<TypeSymbol> typeSymbol;
+        std::shared_ptr<zir::ClassType> classType;
+        std::map<std::string, std::shared_ptr<Symbol>> methods;
+    };
+
+    std::unordered_map<std::string, InterfaceInfo> interfaceInfos_;
+
+    std::shared_ptr<zir::ClassType> resolveClassImplementsList(
+        const ClassDecl& node,
+        std::vector<std::shared_ptr<zir::ClassType>>& interfaces
+    );
+    void bindInterfaceConformances(
+        const ClassDecl& node,
+        const std::shared_ptr<zir::ClassType>& classType,
+        ClassInfo& classInfo,
+        const std::vector<std::shared_ptr<zir::ClassType>>& interfaces
+    );
+
+    std::unordered_map<const TypeNode*, std::shared_ptr<zir::Type>> mapTypeCache_;
+
+    std::shared_ptr<zir::Type> mapType(const TypeNode& typeNode);
+    std::shared_ptr<zir::Type> mapTypeWithGenericBindings(
+        const TypeNode& typeNode,
+        const std::unordered_map<std::string, std::shared_ptr<zir::Type>>& genericBindings
+    );
+    bool isGenericTypeParameterName(std::string_view name) const;
+    std::shared_ptr<Symbol> resolveQualifiedSymbol(
+        const std::vector<std::string>& parts,
+        SourceSpan span,
+        SymbolKind expectedKind = SymbolKind::Variable,
+        bool allowAnyKind = false,
+        const SyntaxName* firstName = nullptr
+    );
+    std::shared_ptr<Symbol> resolveModuleMember(
+        const std::string& moduleName,
+        const std::string& memberName,
+        SourceSpan span
+    );
+    std::optional<int64_t> evaluateConstantInt(const BoundExpression* expr);
+    // Fold a binary expression with literal operands into a single literal.
+    // Returns nullptr when it cannot be folded.
+    std::unique_ptr<BoundExpression> foldConstantBinary(const BoundBinaryExpression* binary);
+    std::string makeSyntheticLoopName(std::string_view prefix);
+    std::unique_ptr<BoundExpression> applyConversion(
+        std::unique_ptr<BoundExpression> expr,
+        const Conversion& conversion
+    );
+    std::unique_ptr<BoundExpression> buildBinaryExpression(
+        std::unique_ptr<BoundExpression> left,
+        const std::string& op,
+        std::unique_ptr<BoundExpression> right,
+        SourceSpan leftSpan,
+        SourceSpan rightSpan
+    );
+    void error(SourceSpan span, const std::string& message);
+    std::string mangleName(const std::string& modulePath, const std::string& name) const;
+    std::string mangleFunctionName(
+        const std::string& modulePath,
+        const FunctionSymbol& function
+    ) const;
+    std::string currentModuleLinkPath() const;
+    std::string displayTypeName(const std::string& moduleName, const std::string& name) const;
+    std::string renderTypeForUser(const std::shared_ptr<zir::Type>& type) const;
+    std::string functionSignatureKey(const FunctionSymbol& function) const;
+    std::string renderFunctionSignature(const FunctionSymbol& function) const;
+    zir::ResultBorrowContract resolveResultBorrowContract(
+        const std::optional<std::string>& source,
+        const std::vector<std::shared_ptr<VariableSymbol>>& parameters,
+        const std::shared_ptr<zir::Type>& returnType,
+        bool returnsRef,
+        SourceSpan span,
+        const SyntaxName* sourceName = nullptr
+    );
+    std::shared_ptr<FunctionSymbol> findFunctionBySignature(
+        const std::shared_ptr<Symbol>& symbol,
+        const FunctionSymbol& prototype
+    ) const;
+
+    struct MemberOverloadResult {
+        enum class Status {
+            NoMatch,
+            Match,
+            Ambiguous,
+        };
+
+        Status status = Status::NoMatch;
+        std::shared_ptr<FunctionSymbol> symbol;
+    };
+
+    MemberOverloadResult selectMemberOverload(
+        const std::vector<std::shared_ptr<FunctionSymbol>>& candidates,
+        const BoundExpression& receiver,
+        const std::vector<std::unique_ptr<BoundExpression>>& arguments,
+        const std::vector<std::unique_ptr<TypeNode>>& explicitTypeArgs,
+        SourceSpan callSpan,
+        bool calledOnType
+    );
+    std::shared_ptr<OverloadSetSymbol> addClassMethodOverload(
+        ClassInfo& classInfo,
+        const std::shared_ptr<FunctionSymbol>& method
+    );
+    std::shared_ptr<OverloadSetSymbol> addExtensionMethodOverload(
+        const std::shared_ptr<zir::Type>& targetType,
+        const std::shared_ptr<FunctionSymbol>& method
+    );
+    std::vector<std::shared_ptr<FunctionSymbol>> collectExtensionMethods(
+        const std::shared_ptr<zir::Type>& targetType,
+        const std::string& name
+    ) const;
+    bool extensionTargetMatches(
+        const std::shared_ptr<zir::Type>& pattern,
+        const std::shared_ptr<zir::Type>& target
+    ) const;
+    bool extensionMethodVisible(const FunctionSymbol& method) const;
+    int findOverriddenVtableSlot(const ClassInfo& classInfo, const FunctionSymbol& method) const;
+    std::shared_ptr<FunctionSymbol> ensureGenericFunctionInstantiation(
+        const std::shared_ptr<FunctionSymbol>& baseFunction,
+        const std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>>& genericBindings,
+        SourceSpan callSpan
+    );
+    std::unordered_map<std::string, std::shared_ptr<zir::Type>> buildGenericBindings(
+        const FunctionSymbol& function,
+        const std::vector<std::unique_ptr<BoundExpression>>& arguments,
+        const std::vector<std::unique_ptr<TypeNode>>& explicitTypeArgs,
+        SourceSpan callSpan,
+        std::string* failureReason = nullptr
+    );
+    std::vector<std::pair<std::string, std::shared_ptr<zir::Type>>> orderedGenericBindings(
+        const std::unordered_map<std::string, std::shared_ptr<zir::Type>>& genericBindings
+    ) const;
+    std::shared_ptr<zir::Type> substituteGenericType(
+        std::shared_ptr<zir::Type> type,
+        const std::unordered_map<std::string, std::shared_ptr<zir::Type>>& genericBindings
+    ) const;
+    bool validateGenericConstraints(
+        const std::vector<GenericConstraint>& constraints,
+        std::unordered_map<std::string, std::shared_ptr<zir::Type>>& bindings,
+        std::string* failureReason = nullptr
+    );
+    std::shared_ptr<TypeSymbol> instantiateGenericTypeSymbol(
+        const std::shared_ptr<TypeSymbol>& baseSymbol,
+        const TypeNode& typeNode
+    );
+    std::unique_ptr<BoundExpression> bindExpressionWithExpected(
+        ExpressionNode* expr,
+        std::shared_ptr<zir::Type> expectedType
+    );
+    std::shared_ptr<zir::Type> currentExpectedExpressionType() const;
+    bool bindSizeOfBuiltinCall(FunCall& node);
+    bool bindWeakBuiltinCall(FunCall& node);
+    int typeBitWidth(std::shared_ptr<zir::Type> type) const;
+    std::unique_ptr<BoundBlock> bindBody(BodyNode* body, bool createScope);
+    std::unique_ptr<BoundBlock> bindCaseArmBody(
+        const CaseArm& arm,
+        const std::shared_ptr<VariableSymbol>& payloadBinding,
+        const std::vector<std::shared_ptr<VariableSymbol>>& recordBindings
+    );
+    bool hasExhaustiveCaseCoverage(
+        const std::shared_ptr<zir::Type>& scrutineeType,
+        const std::unordered_set<int64_t>& coveredVariants,
+        bool hasIrrefutableRecordPattern
+    ) const;
+    RecordPatternResult bindCaseRecordPattern(
+        const CasePattern& record,
+        std::shared_ptr<zir::RecordType> type
+    );
+    void bindCaseStatement(CaseNode& node);
+    void initializeBuiltins();
+    void predeclareModuleTypes(ModuleState& module);
+    void predeclareModuleAliases(ModuleState& module);
+    void predeclareModuleValues(ModuleState& module);
+    bool predeclareCtfeFunction(ModuleState& module, FunDecl& function);
+    void applyImports(ModuleState& module, bool allowIncomplete = false);
+    void ensureModuleValuesReady(ModuleState& module);
+    std::shared_ptr<Symbol> lookupVisibleSymbol(const std::string& name) const;
+    std::shared_ptr<Symbol> lookupSyntaxName(const SyntaxName& name) const;
+    void recordModuleMemberName(ExpressionNode& expression, const std::shared_ptr<Symbol>& symbol);
+
+    struct DeferScope {
+        bool isLoopBoundary = false;
+        std::vector<const DeferNode*> defers;
+    };
+
+    std::vector<DeferScope> deferScopes_;
+    void emitDefersUpTo(std::vector<std::unique_ptr<BoundStatement>>& target, bool stopAtLoop);
+
+    bool isNumeric(std::shared_ptr<zir::Type> type) const;
+    bool isPointerType(std::shared_ptr<zir::Type> type) const;
+    bool isNullType(std::shared_ptr<zir::Type> type) const;
+    bool isUnsafeActive() const;
+    void requireUnsafeEnabled(SourceSpan span, const std::string& feature);
+    void requireUnsafeContext(SourceSpan span, const std::string& feature);
+    std::shared_ptr<zir::Type> getCVariadicArgumentType(std::shared_ptr<zir::Type> type);
+
+    bool isSupportedBuiltInAttribute(const std::string& name) const;
+    void warnUnknownAttributes(const TopLevel& node);
+    void validateAndApplyTypeAttributes(
+        const TopLevel& node,
+        const std::shared_ptr<TypeSymbol>& symbol,
+        bool allowErrorAttribute
+    );
+    void validateAndApplyFunctionAttributes(
+        const TopLevel& node,
+        const std::shared_ptr<FunctionSymbol>& symbol,
+        bool isExternalDeclaration
+    );
+
+    bool hadError_ = false;
+    bool sawPrivacyError_ = false;
 };
 
 } // namespace sema

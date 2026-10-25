@@ -7,7 +7,7 @@
 namespace zap {
 
 /// @brief Name that displays when --help is used.
-constexpr const char *ZAP_NAME = ZAP_NAME_MACRO;
+constexpr const char* ZAP_NAME = ZAP_NAME_MACRO;
 /// @brief Zap's version, displayed when --version is used.
 constexpr version ZAP_VERSION(0, 4, 1);
 
